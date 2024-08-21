@@ -5,9 +5,7 @@ public class Group {
     private int groupHead;
     private Reservation reservation;
     private int guestUsers;
-
-    //TODO add aggregation
-
+    private User[] users;
     private int partecipants;
     private int requiredPartecipants;
 
