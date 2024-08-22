@@ -110,7 +110,7 @@ public class Reservation {
 
     //methods
 
-    public int[] reservationLength(float duration){
+    public int[] calculateReservationEndTime(float duration){
         //TODO add implementation and choose method's return type
         return null;
     }
@@ -119,5 +119,8 @@ public class Reservation {
         return field.getPrice() / nUsers;
     }
 
-    //TODO add setIsConfirmed (by UML)
+    public boolean setIsConfirmed(boolean state){
+        //TODO implement setIsConfirmed (observer), change return type
+        return false;
+    }
 }

@@ -13,7 +13,7 @@ public class Facility {
     private String zip;
     private String country;
     private int nManager;
-    private Field[] fields;   //TODO da parlarne
+    private Field[] fields; //TODO change to dynamic
     private String telephone;
     private String image;
     private String[] WH;
@@ -92,9 +92,9 @@ public class Facility {
         this.province = province;
     }
 
-    public int getnFields() {
+    public int getNFields() {
         return fields.length;
-    }      //TODO parlarne
+    }
 
     public Field[] getFields() {
         return fields;

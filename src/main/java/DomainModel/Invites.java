@@ -5,7 +5,7 @@ public class Invites extends Subject {
 
 
     // attributes
-    private Invite[] state;
+    private Invite[] state; //TODO change to dynamic
     private int idOwner;
 
     // methods
@@ -15,5 +15,5 @@ public class Invites extends Subject {
 
     public Invite[] getState() { return state; }
 
-    public void setState(Invite[] state) { this.state = state; }   //TODO da controllare
+    public void setState(Invite[] state) { this.state = state; }   //TODO to check
 }
