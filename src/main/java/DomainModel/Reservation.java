@@ -112,6 +112,7 @@ public class Reservation {
 
     public int[] reservationLength(float duration){
         //TODO add implementation and choose method's return type
+        return null;
     }
 
     public static float pricePerUser(Field field, int nUsers){
