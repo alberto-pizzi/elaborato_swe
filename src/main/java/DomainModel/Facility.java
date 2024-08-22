@@ -13,7 +13,7 @@ public class Facility {
     private String zip;
     private String country;
     private int nManager;
-    private int nFields;
+    private Field[] fields;   ////
     private String telephone;
     private String image;
     private String[] WH;
@@ -93,11 +93,15 @@ public class Facility {
     }
 
     public int getnFields() {
-        return nFields;
+        return fields.length;
+    }      /////////
+
+    public Field[] getFields() {
+        return fields;
     }
 
-    public void setnFields(int nFields) {
-        this.nFields = nFields;
+    public void setFields(Field[] fields) {
+        this.fields = fields;
     }
 
     public String getAddress() {
