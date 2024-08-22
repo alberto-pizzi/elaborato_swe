@@ -6,7 +6,7 @@ public class InviteSender implements Creator{
 
     // methods
     @Override
-    public factoryMethod(){ //todo
+    public factoryMethod(){ //TODO da controllare
 
     }
 }

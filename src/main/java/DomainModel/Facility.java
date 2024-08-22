@@ -13,7 +13,7 @@ public class Facility {
     private String zip;
     private String country;
     private int nManager;
-    private Field[] fields;   ////
+    private Field[] fields;   //TODO da parlarne
     private String telephone;
     private String image;
     private String[] WH;
@@ -94,7 +94,7 @@ public class Facility {
 
     public int getnFields() {
         return fields.length;
-    }      /////////
+    }      //TODO parlarne
 
     public Field[] getFields() {
         return fields;
