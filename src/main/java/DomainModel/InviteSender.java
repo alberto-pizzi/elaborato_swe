@@ -1,12 +1,12 @@
 package main.java.DomainModel;
 
 
-public class InviteSender implements Creator{
+public class InviteSender extends Creator {
 
 
     // methods
     @Override
-    public factoryMethod(){ //TODO da controllare
+    public Invite factoryMethod(){ //TODO da controllare
 
     }
 }

@@ -1,7 +1,7 @@
 package main.java.DomainModel;
 
 
-public class Invites implements Subject{
+public class Invites extends Subject {
 
 
     // attributes

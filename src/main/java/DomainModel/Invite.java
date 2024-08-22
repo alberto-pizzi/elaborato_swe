@@ -1,7 +1,7 @@
 package main.java.DomainModel;
 
 
-public class Invite implements Product{
+public class Invite extends Product {
 
 
     // attributes

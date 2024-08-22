@@ -1,6 +1,6 @@
 package main.java.DomainModel;
 
-public class Subject {
+public abstract class  Subject {
     //methods
     public void registerObserver(){}
     public void removeObserver(){}
