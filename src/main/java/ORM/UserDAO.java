@@ -1,4 +1,4 @@
 package main.java.ORM;
 
-public class UserDAO {
+public class UserDAO extends PersonDAO {
 }

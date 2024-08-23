@@ -74,5 +74,17 @@ public abstract class Person{
         this.country = country;
     }
 
+    //constructor
 
+
+    public Person(int id, String email, String username, String password, String city, String province, String zip, String country) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.city = city;
+        this.province = province;
+        this.zip = zip;
+        this.country = country;
+    }
 }
