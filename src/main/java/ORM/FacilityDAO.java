@@ -226,37 +226,197 @@ public class FacilityDAO {
         return nFacilities;
     }
 
-    public void updateName(int idFacility, String newName) {
+    public void updateName(int idFacility, String newName) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("UPDATE \"Facility\" SET name = '%s' WHERE id = '%d'", newName,idFacility);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Facility name updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
     }
 
     //TODO check type
-    public void updateDescription(int idFacility, String newDescription) {
+    public void updateDescription(int idFacility, String newDescription) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("UPDATE \"Facility\" SET description = '%s' WHERE id = '%d'", newDescription,idFacility);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Facility description updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
     }
 
-    public void updateAddress(int idFacility, String newAddress) {
+    public void updateAddress(int idFacility, String newAddress) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("UPDATE \"Facility\" SET address = '%s' WHERE id = '%d'", newAddress,idFacility);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Facility address updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
     }
 
-    public void updateCity(int idFacility, String newCity) {
+    public void updateCity(int idFacility, String newCity) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("UPDATE \"Facility\" SET city = '%s' WHERE id = '%d'", newCity,idFacility);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Facility city updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
     }
 
-    public void updateProvince(int idFacility, String newProvince) {
+    public void updateProvince(int idFacility, String newProvince) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("UPDATE \"Facility\" SET province = '%s' WHERE id = '%d'", newProvince,idFacility);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Facility province updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
     }
 
-    public void updateZip(int idFacility, String newZip) {
+    public void updateZip(int idFacility, String newZip) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("UPDATE \"Facility\" SET zip = '%s' WHERE id = '%d'", newZip,idFacility);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Facility zip updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
     }
 
-    public void updateCountry(int idFacility, String newCountry) {
+    public void updateCountry(int idFacility, String newCountry) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("UPDATE \"Facility\" SET country = '%s' WHERE id = '%d'", newCountry,idFacility);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Facility country updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
     }
 
-    public void updateTelephone(int idFacility, String newTelephone) {
+    public void updateTelephone(int idFacility, String newTelephone) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("UPDATE \"Facility\" SET telephone = '%s' WHERE id = '%d'", newTelephone,idFacility);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Facility telephone updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
     }
 
     //TODO check type
-    public void updateImage(int idFacility, String newImage) {
+    public void updateImage(int idFacility, String newImage) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("UPDATE \"Facility\" SET image = '%s' WHERE id = '%d'", newImage,idFacility);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Facility image updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
     }
 
     //TODO check type
-    public void updateWH(int idFacility, String newWH) {}
+    public void updateWH(int idFacility, String[] newWH) throws SQLException, ClassNotFoundException {
+
+        //TODO optimize
+        //check number of days correctness
+        int daysInAWeek = 7;
+        if (newWH.length != daysInAWeek){
+            for (int i = 0; i < daysInAWeek; i++) {
+                newWH[i] = "Error";
+            }
+        }
+
+        String querySQL = String.format("UPDATE \"Facility\" SET WH_Mon = '%s',WH_Tue = '%s',WH_Wed = '%s',WH_Thu = '%s', WH_Fri = '%s', WH_Sat = '%s', WH_Sun = '%s' WHERE id = '%d'", newWH[0],newWH[1],newWH[2],newWH[3],newWH[4],newWH[5],newWH[6],idFacility);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Facility working hours updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
+    }
 
     public int getNMangers(int idFacility) throws SQLException, ClassNotFoundException {
         //default value (results not found)
