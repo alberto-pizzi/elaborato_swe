@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS "Reservation" (
     event_time_start TIME NOT NULL,
     event_time_end TIME NOT NULL;
     id_field INTEGER NOT NULL,
-    n_partecipants INTEGER NOT NULL CONSTRAINT partecipants_positive CHECK (n_partecipants >= 0),
+    n_participants INTEGER NOT NULL CONSTRAINT partecipants_positive CHECK (n_partecipants >= 0),
     is_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
     is_matched BOOLEAN NOT NULL DEFAULT FALSE,
     id_user INTEGER NOT NULL,
