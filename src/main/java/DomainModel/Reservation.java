@@ -9,14 +9,13 @@ public class Reservation {
     private int[] eventDateStart;
     private int[] eventTimeEnd;
     private int idField;
-    private int nPartecipants;
+    private int nParticipants;
     private boolean isConfirmed;
     private int idUser;
-    private int partecipantsRequired;
+    private int participantsRequired;
     private boolean isMatched;
 
     //getters
-
 
     public int getId() {
         return id;
@@ -66,14 +65,14 @@ public class Reservation {
         this.idField = idField;
     }
 
-    public int getnPartecipants() {
-        return nPartecipants;
+    public int getNParticipants() {
+        return nParticipants;
     }
 
     //setters
 
-    public void setnPartecipants(int nPartecipants) {
-        this.nPartecipants = nPartecipants;
+    public void setNParticipants(int nParticipants) {
+        this.nParticipants = nParticipants;
     }
 
     public boolean isConfirmed() {
@@ -92,12 +91,12 @@ public class Reservation {
         this.idUser = idUser;
     }
 
-    public int getPartecipantsRequired() {
-        return partecipantsRequired;
+    public int getParticipantsRequired() {
+        return participantsRequired;
     }
 
-    public void setPartecipantsRequired(int partecipantsRequired) {
-        this.partecipantsRequired = partecipantsRequired;
+    public void setParticipantsRequired(int participantsRequired) {
+        this.participantsRequired = participantsRequired;
     }
 
     public boolean isMatched() {
