@@ -1,5 +1,8 @@
 package main.java.ORM;
 
+import main.java.DomainModel.Invite;
+import main.java.DomainModel.Sport;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -49,13 +52,12 @@ public class SportDao {
     }
 
     //TODO controllare cosa di sport
-    /*
-    public void getSport(int idGroup) throws SQLException, ClassNotFoundException {
 
-        Group group = null;
-        ReservationDao reservationDao = new ReservationDao();
+    public Sport getSport(int idSport) throws SQLException, ClassNotFoundException {
 
-        String querySQL = String.format("SELECT * FROM \"Group\" WHERE id = '%d'", idGroup);
+        Sport sport = null;
+
+        String querySQL = String.format("SELECT * FROM \"Sport\" WHERE id = '%d'", idSport);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -65,11 +67,10 @@ public class SportDao {
             resultSet = preparedStatement.executeQuery();
 
             int id = resultSet.getInt("id");
-            int groupHead = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            int playersRequired = resultSet.getInt("players_required");
 
-            Reservation reservation = reservationDao.getReservation(resultSet.getInt("id"));
-
-            group = new Group(id, groupHead, reservation);
+            sport = new Sport(id, name, playersRequired);
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -78,15 +79,14 @@ public class SportDao {
             if (resultSet != null) { resultSet.close(); }
         }
 
-        return group;
+        return sport;
     }
 
-    public void getAllSport(int idGroup) throws SQLException, ClassNotFoundException {
+    public ArrayList<Sport> getAllSport() throws SQLException, ClassNotFoundException {
 
-        Group group = null;
-        ReservationDao reservationDao = new ReservationDao();
+        ArrayList<Sport> sports = new ArrayList<>();
 
-        String querySQL = String.format("SELECT * FROM \"Group\" WHERE id = '%d'", idGroup);
+        String querySQL = String.format("SELECT * FROM \"Invite\"");
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -94,14 +94,15 @@ public class SportDao {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
 
-            int id = resultSet.getInt("id");
-            int groupHead = resultSet.getInt("id");
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int playersRequired = resultSet.getInt("players_required");
 
-            Reservation reservation = reservationDao.getReservation(resultSet.getInt("id"));
+                sports.add(new Sport(id, name, playersRequired));
 
-            group = new Group(id, groupHead, reservation);
-
+            }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
@@ -109,8 +110,8 @@ public class SportDao {
             if (resultSet != null) { resultSet.close(); }
         }
 
-        return group;
-    }*/
+        return sports;
+    }
 
     public int getSportPlayers(int id) throws SQLException, ClassNotFoundException {
 

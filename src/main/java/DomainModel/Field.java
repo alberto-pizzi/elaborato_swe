@@ -7,11 +7,21 @@ public class Field {
     // attributes
     private int id;
     private String name;
-    private String sport;
+    private Sport sport;
     private String description;
     private float price;
     private String image;
     private int idFacility;
+
+    public Field(int id, String name, Sport sport, String description, int price, String image, int idFacility) {
+        this.id = id;
+        this.name = name;
+        this.sport = sport;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.idFacility = idFacility;
+    }
 
     // methods
     public int getId() {
@@ -54,11 +64,11 @@ public class Field {
         this.description = description;
     }
 
-    public String getSport() {
+    public Sport getSport() {
         return sport;
     }
 
-    public void setSport(String sport) {
+    public void setSport(Sport sport) {
         this.sport = sport;
     }
 
