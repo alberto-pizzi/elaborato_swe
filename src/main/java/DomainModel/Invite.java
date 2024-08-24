@@ -8,6 +8,11 @@ public class Invite extends Product {
     private int id;
     private int idGroup;
 
+    public Invite(int id, int groupId) {
+        this.id = id;
+        this.idGroup = groupId;
+    }
+
     // methods
     public int getId() {
         return id;

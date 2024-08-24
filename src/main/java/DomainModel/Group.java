@@ -7,7 +7,13 @@ public class Group {
     private int guestUsers;
     private User[] users; //TODO change to dynamic
     private int partecipants;
-    private int requiredPartecipants;
+    private int requiredPartecipants;//TODO controllare
+
+    public Group(int id, int groupHead, Reservation reservation) {
+        this.id = id;
+        this.groupHead = groupHead;
+        this.reservation = reservation;
+    }
 
 
     //getter

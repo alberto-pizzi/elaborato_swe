@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS "Invite" (
 CREATE TABLE IF NOT EXISTS "IsPart" (
     id_group INTEGER NOT NULL UNIQUE,
     id_user INTEGER NOT NULL,
+    guest_users INTEGER NOT NULL
     PRIMARY KEY(id_group, id_user),
     FOREIGN KEY (id_group) REFERENCES Group(id),
     FOREIGN KEY (id_user) REFERENCES User(id)
