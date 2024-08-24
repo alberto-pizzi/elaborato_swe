@@ -19,6 +19,25 @@ public class Facility {
     private String[] WH;
     private int idOwner;
 
+    //constructor
+
+    //TODO check array type
+    public Facility(int id, String name, String address, String city, String province, String zip, String country, int nManager, String telephone, String image, String[] WH, int idOwner) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.city = city;
+        this.province = province;
+        this.zip = zip;
+        this.country = country;
+        this.nManager = nManager;
+        this.fields = new Field[100]; //TODO change to dynamic and fix it
+        this.telephone = telephone;
+        this.image = image;
+        this.WH = WH;
+        this.idOwner = idOwner;
+    }
+
     // methods
     public int getIdOwner() {
         return idOwner;

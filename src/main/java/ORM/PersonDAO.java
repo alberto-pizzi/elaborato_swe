@@ -60,7 +60,7 @@ public abstract class PersonDAO {
     }
 
     //TODO cascade delete?
-    public void deleteUser(int idUser)throws SQLException, ClassNotFoundException {
+    public void deleteUser(int idUser) throws SQLException, ClassNotFoundException {
 
         String querySQL = String.format("DELETE FROM \"User\" WHERE id = '%s'", idUser);
 
