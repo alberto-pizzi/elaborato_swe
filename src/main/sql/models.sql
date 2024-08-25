@@ -43,6 +43,15 @@ CREATE TABLE IF NOT EXISTS "Facility" (
     FOREIGN KEY (id_owner) REFERENCES Owner(id)
 );
 
+CREATE TABLE IF NOT EXISTS "WH" (
+    id SERIAL PRIMARY KEY,
+    day_of_week INTEGER NOT NULL CONSTRAINT number_of_day CHECK (day_of_week >= 0) AND (day_of_week < 7), -- 0=Dom, 1=Lun, ..., 6=Sab
+    opening TIME NOT NULL,
+    closing TIME NOT NULL,
+    id_facility INTEGER NOT NULL,
+    FOREIGN KEY (id_facility) REFERENCES Facility(id)
+);
+
 CREATE TABLE IF NOT EXISTS "Reservation" (
     id SERIAL PRIMARY KEY,
     res_date DATE NOT NULL DEFAULT CURRENT_DATE,
