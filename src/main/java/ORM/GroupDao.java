@@ -17,6 +17,7 @@ public class GroupDao {
     //methods
     public void addGroup(Group group) throws SQLException {
 
+        //TODO add required participants
         String querySQL = String.format("INSERT INTO \"Group\" (group_head, id_reservation)) " +
                 "VALUES ('%d', '%d')", group.getGroupHead(), group.getReservation());
 

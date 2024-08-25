@@ -76,6 +76,7 @@ public class FacilityDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
+            //FIXME check attributes
             int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
             String address = resultSet.getString("address");
@@ -121,6 +122,8 @@ public class FacilityDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+
+                //TODO optimize
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String address = resultSet.getString("address");

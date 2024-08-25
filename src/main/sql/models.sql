@@ -79,6 +79,7 @@ CREATE TABLE IF NOT EXISTS "IsPart" (
 CREATE TABLE IF NOT EXISTS "Group" (
     id SERIAL PRIMARY KEY,
     group_head INTEGER NOT NULL,
+    partecipants_required INTEGER NOT NULL,
     id_reservation INTEGER NOT NULL UNIQUE,
     FOREIGN KEY (id_reservation) REFERENCES Reservation(id),
     FOREIGN KEY (group_head) REFERENCES User(id)

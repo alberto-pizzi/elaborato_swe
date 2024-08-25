@@ -12,6 +12,7 @@ public class ReservationDao {
     private Connection connection;
 
     //methods
+    //TODO remove required participants
     public void addReservation(Reservation reservation) throws SQLException {
         //fixme reference
         String querySQL = String.format("INSERT INTO \"Reservation\" (res_date, event_date,res_time, event_time_start, " +
@@ -140,6 +141,7 @@ public class ReservationDao {
     public ArrayList<Reservation> getReservationsByUser(int id) throws SQLException {
         ArrayList<Reservation> reservations = new ArrayList<>();
 
+        //TODO optimize
         String querySQL = String.format("SELECT * FROM \"Reservation\" WHERE id_user = '%d'", id);
 
         PreparedStatement preparedStatement = null;
@@ -180,7 +182,6 @@ public class ReservationDao {
         }
     }
 
-    //Todo controllare ortografia
     public void updateNParticipants(int id, int newNumber) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Reservation\" SET n_participants = '%d' WHERE id = '%d'", newNumber, id);
@@ -200,7 +201,6 @@ public class ReservationDao {
         }
     }
 
-    //Todo controllare e sistemare da bool a sql
     public void updateIsConfirmed(int id, boolean isConfirmed) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Reservation\" SET is_confirmed = '%d' WHERE id = '%d'", isConfirmed, id);
@@ -220,7 +220,6 @@ public class ReservationDao {
         }
     }
 
-    //FIXME riferimento
     public void updateEventDate(int id, Date date) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Reservation\" SET event_date = '%s' WHERE id = '%d'", date, id);
@@ -240,7 +239,6 @@ public class ReservationDao {
         }
     }
 
-    //FIXME riferimento
     public void updateEventTimeStart(int id, Time time) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Reservation\" SET event_time_start = '%s' WHERE id = '%d'", time, id);
@@ -260,7 +258,6 @@ public class ReservationDao {
         }
     }
 
-    //FIXME riferimento
     public void updateEventTimeEnd(int id, Time time) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Reservation\" SET event_time_end = '%s' WHERE id = '%d'", time, id);
@@ -279,5 +276,5 @@ public class ReservationDao {
             }
         }
     }
-    //fixme
+
 }

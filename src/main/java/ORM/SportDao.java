@@ -14,7 +14,6 @@ public class SportDao {
     private Connection connection;
 
     //methods
-    //Todo cambiato nome
     public void addSport(String name, int playersRequired) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"Sport\" (name, players_required)) " +
@@ -51,7 +50,6 @@ public class SportDao {
 
     }
 
-    //TODO controllare cosa di sport
 
     public Sport getSport(int idSport) throws SQLException, ClassNotFoundException {
 
@@ -86,7 +84,7 @@ public class SportDao {
 
         ArrayList<Sport> sports = new ArrayList<>();
 
-        String querySQL = String.format("SELECT * FROM \"Invite\"");
+        String querySQL = String.format("SELECT * FROM \"Sport\"");
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

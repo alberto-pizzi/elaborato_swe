@@ -34,7 +34,6 @@ public class FieldDao {
 
     }
 
-    //TODO aggiunto metodo
     public Field getField(int fieldId) throws SQLException, ClassNotFoundException {
 
         Field field = null;

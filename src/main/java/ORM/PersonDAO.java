@@ -27,6 +27,7 @@ public abstract class PersonDAO {
 
     //constructor
     public PersonDAO() {
+        //TODO fill attributes
 
         try {
             this.connection = ConnectionManager.getInstance().getConnection();
@@ -150,7 +151,7 @@ public abstract class PersonDAO {
 
     }
 
-    //TODO check output type and implement it
+    //TODO check output type and implement it (BOOL)
     public User checkPassword(int idUser, String passwordEntered){
         return null;
     }

@@ -105,7 +105,7 @@ public class IsPartDao {
 
         return groups;
     }
-    //Todo aggiunto metodo
+
     public int countGroupGuests(int id) throws SQLException {
 
         int count = 0;

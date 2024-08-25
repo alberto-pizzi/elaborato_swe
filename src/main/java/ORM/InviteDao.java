@@ -14,7 +14,6 @@ public class InviteDao {
     private Connection connection;
 
     //methods
-    //TODO check object passed
     public void addInvite(Invite invite,int user) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"Invite\" (id_group, id_user)) " +
