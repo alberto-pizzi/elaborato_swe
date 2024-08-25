@@ -12,6 +12,51 @@ public class ReservationDao {
     private Connection connection;
 
     //methods
+    public void addReservation(Reservation reservation) throws SQLException {
+        //fixme reference
+        String querySQL = String.format("INSERT INTO \"Reservation\" (res_date, event_date,res_time, event_time_start, " +
+                "event_time_end, id_field, n_participants, is_confirmed, is_matched, id_user)) " +
+                "VALUES ('%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d')", reservation.getReservationDate(), reservation.getEventDateStart(),
+                reservation.getReservationTime(), reservation.getEventDateStart(),reservation.getEventTimeEnd(), reservation.getIdField(),
+                reservation.getNParticipants(), reservation.isConfirmed(), reservation.isMatched(), reservation.getIdUser());
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Reservation added successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+    }
+
+    public int getCountAllParticipants(int id) throws SQLException {
+        int count = 0;
+        int group = 0;
+        IsPartDao isPartDao = new IsPartDao();
+        String querySQL = String.format("SELECT * FROM \"Group\" WHERE id_reservation = '%d'", id);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            group = resultSet.getInt("id");
+            count = isPartDao.countGroupGuests(group) + isPartDao.countGroupMembers(group);
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return count;
+    }
     public Reservation getReservation(int id) throws SQLException {
 
         Reservation reservation = null;
