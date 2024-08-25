@@ -131,16 +131,70 @@ public abstract class PersonDAO {
 
     }
 
-    public void updateAddress(String username, String city, String province, String zip, String country) throws SQLException, ClassNotFoundException {
+    public void updateCity(String username, String newCity) throws SQLException, ClassNotFoundException {
 
-        String querySQL = String.format("UPDATE \"" + this.target + "\" SET city = '%s', province = '%s', zip = '%s', country = '%s' WHERE username = '%s'", city, province, zip, country, username);
+        String querySQL = String.format("UPDATE \""+ this.target +"\" SET city = '%s' WHERE username = '%s'", newCity, username);
 
         PreparedStatement preparedStatement = null;
 
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             preparedStatement.executeUpdate();
-            System.out.println("Address updated successfully.");
+            System.out.println(this.target + "'s city updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
+    }
+
+    public void updateProvince(String username, String newProvince) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("UPDATE \""+ this.target +"\" SET province = '%s' WHERE username = '%s'", newProvince, username);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println(this.target + "'s province updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
+    }
+
+    public void updateZip(String username, String newZip) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("UPDATE \""+ this.target +"\" SET zip = '%s' WHERE username = '%s'", newZip, username);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println(this.target + "'s zip updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
+    }
+
+    public void updateCountry(String username, String newCountry) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("UPDATE \""+ this.target +"\" SET country = '%s' WHERE username = '%s'", newCountry, username);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println(this.target + "'s country updated successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
