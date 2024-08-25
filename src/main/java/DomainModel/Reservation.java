@@ -1,13 +1,16 @@
 package main.java.DomainModel;
 
+import java.sql.Date;
+import java.sql.Time;
+
 public class Reservation {
     private int id;
 
     //FIXME type of dates
-    private int[] reservationDate;
-    private int[] reservationTime;
-    private int[] eventDateStart;
-    private int[] eventTimeEnd;
+    private Date reservationDate;
+    private Time reservationTime;
+    private Date eventDateStart;
+    private Time eventTimeEnd;
     private int idField;
     private int nParticipants;
     private boolean isConfirmed;
@@ -15,7 +18,53 @@ public class Reservation {
     private int participantsRequired;
     private boolean isMatched;
 
+    public Reservation(int reservationId, Date reservationDate, Time reservationTime, Date eventDateStart, Time eventTimeEnd, int idField, int nParticipants, boolean isConfirmed, int idUser, int participantsRequired, boolean isMatched) {
+        this.id = reservationId;
+        this.reservationDate = reservationDate;
+        this.reservationTime = reservationTime;
+        this.eventDateStart = eventDateStart;
+        this.eventTimeEnd = eventTimeEnd;
+        this.idField = idField;
+        this.nParticipants = nParticipants;
+        this.isConfirmed = isConfirmed;
+        this.idUser = idUser;
+        this.participantsRequired = participantsRequired;
+        this.isMatched = isMatched;
+    }
+
     //getters
+
+    public Date getReservationDate() {
+        return reservationDate;
+    }
+
+    public void setReservationDate(Date reservationDate) {
+        this.reservationDate = reservationDate;
+    }
+
+    public Time getReservationTime() {
+        return reservationTime;
+    }
+
+    public void setReservationTime(Time reservationTime) {
+        this.reservationTime = reservationTime;
+    }
+
+    public Date getEventDateStart() {
+        return eventDateStart;
+    }
+
+    public void setEventDateStart(Date eventDateStart) {
+        this.eventDateStart = eventDateStart;
+    }
+
+    public Time getEventTimeEnd() {
+        return eventTimeEnd;
+    }
+
+    public void setEventTimeEnd(Time eventTimeEnd) {
+        this.eventTimeEnd = eventTimeEnd;
+    }
 
     public int getId() {
         return id;
@@ -23,38 +72,6 @@ public class Reservation {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int[] getReservationDate() {
-        return reservationDate;
-    }
-
-    public void setReservationDate(int[] reservationDate) {
-        this.reservationDate = reservationDate;
-    }
-
-    public int[] getReservationTime() {
-        return reservationTime;
-    }
-
-    public void setReservationTime(int[] reservationTime) {
-        this.reservationTime = reservationTime;
-    }
-
-    public int[] getEventDateStart() {
-        return eventDateStart;
-    }
-
-    public void setEventDateStart(int[] eventDateStart) {
-        this.eventDateStart = eventDateStart;
-    }
-
-    public int[] getEventTimeEnd() {
-        return eventTimeEnd;
-    }
-
-    public void setEventTimeEnd(int[] eventTimeEnd) {
-        this.eventTimeEnd = eventTimeEnd;
     }
 
     public int getIdField() {
