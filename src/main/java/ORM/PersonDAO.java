@@ -1,6 +1,5 @@
 package main.java.ORM;
 
-import main.java.DomainModel.Person;
 import main.java.DomainModel.User;
 
 
@@ -10,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-//TODO decide if it's abstract
 public abstract class PersonDAO {
     protected Connection connection;
     protected String target;
@@ -61,9 +59,9 @@ public abstract class PersonDAO {
     }
 
     //TODO cascade delete?
-    public void deleteUser(int idUser) throws SQLException, ClassNotFoundException {
+    public void deleteUser(String username) throws SQLException, ClassNotFoundException {
 
-        String querySQL = String.format("DELETE FROM \"User\" WHERE id = '%s'", idUser);
+        String querySQL = String.format("DELETE FROM \"User\" WHERE username = '%s'", username);
 
         PreparedStatement preparedStatement = null;
 
@@ -79,9 +77,9 @@ public abstract class PersonDAO {
 
     }
 
-    public void updateUsername(int idUser, String newUsername) throws SQLException, ClassNotFoundException {
+    public void updateUsername(String username, String newUsername) throws SQLException, ClassNotFoundException {
 
-        String querySQL = String.format("UPDATE \"" + this.target + "\" SET username = '%s' WHERE id = '%d'", newUsername, idUser);
+        String querySQL = String.format("UPDATE \"" + this.target + "\" SET username = '%s' WHERE id = '%d'", newUsername, username);
 
         PreparedStatement preparedStatement = null;
 
@@ -115,9 +113,9 @@ public abstract class PersonDAO {
 
     }
 
-    public void updatePassword(int idUser, String newPassword) throws SQLException, ClassNotFoundException {
+    public void updatePassword(String username, String newPassword) throws SQLException, ClassNotFoundException {
 
-        String querySQL = String.format("UPDATE \"" + this.target + "\" SET password = '%s' WHERE id = '%d'", newPassword, idUser);
+        String querySQL = String.format("UPDATE \"" + this.target + "\" SET password = '%s' WHERE username = '%s'", newPassword, username);
 
         PreparedStatement preparedStatement = null;
 
@@ -133,9 +131,9 @@ public abstract class PersonDAO {
 
     }
 
-    public void updateAddress(int idUser, String city, String province, String zip, String country) throws SQLException, ClassNotFoundException {
+    public void updateAddress(String username, String city, String province, String zip, String country) throws SQLException, ClassNotFoundException {
 
-        String querySQL = String.format("UPDATE \"" + this.target + "\" SET city = '%s', province = '%s', zip = '%s', country = '%s' WHERE id = '%d'", city, province, zip, country, idUser);
+        String querySQL = String.format("UPDATE \"" + this.target + "\" SET city = '%s', province = '%s', zip = '%s', country = '%s' WHERE username = '%s'", city, province, zip, country, username);
 
         PreparedStatement preparedStatement = null;
 
@@ -151,9 +149,9 @@ public abstract class PersonDAO {
 
     }
 
-    //TODO check output type and implement it (BOOL)
-    public User checkPassword(int idUser, String passwordEntered){
-        return null;
+    //TODO  implement it (BOOL)
+    public boolean checkPassword(String username, String passwordEntered){
+        return false;
     }
 
     public ArrayList<User> getAllUsers() throws SQLException, ClassNotFoundException {
@@ -214,13 +212,12 @@ public abstract class PersonDAO {
         return id;
     }
 
-    //TODO getUser() input parameter?
 
-    public User getUser(int idUser) throws SQLException, ClassNotFoundException {
+    public User getUser(String username) throws SQLException, ClassNotFoundException {
         //default id (id not found)
         User user = null;
 
-        String querySQL = String.format("SELECT * FROM \"User\" WHERE id = '%d'", idUser);
+        String querySQL = String.format("SELECT * FROM \"User\" WHERE username = '%s'", username);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -230,14 +227,14 @@ public abstract class PersonDAO {
             resultSet = preparedStatement.executeQuery();
 
             int id = resultSet.getInt("id");
-            String username = resultSet.getString("username");
+            String usernameSelected = resultSet.getString("username");
             String email = resultSet.getString("email");
             String password = resultSet.getString("password");
             String city = resultSet.getString("city");
             String province = resultSet.getString("province");
             String zip = resultSet.getString("zip");
             String country = resultSet.getString("country");
-            user = new User(id, email, username, city, province, zip, country, password);
+            user = new User(id, email, usernameSelected, city, province, zip, country, password);
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

@@ -1,7 +1,6 @@
 package main.java.ORM;
 
 import main.java.DomainModel.Owner;
-import main.java.DomainModel.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,9 +31,9 @@ public class OwnerDAO extends PersonDAO {
     }
 
     //TODO cascade delete?
-    public void deleteOwner(int idOwner)throws SQLException, ClassNotFoundException {
+    public void deleteOwner(String username)throws SQLException, ClassNotFoundException {
 
-        String querySQL = String.format("DELETE FROM \"Owner\" WHERE id = '%s'", idOwner);
+        String querySQL = String.format("DELETE FROM \"Owner\" WHERE id = '%s'", username);
 
         PreparedStatement preparedStatement = null;
 
@@ -50,12 +49,11 @@ public class OwnerDAO extends PersonDAO {
 
     }
 
-    //TODO getOwner() input parameter?
 
-    public Owner getOwner(int idOwner) throws SQLException, ClassNotFoundException {
+    public Owner getOwner(String ownerUsername) throws SQLException, ClassNotFoundException {
         Owner owner = null;
 
-        String querySQL = String.format("SELECT * FROM \"Owner\" WHERE id = '%d'", idOwner);
+        String querySQL = String.format("SELECT * FROM \"Owner\" WHERE username = '%s'", ownerUsername);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -83,6 +81,31 @@ public class OwnerDAO extends PersonDAO {
 
         return owner;
     }
+
+    public int getOwnerID(String username) throws SQLException, ClassNotFoundException {
+        //default id (id not found)
+        int id = -1;
+
+        String querySQL = String.format("SELECT id FROM \"Owner\" WHERE username = '%s'", username);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+
+            id = resultSet.getInt("id");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return id;
+    }
+
 
 
 }
