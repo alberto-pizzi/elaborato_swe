@@ -1,12 +1,8 @@
 package main.java.ORM;
 
-import main.java.DomainModel.Facility;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.sql.Time;
 
 public class WorkingHoursDAO {
@@ -52,11 +48,11 @@ public class WorkingHoursDAO {
 
     }
 
-    //TODO check it
-    public void updateWH(int idWH, int dayOfWeek, Time openingHours, Time closingHours) throws SQLException, ClassNotFoundException {
+
+    public void updateWH(int idWH, Time openingHours, Time closingHours) throws SQLException, ClassNotFoundException {
 
 
-        String querySQL = String.format("UPDATE \"WH\" SET day_of_week = '%d', opening = '%tT', closing = '%tT'  WHERE id = '%d'", dayOfWeek,openingHours, closingHours,idWH);
+        String querySQL = String.format("UPDATE \"WH\" SET opening = '%tT', closing = '%tT'  WHERE id = '%d'", openingHours, closingHours,idWH);
 
         PreparedStatement preparedStatement = null;
 
@@ -72,6 +68,7 @@ public class WorkingHoursDAO {
 
     }
 
+    //TODO add removeByDay and removeAll(ByFacility)
 
 
 }
