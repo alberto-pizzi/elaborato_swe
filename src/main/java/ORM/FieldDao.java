@@ -2,6 +2,7 @@ package main.java.ORM;
 
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
+import main.java.DomainModel.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -51,7 +52,7 @@ public class FieldDao {
 
             int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
-            sport = sportDao.getSport(id);
+            sport = sportDao.getSport(resultSet.getInt("id_sport"));
             String description = resultSet.getString("description");
             int price = resultSet.getInt("price");
             String image = resultSet.getString("image");
@@ -180,6 +181,68 @@ public class FieldDao {
                 preparedStatement.close();
             }
         }
+    }
+
+    public ArrayList<Field> getFieldsByFacility(int id) throws SQLException {
+        ArrayList<Field> fields = new ArrayList<>();
+
+        String querySQL = String.format("SELECT id FROM \"Field\" WHERE id_facility = '%d'", id);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                fields.add(this.getField(resultSet.getInt("id")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return fields;
+    }
+    //todo check
+    public ArrayList<Field> getFieldsByProvince(String province) throws SQLException {
+        ArrayList<Field> fields = new ArrayList<>();
+        Sport sport = null;
+        SportDao sportDao = new SportDao();
+
+        String querySQL = String.format("SELECT * FROM \"Field\" INNER JOIN \"Facility\" ON Field.id_facility = Facility.id WHERE province = '%s'", province);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                sport = sportDao.getSport(resultSet.getInt("id_sport"));
+                String description = resultSet.getString("description");
+                int price = resultSet.getInt("price");
+                String image = resultSet.getString("image");
+                int idFacility = resultSet.getInt("id_facility");
+
+                fields.add(new Field(id, name, sport, description, price, image, idFacility));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return fields;
     }
 
 }
