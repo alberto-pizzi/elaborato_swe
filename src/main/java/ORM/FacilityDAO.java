@@ -1,13 +1,15 @@
 package main.java.ORM;
 
 import main.java.DomainModel.Facility;
-import main.java.DomainModel.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Time;
 import java.util.ArrayList;
+
+
 
 public class FacilityDAO {
     private Connection connection;
@@ -28,7 +30,7 @@ public class FacilityDAO {
         }
 
         String querySQL = String.format("INSERT INTO \"Facility\" (name, address, city, province, zip, country, n_managers, n_fields, telephone, image, WH_Mon, WH_Tue, WH_Wed, WH_Thu, WH_Fri, WH_Sat, WH_Sun, id_owner)) " +
-                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d')", name, address, city, province, zip, country, 0,0,telephone,image,WH[0],WH[1],WH[2],WH[3],WH[4],WH[5],WH[6],idOwner);
+                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%d')", name, address, city, province, zip, country, 0,0,telephone,image,idOwner);
 
         PreparedStatement preparedStatement = null;
 
@@ -88,17 +90,9 @@ public class FacilityDAO {
             int nFields = resultSet.getInt("n_fields"); //TODO is useful?
             String telephone = resultSet.getString("telephone");
             String image = resultSet.getString("image");
-            String[] WH = new String[7];
-            WH[0] = resultSet.getString("WH_Mon");
-            WH[1] = resultSet.getString("WH_Tue");
-            WH[2] = resultSet.getString("WH_Wed");
-            WH[3] = resultSet.getString("WH_Thu");
-            WH[4] = resultSet.getString("WH_Fri");
-            WH[5] = resultSet.getString("WH_Sat");
-            WH[6] = resultSet.getString("WH_Sun");
             int idOwner = resultSet.getInt("id_owner");
 
-            facility = new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,WH,idOwner);
+            facility = new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,idOwner);
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -132,20 +126,12 @@ public class FacilityDAO {
                 String zip = resultSet.getString("zip");
                 String country = resultSet.getString("country");
                 int nManagers = resultSet.getInt("n_managers");
-                int nFields = resultSet.getInt("n_fields");
+                int nFields = resultSet.getInt("n_fields"); //TODO is useful?
                 String telephone = resultSet.getString("telephone");
                 String image = resultSet.getString("image");
-                String[] WH = new String[7];
-                WH[0] = resultSet.getString("WH_Mon");
-                WH[1] = resultSet.getString("WH_Tue");
-                WH[2] = resultSet.getString("WH_Wed");
-                WH[3] = resultSet.getString("WH_Thu");
-                WH[4] = resultSet.getString("WH_Fri");
-                WH[5] = resultSet.getString("WH_Sat");
-                WH[6] = resultSet.getString("WH_Sun");
                 int idOwner = resultSet.getInt("id_owner");
 
-                facilities.add(new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,WH,idOwner));
+                facilities.add(new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,idOwner));
 
             }
         } catch (SQLException e) {
@@ -178,20 +164,12 @@ public class FacilityDAO {
                 String zip = resultSet.getString("zip");
                 String country = resultSet.getString("country");
                 int nManagers = resultSet.getInt("n_managers");
-                int nFields = resultSet.getInt("n_fields");
+                int nFields = resultSet.getInt("n_fields"); //TODO is useful?
                 String telephone = resultSet.getString("telephone");
                 String image = resultSet.getString("image");
-                String[] WH = new String[7];
-                WH[0] = resultSet.getString("WH_Mon");
-                WH[1] = resultSet.getString("WH_Tue");
-                WH[2] = resultSet.getString("WH_Wed");
-                WH[3] = resultSet.getString("WH_Thu");
-                WH[4] = resultSet.getString("WH_Fri");
-                WH[5] = resultSet.getString("WH_Sat");
-                WH[6] = resultSet.getString("WH_Sun");
                 int idOwner = resultSet.getInt("id_owner");
 
-                facilities.add(new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,WH,idOwner));
+                facilities.add(new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,idOwner));
 
             }
         } catch (SQLException e) {
@@ -393,19 +371,11 @@ public class FacilityDAO {
 
     }
 
-    //TODO check type
-    public void updateWH(int idFacility, String[] newWH) throws SQLException, ClassNotFoundException {
+    //TODO possible WHDAO?
+    public void updateWH(int idFacility, int dayOfWeek, Time openingHours, Time closingHours) throws SQLException, ClassNotFoundException {
 
-        //TODO optimize
-        //check number of days correctness
-        int daysInAWeek = 7;
-        if (newWH.length != daysInAWeek){
-            for (int i = 0; i < daysInAWeek; i++) {
-                newWH[i] = "Error";
-            }
-        }
 
-        String querySQL = String.format("UPDATE \"Facility\" SET WH_Mon = '%s',WH_Tue = '%s',WH_Wed = '%s',WH_Thu = '%s', WH_Fri = '%s', WH_Sat = '%s', WH_Sun = '%s' WHERE id = '%d'", newWH[0],newWH[1],newWH[2],newWH[3],newWH[4],newWH[5],newWH[6],idFacility);
+        String querySQL = String.format("UPDATE \"WH\" SET day_of_week = '%d', opening = '%tT', closing = '%tT'  WHERE id_facility = '%d'", dayOfWeek,openingHours, closingHours,idFacility);
 
         PreparedStatement preparedStatement = null;
 

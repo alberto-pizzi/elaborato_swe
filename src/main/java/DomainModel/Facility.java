@@ -24,7 +24,7 @@ public class Facility {
     //constructor
 
     //TODO check array type (maybe fixed)
-    public Facility(int id, String name, String address, String city, String province, String zip, String country, int nManager, Field[] fields, String telephone, String image, ArrayList<WorkingHours> workingHours, int idOwner) {
+    public Facility(int id, String name, String address, String city, String province, String zip, String country, int nManager, String telephone, String image, int idOwner) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -33,10 +33,10 @@ public class Facility {
         this.zip = zip;
         this.country = country;
         this.nManager = nManager;
-        this.fields = fields;
+        //this.fields = fields; //TODO initialize it empty?
         this.telephone = telephone;
         this.image = image;
-        this.workingHours = workingHours;
+        //this.workingHours = workingHours; //TODO initialize it empty?
         this.idOwner = idOwner;
     }
 

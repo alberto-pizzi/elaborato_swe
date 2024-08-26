@@ -186,20 +186,12 @@ public class ManagesDAO {
                 String zip = resultSet.getString("zip");
                 String country = resultSet.getString("country");
                 int nManagers = resultSet.getInt("n_managers");
-                int nFields = resultSet.getInt("n_fields");
+                int nFields = resultSet.getInt("n_fields"); //TODO is useful?
                 String telephone = resultSet.getString("telephone");
                 String image = resultSet.getString("image");
-                String[] WH = new String[7];
-                WH[0] = resultSet.getString("WH_Mon");
-                WH[1] = resultSet.getString("WH_Tue");
-                WH[2] = resultSet.getString("WH_Wed");
-                WH[3] = resultSet.getString("WH_Thu");
-                WH[4] = resultSet.getString("WH_Fri");
-                WH[5] = resultSet.getString("WH_Sat");
-                WH[6] = resultSet.getString("WH_Sun");
                 int idOwner = resultSet.getInt("id_owner");
 
-                facilities.add(new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,WH,idOwner));
+                facilities.add(new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,idOwner));
 
             }
         } catch (SQLException e) {
