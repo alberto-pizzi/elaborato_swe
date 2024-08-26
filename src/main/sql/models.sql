@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS "Facility" (
     country VARCHAR(100) NOT NULL,
     n_managers INTEGER NOT NULL CONSTRAINT managers_positive CHECK (n_managers >= 0),
     n_fields INTEGER NOT NULL CONSTRAINT fields_positive CHECK (n_fields >= 0),
-    telephone VARCHAR(20),
+    telephone VARCHAR(20) CONSTRAINT only_numbers CHECK (telephone ~ '^\d+$'),
     image TEXT,
     id_owner INTEGER,
     FOREIGN KEY (id_owner) REFERENCES Owner(id)
