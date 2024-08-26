@@ -32,7 +32,7 @@ public class SportDao {
         }
     }
 
-    public void deleteSport(int id) throws SQLException, ClassNotFoundException {
+    public void deleteSport(int id) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"Sport\" WHERE id = '%d'", id);
 
@@ -80,7 +80,7 @@ public class SportDao {
         return sport;
     }
 
-    public ArrayList<Sport> getAllSport() throws SQLException, ClassNotFoundException {
+    public ArrayList<Sport> getAllSport() throws SQLException {
 
         ArrayList<Sport> sports = new ArrayList<>();
 
@@ -111,7 +111,7 @@ public class SportDao {
         return sports;
     }
 
-    public int getSportPlayers(int id) throws SQLException, ClassNotFoundException {
+    public int getSportPlayers(int id) throws SQLException {
 
         int count = 0;
         String querySQL = String.format("SELECT players_required FROM \"Sport\" WHERE id_group = '%d'", id);

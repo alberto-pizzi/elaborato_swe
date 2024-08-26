@@ -37,7 +37,7 @@ public abstract class PersonDAO {
 
 
     //methods
-    public void addUser(String username, String email, String password, String city, String province, String zip, String country) throws SQLException, ClassNotFoundException {
+    public void addUser(String username, String email, String password, String city, String province, String zip, String country) throws SQLException {
 
         //TODO check not mandatory parameters
 
@@ -59,7 +59,7 @@ public abstract class PersonDAO {
     }
 
     //TODO cascade delete?
-    public void deleteUser(String username) throws SQLException, ClassNotFoundException {
+    public void deleteUser(String username) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"User\" WHERE username = '%s'", username);
 
@@ -77,7 +77,7 @@ public abstract class PersonDAO {
 
     }
 
-    public void updateUsername(String username, String newUsername) throws SQLException, ClassNotFoundException {
+    public void updateUsername(String username, String newUsername) throws SQLException {
 
         String querySQL = String.format("UPDATE \"" + this.target + "\" SET username = '%s' WHERE id = '%d'", newUsername, username);
 
@@ -95,7 +95,7 @@ public abstract class PersonDAO {
 
     }
 
-    public void updateEmail(int idUser, String newEmail) throws SQLException, ClassNotFoundException {
+    public void updateEmail(int idUser, String newEmail) throws SQLException {
 
         String querySQL = String.format("UPDATE \"" + this.target + "\" SET email = '%s' WHERE id = '%d'", newEmail, idUser);
 
@@ -113,7 +113,7 @@ public abstract class PersonDAO {
 
     }
 
-    public void updatePassword(String username, String newPassword) throws SQLException, ClassNotFoundException {
+    public void updatePassword(String username, String newPassword) throws SQLException {
 
         String querySQL = String.format("UPDATE \"" + this.target + "\" SET password = '%s' WHERE username = '%s'", newPassword, username);
 
@@ -131,7 +131,7 @@ public abstract class PersonDAO {
 
     }
 
-    public void updateCity(String username, String newCity) throws SQLException, ClassNotFoundException {
+    public void updateCity(String username, String newCity) throws SQLException {
 
         String querySQL = String.format("UPDATE \""+ this.target +"\" SET city = '%s' WHERE username = '%s'", newCity, username);
 
@@ -149,7 +149,7 @@ public abstract class PersonDAO {
 
     }
 
-    public void updateProvince(String username, String newProvince) throws SQLException, ClassNotFoundException {
+    public void updateProvince(String username, String newProvince) throws SQLException {
 
         String querySQL = String.format("UPDATE \""+ this.target +"\" SET province = '%s' WHERE username = '%s'", newProvince, username);
 
@@ -167,7 +167,7 @@ public abstract class PersonDAO {
 
     }
 
-    public void updateZip(String username, String newZip) throws SQLException, ClassNotFoundException {
+    public void updateZip(String username, String newZip) throws SQLException {
 
         String querySQL = String.format("UPDATE \""+ this.target +"\" SET zip = '%s' WHERE username = '%s'", newZip, username);
 
@@ -185,7 +185,7 @@ public abstract class PersonDAO {
 
     }
 
-    public void updateCountry(String username, String newCountry) throws SQLException, ClassNotFoundException {
+    public void updateCountry(String username, String newCountry) throws SQLException {
 
         String querySQL = String.format("UPDATE \""+ this.target +"\" SET country = '%s' WHERE username = '%s'", newCountry, username);
 
@@ -204,7 +204,7 @@ public abstract class PersonDAO {
     }
 
 
-    public boolean checkPassword(String username, String passwordEntered) throws SQLException, ClassNotFoundException{
+    public boolean checkPassword(String username, String passwordEntered) throws SQLException{
 
         String querySQL = String.format("SELECT count(*) AS results FROM \""+ this.target + "\" WHERE username = '%s' AND password = '%s'", username,passwordEntered);
 
@@ -233,7 +233,7 @@ public abstract class PersonDAO {
         return false;
     }
 
-    public ArrayList<User> getAllUsers() throws SQLException, ClassNotFoundException {
+    public ArrayList<User> getAllUsers() throws SQLException {
         ArrayList<User> users = new ArrayList<>();
 
         String querySQL = "SELECT * FROM \"User\" ORDER BY id ASC";
@@ -267,7 +267,7 @@ public abstract class PersonDAO {
         return users;
     }
 
-    public int getUserID(String username) throws SQLException, ClassNotFoundException {
+    public int getUserID(String username) throws SQLException {
         //default id (id not found)
         int id = -1;
 

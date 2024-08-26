@@ -33,7 +33,7 @@ public class InviteDao {
 
     }
 
-    public void deleteInvite(int id) throws SQLException, ClassNotFoundException {
+    public void deleteInvite(int id) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"Invite\" WHERE id = '%d'", id);
 

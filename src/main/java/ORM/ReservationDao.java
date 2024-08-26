@@ -93,7 +93,7 @@ public class ReservationDao {
 
     }
 
-    public void deleteReservation(int id) throws SQLException, ClassNotFoundException {
+    public void deleteReservation(int id) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"Reservation\" WHERE id = '%d'", id);
 

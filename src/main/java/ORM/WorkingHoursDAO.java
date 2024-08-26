@@ -11,7 +11,7 @@ public class WorkingHoursDAO {
 
     //methods
 
-    public void addWHToFacility(int idFacility, int dayOfWeek, Time openingHours, Time closingHours) throws SQLException, ClassNotFoundException {
+    public void addWHToFacility(int idFacility, int dayOfWeek, Time openingHours, Time closingHours) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"WH\" (day_of_week, opening, closing, id_facility)) " +
                 "VALUES ('%d', '%tT', '%tT', '%d')", dayOfWeek, openingHours, closingHours, idFacility);
@@ -30,7 +30,7 @@ public class WorkingHoursDAO {
 
     }
 
-    public void removeWHFromFacility(int idWH) throws SQLException, ClassNotFoundException {
+    public void removeWHFromFacility(int idWH) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"WH\" WHERE id = '%d'", idWH);
 
@@ -49,7 +49,7 @@ public class WorkingHoursDAO {
     }
 
 
-    public void updateWH(int idWH, Time openingHours, Time closingHours) throws SQLException, ClassNotFoundException {
+    public void updateWH(int idWH, Time openingHours, Time closingHours) throws SQLException {
 
 
         String querySQL = String.format("UPDATE \"WH\" SET opening = '%tT', closing = '%tT'  WHERE id = '%d'", openingHours, closingHours,idWH);

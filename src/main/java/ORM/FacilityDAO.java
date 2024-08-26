@@ -16,7 +16,7 @@ public class FacilityDAO {
 
     //methods
 
-    public void addFacility(String name, String address, String city, String province, String zip, String country, String telephone, String image, int idOwner) throws SQLException, ClassNotFoundException {
+    public void addFacility(String name, String address, String city, String province, String zip, String country, String telephone, String image, int idOwner) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"Facility\" (name, address, city, province, zip, country, n_managers, n_fields, telephone, image, WH_Mon, WH_Tue, WH_Wed, WH_Thu, WH_Fri, WH_Sat, WH_Sun, id_owner)) " +
                 "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%d')", name, address, city, province, zip, country, 0,0,telephone,image,idOwner);
@@ -36,7 +36,7 @@ public class FacilityDAO {
     }
 
     //TODO cascade delete?
-    public void deleteFacility(int idFacility) throws SQLException, ClassNotFoundException {
+    public void deleteFacility(int idFacility) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"Facility\" WHERE id = '%s'", idFacility);
 
@@ -54,7 +54,7 @@ public class FacilityDAO {
 
     }
 
-    public Facility getFacility(int idFacility) throws SQLException, ClassNotFoundException {
+    public Facility getFacility(int idFacility) throws SQLException {
         //default id (id not found)
         Facility facility = null;
 
@@ -95,7 +95,7 @@ public class FacilityDAO {
         return facility;
     }
 
-    public ArrayList<Facility> getFacilities() throws SQLException, ClassNotFoundException {
+    public ArrayList<Facility> getFacilities() throws SQLException {
         ArrayList<Facility> facilities = new ArrayList<>();
 
         String querySQL = "SELECT * FROM \"Facility\" ORDER BY id ASC";
@@ -121,7 +121,7 @@ public class FacilityDAO {
         return facilities;
     }
 
-    public ArrayList<Facility> getFacilitiesByOwner(int idOwnerTarget) throws SQLException, ClassNotFoundException {
+    public ArrayList<Facility> getFacilitiesByOwner(int idOwnerTarget) throws SQLException {
         ArrayList<Facility> facilities = new ArrayList<>();
 
         String querySQL = String.format("SELECT * FROM \"Facility\" WHERE id_owner = '%d'", idOwnerTarget);
@@ -147,7 +147,7 @@ public class FacilityDAO {
         return facilities;
     }
 
-    public int countFacilitiesByOwner(int idOwner) throws SQLException, ClassNotFoundException {
+    public int countFacilitiesByOwner(int idOwner) throws SQLException {
         //default value (results not found)
         int nFacilities = -1;
 
@@ -172,7 +172,7 @@ public class FacilityDAO {
         return nFacilities;
     }
 
-    public void updateName(int idFacility, String newName) throws SQLException, ClassNotFoundException {
+    public void updateName(int idFacility, String newName) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Facility\" SET name = '%s' WHERE id = '%d'", newName,idFacility);
 
@@ -191,7 +191,7 @@ public class FacilityDAO {
     }
 
     //TODO check type
-    public void updateDescription(int idFacility, String newDescription) throws SQLException, ClassNotFoundException {
+    public void updateDescription(int idFacility, String newDescription) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Facility\" SET description = '%s' WHERE id = '%d'", newDescription,idFacility);
 
@@ -209,7 +209,7 @@ public class FacilityDAO {
 
     }
 
-    public void updateAddress(int idFacility, String newAddress) throws SQLException, ClassNotFoundException {
+    public void updateAddress(int idFacility, String newAddress) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Facility\" SET address = '%s' WHERE id = '%d'", newAddress,idFacility);
 
@@ -227,7 +227,7 @@ public class FacilityDAO {
 
     }
 
-    public void updateCity(int idFacility, String newCity) throws SQLException, ClassNotFoundException {
+    public void updateCity(int idFacility, String newCity) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Facility\" SET city = '%s' WHERE id = '%d'", newCity,idFacility);
 
@@ -245,7 +245,7 @@ public class FacilityDAO {
 
     }
 
-    public void updateProvince(int idFacility, String newProvince) throws SQLException, ClassNotFoundException {
+    public void updateProvince(int idFacility, String newProvince) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Facility\" SET province = '%s' WHERE id = '%d'", newProvince,idFacility);
 
@@ -263,7 +263,7 @@ public class FacilityDAO {
 
     }
 
-    public void updateZip(int idFacility, String newZip) throws SQLException, ClassNotFoundException {
+    public void updateZip(int idFacility, String newZip) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Facility\" SET zip = '%s' WHERE id = '%d'", newZip,idFacility);
 
@@ -281,7 +281,7 @@ public class FacilityDAO {
 
     }
 
-    public void updateCountry(int idFacility, String newCountry) throws SQLException, ClassNotFoundException {
+    public void updateCountry(int idFacility, String newCountry) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Facility\" SET country = '%s' WHERE id = '%d'", newCountry,idFacility);
 
@@ -299,7 +299,7 @@ public class FacilityDAO {
 
     }
 
-    public void updateTelephone(int idFacility, String newTelephone) throws SQLException, ClassNotFoundException {
+    public void updateTelephone(int idFacility, String newTelephone) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Facility\" SET telephone = '%s' WHERE id = '%d'", newTelephone,idFacility);
 
@@ -318,7 +318,7 @@ public class FacilityDAO {
     }
 
     //TODO check type
-    public void updateImage(int idFacility, String newImage) throws SQLException, ClassNotFoundException {
+    public void updateImage(int idFacility, String newImage) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Facility\" SET image = '%s' WHERE id = '%d'", newImage,idFacility);
 
@@ -337,7 +337,7 @@ public class FacilityDAO {
     }
 
 
-    public int getNMangers(int idFacility) throws SQLException, ClassNotFoundException {
+    public int getNMangers(int idFacility) throws SQLException {
         //default value (results not found)
         int nManagers = -1;
 
@@ -362,7 +362,7 @@ public class FacilityDAO {
         return nManagers;
     }
 
-    public int getNFields(int idFacility) throws SQLException, ClassNotFoundException {
+    public int getNFields(int idFacility) throws SQLException {
         //default value (results not found)
         int nFields = -1;
 
@@ -387,7 +387,7 @@ public class FacilityDAO {
         return nFields;
     }
 
-    public ArrayList<Facility> getFacilitiesByProvince(String provinceTarget) throws SQLException, ClassNotFoundException {
+    public ArrayList<Facility> getFacilitiesByProvince(String provinceTarget) throws SQLException {
         ArrayList<Facility> facilities = new ArrayList<>();
 
         String querySQL = String.format("SELECT * FROM \"Facility\" WHERE province = '%s'", provinceTarget);

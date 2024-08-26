@@ -34,7 +34,7 @@ public class IsPartDao {
 
     }
 
-    public void removeMembership(int groupId, int userId) throws SQLException, ClassNotFoundException {
+    public void removeMembership(int groupId, int userId) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"Invite\" WHERE id_group = '%d' AND id_user = '%d'", groupId, userId);
 

@@ -15,7 +15,7 @@ public class ManagesDAO {
 
     //methods
 
-    public void attachManager(int idManager, int idFacility) throws SQLException, ClassNotFoundException {
+    public void attachManager(int idManager, int idFacility) throws SQLException {
 
 
         String insertQuerySQL = String.format("INSERT INTO \"Manages\" (id_facility, id_user)) " +
@@ -73,7 +73,7 @@ public class ManagesDAO {
 
     }
 
-    public void detachManager(int idManager, int idFacility) throws SQLException, ClassNotFoundException {
+    public void detachManager(int idManager, int idFacility) throws SQLException {
 
 
         String deleteQuerySQL = String.format("DELETE FROM \"Manages\" WHERE id_facility = '%d' AND id_user = '%d'", idFacility,idManager);
@@ -130,7 +130,7 @@ public class ManagesDAO {
 
     }
 
-    public ArrayList<User> getAllManagersByFacility(int idFacility) throws SQLException, ClassNotFoundException {
+    public ArrayList<User> getAllManagersByFacility(int idFacility) throws SQLException {
         ArrayList<User> managers = new ArrayList<>();
 
         String querySQL = String.format("SELECT * FROM \"Manages\" INNER JOIN \"User\" ON Manages.id_user = User.id WHERE id_facility = '%d'", idFacility);
@@ -165,7 +165,7 @@ public class ManagesDAO {
         return managers;
     }
 
-    public ArrayList<Facility> getAllFacilitiesByManager(int idManager) throws SQLException, ClassNotFoundException {
+    public ArrayList<Facility> getAllFacilitiesByManager(int idManager) throws SQLException {
         ArrayList<Facility> facilities = new ArrayList<>();
 
         String querySQL = String.format("SELECT * FROM \"Manages\" INNER JOIN \"Facility\" ON Manages.id_facility = Facility.id WHERE id_user = '%d'", idManager);

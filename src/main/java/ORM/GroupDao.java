@@ -37,7 +37,7 @@ public class GroupDao {
 
     }
 
-    public void deleteGroup(int id) throws SQLException, ClassNotFoundException {
+    public void deleteGroup(int id) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"Group\" WHERE id = '%d'", id);
 
@@ -57,7 +57,7 @@ public class GroupDao {
 
     }
 
-    public void updateGroupHead(int groupId, int newId) throws SQLException, ClassNotFoundException {
+    public void updateGroupHead(int groupId, int newId) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Group\" SET group_head = '%d' WHERE id = '%d'", newId, groupId);
 

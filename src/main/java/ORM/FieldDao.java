@@ -70,7 +70,7 @@ public class FieldDao {
         return field;
     }
 
-    public void deleteField(int id) throws SQLException, ClassNotFoundException {
+    public void deleteField(int id) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"Field\" WHERE id = '%d'", id);
 

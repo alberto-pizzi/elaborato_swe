@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class OwnerDAO extends PersonDAO {
 
-    public void addOwner(String username, String email, String password, String city, String province, String zip, String country) throws SQLException, ClassNotFoundException {
+    public void addOwner(String username, String email, String password, String city, String province, String zip, String country) throws SQLException {
 
         //TODO check not mandatory parameters
 
@@ -31,7 +31,7 @@ public class OwnerDAO extends PersonDAO {
     }
 
     //TODO cascade delete?
-    public void deleteOwner(String username)throws SQLException, ClassNotFoundException {
+    public void deleteOwner(String username)throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"Owner\" WHERE id = '%s'", username);
 
@@ -50,7 +50,7 @@ public class OwnerDAO extends PersonDAO {
     }
 
 
-    public Owner getOwner(String ownerUsername) throws SQLException, ClassNotFoundException {
+    public Owner getOwner(String ownerUsername) throws SQLException {
         Owner owner = null;
 
         String querySQL = String.format("SELECT * FROM \"Owner\" WHERE username = '%s'", ownerUsername);
@@ -82,7 +82,7 @@ public class OwnerDAO extends PersonDAO {
         return owner;
     }
 
-    public int getOwnerID(String username) throws SQLException, ClassNotFoundException {
+    public int getOwnerID(String username) throws SQLException {
         //default id (id not found)
         int id = -1;
 
