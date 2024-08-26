@@ -203,8 +203,33 @@ public abstract class PersonDAO {
 
     }
 
-    //TODO  implement it (BOOL)
-    public boolean checkPassword(String username, String passwordEntered){
+
+    public boolean checkPassword(String username, String passwordEntered) throws SQLException, ClassNotFoundException{
+
+        String querySQL = String.format("SELECT count(*) AS results FROM \""+ this.target + "\" WHERE username = '%s' AND password = '%s'", username,passwordEntered);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+
+            int persons = resultSet.getInt("results");
+
+            if (persons > 0)
+                return true;
+
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+
+
         return false;
     }
 
