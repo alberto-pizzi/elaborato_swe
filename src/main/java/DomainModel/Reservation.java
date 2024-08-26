@@ -5,34 +5,56 @@ import java.sql.Time;
 
 public class Reservation {
     private int id;
-
-    //FIXME type of dates
     private Date reservationDate;
     private Time reservationTime;
-    private Date eventDateStart;
+    private Date eventDate;
     private Time eventTimeEnd;
+    private Time eventTimeStart;
     private int idField;
     private int nParticipants;
     private boolean isConfirmed;
     private int idUser;
-    private int participantsRequired;
     private boolean isMatched;
 
-    public Reservation(int reservationId, Date reservationDate, Time reservationTime, Date eventDateStart, Time eventTimeEnd, int idField, int nParticipants, boolean isConfirmed, int idUser, int participantsRequired, boolean isMatched) {
+    public Reservation(int reservationId, Date reservationDate, Time reservationTime, Date eventDate, Time eventTimeStart, Time eventTimeEnd, int idField,  int nParticipants, boolean isConfirmed, int idUser, boolean isMatched) {
         this.id = reservationId;
         this.reservationDate = reservationDate;
         this.reservationTime = reservationTime;
-        this.eventDateStart = eventDateStart;
+        this.eventDate = eventDate;
+        this.eventTimeStart = eventTimeStart;
         this.eventTimeEnd = eventTimeEnd;
         this.idField = idField;
         this.nParticipants = nParticipants;
         this.isConfirmed = isConfirmed;
         this.idUser = idUser;
-        this.participantsRequired = participantsRequired;
         this.isMatched = isMatched;
     }
 
     //getters
+
+    public Date getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(Date eventDate) {
+        this.eventDate = eventDate;
+    }
+
+    public Time getEventTimeStart() {
+        return eventTimeStart;
+    }
+
+    public void setEventTimeStart(Time eventTimeStart) {
+        this.eventTimeStart = eventTimeStart;
+    }
+
+    public int getnParticipants() {
+        return nParticipants;
+    }
+
+    public void setnParticipants(int nParticipants) {
+        this.nParticipants = nParticipants;
+    }
 
     public Date getReservationDate() {
         return reservationDate;
@@ -48,14 +70,6 @@ public class Reservation {
 
     public void setReservationTime(Time reservationTime) {
         this.reservationTime = reservationTime;
-    }
-
-    public Date getEventDateStart() {
-        return eventDateStart;
-    }
-
-    public void setEventDateStart(Date eventDateStart) {
-        this.eventDateStart = eventDateStart;
     }
 
     public Time getEventTimeEnd() {
@@ -106,14 +120,6 @@ public class Reservation {
 
     public void setIdUser(int idUser) {
         this.idUser = idUser;
-    }
-
-    public int getParticipantsRequired() {
-        return participantsRequired;
-    }
-
-    public void setParticipantsRequired(int participantsRequired) {
-        this.participantsRequired = participantsRequired;
     }
 
     public boolean isMatched() {

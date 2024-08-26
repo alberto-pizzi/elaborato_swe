@@ -12,13 +12,11 @@ public class ReservationDao {
     private Connection connection;
 
     //methods
-    //TODO remove required participants
     public void addReservation(Reservation reservation) throws SQLException {
-        //fixme reference
         String querySQL = String.format("INSERT INTO \"Reservation\" (res_date, event_date,res_time, event_time_start, " +
                 "event_time_end, id_field, n_participants, is_confirmed, is_matched, id_user)) " +
-                "VALUES ('%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d')", reservation.getReservationDate(), reservation.getEventDateStart(),
-                reservation.getReservationTime(), reservation.getEventDateStart(),reservation.getEventTimeEnd(), reservation.getIdField(),
+                "VALUES ('%tF', '%tF', '%tT', '%tT', '%tT', '%d', '%d', '%b', '%b', '%d')", reservation.getReservationDate(), reservation.getEventDate(),
+                reservation.getReservationTime(), reservation.getEventTimeStart(),reservation.getEventTimeEnd(), reservation.getIdField(),
                 reservation.getNParticipants(), reservation.isConfirmed(), reservation.isMatched(), reservation.getIdUser());
 
         PreparedStatement preparedStatement = null;
@@ -66,7 +64,6 @@ public class ReservationDao {
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        //FIXME type of dates
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
@@ -74,16 +71,16 @@ public class ReservationDao {
             int reservationId = resultSet.getInt("id");
             Date reservationDate = resultSet.getDate("res_date");
             Time reservationTime = resultSet.getTime("res_time");
-            Date eventDateStart = resultSet.getDate("event_date");
+            Date eventDate = resultSet.getDate("event_date");
+            Time eventTimeStart = resultSet.getTime("event_time_start");
             Time eventTimeEnd = resultSet.getTime("event_time_end");
             int idField = resultSet.getInt("id_field");
             int nParticipants = resultSet.getInt("n_participants");
             boolean isConfirmed = resultSet.getBoolean("is_confirmed");
             int idUser = resultSet.getInt("id_user");
-            int participantsRequired = resultSet.getInt("n_participants"); //TODO is doable?
             boolean isMatched = resultSet.getBoolean("is_matched");
 
-            reservation = new Reservation(reservationId, reservationDate, reservationTime, eventDateStart, eventTimeEnd, idField, nParticipants, isConfirmed, idUser,participantsRequired,isMatched);
+            reservation = new Reservation(reservationId, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, idField, nParticipants, isConfirmed, idUser,isMatched);
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -117,7 +114,7 @@ public class ReservationDao {
     public ArrayList<Reservation> getReservationsByField(int id) throws SQLException {
         ArrayList<Reservation> reservations = new ArrayList<>();
 
-        String querySQL = String.format("SELECT * FROM \"Reservation\" WHERE id_field = '%d'", id);
+        String querySQL = String.format("SELECT id FROM \"Reservation\" WHERE id_field = '%d'", id);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -141,8 +138,7 @@ public class ReservationDao {
     public ArrayList<Reservation> getReservationsByUser(int id) throws SQLException {
         ArrayList<Reservation> reservations = new ArrayList<>();
 
-        //TODO optimize
-        String querySQL = String.format("SELECT * FROM \"Reservation\" WHERE id_user = '%d'", id);
+        String querySQL = String.format("SELECT id FROM \"Reservation\" WHERE id_user = '%d'", id);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -203,7 +199,7 @@ public class ReservationDao {
 
     public void updateIsConfirmed(int id, boolean isConfirmed) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Reservation\" SET is_confirmed = '%d' WHERE id = '%d'", isConfirmed, id);
+        String querySQL = String.format("UPDATE \"Reservation\" SET is_confirmed = '%b' WHERE id = '%d'", isConfirmed, id);
 
         PreparedStatement preparedStatement = null;
 
@@ -222,7 +218,7 @@ public class ReservationDao {
 
     public void updateEventDate(int id, Date date) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Reservation\" SET event_date = '%s' WHERE id = '%d'", date, id);
+        String querySQL = String.format("UPDATE \"Reservation\" SET event_date = '%tF' WHERE id = '%d'", date, id);
 
         PreparedStatement preparedStatement = null;
 
@@ -241,7 +237,7 @@ public class ReservationDao {
 
     public void updateEventTimeStart(int id, Time time) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Reservation\" SET event_time_start = '%s' WHERE id = '%d'", time, id);
+        String querySQL = String.format("UPDATE \"Reservation\" SET event_time_start = '%tT' WHERE id = '%d'", time, id);
 
         PreparedStatement preparedStatement = null;
 
@@ -260,7 +256,7 @@ public class ReservationDao {
 
     public void updateEventTimeEnd(int id, Time time) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Reservation\" SET event_time_end = '%s' WHERE id = '%d'", time, id);
+        String querySQL = String.format("UPDATE \"Reservation\" SET event_time_end = '%tT' WHERE id = '%d'", time, id);
 
         PreparedStatement preparedStatement = null;
 

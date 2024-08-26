@@ -17,9 +17,9 @@ public class GroupDao {
     //methods
     public void addGroup(Group group) throws SQLException {
 
-        //TODO add required participants
-        String querySQL = String.format("INSERT INTO \"Group\" (group_head, id_reservation)) " +
-                "VALUES ('%d', '%d')", group.getGroupHead(), group.getReservation());
+
+        String querySQL = String.format("INSERT INTO \"Group\" (group_head, participants_required, id_reservation)) " +
+                "VALUES ('%d', '%d', '%d')", group.getGroupHead(), group.getRequiredParticipants(), group.getReservation().getId());
 
         PreparedStatement preparedStatement = null;
 
@@ -91,9 +91,10 @@ public class GroupDao {
             resultSet = preparedStatement.executeQuery();
 
             int id = resultSet.getInt("id");
-            int groupHead = resultSet.getInt("id");
+            int requiredParticipants = resultSet.getInt("participants_required");
+            int groupHead = resultSet.getInt("group_head");
 
-            Reservation reservation = reservationDao.getReservation(resultSet.getInt("id"));
+            Reservation reservation = reservationDao.getReservation(resultSet.getInt("id_reservation"));
 
             group = new Group(id, groupHead, reservation);
 
