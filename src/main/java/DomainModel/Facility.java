@@ -1,6 +1,8 @@
 package main.java.DomainModel;
 
 
+import java.util.ArrayList;
+
 public class Facility {
 
 
@@ -16,13 +18,13 @@ public class Facility {
     private Field[] fields; //TODO change to dynamic
     private String telephone;
     private String image;
-    private String[] WH;
+    private ArrayList<WorkingHours> workingHours;
     private int idOwner;
 
     //constructor
 
-    //TODO check array type
-    public Facility(int id, String name, String address, String city, String province, String zip, String country, int nManager, String telephone, String image, String[] WH, int idOwner) {
+    //TODO check array type (maybe fixed)
+    public Facility(int id, String name, String address, String city, String province, String zip, String country, int nManager, Field[] fields, String telephone, String image, ArrayList<WorkingHours> workingHours, int idOwner) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -31,10 +33,10 @@ public class Facility {
         this.zip = zip;
         this.country = country;
         this.nManager = nManager;
-        this.fields = new Field[100]; //TODO change to dynamic and fix it
+        this.fields = fields;
         this.telephone = telephone;
         this.image = image;
-        this.WH = WH;
+        this.workingHours = workingHours;
         this.idOwner = idOwner;
     }
 
@@ -55,12 +57,12 @@ public class Facility {
         this.city = city;
     }
 
-    public String[] getWH() {
-        return WH;
+    public ArrayList<main.java.DomainModel.WorkingHours> getWorkingHours() {
+        return workingHours;
     }
 
-    public void setWH(String[] WH) {
-        this.WH = WH;
+    public void setWorkingHours(ArrayList<main.java.DomainModel.WorkingHours> workingHours) {
+        this.workingHours = workingHours;
     }
 
     public String getImage() {

@@ -32,13 +32,6 @@ CREATE TABLE IF NOT EXISTS "Facility" (
     n_fields INTEGER NOT NULL CONSTRAINT fields_positive CHECK (n_fields >= 0),
     telephone VARCHAR(20),
     image TEXT,
-    WH_Mon VARCHAR(20),
-    WH_Tue VARCHAR(20),
-    WH_Wed VARCHAR(20),
-    WH_Thu VARCHAR(20),
-    WH_Fri VARCHAR(20),
-    WH_Sat VARCHAR(20),
-    WH_Sun VARCHAR(20),
     id_owner INTEGER,
     FOREIGN KEY (id_owner) REFERENCES Owner(id)
 );
