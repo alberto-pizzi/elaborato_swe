@@ -16,18 +16,7 @@ public class FacilityDAO {
 
     //methods
 
-
-    //TODO enter input parameter
-    public void addFacility(String name, String address, String city, String province, String zip, String country, String telephone, String[] WH,String image, int idOwner) throws SQLException, ClassNotFoundException {
-
-        //TODO optimize
-        //check number of days correctness
-        int daysInAWeek = 7;
-        if (WH.length != daysInAWeek){
-            for (int i = 0; i < daysInAWeek; i++) {
-                WH[i] = "Error";
-            }
-        }
+    public void addFacility(String name, String address, String city, String province, String zip, String country, String telephone, String image, int idOwner) throws SQLException, ClassNotFoundException {
 
         String querySQL = String.format("INSERT INTO \"Facility\" (name, address, city, province, zip, country, n_managers, n_fields, telephone, image, WH_Mon, WH_Tue, WH_Wed, WH_Thu, WH_Fri, WH_Sat, WH_Sun, id_owner)) " +
                 "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%d')", name, address, city, province, zip, country, 0,0,telephone,image,idOwner);
@@ -345,25 +334,6 @@ public class FacilityDAO {
 
     }
 
-    //TODO possible WHDAO?
-    public void updateWH(int idFacility, int dayOfWeek, Time openingHours, Time closingHours) throws SQLException, ClassNotFoundException {
-
-
-        String querySQL = String.format("UPDATE \"WH\" SET day_of_week = '%d', opening = '%tT', closing = '%tT'  WHERE id_facility = '%d'", dayOfWeek,openingHours, closingHours,idFacility);
-
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            preparedStatement.executeUpdate();
-            System.out.println("Facility working hours updated successfully.");
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-        }
-
-    }
 
     public int getNMangers(int idFacility) throws SQLException, ClassNotFoundException {
         //default value (results not found)
