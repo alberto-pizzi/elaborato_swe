@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS "Reservation" (
     event_time_start TIME NOT NULL,
     event_time_end TIME NOT NULL;
     id_field INTEGER NOT NULL,
-    n_participants INTEGER NOT NULL CONSTRAINT partecipants_positive CHECK (n_partecipants >= 0),
+    n_participants INTEGER NOT NULL CONSTRAINT participants_positive CHECK (n_participants >= 0),
     is_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
     is_matched BOOLEAN NOT NULL DEFAULT FALSE,
     id_user INTEGER NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS "IsPart" (
 CREATE TABLE IF NOT EXISTS "Group" (
     id SERIAL PRIMARY KEY,
     group_head INTEGER NOT NULL,
-    partecipants_required INTEGER NOT NULL,
+    participants_required INTEGER NOT NULL,
     id_reservation INTEGER NOT NULL UNIQUE,
     FOREIGN KEY (id_reservation) REFERENCES Reservation(id),
     FOREIGN KEY (group_head) REFERENCES User(id)

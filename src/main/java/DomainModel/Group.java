@@ -6,8 +6,8 @@ public class Group {
     private Reservation reservation;
     private int guestUsers;
     private User[] users; //TODO change to dynamic
-    private int partecipants;
-    private int requiredPartecipants;//TODO controllare
+    private int participants;
+    private int requiredParticipants;//TODO controllare
 
     public Group(int id, int groupHead, Reservation reservation) {
         this.id = id;
@@ -38,12 +38,12 @@ public class Group {
         return users;
     }
 
-    public int getRequiredPartecipants() {
-        return requiredPartecipants;
+    public int getRequiredParticipants() {
+        return requiredParticipants;
     }
 
-    public int getPartecipants() {
-        return partecipants;
+    public int getParticipants() {
+        return participants;
     }
 
     //setter
@@ -68,11 +68,11 @@ public class Group {
         this.users = users;
     }
 
-    public void setPartecipants(int partecipants) {
-        this.partecipants = partecipants;
+    public void setParticipants(int participants) {
+        this.participants = participants;
     }
 
-    public void setRequiredPartecipants(int requiredPartecipants) {
-        this.requiredPartecipants = requiredPartecipants;
+    public void setRequiredParticipants(int requiredParticipants) {
+        this.requiredParticipants = requiredParticipants;
     }
 }
