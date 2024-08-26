@@ -81,6 +81,8 @@ public class FacilityDAO {
             String image = resultSet.getString("image");
             int idOwner = resultSet.getInt("id_owner");
 
+            //TODO fill WH array and pass it to Facility constructor
+
             facility = new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,idOwner);
 
         } catch (SQLException e) {
