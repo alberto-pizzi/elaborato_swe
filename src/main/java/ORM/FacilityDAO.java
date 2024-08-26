@@ -115,25 +115,11 @@ public class FacilityDAO {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
-
-                //TODO optimize
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String address = resultSet.getString("address");
-                String city = resultSet.getString("city");
-                String province = resultSet.getString("province");
-                String zip = resultSet.getString("zip");
-                String country = resultSet.getString("country");
-                int nManagers = resultSet.getInt("n_managers");
-                int nFields = resultSet.getInt("n_fields"); //TODO is useful?
-                String telephone = resultSet.getString("telephone");
-                String image = resultSet.getString("image");
-                int idOwner = resultSet.getInt("id_owner");
-
-                facilities.add(new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,idOwner));
-
+                facilities.add(this.getFacility(resultSet.getInt("id")));
             }
+
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
@@ -155,23 +141,11 @@ public class FacilityDAO {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String address = resultSet.getString("address");
-                String city = resultSet.getString("city");
-                String province = resultSet.getString("province");
-                String zip = resultSet.getString("zip");
-                String country = resultSet.getString("country");
-                int nManagers = resultSet.getInt("n_managers");
-                int nFields = resultSet.getInt("n_fields"); //TODO is useful?
-                String telephone = resultSet.getString("telephone");
-                String image = resultSet.getString("image");
-                int idOwner = resultSet.getInt("id_owner");
-
-                facilities.add(new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,idOwner));
-
+                facilities.add(this.getFacility(resultSet.getInt("id")));
             }
+
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
@@ -452,23 +426,11 @@ public class FacilityDAO {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String address = resultSet.getString("address");
-                String city = resultSet.getString("city");
-                String province = resultSet.getString("province");
-                String zip = resultSet.getString("zip");
-                String country = resultSet.getString("country");
-                int nManagers = resultSet.getInt("n_managers");
-                int nFields = resultSet.getInt("n_fields"); //TODO is useful?
-                String telephone = resultSet.getString("telephone");
-                String image = resultSet.getString("image");
-                int idOwner = resultSet.getInt("id_owner");
-
-                facilities.add(new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,idOwner));
-
+                facilities.add(this.getFacility(resultSet.getInt("id")));
             }
+
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
