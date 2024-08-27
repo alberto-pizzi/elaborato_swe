@@ -15,9 +15,19 @@ public class WorkingHours {
 
     //attributes
     private int id;
-    private int dayOfWeek;
+    private Day dayOfWeek;
     private Time openingHours;
     private Time closingHours;
+
+    //constructor
+
+    public WorkingHours(int id, Day dayOfWeek, Time openingHours, Time closingHours) {
+        this.id = id;
+        this.dayOfWeek = dayOfWeek;
+        this.openingHours = openingHours;
+        this.closingHours = closingHours;
+    }
+
 
     //getter
 
@@ -25,7 +35,7 @@ public class WorkingHours {
         return id;
     }
 
-    public int getDayOfWeek() {
+    public Day getDayOfWeek() {
         return dayOfWeek;
     }
 
@@ -43,7 +53,7 @@ public class WorkingHours {
         this.id = id;
     }
 
-    public void setDayOfWeek(int dayOfWeek) {
+    public void setDayOfWeek(Day dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 

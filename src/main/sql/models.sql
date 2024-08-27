@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS "Facility" (
 
 CREATE TABLE IF NOT EXISTS "WH" (
     id SERIAL PRIMARY KEY,
-    day_of_week INTEGER NOT NULL CONSTRAINT number_of_day CHECK (day_of_week >= 0) AND (day_of_week < 7), -- 0=Dom, 1=Lun, ..., 6=Sab
+    day_of_week VARCHAR(10) NOT NULL,
     opening TIME NOT NULL,
     closing TIME NOT NULL,
     id_facility INTEGER NOT NULL,
