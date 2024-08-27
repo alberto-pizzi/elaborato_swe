@@ -45,6 +45,6 @@ public class OwnerManagementController {
 
     public void getAllFacilityManagers(){}
 
-    public void viewStats(){}
+    public void viewStats(){}//fixme niente per implementarlo
 
 }
