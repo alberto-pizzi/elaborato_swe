@@ -7,7 +7,7 @@ public class Invite extends Product {
     // attributes
     private int id;
     private int idGroup;
-
+    //Todo costruttore per quando non si ha l'id
     public Invite(int id, int groupId) {
         this.id = id;
         this.idGroup = groupId;
