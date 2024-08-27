@@ -8,6 +8,11 @@ public class OwnerManagementController {
 
     private Owner owner;
 
+    //constructor
+    public OwnerManagementController(Owner owner) {
+        this.owner = owner;
+    }
+
     //methods
 
     public Owner getOwner() {
