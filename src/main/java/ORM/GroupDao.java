@@ -37,9 +37,9 @@ public class GroupDao {
 
     }
 
-    public void deleteGroup(int id) throws SQLException {
+    public void deleteGroup(int idGroup) throws SQLException {
 
-        String querySQL = String.format("DELETE FROM \"Group\" WHERE id = '%d'", id);
+        String querySQL = String.format("DELETE FROM \"Group\" WHERE id = '%d'", idGroup);
 
         PreparedStatement preparedStatement = null;
 
@@ -57,9 +57,9 @@ public class GroupDao {
 
     }
 
-    public void updateGroupHead(int groupId, int newId) throws SQLException {
+    public void updateGroupHead(int idGroup, int newGroupHead) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Group\" SET group_head = '%d' WHERE id = '%d'", newId, groupId);
+        String querySQL = String.format("UPDATE \"Group\" SET group_head = '%d' WHERE id = '%d'", newGroupHead, idGroup);
 
         PreparedStatement preparedStatement = null;
 
@@ -96,7 +96,7 @@ public class GroupDao {
 
             Reservation reservation = reservationDao.getReservation(resultSet.getInt("id_reservation"));
 
-            group = new Group(id, groupHead, reservation);
+            group = new Group(id, groupHead, reservation, requiredParticipants);
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

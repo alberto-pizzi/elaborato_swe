@@ -18,7 +18,7 @@ public class FieldDao {
     public void addField(Field field) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"Field\" (name, id_sport, description, price, image, id_facility)) " +
-                "VALUES ('%s', '%d', '%s', '%d', '%s', '%d')", field.getName(), field.getSport().getId(), field.getDescription(),
+                "VALUES ('%s', '%d', '%s', '%f', '%s', '%d')", field.getName(), field.getSport().getId(), field.getDescription(),
                 field.getPrice(), field.getImage(), field.getIdFacility());
 
         PreparedStatement preparedStatement = null;
@@ -35,13 +35,13 @@ public class FieldDao {
 
     }
 
-    public Field getField(int fieldId) throws SQLException, ClassNotFoundException {
+    public Field getField(int idField) throws SQLException, ClassNotFoundException {
 
         Field field = null;
         Sport sport = null;
         SportDao sportDao = new SportDao();
 
-        String querySQL = String.format("SELECT * FROM \"Field\" WHERE id = '%d'", fieldId);
+        String querySQL = String.format("SELECT * FROM \"Field\" WHERE id = '%d'", idField);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -54,7 +54,7 @@ public class FieldDao {
             String name = resultSet.getString("name");
             sport = sportDao.getSport(resultSet.getInt("id_sport"));
             String description = resultSet.getString("description");
-            int price = resultSet.getInt("price");
+            float price = resultSet.getInt("price");
             String image = resultSet.getString("image");
             int idFacility = resultSet.getInt("id_facility");
 
@@ -70,9 +70,9 @@ public class FieldDao {
         return field;
     }
 
-    public void deleteField(int id) throws SQLException {
+    public void deleteField(int idField) throws SQLException {
 
-        String querySQL = String.format("DELETE FROM \"Field\" WHERE id = '%d'", id);
+        String querySQL = String.format("DELETE FROM \"Field\" WHERE id = '%d'", idField);
 
         PreparedStatement preparedStatement = null;
 
@@ -88,9 +88,9 @@ public class FieldDao {
 
     }
 
-    public void updateName(int id, String newName) throws SQLException {
+    public void updateName(int idField, String newName) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Field\" SET name = '%s' WHERE id = '%d'", newName, id);
+        String querySQL = String.format("UPDATE \"Field\" SET name = '%s' WHERE id = '%d'", newName, idField);
 
         PreparedStatement preparedStatement = null;
 
@@ -107,9 +107,9 @@ public class FieldDao {
         }
     }
 
-    public void updateDescription(int id, String newDescription) throws SQLException {
+    public void updateDescription(int idField, String newDescription) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Field\" SET description = '%s' WHERE id = '%d'", newDescription, id);
+        String querySQL = String.format("UPDATE \"Field\" SET description = '%s' WHERE id = '%d'", newDescription, idField);
 
         PreparedStatement preparedStatement = null;
 
@@ -126,9 +126,9 @@ public class FieldDao {
         }
     }
 
-    public void updatePrice(int id, int newPrice) throws SQLException {
+    public void updatePrice(int idField, float newPrice) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Field\" SET price = '%d' WHERE id = '%d'", newPrice, id);
+        String querySQL = String.format("UPDATE \"Field\" SET price = '%f' WHERE id = '%d'", newPrice, idField);
 
         PreparedStatement preparedStatement = null;
 
@@ -145,9 +145,9 @@ public class FieldDao {
         }
     }
 
-    public void updateImage(int id, String newImage) throws SQLException {
+    public void updateImage(int idField, String newImage) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Field\" SET image = '%s' WHERE id = '%d'", newImage, id);
+        String querySQL = String.format("UPDATE \"Field\" SET image = '%s' WHERE id = '%d'", newImage, idField);
 
         PreparedStatement preparedStatement = null;
 
@@ -164,9 +164,9 @@ public class FieldDao {
         }
     }
 
-    public void updateSport(int id, int sportId) throws SQLException {
+    public void updateSport(int idField, int sportId) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Field\" SET id_sport = '%d' WHERE id = '%d'", sportId, id);
+        String querySQL = String.format("UPDATE \"Field\" SET id_sport = '%d' WHERE id = '%d'", sportId, idField);
 
         PreparedStatement preparedStatement = null;
 
@@ -183,10 +183,10 @@ public class FieldDao {
         }
     }
 
-    public ArrayList<Field> getFieldsByFacility(int id) throws SQLException {
+    public ArrayList<Field> getFieldsByFacility(int idFacility) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
 
-        String querySQL = String.format("SELECT id FROM \"Field\" WHERE id_facility = '%d'", id);
+        String querySQL = String.format("SELECT id FROM \"Field\" WHERE id_facility = '%d'", idFacility);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

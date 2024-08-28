@@ -13,7 +13,7 @@ public class Field {
     private String image;
     private int idFacility;
 
-    public Field(int id, String name, Sport sport, String description, int price, String image, int idFacility) {
+    public Field(int id, String name, Sport sport, String description, float price, String image, int idFacility) {
         this.id = id;
         this.name = name;
         this.sport = sport;

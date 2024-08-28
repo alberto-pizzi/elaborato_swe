@@ -9,10 +9,11 @@ public class Group {
     private int participants;
     private int requiredParticipants;
 
-    public Group(int id, int groupHead, Reservation reservation) {
+    public Group(int id, int groupHead, Reservation reservation, int requiredParticipants) {
         this.id = id;
         this.groupHead = groupHead;
         this.reservation = reservation;
+        this.requiredParticipants = requiredParticipants;
     }
 
 
