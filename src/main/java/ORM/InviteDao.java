@@ -14,10 +14,10 @@ public class InviteDao {
     private Connection connection;
 
     //methods
-    public void addInvite(Invite invite,int user) throws SQLException {
+    public void addInvite(Invite invite,int idUser) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"Invite\" (id_group, id_user)) " +
-                "VALUES ('%d', '%d')", invite.getIdGroup(), user);
+                "VALUES ('%d', '%d')", invite.getIdGroup(), idUser);
 
         PreparedStatement preparedStatement = null;
 
@@ -33,9 +33,9 @@ public class InviteDao {
 
     }
 
-    public void deleteInvite(int id) throws SQLException {
+    public void deleteInvite(int idInvite) throws SQLException {
 
-        String querySQL = String.format("DELETE FROM \"Invite\" WHERE id = '%d'", id);
+        String querySQL = String.format("DELETE FROM \"Invite\" WHERE id = '%d'", idInvite);
 
         PreparedStatement preparedStatement = null;
 
@@ -51,10 +51,10 @@ public class InviteDao {
 
     }
 
-    public ArrayList<Invite>  getInvitesByUser(int id) throws SQLException {
+    public ArrayList<Invite>  getInvitesByUser(int idUser) throws SQLException {
         ArrayList<Invite> invites = new ArrayList<>();
 
-        String querySQL = String.format("SELECT * FROM \"Invite\" WHERE id_user = '%d'", id);
+        String querySQL = String.format("SELECT * FROM \"Invite\" WHERE id_user = '%d'", idUser);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

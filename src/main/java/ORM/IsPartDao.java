@@ -15,10 +15,10 @@ public class IsPartDao {
     private Connection connection;
 
     //methods
-    public void addMembership(int groupId, int userId, int guestUsers) throws SQLException {
+    public void addMembership(int idGroup, int idUser, int guestUsers) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"IsPart\" (id_group, id_user,guest_users)) " +
-                "VALUES ('%d', '%d', '%d')", groupId, userId, guestUsers);
+                "VALUES ('%d', '%d', '%d')", idGroup, idUser, guestUsers);
 
         PreparedStatement preparedStatement = null;
 
@@ -34,9 +34,9 @@ public class IsPartDao {
 
     }
 
-    public void removeMembership(int groupId, int userId) throws SQLException {
+    public void removeMembership(int idGroup, int idUser) throws SQLException {
 
-        String querySQL = String.format("DELETE FROM \"Invite\" WHERE id_group = '%d' AND id_user = '%d'", groupId, userId);
+        String querySQL = String.format("DELETE FROM \"IsPart\" WHERE id_group = '%d' AND id_user = '%d'", idGroup, idUser);
 
         PreparedStatement preparedStatement = null;
 
@@ -52,11 +52,11 @@ public class IsPartDao {
 
     }
 
-    public ArrayList<User> getGroupMembers(int id) throws SQLException {
+    public ArrayList<User> getGroupMembers(int idGroup) throws SQLException {
         ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
 
-        String querySQL = String.format("SELECT id_user FROM \"IsPart\" WHERE id_group = '%d'", id);
+        String querySQL = String.format("SELECT id_user FROM \"IsPart\" WHERE id_group = '%d'", idGroup);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -79,11 +79,11 @@ public class IsPartDao {
         return users;
     }
 
-    public ArrayList<Group> getAllGroupsByUser(int id) throws SQLException {
+    public ArrayList<Group> getAllGroupsByUser(int idUser) throws SQLException {
         ArrayList<Group> groups = new ArrayList<>();
         GroupDao groupDAO = new GroupDao();
 
-        String querySQL = String.format("SELECT id_group FROM \"IsPart\" WHERE id_user = '%d'", id);
+        String querySQL = String.format("SELECT id_group FROM \"IsPart\" WHERE id_user = '%d'", idUser);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -106,10 +106,10 @@ public class IsPartDao {
         return groups;
     }
 
-    public int countGroupGuests(int id) throws SQLException {
+    public int countGroupGuests(int idGroup) throws SQLException {
 
         int count = 0;
-        String querySQL = String.format("SELECT SUM(guest_users) AS Guests FROM \"IsPart\" WHERE id_group = '%d'", id);
+        String querySQL = String.format("SELECT SUM(guest_users) AS Guests FROM \"IsPart\" WHERE id_group = '%d'", idGroup);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -128,10 +128,10 @@ public class IsPartDao {
         return count;
     }
 
-    public int countGroupMembers(int id) throws SQLException {
+    public int countGroupMembers(int idGroup) throws SQLException {
 
         int count = 0;
-        String querySQL = String.format("SELECT COUNT(id_user) AS Members FROM \"IsPart\" WHERE id_group = '%d'", id);
+        String querySQL = String.format("SELECT COUNT(id_user) AS Members FROM \"IsPart\" WHERE id_group = '%d'", idGroup);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -152,9 +152,9 @@ public class IsPartDao {
 
     //TODO cascata per remove groupmembership
 
-    public void updateGuestsUsers(int id, int guestUsers) throws SQLException {
+    public void updateGuestsUsers(int idGroup, int idUser, int guestUsers) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"IsPart\" SET guest_users = '%d' WHERE id = '%d'", guestUsers, id);
+        String querySQL = String.format("UPDATE \"IsPart\" SET guest_users = '%d' WHERE id_group = '%d' AND id_user = '%d'", guestUsers, idGroup, idUser);
 
         PreparedStatement preparedStatement = null;
 
@@ -170,4 +170,5 @@ public class IsPartDao {
             }
         }
     }
+
 }
