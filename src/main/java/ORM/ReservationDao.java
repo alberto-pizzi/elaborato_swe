@@ -32,11 +32,11 @@ public class ReservationDao {
         }
     }
 
-    public int getCountAllParticipants(int id) throws SQLException {
+    public int getCountAllParticipants(int idReservation) throws SQLException {
         int count = 0;
         int group = 0;
         IsPartDao isPartDao = new IsPartDao();
-        String querySQL = String.format("SELECT * FROM \"Group\" WHERE id_reservation = '%d'", id);
+        String querySQL = String.format("SELECT * FROM \"Group\" WHERE id_reservation = '%d'", idReservation);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -56,11 +56,11 @@ public class ReservationDao {
 
         return count;
     }
-    public Reservation getReservation(int id) throws SQLException {
+    public Reservation getReservation(int idReservation) throws SQLException {
 
         Reservation reservation = null;
 
-        String querySQL = String.format("SELECT * FROM \"Reservation\" WHERE id = '%d'", id);
+        String querySQL = String.format("SELECT * FROM \"Reservation\" WHERE id = '%d'", idReservation);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -68,7 +68,7 @@ public class ReservationDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            int reservationId = resultSet.getInt("id");
+            int id = resultSet.getInt("id");
             Date reservationDate = resultSet.getDate("res_date");
             Time reservationTime = resultSet.getTime("res_time");
             Date eventDate = resultSet.getDate("event_date");
@@ -80,7 +80,7 @@ public class ReservationDao {
             int idUser = resultSet.getInt("id_user");
             boolean isMatched = resultSet.getBoolean("is_matched");
 
-            reservation = new Reservation(reservationId, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, idField, nParticipants, isConfirmed, idUser,isMatched);
+            reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, idField, nParticipants, isConfirmed, idUser,isMatched);
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -93,9 +93,9 @@ public class ReservationDao {
 
     }
 
-    public void deleteReservation(int id) throws SQLException {
+    public void deleteReservation(int idReservation) throws SQLException {
 
-        String querySQL = String.format("DELETE FROM \"Reservation\" WHERE id = '%d'", id);
+        String querySQL = String.format("DELETE FROM \"Reservation\" WHERE id = '%d'", idReservation);
 
         PreparedStatement preparedStatement = null;
 
@@ -111,10 +111,10 @@ public class ReservationDao {
 
     }
 
-    public ArrayList<Reservation> getReservationsByField(int id) throws SQLException {
+    public ArrayList<Reservation> getReservationsByField(int idField) throws SQLException {
         ArrayList<Reservation> reservations = new ArrayList<>();
 
-        String querySQL = String.format("SELECT id FROM \"Reservation\" WHERE id_field = '%d'", id);
+        String querySQL = String.format("SELECT id FROM \"Reservation\" WHERE id_field = '%d'", idField);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -135,10 +135,10 @@ public class ReservationDao {
         return reservations;
     }
 
-    public ArrayList<Reservation> getReservationsByUser(int id) throws SQLException {
+    public ArrayList<Reservation> getReservationsByUser(int idUser) throws SQLException {
         ArrayList<Reservation> reservations = new ArrayList<>();
 
-        String querySQL = String.format("SELECT id FROM \"Reservation\" WHERE id_user = '%d'", id);
+        String querySQL = String.format("SELECT id FROM \"Reservation\" WHERE id_user = '%d'", idUser);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -159,9 +159,9 @@ public class ReservationDao {
         return reservations;
     }
 
-    public void updateIdUser(int id, int newId) throws SQLException {
+    public void updateIdUser(int idReservation, int newUser) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Reservation\" SET id_user = '%d' WHERE id = '%d'", newId, id);
+        String querySQL = String.format("UPDATE \"Reservation\" SET id_user = '%d' WHERE id = '%d'", newUser, idReservation);
 
         PreparedStatement preparedStatement = null;
 
@@ -178,9 +178,9 @@ public class ReservationDao {
         }
     }
 
-    public void updateNParticipants(int id, int newNumber) throws SQLException {
+    public void updateNParticipants(int idReservation, int newNumber) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Reservation\" SET n_participants = '%d' WHERE id = '%d'", newNumber, id);
+        String querySQL = String.format("UPDATE \"Reservation\" SET n_participants = '%d' WHERE id = '%d'", newNumber, idReservation);
 
         PreparedStatement preparedStatement = null;
 
@@ -197,9 +197,9 @@ public class ReservationDao {
         }
     }
 
-    public void updateIsConfirmed(int id, boolean isConfirmed) throws SQLException {
+    public void updateIsConfirmed(int idReservation, boolean isConfirmed) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Reservation\" SET is_confirmed = '%b' WHERE id = '%d'", isConfirmed, id);
+        String querySQL = String.format("UPDATE \"Reservation\" SET is_confirmed = '%b' WHERE id = '%d'", isConfirmed, idReservation);
 
         PreparedStatement preparedStatement = null;
 
@@ -216,9 +216,9 @@ public class ReservationDao {
         }
     }
 
-    public void updateEventDate(int id, Date date) throws SQLException {
+    public void updateEventDate(int idReservation, Date date) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Reservation\" SET event_date = '%tF' WHERE id = '%d'", date, id);
+        String querySQL = String.format("UPDATE \"Reservation\" SET event_date = '%tF' WHERE id = '%d'", date, idReservation);
 
         PreparedStatement preparedStatement = null;
 
@@ -235,9 +235,9 @@ public class ReservationDao {
         }
     }
 
-    public void updateEventTimeStart(int id, Time time) throws SQLException {
+    public void updateEventTimeStart(int idReservation, Time time) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Reservation\" SET event_time_start = '%tT' WHERE id = '%d'", time, id);
+        String querySQL = String.format("UPDATE \"Reservation\" SET event_time_start = '%tT' WHERE id = '%d'", time, idReservation);
 
         PreparedStatement preparedStatement = null;
 
@@ -254,9 +254,9 @@ public class ReservationDao {
         }
     }
 
-    public void updateEventTimeEnd(int id, Time time) throws SQLException {
+    public void updateEventTimeEnd(int idReservation, Time time) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Reservation\" SET event_time_end = '%tT' WHERE id = '%d'", time, id);
+        String querySQL = String.format("UPDATE \"Reservation\" SET event_time_end = '%tT' WHERE id = '%d'", time, idReservation);
 
         PreparedStatement preparedStatement = null;
 

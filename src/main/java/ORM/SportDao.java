@@ -32,9 +32,9 @@ public class SportDao {
         }
     }
 
-    public void deleteSport(int id) throws SQLException {
+    public void deleteSport(int idSport) throws SQLException {
 
-        String querySQL = String.format("DELETE FROM \"Sport\" WHERE id = '%d'", id);
+        String querySQL = String.format("DELETE FROM \"Sport\" WHERE id = '%d'", idSport);
 
         PreparedStatement preparedStatement = null;
 
@@ -111,10 +111,10 @@ public class SportDao {
         return sports;
     }
 
-    public int getSportPlayers(int id) throws SQLException {
+    public int getSportPlayers(int idSport) throws SQLException {
 
         int count = 0;
-        String querySQL = String.format("SELECT players_required FROM \"Sport\" WHERE id_group = '%d'", id);
+        String querySQL = String.format("SELECT players_required FROM \"Sport\" WHERE id = '%d'", idSport);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -133,9 +133,9 @@ public class SportDao {
         return count;
     }
 
-    public void updateSportPlayers(int id, int players) throws SQLException {
+    public void updateSportPlayers(int idSport, int players) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Sport\" SET players_required = '%d' WHERE id = '%d'", players, id);
+        String querySQL = String.format("UPDATE \"Sport\" SET players_required = '%d' WHERE id = '%d'", players, idSport);
 
         PreparedStatement preparedStatement = null;
 
@@ -152,9 +152,9 @@ public class SportDao {
         }
     }
 
-    public void updateSportName(int id, String name) throws SQLException {
+    public void updateSportName(int idSport, String name) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Sport\" SET name = '%s' WHERE id = '%d'", name, id);
+        String querySQL = String.format("UPDATE \"Sport\" SET name = '%s' WHERE id = '%d'", name, idSport);
 
         PreparedStatement preparedStatement = null;
 
