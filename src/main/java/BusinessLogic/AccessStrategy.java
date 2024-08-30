@@ -4,6 +4,7 @@ import main.java.DomainModel.Person;
 
 import java.sql.SQLException;
 
+//Strategy
 public interface AccessStrategy {
 
     //methods
