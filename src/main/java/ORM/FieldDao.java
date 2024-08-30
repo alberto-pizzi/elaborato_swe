@@ -14,6 +14,15 @@ public class FieldDao {
 
     private Connection connection;
 
+    //constructor
+    public FieldDao() {
+        try {
+            this.connection = ConnectionManager.getInstance().getConnection();
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
     //methods
     public void addField(Field field) throws SQLException {
 

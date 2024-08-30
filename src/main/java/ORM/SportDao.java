@@ -13,6 +13,15 @@ public class SportDao {
 
     private Connection connection;
 
+    //constructor
+    public SportDao() {
+        try {
+            this.connection = ConnectionManager.getInstance().getConnection();
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
     //methods
     public void addSport(String name, int playersRequired) throws SQLException {
 

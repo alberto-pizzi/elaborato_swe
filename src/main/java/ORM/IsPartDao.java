@@ -14,6 +14,15 @@ public class IsPartDao {
 
     private Connection connection;
 
+    //constructor
+    public IsPartDao() {
+        try {
+            this.connection = ConnectionManager.getInstance().getConnection();
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
     //methods
     public void addMembership(int idGroup, int idUser, int guestUsers) throws SQLException {
 

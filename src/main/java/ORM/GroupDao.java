@@ -14,6 +14,14 @@ public class GroupDao {
 
     private Connection connection;
 
+    public GroupDao() {
+        try {
+            this.connection = ConnectionManager.getInstance().getConnection();
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
     //methods
     public void addGroup(Group group) throws SQLException {
 

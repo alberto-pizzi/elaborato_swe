@@ -11,6 +11,15 @@ public class WorkingHoursDAO {
 
     private Connection connection;
 
+    //constructor
+    public WorkingHoursDAO() {
+        try {
+            this.connection = ConnectionManager.getInstance().getConnection();
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
     //methods
 
     public void addWHToFacility(int idFacility, Day dayOfWeek, Time openingHours, Time closingHours) throws SQLException {

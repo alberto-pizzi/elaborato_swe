@@ -24,9 +24,8 @@ public abstract class PersonDAO {
     }
 
     //constructor
-    public PersonDAO() {
-        //TODO fill attributes
-
+    public PersonDAO(String targetType) {
+        this.target = targetType;
         try {
             this.connection = ConnectionManager.getInstance().getConnection();
         } catch (SQLException | ClassNotFoundException e) {

@@ -9,6 +9,11 @@ import java.sql.SQLException;
 
 public class OwnerDAO extends PersonDAO {
 
+
+    public OwnerDAO() {
+        super("Owner");
+    }
+
     public void addOwner(String username, String email, String password, String city, String province, String zip, String country) throws SQLException {
 
         //TODO check not mandatory parameters

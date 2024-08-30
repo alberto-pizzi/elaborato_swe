@@ -13,6 +13,15 @@ public class ManagesDAO {
 
     private Connection connection;
 
+    //constructor
+    public ManagesDAO() {
+        try {
+            this.connection = ConnectionManager.getInstance().getConnection();
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
     //methods
 
     public void attachManager(int idManager, int idFacility) throws SQLException {

@@ -11,6 +11,15 @@ public class ReservationDao {
 
     private Connection connection;
 
+    //constructor
+    public ReservationDao() {
+        try {
+            this.connection = ConnectionManager.getInstance().getConnection();
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
     //methods
     public void addReservation(Reservation reservation) throws SQLException {
         String querySQL = String.format("INSERT INTO \"Reservation\" (res_date, event_date,res_time, event_time_start, " +
