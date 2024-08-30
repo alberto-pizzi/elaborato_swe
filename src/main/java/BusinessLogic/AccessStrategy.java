@@ -1,8 +1,12 @@
 package main.java.BusinessLogic;
 
+import main.java.DomainModel.Person;
+
+import java.sql.SQLException;
+
 public interface AccessStrategy {
 
     //methods
-    public void login(String username, String password);
-    public void register();
+    Person login(String username, String password) throws SQLException;
+    void register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException;
 }
