@@ -1,4 +1,9 @@
 package main.java.BusinessLogic;
+
+import main.java.DomainModel.Person;
+
+import java.sql.SQLException;
+
 //fixme mi torna poco l'utilizzo di un'intera classe solo per questo
 public class AccessController {
     // attributes
@@ -20,11 +25,11 @@ public class AccessController {
         this.accessStrategy = accessStrategy;
     }
 
-    public void login(String username, String password) {
-        accessStrategy.login(username, password);
+    public Person login(String username, String password) throws SQLException {
+        return accessStrategy.login(username, password);
     }
 
-    public void register() {
-        accessStrategy.register();
+    public void register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
+        accessStrategy.register(username, email, password, city, province, zip, country);
     }
 }
