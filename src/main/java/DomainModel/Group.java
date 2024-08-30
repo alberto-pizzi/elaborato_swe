@@ -1,11 +1,13 @@
 package main.java.DomainModel;
 
+import java.util.ArrayList;
+
 public class Group {
     private int id;
     private int groupHead;
     private Reservation reservation;
     private int guestUsers;
-    private User[] users; //TODO change to dynamic
+    private ArrayList<User> users;
     private int participants;
     private int requiredParticipants;
 
@@ -35,7 +37,7 @@ public class Group {
         return guestUsers;
     }
 
-    public User[] getUsers() {
+    public ArrayList<User> getUsers() {
         return users;
     }
 
@@ -65,7 +67,7 @@ public class Group {
         this.guestUsers = guestUsers;
     }
 
-    public void setUsers(User[] users) {
+    public void setUsers(ArrayList<User> users) {
         this.users = users;
     }
 

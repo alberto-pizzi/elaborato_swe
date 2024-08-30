@@ -15,7 +15,7 @@ public class Facility {
     private String zip;
     private String country;
     private int nManager;
-    private Field[] fields; //TODO change to dynamic
+    private ArrayList<Field> fields;
     private String telephone;
     private String image;
     private ArrayList<WorkingHours> workingHours;
@@ -23,7 +23,6 @@ public class Facility {
 
     //constructor
 
-    //TODO check array type (maybe fixed)
     public Facility(int id, String name, String address, String city, String province, String zip, String country, int nManager, String telephone, String image, int idOwner) {
         this.id = id;
         this.name = name;
@@ -33,10 +32,12 @@ public class Facility {
         this.zip = zip;
         this.country = country;
         this.nManager = nManager;
-        //this.fields = fields; //TODO initialize it empty?
+        //0 fields by default
+        this.fields = new ArrayList<>();
         this.telephone = telephone;
         this.image = image;
-        //this.workingHours = workingHours; //TODO initialize it empty?
+        //0 working hours by default
+        this.workingHours = new ArrayList<>();
         this.idOwner = idOwner;
     }
 
@@ -114,14 +115,14 @@ public class Facility {
     }
 
     public int getNFields() {
-        return fields.length;
+        return fields.size();
     }
 
-    public Field[] getFields() {
+    public ArrayList<Field> getFields() {
         return fields;
     }
 
-    public void setFields(Field[] fields) {
+    public void setFields(ArrayList<Field> fields) {
         this.fields = fields;
     }
 

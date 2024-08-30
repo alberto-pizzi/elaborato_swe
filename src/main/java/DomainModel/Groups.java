@@ -1,8 +1,10 @@
 package main.java.DomainModel;
 
+import java.util.ArrayList;
+
 public class Groups {
     private int idUser;
-    private Group[] state;
+    private ArrayList<Group> state;
 
     //getters
 
@@ -10,17 +12,18 @@ public class Groups {
         return idUser;
     }
 
-    public Group[] getState() {
+    public ArrayList<Group> getState() {
         return state;
     }
 
-    //setters
+//setters
 
     public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
     //TODO check if setState is correct
-    public void setState(Group[] state) {
+
+    public void setState(ArrayList<Group> state) {
         this.state = state;
     }
 
