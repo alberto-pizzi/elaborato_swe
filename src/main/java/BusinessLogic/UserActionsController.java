@@ -1,9 +1,14 @@
 package main.java.BusinessLogic;
 
 import main.java.DomainModel.User;
+import main.java.DomainModel.Group;
 
+import main.java.ORM.IsPartDao;
+
+import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
+import java.util.ArrayList;
 
 
 public class UserActionsController {
@@ -91,8 +96,12 @@ public class UserActionsController {
 
     }
 
-    //FIXME output type?
-    public void getOwnGroups(){
+
+    public ArrayList<Group> getOwnGroups() throws SQLException {
+
+        IsPartDao isPartDao = new IsPartDao();
+
+        return isPartDao.getAllGroupsByUser(this.user.getId()); //FIXME id by method parameter or id like this?
 
     }
 

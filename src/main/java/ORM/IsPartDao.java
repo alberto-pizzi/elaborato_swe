@@ -115,6 +115,7 @@ public class IsPartDao {
         return groups;
     }
 
+    //TODO is it useful? if yes, is it correct?
     public int countGroupGuests(int idGroup) throws SQLException {
 
         int count = 0;

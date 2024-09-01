@@ -6,7 +6,7 @@ public class Group {
     private int id;
     private int groupHead;
     private Reservation reservation;
-    private int guestUsers;
+    private int guestUsers; //TODO check correctness
     private ArrayList<User> users;
     private int participants;
     private int requiredParticipants;
@@ -77,5 +77,11 @@ public class Group {
 
     public void setRequiredParticipants(int requiredParticipants) {
         this.requiredParticipants = requiredParticipants;
+    }
+
+    //methods
+
+    public String groupProgress(){
+        return String.valueOf(this.participants) + " of " + String.valueOf(this.requiredParticipants);
     }
 }
