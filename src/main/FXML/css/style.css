@@ -1,0 +1,52 @@
+.menu-button{
+    -fx-background-color: #AEAEAE;
+    -fx-background-radius: 10;
+}
+
+.menu-button:pressed{
+    -fx-background-color: #BFBFBF;
+}
+
+.menu-button:hover{
+    -fx-background-color: #BFBFBF;
+}
+
+.menu-selected{
+    -fx-background-color: #BFBFBF;
+    -fx-background-radius: 10;
+}
+
+.shadow{
+    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
+}
+
+.group-item{
+    -fx-background-radius: 10;
+    -fx-background-color: #fff;
+
+}
+
+.leave-button{
+    -fx-background-color: #FC4850;
+    -fx-background-radius: 5;
+}
+
+.accept-button{
+    -fx-background-color: #00B126;
+    -fx-background-radius: 5;
+}
+.decline-button{
+    -fx-background-color: #FC4850;
+    -fx-background-radius: 5;
+}
+
+.go-to-groups-button{
+    -fx-background-color: #FFECB3;
+    -fx-background-radius: 5;
+}
+
+.select-button{
+    -fx-background-color: #CF60EA;
+    -fx-background-radius: 10;
+}
+
