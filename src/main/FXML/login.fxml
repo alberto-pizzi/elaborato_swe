@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -41,16 +42,22 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <TextField prefHeight="25.0" prefWidth="485.0" style="-fx-background-radius: 10px;" text="Username">
+                              <TextField fx:id="username" prefHeight="25.0" prefWidth="485.0" promptText="Username" style="-fx-background-radius: 10px;">
                                  <HBox.margin>
                                     <Insets top="30.0" />
                                  </HBox.margin>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
                               </TextField>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <PasswordField prefHeight="25.0" prefWidth="482.0" style="-fx-background-radius: 10px;" text="Password" />
+                              <PasswordField fx:id="password" prefHeight="25.0" prefWidth="482.0" promptText="Password" style="-fx-background-radius: 10px;">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></PasswordField>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -59,12 +66,15 @@
                                  <HBox.margin>
                                     <Insets top="15.0" />
                                  </HBox.margin>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
                               </Button>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="168.0" prefWidth="480.0" style="-fx-background-radius: 10px; -fx-background-color: #4169e1#4682b4;" text="Log In">
+                              <Button fx:id="LogIn" mnemonicParsing="false" prefHeight="168.0" prefWidth="480.0" style="-fx-background-radius: 10px; -fx-background-color: #4169e1#4682b4;" text="Log In">
                                  <padding>
                                     <Insets bottom="10.0" top="10.0" />
                                  </padding>
@@ -79,7 +89,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="481.0" style="-fx-background-radius: 10px; -fx-background-color: darkgray;" text="Sign Up">
+                              <Button fx:id="SignUp" mnemonicParsing="false" prefHeight="25.0" prefWidth="481.0" style="-fx-background-radius: 10px; -fx-background-color: darkgray;" text="Sign Up">
                                  <padding>
                                     <Insets bottom="10.0" top="10.0" />
                                  </padding>
@@ -94,14 +104,14 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: orange;" text="I am an Owner">
-                                 <padding>
-                                    <Insets bottom="10.0" top="10.0" />
-                                 </padding>
+                              <CheckBox fx:id="owner" alignment="CENTER" mnemonicParsing="false" prefHeight="70.0" prefWidth="474.0" style="-fx-background-color: orange; -fx-background-radius: 10;" text="I am an Owner">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
-                              </Button>
+                                 <padding>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </padding>
+                              </CheckBox>
                            </children>
                            <VBox.margin>
                               <Insets bottom="10.0" />
