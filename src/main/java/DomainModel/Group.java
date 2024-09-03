@@ -6,7 +6,7 @@ public class Group {
     private int id;
     private int groupHead;
     private Reservation reservation;
-    private int guestUsers; //TODO check correctness
+    private int guestUsers;
     private ArrayList<User> users;
     private int participants;
     private int requiredParticipants;

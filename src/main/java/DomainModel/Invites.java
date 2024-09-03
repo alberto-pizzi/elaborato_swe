@@ -6,12 +6,18 @@ public class Invites extends Subject {
 
     // attributes
     private Invite[] state; //TODO change to dynamic
-    private int idOwner;
+    private Owner owner;
 
     // methods
-    public int getIdOwner() { return idOwner; }
 
-    public void setIdOwner(int idOwner) { this.idOwner = idOwner; }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
 
     public Invite[] getState() { return state; }
 

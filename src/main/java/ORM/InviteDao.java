@@ -25,7 +25,7 @@ public class InviteDao {
     public void addInvite(Invite invite,int idUser) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"Invite\" (id_group, id_user)) " +
-                "VALUES ('%d', '%d')", invite.getIdGroup(), idUser);
+                "VALUES ('%d', '%d')", invite.getGroup().getId(), idUser);
 
         PreparedStatement preparedStatement = null;
 
@@ -59,7 +59,7 @@ public class InviteDao {
 
     }
 
-    public ArrayList<Invite>  getInvitesByUser(int idUser) throws SQLException {
+    public ArrayList<Invite>  getInvitesByUser(int idUser) throws SQLException, ClassNotFoundException {
         ArrayList<Invite> invites = new ArrayList<>();
 
         String querySQL = String.format("SELECT * FROM \"Invite\" WHERE id_user = '%d'", idUser);
@@ -74,7 +74,9 @@ public class InviteDao {
                 int inviteId = resultSet.getInt("id");
                 int groupId = resultSet.getInt("id_group");
 
-                invites.add(new Invite(inviteId, groupId));
+                GroupDao groupDao = new GroupDao(); //TODO check correctness
+
+                invites.add(new Invite(inviteId, groupDao.getGroup(groupId)));
 
             }
         } catch (SQLException e) {

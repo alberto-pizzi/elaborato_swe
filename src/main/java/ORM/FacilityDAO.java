@@ -94,7 +94,9 @@ public class FacilityDAO {
 
             //TODO fill WH array and pass it to Facility constructor
 
-            facility = new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,idOwner);
+            OwnerDAO ownerDAO = new OwnerDAO(); //TODO check correctness
+
+            facility = new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,ownerDAO.getOwnerByID(idOwner));
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

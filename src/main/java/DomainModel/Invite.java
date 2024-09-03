@@ -6,11 +6,11 @@ public class Invite extends Product {
 
     // attributes
     private int id;
-    private int idGroup;
+    private Group group;
     //Todo costruttore per quando non si ha l'id
-    public Invite(int id, int groupId) {
+    public Invite(int id, Group group) {
         this.id = id;
-        this.idGroup = groupId;
+        this.group = group;
     }
 
     // methods
@@ -22,11 +22,11 @@ public class Invite extends Product {
         this.id = id;
     }
 
-    public int getIdGroup() {
-        return idGroup;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setIdGroup(int idGroup) {
-        this.idGroup = idGroup;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

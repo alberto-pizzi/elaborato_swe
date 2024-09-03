@@ -7,7 +7,7 @@ public class InviteSender extends Creator {
     // methods
     @Override
     public Invite factoryMethod(){ //fixme to implement there is the argument problem
-        Invite invite = new Invite(4, groupSender.getId());
+        Invite invite = new Invite(4, groupSender);
         return invite;
     }
 }

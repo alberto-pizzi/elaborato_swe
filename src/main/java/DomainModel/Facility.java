@@ -19,11 +19,11 @@ public class Facility {
     private String telephone;
     private String image;
     private ArrayList<WorkingHours> workingHours;
-    private int idOwner;
+    private Owner owner;
 
     //constructor
 
-    public Facility(int id, String name, String address, String city, String province, String zip, String country, int nManager, String telephone, String image, int idOwner) {
+    public Facility(int id, String name, String address, String city, String province, String zip, String country, int nManager, String telephone, String image, Owner owner) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -38,16 +38,17 @@ public class Facility {
         this.image = image;
         //0 working hours by default
         this.workingHours = new ArrayList<>();
-        this.idOwner = idOwner;
+        this.owner = owner;
     }
 
     // methods
-    public int getIdOwner() {
-        return idOwner;
+
+    public Owner getOwner() {
+        return owner;
     }
 
-    public void setIdOwner(int idOwner) {
-        this.idOwner = idOwner;
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 
     public String getCity() {

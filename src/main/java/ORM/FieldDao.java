@@ -28,7 +28,7 @@ public class FieldDao {
 
         String querySQL = String.format("INSERT INTO \"Field\" (name, id_sport, description, price, image, id_facility)) " +
                 "VALUES ('%s', '%d', '%s', '%f', '%s', '%d')", field.getName(), field.getSport().getId(), field.getDescription(),
-                field.getPrice(), field.getImage(), field.getIdFacility());
+                field.getPrice(), field.getImage(), field.getFacility().getId());
 
         PreparedStatement preparedStatement = null;
 
@@ -67,7 +67,10 @@ public class FieldDao {
             String image = resultSet.getString("image");
             int idFacility = resultSet.getInt("id_facility");
 
-            field = new Field(id, name, sport, description, price, image, idFacility);
+            FacilityDAO facilityDao = new FacilityDAO(); //TODO check correctness
+
+
+            field = new Field(id, name, sport, description, price, image, facilityDao.getFacility(idFacility));
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -241,7 +244,9 @@ public class FieldDao {
                 String image = resultSet.getString("image");
                 int idFacility = resultSet.getInt("id_facility");
 
-                fields.add(new Field(id, name, sport, description, price, image, idFacility));
+                FacilityDAO facilityDAO = new FacilityDAO(); //TODO check correctness
+
+                fields.add(new Field(id, name, sport, description, price, image, facilityDAO.getFacility(idFacility)));
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

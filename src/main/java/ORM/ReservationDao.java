@@ -1,8 +1,7 @@
 package main.java.ORM;
 
-import main.java.DomainModel.Facility;
+import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
-import main.java.DomainModel.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,8 +24,8 @@ public class ReservationDao {
         String querySQL = String.format("INSERT INTO \"Reservation\" (res_date, event_date,res_time, event_time_start, " +
                 "event_time_end, id_field, n_participants, is_confirmed, is_matched, id_user)) " +
                 "VALUES ('%tF', '%tF', '%tT', '%tT', '%tT', '%d', '%d', '%b', '%b', '%d')", reservation.getReservationDate(), reservation.getEventDate(),
-                reservation.getReservationTime(), reservation.getEventTimeStart(),reservation.getEventTimeEnd(), reservation.getIdField(),
-                reservation.getNParticipants(), reservation.isConfirmed(), reservation.isMatched(), reservation.getIdUser());
+                reservation.getReservationTime(), reservation.getEventTimeStart(),reservation.getEventTimeEnd(), reservation.getField(),
+                reservation.getNParticipants(), reservation.isConfirmed(), reservation.isMatched(), reservation.getUser());
 
         PreparedStatement preparedStatement = null;
 
@@ -65,7 +64,7 @@ public class ReservationDao {
 
         return count;
     }
-    public Reservation getReservation(int idReservation) throws SQLException {
+    public Reservation getReservation(int idReservation) throws SQLException, ClassNotFoundException {
 
         Reservation reservation = null;
 
@@ -89,7 +88,11 @@ public class ReservationDao {
             int idUser = resultSet.getInt("id_user");
             boolean isMatched = resultSet.getBoolean("is_matched");
 
-            reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, idField, nParticipants, isConfirmed, idUser,isMatched);
+            //TODO check correctness
+            UserDAO userDAO = new UserDAO();
+            FieldDao fieldDAO= new FieldDao();
+
+            reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, fieldDAO.getField(idField), nParticipants, isConfirmed, userDAO.getUserByID(idUser),isMatched);
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -120,7 +123,7 @@ public class ReservationDao {
 
     }
 
-    public ArrayList<Reservation> getReservationsByField(int idField) throws SQLException {
+    public ArrayList<Reservation> getReservationsByField(int idField) throws SQLException, ClassNotFoundException{
         ArrayList<Reservation> reservations = new ArrayList<>();
 
         String querySQL = String.format("SELECT id FROM \"Reservation\" WHERE id_field = '%d'", idField);
@@ -144,7 +147,7 @@ public class ReservationDao {
         return reservations;
     }
 
-    public ArrayList<Reservation> getReservationsByUser(int idUser) throws SQLException {
+    public ArrayList<Reservation> getReservationsByUser(int idUser) throws SQLException, ClassNotFoundException {
         ArrayList<Reservation> reservations = new ArrayList<>();
 
         String querySQL = String.format("SELECT id FROM \"Reservation\" WHERE id_user = '%d'", idUser);

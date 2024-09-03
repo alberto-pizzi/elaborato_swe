@@ -324,5 +324,39 @@ public abstract class PersonDAO {
         return user;
     }
 
+    public User getUserByID(int idUser) throws SQLException, ClassNotFoundException {
+        //default id (id not found)
+        User user = null;
+
+        String querySQL = String.format("SELECT * FROM \"User\" WHERE id = '%s'", idUser);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+
+            //TODO optimize redundancy
+            int id = resultSet.getInt("id");
+            String usernameSelected = resultSet.getString("username");
+            String email = resultSet.getString("email");
+            String password = resultSet.getString("password");
+            String city = resultSet.getString("city");
+            String province = resultSet.getString("province");
+            String zip = resultSet.getString("zip");
+            String country = resultSet.getString("country");
+            user = new User(id, email, usernameSelected, city, province, zip, country, password);
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return user;
+    }
+
 
 }

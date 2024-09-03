@@ -10,23 +10,23 @@ public class Reservation {
     private Date eventDate;
     private Time eventTimeEnd;
     private Time eventTimeStart;
-    private int idField;
+    private Field field;
     private int nParticipants;
     private boolean isConfirmed;
-    private int idUser;
+    private User user;
     private boolean isMatched;
 
-    public Reservation(int reservationId, Date reservationDate, Time reservationTime, Date eventDate, Time eventTimeStart, Time eventTimeEnd, int idField,  int nParticipants, boolean isConfirmed, int idUser, boolean isMatched) {
+    public Reservation(int reservationId, Date reservationDate, Time reservationTime, Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int nParticipants, boolean isConfirmed, User user, boolean isMatched) {
         this.id = reservationId;
         this.reservationDate = reservationDate;
         this.reservationTime = reservationTime;
         this.eventDate = eventDate;
         this.eventTimeStart = eventTimeStart;
         this.eventTimeEnd = eventTimeEnd;
-        this.idField = idField;
+        this.field = field;
         this.nParticipants = nParticipants;
         this.isConfirmed = isConfirmed;
-        this.idUser = idUser;
+        this.user = user;
         this.isMatched = isMatched;
     }
 
@@ -88,12 +88,12 @@ public class Reservation {
         this.id = id;
     }
 
-    public int getIdField() {
-        return idField;
+    public Field getField() {
+        return field;
     }
 
-    public void setIdField(int idField) {
-        this.idField = idField;
+    public void setField(Field field) {
+        this.field = field;
     }
 
     public int getNParticipants() {
@@ -114,12 +114,12 @@ public class Reservation {
         isConfirmed = confirmed;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public boolean isMatched() {

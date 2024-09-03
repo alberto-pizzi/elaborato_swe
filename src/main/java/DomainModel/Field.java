@@ -11,16 +11,16 @@ public class Field {
     private String description;
     private float price;
     private String image;
-    private int idFacility;
+    private Facility facility;
 
-    public Field(int id, String name, Sport sport, String description, float price, String image, int idFacility) {
+    public Field(int id, String name, Sport sport, String description, float price, String image, Facility facility) {
         this.id = id;
         this.name = name;
         this.sport = sport;
         this.description = description;
         this.price = price;
         this.image = image;
-        this.idFacility = idFacility;
+        this.facility = facility;
     }
 
     // methods
@@ -32,12 +32,12 @@ public class Field {
         this.id = id;
     }
 
-    public int getIdFacility() {
-        return idFacility;
+    public Facility getFacility() {
+        return facility;
     }
 
-    public void setIdFacility(int idFacility) {
-        this.idFacility = idFacility;
+    public void setFacility(Facility facility) {
+        this.facility = facility;
     }
 
     public String getImage() {
