@@ -92,11 +92,18 @@ public class FacilityDAO {
             String image = resultSet.getString("image");
             int idOwner = resultSet.getInt("id_owner");
 
-            //TODO fill WH array and pass it to Facility constructor
-
             OwnerDAO ownerDAO = new OwnerDAO(); //TODO check correctness
 
             facility = new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,ownerDAO.getOwnerByID(idOwner));
+
+            //TODO check correctness
+            WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
+            facility.setWorkingHours(workingHoursDAO.getWHsByFacility(id));
+
+            //TODO check correctness
+            FieldDao fieldDao = new FieldDao();
+            facility.setFields(fieldDao.getFieldsByFacility(id));
+
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
