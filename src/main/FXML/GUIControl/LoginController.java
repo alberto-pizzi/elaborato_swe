@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 public class LoginController  implements Initializable {
 
     @FXML
-    private Button LogIn;
+    private Button logIn;
 
     @FXML
     private Button SignUp;
@@ -72,7 +72,7 @@ public class LoginController  implements Initializable {
     private void signUp(ActionEvent event) throws SQLException {
 
         try {
-            LogIn.getScene().getWindow().hide();
+            logIn.getScene().getWindow().hide();
             Stage signUp = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/signUp.fxml"));
             signUp.setTitle("Sport Plus");

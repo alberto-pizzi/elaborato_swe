@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.SignUpController">
    <children>
       <BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: aeaeae;">
          <bottom>
@@ -131,7 +131,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="signUp" mnemonicParsing="false" prefHeight="168.0" prefWidth="480.0" style="-fx-background-radius: 10px; -fx-background-color: #4169e1#4682b4;" text="Sign Up">
+                              <Button fx:id="signUp" mnemonicParsing="false" onAction="#signUpAction" prefHeight="168.0" prefWidth="480.0" style="-fx-background-radius: 10px; -fx-background-color: #4169e1#4682b4;" text="Sign Up">
                                  <padding>
                                     <Insets bottom="10.0" top="10.0" />
                                  </padding>
@@ -146,7 +146,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="logIn" mnemonicParsing="false" prefHeight="25.0" prefWidth="481.0" style="-fx-background-radius: 10px; -fx-background-color: darkgray;" text="Log In">
+                              <Button fx:id="logIn" mnemonicParsing="false" onAction="#logIn" prefHeight="25.0" prefWidth="481.0" style="-fx-background-radius: 10px; -fx-background-color: darkgray;" text="Log In">
                                  <padding>
                                     <Insets bottom="10.0" top="10.0" />
                                  </padding>

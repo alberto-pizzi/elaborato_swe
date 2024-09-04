@@ -74,7 +74,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="LogIn" mnemonicParsing="false" onAction="#logInAction" prefHeight="168.0" prefWidth="480.0" style="-fx-background-radius: 10px; -fx-background-color: #4169e1#4682b4;" text="Log In">
+                              <Button fx:id="logIn" mnemonicParsing="false" onAction="#logInAction" prefHeight="168.0" prefWidth="480.0" style="-fx-background-radius: 10px; -fx-background-color: #4169e1#4682b4;" text="Log In">
                                  <padding>
                                     <Insets bottom="10.0" top="10.0" />
                                  </padding>

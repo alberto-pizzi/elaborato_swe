@@ -1,10 +1,24 @@
 package main.FXML.GUIControl;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import main.java.BusinessLogic.AccessController;
+import main.java.BusinessLogic.OwnerAccess;
+import main.java.BusinessLogic.UserAccess;
+import main.java.DomainModel.Person;
 
-public class SignUpController {
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+
+public class SignUpController implements Initializable {
 
     @FXML
     private TextField city;
@@ -39,4 +53,48 @@ public class SignUpController {
     @FXML
     private TextField zip;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    @FXML
+    private void signUpAction(ActionEvent event) throws SQLException {
+
+        AccessController access = null;
+        access = new AccessController(new OwnerAccess());
+        System.out.println("Owner ");
+        //access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText());
+        System.out.println("register done");
+        //person = access.login(username.getText());
+        try {
+            signUp.getScene().getWindow().hide();
+            Stage login = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/login.fxml"));
+            login.setTitle("Sport Plus");
+            login.setScene(new Scene(root, 1280, 720));
+            login.show();
+            login.setResizable(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    private void logIn(ActionEvent event) throws SQLException {
+
+        try {
+            signUp.getScene().getWindow().hide();
+            Stage login = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/login.fxml"));
+            login.setTitle("Sport Plus");
+            login.setScene(new Scene(root, 1280, 720));
+            login.show();
+            login.setResizable(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
