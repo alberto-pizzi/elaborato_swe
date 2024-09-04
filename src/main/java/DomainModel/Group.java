@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class Group {
     private int id;
-    private int groupHead;
+    private User groupHead;
     private Reservation reservation;
     private int guestUsers;
     private ArrayList<User> users;
     private int participants;
     private int requiredParticipants;
 
-    public Group(int id, int groupHead, Reservation reservation, int requiredParticipants) {
+    public Group(int id, User groupHead, Reservation reservation, int requiredParticipants) {
         this.id = id;
         this.groupHead = groupHead;
         this.reservation = reservation;
@@ -25,7 +25,7 @@ public class Group {
         return id;
     }
 
-    public int getGroupHead() {
+    public User getGroupHead() {
         return groupHead;
     }
 
@@ -55,7 +55,7 @@ public class Group {
         this.id = id;
     }
 
-    public void setGroupHead(int groupHead) {
+    public void setGroupHead(User groupHead) {
         this.groupHead = groupHead;
     }
 

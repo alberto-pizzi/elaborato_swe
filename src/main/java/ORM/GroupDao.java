@@ -104,7 +104,10 @@ public class GroupDao {
 
             Reservation reservation = reservationDao.getReservation(resultSet.getInt("id_reservation"));
 
-            group = new Group(id, groupHead, reservation, requiredParticipants);
+
+            UserDAO userDAO = new UserDAO(); //TODO check correctness
+
+            group = new Group(id, userDAO.getUserByID(groupHead), reservation, requiredParticipants);
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

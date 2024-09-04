@@ -150,4 +150,15 @@ public class Facility {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getFullAddress() {
+        String fullAddress = address + ", " + city + ", " + province;
+
+        if (zip != null) {
+            fullAddress += " " + zip;
+        }
+        fullAddress += ", " + country;
+        return fullAddress;
+
+    }
 }

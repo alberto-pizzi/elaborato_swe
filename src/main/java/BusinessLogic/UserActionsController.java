@@ -14,6 +14,13 @@ import java.util.ArrayList;
 public class UserActionsController {
     private User user;
 
+    //constructor
+
+    public UserActionsController(User user) {
+        this.user = user;
+    }
+
+
     //getter
 
     public User getUser() {

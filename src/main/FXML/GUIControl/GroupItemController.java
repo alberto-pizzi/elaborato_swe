@@ -3,11 +3,12 @@ package main.FXML.GUIControl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 
 import main.java.DomainModel.Group;
 
-public class GroupController {
+import java.text.SimpleDateFormat;
+
+public class GroupItemController {
 
     @FXML
     private Label dateLabel;
@@ -17,9 +18,6 @@ public class GroupController {
 
     @FXML
     private Label fieldNameLabel;
-
-    @FXML
-    private ImageView groupImg;
 
     @FXML
     private Label groupLeaderNameLabel;
@@ -45,12 +43,16 @@ public class GroupController {
         this.group = tmpGroup;
         //TODO add possible listeners
 
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
 
-        groupLeaderNameLabel.setText("FIXME"); //FIXME required string group head (actually is int)
+        groupLeaderNameLabel.setText(group.getGroupHead().getUsername());
+        sportLabel.setText(group.getReservation().getField().getSport().getName());
+        dateLabel.setText(dateFormatter.format(group.getReservation().getEventDate()));
+        timeLabel.setText(timeFormatter.format(group.getReservation().getEventTimeStart()));
+        fieldAddressLabel.setText(group.getReservation().getField().getFacility().getFullAddress());
         membersLabel.setText(group.groupProgress());
-
-        //TODO finish to implement
-
+        fieldNameLabel.setText(group.getReservation().getField().getName());
 
     }
 
