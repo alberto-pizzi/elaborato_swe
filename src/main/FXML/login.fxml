@@ -62,7 +62,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="286.0" style="-fx-background-color: transparent;" text="Forgot Password" underline="true">
+                              <Button fx:id="forgot" mnemonicParsing="false" prefHeight="25.0" prefWidth="286.0" style="-fx-background-color: transparent;" text="Forgot Password" underline="true">
                                  <HBox.margin>
                                     <Insets top="15.0" />
                                  </HBox.margin>
@@ -89,7 +89,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="SignUp" mnemonicParsing="false" prefHeight="25.0" prefWidth="481.0" style="-fx-background-radius: 10px; -fx-background-color: darkgray;" text="Sign Up">
+                              <Button fx:id="SignUp" mnemonicParsing="false" onAction="#signUp" prefHeight="25.0" prefWidth="481.0" style="-fx-background-radius: 10px; -fx-background-color: darkgray;" text="Sign Up">
                                  <padding>
                                     <Insets bottom="10.0" top="10.0" />
                                  </padding>
