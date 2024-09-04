@@ -39,9 +39,11 @@ public class LoginController  implements Initializable {
     @FXML
     private TextField username;
 
+    private boolean isOwner = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        isOwner = false;
     }
 
     @FXML
@@ -51,12 +53,12 @@ public class LoginController  implements Initializable {
         boolean verified = false;
         Person person = null;
 
-        if (owner.isSelected()) {
+        if(isOwner){
             access = new AccessController(new OwnerAccess());
             System.out.println("Owner ");
         }else{
             access = new AccessController(new UserAccess());
-            System.out.println("User");
+            System.out.println("User ");
         }
         //verified = access.checkPassword(username.getText(), password.getText());
         if (!verified) {
@@ -64,6 +66,7 @@ public class LoginController  implements Initializable {
         }else{
             System.out.println("login done");
             //person = access.login(username.getText());
+            //todo finire
         }
 
     }
@@ -85,5 +88,18 @@ public class LoginController  implements Initializable {
 
     }
 
+    @FXML
+    private void isOwner(ActionEvent event) throws SQLException {
+
+        if(!isOwner){
+            owner.setText("I am a User");
+            isOwner = false;
+        }else{
+            owner.setText("I am an Owner");
+            isOwner = true;
+        }
+
+
+    }
 
 }

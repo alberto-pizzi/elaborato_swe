@@ -104,7 +104,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <CheckBox fx:id="owner" alignment="CENTER" mnemonicParsing="false" prefHeight="70.0" prefWidth="474.0" style="-fx-background-color: orange; -fx-background-radius: 10;" text="I am an Owner">
+                              <CheckBox fx:id="owner" alignment="CENTER" mnemonicParsing="false" onAction="#isOwner" prefHeight="70.0" prefWidth="474.0" style="-fx-background-color: orange; -fx-background-radius: 10;" text="I am an Owner">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

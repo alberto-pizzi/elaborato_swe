@@ -57,7 +57,7 @@ public class SignUpController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        isOwner = false;
     }
 
     @FXML
@@ -108,7 +108,7 @@ public class SignUpController implements Initializable {
     @FXML
     private void isOwner(ActionEvent event) throws SQLException {
 
-        if(isOwner){
+        if(!isOwner){
             owner.setText("I am a User");
             isOwner = false;
         }else{
@@ -118,4 +118,5 @@ public class SignUpController implements Initializable {
 
 
     }
+
 }
