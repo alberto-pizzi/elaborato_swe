@@ -161,7 +161,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="owner" mnemonicParsing="false" prefHeight="40.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: orange;" text="I am an Owner">
+                              <Button fx:id="owner" mnemonicParsing="false" onAction="#isOwner" prefHeight="40.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: orange;" text="I am an Owner">
                                  <padding>
                                     <Insets bottom="10.0" top="10.0" />
                                  </padding>

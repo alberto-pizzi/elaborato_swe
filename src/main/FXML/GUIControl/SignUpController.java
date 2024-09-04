@@ -53,6 +53,8 @@ public class SignUpController implements Initializable {
     @FXML
     private TextField zip;
 
+    private boolean isOwner = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -62,11 +64,16 @@ public class SignUpController implements Initializable {
     private void signUpAction(ActionEvent event) throws SQLException {
 
         AccessController access = null;
-        access = new AccessController(new OwnerAccess());
-        System.out.println("Owner ");
+        if(isOwner){
+            access = new AccessController(new OwnerAccess());
+            System.out.println("Owner ");
+        }else{
+            access = new AccessController(new UserAccess());
+            System.out.println("User ");
+        }
+
         //access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText());
         System.out.println("register done");
-        //person = access.login(username.getText());
         try {
             signUp.getScene().getWindow().hide();
             Stage login = new Stage();
@@ -95,6 +102,20 @@ public class SignUpController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    @FXML
+    private void isOwner(ActionEvent event) throws SQLException {
+
+        if(isOwner){
+            owner.setText("I am a User");
+            isOwner = false;
+        }else{
+            owner.setText("I am an Owner");
+            isOwner = true;
+        }
+
 
     }
 }
