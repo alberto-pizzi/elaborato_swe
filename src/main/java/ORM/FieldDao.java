@@ -59,18 +59,24 @@ public class FieldDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            sport = sportDao.getSport(resultSet.getInt("id_sport"));
-            String description = resultSet.getString("description");
-            float price = resultSet.getInt("price");
-            String image = resultSet.getString("image");
-            int idFacility = resultSet.getInt("id_facility");
+            if (resultSet.next()) {
 
-            FacilityDAO facilityDao = new FacilityDAO(); //TODO check correctness
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                sport = sportDao.getSport(resultSet.getInt("id_sport"));
+                String description = resultSet.getString("description");
+                float price = resultSet.getInt("price");
+                String image = resultSet.getString("image");
+                int idFacility = resultSet.getInt("id_facility");
+
+                FacilityDAO facilityDao = new FacilityDAO(); //TODO check correctness
 
 
-            field = new Field(id, name, sport, description, price, image, facilityDao.getFacility(idFacility));
+                field = new Field(id, name, sport, description, price, image, facilityDao.getFacility(idFacility));
+            }
+            else{
+                System.err.println("No field found with id: " + idField);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -207,6 +213,7 @@ public class FieldDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                //FIXME possible infinite loop
                 fields.add(this.getField(resultSet.getInt("id")));
             }
         } catch (SQLException e) {

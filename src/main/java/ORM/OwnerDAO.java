@@ -99,16 +99,21 @@ public class OwnerDAO extends PersonDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            //TODO optimize redundancy
-            int id = resultSet.getInt("id");
-            String username = resultSet.getString("username");
-            String email = resultSet.getString("email");
-            String password = resultSet.getString("password");
-            String city = resultSet.getString("city");
-            String province = resultSet.getString("province");
-            String zip = resultSet.getString("zip");
-            String country = resultSet.getString("country");
-            owner = new Owner(id, email, username, city, province, zip, country, password);
+            if (resultSet.next()) {
+                //TODO optimize redundancy
+                int id = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String city = resultSet.getString("city");
+                String province = resultSet.getString("province");
+                String zip = resultSet.getString("zip");
+                String country = resultSet.getString("country");
+                owner = new Owner(id, email, username, city, province, zip, country, password);
+            }
+            else{
+                System.err.println("No owner found with id: " + idOwner);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

@@ -76,23 +76,29 @@ public class ReservationDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            int id = resultSet.getInt("id");
-            Date reservationDate = resultSet.getDate("res_date");
-            Time reservationTime = resultSet.getTime("res_time");
-            Date eventDate = resultSet.getDate("event_date");
-            Time eventTimeStart = resultSet.getTime("event_time_start");
-            Time eventTimeEnd = resultSet.getTime("event_time_end");
-            int idField = resultSet.getInt("id_field");
-            int nParticipants = resultSet.getInt("n_participants");
-            boolean isConfirmed = resultSet.getBoolean("is_confirmed");
-            int idUser = resultSet.getInt("id_user");
-            boolean isMatched = resultSet.getBoolean("is_matched");
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                Date reservationDate = resultSet.getDate("res_date");
+                Time reservationTime = resultSet.getTime("res_time");
+                Date eventDate = resultSet.getDate("event_date");
+                Time eventTimeStart = resultSet.getTime("event_time_start");
+                Time eventTimeEnd = resultSet.getTime("event_time_end");
+                int idField = resultSet.getInt("id_field");
+                int nParticipants = resultSet.getInt("n_participants");
+                boolean isConfirmed = resultSet.getBoolean("is_confirmed");
+                int idUser = resultSet.getInt("id_user");
+                boolean isMatched = resultSet.getBoolean("is_matched");
 
-            //TODO check correctness
-            UserDAO userDAO = new UserDAO();
-            FieldDao fieldDAO= new FieldDao();
+                //TODO check correctness
+                UserDAO userDAO = new UserDAO();
+                FieldDao fieldDAO = new FieldDao();
 
-            reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, fieldDAO.getField(idField), nParticipants, isConfirmed, userDAO.getUserByID(idUser),isMatched);
+                reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, fieldDAO.getField(idField), nParticipants, isConfirmed, userDAO.getUserByID(idUser), isMatched);
+
+            }
+            else{
+                System.err.println("No reservation found with id: " + idReservation);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

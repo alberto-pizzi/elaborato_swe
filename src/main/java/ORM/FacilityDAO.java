@@ -78,31 +78,38 @@ public class FacilityDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            //FIXME check attributes
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            String address = resultSet.getString("address");
-            String city = resultSet.getString("city");
-            String province = resultSet.getString("province");
-            String zip = resultSet.getString("zip");
-            String country = resultSet.getString("country");
-            int nManagers = resultSet.getInt("n_managers");
-            int nFields = resultSet.getInt("n_fields"); //TODO is useful?
-            String telephone = resultSet.getString("telephone");
-            String image = resultSet.getString("image");
-            int idOwner = resultSet.getInt("id_owner");
+            if (resultSet.next()) {
 
-            OwnerDAO ownerDAO = new OwnerDAO(); //TODO check correctness
+                //FIXME check attributes
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String address = resultSet.getString("address");
+                String city = resultSet.getString("city");
+                String province = resultSet.getString("province");
+                String zip = resultSet.getString("zip");
+                String country = resultSet.getString("country");
+                int nManagers = resultSet.getInt("n_managers");
+                int nFields = resultSet.getInt("n_fields"); //TODO is useful?
+                String telephone = resultSet.getString("telephone");
+                String image = resultSet.getString("image");
+                int idOwner = resultSet.getInt("id_owner");
 
-            facility = new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,ownerDAO.getOwnerByID(idOwner));
+                OwnerDAO ownerDAO = new OwnerDAO(); //TODO check correctness
 
-            //TODO check correctness
-            WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
-            facility.setWorkingHours(workingHoursDAO.getWHsByFacility(id));
+                facility = new Facility(id, name, address, city, province, zip, country, nManagers, telephone, image, ownerDAO.getOwnerByID(idOwner));
 
-            //TODO check correctness
-            FieldDao fieldDao = new FieldDao();
-            facility.setFields(fieldDao.getFieldsByFacility(id));
+                //TODO check correctness
+                WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
+                facility.setWorkingHours(workingHoursDAO.getWHsByFacility(id));
+
+                //TODO check correctness
+                FieldDao fieldDao = new FieldDao();
+                facility.setFields(fieldDao.getFieldsByFacility(id));
+
+            }
+            else{
+                System.err.println("No facility found with id: " + idFacility);
+            }
 
 
         } catch (SQLException e) {
