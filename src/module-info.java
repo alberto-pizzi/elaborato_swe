@@ -4,8 +4,10 @@ module elaboratoSWEWindows {
     requires javafx.graphics;
     requires javafx.controls;
 
+
     exports main.java;
     exports main.java.GUIControl;
+    opens main.java.GUIControl to javafx.fxml;
 
 
 }
