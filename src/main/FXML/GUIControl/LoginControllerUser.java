@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -19,7 +18,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class LoginController  implements Initializable {
+public class LoginControllerUser implements Initializable {
 
     @FXML
     private Button logIn;
@@ -28,7 +27,7 @@ public class LoginController  implements Initializable {
     private Button SignUp;
 
     @FXML
-    private CheckBox owner;
+    private Button owner;
 
     @FXML
     private Button forgot;
@@ -39,11 +38,9 @@ public class LoginController  implements Initializable {
     @FXML
     private TextField username;
 
-    private boolean isOwner = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        isOwner = false;
     }
 
     @FXML
@@ -53,13 +50,10 @@ public class LoginController  implements Initializable {
         boolean verified = false;
         Person person = null;
 
-        if(isOwner){
-            access = new AccessController(new OwnerAccess());
-            System.out.println("Owner ");
-        }else{
-            access = new AccessController(new UserAccess());
-            System.out.println("User ");
-        }
+
+        access = new AccessController(new UserAccess());
+        System.out.println("User ");
+
         //verified = access.checkPassword(username.getText(), password.getText());
         if (!verified) {
             forgot.setText("Wrong password or username, forgot password?");
@@ -76,12 +70,12 @@ public class LoginController  implements Initializable {
 
         try {
             logIn.getScene().getWindow().hide();
-            Stage signUp = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/signUp.fxml"));
-            signUp.setTitle("Sport Plus");
-            signUp.setScene(new Scene(root, 1280, 850));
-            signUp.show();
-            signUp.setResizable(false);
+            Stage signUpUser = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/signUpUser.fxml"));
+            signUpUser.setTitle("Sport Plus");
+            signUpUser.setScene(new Scene(root, 1280, 850));
+            signUpUser.show();
+            signUpUser.setResizable(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,12 +85,16 @@ public class LoginController  implements Initializable {
     @FXML
     private void isOwner(ActionEvent event) throws SQLException {
 
-        if(!isOwner){
-            owner.setText("I am a User");
-            isOwner = false;
-        }else{
-            owner.setText("I am an Owner");
-            isOwner = true;
+        try {
+            logIn.getScene().getWindow().hide();
+            Stage logInOwner = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginOwner.fxml"));
+            logInOwner.setTitle("Sport Plus");
+            logInOwner.setScene(new Scene(root, 1280, 720));
+            logInOwner.show();
+            logInOwner.setResizable(false);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 

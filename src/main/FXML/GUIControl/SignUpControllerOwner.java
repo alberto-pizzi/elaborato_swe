@@ -12,13 +12,12 @@ import javafx.stage.Stage;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
 import main.java.BusinessLogic.UserAccess;
-import main.java.DomainModel.Person;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class SignUpController implements Initializable {
+public class SignUpControllerOwner implements Initializable {
 
     @FXML
     private TextField city;
@@ -53,35 +52,29 @@ public class SignUpController implements Initializable {
     @FXML
     private TextField zip;
 
-    private boolean isOwner = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        isOwner = false;
     }
 
     @FXML
     private void signUpAction(ActionEvent event) throws SQLException {
 
         AccessController access = null;
-        if(isOwner){
-            access = new AccessController(new OwnerAccess());
-            System.out.println("Owner ");
-        }else{
-            access = new AccessController(new UserAccess());
-            System.out.println("User ");
-        }
+        access = new AccessController(new OwnerAccess());
+        System.out.println("Owner ");
+
 
         //access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText());
         System.out.println("register done");
         try {
             signUp.getScene().getWindow().hide();
-            Stage login = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/login.fxml"));
-            login.setTitle("Sport Plus");
-            login.setScene(new Scene(root, 1280, 720));
-            login.show();
-            login.setResizable(false);
+            Stage loginOwner = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginOwner.fxml"));
+            loginOwner.setTitle("Sport Plus");
+            loginOwner.setScene(new Scene(root, 1280, 720));
+            loginOwner.show();
+            loginOwner.setResizable(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,12 +86,12 @@ public class SignUpController implements Initializable {
 
         try {
             signUp.getScene().getWindow().hide();
-            Stage login = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/login.fxml"));
-            login.setTitle("Sport Plus");
-            login.setScene(new Scene(root, 1280, 720));
-            login.show();
-            login.setResizable(false);
+            Stage loginOwner = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginOwner.fxml"));
+            loginOwner.setTitle("Sport Plus");
+            loginOwner.setScene(new Scene(root, 1280, 720));
+            loginOwner.show();
+            loginOwner.setResizable(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -108,12 +101,16 @@ public class SignUpController implements Initializable {
     @FXML
     private void isOwner(ActionEvent event) throws SQLException {
 
-        if(!isOwner){
-            owner.setText("I am a User");
-            isOwner = false;
-        }else{
-            owner.setText("I am an Owner");
-            isOwner = true;
+        try {
+            signUp.getScene().getWindow().hide();
+            Stage signUpUser = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/signUpUser.fxml"));
+            signUpUser.setTitle("Sport Plus");
+            signUpUser.setScene(new Scene(root, 1280, 720));
+            signUpUser.show();
+            signUpUser.setResizable(false);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
