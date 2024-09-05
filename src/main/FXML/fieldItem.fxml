@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1100.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+   <styleClass>
+      <String fx:value="group-item" />
+      <String fx:value="shadow" />
+   </styleClass>
+   <children>
+      <VBox prefHeight="120.0" prefWidth="120.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fx:id="groupImg" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" scaleX="0.8" scaleY="0.8">
+               <image>
+                  <Image url="@img/groupIcon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+      <StackPane layoutX="130.0" prefHeight="120.0" prefWidth="280.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="groupLeaderNameLabel" prefHeight="44.0" prefWidth="404.0" text="Field Name">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label prefHeight="44.0" prefWidth="76.0" text="Address:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="fieldAddressLabel" prefHeight="44.0" prefWidth="195.0" text="Field address" textFill="#a1a1a1">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+      </StackPane>
+      <StackPane layoutX="436.0" prefHeight="120.0" prefWidth="200.0">
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="150.0">
+                     <children>
+                        <Label prefHeight="40.0" prefWidth="49.0" text="Sport:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="sportLabel" prefHeight="44.0" prefWidth="130.0" text="Football" textFill="#a1a1a1">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+      <StackPane layoutX="620.0" prefHeight="120.0" prefWidth="330.0">
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="150.0">
+                     <children>
+                        <Label prefHeight="40.0" prefWidth="99.0" text="Price (per hour):">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="fieldPriceLabel" prefHeight="40.0" prefWidth="150.0" text="(Field Price)" textFill="#a1a1a1">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+      <VBox alignment="CENTER" prefHeight="120.0" prefWidth="180.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button fx:id="leaveGroupButton" mnemonicParsing="false" style="-fx-background-color: #4169e1#4682b4f620f9;" styleClass="leave-button" stylesheets="@css/style.css" text="Select" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </padding>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
