@@ -106,7 +106,7 @@ public class SignUpControllerUser implements Initializable {
             Stage signUpOwner = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/signUpOwner.fxml"));
             signUpOwner.setTitle("Sport Plus");
-            signUpOwner.setScene(new Scene(root, 1280, 720));
+            signUpOwner.setScene(new Scene(root, 1280, 850));
             signUpOwner.show();
             signUpOwner.setResizable(false);
         } catch (Exception e) {
