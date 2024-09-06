@@ -118,11 +118,8 @@ public class HomeController implements Initializable {
         if(position > 1){
 
             try {
-                int i = 10*(position);
-                if (i > fields.size()){
-                    i = fields.size()-1;
-                }
-                for(;i> i-11 && i>0; i--){
+
+                for(int i = 10*(position-1); i > 10*(position-2)-1 && i>0; i--){
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
                     fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
