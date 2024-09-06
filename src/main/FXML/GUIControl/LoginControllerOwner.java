@@ -63,6 +63,7 @@ public class LoginControllerOwner implements Initializable {
             System.out.println("login done");
             //person = access.login(username.getText());
             ////sessionController.setPerson(person);
+            //todo finire login e connettere database
         }
 
     }
