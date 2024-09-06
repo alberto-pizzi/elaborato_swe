@@ -59,6 +59,17 @@ public class LoginControllerUser implements Initializable {
 
         //verified = access.checkPassword(username.getText(), password.getText());
         if (!verified) {
+            try {
+                logIn.getScene().getWindow().hide();
+                Stage home = new Stage();
+                Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/home.fxml"));
+                home.setTitle("Sport Plus");
+                home.setScene(new Scene(root, 1280, 720));
+                home.show();
+                home.setResizable(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             forgot.setText("Wrong password or username, forgot password?");
         }else{
             System.out.println("login done");
