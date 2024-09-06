@@ -4,7 +4,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -20,18 +19,14 @@
    <children>
       <VBox prefHeight="120.0" prefWidth="120.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fx:id="groupImg" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" scaleX="0.8" scaleY="0.8">
-               <image>
-                  <Image url="@img/groupIcon.png" />
-               </image>
-            </ImageView>
+            <ImageView fx:id="groupImg" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" scaleX="0.8" scaleY="0.8" />
          </children>
       </VBox>
       <StackPane layoutX="130.0" prefHeight="120.0" prefWidth="280.0">
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label fx:id="groupLeaderNameLabel" prefHeight="44.0" prefWidth="404.0" text="Field Name">
+                  <Label fx:id="FieldNameLabel" prefHeight="44.0" prefWidth="404.0" text="Field Name">
                      <font>
                         <Font name="System Bold" size="28.0" />
                      </font>
