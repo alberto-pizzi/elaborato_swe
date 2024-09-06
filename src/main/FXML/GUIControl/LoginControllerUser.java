@@ -11,8 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
+import main.java.BusinessLogic.SessionController;
 import main.java.BusinessLogic.UserAccess;
 import main.java.DomainModel.Person;
+import main.java.DomainModel.User;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -38,6 +40,7 @@ public class LoginControllerUser implements Initializable {
     @FXML
     private TextField username;
 
+    SessionController sessionController = SessionController.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,7 +63,7 @@ public class LoginControllerUser implements Initializable {
         }else{
             System.out.println("login done");
             //person = access.login(username.getText());
-            //todo finire
+            //sessionController.setPerson(person);
         }
 
     }
@@ -96,7 +99,6 @@ public class LoginControllerUser implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 

@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
+import main.java.BusinessLogic.SessionController;
 import main.java.BusinessLogic.UserAccess;
 import main.java.DomainModel.Person;
 
@@ -38,6 +39,7 @@ public class LoginControllerOwner implements Initializable {
     @FXML
     private TextField username;
 
+    SessionController sessionController = SessionController.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,7 +62,7 @@ public class LoginControllerOwner implements Initializable {
         }else{
             System.out.println("login done");
             //person = access.login(username.getText());
-            //todo finire
+            ////sessionController.setPerson(person);
         }
 
     }
