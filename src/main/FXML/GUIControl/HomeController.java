@@ -133,8 +133,10 @@ public class HomeController implements Initializable {
                         columns = 0;
                         rows++;
                     }
+
                     fieldsGrid.add(anchorPane, columns++, rows);
                     GridPane.setMargin(anchorPane, new Insets(10));
+
 
                 }
             } catch (IOException e) {
