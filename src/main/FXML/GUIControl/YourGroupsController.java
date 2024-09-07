@@ -59,10 +59,9 @@ public class YourGroupsController implements Initializable {
                 AnchorPane groupItem = fxmlLoader.load();
 
                 GroupItemController groupItemController = fxmlLoader.getController();
-                groupItemController.setData(groups.get(i));
+                groupItemController.setData(groups.get(i), userActionsController);
 
                 groupsVBox.getChildren().add(groupItem);
-
 
             }
 

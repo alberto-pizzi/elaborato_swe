@@ -2,7 +2,9 @@ package main.java.BusinessLogic;
 
 import main.java.DomainModel.User;
 import main.java.DomainModel.Facility;
+import main.java.ORM.ManagesDAO;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UserProfileController extends ProfileController {
@@ -23,8 +25,10 @@ public class UserProfileController extends ProfileController {
     }
 
     //methods
-    public ArrayList<Facility> getFacilitiesManaged() {
-        //TODO implement
-        return null;
+    public ArrayList<Facility> getFacilitiesManaged() throws SQLException {
+
+        ManagesDAO managesDAO = new ManagesDAO();
+
+        return managesDAO.getAllFacilitiesByManager(user.getId());
     }
 }

@@ -143,6 +143,33 @@ public class IsPartDao {
         return count;
     }
 
+    public int countOwnGuests(int idGroup,int idUser) throws SQLException {
+
+        int count = 0;
+        String querySQL = String.format("SELECT guest_users AS Guests FROM \"IsPart\" WHERE id_group = '%d' AND id_user = '%d'", idGroup,idUser);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                count = resultSet.getInt("Guests");
+            }
+            else{
+                System.err.println("No association found with id_group: " + idGroup + " and id_user: " + idUser);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return count;
+    }
+
     public int countGroupMembers(int idGroup) throws SQLException {
 
         int count = 0;

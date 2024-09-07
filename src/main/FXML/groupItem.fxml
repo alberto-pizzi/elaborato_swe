@@ -162,7 +162,7 @@
       </StackPane>
       <VBox alignment="CENTER" prefHeight="120.0" prefWidth="180.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button fx:id="leaveGroupButton" mnemonicParsing="false" styleClass="leave-button" stylesheets="@css/style.css" text="Leave Group" textFill="WHITE">
+            <Button fx:id="leaveGroupButton" mnemonicParsing="false" onAction="#handleLeaveButtonAction" styleClass="leave-button" stylesheets="@css/style.css" text="Leave Group" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
