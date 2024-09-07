@@ -10,9 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import main.java.DomainModel.Field;
+import main.java.ORM.FieldDao;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,24 +34,21 @@ public class HomeController implements Initializable {
 
     int position = 1;
 
-    private List<Field> getData(){
+    private List<Field> getData() throws SQLException {
         List<Field> fields = new ArrayList<>();
-        Field field;
-        for(int i=0; i<40; i++){
-
-            field = new Field();
-            fields.add(field);
-        }
-        field = new Field();
-        field.setName("ra");
-        fields.add(field);
+        FieldDao fieldDao = new FieldDao();
+        fields = fieldDao.getAllFields(true);
         return fields;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        fields.addAll(getData());
+        try {
+            fields.addAll(getData());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         int columns = 0;
         int rows = 0;
         try {

@@ -234,6 +234,38 @@ public class FieldDao {
 
         return fields;
     }
+    //todo aggiungere a uml
+    public ArrayList<Field> getAllFields(boolean loadFacility) throws SQLException {
+        ArrayList<Field> fields = new ArrayList<>();
+
+        String querySQL = String.format("SELECT id FROM \"Field\" ");
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                //FIXME possible infinite loop
+                Field field = this.getField(resultSet.getInt("id"));
+                if (loadFacility) {
+                    Facility facility = new FacilityDAO().getFacility(resultSet.getInt("id_facility"), false);
+                    field.setFacility(facility);
+                }
+                fields.add(field);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return fields;
+    }
 
     //todo check
     public ArrayList<Field> getFieldsByProvince(String province) throws SQLException {
