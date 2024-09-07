@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1100.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1100.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.GroupItemController">
    <styleClass>
       <String fx:value="group-item" />
       <String fx:value="shadow" />
@@ -20,7 +20,7 @@
    <children>
       <VBox prefHeight="120.0" prefWidth="120.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fx:id="groupImg" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" scaleX="0.8" scaleY="0.8">
+            <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" scaleX="0.8" scaleY="0.8">
                <image>
                   <Image url="@img/groupIcon.png" />
                </image>
@@ -162,7 +162,7 @@
       </StackPane>
       <VBox alignment="CENTER" prefHeight="120.0" prefWidth="180.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button fx:id="leaveGroupButton" mnemonicParsing="false" styleClass="leave-button" stylesheets="@css/style.css" text="Leave Group" textFill="WHITE">
+            <Button fx:id="leaveGroupButton" mnemonicParsing="false" onAction="#handleLeaveButtonAction" styleClass="leave-button" stylesheets="@css/style.css" text="Leave Group" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>

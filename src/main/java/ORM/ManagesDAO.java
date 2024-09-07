@@ -185,22 +185,11 @@ public class ManagesDAO {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
+
+            FacilityDAO facilityDAO = new FacilityDAO(); //TODO check correctness
             while (resultSet.next()) {
 
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String address = resultSet.getString("address");
-                String city = resultSet.getString("city");
-                String province = resultSet.getString("province");
-                String zip = resultSet.getString("zip");
-                String country = resultSet.getString("country");
-                int nManagers = resultSet.getInt("n_managers");
-                int nFields = resultSet.getInt("n_fields"); //TODO is useful?
-                String telephone = resultSet.getString("telephone");
-                String image = resultSet.getString("image");
-                int idOwner = resultSet.getInt("id_owner");
-
-                facilities.add(new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,idOwner));
+                facilities.add(facilityDAO.getFacility(resultSet.getInt("id"), false));
 
             }
         } catch (SQLException e) {

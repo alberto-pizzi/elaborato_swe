@@ -73,11 +73,17 @@ public class SportDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            int playersRequired = resultSet.getInt("players_required");
+            if (resultSet.next()) {
 
-            sport = new Sport(id, name, playersRequired);
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int playersRequired = resultSet.getInt("players_required");
+
+                sport = new Sport(id, name, playersRequired);
+            }
+            else{
+                System.err.println("No sport found with id: " + idSport);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

@@ -128,14 +128,19 @@ public class WorkingHoursDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                //Day dayOfWeek = Day.valueOf(resultSet.getString("day_of_week"));
+                Day dayOfWeek = Day.MONDAY;
+                Time openingHours = resultSet.getTime("opening");
+                Time closingHours = resultSet.getTime("closing");
+                int idFacility = resultSet.getInt("id_facility"); //FIXME is it useful?
 
-            int id = resultSet.getInt("id");
-            Day dayOfWeek = Day.valueOf(resultSet.getString("day_of_week"));
-            Time openingHours = resultSet.getTime("opening");
-            Time closingHours = resultSet.getTime("closing");
-            int idFacility = resultSet.getInt("id_facility"); //FIXME is it useful?
-
-            WH = new WorkingHours(id,dayOfWeek,openingHours,closingHours);
+                WH = new WorkingHours(id, dayOfWeek, openingHours, closingHours);
+            }
+            else{
+                System.err.println("No WH found with id: " + idWH);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

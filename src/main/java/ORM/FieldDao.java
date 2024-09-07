@@ -1,8 +1,8 @@
 package main.java.ORM;
 
+import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
-import main.java.DomainModel.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -28,7 +28,7 @@ public class FieldDao {
 
         String querySQL = String.format("INSERT INTO \"Field\" (name, id_sport, description, price, image, id_facility)) " +
                 "VALUES ('%s', '%d', '%s', '%f', '%s', '%d')", field.getName(), field.getSport().getId(), field.getDescription(),
-                field.getPrice(), field.getImage(), field.getIdFacility());
+                field.getPrice(), field.getImage(), field.getFacility().getId());
 
         PreparedStatement preparedStatement = null;
 
@@ -59,15 +59,26 @@ public class FieldDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            sport = sportDao.getSport(resultSet.getInt("id_sport"));
-            String description = resultSet.getString("description");
-            float price = resultSet.getInt("price");
-            String image = resultSet.getString("image");
-            int idFacility = resultSet.getInt("id_facility");
+            if (resultSet.next()) {
 
-            field = new Field(id, name, sport, description, price, image, idFacility);
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                sport = sportDao.getSport(resultSet.getInt("id_sport"));
+                String description = resultSet.getString("description");
+                float price = resultSet.getInt("price");
+                String image = resultSet.getString("image");
+                int idFacility = resultSet.getInt("id_facility");
+
+                //TODO check correctness
+                FacilityDAO facilityDao = new FacilityDAO();
+                Facility facility = facilityDao.getFacility(idFacility, false);
+
+
+                field = new Field(id, name, sport, description, price, image, facility);
+            }
+            else{
+                System.err.println("No field found with id: " + idField);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -192,7 +203,7 @@ public class FieldDao {
         }
     }
 
-    public ArrayList<Field> getFieldsByFacility(int idFacility) throws SQLException {
+    public ArrayList<Field> getFieldsByFacility(int idFacility, boolean loadFacility) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
 
         String querySQL = String.format("SELECT id FROM \"Field\" WHERE id_facility = '%d'", idFacility);
@@ -204,7 +215,13 @@ public class FieldDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                fields.add(this.getField(resultSet.getInt("id")));
+                //FIXME possible infinite loop
+                Field field = this.getField(resultSet.getInt("id"));
+                if (loadFacility) {
+                    Facility facility = new FacilityDAO().getFacility(idFacility, false);
+                    field.setFacility(facility);
+                }
+                fields.add(field);
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -241,7 +258,9 @@ public class FieldDao {
                 String image = resultSet.getString("image");
                 int idFacility = resultSet.getInt("id_facility");
 
-                fields.add(new Field(id, name, sport, description, price, image, idFacility));
+                FacilityDAO facilityDAO = new FacilityDAO(); //TODO check correctness
+
+                fields.add(new Field(id, name, sport, description, price, image, facilityDAO.getFacility(idFacility, false)));
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

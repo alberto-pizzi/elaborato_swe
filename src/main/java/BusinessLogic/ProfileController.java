@@ -1,5 +1,8 @@
 package main.java.BusinessLogic;
 
+import main.java.DomainModel.Person;
+import main.java.ORM.UserDAO;
+
 public abstract class ProfileController {
 
     //methods
@@ -16,6 +19,7 @@ public abstract class ProfileController {
     }
 
     public void deleteProfile(String username){
+
 
     }
 

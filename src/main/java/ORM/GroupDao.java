@@ -98,13 +98,24 @@ public class GroupDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            int id = resultSet.getInt("id");
-            int requiredParticipants = resultSet.getInt("participants_required");
-            int groupHead = resultSet.getInt("group_head");
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int requiredParticipants = resultSet.getInt("participants_required");
+                int groupHead = resultSet.getInt("group_head");
+                int idReservation = resultSet.getInt("id_reservation");
 
-            Reservation reservation = reservationDao.getReservation(resultSet.getInt("id_reservation"));
+                Reservation reservation = reservationDao.getReservation(idReservation);
 
-            group = new Group(id, groupHead, reservation, requiredParticipants);
+
+                UserDAO userDAO = new UserDAO(); //TODO check correctness
+
+                group = new Group(id, userDAO.getUserByID(groupHead), reservation, requiredParticipants);
+
+                group.setParticipants(reservationDao.getCountAllParticipants(idReservation)); //TODO check correctness
+            }
+            else{
+                System.err.println("No group found with id: " + idGroup);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

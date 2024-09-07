@@ -1,12 +1,12 @@
 package main.java.ORM;
 
 import main.java.DomainModel.Facility;
+import main.java.DomainModel.Field;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Time;
 import java.util.ArrayList;
 
 
@@ -65,7 +65,7 @@ public class FacilityDAO {
 
     }
 
-    public Facility getFacility(int idFacility) throws SQLException {
+    public Facility getFacility(int idFacility, boolean loadFields) throws SQLException {
         //default id (id not found)
         Facility facility = null;
 
@@ -78,23 +78,46 @@ public class FacilityDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            //FIXME check attributes
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            String address = resultSet.getString("address");
-            String city = resultSet.getString("city");
-            String province = resultSet.getString("province");
-            String zip = resultSet.getString("zip");
-            String country = resultSet.getString("country");
-            int nManagers = resultSet.getInt("n_managers");
-            int nFields = resultSet.getInt("n_fields"); //TODO is useful?
-            String telephone = resultSet.getString("telephone");
-            String image = resultSet.getString("image");
-            int idOwner = resultSet.getInt("id_owner");
+            if (resultSet.next()) {
 
-            //TODO fill WH array and pass it to Facility constructor
+                //FIXME check attributes
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String address = resultSet.getString("address");
+                String city = resultSet.getString("city");
+                String province = resultSet.getString("province");
+                String zip = resultSet.getString("zip");
+                String country = resultSet.getString("country");
+                int nManagers = resultSet.getInt("n_managers");
+                int nFields = resultSet.getInt("n_fields"); //TODO is useful?
+                String telephone = resultSet.getString("telephone");
+                String image = resultSet.getString("image");
+                int idOwner = resultSet.getInt("id_owner");
 
-            facility = new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,idOwner);
+                OwnerDAO ownerDAO = new OwnerDAO(); //TODO check correctness
+
+                facility = new Facility(id, name, address, city, province, zip, country, nManagers, telephone, image, ownerDAO.getOwnerByID(idOwner));
+
+                //TODO check correctness
+                WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
+                facility.setWorkingHours(workingHoursDAO.getWHsByFacility(id));
+
+                //TODO check correctness
+                if (loadFields) {
+                    FieldDao fieldDao = new FieldDao();
+                    ArrayList<Field> fields = fieldDao.getFieldsByFacility(idFacility, false);
+                    facility.setFields(fields);
+
+                    for (Field field : fields) {
+                        field.setFacility(facility);
+                    }
+                }
+
+            }
+            else{
+                System.err.println("No facility found with id: " + idFacility);
+            }
+
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -119,7 +142,7 @@ public class FacilityDAO {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                facilities.add(this.getFacility(resultSet.getInt("id")));
+                facilities.add(this.getFacility(resultSet.getInt("id"), false));
             }
 
         } catch (SQLException e) {
@@ -145,7 +168,7 @@ public class FacilityDAO {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                facilities.add(this.getFacility(resultSet.getInt("id")));
+                facilities.add(this.getFacility(resultSet.getInt("id"), false));
             }
 
         } catch (SQLException e) {
@@ -411,7 +434,7 @@ public class FacilityDAO {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                facilities.add(this.getFacility(resultSet.getInt("id")));
+                facilities.add(this.getFacility(resultSet.getInt("id"), false));
             }
 
         } catch (SQLException e) {
