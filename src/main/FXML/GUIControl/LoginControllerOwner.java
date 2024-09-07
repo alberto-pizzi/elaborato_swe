@@ -52,18 +52,27 @@ public class LoginControllerOwner implements Initializable {
         boolean verified = false;
         Person person = null;
 
-
         access = new AccessController(new OwnerAccess());
         System.out.println("Owner ");
 
-        //verified = access.checkPassword(username.getText(), password.getText());
+        verified = access.checkPassword(username.getText(), password.getText());
         if (!verified) {
             forgot.setText("Wrong password or username, forgot password?");
         }else{
             System.out.println("login done");
-            //person = access.login(username.getText());
-            ////sessionController.setPerson(person);
-            //todo finire login e connettere database
+            person = access.login(username.getText());
+            sessionController.setPerson(person);
+            try {
+                logIn.getScene().getWindow().hide();
+                Stage home = new Stage();
+                Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/home.fxml"));
+                home.setTitle("Sport Plus");
+                home.setScene(new Scene(root, 1280, 720));
+                home.show();
+                home.setResizable(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -99,9 +108,7 @@ public class LoginControllerOwner implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
     }
+
 
 }

@@ -53,12 +53,16 @@ public class LoginControllerUser implements Initializable {
         boolean verified = false;
         Person person = null;
 
-
         access = new AccessController(new UserAccess());
         System.out.println("User ");
 
-        //verified = access.checkPassword(username.getText(), password.getText());
+        verified = access.checkPassword(username.getText(), password.getText());
         if (!verified) {
+            forgot.setText("Wrong password or username, forgot password?");
+        }else{
+            System.out.println("login done");
+            person = access.login(username.getText());
+            sessionController.setPerson(person);
             try {
                 logIn.getScene().getWindow().hide();
                 Stage home = new Stage();
@@ -70,11 +74,6 @@ public class LoginControllerUser implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            forgot.setText("Wrong password or username, forgot password?");
-        }else{
-            System.out.println("login done");
-            //person = access.login(username.getText());
-            //sessionController.setPerson(person);
         }
 
     }
@@ -110,7 +109,7 @@ public class LoginControllerUser implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+
 
 }

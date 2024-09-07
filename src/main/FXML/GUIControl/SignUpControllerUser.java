@@ -64,8 +64,7 @@ public class SignUpControllerUser implements Initializable {
         access = new AccessController(new UserAccess());
         System.out.println("User ");
 
-
-        //access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText());
+        access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText());
         System.out.println("register done");
         try {
             signUp.getScene().getWindow().hide();
@@ -112,8 +111,7 @@ public class SignUpControllerUser implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
+
 
 }
