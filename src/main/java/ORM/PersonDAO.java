@@ -214,10 +214,16 @@ public abstract class PersonDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            int persons = resultSet.getInt("results");
+            if (resultSet.next()) {
 
-            if (persons > 0)
-                return true;
+                int persons = resultSet.getInt("results");
+
+                if (persons > 0)
+                    return true;
+            }
+            else{
+                System.err.println("No User found with username: " + username);
+            }
 
 
         } catch (SQLException e) {
@@ -304,15 +310,21 @@ public abstract class PersonDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            int id = resultSet.getInt("id");
-            String usernameSelected = resultSet.getString("username");
-            String email = resultSet.getString("email");
-            String password = resultSet.getString("password");
-            String city = resultSet.getString("city");
-            String province = resultSet.getString("province");
-            String zip = resultSet.getString("zip");
-            String country = resultSet.getString("country");
-            user = new User(id, email, usernameSelected, city, province, zip, country, password);
+            if (resultSet.next()) {
+
+                int id = resultSet.getInt("id");
+                String usernameSelected = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String city = resultSet.getString("city");
+                String province = resultSet.getString("province");
+                String zip = resultSet.getString("zip");
+                String country = resultSet.getString("country");
+                user = new User(id, email, usernameSelected, city, province, zip, country, password);
+            }
+            else{
+                System.err.println("No User found with username: " + username);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
