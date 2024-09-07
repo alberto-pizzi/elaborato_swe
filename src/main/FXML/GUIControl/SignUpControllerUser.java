@@ -64,18 +64,29 @@ public class SignUpControllerUser implements Initializable {
         access = new AccessController(new UserAccess());
         System.out.println("User ");
 
-        access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText());
-        System.out.println("register done");
-        try {
-            signUp.getScene().getWindow().hide();
-            Stage loginUser = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
-            loginUser.setTitle("Sport Plus");
-            loginUser.setScene(new Scene(root, 1280, 720));
-            loginUser.show();
-            loginUser.setResizable(false);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(!(password == null || username == null || email == null || province == null)) {
+
+            if(password == passwordConfirmed) {
+                access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText());
+
+                System.out.println("register done");
+                try {
+                    signUp.getScene().getWindow().hide();
+                    Stage loginOwner = new Stage();
+                    Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
+                    loginOwner.setTitle("Sport Plus");
+                    loginOwner.setScene(new Scene(root, 1280, 720));
+                    loginOwner.show();
+                    loginOwner.setResizable(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else{
+                System.out.println("The password is not the same in the two fields");
+            }
+
+        }else{
+            System.out.println("Fields missing");
         }
     }
 
