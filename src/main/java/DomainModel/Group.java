@@ -16,6 +16,9 @@ public class Group {
         this.groupHead = groupHead;
         this.reservation = reservation;
         this.requiredParticipants = requiredParticipants;
+        //TODO check correctness
+        this.users = new ArrayList<>();
+        this.participants = 0;
     }
 
 

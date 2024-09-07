@@ -189,7 +189,7 @@ public class ManagesDAO {
             FacilityDAO facilityDAO = new FacilityDAO(); //TODO check correctness
             while (resultSet.next()) {
 
-                facilities.add(facilityDAO.getFacility(resultSet.getInt("id")));
+                facilities.add(facilityDAO.getFacility(resultSet.getInt("id"), false));
 
             }
         } catch (SQLException e) {

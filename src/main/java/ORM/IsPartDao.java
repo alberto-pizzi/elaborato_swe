@@ -127,7 +127,12 @@ public class IsPartDao {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
-            count = resultSet.getInt("Guests");
+            if (resultSet.next()) {
+                count = resultSet.getInt("Guests");
+            }
+            else{
+                System.err.println("No association found with id_group: " + idGroup);
+            }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
@@ -149,7 +154,12 @@ public class IsPartDao {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
-            count = resultSet.getInt("Members");
+            if (resultSet.next()) {
+                count = resultSet.getInt("Members");
+            }
+            else{
+                System.err.println("No association found with id_group: " + idGroup);
+            }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {

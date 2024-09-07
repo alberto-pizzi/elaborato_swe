@@ -52,8 +52,13 @@ public class ReservationDao {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
-            group = resultSet.getInt("id");
-            count = isPartDao.countGroupGuests(group) + isPartDao.countGroupMembers(group);
+            if (resultSet.next()) {
+                group = resultSet.getInt("id");
+                count = isPartDao.countGroupGuests(group) + isPartDao.countGroupMembers(group);
+            }
+            else{
+                System.err.println("No Group found with id_reservation: " + idReservation);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

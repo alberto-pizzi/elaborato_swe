@@ -1,12 +1,12 @@
 package main.java.ORM;
 
 import main.java.DomainModel.Facility;
+import main.java.DomainModel.Field;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Time;
 import java.util.ArrayList;
 
 
@@ -65,7 +65,7 @@ public class FacilityDAO {
 
     }
 
-    public Facility getFacility(int idFacility) throws SQLException {
+    public Facility getFacility(int idFacility, boolean loadFields) throws SQLException {
         //default id (id not found)
         Facility facility = null;
 
@@ -103,8 +103,15 @@ public class FacilityDAO {
                 facility.setWorkingHours(workingHoursDAO.getWHsByFacility(id));
 
                 //TODO check correctness
-                FieldDao fieldDao = new FieldDao();
-                facility.setFields(fieldDao.getFieldsByFacility(id));
+                if (loadFields) {
+                    FieldDao fieldDao = new FieldDao();
+                    ArrayList<Field> fields = fieldDao.getFieldsByFacility(idFacility, false);
+                    facility.setFields(fields);
+
+                    for (Field field : fields) {
+                        field.setFacility(facility);
+                    }
+                }
 
             }
             else{
@@ -135,7 +142,7 @@ public class FacilityDAO {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                facilities.add(this.getFacility(resultSet.getInt("id")));
+                facilities.add(this.getFacility(resultSet.getInt("id"), false));
             }
 
         } catch (SQLException e) {
@@ -161,7 +168,7 @@ public class FacilityDAO {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                facilities.add(this.getFacility(resultSet.getInt("id")));
+                facilities.add(this.getFacility(resultSet.getInt("id"), false));
             }
 
         } catch (SQLException e) {
@@ -427,7 +434,7 @@ public class FacilityDAO {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                facilities.add(this.getFacility(resultSet.getInt("id")));
+                facilities.add(this.getFacility(resultSet.getInt("id"), false));
             }
 
         } catch (SQLException e) {

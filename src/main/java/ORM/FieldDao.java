@@ -1,8 +1,8 @@
 package main.java.ORM;
 
+import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
-import main.java.DomainModel.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -69,10 +69,12 @@ public class FieldDao {
                 String image = resultSet.getString("image");
                 int idFacility = resultSet.getInt("id_facility");
 
-                FacilityDAO facilityDao = new FacilityDAO(); //TODO check correctness
+                //TODO check correctness
+                FacilityDAO facilityDao = new FacilityDAO();
+                Facility facility = facilityDao.getFacility(idFacility, false);
 
 
-                field = new Field(id, name, sport, description, price, image, facilityDao.getFacility(idFacility));
+                field = new Field(id, name, sport, description, price, image, facility);
             }
             else{
                 System.err.println("No field found with id: " + idField);
@@ -201,7 +203,7 @@ public class FieldDao {
         }
     }
 
-    public ArrayList<Field> getFieldsByFacility(int idFacility) throws SQLException {
+    public ArrayList<Field> getFieldsByFacility(int idFacility, boolean loadFacility) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
 
         String querySQL = String.format("SELECT id FROM \"Field\" WHERE id_facility = '%d'", idFacility);
@@ -214,7 +216,12 @@ public class FieldDao {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 //FIXME possible infinite loop
-                fields.add(this.getField(resultSet.getInt("id")));
+                Field field = this.getField(resultSet.getInt("id"));
+                if (loadFacility) {
+                    Facility facility = new FacilityDAO().getFacility(idFacility, false);
+                    field.setFacility(facility);
+                }
+                fields.add(field);
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -253,7 +260,7 @@ public class FieldDao {
 
                 FacilityDAO facilityDAO = new FacilityDAO(); //TODO check correctness
 
-                fields.add(new Field(id, name, sport, description, price, image, facilityDAO.getFacility(idFacility)));
+                fields.add(new Field(id, name, sport, description, price, image, facilityDAO.getFacility(idFacility, false)));
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
