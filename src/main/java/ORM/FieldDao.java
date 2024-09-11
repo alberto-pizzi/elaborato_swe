@@ -250,7 +250,7 @@ public class FieldDao {
                 //FIXME possible infinite loop
                 Field field = this.getField(resultSet.getInt("id"));
                 if (loadFacility) {
-                    Facility facility = new FacilityDAO().getFacility(resultSet.getInt("id_facility"), false);
+                    Facility facility = new FacilityDAO().getFacility(field.getFacility().getId(), false);
                     field.setFacility(facility);
                 }
                 fields.add(field);

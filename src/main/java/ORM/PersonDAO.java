@@ -213,12 +213,13 @@ public abstract class PersonDAO {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
 
-            int persons = resultSet.getInt("results");
+                int persons = resultSet.getInt("results");
 
-            if (persons > 0)
-                return true;
-
+                if (persons > 0)
+                    return true;
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -303,16 +304,17 @@ public abstract class PersonDAO {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
-
-            int id = resultSet.getInt("id");
-            String usernameSelected = resultSet.getString("username");
-            String email = resultSet.getString("email");
-            String password = resultSet.getString("password");
-            String city = resultSet.getString("city");
-            String province = resultSet.getString("province");
-            String zip = resultSet.getString("zip");
-            String country = resultSet.getString("country");
-            user = new User(id, email, usernameSelected, city, province, zip, country, password);
+            if(resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String usernameSelected = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String city = resultSet.getString("city");
+                String province = resultSet.getString("province");
+                String zip = resultSet.getString("zip");
+                String country = resultSet.getString("country");
+                user = new User(id, email, usernameSelected, city, province, zip, country, password);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

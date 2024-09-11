@@ -52,7 +52,7 @@ public class HomeController implements Initializable {
         int columns = 0;
         int rows = 0;
         try {
-            for(int i=0; i< 9; i++){
+            for(int i=0; i < 9 && i < fields.size(); i++){
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
                 fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
