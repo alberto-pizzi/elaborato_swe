@@ -36,6 +36,7 @@ public class HomeController implements Initializable {
 
     private List<Field> getData() throws SQLException {
         List<Field> fields = new ArrayList<>();
+        //FIXME error "id_facility" not found
         FieldDao fieldDao = new FieldDao();
         fields = fieldDao.getAllFields(true);
         return fields;
