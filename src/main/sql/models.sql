@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS "Invite" (
     id SERIAL PRIMARY KEY,
     id_group INTEGER NOT NULL UNIQUE,
     id_user INTEGER NOT NULL,
-    FOREIGN KEY (id_group) REFERENCES "Group"(id),
+    FOREIGN KEY (id_group) REFERENCES "Group"(id) ON DELETE CASCADE,
     FOREIGN KEY (id_user) REFERENCES "User"(id)
 );
 
