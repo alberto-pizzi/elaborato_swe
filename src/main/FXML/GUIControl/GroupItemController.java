@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
+import javafx.scene.layout.AnchorPane;
 import main.java.BusinessLogic.UserActionsController;
 
 import main.java.DomainModel.Group;
@@ -12,6 +13,9 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 public class GroupItemController {
+
+    @FXML
+    private AnchorPane groupItemPane;
 
     @FXML
     private Label dateLabel;
@@ -39,8 +43,14 @@ public class GroupItemController {
 
     private Group group;
     private UserActionsController userActionsController; //TODO is it good make this? if not, remove it
+    private YourGroupsController yourGroupsController;
 
     //TODO add possible listeners (button)
+
+    //setters
+    public void setYourGroupsController(YourGroupsController yourGroupsController) {
+        this.yourGroupsController = yourGroupsController;
+    }
 
     //methods
 
@@ -61,15 +71,20 @@ public class GroupItemController {
         membersLabel.setText(group.groupProgress());
         fieldNameLabel.setText(group.getReservation().getField().getName());
 
-
-
     }
+
 
     @FXML
     public void handleLeaveButtonAction() throws SQLException, ClassNotFoundException {
         System.out.println("Leave button clicked: " + fieldNameLabel.getText());
         userActionsController.leaveGroup(group.getId());
+
+        if (yourGroupsController != null) {
+            yourGroupsController.removeGroupItemFromGUI(groupItemPane,group);
+        }
     }
+
+
 
 
 

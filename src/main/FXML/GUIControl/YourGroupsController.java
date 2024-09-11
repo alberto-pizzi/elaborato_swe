@@ -59,9 +59,11 @@ public class YourGroupsController implements Initializable {
                 AnchorPane groupItem = fxmlLoader.load();
 
                 GroupItemController groupItemController = fxmlLoader.getController();
+                groupItemController.setYourGroupsController(this);
                 groupItemController.setData(groups.get(i), userActionsController);
 
                 groupsVBox.getChildren().add(groupItem);
+
 
             }
 
@@ -71,6 +73,11 @@ public class YourGroupsController implements Initializable {
         }
 
 
+    }
+
+    public void removeGroupItemFromGUI(AnchorPane groupItemPane, Group group) {
+        groups.remove(group);
+        groupsVBox.getChildren().remove(groupItemPane);
     }
 
 }
