@@ -16,7 +16,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/groups.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/fieldDetails.fxml"));
         stage.setTitle("JavaFX APP");
         //TODO check if when quit button is pressed, app will close
         stage.setScene(new Scene(root,1280,720));
