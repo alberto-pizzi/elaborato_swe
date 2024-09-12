@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.text.Font?>
 
-<Button fx:id="goToGroupButton" mnemonicParsing="false" onAction="#handleGoToGroupsButtonAction" styleClass="go-to-groups-button" stylesheets="@css/style.css" text="Go to Groups" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ReservationItemController">
+<Button fx:id="goToGroupButton" mnemonicParsing="false" onAction="#handleGoToGroupsButtonAction" styleClass="go-to-groups-button" stylesheets="@css/style.css" text="Go to Groups" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ManagementButtonsController">
    <font>
       <Font size="18.0" />
    </font>

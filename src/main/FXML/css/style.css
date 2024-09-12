@@ -47,6 +47,7 @@
 .go-to-groups-button{
     -fx-background-color: #FFECB3;
     -fx-background-radius: 5;
+    -fx-cursor: hand;
 }
 
 .select-button{

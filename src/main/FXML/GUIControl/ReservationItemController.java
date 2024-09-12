@@ -43,6 +43,7 @@ public class ReservationItemController {
     @FXML
     private Label matching;
 
+
     private Reservation reservation;
     private UserActionsController userActionsController;
     private ReservationsController reservationsController;
@@ -95,6 +96,9 @@ public class ReservationItemController {
                 actionsVBox.getChildren().add(buttonsBox);
             }
 
+            ManagementButtonsController managementButtonsController = loader.getController();
+            managementButtonsController.setData(reservation);
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,24 +107,5 @@ public class ReservationItemController {
 
     }
 
-    @FXML
-    public void handleGoToGroupsButtonAction(){
-        //TODO implement
-        System.out.println("GoToGroups button clicked: " + fieldNameLabel.getText());
 
-    }
-
-    @FXML
-    public void handleEditButtonAction(){
-        //TODO implement
-        System.out.println("Edit button clicked: " + fieldNameLabel.getText());
-
-    }
-
-    @FXML
-    public void handleDeleteButtonAction(){
-        //TODO implement
-        System.out.println("Delete button clicked: " + fieldNameLabel.getText());
-
-    }
 }
