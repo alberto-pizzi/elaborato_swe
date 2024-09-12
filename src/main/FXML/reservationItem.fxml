@@ -174,7 +174,7 @@
                         <Rectangle2D />
                      </viewport>
                      <image>
-                        <Image url="@img/olympicFiled.jpg" />
+                        <Image url="@img/olympicField.jpg" />
                      </image>
                      <effect>
                         <DropShadow />
