@@ -1,6 +1,7 @@
 .menu-button{
     -fx-background-color: #AEAEAE;
     -fx-background-radius: 10;
+    -fx-cursor: hand;
 }
 
 .menu-button:pressed{
@@ -29,15 +30,18 @@
 .leave-button{
     -fx-background-color: #FC4850;
     -fx-background-radius: 5;
+    -fx-cursor: hand;
 }
 
 .accept-button{
     -fx-background-color: #00B126;
     -fx-background-radius: 5;
+    -fx-cursor: hand;
 }
 .decline-button{
     -fx-background-color: #FC4850;
     -fx-background-radius: 5;
+    -fx-cursor: hand;
 }
 
 .go-to-groups-button{
@@ -48,5 +52,18 @@
 .select-button{
     -fx-background-color: #CF60EA;
     -fx-background-radius: 10;
+}
+
+.management-buttons{
+    -fx-background-radius: 40;
+    -fx-cursor: hand;
+}
+
+.edit-button-color{
+    -fx-background-color: #F2EB2A;
+}
+
+.delete-button-color{
+    -fx-background-color: #FC4850;
 }
 

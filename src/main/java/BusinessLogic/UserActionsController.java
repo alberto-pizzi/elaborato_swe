@@ -182,4 +182,13 @@ public class UserActionsController {
 
     }
 
+    public ArrayList<Reservation> getOwnReservations() throws SQLException, ClassNotFoundException {
+
+        ReservationDao reservationDao = new ReservationDao();
+
+        //TODO should getReservation be improved with isConfirmed supporting? (into ReservationDao)
+        return reservationDao.getReservationsByUser(this.user.getId());
+
+    }
+
 }
