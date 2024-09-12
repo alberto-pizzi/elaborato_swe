@@ -14,6 +14,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
+import main.java.DomainModel.Group;
 import main.java.DomainModel.Reservation;
 import main.java.DomainModel.User;
 
@@ -71,5 +72,11 @@ public class ReservationsController implements Initializable {
 
 
         }
+
+    //TODO template needed?
+    public void removeReservationItemFromGUI(AnchorPane reservationItemPane, Reservation reservation) {
+        reservations.remove(reservation);
+        reservationsVBox.getChildren().remove(reservationItemPane);
+    }
 
     }

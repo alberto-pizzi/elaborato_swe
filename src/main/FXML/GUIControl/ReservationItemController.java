@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
@@ -15,6 +16,9 @@ import main.java.DomainModel.Reservation;
 import java.text.SimpleDateFormat;
 
 public class ReservationItemController {
+
+    @FXML
+    private AnchorPane reservationItemPane;
 
     @FXML
     private VBox actionsVBox;
@@ -48,7 +52,35 @@ public class ReservationItemController {
     private UserActionsController userActionsController;
     private ReservationsController reservationsController;
 
+
+    //getters
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public UserActionsController getUserActionsController() {
+        return userActionsController;
+    }
+
+    public ReservationsController getReservationsController() {
+        return reservationsController;
+    }
+
+    public AnchorPane getReservationItemPane() {
+        return reservationItemPane;
+    }
+
     //setters
+
+
+    public void setUserActionsController(UserActionsController userActionsController) {
+        this.userActionsController = userActionsController;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
 
     public void setReservationsController(ReservationsController reservationsController) {
         this.reservationsController = reservationsController;
@@ -97,7 +129,7 @@ public class ReservationItemController {
             }
 
             ManagementButtonsController managementButtonsController = loader.getController();
-            managementButtonsController.setData(reservation);
+            managementButtonsController.setData(this);
 
 
         } catch (Exception e) {
@@ -106,6 +138,7 @@ public class ReservationItemController {
 
 
     }
+
 
 
 }
