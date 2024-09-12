@@ -74,7 +74,7 @@ public class FieldDetailController implements Initializable {
         fieldPricePerHour.setText("$ " + String.valueOf(field.getPrice()));
         //TODO add "go to book" button
 
-        String pathFromRoot = "/main/FXML/img/";
+        String pathFromRoot = "/main/FXML/img/fields/";
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         fieldImageView.setImage(image);
