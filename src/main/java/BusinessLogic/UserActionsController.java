@@ -152,9 +152,10 @@ public class UserActionsController {
 
     }
 
-    //FIXME output type? maybe ArrayList<Field>
-    public void searchField(String inputSearched){
-
+    //cambiato tipo return
+    public ArrayList<Field> searchField(String inputSearched) throws SQLException {
+        FieldDao fieldDao = new FieldDao();
+        return fieldDao.search(inputSearched);
     }
 
 
