@@ -275,7 +275,7 @@ public class FieldDao {
         Sport sport = null;
         SportDao sportDao = new SportDao();
 
-        String querySQL = String.format("SELECT * FROM \"Field\" INNER JOIN \"Facility\" ON Field.id_facility = Facility.id WHERE Facility.province ='%s'", province);
+        String querySQL = "SELECT * FROM \"Field\" INNER JOIN \"Facility\" ON (\"Field\".id_facility = \"Facility\".id)" + String.format(" WHERE province ='%s'", "MI");
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -390,25 +390,30 @@ public class FieldDao {
         String[] words = searchText.split("\\s+");
         for (String word : words) {
 
-  /*          tempFields = this.getFieldsByProvince(word);
+           tempFields = this.getFieldsByProvince(word);
             for (Field field : fields) {
                 for (Field f : tempFields) {
-                    if(field.getId() == f.getId()){
-                        tempFields.remove(f);
+                    if(field.getId() != f.getId()){
+                        fields.add(f);
                     }
                 }
             }
-            fields.addAll(tempFields);
+            if(fields.isEmpty()) {
+                fields.addAll(tempFields);
+            }
 
+/*
             tempFields = this.getFieldsBySport(word);
             for (Field field : fields) {
                 for (Field f : tempFields) {
-                    if(field.getId() == f.getId()){
-                        tempFields.remove(f);
+                    if(field.getId() != f.getId()){
+                        fields.add(f);
                     }
                 }
             }
-            fields.addAll(tempFields);
+            if(fields.isEmpty()) {
+               fields.addAll(tempFields);
+           }
 */
             tempFields = this.getFieldsByName(word);
             for (Field field : fields) {
@@ -418,7 +423,9 @@ public class FieldDao {
                     }
                 }
             }
-            fields.addAll(tempFields);
+            if(fields.isEmpty()) {
+                fields.addAll(tempFields);
+            }
         }
 
 
