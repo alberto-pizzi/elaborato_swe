@@ -9,8 +9,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 import main.java.ORM.FieldDao;
+import javafx.scene.Node;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,8 +31,9 @@ public class HomeController implements Initializable {
     @FXML
     private Button searchButton;
 
+
     @FXML
-    private GridPane fieldsGrid;
+    private VBox fieldsList;
 
     private List<Field> fields = new ArrayList<>();
 
@@ -50,100 +55,112 @@ public class HomeController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        int columns = 0;
-        int rows = 0;
-        try {
-            for(int i=0; i < 9 && i < fields.size(); i++){
+        for(int i=0; i < 2 && i < fields.size(); i++){
+            try {
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
                 fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
 
-                AnchorPane anchorPane = fmxLoader.load();
-
+                HBox hBox = fmxLoader.load();
                 FieldItemController fieldItemController = fmxLoader.getController();
                 fieldItemController.setData(fields.get(i));
 
-                if(columns == 1){
-                    columns = 0;
-                    rows++;
-                }
-                fieldsGrid.add(anchorPane, columns++, rows);
-                GridPane.setMargin(anchorPane, new Insets(10));
-
+                fieldsList.getChildren().add(hBox);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
 
     }
 
     @FXML
     private void next(ActionEvent event){
-        int columns = 0;
-        int rows = 0;
-        if(fields.size()>10*position){
 
-            try {
-                for(int i=10*position; i< 10*position+9 && i< fields.size() ; i++){
+        if(fields.size()>2*position) {
+            fieldsList.getChildren().clear();
+
+            for (int i = 2 * position; i < 2 * position + 2 && i < fields.size(); i++) {
+                try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
                     fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
 
-                    AnchorPane anchorPane = fmxLoader.load();
-
+                    HBox hBox = fmxLoader.load();
                     FieldItemController fieldItemController = fmxLoader.getController();
                     fieldItemController.setData(fields.get(i));
 
-                    if(columns == 1){
-                        columns = 0;
-                        rows++;
-                    }
-
-                    fieldsGrid.add(anchorPane, columns++, rows);
-                    GridPane.setMargin(anchorPane, new Insets(10));
-
+                    fieldsList.getChildren().add(hBox);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
             position++;
         }
 
     }
 
+
+
     @FXML
     private void previous(ActionEvent event){
-        int columns = 0;
-        int rows = 0;
+
         if(position > 1){
+            fieldsList.getChildren().clear();
 
+                for(int i = 2*(position-1)-1; i > 2*(position-2)-1 && i>=0; i--){
+
+                    try {
+                        FXMLLoader fmxLoader;
+                        fmxLoader = new FXMLLoader();
+                        fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+
+                        HBox hBox = fmxLoader.load();
+                        FieldItemController fieldItemController = fmxLoader.getController();
+                        fieldItemController.setData(fields.get(i));
+
+                        fieldsList.getChildren().add(hBox);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw new RuntimeException(e);
+                    }
+
+
+                }
+            position--;
+        }
+    }
+
+    @FXML
+    private void search(ActionEvent event){
+
+        if(!search.getText().equals("")){
+            fieldsList.getChildren().clear();
+            position = 1;
+            UserActionsController userActionsController = new UserActionsController();
             try {
-
-                for(int i = 10*(position-1); i > 10*(position-2)-1 && i>0; i--){
+                fields.clear();
+                fields.addAll(userActionsController.searchField(search.getText()));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            for(int i=0; i < 2 && i < fields.size(); i++){
+                try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
                     fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
 
-                    AnchorPane anchorPane = fmxLoader.load();
-
+                    HBox hBox = fmxLoader.load();
                     FieldItemController fieldItemController = fmxLoader.getController();
                     fieldItemController.setData(fields.get(i));
 
-                    if(columns == 1){
-                        columns = 0;
-                        rows++;
-                    }
-
-                    fieldsGrid.add(anchorPane, columns++, rows);
-                    GridPane.setMargin(anchorPane, new Insets(10));
-
-
+                    fieldsList.getChildren().add(hBox);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
-            position--;
         }
-
     }
 }

@@ -275,7 +275,7 @@ public class FieldDao {
         Sport sport = null;
         SportDao sportDao = new SportDao();
 
-        String querySQL = String.format("SELECT * FROM \"Field\" INNER JOIN \"Facility\" ON Field.id_facility = Facility.id WHERE province = '%s'", province);
+        String querySQL = String.format("SELECT * FROM \"Field\" INNER JOIN \"Facility\" ON Field.id_facility = Facility.id WHERE Facility.province ='%s'", province);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -313,7 +313,7 @@ public class FieldDao {
         Sport sport = null;
         SportDao sportDao = new SportDao();
 
-        String querySQL = String.format("SELECT * FROM \"Field\" WHERE name = '%s'", searchName);
+        String querySQL = String.format("SELECT * FROM \"Field\" WHERE name LIKE '%s'", "%" + searchName + "%");
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -387,10 +387,10 @@ public class FieldDao {
     public ArrayList<Field> search(String searchText) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
         ArrayList<Field> tempFields = new ArrayList<>();
-        String[] words = searchText.toLowerCase().split("\\s+");
+        String[] words = searchText.split("\\s+");
         for (String word : words) {
 
-            tempFields = this.getFieldsByProvince(word);
+  /*          tempFields = this.getFieldsByProvince(word);
             for (Field field : fields) {
                 for (Field f : tempFields) {
                     if(field.getId() == f.getId()){
@@ -409,7 +409,7 @@ public class FieldDao {
                 }
             }
             fields.addAll(tempFields);
-
+*/
             tempFields = this.getFieldsByName(word);
             for (Field field : fields) {
                 for (Field f : tempFields) {

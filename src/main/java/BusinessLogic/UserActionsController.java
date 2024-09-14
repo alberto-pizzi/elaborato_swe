@@ -19,6 +19,10 @@ public class UserActionsController {
         this.user = user;
     }
 
+    public UserActionsController() {
+        this.user = (User) SessionController.getInstance().getPerson();
+    }
+
 
     //getter
 
