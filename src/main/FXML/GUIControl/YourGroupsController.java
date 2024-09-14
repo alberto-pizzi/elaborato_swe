@@ -31,7 +31,6 @@ public class YourGroupsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        //TODO implement
 
         User tmpUser = new User(2,"luca.bianchi@example.com", "lucabianchi","password123", "Milano", "MI", "20100", "Italia"); //TODO remove it, add right user
 
@@ -50,7 +49,7 @@ public class YourGroupsController implements Initializable {
         try{
 
             System.out.println(groups.size());
-            //TODO finish
+
             for (int i = 0; i < groups.size(); i++) {
 
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -59,10 +58,10 @@ public class YourGroupsController implements Initializable {
                 AnchorPane groupItem = fxmlLoader.load();
 
                 GroupItemController groupItemController = fxmlLoader.getController();
+                groupItemController.setYourGroupsController(this);
                 groupItemController.setData(groups.get(i), userActionsController);
 
                 groupsVBox.getChildren().add(groupItem);
-
             }
 
 
@@ -71,6 +70,11 @@ public class YourGroupsController implements Initializable {
         }
 
 
+    }
+
+    public void removeGroupItemFromGUI(AnchorPane groupItemPane, Group group) {
+        groups.remove(group);
+        groupsVBox.getChildren().remove(groupItemPane);
     }
 
 }

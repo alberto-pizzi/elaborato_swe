@@ -11,8 +11,8 @@ INSERT INTO "Owner" (email, username, city, province, zip, country, password) VA
 
 -- Popola la tabella Facility
 INSERT INTO "Facility" (name, address, city, province, zip, country, n_managers, n_fields, telephone, image, id_owner) VALUES
-('Centro Sportivo Roma', 'Via del Corso, 1', 'Roma', 'RM', '00100', 'Italia', 2, 5, '0612345678', 'image_url_1', 1),
-('Stadio Milano', 'Via Montenapoleone, 10', 'Milano', 'MI', '20100', 'Italia', 3, 3, '0212345678', 'image_url_2', 2);
+('Centro Sportivo Roma', 'Via del Corso, 1', 'Roma', 'RM', '00100', 'Italia', 2, 5, '0612345678', 'olympicField.jpg', 1),
+('Stadio Milano', 'Via Montenapoleone, 10', 'Milano', 'MI', '20100', 'Italia', 3, 3, '0212345678', 'olympicField.jpg', 2);
 
 -- Popola la tabella WH (Working Hours)
 INSERT INTO "WH" (day_of_week, opening, closing, id_facility) VALUES
@@ -29,8 +29,8 @@ INSERT INTO "Sport" (name, players_required) VALUES
 
 -- Popola la tabella Field
 INSERT INTO "Field" (name, id_sport, description, price, image, id_facility) VALUES
-('Campo di Calcio', 1, 'Campo di calcio a 11 in erba sintetica', 100.00, 'image_field_1', 1),
-('Campo di Tennis', 2, 'Campo da tennis in terra rossa', 50.00, 'image_field_2', 2);
+('Campo di Calcio', 1, 'Campo di calcio a 11 in erba sintetica', 100.00, 'olympicField.jpg', 1),
+('Campo di Tennis', 2, 'Campo da tennis in terra rossa', 50.00, 'olympicField.jpg', 2);
 
 -- Popola la tabella Reservation
 INSERT INTO "Reservation" (res_date, event_date, res_time, event_time_start, event_time_end, id_field, n_participants, is_confirmed, is_matched, id_user) VALUES

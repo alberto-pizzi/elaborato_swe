@@ -3,10 +3,8 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -14,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1100.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="reservationItemPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1100.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ReservationItemController">
    <styleClass>
       <String fx:value="group-item" />
       <String fx:value="shadow" />
@@ -24,7 +22,7 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label prefHeight="44.0" prefWidth="404.0" text="Field Name">
+                  <Label fx:id="fieldNameLabel" prefHeight="44.0" prefWidth="404.0" text="Field Name">
                      <font>
                         <Font name="System Bold" size="28.0" />
                      </font>
@@ -39,7 +37,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label prefHeight="44.0" prefWidth="195.0" text="Field address" textFill="#a1a1a1">
+                        <Label fx:id="fieldAddress" prefHeight="44.0" prefWidth="195.0" text="Field address" textFill="#a1a1a1">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -67,7 +65,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="44.0" prefWidth="130.0" text="Football" textFill="#a1a1a1">
+                        <Label fx:id="fieldSport" prefHeight="44.0" prefWidth="130.0" text="Football" textFill="#a1a1a1">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -84,7 +82,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label prefHeight="40.0" prefWidth="105.0" text="No" textFill="#a1a1a1">
+                        <Label fx:id="matching" prefHeight="40.0" prefWidth="105.0" text="No" textFill="#a1a1a1">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -112,7 +110,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label prefHeight="40.0" prefWidth="101.0" text="12/12/2024" textFill="#a1a1a1">
+                        <Label fx:id="eventDate" prefHeight="40.0" prefWidth="101.0" text="12/12/2024" textFill="#a1a1a1">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -125,7 +123,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label prefHeight="40.0" prefWidth="85.0" text="7:00 PM" textFill="#a1a1a1">
+                        <Label fx:id="eventTimeStart" prefHeight="40.0" prefWidth="85.0" text="7:00 PM" textFill="#a1a1a1">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -142,7 +140,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label prefHeight="40.0" prefWidth="195.0" text="11/12/2024 at 5:34 PM" textFill="#a1a1a1">
+                        <Label fx:id="bookingDate" prefHeight="40.0" prefWidth="195.0" text="11/12/2024 at 5:34 PM" textFill="#a1a1a1">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -153,29 +151,15 @@
             </VBox>
          </children>
       </StackPane>
-      <VBox alignment="CENTER" prefHeight="120.0" prefWidth="180.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <Button mnemonicParsing="false" styleClass="go-to-groups-button" stylesheets="@css/style.css" text="Go to Groups">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <padding>
-                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-               </padding>
-            </Button>
-         </children>
-      </VBox>
+      <VBox fx:id="actionsVBox" alignment="CENTER" prefHeight="120.0" prefWidth="180.0" AnchorPane.rightAnchor="0.0" />
       <StackPane prefHeight="120.0" prefWidth="125.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox alignment="CENTER" prefHeight="120.0" prefWidth="120.0" StackPane.alignment="CENTER">
                <children>
-                  <ImageView fitHeight="90.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="fieldImageView" fitHeight="90.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                      <viewport>
                         <Rectangle2D />
                      </viewport>
-                     <image>
-                        <Image url="@img/olympicFiled.jpg" />
-                     </image>
                      <effect>
                         <DropShadow />
                      </effect>

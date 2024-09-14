@@ -9,5 +9,4 @@ module elaboratoSWEWindows {
     opens main.FXML.GUIControl to javafx.fxml;
 
 
-
 }
