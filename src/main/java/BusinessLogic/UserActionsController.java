@@ -1,5 +1,6 @@
 package main.java.BusinessLogic;
 
+import javafx.scene.control.Alert;
 import main.java.DomainModel.*;
 
 import main.java.ORM.*;
@@ -96,7 +97,11 @@ public class UserActionsController {
         group.setParticipants(group.getParticipants() + guestUsers + 1);
         System.out.println("Group " + idGroup + "participants had been increased");
 
-        //TODO when is full? what's happen?
+        //TODO when is full? what's happen? check...
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Join Group");
+        alert.setHeaderText("Group selected is full");
+
 
     }
 
