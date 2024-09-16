@@ -391,40 +391,43 @@ public class FieldDao {
         for (String word : words) {
 
            tempFields = this.getFieldsByProvince(word);
-            for (Field field : fields) {
-                for (Field f : tempFields) {
-                    if(field.getId() != f.getId()){
-                        fields.add(f);
-                    }
-                }
-            }
-            if(fields.isEmpty()) {
-                fields.addAll(tempFields);
-            }
+           if (fields.isEmpty() || tempFields.isEmpty()) {
+               fields.addAll(tempFields);
+           } else {
+               for (Field field : fields) {
+                   for (Field f : tempFields) {
+                       if(field.getId() != f.getId()){
+                           fields.add(f);
+                       }
+                   }
+               }
+           }
 
 /*
             tempFields = this.getFieldsBySport(word);
-            for (Field field : fields) {
-                for (Field f : tempFields) {
-                    if(field.getId() != f.getId()){
-                        fields.add(f);
-                    }
-                }
-            }
-            if(fields.isEmpty()) {
+            if (fields.isEmpty() || tempFields.isEmpty()) {
                fields.addAll(tempFields);
+           } else {
+               for (Field field : fields) {
+                   for (Field f : tempFields) {
+                       if(field.getId() != f.getId()){
+                           fields.add(f);
+                       }
+                   }
+               }
            }
 */
             tempFields = this.getFieldsByName(word);
-            for (Field field : fields) {
-                for (Field f : tempFields) {
-                    if(field.getId() == f.getId()){
-                        tempFields.remove(f);
+            if (fields.isEmpty() || tempFields.isEmpty()) {
+                fields.addAll(tempFields);
+            } else {
+                for (Field field : fields) {
+                    for (Field f : tempFields) {
+                        if(field.getId() != f.getId()){
+                            fields.add(f);
+                        }
                     }
                 }
-            }
-            if(fields.isEmpty()) {
-                fields.addAll(tempFields);
             }
         }
 
