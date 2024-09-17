@@ -75,6 +75,7 @@ public class UserActionsController {
 
     public void sendInvite(int idInvite){
 
+        //TODO how I implement invite creation (in DB)?
     }
 
     public void declineInvite(int idInvite) throws SQLException {
@@ -97,7 +98,7 @@ public class UserActionsController {
         group.setParticipants(group.getParticipants() + guestUsers + 1);
         System.out.println("Group " + idGroup + "participants had been increased");
 
-        //TODO when is full? what's happen? check...
+        //TODO when is full? what's happen? check alert...
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Join Group");
         alert.setHeaderText("Group selected is full");
