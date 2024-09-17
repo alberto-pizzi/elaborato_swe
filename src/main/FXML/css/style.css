@@ -8,6 +8,10 @@
     -fx-background-color: #BFBFBF;
 }
 
+.menu-button:focused{
+    -fx-background-color: #BFBFBF;
+}
+
 .menu-button:hover{
     -fx-background-color: #BFBFBF;
 }
