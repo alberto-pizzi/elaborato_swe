@@ -52,8 +52,9 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    public void handleHomeButtonAction(ActionEvent event) {
+    public void handleHomeButtonAction(ActionEvent event) throws IOException {
         //TODO add home link
+        changeView("bookingForm.fxml");
         System.out.println("Home menu button clicked");
 
     }
