@@ -69,6 +69,8 @@ public class UserActionsController {
 
         ReservationDao reservationDao = new ReservationDao();
 
+        //reservationDao.addReservation(new Reservation(eventDate,eventTimeStart,));
+
         //TODO all input parameters are maybe better into ReservationDao? if not, is needed a constructor
 
     }
