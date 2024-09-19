@@ -6,10 +6,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import main.java.DomainModel.Field;
-import main.java.DomainModel.Reservation;
+import main.java.BusinessLogic.UserActionsController;
+import main.java.DomainModel.*;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -66,19 +68,55 @@ public class BookFieldController implements Initializable {
 
     Field field;
 
+    UserActionsController userActionsController;
+
 
     //methods
 
-    private List<String> generateTimeSlots(int minutesInterval, DateTimeFormatter formatter) {
-        List<String> timeSlots = new ArrayList<>();
-        LocalTime time = LocalTime.of(0, 0);
+    public static boolean isOverlapping(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
+        return !(end1.isBefore(start2) || end2.isBefore(start1) || end1.equals(start2) || end2.equals(start1));
+    }
 
+    private List<LocalTime> availableTimes(int minutesInterval, DateTimeFormatter formatter, WorkingHours.Day dayOfWeek) throws SQLException, ClassNotFoundException {
+        List<LocalTime> availableTimes = new ArrayList<>();
 
-        while (time.isBefore(LocalTime.of(23, 45))) {
-            timeSlots.add(time.format(formatter));
-            time = time.plusMinutes(minutesInterval);
+        ArrayList<WorkingHours> WHs = userActionsController.getWHsByFacilityByDay(field.getFacility().getId(), dayOfWeek);
+
+        ArrayList<Reservation> reservations = userActionsController.getReservationsByField(field.getId());
+
+        for (WorkingHours wh : WHs) {
+            //FIXME remove if and add specific DAO query with correct DayOfWeek
+            if (wh.getDayOfWeek() == dayOfWeek) {
+                LocalTime opening = wh.getOpeningHours().toLocalTime();
+                LocalTime closing = wh.getClosingHours().toLocalTime();
+
+                LocalTime current = opening;
+
+                while (current.isBefore(closing)) {
+                    boolean isAvailable = true;
+
+                    for (Reservation reservation : reservations) {
+                        LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
+                        LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
+
+                        if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
+                            isAvailable = false;
+                            break;
+                        }
+
+                    }
+
+                    if (isAvailable) {
+                        availableTimes.add(current);
+                    }
+
+                    current = current.plusMinutes(minutesInterval);
+
+                }
+            }
         }
-        return timeSlots;
+
+        return availableTimes;
     }
 
     @Override
@@ -87,10 +125,31 @@ public class BookFieldController implements Initializable {
         //TODO optimize
         //TODO add
 
+        //TODO remove it, add right objs
+        User tmpUser = new User(2,"luca.bianchi@example.com", "lucabianchi","password123", "Milano", "MI", "20100", "Italia"); //TODO remove it, add right user
+
+        this.userActionsController = new UserActionsController(tmpUser);
+        Sport sport = new Sport(1,"Calcio",22);
+        Owner owner = new Owner(1,"owner1@example.com", "ownerone", "password123","Torino", "TO", "10100", "Italia");
+        Facility facility = new Facility(1,"Centro Sportivo Roma", "Via del Corso, 1", "Roma", "RM", "00100", "Italia", 2, "00000", "0612345678", owner);
+        Field tmpField = new Field(1,"Campo di Calcio", sport, "Campo di calcio a 11 in erba sintetica", 100, "olympicField.jpg", facility);
+        this.field = tmpField;
+
         //FIXME fix timeslots...
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        List<String> timeOptions = generateTimeSlots(30, timeFormatter); // 30 minuti
-        startTimeChoice.getItems().addAll(timeOptions);
+        List<LocalTime> timeOptions = null; // 30 minuti
+        try {
+            timeOptions = availableTimes(15, timeFormatter, WorkingHours.Day.MONDAY);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        for (LocalTime time : timeOptions) {
+            startTimeChoice.getItems().add(String.valueOf(time));
+        }
 
         //startTimeChoice.getItems().addAll("10","11","12","13","14","15","16","17","18","19","20");
 
