@@ -11,7 +11,7 @@ import main.java.DomainModel.*;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.DayOfWeek;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -28,7 +28,7 @@ public class BookFieldController implements Initializable {
     private DatePicker datePicker;
 
     @FXML
-    private ChoiceBox<Float> durationChoice;
+    private ChoiceBox<String> endTimeChoice;
 
     @FXML
     private Label fieldAddress;
@@ -73,25 +73,76 @@ public class BookFieldController implements Initializable {
 
     //methods
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        //TODO optimize
+
+        //TODO remove it, add right objs
+        User tmpUser = new User(2,"luca.bianchi@example.com", "lucabianchi","password123", "Milano", "MI", "20100", "Italia"); //TODO remove it, add right user
+
+        this.userActionsController = new UserActionsController(tmpUser);
+        Sport sport = new Sport(1,"Calcio",22);
+        Owner owner = new Owner(1,"owner1@example.com", "ownerone", "password123","Torino", "TO", "10100", "Italia");
+        Facility facility = new Facility(1,"Centro Sportivo Roma", "Via del Corso, 1", "Roma", "RM", "00100", "Italia", 2, "00000", "0612345678", owner);
+        ArrayList<WorkingHours> whs = new ArrayList<>();
+        whs.add(new WorkingHours(1, WorkingHours.Day.MONDAY, Time.valueOf("9:30:00"), Time.valueOf("22:00:00")));
+        facility.setWorkingHours(whs);
+        Field tmpField = new Field(1,"Campo di Calcio", sport, "Campo di calcio a 11 in erba sintetica", 100, "olympicField.jpg", facility);
+        this.field = tmpField;
+
+        //FIXME fix timeslots...
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        List<LocalTime> timeOptions = null; // 30 minuti
+        try {
+            //TODO add correct WH day
+            timeOptions = availableTimes(15, timeFormatter, WorkingHours.Day.MONDAY);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (LocalTime time : timeOptions) {
+            startTimeChoice.getItems().add(String.valueOf(time));
+        }
+
+        endTimeChoice.getItems().addAll();
+
+        startTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
+            try {
+                //TODO pass correct WH
+                updateDurationChoices(LocalTime.parse(newTime),facility.getWorkingHours().get(0),15);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+
+        nGuestsChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+        nPlayersToMatchChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+
+        if (startTimeChoice.getValue() != null) {
+            endTimeChoice.setOnAction(this::handleDurationChoiceAction);
+        }
+
+        if (isMatchingCheckBox.isSelected()){
+
+        }
+
+        //fieldPricePerHour.setText(field.getPrice() + " $");
+        //TODO add price per person
+        //pricePerPersonLabel.setText(Reservation.pricePerUser(field,) + " $");
+
+    }
+
+
     public static boolean isOverlapping(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
         return !(end1.isBefore(start2) || end2.isBefore(start1) || end1.equals(start2) || end2.equals(start1));
     }
 
-    //TODO is it useful?
-    private List<LocalTime> allTimes(int minutesInterval, DateTimeFormatter formatter) throws SQLException, ClassNotFoundException {
-        List<LocalTime> times = new ArrayList<>();
-        LocalTime startTime = LocalTime.of(0,0);
-        LocalTime endTime = LocalTime.of(23,59);
-
-        LocalTime current = startTime;
-        while (current.isBefore(endTime)) {
-            times.add(current);
-            current = current.plusMinutes(minutesInterval);
-        }
-
-        return times;
-
-    }
 
     private List<LocalTime> availableTimes(int minutesInterval, DateTimeFormatter formatter, WorkingHours.Day dayOfWeek) throws SQLException, ClassNotFoundException {
         List<LocalTime> availableTimes = new ArrayList<>();
@@ -136,98 +187,51 @@ public class BookFieldController implements Initializable {
     }
 
 
-    public float availableDurations(LocalTime timeSelected) throws SQLException, ClassNotFoundException {
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        List<LocalTime> timeOptions = null;
-        timeOptions = availableTimes(15, timeFormatter, WorkingHours.Day.MONDAY);
-        float count = 0;
+    //FIXME optimize?
+    private void updateDurationChoices(LocalTime selectedTime, WorkingHours wh, int minutesInterval) throws SQLException, ClassNotFoundException {
+        endTimeChoice.getItems().clear();
+
+        List<LocalTime> availableTimes = new ArrayList<>();
+
 
         ArrayList<Reservation> reservations = userActionsController.getReservationsByField(field.getId());
-
-        //TODO implement
-
-
-        return 0;
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        //TODO optimize
-        //TODO add
-
-        //TODO remove it, add right objs
-        User tmpUser = new User(2,"luca.bianchi@example.com", "lucabianchi","password123", "Milano", "MI", "20100", "Italia"); //TODO remove it, add right user
-
-        this.userActionsController = new UserActionsController(tmpUser);
-        Sport sport = new Sport(1,"Calcio",22);
-        Owner owner = new Owner(1,"owner1@example.com", "ownerone", "password123","Torino", "TO", "10100", "Italia");
-        Facility facility = new Facility(1,"Centro Sportivo Roma", "Via del Corso, 1", "Roma", "RM", "00100", "Italia", 2, "00000", "0612345678", owner);
-        Field tmpField = new Field(1,"Campo di Calcio", sport, "Campo di calcio a 11 in erba sintetica", 100, "olympicField.jpg", facility);
-        this.field = tmpField;
-
-        //FIXME fix timeslots...
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        List<LocalTime> timeOptions = null; // 30 minuti
-        try {
-            timeOptions = availableTimes(15, timeFormatter, WorkingHours.Day.MONDAY);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        for (LocalTime time : timeOptions) {
-            startTimeChoice.getItems().add(String.valueOf(time));
-        }
-
-        //startTimeChoice.getItems().addAll("10","11","12","13","14","15","16","17","18","19","20");
-
-
-        durationChoice.getItems().addAll(0.5F, 1.0F,1.5F,2.0F,2.5F,3.0F,3.5F,4.0F,4.5F,5.0F);
-
-        startTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
-            updateDurationChoices(LocalTime.parse(newTime));
-        });
-
-        /*
-        // Listener per la durata
-        durationChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldDuration, newDuration) -> {
-            updateTimeChoices(newDuration);
-        });
-
-         */
-        nGuestsChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-        nPlayersToMatchChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-
-        if (startTimeChoice.getValue() != null) {
-            durationChoice.setOnAction(this::handleDurationChoiceAction);
-        }
-
-        if (isMatchingCheckBox.isSelected()){
-
-        }
-
-        //fieldPricePerHour.setText(field.getPrice() + " $");
-        //TODO add price per person
-        //pricePerPersonLabel.setText(Reservation.pricePerUser(field,) + " $");
-
-    }
-
-    private void updateDurationChoices(LocalTime selectedTime) {
-        // Logica per aggiornare le durate disponibili in base all'orario selezionato
-        durationChoice.getItems().clear();
         if (selectedTime != null) {
-            // Esempio: mostra durate di 0.5 e 1.0 ore se l'orario è prima delle 12:00
-            if (selectedTime.isBefore(LocalTime.of(12, 0))) {
-                durationChoice.getItems().addAll(0.5F, 1.0F);
-            } else {
-                durationChoice.getItems().add(0.5F); // Solo 0.5 ore
+
+            LocalTime closing = wh.getClosingHours().toLocalTime();
+
+            LocalTime current = selectedTime;
+
+            while (current.isBefore(closing)) {
+                boolean isAvailable = true;
+
+                for (Reservation reservation : reservations) {
+                    LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
+                    LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
+
+                    if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
+                        isAvailable = false;
+                        break;
+                    }
+
+                }
+
+                if (!current.equals(selectedTime)) {
+                    //FIXME end time or duration?
+                    endTimeChoice.getItems().add(current.toString());
+                }
+
+                if (isAvailable) {
+                    availableTimes.add(current);
+                }
+                else{
+                    break;
+                }
+
+                current = current.plusMinutes(minutesInterval);
+
             }
         }
     }
-
 
 
     //TODO here is correct or elsewhere is better?
@@ -240,7 +244,7 @@ public class BookFieldController implements Initializable {
     private void handleDurationChoiceAction(ActionEvent actionEvent) {
         System.out.println("Duration sleected");
 
-        timeLabel.setText("From" + startTimeChoice.getValue() + " to " + durationChoice.getValue());
+        timeLabel.setText("From" + startTimeChoice.getValue() + " to " + endTimeChoice.getValue());
 
 
 
