@@ -35,11 +35,10 @@ public class FieldItemController {
         this.field = field;
         fieldNameLabel.setText(field.getName());
         fieldAddressLabel.setText("ho");
-        fieldPriceLabel.setText("20$");// + field.getPrice()/field.getSport().getPlayersRequired()
+        fieldPriceLabel.setText(field.getPrice()/field.getSport().getPlayersRequired() + "$");
         //Image image = new Image(getClass().getResourceAsStream(field.getImage()));
         //fieldImg.setImage(image);
-        //sportLabel.setText(field.getSport().getName());
-        sportLabel.setText("Sport");
+        sportLabel.setText(field.getSport().getName());
     }
 
 }
