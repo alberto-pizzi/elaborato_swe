@@ -108,7 +108,7 @@ public class ReservationItemController {
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + reservation.getField().getImage()));
         fieldImageView.setImage(image);
 
-        //TODO optimize
+        //TODO optimize?
 
         String buttonFXMLsrc = "";
         if (reservation.isMatched()) {
@@ -118,7 +118,7 @@ public class ReservationItemController {
         }
 
         try {
-            //TODO optimize
+            //TODO optimize?
             FXMLLoader loader = new FXMLLoader(getClass().getResource(buttonFXMLsrc));
             if (reservation.isMatched()) {
                 Button button = loader.load();
