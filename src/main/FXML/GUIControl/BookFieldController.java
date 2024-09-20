@@ -77,6 +77,22 @@ public class BookFieldController implements Initializable {
         return !(end1.isBefore(start2) || end2.isBefore(start1) || end1.equals(start2) || end2.equals(start1));
     }
 
+    //TODO is it useful?
+    private List<LocalTime> allTimes(int minutesInterval, DateTimeFormatter formatter) throws SQLException, ClassNotFoundException {
+        List<LocalTime> times = new ArrayList<>();
+        LocalTime startTime = LocalTime.of(0,0);
+        LocalTime endTime = LocalTime.of(23,59);
+
+        LocalTime current = startTime;
+        while (current.isBefore(endTime)) {
+            times.add(current);
+            current = current.plusMinutes(minutesInterval);
+        }
+
+        return times;
+
+    }
+
     private List<LocalTime> availableTimes(int minutesInterval, DateTimeFormatter formatter, WorkingHours.Day dayOfWeek) throws SQLException, ClassNotFoundException {
         List<LocalTime> availableTimes = new ArrayList<>();
 
@@ -119,6 +135,21 @@ public class BookFieldController implements Initializable {
         return availableTimes;
     }
 
+
+    public float availableDurations(LocalTime timeSelected) throws SQLException, ClassNotFoundException {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        List<LocalTime> timeOptions = null;
+        timeOptions = availableTimes(15, timeFormatter, WorkingHours.Day.MONDAY);
+        float count = 0;
+
+        ArrayList<Reservation> reservations = userActionsController.getReservationsByField(field.getId());
+
+        //TODO implement
+
+
+        return 0;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -156,10 +187,19 @@ public class BookFieldController implements Initializable {
 
         durationChoice.getItems().addAll(0.5F, 1.0F,1.5F,2.0F,2.5F,3.0F,3.5F,4.0F,4.5F,5.0F);
 
+        startTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
+            updateDurationChoices(LocalTime.parse(newTime));
+        });
+
+        /*
+        // Listener per la durata
+        durationChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldDuration, newDuration) -> {
+            updateTimeChoices(newDuration);
+        });
+
+         */
         nGuestsChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
         nPlayersToMatchChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-
-
 
         if (startTimeChoice.getValue() != null) {
             durationChoice.setOnAction(this::handleDurationChoiceAction);
@@ -169,23 +209,31 @@ public class BookFieldController implements Initializable {
 
         }
 
-
-
-
         //fieldPricePerHour.setText(field.getPrice() + " $");
         //TODO add price per person
         //pricePerPersonLabel.setText(Reservation.pricePerUser(field,) + " $");
 
+    }
 
-
-
+    private void updateDurationChoices(LocalTime selectedTime) {
+        // Logica per aggiornare le durate disponibili in base all'orario selezionato
+        durationChoice.getItems().clear();
+        if (selectedTime != null) {
+            // Esempio: mostra durate di 0.5 e 1.0 ore se l'orario è prima delle 12:00
+            if (selectedTime.isBefore(LocalTime.of(12, 0))) {
+                durationChoice.getItems().addAll(0.5F, 1.0F);
+            } else {
+                durationChoice.getItems().add(0.5F); // Solo 0.5 ore
+            }
+        }
     }
 
 
 
-    private String createEndTime(String startTime, float duration) {
-        //TODO implement
-        return null;
+    //TODO here is correct or elsewhere is better?
+    public LocalTime convertFromDurationToEndTime(LocalTime startTime, float durationInHours) {
+        long durationInMinutes = (long) (durationInHours * 60);
+        return startTime.plusMinutes((int)durationInMinutes);
     }
 
 
