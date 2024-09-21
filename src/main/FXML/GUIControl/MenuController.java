@@ -38,6 +38,11 @@ public class MenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            changeView("home.fxml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void changeView(String newViewFXMLFileName) throws IOException {
@@ -54,7 +59,7 @@ public class MenuController implements Initializable {
     @FXML
     public void handleHomeButtonAction(ActionEvent event) throws IOException {
         //TODO add home link
-        changeView("bookingForm.fxml");
+        changeView("home.fxml");
         System.out.println("Home menu button clicked");
 
     }

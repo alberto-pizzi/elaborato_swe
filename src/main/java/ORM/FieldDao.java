@@ -411,7 +411,6 @@ public class FieldDao {
         String[] words = searchText.split("\\s+");
         for (String word : words) {
 
-
             tempFields = this.getFieldsByProvince(word);
             fieldComparator(fields, tempFields);
 

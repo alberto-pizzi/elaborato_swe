@@ -5,19 +5,15 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
-import main.java.ORM.FieldDao;
-import javafx.scene.Node;
+import javafx.scene.control.Label;
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,19 +34,24 @@ public class HomeController implements Initializable {
     @FXML
     private VBox fieldsList;
 
+
+    @FXML
+    private Label pageNumber;
+
     private List<Field> fields = new ArrayList<>();
 
-    int position = 1;
+    int currentPage = 1;
 
-    private List<Field> getData() throws SQLException {
+    int itemsPerPage = 3;
+
+
+    private List<Field> getData() throws SQLException, ClassNotFoundException {
         List<Field> fields = new ArrayList<>();
-        //FIXME error "id_facility" not found
-        FieldDao fieldDao = new FieldDao();
-        fields = fieldDao.getAllFields(true);
-        return fields;
+        UserActionsController userActionsController = new UserActionsController();
+        return userActionsController.getNearbyFields();
     }
 
-    EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+    EventHandler<KeyEvent> handler = new EventHandler<>() {
         @Override
         public void handle(KeyEvent keyEvent) {
             if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -64,10 +65,10 @@ public class HomeController implements Initializable {
 
         try {
             fields.addAll(getData());
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        for(int i=0; i < 2 && i < fields.size(); i++){
+        for(int i=0; i < itemsPerPage && i < fields.size(); i++){
             try {
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
@@ -84,15 +85,17 @@ public class HomeController implements Initializable {
             }
         }
         search.setOnKeyPressed(handler);
+        String page = String.valueOf(currentPage);
+        pageNumber.setText(page);
     }
 
     @FXML
     private void next(ActionEvent event){
 
-        if(fields.size()>2*position) {
+        if(fields.size()>itemsPerPage* currentPage) {
             fieldsList.getChildren().clear();
 
-            for (int i = 2 * position; i < 2 * position + 2 && i < fields.size(); i++) {
+            for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < fields.size(); i++) {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
@@ -108,7 +111,8 @@ public class HomeController implements Initializable {
                     throw new RuntimeException(e);
                 }
             }
-            position++;
+            currentPage++;
+            pageNumber.setText(String.valueOf(currentPage));
         }
 
     }
@@ -118,10 +122,10 @@ public class HomeController implements Initializable {
     @FXML
     private void previous(ActionEvent event){
 
-        if(position > 1){
+        if(currentPage > 1){
             fieldsList.getChildren().clear();
 
-                for(int i = 2*(position-1)-1; i > 2*(position-2)-1 && i>=0; i--){
+                for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
 
                     try {
                         FXMLLoader fmxLoader;
@@ -140,16 +144,18 @@ public class HomeController implements Initializable {
 
 
                 }
-            position--;
+            currentPage--;
+            pageNumber.setText(String.valueOf(currentPage));
         }
     }
 
     @FXML
     private void search(ActionEvent event){
 
-        if(!search.getText().equals("")){
+        if(!search.getText().isEmpty()){
             fieldsList.getChildren().clear();
-            position = 1;
+            currentPage = 1;
+            pageNumber.setText(String.valueOf(currentPage));
             UserActionsController userActionsController = new UserActionsController();
             try {
                 fields.clear();
@@ -157,7 +163,7 @@ public class HomeController implements Initializable {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            for(int i=0; i < 2 && i < fields.size(); i++){
+            for(int i=0; i < itemsPerPage && i < fields.size(); i++){
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();

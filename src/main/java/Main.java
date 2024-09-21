@@ -17,7 +17,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/groups.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
             stage.setTitle("Sport Plus");
             //TODO change window size
             //TODO check if when quit button is pressed, app will close

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 
 public class UserActionsController {
+
     private User user;
 
     //constructor
@@ -182,6 +183,13 @@ public class UserActionsController {
         InviteDao inviteDao = new InviteDao();
 
         return inviteDao.getInvitesByUser(user.getId());
+
+    }
+
+    public ArrayList<Field> getNearbyFields() throws SQLException, ClassNotFoundException {
+        FieldDao fieldDao = new FieldDao();
+
+        return fieldDao.getFieldsByProvince(user.getProvince());
 
     }
 
