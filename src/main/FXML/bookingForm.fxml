@@ -109,9 +109,9 @@
                               <ChoiceBox fx:id="endTimeChoice" prefHeight="26.0" prefWidth="215.0" />
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="45.0" prefWidth="586.0">
+                        <HBox fx:id="durationBox" alignment="CENTER" prefHeight="45.0" prefWidth="586.0" visible="false">
                            <children>
-                              <Label text="Time:">
+                              <Label text="Duration:">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -119,7 +119,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="timeLabel" alignment="CENTER" text="From (Start Time) to (End Time)" textFill="#949494">
+                              <Label fx:id="durationLabel" alignment="CENTER" text="(Duration)" textFill="#949494">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -160,7 +160,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
-                              <Label text="Price (per hour):">
+                              <Label text="Total Price:">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -168,7 +168,7 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="fieldPricePerHour" text="100 $">
+                              <Label fx:id="fieldTotalPrice" text="100 $">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
@@ -183,7 +183,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
-                              <Label text="Price (per person):" textFill="GREY">
+                              <Label text="TotalPrice (per person):" textFill="GREY">
                                  <font>
                                     <Font size="20.0" />
                                  </font>

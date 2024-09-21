@@ -6,12 +6,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.*;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -21,11 +23,18 @@ import java.util.ResourceBundle;
 
 public class BookFieldController implements Initializable {
 
+
     @FXML
     private Button confirmButton;
 
     @FXML
     private DatePicker datePicker;
+
+    @FXML
+    private HBox durationBox;
+
+    @FXML
+    private Label durationLabel;
 
     @FXML
     private ChoiceBox<String> endTimeChoice;
@@ -40,10 +49,10 @@ public class BookFieldController implements Initializable {
     private Label fieldNameLabel;
 
     @FXML
-    private Label fieldPricePerHour;
+    private Label fieldSport;
 
     @FXML
-    private Label fieldSport;
+    private Label fieldTotalPrice;
 
     @FXML
     private CheckBox isMatchingCheckBox;
@@ -55,16 +64,13 @@ public class BookFieldController implements Initializable {
     private ChoiceBox<Integer> nPlayersToMatchChoice;
 
     @FXML
+    private VBox otherPlayersSelectorBox;
+
+    @FXML
     private Label pricePerPersonLabel;
 
     @FXML
     private ChoiceBox<String> startTimeChoice;
-
-    @FXML
-    private Label timeLabel;
-
-    @FXML
-    VBox otherPlayersSelectorBox;
 
     Field field;
 
@@ -94,8 +100,7 @@ public class BookFieldController implements Initializable {
 
         datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
             //FIXME fix output times visualizzation with "...". It is just graphical bug.
-            endTimeChoice.getItems().clear();
-            startTimeChoice.getItems().clear();
+            resetTimes();
 
             if (newDate != null) {
                 updateStartTime(WorkingHours.Day.MONDAY);
@@ -109,7 +114,7 @@ public class BookFieldController implements Initializable {
 
                 if (newTime != null) {
                     //TODO pass correct WH
-                    updateDurationChoices(LocalTime.parse(newTime),facility.getWorkingHours().get(0),15);
+                    updateEndTimes(LocalTime.parse(newTime),facility.getWorkingHours().get(0),15);
                 }
 
             } catch (SQLException e) {
@@ -120,12 +125,16 @@ public class BookFieldController implements Initializable {
         });
 
 
+        endTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
+           setDuration();
+           fieldTotalPrice.setText(String.valueOf(calculateTotalPrice() * field.getPrice()) + " $");
+        });
+
+
         nGuestsChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
         nPlayersToMatchChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
-        if (startTimeChoice.getValue() != null) {
-            endTimeChoice.setOnAction(this::handleDurationChoiceAction);
-        }
+
 
         if (isMatchingCheckBox.isSelected()){
 
@@ -135,6 +144,62 @@ public class BookFieldController implements Initializable {
         //TODO add price per person
         //pricePerPersonLabel.setText(Reservation.pricePerUser(field,) + " $");
 
+    }
+
+    private void resetTimes(){
+        endTimeChoice.getItems().clear();
+        startTimeChoice.getItems().clear();
+        durationBox.setVisible(false);
+    }
+
+    public Duration getDuration(){
+        if (startTimeChoice.getValue() != null && endTimeChoice.getValue() != null) {
+            LocalTime start = LocalTime.parse(startTimeChoice.getValue());
+            LocalTime end = LocalTime.parse(endTimeChoice.getValue());
+
+            return Duration.between(start, end);
+        }
+        else
+            return null;
+    }
+
+    public float calculateTotalPrice(){
+        if (startTimeChoice.getValue() != null && endTimeChoice.getValue() != null) {
+            long totalMinutes = getDuration().toMinutes();
+
+            return (float) totalMinutes / 60;
+        }
+        else
+            return 0;
+    }
+
+    private void setDuration(){
+        if (startTimeChoice.getValue() != null && endTimeChoice.getValue() != null) {
+
+            Duration duration = getDuration();
+
+            long hours = duration.toHours();
+            long minutes = duration.toMinutes() % 60;
+
+            String value = "";
+
+            if (hours > 0) {
+                value += hours + " hours";
+            }
+
+            if (minutes > 0) {
+                if (!value.isBlank())
+                    value += " and ";
+                value += minutes + " minutes";
+            }
+
+            durationLabel.setText(value);
+            durationBox.setVisible(true);
+        }
+        else{
+            durationLabel.setText("Times not selected");
+            durationBox.setVisible(false);
+        }
     }
 
 
@@ -209,7 +274,7 @@ public class BookFieldController implements Initializable {
 
 
     //FIXME optimize?
-    private void updateDurationChoices(LocalTime selectedTime, WorkingHours wh, int minutesInterval) throws SQLException, ClassNotFoundException {
+    private void updateEndTimes(LocalTime selectedTime, WorkingHours wh, int minutesInterval) throws SQLException, ClassNotFoundException {
 
         List<LocalTime> availableTimes = new ArrayList<>();
 
@@ -261,14 +326,6 @@ public class BookFieldController implements Initializable {
     }
 
 
-    private void handleDurationChoiceAction(ActionEvent actionEvent) {
-        System.out.println("Duration sleected");
-
-        timeLabel.setText("From" + startTimeChoice.getValue() + " to " + endTimeChoice.getValue());
-
-
-
-    }
 
     @FXML
     public void handleMatchingCheckBoxAction(ActionEvent actionEvent) {
