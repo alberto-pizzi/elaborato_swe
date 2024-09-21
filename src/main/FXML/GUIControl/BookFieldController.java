@@ -91,28 +91,27 @@ public class BookFieldController implements Initializable {
         Field tmpField = new Field(1,"Campo di Calcio", sport, "Campo di calcio a 11 in erba sintetica", 100, "olympicField.jpg", facility);
         this.field = tmpField;
 
-        //FIXME fix timeslots...
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        List<LocalTime> timeOptions = null; // 30 minuti
-        try {
-            //TODO add correct WH day
-            timeOptions = availableTimes(15, timeFormatter, WorkingHours.Day.MONDAY);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
 
-        for (LocalTime time : timeOptions) {
-            startTimeChoice.getItems().add(String.valueOf(time));
-        }
+        datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
+            //FIXME fix output times visualizzation with "...". It is just graphical bug.
+            endTimeChoice.getItems().clear();
+            startTimeChoice.getItems().clear();
 
-        endTimeChoice.getItems().addAll();
+            if (newDate != null) {
+                updateStartTime(WorkingHours.Day.MONDAY);
+            }
+        });
+
 
         startTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
             try {
-                //TODO pass correct WH
-                updateDurationChoices(LocalTime.parse(newTime),facility.getWorkingHours().get(0),15);
+                endTimeChoice.getItems().clear();
+
+                if (newTime != null) {
+                    //TODO pass correct WH
+                    updateDurationChoices(LocalTime.parse(newTime),facility.getWorkingHours().get(0),15);
+                }
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } catch (ClassNotFoundException e) {
@@ -186,10 +185,31 @@ public class BookFieldController implements Initializable {
         return availableTimes;
     }
 
+    private void updateStartTime(WorkingHours.Day day){
+ //FIXME this line cause exceptions
+
+        if (startTimeChoice != null && endTimeChoice != null) {
+
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            List<LocalTime> timeOptions = null; // 30 minuti
+            try {
+                //TODO add correct WH day
+                timeOptions = availableTimes(15, timeFormatter, day);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            for (LocalTime time : timeOptions) {
+                startTimeChoice.getItems().add(String.valueOf(time));
+            }
+        }
+    }
+
 
     //FIXME optimize?
     private void updateDurationChoices(LocalTime selectedTime, WorkingHours wh, int minutesInterval) throws SQLException, ClassNotFoundException {
-        endTimeChoice.getItems().clear();
 
         List<LocalTime> availableTimes = new ArrayList<>();
 
