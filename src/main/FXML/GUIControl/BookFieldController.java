@@ -4,14 +4,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.*;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.DecimalFormat;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -21,11 +25,18 @@ import java.util.ResourceBundle;
 
 public class BookFieldController implements Initializable {
 
+
     @FXML
     private Button confirmButton;
 
     @FXML
     private DatePicker datePicker;
+
+    @FXML
+    private HBox durationBox;
+
+    @FXML
+    private Label durationLabel;
 
     @FXML
     private ChoiceBox<String> endTimeChoice;
@@ -40,10 +51,10 @@ public class BookFieldController implements Initializable {
     private Label fieldNameLabel;
 
     @FXML
-    private Label fieldPricePerHour;
+    private Label fieldSport;
 
     @FXML
-    private Label fieldSport;
+    private Label fieldTotalPrice;
 
     @FXML
     private CheckBox isMatchingCheckBox;
@@ -55,20 +66,21 @@ public class BookFieldController implements Initializable {
     private ChoiceBox<Integer> nPlayersToMatchChoice;
 
     @FXML
+    private VBox otherPlayersSelectorBox;
+
+    @FXML
     private Label pricePerPersonLabel;
 
     @FXML
     private ChoiceBox<String> startTimeChoice;
 
-    @FXML
-    private Label timeLabel;
+    private Field field;
 
-    @FXML
-    VBox otherPlayersSelectorBox;
+    private DecimalFormat priceFormat;
+    private float totalPrice;
+    private int totalPeople = 1;
 
-    Field field;
-
-    UserActionsController userActionsController;
+    private UserActionsController userActionsController;
 
 
     //methods
@@ -81,7 +93,6 @@ public class BookFieldController implements Initializable {
         //TODO remove it, add right objs
         User tmpUser = new User(2,"luca.bianchi@example.com", "lucabianchi","password123", "Milano", "MI", "20100", "Italia"); //TODO remove it, add right user
 
-        this.userActionsController = new UserActionsController(tmpUser);
         Sport sport = new Sport(1,"Calcio",22);
         Owner owner = new Owner(1,"owner1@example.com", "ownerone", "password123","Torino", "TO", "10100", "Italia");
         Facility facility = new Facility(1,"Centro Sportivo Roma", "Via del Corso, 1", "Roma", "RM", "00100", "Italia", 2, "00000", "0612345678", owner);
@@ -89,30 +100,36 @@ public class BookFieldController implements Initializable {
         whs.add(new WorkingHours(1, WorkingHours.Day.MONDAY, Time.valueOf("9:30:00"), Time.valueOf("22:00:00")));
         facility.setWorkingHours(whs);
         Field tmpField = new Field(1,"Campo di Calcio", sport, "Campo di calcio a 11 in erba sintetica", 100, "olympicField.jpg", facility);
-        this.field = tmpField;
 
-        //FIXME fix timeslots...
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        List<LocalTime> timeOptions = null; // 30 minuti
-        try {
-            //TODO add correct WH day
-            timeOptions = availableTimes(15, timeFormatter, WorkingHours.Day.MONDAY);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        setData(tmpField,new UserActionsController(tmpUser)); //TODO insert into its correct pos
 
-        for (LocalTime time : timeOptions) {
-            startTimeChoice.getItems().add(String.valueOf(time));
-        }
+        this.priceFormat = new DecimalFormat("#.##");
+        this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
 
-        endTimeChoice.getItems().addAll();
+        resetFields();
+
+        datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
+            //FIXME fix output times visualizzation with "...". It is just graphical bug.
+            resetFields();
+
+            if (newDate != null) {
+                updateStartTime(WorkingHours.Day.MONDAY);
+            }
+        });
+
 
         startTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
             try {
-                //TODO pass correct WH
-                updateDurationChoices(LocalTime.parse(newTime),facility.getWorkingHours().get(0),15);
+                endTimeChoice.getItems().clear();
+
+                if (newTime != null) {
+                    //TODO pass correct WH
+                    updateEndTimes(LocalTime.parse(newTime),facility.getWorkingHours().get(0),15);
+
+                    updateTotalPrice(true);
+                    updatePricePerPerson(true);
+                }
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } catch (ClassNotFoundException e) {
@@ -121,21 +138,150 @@ public class BookFieldController implements Initializable {
         });
 
 
-        nGuestsChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+        endTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
+           setDuration();
+           this.totalPrice = calculateTotalPrice() * field.getPrice();
+           updateTotalPrice(false);
+
+           updatePricePerPerson(false);
+        });
+
+
+
+
+        nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                updateTotalPeople();
+                updatePricePerPerson(false);
+            }
+            else
+                pricePerPersonLabel.setText("Guests not selected");
+
+        });
+
+
+        nPlayersToMatchChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                updateTotalPeople();
+                updatePricePerPerson(false);
+            }
+            else
+                pricePerPersonLabel.setText("Guests not selected");
+
+        });
+
+
+    }
+
+    public void setData(Field field, UserActionsController userActionsController) {
+        this.field = field;
+        this.userActionsController = userActionsController;
+
+        fieldAddress.setText(field.getFacility().getFullAddress());
+        fieldNameLabel.setText(field.getFacility().getName());
+        fieldSport.setText(field.getSport().getName());
+
+        String pathFromRoot = "/main/FXML/img/fields/";
+
+        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
+        fieldImageView.setImage(image);
+
+    }
+
+    private void updateTotalPeople(){
+        if (isMatchingCheckBox.isSelected())
+            this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + (nPlayersToMatchChoice.getValue() != null ? nPlayersToMatchChoice.getValue() : 0) + 1;
+        else {
+            this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + 1;
+        }
+    }
+
+    private void updateTotalPrice(boolean reset){
+        String price;
+
+        if (reset) {
+            this.totalPrice = field.getPrice();
+            price = priceFormat.format(this.totalPrice) + " $ (per person)";
+        }
+        else
+            price = priceFormat.format(this.totalPrice) + " $";
+
+        fieldTotalPrice.setText(price);
+    }
+
+    private void updatePricePerPerson(boolean reset){
+        if (reset)
+            pricePerPersonLabel.setText("Guests not selected");
+        else
+            pricePerPersonLabel.setText(this.priceFormat.format(totalPrice/(float)totalPeople) + " $");
+    }
+
+    private void resetFields(){
+        endTimeChoice.getItems().clear();
+        startTimeChoice.getItems().clear();
+        nGuestsChoice.getItems().clear();
+        nPlayersToMatchChoice.getItems().clear();
+
+        this.totalPeople = 1;
+
+        updateTotalPrice(true);
+        isMatchingCheckBox.setSelected(false);
+        durationBox.setVisible(false);
+
+        nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
         nPlayersToMatchChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
-        if (startTimeChoice.getValue() != null) {
-            endTimeChoice.setOnAction(this::handleDurationChoiceAction);
+        updatePricePerPerson(true);
+    }
+
+    public Duration getDuration(){
+        if (startTimeChoice.getValue() != null && endTimeChoice.getValue() != null) {
+            LocalTime start = LocalTime.parse(startTimeChoice.getValue());
+            LocalTime end = LocalTime.parse(endTimeChoice.getValue());
+
+            return Duration.between(start, end);
         }
+        else
+            return null;
+    }
 
-        if (isMatchingCheckBox.isSelected()){
+    public float calculateTotalPrice(){
+        if (startTimeChoice.getValue() != null && endTimeChoice.getValue() != null) {
+            long totalMinutes = getDuration().toMinutes();
 
+            return (float) totalMinutes / 60;
         }
+        else
+            return 0;
+    }
 
-        //fieldPricePerHour.setText(field.getPrice() + " $");
-        //TODO add price per person
-        //pricePerPersonLabel.setText(Reservation.pricePerUser(field,) + " $");
+    private void setDuration(){
+        if (startTimeChoice.getValue() != null && endTimeChoice.getValue() != null) {
 
+            Duration duration = getDuration();
+
+            long hours = duration.toHours();
+            long minutes = duration.toMinutes() % 60;
+
+            String value = "";
+
+            if (hours > 0) {
+                value += hours + " hours";
+            }
+
+            if (minutes > 0) {
+                if (!value.isBlank())
+                    value += " and ";
+                value += minutes + " minutes";
+            }
+
+            durationLabel.setText(value);
+            durationBox.setVisible(true);
+        }
+        else{
+            durationLabel.setText("Times not selected");
+            durationBox.setVisible(false);
+        }
     }
 
 
@@ -186,10 +332,31 @@ public class BookFieldController implements Initializable {
         return availableTimes;
     }
 
+    private void updateStartTime(WorkingHours.Day day){
+ //FIXME this line cause exceptions
+
+        if (startTimeChoice != null && endTimeChoice != null) {
+
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            List<LocalTime> timeOptions = null; // 30 minuti
+            try {
+                //TODO add correct WH day
+                timeOptions = availableTimes(15, timeFormatter, day);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            for (LocalTime time : timeOptions) {
+                startTimeChoice.getItems().add(String.valueOf(time));
+            }
+        }
+    }
+
 
     //FIXME optimize?
-    private void updateDurationChoices(LocalTime selectedTime, WorkingHours wh, int minutesInterval) throws SQLException, ClassNotFoundException {
-        endTimeChoice.getItems().clear();
+    private void updateEndTimes(LocalTime selectedTime, WorkingHours wh, int minutesInterval) throws SQLException, ClassNotFoundException {
 
         List<LocalTime> availableTimes = new ArrayList<>();
 
@@ -241,23 +408,12 @@ public class BookFieldController implements Initializable {
     }
 
 
-    private void handleDurationChoiceAction(ActionEvent actionEvent) {
-        System.out.println("Duration sleected");
-
-        timeLabel.setText("From" + startTimeChoice.getValue() + " to " + endTimeChoice.getValue());
-
-
-
-    }
 
     @FXML
     public void handleMatchingCheckBoxAction(ActionEvent actionEvent) {
-        if (isMatchingCheckBox.isSelected()) {
-            otherPlayersSelectorBox.setVisible(true);
-        }
-        else{
-            otherPlayersSelectorBox.setVisible(false);
-        }
+        otherPlayersSelectorBox.setVisible(isMatchingCheckBox.isSelected());
+        updateTotalPeople();
+        updatePricePerPerson(false);
     }
 
 
