@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import main.java.BusinessLogic.UserActionsController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +29,9 @@ public class MenuOwnerController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            changeView("homeOwner.fxml");
+            UserActionsController userActionsController = new UserActionsController();
+
+            //todo inizializzare labels
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
