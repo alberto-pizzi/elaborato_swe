@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
@@ -92,7 +93,6 @@ public class BookFieldController implements Initializable {
         //TODO remove it, add right objs
         User tmpUser = new User(2,"luca.bianchi@example.com", "lucabianchi","password123", "Milano", "MI", "20100", "Italia"); //TODO remove it, add right user
 
-        this.userActionsController = new UserActionsController(tmpUser);
         Sport sport = new Sport(1,"Calcio",22);
         Owner owner = new Owner(1,"owner1@example.com", "ownerone", "password123","Torino", "TO", "10100", "Italia");
         Facility facility = new Facility(1,"Centro Sportivo Roma", "Via del Corso, 1", "Roma", "RM", "00100", "Italia", 2, "00000", "0612345678", owner);
@@ -101,8 +101,7 @@ public class BookFieldController implements Initializable {
         facility.setWorkingHours(whs);
         Field tmpField = new Field(1,"Campo di Calcio", sport, "Campo di calcio a 11 in erba sintetica", 100, "olympicField.jpg", facility);
 
-
-        this.field = tmpField;
+        setData(tmpField,new UserActionsController(tmpUser)); //TODO insert into its correct pos
 
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
@@ -171,6 +170,21 @@ public class BookFieldController implements Initializable {
 
         });
 
+
+    }
+
+    public void setData(Field field, UserActionsController userActionsController) {
+        this.field = field;
+        this.userActionsController = userActionsController;
+
+        fieldAddress.setText(field.getFacility().getFullAddress());
+        fieldNameLabel.setText(field.getFacility().getName());
+        fieldSport.setText(field.getSport().getName());
+
+        String pathFromRoot = "/main/FXML/img/fields/";
+
+        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
+        fieldImageView.setImage(image);
 
     }
 
