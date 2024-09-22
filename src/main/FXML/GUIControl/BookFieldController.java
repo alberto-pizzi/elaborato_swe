@@ -13,6 +13,7 @@ import main.java.DomainModel.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -72,9 +73,13 @@ public class BookFieldController implements Initializable {
     @FXML
     private ChoiceBox<String> startTimeChoice;
 
-    Field field;
+    private Field field;
 
-    UserActionsController userActionsController;
+    private DecimalFormat priceFormat;
+    private float totalPrice;
+    private int totalPeople = 1;
+
+    private UserActionsController userActionsController;
 
 
     //methods
@@ -95,12 +100,18 @@ public class BookFieldController implements Initializable {
         whs.add(new WorkingHours(1, WorkingHours.Day.MONDAY, Time.valueOf("9:30:00"), Time.valueOf("22:00:00")));
         facility.setWorkingHours(whs);
         Field tmpField = new Field(1,"Campo di Calcio", sport, "Campo di calcio a 11 in erba sintetica", 100, "olympicField.jpg", facility);
+
+
         this.field = tmpField;
 
+        this.priceFormat = new DecimalFormat("#.##");
+        this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
+
+        resetFields();
 
         datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
             //FIXME fix output times visualizzation with "...". It is just graphical bug.
-            resetTimes();
+            resetFields();
 
             if (newDate != null) {
                 updateStartTime(WorkingHours.Day.MONDAY);
@@ -115,6 +126,9 @@ public class BookFieldController implements Initializable {
                 if (newTime != null) {
                     //TODO pass correct WH
                     updateEndTimes(LocalTime.parse(newTime),facility.getWorkingHours().get(0),15);
+
+                    updateTotalPrice(true);
+                    updatePricePerPerson(true);
                 }
 
             } catch (SQLException e) {
@@ -127,29 +141,83 @@ public class BookFieldController implements Initializable {
 
         endTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
            setDuration();
-           fieldTotalPrice.setText(String.valueOf(calculateTotalPrice() * field.getPrice()) + " $");
+           this.totalPrice = calculateTotalPrice() * field.getPrice();
+           updateTotalPrice(false);
+
+           updatePricePerPerson(false);
         });
 
 
-        nGuestsChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-        nPlayersToMatchChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
 
+        nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                updateTotalPeople();
+                updatePricePerPerson(false);
+            }
+            else
+                pricePerPersonLabel.setText("Guests not selected");
 
-        if (isMatchingCheckBox.isSelected()){
+        });
 
-        }
 
-        //fieldPricePerHour.setText(field.getPrice() + " $");
-        //TODO add price per person
-        //pricePerPersonLabel.setText(Reservation.pricePerUser(field,) + " $");
+        nPlayersToMatchChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                updateTotalPeople();
+                updatePricePerPerson(false);
+            }
+            else
+                pricePerPersonLabel.setText("Guests not selected");
+
+        });
+
 
     }
 
-    private void resetTimes(){
+    private void updateTotalPeople(){
+        if (isMatchingCheckBox.isSelected())
+            this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + (nPlayersToMatchChoice.getValue() != null ? nPlayersToMatchChoice.getValue() : 0) + 1;
+        else {
+            this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + 1;
+        }
+    }
+
+    private void updateTotalPrice(boolean reset){
+        String price;
+
+        if (reset) {
+            this.totalPrice = field.getPrice();
+            price = priceFormat.format(this.totalPrice) + " $ (per person)";
+        }
+        else
+            price = priceFormat.format(this.totalPrice) + " $";
+
+        fieldTotalPrice.setText(price);
+    }
+
+    private void updatePricePerPerson(boolean reset){
+        if (reset)
+            pricePerPersonLabel.setText("Guests not selected");
+        else
+            pricePerPersonLabel.setText(this.priceFormat.format(totalPrice/(float)totalPeople) + " $");
+    }
+
+    private void resetFields(){
         endTimeChoice.getItems().clear();
         startTimeChoice.getItems().clear();
+        nGuestsChoice.getItems().clear();
+        nPlayersToMatchChoice.getItems().clear();
+
+        this.totalPeople = 1;
+
+        updateTotalPrice(true);
+        isMatchingCheckBox.setSelected(false);
         durationBox.setVisible(false);
+
+        nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+        nPlayersToMatchChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+
+        updatePricePerPerson(true);
     }
 
     public Duration getDuration(){
@@ -329,12 +397,9 @@ public class BookFieldController implements Initializable {
 
     @FXML
     public void handleMatchingCheckBoxAction(ActionEvent actionEvent) {
-        if (isMatchingCheckBox.isSelected()) {
-            otherPlayersSelectorBox.setVisible(true);
-        }
-        else{
-            otherPlayersSelectorBox.setVisible(false);
-        }
+        otherPlayersSelectorBox.setVisible(isMatchingCheckBox.isSelected());
+        updateTotalPeople();
+        updatePricePerPerson(false);
     }
 
 
