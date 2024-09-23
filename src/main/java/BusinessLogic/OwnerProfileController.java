@@ -15,4 +15,13 @@ public class OwnerProfileController extends ProfileController {
         this.owner = owner;
     }
 
+    //todo aggiungere a uml
+    public String  getEmail() {
+        return owner.getEmail();
+    }
+
+    public String  getUsername() {
+        return owner.getUsername();
+    }
+
 }

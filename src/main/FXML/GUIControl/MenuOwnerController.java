@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import main.java.BusinessLogic.OwnerProfileController;
 import main.java.BusinessLogic.UserActionsController;
 
 import java.io.IOException;
@@ -28,13 +29,9 @@ public class MenuOwnerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            UserActionsController userActionsController = new UserActionsController();
-
-            //todo inizializzare labels
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        OwnerProfileController ownerProfileController = new OwnerProfileController();
+        email.setText(ownerProfileController.getEmail());
+        username.setText(ownerProfileController.getUsername());
     }
 
     public void changeView(String newViewFXMLFileName) throws IOException {
