@@ -65,7 +65,7 @@ public class LoginControllerOwner implements Initializable {
             try {
                 logIn.getScene().getWindow().hide();
                 Stage home = new Stage();
-                Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/home.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/menuPaneOwner.fxml"));
                 home.setTitle("Sport Plus");
                 home.setScene(new Scene(root, 1280, 720));
                 home.show();

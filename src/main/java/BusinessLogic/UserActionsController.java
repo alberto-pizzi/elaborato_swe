@@ -1,5 +1,6 @@
 package main.java.BusinessLogic;
 
+import javafx.scene.control.Alert;
 import main.java.DomainModel.*;
 
 import main.java.ORM.*;
@@ -7,10 +8,12 @@ import main.java.ORM.*;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 
 
 public class UserActionsController {
+
     private User user;
 
     //constructor
@@ -72,12 +75,21 @@ public class UserActionsController {
 
         ReservationDao reservationDao = new ReservationDao();
 
+        //reservationDao.addReservation(new Reservation(eventDate,eventTimeStart,));
+
         //TODO all input parameters are maybe better into ReservationDao? if not, is needed a constructor
 
     }
 
     public void sendInvite(int idInvite){
 
+        //TODO how I implement invite creation (in DB)?
+    }
+
+    public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, WorkingHours.Day dayOfWeek) throws SQLException {
+        WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
+
+        return workingHoursDAO.getWHsByFacility(idFacility);
     }
 
     public void declineInvite(int idInvite) throws SQLException {
@@ -100,7 +112,11 @@ public class UserActionsController {
         group.setParticipants(group.getParticipants() + guestUsers + 1);
         System.out.println("Group " + idGroup + "participants had been increased");
 
-        //TODO when is full? what's happen?
+        //TODO when is full? what's happen? check alert...
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Join Group");
+        alert.setHeaderText("Group selected is full");
+
 
     }
 
@@ -167,6 +183,13 @@ public class UserActionsController {
         InviteDao inviteDao = new InviteDao();
 
         return inviteDao.getInvitesByUser(user.getId());
+
+    }
+
+    public ArrayList<Field> getNearbyFields() throws SQLException, ClassNotFoundException {
+        FieldDao fieldDao = new FieldDao();
+
+        return fieldDao.getFieldsByProvince(user.getProvince());
 
     }
 

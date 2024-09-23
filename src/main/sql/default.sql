@@ -16,10 +16,10 @@ INSERT INTO "Facility" (name, address, city, province, zip, country, n_managers,
 
 -- Popola la tabella WH (Working Hours)
 INSERT INTO "WH" (day_of_week, opening, closing, id_facility) VALUES
-('Monday', '09:00', '22:00', 1),
-('Tuesday', '09:00', '22:00', 1),
-('Wednesday', '09:00', '22:00', 2),
-('Thursday', '09:00', '22:00', 2);
+('MONDAY', '09:00', '22:00', 1),
+('TUESDAY', '09:00', '22:00', 1),
+('WEDNESDAY', '09:00', '22:00', 2),
+('THURSDAY', '09:00', '22:00', 2);
 
 -- Popola la tabella Sport
 INSERT INTO "Sport" (name, players_required) VALUES

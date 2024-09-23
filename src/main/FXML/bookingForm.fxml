@@ -3,7 +3,9 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
@@ -13,8 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldDetailController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.BookFieldController">
    <children>
       <VBox style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
@@ -22,7 +23,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="72.0" prefWidth="1180.0">
                      <children>
-                        <Label prefHeight="39.0" prefWidth="137.0" text="Field Details:">
+                        <Label prefHeight="39.0" prefWidth="120.0" text="Book field:">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -40,7 +41,7 @@
                <children>
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <ImageView fx:id="fieldImageView" fitHeight="448.0" fitWidth="537.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="fieldImageView" fitHeight="388.0" fitWidth="442.0" pickOnBounds="true" preserveRatio="true">
                            <effect>
                               <DropShadow />
                            </effect>
@@ -48,47 +49,6 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </ImageView>
-                     </children>
-                     <padding>
-                        <Insets left="30.0" right="30.0" />
-                     </padding>
-                  </VBox>
-                  <VBox alignment="TOP_CENTER" prefHeight="463.0" prefWidth="586.0">
-                     <children>
-                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
-                           <children>
-                              <Label text="Descritpion:">
-                                 <font>
-                                    <Font name="System Bold" size="20.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Label fx:id="fieldDescription" text="(Field Description)">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="42.0" prefWidth="586.0">
-                           <children>
-                              <Label text="Facility:">
-                                 <font>
-                                    <Font name="System Bold" size="20.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Hyperlink fx:id="facilityLink" text="(Facility Link)">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Hyperlink>
-                           </children>
-                        </HBox>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
                               <Label text="Address:">
@@ -123,9 +83,84 @@
                               </Label>
                            </children>
                         </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="30.0" right="30.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER">
+                     <children>
+                        <Label text="When:">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER" prefHeight="70.0" prefWidth="586.0" spacing="15.0">
+                           <children>
+                              <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="309.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="53.0" prefWidth="586.0" spacing="50.0">
+                           <children>
+                              <ChoiceBox fx:id="startTimeChoice" prefHeight="26.0" prefWidth="215.0" />
+                              <ChoiceBox fx:id="endTimeChoice" prefHeight="26.0" prefWidth="215.0" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="durationBox" alignment="CENTER" prefHeight="45.0" prefWidth="586.0" visible="false">
+                           <children>
+                              <Label text="Duration:">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="durationLabel" alignment="CENTER" text="(Duration)" textFill="#949494">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="53.0" prefWidth="586.0" spacing="50.0">
+                           <children>
+                              <ChoiceBox fx:id="nGuestsChoice" prefHeight="26.0" prefWidth="215.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="103.0" prefWidth="586.0">
+                           <children>
+                              <Label text="Looking for other players?">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <CheckBox fx:id="isMatchingCheckBox" mnemonicParsing="false" onAction="#handleMatchingCheckBoxAction" text="Yes">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <VBox fx:id="otherPlayersSelectorBox" alignment="CENTER" prefHeight="65.0" prefWidth="238.0" visible="false">
+                                 <children>
+                                    <ChoiceBox fx:id="nPlayersToMatchChoice" prefHeight="26.0" prefWidth="215.0" />
+                                    <Label prefHeight="39.0" prefWidth="240.0" text="If your do not enter the required number, the default number will be set based on the sport of the field." textFill="#979797" wrapText="true">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
-                              <Label text="Price (per hour):">
+                              <Label text="Total Price:">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -133,7 +168,7 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="fieldPricePerHour" text="100 $">
+                              <Label fx:id="fieldTotalPrice" text="100 $">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
@@ -148,7 +183,27 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
-                              <Button fx:id="goToBookButton" mnemonicParsing="false" stylesheets="@css/style.css" text="Go to book -&gt;" textFill="WHITE">
+                              <Label text="TotalPrice (per person):" textFill="GREY">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="pricePerPersonLabel" text="100 $" textFill="#808080">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="BOTTOM_CENTER" prefHeight="49.0" prefWidth="586.0">
+                           <children>
+                              <Button fx:id="confirmButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#handleConfirmButton" stylesheets="@css/style.css" text="Confirm" textFill="WHITE">
                                  <HBox.margin>
                                     <Insets top="20.0" />
                                  </HBox.margin>
@@ -159,7 +214,7 @@
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                                  <styleClass>
-                                    <String fx:value="select-button" />
+                                    <String fx:value="accept-button" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>

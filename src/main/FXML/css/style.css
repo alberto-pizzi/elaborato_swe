@@ -8,6 +8,10 @@
     -fx-background-color: #BFBFBF;
 }
 
+.menu-button:focused{
+    -fx-background-color: #BFBFBF;
+}
+
 .menu-button:hover{
     -fx-background-color: #BFBFBF;
 }
@@ -35,13 +39,21 @@
 
 .accept-button{
     -fx-background-color: #00B126;
-    -fx-background-radius: 5;
+    -fx-background-radius: 40;
     -fx-cursor: hand;
 }
 .decline-button{
     -fx-background-color: #FC4850;
-    -fx-background-radius: 5;
+    -fx-background-radius: 40;
     -fx-cursor: hand;
+}
+
+.accept-button:hover{
+    -fx-background-color: #22db4a;
+}
+
+.decline-button:hover{
+    -fx-background-color: #ff7177;
 }
 
 .go-to-groups-button{

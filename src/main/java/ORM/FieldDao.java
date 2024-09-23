@@ -275,7 +275,7 @@ public class FieldDao {
         Sport sport = null;
         SportDao sportDao = new SportDao();
 
-        String querySQL = "SELECT * FROM \"Field\" INNER JOIN \"Facility\" ON (\"Field\".id_facility = \"Facility\".id)" + String.format(" WHERE province ='%s'", "MI");
+        String querySQL = String.format("SELECT * FROM \"Field\" INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE UPPER(province) LIKE UPPER('%s')", "%" + province + "%");
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -351,7 +351,7 @@ public class FieldDao {
         Sport sport = null;
         SportDao sportDao = new SportDao();
 
-        String querySQL = String.format("SELECT * FROM \"Field\" INNER JOIN \"Sport\" ON Field.id_sport = Sport.id WHERE Sport.name = '%s'", sportName);
+        String querySQL =  String.format("SELECT * FROM \"Field\" INNER JOIN \"Sport\" ON \"Field\".id_sport = \"Sport\".id WHERE UPPER(\"Sport\".name) LIKE UPPER('%s')", "%" + sportName + "%");
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -384,51 +384,42 @@ public class FieldDao {
         return fields;
     }
 
+    public void fieldComparator (ArrayList<Field> fields, ArrayList<Field> newFields) throws SQLException {
+        ArrayList<Field> tempFields = new ArrayList<>();
+        boolean found = false;
+        if(fields.isEmpty()) {
+            fields.addAll(newFields);
+        }else if(!newFields.isEmpty()){
+            for (Field field : newFields) {
+                for (Field oldField : fields) {
+                    if (oldField.getId() == field.getId()) {
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found){
+                    tempFields.add(field);
+                }
+                found = false;
+            }
+            fields.addAll(tempFields);
+        }
+    }
     public ArrayList<Field> search(String searchText) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
-        ArrayList<Field> tempFields = new ArrayList<>();
+        ArrayList<Field> tempFields;
         String[] words = searchText.split("\\s+");
         for (String word : words) {
 
-           tempFields = this.getFieldsByProvince(word);
-           if (fields.isEmpty() || tempFields.isEmpty()) {
-               fields.addAll(tempFields);
-           } else {
-               for (Field field : fields) {
-                   for (Field f : tempFields) {
-                       if(field.getId() != f.getId()){
-                           fields.add(f);
-                       }
-                   }
-               }
-           }
+            tempFields = this.getFieldsByProvince(word);
+            fieldComparator(fields, tempFields);
 
-/*
             tempFields = this.getFieldsBySport(word);
-            if (fields.isEmpty() || tempFields.isEmpty()) {
-               fields.addAll(tempFields);
-           } else {
-               for (Field field : fields) {
-                   for (Field f : tempFields) {
-                       if(field.getId() != f.getId()){
-                           fields.add(f);
-                       }
-                   }
-               }
-           }
-*/
+            fieldComparator(fields, tempFields);
+
             tempFields = this.getFieldsByName(word);
-            if (fields.isEmpty() || tempFields.isEmpty()) {
-                fields.addAll(tempFields);
-            } else {
-                for (Field field : fields) {
-                    for (Field f : tempFields) {
-                        if(field.getId() != f.getId()){
-                            fields.add(f);
-                        }
-                    }
-                }
-            }
+            fieldComparator(fields, tempFields);
+
         }
 
 

@@ -30,6 +30,18 @@ public class Reservation {
         this.isMatched = isMatched;
     }
 
+    public Reservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int nParticipants, boolean isConfirmed, User user, boolean isMatched) {
+        //FIXME this.id, this.reservatinoDate and this.reservatinTime? Are they automatically created by DB?
+        this.eventDate = eventDate;
+        this.eventTimeStart = eventTimeStart;
+        this.eventTimeEnd = eventTimeEnd;
+        this.field = field;
+        this.nParticipants = nParticipants;
+        this.isConfirmed = isConfirmed;
+        this.user = user;
+        this.isMatched = isMatched;
+    }
+
     //getters
 
     public Date getEventDate() {
@@ -138,6 +150,7 @@ public class Reservation {
     }
 
     public static float pricePerUser(Field field, int nUsers){
+        //FIXME duration needed?
         return field.getPrice() / nUsers;
     }
 
