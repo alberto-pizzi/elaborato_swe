@@ -1,6 +1,7 @@
 package main.java.ORM;
 
 import main.java.DomainModel.Field;
+import main.java.DomainModel.Owner;
 import main.java.DomainModel.Reservation;
 
 import java.sql.*;
@@ -298,10 +299,10 @@ public class ReservationDao {
     }
 
     //todo aggiungere a uml
-    public int DailyEarning(Date date) throws SQLException {
+    public int DailyEarning(Date date, Owner owner) throws SQLException {
 
         int earning = 0;
-        String querySQL =  String.format("SELECT SUM(price) AS earnings FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id WHERE \"Reservation\".event_date = '%tF')", date);
+        String querySQL =  String.format("SELECT SUM(price) AS earnings FROM \"Reservation\" INNER JOIN \"Field\" INNER JOIN \"Facility\" ON \"Reservation\".id_field = \"Field\".id AND \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d')", date, owner.getId());
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -320,6 +321,31 @@ public class ReservationDao {
         }
 
         return earning;
+    }
+
+    //todo aggiungere a uml
+    public int dailyReservations(Date date, Owner owner) throws SQLException {
+
+        int number = 0;
+        String querySQL =  String.format("SELECT count(id) AS number FROM \"Reservation\" INNER JOIN \"Field\" INNER JOIN \"Facility\" ON \"Reservation\".id_field = \"Field\".id AND \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d')", date, owner.getId());
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                number = resultSet.getInt("number");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return number;
     }
 
 }

@@ -55,11 +55,11 @@ public class OwnerManagementController {
 
     public void getAllFacilityManagers(){}
 
-    public void viewStats(){}//fixme niente per implementarlo
+    //todo aggiungere uml
 
     public int dailyEarning() throws SQLException {
         ReservationDao reservationDao = new ReservationDao();
-        return reservationDao.DailyEarning(Date.valueOf(LocalDate.now()));
+        return reservationDao.DailyEarning(Date.valueOf(LocalDate.now()), owner);
     }
 
     public int monthlyEarnings() throws SQLException {
@@ -67,7 +67,7 @@ public class OwnerManagementController {
         LocalDate today = LocalDate.now();
         int earnings = 0;
         for (int i = 0; i < 30; i++){
-            earnings += reservationDao.DailyEarning(Date.valueOf(today));
+            earnings += reservationDao.DailyEarning(Date.valueOf(today), owner);
             today = today.minusDays(1);
         }
         return earnings;
@@ -78,10 +78,21 @@ public class OwnerManagementController {
         LocalDate today = LocalDate.now();
         ArrayList <Integer> earnings = new ArrayList<>();
         for (int i = 0; i < 7; i++){
-            earnings.add(reservationDao.DailyEarning(Date.valueOf(today)));
+            earnings.add(reservationDao.DailyEarning(Date.valueOf(today), owner));
             today = today.minusDays(1);
         }
         return earnings;
+    }
+
+    public int monthlyReservations() throws SQLException {
+        ReservationDao reservationDao = new ReservationDao();
+        LocalDate today = LocalDate.now();
+        int number = 0;
+        for (int i = 0; i < 30; i++){
+            number += reservationDao.dailyReservations(Date.valueOf(today), owner);
+            today = today.minusDays(1);
+        }
+        return number;
     }
 
 
