@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import main.java.BusinessLogic.OwnerProfileController;
-import main.java.BusinessLogic.UserActionsController;
 
 import java.io.IOException;
 import java.net.URL;
