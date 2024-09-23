@@ -4,6 +4,7 @@ import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ReservationDao {
@@ -294,6 +295,31 @@ public class ReservationDao {
                 preparedStatement.close();
             }
         }
+    }
+
+    //todo aggiungere a uml
+    public int DailyEarning(Date date) throws SQLException {
+
+        int earning = 0;
+        String querySQL =  String.format("SELECT SUM(price) AS earnings FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id WHERE \"Reservation\".event_date = '%tF')", date);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                earning = resultSet.getInt("earnings");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return earning;
     }
 
 }
