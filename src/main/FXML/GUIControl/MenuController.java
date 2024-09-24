@@ -66,8 +66,8 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    public void handleProfileButtonAction(ActionEvent event) {
-        //TODO add profile link
+    public void handleProfileButtonAction(ActionEvent event) throws IOException {
+        changeView("profile.fxml");
         System.out.println("Profile menu button clicked");
 
     }

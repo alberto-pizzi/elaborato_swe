@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.UpdateEmailController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="570.0" prefWidth="900.0">
+         <children>
+            <Label text="Email:">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="emailInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" styleClass="confirm-button" stylesheets="@css/style.css" text="Confrim">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Label fx:id="errorLabel" alignment="CENTER" prefHeight="25.0" prefWidth="774.0" text="Error: text" textFill="RED" visible="false">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -80,3 +80,38 @@
     -fx-background-color: #FC4850;
 }
 
+.text-input{
+    -fx-background-radius: 10;
+}
+
+.profile-menu{
+    -fx-background-color: white;
+    -fx-background-radius: 0 50 50 0;
+    -fx-cursor: hand;
+}
+
+.profile-menu:hover{
+    -fx-background-color: #b7bffa;
+}
+
+.profile-menu:focused, .profile-menu:pressed{
+    -fx-background-color: #536DFE;
+}
+
+.profile-menu#delete:hover, .profile-menu#delete:focused, .profile-menu#delete:pressed{
+    -fx-background-color: #ff4b4b;
+}
+
+.profile-menu-box{
+    -fx-background-color: #ececec;
+}
+
+.confirm-button{
+    -fx-background-color: #00B126;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.confirm-button:hover{
+    -fx-background-color: #22db4a;
+}

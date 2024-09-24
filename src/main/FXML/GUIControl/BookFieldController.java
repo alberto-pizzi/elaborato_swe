@@ -423,7 +423,7 @@ public class BookFieldController implements Initializable {
             int month = date.getMonthValue();
             int day = date.getDayOfMonth();
 
-            return new Date(year, month, day); //FIXME months maybe go from 0 to 11?
+            return new Date(year-1900, month-1, day);
 
         }
         else
@@ -433,13 +433,13 @@ public class BookFieldController implements Initializable {
     //TODO optimize. Try to print LocalTimes directly
     public Time getEventStartTime(){
         if (startTimeChoice.getValue() != null)
-            return Time.valueOf(startTimeChoice.getValue());
+            return Time.valueOf(LocalTime.parse(startTimeChoice.getValue()));
         return null;
     }
 
     public Time getEventEndTime(){
         if (endTimeChoice.getValue() != null)
-            return Time.valueOf(endTimeChoice.getValue());
+            return Time.valueOf(LocalTime.parse(endTimeChoice.getValue()));
         return null;
     }
 
@@ -448,11 +448,11 @@ public class BookFieldController implements Initializable {
     @FXML
     public void handleConfirmButton(ActionEvent event) {
         //TODO finish to implement
-        Date eventDate = getDateFromDatePicker();
+        Date eventDate = getDateFromDatePicker(); //TODO check how date format is saved onto DB
         Time eventStartTime = getEventStartTime();
         Time eventEndTime = getEventEndTime();
 
-
+        System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
 
 
     }
