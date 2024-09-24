@@ -1,6 +1,7 @@
 package main.java.BusinessLogic;
 
 import main.java.DomainModel.Owner;
+import main.java.ORM.FieldDao;
 import main.java.ORM.ReservationDao;
 
 import java.sql.Connection;
@@ -93,6 +94,18 @@ public class OwnerManagementController {
             today = today.minusDays(1);
         }
         return number;
+    }
+
+    public int reservedFields() throws SQLException {
+        FieldDao fieldDao = new FieldDao();
+        LocalDate today = LocalDate.now();
+        return fieldDao.reservedFields(Date.valueOf(today), owner);
+    }
+
+    public int notReservedFields() throws SQLException {
+        FieldDao fieldDao = new FieldDao();
+        LocalDate today = LocalDate.now();
+        return (fieldDao.getFieldsByOwner(owner).size()-fieldDao.reservedFields(Date.valueOf(today), owner));
     }
 
 

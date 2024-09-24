@@ -2,12 +2,10 @@ package main.java.ORM;
 
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
+import main.java.DomainModel.Owner;
 import main.java.DomainModel.Sport;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class FieldDao {
@@ -424,6 +422,70 @@ public class FieldDao {
 
 
         return fields;
+    }
+
+    //todo aggiungere a uml
+    public ArrayList<Field> getFieldsByOwner(Owner owner) throws SQLException {
+        ArrayList<Field> fields = new ArrayList<>();
+        Sport sport = null;
+        SportDao sportDao = new SportDao();
+
+        String querySQL =  String.format("SELECT * FROM \"Field\" INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Facility\".id_owner = '%d')", owner.getId());
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                sport = sportDao.getSport(resultSet.getInt("id_sport"));
+                String description = resultSet.getString("description");
+                int price = resultSet.getInt("price");
+                String image = resultSet.getString("image");
+                int idFacility = resultSet.getInt("id_facility");
+
+                FacilityDAO facilityDAO = new FacilityDAO(); //TODO check correctness
+
+                fields.add(new Field(id, name, sport, description, price, image, facilityDAO.getFacility(idFacility, false)));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return fields;
+    }
+
+    //todo aggiungere a uml
+    public int reservedFields(Date date, Owner owner) throws SQLException {
+
+        int number = 0;
+        String querySQL =  String.format("SELECT count(Distinct id_field) AS number FROM \"Reservation\" INNER JOIN \"Field\" INNER JOIN \"Facility\" ON \"Reservation\".id_field = \"Field\".id AND \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d')", date, owner.getId());
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                number = resultSet.getInt("number");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return number;
     }
 
 }
