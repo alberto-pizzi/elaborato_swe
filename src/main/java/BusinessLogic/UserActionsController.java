@@ -124,7 +124,6 @@ public class UserActionsController {
         int groupHeadId = group.getGroupHead().getId();
         int ownGuests = isPartDao.countOwnGuests(idGroup,user.getId());
 
-        isPartDao.removeMembership(idGroup,user.getId());
 
         if ((ownGuests + 1) >= group.getParticipants()){
             groupDao.deleteGroup(idGroup);
@@ -135,11 +134,12 @@ public class UserActionsController {
             System.out.println("Group " + idGroup + "participants had been decreased");
 
             if (user.getId() == groupHeadId){
-                //TODO implement group head succession (by date?)
+                User newGroupHead = isPartDao.groupHeadSuccessorId(idGroup,user.getId());
+                group.setGroupHead(newGroupHead);
             }
         }
 
-
+        isPartDao.removeMembership(idGroup,user.getId()); //TODO is it on correct position?
 
 
     }

@@ -12,6 +12,7 @@ import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.*;
 
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.text.DecimalFormat;
@@ -333,7 +334,6 @@ public class BookFieldController implements Initializable {
     }
 
     private void updateStartTime(WorkingHours.Day day){
- //FIXME this line cause exceptions
 
         if (startTimeChoice != null && endTimeChoice != null) {
 
@@ -383,7 +383,6 @@ public class BookFieldController implements Initializable {
                 }
 
                 if (!current.equals(selectedTime)) {
-                    //FIXME end time or duration?
                     endTimeChoice.getItems().add(current.toString());
                 }
 
@@ -417,26 +416,43 @@ public class BookFieldController implements Initializable {
     }
 
 
-    //TODO optimize (output type?)
-    public void getDateFromDatePicker(){
+    public Date getDateFromDatePicker(){
         LocalDate date = datePicker.getValue();
         if (date != null) {
             int year = date.getYear();
             int month = date.getMonthValue();
             int day = date.getDayOfMonth();
 
-            System.out.println(year + "-" + month + "-" + day);
-            System.out.println(datePicker.getValue().toString());
+            return new Date(year, month, day); //FIXME months maybe go from 0 to 11?
+
         }
-        else{
-            System.out.println("DATE VOID");
-        }
+        else
+            return null;
     }
+
+    //TODO optimize. Try to print LocalTimes directly
+    public Time getEventStartTime(){
+        if (startTimeChoice.getValue() != null)
+            return Time.valueOf(startTimeChoice.getValue());
+        return null;
+    }
+
+    public Time getEventEndTime(){
+        if (endTimeChoice.getValue() != null)
+            return Time.valueOf(endTimeChoice.getValue());
+        return null;
+    }
+
+
 
     @FXML
     public void handleConfirmButton(ActionEvent event) {
-        //TODO implement
-        getDateFromDatePicker();
+        //TODO finish to implement
+        Date eventDate = getDateFromDatePicker();
+        Time eventStartTime = getEventStartTime();
+        Time eventEndTime = getEventEndTime();
+
+
 
 
     }

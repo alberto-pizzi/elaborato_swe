@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS "IsPart" (
     id_group INTEGER NOT NULL UNIQUE,
     id_user INTEGER NOT NULL,
     guest_users INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id_group, id_user),
     FOREIGN KEY (id_group) REFERENCES "Group"(id),
     FOREIGN KEY (id_user) REFERENCES "User"(id)

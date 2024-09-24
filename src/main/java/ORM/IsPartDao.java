@@ -218,4 +218,34 @@ public class IsPartDao {
         }
     }
 
+    public User groupHeadSuccessorId(int idGroup, int idLeavingUser) throws SQLException, ClassNotFoundException {
+
+        int id = 0;
+
+        UserDAO userDAO = new UserDAO();
+
+        //TODO optimize query, if possible
+        String querySQL = String.format("SELECT * FROM \"IsPart\" WHERE id_user <> '%d' AND " +
+                "created_at = (SELECT MIN(created_at) FROM \"IsPart\")", idLeavingUser);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+
+            id = resultSet.getInt("id");
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return userDAO.getUserByID(id);
+
+    }
+
 }
