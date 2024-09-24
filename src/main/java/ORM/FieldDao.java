@@ -430,7 +430,7 @@ public class FieldDao {
         Sport sport = null;
         SportDao sportDao = new SportDao();
 
-        String querySQL =  String.format("SELECT * FROM \"Field\" INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Facility\".id_owner = '%d')", owner.getId());
+        String querySQL =  String.format("SELECT * FROM \"Field\" INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Facility\".id_owner = '%d'", owner.getId());
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -467,7 +467,7 @@ public class FieldDao {
     public int reservedFields(Date date, Owner owner) throws SQLException {
 
         int number = 0;
-        String querySQL =  String.format("SELECT count(Distinct id_field) AS number FROM \"Reservation\" INNER JOIN \"Field\" INNER JOIN \"Facility\" ON \"Reservation\".id_field = \"Field\".id AND \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d')", date, owner.getId());
+        String querySQL =  String.format("SELECT count(Distinct id_field) AS number FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d'", date, owner.getId());
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

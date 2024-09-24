@@ -302,7 +302,7 @@ public class ReservationDao {
     public int DailyEarning(Date date, Owner owner) throws SQLException {
 
         int earning = 0;
-        String querySQL =  String.format("SELECT SUM(price) AS earnings FROM \"Reservation\" INNER JOIN \"Field\" INNER JOIN \"Facility\" ON \"Reservation\".id_field = \"Field\".id AND \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d')", date, owner.getId());
+        String querySQL =  String.format("SELECT SUM(price) AS earnings FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d'", date, owner.getId());
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -327,7 +327,7 @@ public class ReservationDao {
     public int dailyReservations(Date date, Owner owner) throws SQLException {
 
         int number = 0;
-        String querySQL =  String.format("SELECT count(id) AS number FROM \"Reservation\" INNER JOIN \"Field\" INNER JOIN \"Facility\" ON \"Reservation\".id_field = \"Field\".id AND \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d')", date, owner.getId());
+        String querySQL =  String.format("SELECT count(\"Reservation\".id) AS number FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d'", date, owner.getId());
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
