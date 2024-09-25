@@ -9,8 +9,11 @@ import java.sql.SQLException;
 public abstract class ProfileController {
 
     //methods
-    public void updateUsername(String username, String newUsername){
+    public void updateUsername(String username, String newUsername) throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        userDAO.updateUsername(username,newUsername);
 
+        System.out.println("Username updated");
     }
 
     public void updatePassword(String username, String newPassword) throws SQLException {
@@ -32,24 +35,35 @@ public abstract class ProfileController {
     }
 
     public void deleteProfile(String username){
-
-
+        //TODO implement
     }
 
-    public void updateCity(String username, String newCity){
+    public void updateCity(String username, String newCity) throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        userDAO.updateCity(username,newCity);
 
+        System.out.println("City updated");
     }
 
-    public void updateProvince(String username, String newProvince){
+    public void updateProvince(String username, String newProvince) throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        userDAO.updateProvince(username,newProvince);
 
+        System.out.println("Province updated");
     }
 
-    public void updateZip(String username, String newZip){
+    public void updateZip(String username, String newZip) throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        userDAO.updateZip(username,newZip);
 
+        System.out.println("Zip updated");
     }
 
-    public void updateCountry(String username, String newCountry){
+    public void updateCountry(String username, String newCountry) throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        userDAO.updateCountry(username,newCountry);
 
+        System.out.println("Country updated");
     }
 
     public boolean checkPersonExistence(String username) throws SQLException, ClassNotFoundException {

@@ -27,13 +27,13 @@ public class UpdatePasswordController implements Initializable {
     private PasswordField currentPasswordInput;
 
     @FXML
-    private Label errorLabel;
+    private Label messageLabel;
 
     @FXML
     private PasswordField newPasswordInput;
 
-    boolean newPasswordValid = false;
-    boolean currentPasswordValid = false;
+    MessagesController messagesController;
+
 
     //TODO check position correctness
     UserProfileController userProfileController;
@@ -52,48 +52,39 @@ public class UpdatePasswordController implements Initializable {
         userProfileController = new UserProfileController();
         userProfileController.setUser(tmpUser);
 
-        newPasswordValid = false;
-        currentPasswordValid = false;
+        messagesController = new MessagesController(messageLabel);
 
     }
 
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException {
+    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        if (newPasswordValid && currentPasswordValid) {
-            //userProfileController.updatePassword(userProfileController.getUser().getUsername(), newPasswordInput.getText());
-            System.out.println("Password successfully updated");
-        }
+        if (!currentPasswordInput.getText().isEmpty() && userProfileController.checkPassword(userProfileController.getUser().getUsername(), currentPasswordInput.getText())) {
 
-    }
+            if (!newPasswordInput.getText().isEmpty() && newPasswordInput.getText().equals(confirmPasswordInput.getText())) {
+                if (!newPasswordInput.getText().equals(currentPasswordInput.getText())) {
+                    userProfileController.updatePassword(userProfileController.getUser().getUsername(), newPasswordInput.getText());
 
-    @FXML
-    void handleConfirmPassword(ActionEvent event) {
-        //TODO add confirm password checker
-        if (newPasswordInput != null && confirmPasswordInput.getText().equals(confirmPasswordInput.getText())) {
-            newPasswordValid = true;
-            errorLabel.setVisible(false);
+                    String message = "Password changed successfully!";
+                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                }else{
+                    String message = "Passwords do not match or are empty!";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                }
+            }
+            else{
+                String message = "Enter new password and confirm it.";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            }
+
         }
         else{
-            errorLabel.setVisible(true);
-            newPasswordValid = false;
-            errorLabel.setText("Passwords do not match");
+            String message = "Current password is incorrect. Please try again.";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            currentPasswordInput.clear();
         }
 
     }
 
-    @FXML
-    void handleCurrentPassword(ActionEvent event) throws SQLException, ClassNotFoundException {
-        //TODO add current password checker
-        if (currentPasswordInput.getText() != null && userProfileController.checkPassword(userProfileController.getUser().getUsername(), currentPasswordInput.getText())) {
-            System.out.println("Current password verified");
-            currentPasswordValid = true;
-            errorLabel.setVisible(false);
-        }
-        else {
-            errorLabel.setVisible(true);
-            errorLabel.setText("Current password not verified");
-            System.out.println("Current password not verified");
-        }
-    }
+
 }

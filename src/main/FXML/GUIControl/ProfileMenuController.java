@@ -71,7 +71,7 @@ public class ProfileMenuController implements Initializable {
 
     @FXML
     void handleDeleteProfileButton(ActionEvent event) {
-
+        //TODO implement (add alert)
     }
 
     @FXML

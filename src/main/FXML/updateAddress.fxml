@@ -17,7 +17,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="72.0" prefWidth="180.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="Province:" textAlignment="CENTER">
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="Province*:" textAlignment="CENTER">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -97,7 +97,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Label fx:id="errorLabel" alignment="CENTER" prefHeight="25.0" prefWidth="774.0" text="Error: text" textFill="RED" visible="false">
+            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="25.0" prefWidth="774.0" text="Error: text" textFill="RED" visible="false">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>

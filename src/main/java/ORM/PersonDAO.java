@@ -214,10 +214,12 @@ public abstract class PersonDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            int persons = resultSet.getInt("results");
+            if (resultSet.next()) {
+                int persons = resultSet.getInt("results");
 
-            if (persons > 0)
-                return true;
+                if (persons > 0)
+                    return true;
+            }
 
 
         } catch (SQLException e) {
