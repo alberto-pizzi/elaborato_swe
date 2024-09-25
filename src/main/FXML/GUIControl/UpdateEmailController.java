@@ -38,7 +38,18 @@ public class UpdateEmailController implements Initializable {
 
     @FXML
     void handleConfirmButton(ActionEvent event) {
-        //TODO implement
+        if (emailInput.getText().isEmpty()) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Please enter a valid email");
+        }
+        else{
+            errorLabel.setVisible(false);
+
+            //TODO implement
+
+        }
+
+
         System.out.println("Email confirmed");
     }
 }

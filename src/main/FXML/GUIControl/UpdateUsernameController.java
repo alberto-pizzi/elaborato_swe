@@ -8,9 +8,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.java.BusinessLogic.UserActionsController;
+import main.java.BusinessLogic.UserProfileController;
 import main.java.DomainModel.User;
+import main.java.ORM.UserDAO;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class UpdateUsernameController implements Initializable {
@@ -23,6 +26,9 @@ public class UpdateUsernameController implements Initializable {
     @FXML
     private TextField usernameInput;
 
+    UserActionsController userActionsController;
+    UserProfileController userProfileController;
+
     //methods
 
     @Override
@@ -30,16 +36,39 @@ public class UpdateUsernameController implements Initializable {
         //TODO connect to login session
         User tmpUser = new User(2,"luca.bianchi@example.com", "lucabianchi","password123", "Milano", "MI", "20100", "Italia"); //TODO remove it, add right user
 
-        UserActionsController userActionsController = new UserActionsController(tmpUser); //TODO check and put into correct location
+        this.userActionsController = new UserActionsController(tmpUser); //TODO check and put into correct location
 
+        //TODO is it correct here?
+        userProfileController = new UserProfileController();
+        userProfileController.setUser(tmpUser);
 
         usernameInput.setText(tmpUser.getUsername());
 
     }
 
     @FXML
-    void handleConfirmButton(ActionEvent event) {
+    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         //TODO implement
+
+        if (!usernameInput.getText().isEmpty()) {
+            //TODO remove DAO from here? only BusinessLogic admitted?
+            UserDAO userDAO = new UserDAO();
+
+            User user = userDAO.getUser(usernameInput.getText());
+
+            if (user == null) {
+                errorLabel.setVisible(false);
+                userProfileController.updateUsername(userActionsController.getUser().getUsername(), usernameInput.getText());
+                System.out.println("User updated, new username is: " + usernameInput.getText());
+            }
+            else{
+                errorLabel.setText("Username already exists");
+                errorLabel.setVisible(true);
+            }
+
+        }
+
+
         System.out.println("Username confirmed");
     }
 

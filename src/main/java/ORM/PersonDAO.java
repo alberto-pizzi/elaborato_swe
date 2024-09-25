@@ -94,9 +94,9 @@ public abstract class PersonDAO {
 
     }
 
-    public void updateEmail(int idUser, String newEmail) throws SQLException {
+    public void updateEmail(String username, String newEmail) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"" + this.target + "\" SET email = '%s' WHERE id = '%d'", newEmail, idUser);
+        String querySQL = String.format("UPDATE \"" + this.target + "\" SET email = '%s' WHERE username = '%d'", newEmail, username);
 
         PreparedStatement preparedStatement = null;
 
@@ -304,15 +304,18 @@ public abstract class PersonDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            int id = resultSet.getInt("id");
-            String usernameSelected = resultSet.getString("username");
-            String email = resultSet.getString("email");
-            String password = resultSet.getString("password");
-            String city = resultSet.getString("city");
-            String province = resultSet.getString("province");
-            String zip = resultSet.getString("zip");
-            String country = resultSet.getString("country");
-            user = new User(id, email, usernameSelected, city, province, zip, country, password);
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String usernameSelected = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String city = resultSet.getString("city");
+                String province = resultSet.getString("province");
+                String zip = resultSet.getString("zip");
+                String country = resultSet.getString("country");
+
+                user = new User(id, email, usernameSelected, city, province, zip, country, password);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
