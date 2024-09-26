@@ -13,12 +13,17 @@ import java.util.ArrayList;
 
 
 public class UserActionsController {
+
     private User user;
 
     //constructor
 
     public UserActionsController(User user) {
         this.user = user;
+    }
+
+    public UserActionsController() {
+        this.user = (User) SessionController.getInstance().getPerson();
     }
 
 
@@ -167,9 +172,10 @@ public class UserActionsController {
 
     }
 
-    //FIXME output type? maybe ArrayList<Field>
-    public void searchField(String inputSearched){
-
+    //cambiato tipo return
+    public ArrayList<Field> searchField(String inputSearched) throws SQLException {
+        FieldDao fieldDao = new FieldDao();
+        return fieldDao.search(inputSearched);
     }
 
 
@@ -177,6 +183,13 @@ public class UserActionsController {
         InviteDao inviteDao = new InviteDao();
 
         return inviteDao.getInvitesByUser(user.getId());
+
+    }
+
+    public ArrayList<Field> getNearbyFields() throws SQLException, ClassNotFoundException {
+        FieldDao fieldDao = new FieldDao();
+
+        return fieldDao.getFieldsByProvince(user.getProvince());
 
     }
 

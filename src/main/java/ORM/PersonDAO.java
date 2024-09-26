@@ -215,10 +215,14 @@ public abstract class PersonDAO {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+
                 int persons = resultSet.getInt("results");
 
                 if (persons > 0)
                     return true;
+            }
+            else{
+                System.err.println("No User found with username: " + username);
             }
 
 
@@ -307,6 +311,7 @@ public abstract class PersonDAO {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+
                 int id = resultSet.getInt("id");
                 String usernameSelected = resultSet.getString("username");
                 String email = resultSet.getString("email");
@@ -315,8 +320,10 @@ public abstract class PersonDAO {
                 String province = resultSet.getString("province");
                 String zip = resultSet.getString("zip");
                 String country = resultSet.getString("country");
-
                 user = new User(id, email, usernameSelected, city, province, zip, country, password);
+            }
+            else{
+                System.err.println("No User found with username: " + username);
             }
 
         } catch (SQLException e) {

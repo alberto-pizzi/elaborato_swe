@@ -6,7 +6,6 @@ module elaboratoSWEWindows {
 
     exports main.java;
     exports main.FXML.GUIControl to javafx.fxml;
-
     opens main.FXML.GUIControl to javafx.fxml;
 
 

@@ -6,17 +6,14 @@ import main.java.ORM.OwnerDAO;
 import java.sql.SQLException;
 
 public class OwnerAccess implements AccessStrategy{
+
     @Override
-    public Owner login(String username, String password) throws SQLException {
+    public Owner login(String username) throws SQLException {
 
         OwnerDAO dao = new OwnerDAO();
         Owner owner = null;
         try {
-            boolean verified = dao.checkPassword(username,password);
-
-            if (verified) {
-                owner = dao.getOwner(username);
-            }
+            owner = dao.getOwner(username);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -37,4 +34,17 @@ public class OwnerAccess implements AccessStrategy{
         }
     }
 
+    @Override
+    public boolean checkPassword(java.lang.String username, java.lang.String password) throws SQLException {
+
+        boolean verified = false;
+        OwnerDAO dao = new OwnerDAO();
+        try {
+            verified = dao.checkPassword(username,password);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return verified;
+    }
 }

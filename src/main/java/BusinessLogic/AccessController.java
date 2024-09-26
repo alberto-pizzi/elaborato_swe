@@ -25,8 +25,12 @@ public class AccessController {
         this.accessStrategy = accessStrategy;
     }
 
-    public Person login(String username, String password) throws SQLException {
-        return accessStrategy.login(username, password);
+    public Person login(String username) throws SQLException {
+        return accessStrategy.login(username);
+    }
+
+    public boolean checkPassword(String username, String password) throws SQLException {
+        return accessStrategy.checkPassword(username, password);
     }
 
     public void register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{

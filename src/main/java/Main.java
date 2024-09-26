@@ -16,11 +16,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/menuPane.fxml"));
-        stage.setTitle("JavaFX APP");
-        //TODO check if when quit button is pressed, app will close
-        stage.setScene(new Scene(root,1280,720));
-        stage.show();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
+            stage.setTitle("Sport Plus");
+            //TODO change window size
+            //TODO check if when quit button is pressed, app will close
+            stage.setScene(new Scene(root, 1280, 720));
+            stage.show();
+            stage.setResizable(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

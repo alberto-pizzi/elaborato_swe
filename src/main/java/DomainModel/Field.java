@@ -13,6 +13,13 @@ public class Field {
     private String image;
     private Facility facility;
 
+    public Field (){
+        this.id = 5;
+        this.name = "ert";
+        this.price = 8;
+        this.image = "";
+    }
+
     public Field(int id, String name, Sport sport, String description, float price, String image, Facility facility) {
         this.id = id;
         this.name = name;
