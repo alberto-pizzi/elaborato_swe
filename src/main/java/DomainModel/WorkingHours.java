@@ -9,6 +9,7 @@ import java.time.LocalTime;
 public class WorkingHours {
 
     //enumeration
+    //FIXME change with DayOfWeek by Java.
     public enum Day {
         MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
     }
