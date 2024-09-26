@@ -59,12 +59,23 @@ public class FieldDetailController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources){
 
-        //TODO remove it, add right objs
+        //TODO remove it, add right objs (WARNING!!!)
+        /*
         Sport sport = new Sport(1,"Calcio",22);
         Owner owner = new Owner(1,"owner1@example.com", "ownerone", "password123","Torino", "TO", "10100", "Italia");
         Facility facility = new Facility(1,"Centro Sportivo Roma", "Via del Corso, 1", "Roma", "RM", "00100", "Italia", 2, "00000", "0612345678", owner);
         Field tmpField = new Field(1,"Campo di Calcio", sport, "Campo di calcio a 11 in erba sintetica", 100, "olympicField.jpg", facility);
-        this.field = tmpField;
+
+
+         */
+
+
+
+
+    }
+
+    public void setData(Field field){
+        this.field = field;
 
         fieldNameLabel.setText(field.getName());
         fieldDescription.setText(field.getDescription());
@@ -78,7 +89,6 @@ public class FieldDetailController implements Initializable {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         fieldImageView.setImage(image);
-
     }
     
     

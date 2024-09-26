@@ -92,8 +92,7 @@ public class BookFieldController implements Initializable {
         //TODO optimize
 
         //TODO remove it, add right objs
-        User tmpUser = new User(2,"luca.bianchi@example.com", "lucabianchi","password123", "Milano", "MI", "20100", "Italia"); //TODO remove it, add right user
-
+        //FIXME fix login singleton connection
         Sport sport = new Sport(1,"Calcio",22);
         Owner owner = new Owner(1,"owner1@example.com", "ownerone", "password123","Torino", "TO", "10100", "Italia");
         Facility facility = new Facility(1,"Centro Sportivo Roma", "Via del Corso, 1", "Roma", "RM", "00100", "Italia", 2, "00000", "0612345678", owner);
@@ -102,7 +101,9 @@ public class BookFieldController implements Initializable {
         facility.setWorkingHours(whs);
         Field tmpField = new Field(1,"Campo di Calcio", sport, "Campo di calcio a 11 in erba sintetica", 100, "olympicField.jpg", facility);
 
-        setData(tmpField,new UserActionsController(tmpUser)); //TODO insert into its correct pos
+
+
+        setData(tmpField,new UserActionsController()); //TODO insert into its correct pos
 
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);

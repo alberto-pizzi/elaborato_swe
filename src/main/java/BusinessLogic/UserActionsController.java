@@ -8,7 +8,6 @@ import main.java.ORM.*;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 
 
@@ -18,9 +17,7 @@ public class UserActionsController {
 
     //constructor
 
-    public UserActionsController(User user) {
-        this.user = user;
-    }
+
 
     public UserActionsController() {
         this.user = (User) SessionController.getInstance().getPerson();

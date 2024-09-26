@@ -33,16 +33,14 @@ public class UpdateUsernameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //TODO connect to login session
-        User tmpUser = new User(2,"luca.bianchi@example.com", "lucabianchi","password123", "Milano", "MI", "20100", "Italia"); //TODO remove it, add right user
 
-        this.userActionsController = new UserActionsController(tmpUser); //TODO check and put into correct location
+        this.userActionsController = new UserActionsController(); //TODO check and put into correct location
 
         //TODO is it correct here?
         userProfileController = new UserProfileController();
-        userProfileController.setUser(tmpUser);
+        userProfileController.setUser(userActionsController.getUser());
 
-        usernameInput.setText(tmpUser.getUsername());
+        usernameInput.setText(userActionsController.getUser().getUsername());
 
     }
 

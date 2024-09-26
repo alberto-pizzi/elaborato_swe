@@ -43,14 +43,8 @@ public class UpdateAddressController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //TODO connect to login session
-        User tmpUser = new User(2,"luca.bianchi@example.com", "lucabianchi","password123", "Milano", "MI", "20100", "Italia"); //TODO remove it, add right user
-
-        UserActionsController userActionsController = new UserActionsController(tmpUser); //TODO check and put into correct location
 
         this.userProfileController = new UserProfileController();
-
-        userProfileController.setUser(tmpUser);
 
         this.messagesController = new MessagesController(messageLabel);
 

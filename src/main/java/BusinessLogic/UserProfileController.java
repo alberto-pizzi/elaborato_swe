@@ -11,6 +11,11 @@ public class UserProfileController extends ProfileController {
     //attributes
     private User user;
 
+    //constructor
+    public UserProfileController() {
+        this.user = (User) SessionController.getInstance().getPerson();
+    }
+
     //getter
 
     public User getUser() {

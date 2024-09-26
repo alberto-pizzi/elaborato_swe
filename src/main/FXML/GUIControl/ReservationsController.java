@@ -14,7 +14,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
-import main.java.DomainModel.Group;
 import main.java.DomainModel.Reservation;
 import main.java.DomainModel.User;
 
@@ -34,11 +33,8 @@ public class ReservationsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        User tmpUser = new User(2,"luca.bianchi@example.com", "lucabianchi","password123", "Milano", "MI", "20100", "Italia"); //TODO remove it, add right user
 
-
-
-        UserActionsController userActionsController = new UserActionsController(tmpUser); //TODO check and put into correct location
+        UserActionsController userActionsController = new UserActionsController();
 
 
         try {

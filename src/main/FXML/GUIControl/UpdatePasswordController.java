@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import main.java.BusinessLogic.ProfileController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.BusinessLogic.UserProfileController;
 import main.java.DomainModel.User;
@@ -43,14 +42,12 @@ public class UpdatePasswordController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //TODO connect to login session
-        User tmpUser = new User(2,"luca.bianchi@example.com", "lucabianchi","password123", "Milano", "MI", "20100", "Italia"); //TODO remove it, add right user
 
-        this.userActionsController = new UserActionsController(tmpUser); //TODO check and put into correct location
+        this.userActionsController = new UserActionsController();
 
         //TODO is it correct here?
         userProfileController = new UserProfileController();
-        userProfileController.setUser(tmpUser);
+        userProfileController.setUser(userActionsController.getUser());
 
         messagesController = new MessagesController(messageLabel);
 
