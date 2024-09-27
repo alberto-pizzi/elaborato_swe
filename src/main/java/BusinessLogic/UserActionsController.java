@@ -183,7 +183,7 @@ public class UserActionsController {
 
     }
 
-    public ArrayList<Field> getNearbyFields() throws SQLException, ClassNotFoundException {
+    public ArrayList<Field> getNearbyFields() throws SQLException {
         FieldDao fieldDao = new FieldDao();
 
         return fieldDao.getFieldsByProvince(user.getProvince());
@@ -214,6 +214,11 @@ public class UserActionsController {
         //TODO should getReservation be improved with isConfirmed supporting? (into ReservationDao)
         return reservationDao.getReservationsByUser(this.user.getId());
 
+    }
+    //todo aggiungere uml
+    public String getFieldAddress(int fieldId) throws SQLException {
+        FieldDao fieldDao = new FieldDao();
+        return fieldDao.getFieldAddress(fieldId);
     }
 
 }

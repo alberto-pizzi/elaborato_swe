@@ -488,4 +488,28 @@ public class FieldDao {
         return number;
     }
 
+    //todo aggiungere uml
+    public String getFieldAddress(int fieldId) throws SQLException {
+
+        String address = null;
+        String querySQL =  String.format("SELECT address FROM \"Field\"  INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Field\".id = '%d'", fieldId);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                address = resultSet.getString("address");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return address;
+    }
 }

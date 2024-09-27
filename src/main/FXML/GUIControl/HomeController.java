@@ -82,6 +82,8 @@ public class HomeController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
         search.setOnKeyPressed(handler);
@@ -106,7 +108,7 @@ public class HomeController implements Initializable {
                     fieldItemController.setData(fields.get(i));
 
                     fieldsList.getChildren().add(hBox);
-                } catch (IOException e) {
+                } catch (IOException | SQLException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
@@ -137,7 +139,7 @@ public class HomeController implements Initializable {
                         fieldItemController.setData(fields.get(i));
 
                         fieldsList.getChildren().add(hBox);
-                    } catch (IOException e) {
+                    } catch (IOException | SQLException e) {
                         e.printStackTrace();
                         throw new RuntimeException(e);
                     }
@@ -174,7 +176,7 @@ public class HomeController implements Initializable {
                     fieldItemController.setData(fields.get(i));
 
                     fieldsList.getChildren().add(hBox);
-                } catch (IOException e) {
+                } catch (IOException | SQLException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
