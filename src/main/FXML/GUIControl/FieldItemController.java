@@ -5,18 +5,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
-import main.java.ORM.FieldDao;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 
 public class FieldItemController {
 
@@ -38,11 +33,12 @@ public class FieldItemController {
     @FXML
     private Label sportLabel;
 
-    @FXML
-    private BorderPane menuPane;
-
     private Field field;
+    private HomeController homeController;
 
+    public void setYourHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
 
     //fixme address and image
     public void setData(Field field) throws SQLException {
@@ -54,6 +50,7 @@ public class FieldItemController {
         //Image image = new Image(getClass().getResourceAsStream(field.getImage()));
         //fieldImg.setImage(image);
         sportLabel.setText(field.getSport().getName());
+
     }
 
     @FXML
@@ -65,7 +62,8 @@ public class FieldItemController {
         AnchorPane view = fmxLoader.load();
         FieldDetailController fieldDetailController = fmxLoader.getController();
         fieldDetailController.setData(field);
-        menuPane.setCenter(view);
+        homeController.getPage().getChildren().removeAll(homeController.getPage().getChildren());
+        homeController.getPage().getChildren().add(view);
     }
 
 }

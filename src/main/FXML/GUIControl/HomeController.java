@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
@@ -38,12 +39,18 @@ public class HomeController implements Initializable {
     @FXML
     private Label pageNumber;
 
+    @FXML
+    private AnchorPane page;
+
     private List<Field> fields = new ArrayList<>();
 
     int currentPage = 1;
 
     int itemsPerPage = 3;
 
+    public AnchorPane getPage() {
+        return page;
+    }
 
     private List<Field> getData() throws SQLException, ClassNotFoundException {
         List<Field> fields = new ArrayList<>();
@@ -76,6 +83,7 @@ public class HomeController implements Initializable {
 
                 HBox hBox = fmxLoader.load();
                 FieldItemController fieldItemController = fmxLoader.getController();
+                fieldItemController.setYourHomeController(this);
                 fieldItemController.setData(fields.get(i));
 
                 fieldsList.getChildren().add(hBox);
@@ -105,6 +113,7 @@ public class HomeController implements Initializable {
 
                     HBox hBox = fmxLoader.load();
                     FieldItemController fieldItemController = fmxLoader.getController();
+                    fieldItemController.setYourHomeController(this);
                     fieldItemController.setData(fields.get(i));
 
                     fieldsList.getChildren().add(hBox);
@@ -136,6 +145,7 @@ public class HomeController implements Initializable {
 
                         HBox hBox = fmxLoader.load();
                         FieldItemController fieldItemController = fmxLoader.getController();
+                        fieldItemController.setYourHomeController(this);
                         fieldItemController.setData(fields.get(i));
 
                         fieldsList.getChildren().add(hBox);
@@ -173,6 +183,7 @@ public class HomeController implements Initializable {
 
                     HBox hBox = fmxLoader.load();
                     FieldItemController fieldItemController = fmxLoader.getController();
+                    fieldItemController.setYourHomeController(this);
                     fieldItemController.setData(fields.get(i));
 
                     fieldsList.getChildren().add(hBox);
