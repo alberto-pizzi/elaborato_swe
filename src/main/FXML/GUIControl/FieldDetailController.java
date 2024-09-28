@@ -1,6 +1,9 @@
 package main.FXML.GUIControl;
 
 
+import javafx.event.ActionEvent;
+import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
@@ -51,7 +54,9 @@ public class FieldDetailController implements Initializable {
     @FXML
     private Button goToBookButton;
 
-    Field field;
+    private Field field;
+
+    private BorderPane menuPane;
 
     
     //methods
@@ -74,7 +79,7 @@ public class FieldDetailController implements Initializable {
 
     }
 
-    public void setData(Field field){
+    public void setData(Field field, BorderPane menuPane) throws IOException {
         this.field = field;
 
         fieldNameLabel.setText(field.getName());
@@ -89,7 +94,27 @@ public class FieldDetailController implements Initializable {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         fieldImageView.setImage(image);
+
+        this.menuPane = menuPane;
+
+
+
     }
-    
-    
+
+    @FXML
+    void handleGoToBookButton(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
+        Parent view = loader.load();
+
+        BookFieldController bookFieldController = loader.getController();
+        bookFieldController.setData(this.field);
+
+
+        menuPane.setCenter(view);
+
     }
+
+
+
+}

@@ -81,7 +81,6 @@ public class BookFieldController implements Initializable {
     private float totalPrice;
     private int totalPeople = 1;
 
-    private UserActionsController userActionsController;
 
 
     //methods
@@ -93,6 +92,7 @@ public class BookFieldController implements Initializable {
 
         //TODO remove it, add right objs
         //FIXME fix login singleton connection
+        /*
         Sport sport = new Sport(1,"Calcio",22);
         Owner owner = new Owner(1,"owner1@example.com", "ownerone", "password123","Torino", "TO", "10100", "Italia");
         Facility facility = new Facility(1,"Centro Sportivo Roma", "Via del Corso, 1", "Roma", "RM", "00100", "Italia", 2, "00000", "0612345678", owner);
@@ -103,7 +103,9 @@ public class BookFieldController implements Initializable {
 
 
 
-        setData(tmpField,new UserActionsController()); //TODO insert into its correct pos
+        setData(tmpField); //TODO insert into its correct pos
+
+         */
 
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
@@ -126,7 +128,7 @@ public class BookFieldController implements Initializable {
 
                 if (newTime != null) {
                     //TODO pass correct WH
-                    updateEndTimes(LocalTime.parse(newTime),facility.getWorkingHours().get(0),15);
+                    updateEndTimes(LocalTime.parse(newTime),field.getFacility().getWorkingHours().get(0),15);
 
                     updateTotalPrice(true);
                     updatePricePerPerson(true);
@@ -175,9 +177,8 @@ public class BookFieldController implements Initializable {
 
     }
 
-    public void setData(Field field, UserActionsController userActionsController) {
+    public void setData(Field field) {
         this.field = field;
-        this.userActionsController = userActionsController;
 
         fieldAddress.setText(field.getFacility().getFullAddress());
         fieldNameLabel.setText(field.getFacility().getName());
@@ -202,7 +203,8 @@ public class BookFieldController implements Initializable {
         String price;
 
         if (reset) {
-            this.totalPrice = field.getPrice();
+            if (field != null)
+                this.totalPrice = field.getPrice();
             price = priceFormat.format(this.totalPrice) + " $ (per person)";
         }
         else
@@ -295,6 +297,8 @@ public class BookFieldController implements Initializable {
     private List<LocalTime> availableTimes(int minutesInterval, DateTimeFormatter formatter, WorkingHours.Day dayOfWeek) throws SQLException, ClassNotFoundException {
         List<LocalTime> availableTimes = new ArrayList<>();
 
+        UserActionsController userActionsController = new UserActionsController();
+
         ArrayList<WorkingHours> WHs = userActionsController.getWHsByFacilityByDay(field.getFacility().getId(), dayOfWeek);
 
         ArrayList<Reservation> reservations = userActionsController.getReservationsByField(field.getId());
@@ -360,6 +364,8 @@ public class BookFieldController implements Initializable {
     private void updateEndTimes(LocalTime selectedTime, WorkingHours wh, int minutesInterval) throws SQLException, ClassNotFoundException {
 
         List<LocalTime> availableTimes = new ArrayList<>();
+
+        UserActionsController userActionsController = new UserActionsController();
 
 
         ArrayList<Reservation> reservations = userActionsController.getReservationsByField(field.getId());
@@ -453,7 +459,11 @@ public class BookFieldController implements Initializable {
         Time eventStartTime = getEventStartTime();
         Time eventEndTime = getEventEndTime();
 
-        System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
+        if (eventStartTime != null && eventEndTime != null)
+            System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
+        else
+            System.out.println("Insert data");
+
 
 
     }

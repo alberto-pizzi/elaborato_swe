@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -39,10 +40,19 @@ public class MenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            changeView("home.fxml");
+            goToHome();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void goToHome() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/home.fxml"));
+        Parent view = loader.load();
+        HomeController controller = loader.getController();
+        controller.setMenuPane(menuPane);
+        menuPane.setCenter(view);
     }
 
     public void changeView(String newViewFXMLFileName) throws IOException {
@@ -58,8 +68,8 @@ public class MenuController implements Initializable {
 
     @FXML
     public void handleHomeButtonAction(ActionEvent event) throws IOException {
-        //TODO add home link
-        changeView("home.fxml");
+
+        goToHome();
         System.out.println("Home menu button clicked");
 
     }

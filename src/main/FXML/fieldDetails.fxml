@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldDetailController">
    <children>
       <VBox style="-fx-background-color: #fff; -fx-background-radius: 10;">
@@ -148,7 +147,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
-                              <Button fx:id="goToBookButton" mnemonicParsing="false" stylesheets="@css/style.css" text="Go to book -&gt;" textFill="WHITE">
+                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToBookButton" stylesheets="@css/style.css" text="Go to book -&gt;" textFill="WHITE">
                                  <HBox.margin>
                                     <Insets top="20.0" />
                                  </HBox.margin>

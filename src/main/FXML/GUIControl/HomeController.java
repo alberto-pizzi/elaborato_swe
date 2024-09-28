@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
@@ -47,6 +48,16 @@ public class HomeController implements Initializable {
     int currentPage = 1;
 
     int itemsPerPage = 3;
+
+    private BorderPane menuPane;
+
+    public BorderPane getMenuPane() {
+        return menuPane;
+    }
+
+    public void setMenuPane(BorderPane menuPane) {
+        this.menuPane = menuPane;
+    }
 
     public AnchorPane getPage() {
         return page;

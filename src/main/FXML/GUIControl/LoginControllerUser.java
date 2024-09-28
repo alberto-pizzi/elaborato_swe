@@ -64,6 +64,7 @@ public class LoginControllerUser implements Initializable {
             person = access.login(username.getText());
             sessionController.setPerson(person);
             try {
+                //TODO check correctness
                 logIn.getScene().getWindow().hide();
                 Stage home = new Stage();
                 Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/menuPane.fxml"));
