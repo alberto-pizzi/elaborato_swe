@@ -57,7 +57,7 @@ public class MenuOwnerController implements Initializable {
 
     @FXML
     void profile(ActionEvent event) throws IOException {
-        changeView("profile.fxml");
+        changeView("profileOwner.fxml");
         System.out.println("Profile menu button clicked");
     }
 
