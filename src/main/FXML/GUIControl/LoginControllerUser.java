@@ -77,9 +77,10 @@ public class LoginControllerUser implements Initializable {
             person = access.login(username.getText());
             sessionController.setPerson(person);
             try {
-                BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/menuPane.fxml"));
-               // loginPane.getChildren().removeAll();
-               // loginPane.getChildren().add(view);
+                pane.getChildren().removeAll();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/menuPane.fxml"));
+                Parent view = loader.load();
+                pane.getChildren().add(view);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -92,10 +93,13 @@ public class LoginControllerUser implements Initializable {
     private void signUp(ActionEvent event) throws SQLException {
 
         try {
-            Pane view = FXMLLoader.load(getClass().getResource("/main/FXML/signUpUser.fxml"));
             logIn.getScene().getWindow().setHeight(850);
-           // loginPane.getChildren().removeAll();
-//loginPane.getChildren().addAll(view.getChildren());
+            pane.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/signUpUser.fxml"));
+            Parent view = loader.load();
+            SignUpControllerUser controller = loader.getController();
+            controller.setScenePane(pane);
+            pane.getChildren().add(view);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,7 +112,7 @@ public class LoginControllerUser implements Initializable {
 
         try {
             pane.getChildren().removeAll();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/LoginOwner.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/loginOwner.fxml"));
             Parent view = loader.load();
             LoginControllerOwner controller = loader.getController();
             controller.setScenePane(pane);

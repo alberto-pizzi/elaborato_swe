@@ -75,9 +75,10 @@ public class LoginControllerOwner implements Initializable {
             person = access.login(username.getText());
             sessionController.setPerson(person);
             try {
-                BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/menuPaneOwner.fxml"));
-                //loginPane.getChildren().removeAll();
-                //loginPane.getChildren().add(view);
+                pane.getChildren().removeAll();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/menuPaneOwner.fxml"));
+                Parent view = loader.load();
+                pane.getChildren().add(view);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -89,10 +90,13 @@ public class LoginControllerOwner implements Initializable {
     private void signUp(ActionEvent event) throws SQLException {
 
         try {
-            Pane view = FXMLLoader.load(getClass().getResource("/main/FXML/signUpOwner.fxml"));
             logIn.getScene().getWindow().setHeight(850);
-            //loginPane.getChildren().removeAll();
-            //loginPane.getChildren().add(view.getChildren().get(0));
+            pane.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/signUpOwner.fxml"));
+            Parent view = loader.load();
+            SignUpControllerOwner controller = loader.getController();
+            controller.setScenePane(pane);
+            pane.getChildren().add(view);
         } catch (Exception e) {
             e.printStackTrace();
         }

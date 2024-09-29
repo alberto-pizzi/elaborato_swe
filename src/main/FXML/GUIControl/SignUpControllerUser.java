@@ -54,8 +54,15 @@ public class SignUpControllerUser implements Initializable {
     @FXML
     private TextField zip;
 
-    @FXML
-    private Pane registerPane;
+    private Pane pane;
+
+    public Pane getScenePane() {
+        return pane;
+    }
+
+    public void setScenePane(Pane scenePane) {
+        this.pane = scenePane;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -75,10 +82,13 @@ public class SignUpControllerUser implements Initializable {
 
                 System.out.println("register done");
                 try {
-                    BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
                     logIn.getScene().getWindow().setHeight(720);
-                    registerPane.getChildren().removeAll();
-                    registerPane.getChildren().add(view);
+                    pane.getChildren().removeAll();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/loginUser.fxml"));
+                    Parent view = loader.load();
+                    LoginControllerUser controller = loader.getController();
+                    controller.setScenePane(pane);
+                    pane.getChildren().add(view);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -96,10 +106,14 @@ public class SignUpControllerUser implements Initializable {
     private void logIn(ActionEvent event) throws SQLException {
 
         try {
-            Pane view = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
             logIn.getScene().getWindow().setHeight(720);
-            registerPane.getChildren().removeAll();
-            registerPane.getChildren().addAll(view.getChildren());
+            pane.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/loginUser.fxml"));
+            Parent view = loader.load();
+            LoginControllerUser controller = loader.getController();
+            controller.setScenePane(pane);
+            pane.getChildren().add(view);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,9 +124,12 @@ public class SignUpControllerUser implements Initializable {
     private void isOwner(ActionEvent event) throws SQLException {
 
         try {
-            Pane view = FXMLLoader.load(getClass().getResource("/main/FXML/signUpOwner.fxml"));
-            registerPane.getChildren().removeAll();
-            registerPane.getChildren().addAll(view.getChildren());
+            pane.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/signUpOwner.fxml"));
+            Parent view = loader.load();
+            SignUpControllerOwner controller = loader.getController();
+            controller.setScenePane(pane);
+            pane.getChildren().add(view);
         } catch (Exception e) {
             e.printStackTrace();
         }
