@@ -35,6 +35,7 @@ public class UpdateUsernameOwnerController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.ownerProfileController = new OwnerProfileController(); //TODO check and put into correct location
+
         usernameInput.setText(ownerProfileController.getUsername());
 
     }

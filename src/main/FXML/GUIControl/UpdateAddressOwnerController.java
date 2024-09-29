@@ -47,6 +47,10 @@ public class UpdateAddressOwnerController implements Initializable {
 
         this.messagesController = new MessagesController(messageLabel);
 
+        this.cityInput.setText(ownerProfileController.getCity());
+        this.countryInput.setText(ownerProfileController.getCountry());
+        this.provinceInput.setText(ownerProfileController.getProvince());
+        this.zipInput.setText(ownerProfileController.getZip());
     }
 
     @FXML

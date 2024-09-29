@@ -31,7 +31,6 @@ public class UpdateEmailOwnerController implements Initializable {
 
         OwnerProfileController ownerProfileController = new OwnerProfileController();
 
-
         emailInput.setText(ownerProfileController.getEmail());
 
     }

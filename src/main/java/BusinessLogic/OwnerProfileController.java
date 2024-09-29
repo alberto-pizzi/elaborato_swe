@@ -38,6 +38,22 @@ public class OwnerProfileController extends ProfileController {
         return owner.getUsername();
     }
 
+    public String  getCity() {
+        return owner.getCity();
+    }
+
+    public String  getCountry() {
+        return owner.getCountry();
+    }
+
+    public String  getZip() {
+        return owner.getZip();
+    }
+
+    public String  getProvince() {
+        return owner.getProvince();
+    }
+
     //todo controllare con alberto la correttezza e vari controller
     public void updateUsername(String newUsername) throws SQLException {
         OwnerDAO ownerDAO = new OwnerDAO();
