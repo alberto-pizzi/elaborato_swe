@@ -92,7 +92,7 @@
 
 .profile-menu-owner{
     -fx-background-color: white;
-    -fx-background-radius: 0 50 50 0;
+    -fx-background-radius: 50;
     -fx-cursor: hand;
 }
 
@@ -121,3 +121,14 @@
 .confirm-button:hover{
     -fx-background-color: #22db4a;
 }
+
+.confirm-button-owner{
+    -fx-background-color: #e573ff;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.confirm-button-owner:hover{
+    -fx-background-color: violet;
+}
+
