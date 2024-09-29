@@ -45,7 +45,7 @@ public class MenuOwnerController implements Initializable {
 
     @FXML
     void dashboard(ActionEvent event) throws IOException {
-        changeView("dashboard.fxml");
+        changeView("homeOwner.fxml");
         System.out.println("Dashboard menu button clicked");
     }
 

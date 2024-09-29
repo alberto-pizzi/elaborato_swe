@@ -47,7 +47,7 @@ public class UpdateUsernameOwnerController implements Initializable {
         if (!usernameInput.getText().isEmpty()) {
 
             userExists = ownerProfileController.checkOwnerExistence(usernameInput.getText());
-            if (userExists) {
+            if (!userExists) {
                 errorLabel.setVisible(false);
                 ownerProfileController.updateUsername(usernameInput.getText());
                 System.out.println("User updated, new username is: " + usernameInput.getText());

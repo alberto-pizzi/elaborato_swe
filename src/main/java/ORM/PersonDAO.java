@@ -78,7 +78,7 @@ public abstract class PersonDAO {
 
     public void updateUsername(String username, String newUsername) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"" + this.target + "\" SET username = '%s' WHERE id = '%d'", newUsername, username);
+        String querySQL = String.format("UPDATE \"" + this.target + "\" SET username = '%s' WHERE username = '%s'", newUsername, username);
 
         PreparedStatement preparedStatement = null;
 
@@ -96,7 +96,7 @@ public abstract class PersonDAO {
 
     public void updateEmail(String username, String newEmail) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"" + this.target + "\" SET email = '%s' WHERE username = '%d'", newEmail, username);
+        String querySQL = String.format("UPDATE \"" + this.target + "\" SET email = '%s' WHERE username = '%s'", newEmail, username);
 
         PreparedStatement preparedStatement = null;
 
