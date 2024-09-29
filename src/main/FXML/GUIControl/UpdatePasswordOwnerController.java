@@ -59,12 +59,12 @@ public class UpdatePasswordOwnerController implements Initializable {
                     String message = "Password changed successfully!";
                     messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
                 }else{
-                    String message = "Passwords do not match or are empty!";
+                    String message = "Enter different password from current one.";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
             else{
-                String message = "Enter new password and confirm it.";
+                String message = "Passwords do not match or are empty!";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 
