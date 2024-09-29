@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
@@ -41,7 +42,7 @@ public class LoginControllerOwner implements Initializable {
     private TextField username;
 
     @FXML
-    private BorderPane loginPane;
+    private Pane loginPane;
 
     SessionController sessionController = SessionController.getInstance();
 
@@ -67,12 +68,9 @@ public class LoginControllerOwner implements Initializable {
             person = access.login(username.getText());
             sessionController.setPerson(person);
             try {
-                BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/homeOwner.fxml"));
-                loginPane.setCenter(view.getCenter());
-                loginPane.setBottom(view.getBottom());
-                loginPane.setTop(view.getTop());
-                loginPane.setLeft(view.getLeft());
-                loginPane.setRight(view.getRight());
+                BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/menuPaneOwner.fxml"));
+                loginPane.getChildren().removeAll();
+                loginPane.getChildren().add(view);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -86,11 +84,8 @@ public class LoginControllerOwner implements Initializable {
         try {
             BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/signUpOwner.fxml"));
             logIn.getScene().getWindow().setHeight(850);
-            loginPane.setCenter(view.getCenter());
-            loginPane.setBottom(view.getBottom());
-            loginPane.setTop(view.getTop());
-            loginPane.setLeft(view.getLeft());
-            loginPane.setRight(view.getRight());
+            loginPane.getChildren().removeAll();
+            loginPane.getChildren().add(view);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,11 +97,8 @@ public class LoginControllerOwner implements Initializable {
 
         try {
             BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
-            loginPane.setCenter(view.getCenter());
-            loginPane.setBottom(view.getBottom());
-            loginPane.setTop(view.getTop());
-            loginPane.setLeft(view.getLeft());
-            loginPane.setRight(view.getRight());
+            loginPane.getChildren().removeAll();
+            loginPane.getChildren().add(view);
         } catch (Exception e) {
             e.printStackTrace();
         }

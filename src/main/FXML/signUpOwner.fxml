@@ -12,9 +12,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.SignUpControllerOwner">
+
+<Pane fx:id="registerPane" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.SignUpControllerOwner">
    <children>
-      <BorderPane fx:id="registerPane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: aeaeae;">
+      <BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: aeaeae;">
          <bottom>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </bottom>

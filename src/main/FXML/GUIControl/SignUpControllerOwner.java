@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
@@ -54,7 +55,7 @@ public class SignUpControllerOwner implements Initializable {
     private TextField zip;
 
     @FXML
-    private BorderPane registerPane;
+    private Pane registerPane;
 
 
     @Override
@@ -76,11 +77,8 @@ public class SignUpControllerOwner implements Initializable {
                 try {
                     BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/loginOwner.fxml"));
                     logIn.getScene().getWindow().setHeight(720);
-                    registerPane.setCenter(view.getCenter());
-                    registerPane.setBottom(view.getBottom());
-                    registerPane.setTop(view.getTop());
-                    registerPane.setLeft(view.getLeft());
-                    registerPane.setRight(view.getRight());
+                    registerPane.getChildren().removeAll();
+                    registerPane.getChildren().add(view);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -101,11 +99,8 @@ public class SignUpControllerOwner implements Initializable {
         try {
             BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/loginOwner.fxml"));
             logIn.getScene().getWindow().setHeight(720);
-            registerPane.setCenter(view.getCenter());
-            registerPane.setBottom(view.getBottom());
-            registerPane.setTop(view.getTop());
-            registerPane.setLeft(view.getLeft());
-            registerPane.setRight(view.getRight());
+            registerPane.getChildren().removeAll();
+            registerPane.getChildren().add(view);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,11 +112,8 @@ public class SignUpControllerOwner implements Initializable {
 
         try {
             BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/signUpUser.fxml"));
-            registerPane.setCenter(view.getCenter());
-            registerPane.setBottom(view.getBottom());
-            registerPane.setTop(view.getTop());
-            registerPane.setLeft(view.getLeft());
-            registerPane.setRight(view.getRight());
+            registerPane.getChildren().removeAll();
+            registerPane.getChildren().add(view);
         } catch (Exception e) {
             e.printStackTrace();
         }
