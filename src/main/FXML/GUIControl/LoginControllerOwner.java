@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
@@ -39,6 +40,9 @@ public class LoginControllerOwner implements Initializable {
     @FXML
     private TextField username;
 
+    @FXML
+    private BorderPane loginPane;
+
     SessionController sessionController = SessionController.getInstance();
 
     @Override
@@ -63,13 +67,12 @@ public class LoginControllerOwner implements Initializable {
             person = access.login(username.getText());
             sessionController.setPerson(person);
             try {
-                logIn.getScene().getWindow().hide();
-                Stage home = new Stage();
-                Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/menuPaneOwner.fxml"));
-                home.setTitle("Sport Plus");
-                home.setScene(new Scene(root, 1280, 720));
-                home.show();
-                home.setResizable(false);
+                BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/homeOwner.fxml"));
+                loginPane.setCenter(view.getCenter());
+                loginPane.setBottom(view.getBottom());
+                loginPane.setTop(view.getTop());
+                loginPane.setLeft(view.getLeft());
+                loginPane.setRight(view.getRight());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -81,13 +84,13 @@ public class LoginControllerOwner implements Initializable {
     private void signUp(ActionEvent event) throws SQLException {
 
         try {
-            logIn.getScene().getWindow().hide();
-            Stage signUpOwner = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/signUpOwner.fxml"));
-            signUpOwner.setTitle("Sport Plus");
-            signUpOwner.setScene(new Scene(root, 1280, 850));
-            signUpOwner.show();
-            signUpOwner.setResizable(false);
+            BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/signUpOwner.fxml"));
+            logIn.getScene().getWindow().setHeight(850);
+            loginPane.setCenter(view.getCenter());
+            loginPane.setBottom(view.getBottom());
+            loginPane.setTop(view.getTop());
+            loginPane.setLeft(view.getLeft());
+            loginPane.setRight(view.getRight());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,13 +101,12 @@ public class LoginControllerOwner implements Initializable {
     private void isOwner(ActionEvent event) throws SQLException {
 
         try {
-            logIn.getScene().getWindow().hide();
-            Stage logInUser = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
-            logInUser.setTitle("Sport Plus");
-            logInUser.setScene(new Scene(root, 1280, 720));
-            logInUser.show();
-            logInUser.setResizable(false);
+            BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
+            loginPane.setCenter(view.getCenter());
+            loginPane.setBottom(view.getBottom());
+            loginPane.setTop(view.getTop());
+            loginPane.setLeft(view.getLeft());
+            loginPane.setRight(view.getRight());
         } catch (Exception e) {
             e.printStackTrace();
         }

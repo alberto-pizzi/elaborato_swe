@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
@@ -52,6 +53,8 @@ public class SignUpControllerUser implements Initializable {
     @FXML
     private TextField zip;
 
+    @FXML
+    private BorderPane registerPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,13 +74,13 @@ public class SignUpControllerUser implements Initializable {
 
                 System.out.println("register done");
                 try {
-                    signUp.getScene().getWindow().hide();
-                    Stage loginOwner = new Stage();
-                    Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
-                    loginOwner.setTitle("Sport Plus");
-                    loginOwner.setScene(new Scene(root, 1280, 720));
-                    loginOwner.show();
-                    loginOwner.setResizable(false);
+                    BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
+                    logIn.getScene().getWindow().setHeight(720);
+                    registerPane.setCenter(view.getCenter());
+                    registerPane.setBottom(view.getBottom());
+                    registerPane.setTop(view.getTop());
+                    registerPane.setLeft(view.getLeft());
+                    registerPane.setRight(view.getRight());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -95,13 +98,13 @@ public class SignUpControllerUser implements Initializable {
     private void logIn(ActionEvent event) throws SQLException {
 
         try {
-            signUp.getScene().getWindow().hide();
-            Stage loginUser = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
-            loginUser.setTitle("Sport Plus");
-            loginUser.setScene(new Scene(root, 1280, 720));
-            loginUser.show();
-            loginUser.setResizable(false);
+            BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
+            logIn.getScene().getWindow().setHeight(720);
+            registerPane.setCenter(view.getCenter());
+            registerPane.setBottom(view.getBottom());
+            registerPane.setTop(view.getTop());
+            registerPane.setLeft(view.getLeft());
+            registerPane.setRight(view.getRight());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -112,13 +115,12 @@ public class SignUpControllerUser implements Initializable {
     private void isOwner(ActionEvent event) throws SQLException {
 
         try {
-            signUp.getScene().getWindow().hide();
-            Stage signUpOwner = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/signUpOwner.fxml"));
-            signUpOwner.setTitle("Sport Plus");
-            signUpOwner.setScene(new Scene(root, 1280, 850));
-            signUpOwner.show();
-            signUpOwner.setResizable(false);
+            BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/signUpOwner.fxml"));
+            registerPane.setCenter(view.getCenter());
+            registerPane.setBottom(view.getBottom());
+            registerPane.setTop(view.getTop());
+            registerPane.setLeft(view.getLeft());
+            registerPane.setRight(view.getRight());
         } catch (Exception e) {
             e.printStackTrace();
         }
