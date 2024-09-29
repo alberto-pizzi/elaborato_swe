@@ -90,6 +90,12 @@
     -fx-cursor: hand;
 }
 
+.profile-menu-owner{
+    -fx-background-color: white;
+    -fx-background-radius: 0 50 50 0;
+    -fx-cursor: hand;
+}
+
 .profile-menu:hover{
     -fx-background-color: #b7bffa;
 }
