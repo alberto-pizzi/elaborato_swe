@@ -96,10 +96,10 @@ public class SignUpControllerUser implements Initializable {
     private void logIn(ActionEvent event) throws SQLException {
 
         try {
-            BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
+            Pane view = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
             logIn.getScene().getWindow().setHeight(720);
             registerPane.getChildren().removeAll();
-            registerPane.getChildren().add(view);
+            registerPane.getChildren().addAll(view.getChildren());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,9 +110,9 @@ public class SignUpControllerUser implements Initializable {
     private void isOwner(ActionEvent event) throws SQLException {
 
         try {
-            BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/signUpOwner.fxml"));
+            Pane view = FXMLLoader.load(getClass().getResource("/main/FXML/signUpOwner.fxml"));
             registerPane.getChildren().removeAll();
-            registerPane.getChildren().add(view);
+            registerPane.getChildren().addAll(view.getChildren());
         } catch (Exception e) {
             e.printStackTrace();
         }

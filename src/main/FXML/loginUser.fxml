@@ -7,122 +7,117 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 
-<Pane fx:id="loginPane" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.LoginControllerUser">
-   <children>
-      <BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: aeaeae;">
-         <bottom>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-         </bottom>
-         <center>
-            <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #fff; -fx-background-radius: 10;" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets left="50.0" right="50.0" top="50.0" />
-               </BorderPane.margin>
+<BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: aeaeae;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.LoginControllerUser">
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #fff; -fx-background-radius: 10;" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="50.0" right="50.0" top="50.0" />
+         </BorderPane.margin>
+         <children>
+            <StackPane prefHeight="99.0" prefWidth="1180.0">
                <children>
-                  <StackPane prefHeight="99.0" prefWidth="1180.0">
+                  <VBox alignment="CENTER" prefHeight="0.0" prefWidth="1019.0">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="0.0" prefWidth="1019.0">
-                           <children>
-                              <Label prefHeight="70.0" prefWidth="132.0" text="Login" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="48.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                     </children>
-                  </StackPane>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="1083.0" spacing="20.0">
-                     <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <TextField fx:id="username" prefHeight="25.0" prefWidth="485.0" promptText="Username" style="-fx-background-radius: 10px;">
-                                 <HBox.margin>
-                                    <Insets top="30.0" />
-                                 </HBox.margin>
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <PasswordField fx:id="password" prefHeight="25.0" prefWidth="482.0" promptText="Password" style="-fx-background-radius: 10px;">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </PasswordField>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Button fx:id="forgot" mnemonicParsing="false" prefHeight="25.0" prefWidth="286.0" style="-fx-background-color: transparent;" text="Forgot Password" underline="true">
-                                 <HBox.margin>
-                                    <Insets top="15.0" />
-                                 </HBox.margin>
-                                 <font>
-                                    <Font size="13.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Button fx:id="logIn" mnemonicParsing="false" onAction="#logInAction" prefHeight="168.0" prefWidth="480.0" style="-fx-background-radius: 10px; -fx-background-color: #4169e1#4682b4f620f9;" text="Log In">
-                                 <padding>
-                                    <Insets bottom="10.0" top="10.0" />
-                                 </padding>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="10.0" top="40.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <Button fx:id="SignUp" mnemonicParsing="false" onAction="#signUp" prefHeight="25.0" prefWidth="481.0" style="-fx-background-radius: 10px; -fx-background-color: darkgray;" text="Sign Up">
-                                 <padding>
-                                    <Insets bottom="10.0" top="10.0" />
-                                 </padding>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </HBox>
+                        <Label prefHeight="70.0" prefWidth="132.0" text="Login" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="48.0" />
+                           </font>
+                        </Label>
                      </children>
                   </VBox>
+               </children>
+            </StackPane>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="1083.0" spacing="20.0">
+               <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
                      <children>
-                        <Button fx:id="owner" mnemonicParsing="false" onAction="#isOwner" prefHeight="0.0" prefWidth="132.0" style="-fx-background-radius: 10px; -fx-background-color: orange;" text="I am an Owner">
-                           <padding>
-                              <Insets bottom="10.0" top="10.0" />
-                           </padding>
+                        <TextField fx:id="username" prefHeight="25.0" prefWidth="485.0" promptText="Username" style="-fx-background-radius: 10px;">
+                           <HBox.margin>
+                              <Insets top="30.0" />
+                           </HBox.margin>
                            <font>
                               <Font size="14.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <PasswordField fx:id="password" prefHeight="25.0" prefWidth="482.0" promptText="Password" style="-fx-background-radius: 10px;">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </PasswordField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="forgot" mnemonicParsing="false" prefHeight="25.0" prefWidth="286.0" style="-fx-background-color: transparent;" text="Forgot Password" underline="true">
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="13.0" />
                            </font>
                         </Button>
                      </children>
                   </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="logIn" mnemonicParsing="false" onAction="#logInAction" prefHeight="168.0" prefWidth="480.0" style="-fx-background-radius: 10px; -fx-background-color: #4169e1#4682b4f620f9;" text="Log In">
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="40.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="SignUp" mnemonicParsing="false" onAction="#signUp" prefHeight="25.0" prefWidth="481.0" style="-fx-background-radius: 10px; -fx-background-color: darkgray;" text="Sign Up">
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
                </children>
             </VBox>
-         </center>
-      </BorderPane>
-   </children>
-</Pane>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <children>
+                  <Button fx:id="owner" mnemonicParsing="false" onAction="#isOwner" prefHeight="0.0" prefWidth="132.0" style="-fx-background-radius: 10px; -fx-background-color: orange;" text="I am an Owner">
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

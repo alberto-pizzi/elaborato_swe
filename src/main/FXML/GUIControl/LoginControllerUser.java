@@ -43,10 +43,17 @@ public class LoginControllerUser implements Initializable {
     @FXML
     private TextField username;
 
-    @FXML
-    private Pane loginPane;
-
     SessionController sessionController = SessionController.getInstance();
+
+    private Pane pane;
+
+    public Pane getScenePane() {
+        return pane;
+    }
+
+    public void setScenePane(Pane scenePane) {
+        this.pane = scenePane;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,8 +78,8 @@ public class LoginControllerUser implements Initializable {
             sessionController.setPerson(person);
             try {
                 BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/menuPane.fxml"));
-                loginPane.getChildren().removeAll();
-                loginPane.getChildren().add(view);
+               // loginPane.getChildren().removeAll();
+               // loginPane.getChildren().add(view);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -85,10 +92,10 @@ public class LoginControllerUser implements Initializable {
     private void signUp(ActionEvent event) throws SQLException {
 
         try {
-            BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/signUpUser.fxml"));
+            Pane view = FXMLLoader.load(getClass().getResource("/main/FXML/signUpUser.fxml"));
             logIn.getScene().getWindow().setHeight(850);
-            loginPane.getChildren().removeAll();
-            loginPane.getChildren().add(view);
+           // loginPane.getChildren().removeAll();
+//loginPane.getChildren().addAll(view.getChildren());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,9 +107,13 @@ public class LoginControllerUser implements Initializable {
     private void isOwner(ActionEvent event) throws SQLException {
 
         try {
-            BorderPane view = FXMLLoader.load(getClass().getResource("/main/FXML/loginOwner.fxml"));
-            loginPane.getChildren().removeAll();
-            loginPane.getChildren().add(view);
+            pane.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/LoginOwner.fxml"));
+            Parent view = loader.load();
+            LoginControllerOwner controller = loader.getController();
+            controller.setScenePane(pane);
+            pane.getChildren().add(view);
+
 
         } catch (Exception e) {
             e.printStackTrace();
