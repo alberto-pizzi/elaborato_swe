@@ -35,7 +35,7 @@ public class OwnerAccess implements AccessStrategy{
     }
 
     @Override
-    public boolean checkPassword(java.lang.String username, java.lang.String password) throws SQLException {
+    public boolean checkPassword(String username, String password) throws SQLException {
 
         boolean verified = false;
         OwnerDAO dao = new OwnerDAO();

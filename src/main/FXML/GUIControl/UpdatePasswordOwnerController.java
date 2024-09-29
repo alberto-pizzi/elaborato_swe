@@ -6,9 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import main.java.BusinessLogic.OwnerProfileController;
-import main.java.BusinessLogic.UserActionsController;
-import main.java.BusinessLogic.UserProfileController;
+import main.java.BusinessLogic.*;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -51,7 +49,8 @@ public class UpdatePasswordOwnerController implements Initializable {
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        if (!currentPasswordInput.getText().isEmpty() && ownerProfileController.checkPassword(ownerProfileController.getUsername(), currentPasswordInput.getText())) {
+        AccessController accessController = new AccessController(new OwnerAccess());
+        if (!currentPasswordInput.getText().isEmpty() && accessController.checkPassword(ownerProfileController.getUsername(), currentPasswordInput.getText())) {
 
             if (!newPasswordInput.getText().isEmpty() && newPasswordInput.getText().equals(confirmPasswordInput.getText())) {
                 if (!newPasswordInput.getText().equals(currentPasswordInput.getText())) {
