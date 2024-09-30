@@ -38,6 +38,9 @@ public class ProfileMenuController implements Initializable {
     @FXML
     private BorderPane profileMenuPane;
 
+    @FXML
+    private Button logoutButton;
+
     //methods
 
     @Override
@@ -85,5 +88,10 @@ public class ProfileMenuController implements Initializable {
     @FXML
     void handleUsernameButton(ActionEvent event) throws IOException {
         changeView("updateUsername.fxml");
+    }
+
+    @FXML
+    void handleLogoutButton(ActionEvent event) {
+        //TODO implement logout
     }
 }

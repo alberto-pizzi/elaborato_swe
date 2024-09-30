@@ -117,6 +117,24 @@
                               <Insets top="40.0" />
                            </VBox.margin>
                         </Button>
+                        <Button id="delete" fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Logout">
+                           <graphic>
+                              <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@img/icons/logout.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="40.0" />
+                           </VBox.margin>
+                        </Button>
                      </children>
                   </VBox>
                </children>
