@@ -6,8 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import main.java.BusinessLogic.UserActionsController;
-import main.java.BusinessLogic.UserProfileController;
+import main.java.BusinessLogic.*;
 import main.java.DomainModel.User;
 
 import java.net.URL;
@@ -34,20 +33,10 @@ public class UpdatePasswordController implements Initializable {
     MessagesController messagesController;
 
 
-    //TODO check position correctness
-    UserProfileController userProfileController;
-    UserActionsController userActionsController;
-
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        this.userActionsController = new UserActionsController();
-
-        //TODO is it correct here?
-        userProfileController = new UserProfileController();
-        userProfileController.setUser(userActionsController.getUser());
 
         messagesController = new MessagesController(messageLabel);
 
@@ -56,7 +45,10 @@ public class UpdatePasswordController implements Initializable {
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        if (!currentPasswordInput.getText().isEmpty() && userProfileController.checkPassword(userProfileController.getUser().getUsername(), currentPasswordInput.getText())) {
+        UserProfileController userProfileController = new UserProfileController();
+
+        AccessController accessController = new AccessController(new UserAccess());
+        if (!currentPasswordInput.getText().isEmpty() && accessController.checkPassword(userProfileController.getUser().getUsername(), currentPasswordInput.getText())) {
 
             if (!newPasswordInput.getText().isEmpty() && newPasswordInput.getText().equals(confirmPasswordInput.getText())) {
                 if (!newPasswordInput.getText().equals(currentPasswordInput.getText())) {
@@ -65,12 +57,12 @@ public class UpdatePasswordController implements Initializable {
                     String message = "Password changed successfully!";
                     messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
                 }else{
-                    String message = "Passwords do not match or are empty!";
+                    String message = "Enter different password from current one";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
             else{
-                String message = "Enter new password and confirm it.";
+                String message = "Passwords do not match or are empty!";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 

@@ -8,7 +8,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Invite;
-import main.java.DomainModel.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -51,7 +50,7 @@ public class YourInvitesController implements Initializable {
 
                 InviteItemController inviteItemController = fxmlLoader.getController();
                 inviteItemController.setYourInvitesController(this);
-                inviteItemController.setData(invites.get(i), userActionsController);
+                inviteItemController.setData(invites.get(i));
 
                 invitesVBox.getChildren().add(reservationItem);
             }

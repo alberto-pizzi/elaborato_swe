@@ -9,8 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.BusinessLogic.UserProfileController;
-import main.java.DomainModel.User;
-import main.java.ORM.UserDAO;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -21,47 +19,45 @@ public class UpdateUsernameController implements Initializable {
     private Button confirmButton;
 
     @FXML
-    private Label errorLabel;
+    private Label messageLabel;
 
     @FXML
     private TextField usernameInput;
 
-    UserActionsController userActionsController;
-    UserProfileController userProfileController;
+    MessagesController messagesController;
 
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.userActionsController = new UserActionsController(); //TODO check and put into correct location
-
-        //TODO is it correct here?
-        userProfileController = new UserProfileController();
-        userProfileController.setUser(userActionsController.getUser());
+        UserActionsController userActionsController = new UserActionsController();
 
         usernameInput.setText(userActionsController.getUser().getUsername());
+
+        messagesController = new MessagesController(messageLabel);
+
 
     }
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-        //TODO implement
 
         if (!usernameInput.getText().isEmpty()) {
-            //TODO remove DAO from here? only BusinessLogic admitted?
-            UserDAO userDAO = new UserDAO();
 
-            User user = userDAO.getUser(usernameInput.getText());
+            UserActionsController userActionsController = new UserActionsController();
+            UserProfileController userProfileController = new UserProfileController();
 
-            if (user == null) {
-                errorLabel.setVisible(false);
+            boolean userExistence = userProfileController.checkPersonExistence(usernameInput.getText());
+
+            if (!userExistence) {
                 userProfileController.updateUsername(userActionsController.getUser().getUsername(), usernameInput.getText());
-                System.out.println("User updated, new username is: " + usernameInput.getText());
+                String message = "User updated! New username is: " + usernameInput.getText();
+                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
             }
             else{
-                errorLabel.setText("Username already exists");
-                errorLabel.setVisible(true);
+                String message = "Username already exist. Try again!";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 
         }

@@ -1,11 +1,9 @@
 package main.FXML.GUIControl;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Invite;
 
 import java.text.SimpleDateFormat;
@@ -44,7 +42,6 @@ public class InviteItemController {
     private Label inviteTimeLabel;
 
     private Invite invite;
-    private UserActionsController userActionsController;
     private YourInvitesController yourInvitesController;
 
     //getters
@@ -52,10 +49,6 @@ public class InviteItemController {
 
     public Invite getInvite() {
         return invite;
-    }
-
-    public UserActionsController getUserActionsController() {
-        return userActionsController;
     }
 
     public YourInvitesController getYourInvitesController() {
@@ -69,9 +62,6 @@ public class InviteItemController {
         this.invite = invite;
     }
 
-    public void setUserActionsController(UserActionsController userActionsController) {
-        this.userActionsController = userActionsController;
-    }
 
     public void setYourInvitesController(YourInvitesController yourInvitesController) {
         this.yourInvitesController = yourInvitesController;
@@ -79,9 +69,8 @@ public class InviteItemController {
 
     //methods
 
-    public void setData(Invite invite, UserActionsController userActionsController) {
+    public void setData(Invite invite) {
         this.invite = invite;
-        this.userActionsController = userActionsController;
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");

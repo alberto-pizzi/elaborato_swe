@@ -259,8 +259,7 @@ public abstract class PersonDAO {
                 String zip = resultSet.getString("zip");
                 String country = resultSet.getString("country");
 
-                users.add(new User(id, email, username, city, province, zip, country, password));
-
+                users.add(new User(id, email, username, password, city, province, zip, country));
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -320,7 +319,8 @@ public abstract class PersonDAO {
                 String province = resultSet.getString("province");
                 String zip = resultSet.getString("zip");
                 String country = resultSet.getString("country");
-                user = new User(id, email, usernameSelected, city, province, zip, country, password);
+                user = new User(id, email, usernameSelected, password, city, province, zip, country);
+
             }
             else{
                 System.err.println("No User found with username: " + username);
@@ -359,7 +359,7 @@ public abstract class PersonDAO {
                 String province = resultSet.getString("province");
                 String zip = resultSet.getString("zip");
                 String country = resultSet.getString("country");
-                user = new User(id, email, usernameSelected, city, province, zip, country, password);
+                user = new User(id, email, usernameSelected, password, city, province, zip, country);
             }
             else{
                 System.err.println("No user found with id: " + idUser);

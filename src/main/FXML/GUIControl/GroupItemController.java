@@ -42,10 +42,7 @@ public class GroupItemController {
     private Label timeLabel;
 
     private Group group;
-    private UserActionsController userActionsController; //TODO is it good make this? if not, remove it
     private YourGroupsController yourGroupsController;
-
-    //TODO add possible listeners (button)
 
     //setters
     public void setYourGroupsController(YourGroupsController yourGroupsController) {
@@ -54,11 +51,8 @@ public class GroupItemController {
 
     //methods
 
-    public void setData(Group tmpGroup, UserActionsController userActions) {
+    public void setData(Group tmpGroup) {
         this.group = tmpGroup;
-
-        this.userActionsController = userActions;
-        //TODO add possible listeners (button)
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
@@ -77,6 +71,8 @@ public class GroupItemController {
     @FXML
     public void handleLeaveButtonAction() throws SQLException, ClassNotFoundException {
         System.out.println("Leave button clicked: " + fieldNameLabel.getText());
+
+        UserActionsController userActionsController = new UserActionsController();
         userActionsController.leaveGroup(group.getId());
 
         if (yourGroupsController != null) {

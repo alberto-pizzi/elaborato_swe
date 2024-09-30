@@ -35,8 +35,6 @@ public class UpdateAddressController implements Initializable {
     @FXML
     private TextField zipInput;
 
-    UserProfileController userProfileController;
-
     MessagesController messagesController;
 
     //methods
@@ -44,7 +42,12 @@ public class UpdateAddressController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.userProfileController = new UserProfileController();
+        UserActionsController userActionsController = new UserActionsController();
+
+        provinceInput.setText(userActionsController.getUser().getProvince());
+        cityInput.setText(userActionsController.getUser().getCity());
+        countryInput.setText(userActionsController.getUser().getCountry());
+        zipInput.setText(userActionsController.getUser().getZip());
 
         this.messagesController = new MessagesController(messageLabel);
 
@@ -53,6 +56,7 @@ public class UpdateAddressController implements Initializable {
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException {
         if (!provinceInput.getText().isEmpty()){
+            UserProfileController userProfileController = new UserProfileController();
 
             userProfileController.updateProvince(userProfileController.getUser().getUsername(),provinceInput.getText());
             userProfileController.updateCity(userProfileController.getUser().getUsername(),cityInput.getText());

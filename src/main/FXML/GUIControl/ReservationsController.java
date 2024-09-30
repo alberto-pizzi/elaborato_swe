@@ -15,7 +15,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
-import main.java.DomainModel.User;
 
 
 public class ReservationsController implements Initializable {
@@ -56,7 +55,7 @@ public class ReservationsController implements Initializable {
 
                 ReservationItemController groupItemController = fxmlLoader.getController();
                 groupItemController.setReservationsController(this);
-                groupItemController.setData(reservations.get(i), userActionsController);
+                groupItemController.setData(reservations.get(i));
 
                 reservationsVBox.getChildren().add(reservationItem);
             }
