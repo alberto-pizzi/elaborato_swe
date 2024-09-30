@@ -29,6 +29,11 @@ public class OwnerProfileController extends ProfileController {
         this.owner = owner;
     }
 
+    public void logOut() throws SQLException {
+        SessionController.getInstance().setPerson(null);
+        this.owner = null;
+    }
+
     //todo aggiungere a uml
     public String  getEmail() {
         return owner.getEmail();
