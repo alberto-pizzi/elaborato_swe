@@ -132,12 +132,12 @@
 }
 
 .confirm-button-owner{
-    -fx-background-color: #e573ff;
+    -fx-background-color: violet;
     -fx-background-radius: 10;
     -fx-cursor: hand;
 }
 
 .confirm-button-owner:hover{
-    -fx-background-color: violet;
+    -fx-background-color: #e8c0ec;
 }
 
