@@ -4,10 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.User;
 
@@ -91,9 +94,15 @@ public class ProfileMenuController implements Initializable {
     }
 
     @FXML
-    void handleLogoutButton(ActionEvent event) {
+    void handleLogoutButton(ActionEvent event) throws IOException {
         UserActionsController userActionsController = new UserActionsController();
         userActionsController.logOut();
-
+        logoutButton.getScene().getWindow().hide();
+        Stage logInUser = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/scene.fxml"));
+        logInUser.setTitle("Sport Plus");
+        logInUser.setScene(new Scene(root, 1280, 720));
+        logInUser.show();
+        logInUser.setResizable(false);
     }
 }

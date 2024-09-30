@@ -13,7 +13,7 @@
    <children>
       <BorderPane fx:id="profileMenuPane" prefHeight="720.0" prefWidth="1060.0">
          <bottom>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" styleClass="profile-menu-box" stylesheets="@css/style.css" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" styleClass="profile-menu-box" stylesheets="@css/style.css" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="usernameProfileButton1" mnemonicParsing="false" onAction="#handleUsernameButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Username">
                      <graphic>
@@ -75,7 +75,25 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Button id="delete" fx:id="deleteProfileButton1" alignment="CENTER" mnemonicParsing="false" onAction="#handleDeleteProfileButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Delete Profile">
+                  <Button fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Logout">
+                     <graphic>
+                        <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/icons/logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button id="delete" fx:id="deleteProfileButton1" alignment="CENTER" mnemonicParsing="false" onAction="#handleDeleteProfileButton" prefHeight="43.0" prefWidth="297.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Delete Profile">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
