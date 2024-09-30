@@ -16,6 +16,15 @@
     -fx-background-color: #BFBFBF;
 }
 
+.menu-button-owner{
+    -fx-background-color: violet;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.menu-button-owner:hover{
+    -fx-background-color: #e8c0ec;
+}
 .menu-selected{
     -fx-background-color: #BFBFBF;
     -fx-background-radius: 10;
