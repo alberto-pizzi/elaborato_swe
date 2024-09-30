@@ -2,7 +2,6 @@ package main.FXML.GUIControl;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -10,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 
 import java.text.SimpleDateFormat;
@@ -49,7 +47,6 @@ public class ReservationItemController {
 
 
     private Reservation reservation;
-    private UserActionsController userActionsController;
     private ReservationsController reservationsController;
 
 
@@ -57,10 +54,6 @@ public class ReservationItemController {
 
     public Reservation getReservation() {
         return reservation;
-    }
-
-    public UserActionsController getUserActionsController() {
-        return userActionsController;
     }
 
     public ReservationsController getReservationsController() {
@@ -73,11 +66,6 @@ public class ReservationItemController {
 
     //setters
 
-
-    public void setUserActionsController(UserActionsController userActionsController) {
-        this.userActionsController = userActionsController;
-    }
-
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
@@ -88,9 +76,8 @@ public class ReservationItemController {
 
     //methods
 
-    public void setData(Reservation reservation, UserActionsController userActionsController) {
+    public void setData(Reservation reservation) {
         this.reservation = reservation;
-        this.userActionsController = userActionsController;
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");

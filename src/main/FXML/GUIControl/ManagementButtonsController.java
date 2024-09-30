@@ -5,6 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.HBox;
+import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 
 import java.sql.SQLException;
@@ -58,7 +59,9 @@ public class ManagementButtonsController {
         if(result.get() == ButtonType.OK){
 
             if (reservationItemController != null) {
-                reservationItemController.getUserActionsController().deleteReservation(reservationItemController.getReservation().getId());
+                UserActionsController userActionsController = new UserActionsController();
+
+                userActionsController.deleteReservation(reservationItemController.getReservation().getId());
                 reservationItemController.getReservationsController().removeReservationItemFromGUI(reservationItemController.getReservationItemPane(),reservationItemController.getReservation());
                 System.out.println("Deleted!");
             }

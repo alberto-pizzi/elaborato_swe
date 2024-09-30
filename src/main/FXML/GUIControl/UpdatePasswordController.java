@@ -33,20 +33,10 @@ public class UpdatePasswordController implements Initializable {
     MessagesController messagesController;
 
 
-    //TODO check position correctness
-    UserProfileController userProfileController;
-    UserActionsController userActionsController;
-
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        this.userActionsController = new UserActionsController();
-
-        //TODO is it correct here?
-        userProfileController = new UserProfileController();
-        userProfileController.setUser(userActionsController.getUser());
 
         messagesController = new MessagesController(messageLabel);
 
@@ -54,6 +44,8 @@ public class UpdatePasswordController implements Initializable {
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+
+        UserProfileController userProfileController = new UserProfileController();
 
         AccessController accessController = new AccessController(new UserAccess());
         if (!currentPasswordInput.getText().isEmpty() && accessController.checkPassword(userProfileController.getUser().getUsername(), currentPasswordInput.getText())) {

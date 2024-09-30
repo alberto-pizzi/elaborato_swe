@@ -33,9 +33,6 @@ public class UpdateUsernameController implements Initializable {
 
         UserActionsController userActionsController = new UserActionsController();
 
-        UserProfileController userProfileController = new UserProfileController();
-        userProfileController.setUser(userActionsController.getUser());
-
         usernameInput.setText(userActionsController.getUser().getUsername());
 
         messagesController = new MessagesController(messageLabel);

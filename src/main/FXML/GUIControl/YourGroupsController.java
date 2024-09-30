@@ -3,7 +3,6 @@ package main.FXML.GUIControl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import main.java.DomainModel.Group;
-import main.java.DomainModel.User;
 
 import main.java.BusinessLogic.UserActionsController;
 
@@ -56,7 +55,7 @@ public class YourGroupsController implements Initializable {
 
                 GroupItemController groupItemController = fxmlLoader.getController();
                 groupItemController.setYourGroupsController(this);
-                groupItemController.setData(groups.get(i), userActionsController);
+                groupItemController.setData(groups.get(i));
 
                 groupsVBox.getChildren().add(groupItem);
             }

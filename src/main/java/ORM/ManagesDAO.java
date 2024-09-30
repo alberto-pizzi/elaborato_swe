@@ -161,8 +161,7 @@ public class ManagesDAO {
                 String zip = resultSet.getString("zip");
                 String country = resultSet.getString("country");
 
-                managers.add(new User(id, email, username, city, province, zip, country, password));
-
+                managers.add(new User(id, email, username, password, city, province, zip, country));
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
