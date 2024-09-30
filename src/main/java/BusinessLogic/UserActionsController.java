@@ -48,7 +48,7 @@ public class UserActionsController {
 
     }
 
-    public void logOut() throws SQLException {
+    public void logOut() {
         SessionController.getInstance().setPerson(null);
         this.user = null;
     }

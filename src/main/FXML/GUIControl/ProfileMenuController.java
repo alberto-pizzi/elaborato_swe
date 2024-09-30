@@ -92,6 +92,8 @@ public class ProfileMenuController implements Initializable {
 
     @FXML
     void handleLogoutButton(ActionEvent event) {
-        //TODO implement logout
+        UserActionsController userActionsController = new UserActionsController();
+        userActionsController.logOut();
+
     }
 }
