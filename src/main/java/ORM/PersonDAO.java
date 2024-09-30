@@ -238,6 +238,8 @@ public abstract class PersonDAO {
         return false;
     }
 
+
+
     public ArrayList<User> getAllUsers() throws SQLException {
         ArrayList<User> users = new ArrayList<>();
 
@@ -340,7 +342,7 @@ public abstract class PersonDAO {
         //default id (id not found)
         User user = null;
 
-        String querySQL = String.format("SELECT * FROM \"User\" WHERE id = '%s'", idUser);
+        String querySQL = String.format("SELECT * FROM \"User\" WHERE id = '%d'", idUser);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -374,6 +376,42 @@ public abstract class PersonDAO {
 
         return user;
     }
+
+    public boolean checkEmailExistence(String emailEntered) throws SQLException{
+
+        String querySQL = String.format("SELECT count(*) AS results FROM \""+ this.target + "\" WHERE email = '%s'", emailEntered);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+
+                int persons = resultSet.getInt("results");
+
+                if (persons > 0)
+                    return true;
+            }
+            else{
+                System.err.println("No User found with email: " + emailEntered);
+            }
+
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+
+
+        return false;
+    }
+
 
 
 }

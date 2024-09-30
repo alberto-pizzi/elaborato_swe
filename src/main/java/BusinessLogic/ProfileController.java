@@ -1,6 +1,5 @@
 package main.java.BusinessLogic;
 
-import main.java.DomainModel.Person;
 import main.java.DomainModel.User;
 import main.java.ORM.UserDAO;
 
@@ -79,13 +78,9 @@ public abstract class ProfileController {
         return userDAO.checkPassword(username,passwordEntered);
     }
 
-    //TODO check correctness and optimize (for owner and user). New DAO method needed?
-    public boolean checkEmail(String username, String emailEntered) throws SQLException, ClassNotFoundException {
+    public boolean checkEmail(String emailEntered) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
-        String email = userDAO.getUser(username).getEmail();
-
-
-        return userDAO.checkPassword(username,emailEntered);
+        return userDAO.checkEmailExistence(emailEntered);
     }
 
 
