@@ -88,24 +88,8 @@ public class BookFieldController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //TODO optimize
+        //TODO add login singleton connection, if needed
 
-        //TODO remove it, add right objs
-        //FIXME fix login singleton connection
-        /*
-        Sport sport = new Sport(1,"Calcio",22);
-        Owner owner = new Owner(1,"owner1@example.com", "ownerone", "password123","Torino", "TO", "10100", "Italia");
-        Facility facility = new Facility(1,"Centro Sportivo Roma", "Via del Corso, 1", "Roma", "RM", "00100", "Italia", 2, "00000", "0612345678", owner);
-        ArrayList<WorkingHours> whs = new ArrayList<>();
-        whs.add(new WorkingHours(1, WorkingHours.Day.MONDAY, Time.valueOf("9:30:00"), Time.valueOf("22:00:00")));
-        facility.setWorkingHours(whs);
-        Field tmpField = new Field(1,"Campo di Calcio", sport, "Campo di calcio a 11 in erba sintetica", 100, "olympicField.jpg", facility);
-
-
-
-        setData(tmpField); //TODO insert into its correct pos
-
-         */
 
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
@@ -183,6 +167,8 @@ public class BookFieldController implements Initializable {
         fieldAddress.setText(field.getFacility().getFullAddress());
         fieldNameLabel.setText(field.getFacility().getName());
         fieldSport.setText(field.getSport().getName());
+
+        //TODO add facility link
 
         String pathFromRoot = "/main/FXML/img/fields/";
 
