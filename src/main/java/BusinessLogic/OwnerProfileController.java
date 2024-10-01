@@ -59,6 +59,7 @@ public class OwnerProfileController extends ProfileController {
         return owner.getProvince();
     }
 
+    @Override
     public void updateUsername(String newUsername) throws SQLException {
         OwnerDAO ownerDAO = new OwnerDAO();
         ownerDAO.updateUsername(owner.getUsername(),newUsername);
@@ -66,6 +67,7 @@ public class OwnerProfileController extends ProfileController {
         System.out.println("Username updated");
     }
 
+    @Override
     public void updatePassword(String newPassword) throws SQLException {
 
         OwnerDAO ownerDAO = new OwnerDAO();
@@ -75,6 +77,7 @@ public class OwnerProfileController extends ProfileController {
 
     }
 
+    @Override
     public void updateEmail(String newEmail) throws SQLException {
 
         OwnerDAO ownerDAO = new OwnerDAO();
@@ -88,6 +91,7 @@ public class OwnerProfileController extends ProfileController {
         //TODO implement
     }
 
+    @Override
     public void updateCity(String newCity) throws SQLException {
         OwnerDAO ownerDAO = new OwnerDAO();
         ownerDAO.updateCity(owner.getUsername(), newCity);
@@ -95,6 +99,7 @@ public class OwnerProfileController extends ProfileController {
         System.out.println("City updated");
     }
 
+    @Override
     public void updateProvince(String newProvince) throws SQLException {
         OwnerDAO ownerDAO = new OwnerDAO();
         ownerDAO.updateProvince(owner.getUsername(), newProvince);
@@ -102,6 +107,7 @@ public class OwnerProfileController extends ProfileController {
         System.out.println("Province updated");
     }
 
+    @Override
     public void updateZip(String newZip) throws SQLException {
         OwnerDAO ownerDAO = new OwnerDAO();
         ownerDAO.updateZip(owner.getUsername(),newZip);
@@ -109,6 +115,7 @@ public class OwnerProfileController extends ProfileController {
         System.out.println("Zip updated");
     }
 
+    @Override
     public void updateCountry(String newCountry) throws SQLException {
         OwnerDAO ownerDAO = new OwnerDAO();
         ownerDAO.updateCountry(owner.getUsername(),newCountry);

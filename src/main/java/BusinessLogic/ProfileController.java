@@ -1,6 +1,5 @@
 package main.java.BusinessLogic;
 
-import main.java.DomainModel.User;
 import main.java.ORM.UserDAO;
 
 import java.sql.SQLException;
@@ -8,68 +7,27 @@ import java.sql.SQLException;
 public abstract class ProfileController {
 
     //methods
-    public void updateUsername(String username, String newUsername) throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateUsername(username,newUsername);
+    public abstract void updateUsername(String newUsername) throws SQLException;
 
-        System.out.println("Username updated");
-    }
+    public abstract void updatePassword(String newPassword) throws SQLException;
 
-    public void updatePassword(String username, String newPassword) throws SQLException {
-
-        UserDAO userDAO = new UserDAO();
-        userDAO.updatePassword(username,newPassword);
-
-        System.out.println("Password updated");
-
-    }
-
-    public void updateEmail(String username, String newEmail) throws SQLException {
-
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateEmail(username,newEmail);
-
-        System.out.println("Email updated");
-
-    }
+    public abstract void updateEmail(String newEmail) throws SQLException;
 
     public void deleteProfile(String username){
         //TODO implement
     }
 
-    public void updateCity(String username, String newCity) throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateCity(username,newCity);
+    public abstract void updateCity(String newCity) throws SQLException;
 
-        System.out.println("City updated");
-    }
+    public abstract void updateProvince(String newProvince) throws SQLException;
 
-    public void updateProvince(String username, String newProvince) throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateProvince(username,newProvince);
+    public abstract void updateZip(String newZip) throws SQLException;
 
-        System.out.println("Province updated");
-    }
-
-    public void updateZip(String username, String newZip) throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateZip(username,newZip);
-
-        System.out.println("Zip updated");
-    }
-
-    public void updateCountry(String username, String newCountry) throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateCountry(username,newCountry);
-
-        System.out.println("Country updated");
-    }
+    public abstract void updateCountry(String newCountry) throws SQLException;
 
     public boolean checkPersonExistence(String username) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
-        User user = userDAO.getUser(username);
-
-        return (user != null);
+        //TODO optimize generalization (person)
+        return false;
     }
 
     //TODO check correctness and optimize (for owner and user)
@@ -79,8 +37,8 @@ public abstract class ProfileController {
     }
 
     public boolean checkEmail(String emailEntered) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
-        return userDAO.checkEmailExistence(emailEntered);
+        //TODO possible inheritance optimization? (person)
+        return false;
     }
 
 

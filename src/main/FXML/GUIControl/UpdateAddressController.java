@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.BusinessLogic.UserProfileController;
-import main.java.DomainModel.User;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -58,10 +57,10 @@ public class UpdateAddressController implements Initializable {
         if (!provinceInput.getText().isEmpty()){
             UserProfileController userProfileController = new UserProfileController();
 
-            userProfileController.updateProvince(userProfileController.getUser().getUsername(),provinceInput.getText());
-            userProfileController.updateCity(userProfileController.getUser().getUsername(),cityInput.getText());
-            userProfileController.updateZip(userProfileController.getUser().getUsername(),zipInput.getText());
-            userProfileController.updateCountry(userProfileController.getUser().getUsername(),countryInput.getText());
+            userProfileController.updateProvince(provinceInput.getText());
+            userProfileController.updateCity(cityInput.getText());
+            userProfileController.updateZip(zipInput.getText());
+            userProfileController.updateCountry(countryInput.getText());
 
             String message = "Address edited successfully!";
             messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
