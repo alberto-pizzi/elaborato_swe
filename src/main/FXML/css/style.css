@@ -25,6 +25,11 @@
 .menu-button-owner:hover{
     -fx-background-color: #e8c0ec;
 }
+
+.menu-button-owner:focused, .menu-button-owner:pressed{
+    -fx-background-color: #e8c0ec;
+}
+
 .menu-selected{
     -fx-background-color: #BFBFBF;
     -fx-background-radius: 10;
