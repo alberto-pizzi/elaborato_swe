@@ -11,10 +11,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import main.java.BusinessLogic.OwnerProfileController;
 import main.java.BusinessLogic.UserActionsController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ProfileMenuOwnerController implements Initializable {
@@ -84,9 +86,9 @@ public class ProfileMenuOwnerController implements Initializable {
     }
 
     @FXML
-    void handleLogoutButton(ActionEvent event) throws IOException {
-        UserActionsController userActionsController = new UserActionsController();
-        userActionsController.logOut();
+    void handleLogoutButton(ActionEvent event) throws IOException{
+        OwnerProfileController ownerProfileController = new OwnerProfileController();
+        ownerProfileController.logOut();
         logoutButton.getScene().getWindow().hide();
         Stage logInUser = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/scene.fxml"));

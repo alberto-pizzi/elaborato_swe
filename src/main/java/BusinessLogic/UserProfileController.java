@@ -29,6 +29,11 @@ public class UserProfileController extends ProfileController {
         this.user = user;
     }
 
+    public void logOut() {
+        SessionController.getInstance().setPerson(null);
+        this.user = null;
+    }
+
     //methods
     public ArrayList<Facility> getFacilitiesManaged() throws SQLException {
 

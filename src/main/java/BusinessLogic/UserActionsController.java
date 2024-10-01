@@ -48,11 +48,6 @@ public class UserActionsController {
 
     }
 
-    public void logOut() {
-        SessionController.getInstance().setPerson(null);
-        this.user = null;
-    }
-
     public void attachMember(int idFacility) throws SQLException {
 
         ManagesDAO managesDAO = new ManagesDAO();

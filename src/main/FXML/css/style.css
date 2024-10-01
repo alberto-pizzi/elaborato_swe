@@ -109,11 +109,19 @@
     -fx-background-color: #b7bffa;
 }
 
+.profile-menu-owner:hover{
+    -fx-background-color: #e8c0ec;
+}
+
 .profile-menu:focused, .profile-menu:pressed{
     -fx-background-color: #536DFE;
 }
 
-.profile-menu#delete:hover, .profile-menu#delete:focused, .profile-menu#delete:pressed{
+.profile-menu-owner:focused, .profile-menu-owner:pressed{
+    -fx-background-color: violet;
+}
+
+.profile-menu#delete:hover, .profile-menu#delete:focused, .profile-menu#delete:pressed,.profile-menu-owner#delete:hover, .profile-menu-owner#delete:focused, .profile-menu-owner#delete:pressed{
     -fx-background-color: #ff4b4b;
 }
 

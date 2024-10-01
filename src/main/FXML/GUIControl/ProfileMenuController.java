@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import main.java.BusinessLogic.UserActionsController;
+import main.java.BusinessLogic.UserProfileController;
 import main.java.DomainModel.User;
 
 import java.io.IOException;
@@ -95,8 +96,8 @@ public class ProfileMenuController implements Initializable {
 
     @FXML
     void handleLogoutButton(ActionEvent event) throws IOException {
-        UserActionsController userActionsController = new UserActionsController();
-        userActionsController.logOut();
+        UserProfileController userProfileController = new UserProfileController();
+        userProfileController.logOut();
         logoutButton.getScene().getWindow().hide();
         Stage logInUser = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/scene.fxml"));

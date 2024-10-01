@@ -29,7 +29,7 @@ public class OwnerProfileController extends ProfileController {
         this.owner = owner;
     }
 
-    public void logOut() throws SQLException {
+    public void logOut() {
         SessionController.getInstance().setPerson(null);
         this.owner = null;
     }
