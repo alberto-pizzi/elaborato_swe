@@ -36,6 +36,11 @@ public class HomeController implements Initializable {
     @FXML
     private VBox fieldsList;
 
+    @FXML
+    private Button previous;
+
+    @FXML
+    private Button next;
 
     @FXML
     private Label pageNumber;
@@ -111,7 +116,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    private void next(ActionEvent event){
+    private void handleNextButton(ActionEvent event){
 
         if(fields.size()>itemsPerPage* currentPage) {
             fieldsList.getChildren().clear();
@@ -142,7 +147,7 @@ public class HomeController implements Initializable {
 
 
     @FXML
-    private void previous(ActionEvent event){
+    private void handlePreviousButton(ActionEvent event){
 
         if(currentPage > 1){
             fieldsList.getChildren().clear();
@@ -173,7 +178,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    private void search(ActionEvent event){
+    private void handleSearchButton(ActionEvent event){
 
         if(!search.getText().isEmpty()){
             fieldsList.getChildren().clear();

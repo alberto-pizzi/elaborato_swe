@@ -4,17 +4,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
 import main.java.BusinessLogic.SessionController;
-import main.java.BusinessLogic.UserAccess;
 import main.java.DomainModel.Person;
 
 import java.net.URL;
@@ -58,7 +54,7 @@ public class LoginControllerOwner implements Initializable {
     }
 
     @FXML
-    private void logInAction(ActionEvent event) throws SQLException {
+    private void handleLogInButton(ActionEvent event) throws SQLException {
 
         AccessController access = null;
         boolean verified = false;
@@ -87,7 +83,7 @@ public class LoginControllerOwner implements Initializable {
     }
 
     @FXML
-    private void signUp(ActionEvent event) throws SQLException {
+    private void handleSignUpButton(ActionEvent event) throws SQLException {
 
         try {
             logIn.getScene().getWindow().setHeight(850);
