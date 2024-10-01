@@ -1,6 +1,5 @@
 package main.java.BusinessLogic;
 
-import main.java.DomainModel.Person;
 import main.java.DomainModel.User;
 import main.java.ORM.UserDAO;
 
