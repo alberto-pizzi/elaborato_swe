@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -16,10 +17,22 @@ import java.util.ResourceBundle;
 public class MenuOwnerController implements Initializable {
 
     @FXML
+    private Button dashboard;
+
+    @FXML
     private Label email;
 
     @FXML
+    private Button facilities;
+
+    @FXML
     private BorderPane menuPane;
+
+    @FXML
+    private Button profile;
+
+    @FXML
+    private Button reservations;
 
     @FXML
     private Label username;
@@ -44,25 +57,25 @@ public class MenuOwnerController implements Initializable {
     }
 
     @FXML
-    void dashboard(ActionEvent event) throws IOException {
+    void handleDashboardButton(ActionEvent event) throws IOException {
         changeView("homeOwner.fxml");
         System.out.println("Dashboard menu button clicked");
     }
 
     @FXML
-    void facilities(ActionEvent event) throws IOException {
+    void handleFacilitiesButton(ActionEvent event) throws IOException {
         changeView("facilities.fxml");
         System.out.println("Facilities menu button clicked");
     }
 
     @FXML
-    void profile(ActionEvent event) throws IOException {
+    void handleProfileButton(ActionEvent event) throws IOException {
         changeView("profileOwner.fxml");
         System.out.println("Profile menu button clicked");
     }
 
     @FXML
-    void reservations(ActionEvent event) throws IOException {
+    void handleReservationsButton(ActionEvent event) throws IOException {
         changeView("reservations.fxml");
         System.out.println("Reservations menu button clicked");
     }

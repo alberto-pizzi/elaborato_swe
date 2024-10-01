@@ -20,6 +20,7 @@ public class SceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
+
             goToLogin();
 
         } catch (IOException e) {
