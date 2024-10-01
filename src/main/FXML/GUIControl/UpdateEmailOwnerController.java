@@ -35,6 +35,7 @@ public class UpdateEmailOwnerController implements Initializable {
 
     }
 
+    //todo controllo email già usata
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException {
         if (emailInput.getText().isEmpty()) {

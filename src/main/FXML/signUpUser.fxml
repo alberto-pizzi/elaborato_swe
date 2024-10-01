@@ -132,7 +132,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="signUp" mnemonicParsing="false" onAction="#signUpAction" prefHeight="168.0" prefWidth="480.0" style="-fx-background-radius: 10px; -fx-background-color: #4169e1#4682b4;" text="Sign Up">
+                              <Button fx:id="signUp" mnemonicParsing="false" onAction="#handleSignUpButton" prefHeight="168.0" prefWidth="480.0" style="-fx-background-radius: 10px; -fx-background-color: #4169e1#4682b4;" text="Sign Up">
                                  <padding>
                                     <Insets bottom="10.0" top="10.0" />
                                  </padding>
@@ -147,7 +147,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="logIn" mnemonicParsing="false" onAction="#logIn" prefHeight="25.0" prefWidth="481.0" style="-fx-background-radius: 10px; -fx-background-color: darkgray;" text="Log In">
+                              <Button fx:id="logIn" mnemonicParsing="false" onAction="#handleLogInButton" prefHeight="25.0" prefWidth="481.0" style="-fx-background-radius: 10px; -fx-background-color: darkgray;" text="Log In">
                                  <padding>
                                     <Insets bottom="10.0" top="10.0" />
                                  </padding>
@@ -162,7 +162,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="owner" mnemonicParsing="false" onAction="#isOwner" prefHeight="40.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: orange;" text="I am an Owner">
+                              <Button fx:id="owner" mnemonicParsing="false" onAction="#handleOwnerButton" prefHeight="40.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: orange;" text="I am an Owner">
                                  <padding>
                                     <Insets bottom="10.0" top="10.0" />
                                  </padding>

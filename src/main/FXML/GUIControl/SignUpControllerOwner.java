@@ -4,16 +4,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
-import main.java.BusinessLogic.UserAccess;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -69,7 +65,7 @@ public class SignUpControllerOwner implements Initializable {
     }
 
     @FXML
-    private void signUpAction(ActionEvent event) throws SQLException {
+    private void handleSignUpButton(ActionEvent event) throws SQLException {
 
         AccessController access = null;
         access = new AccessController(new OwnerAccess());
@@ -103,7 +99,7 @@ public class SignUpControllerOwner implements Initializable {
 
 
     @FXML
-    private void logIn(ActionEvent event) throws SQLException {
+    private void handleLogInButton(ActionEvent event) throws SQLException {
 
         try {
             logIn.getScene().getWindow().setHeight(720);
@@ -120,7 +116,7 @@ public class SignUpControllerOwner implements Initializable {
     }
 
     @FXML
-    private void isOwner(ActionEvent event) throws SQLException {
+    private void handleOwnerButton(ActionEvent event) throws SQLException {
 
         try {
             pane.getChildren().removeAll();
