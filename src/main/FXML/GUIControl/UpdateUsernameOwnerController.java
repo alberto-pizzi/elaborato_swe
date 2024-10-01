@@ -27,15 +27,14 @@ public class UpdateUsernameOwnerController implements Initializable {
     @FXML
     private TextField usernameInput;
 
-    OwnerProfileController ownerProfileController;
+
 
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.ownerProfileController = new OwnerProfileController(); //TODO check and put into correct location
-
+        OwnerProfileController ownerProfileController = new OwnerProfileController();
         usernameInput.setText(ownerProfileController.getUsername());
 
     }
@@ -43,6 +42,7 @@ public class UpdateUsernameOwnerController implements Initializable {
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
+        OwnerProfileController ownerProfileController = new OwnerProfileController();
         boolean userExists = false;
         if (!usernameInput.getText().isEmpty()) {
 

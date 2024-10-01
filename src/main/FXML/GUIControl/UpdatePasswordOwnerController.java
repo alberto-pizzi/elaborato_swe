@@ -31,25 +31,21 @@ public class UpdatePasswordOwnerController implements Initializable {
 
     MessagesController messagesController;
 
-
-    //TODO check position correctness
-    OwnerProfileController ownerProfileController;
-    UserActionsController userActionsController;
-
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.ownerProfileController = new OwnerProfileController();
         messagesController = new MessagesController(messageLabel);
 
     }
 
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void handleConfirmButton(ActionEvent event) throws SQLException {
 
+        OwnerProfileController ownerProfileController = new OwnerProfileController();
         AccessController accessController = new AccessController(new OwnerAccess());
+
         if (!currentPasswordInput.getText().isEmpty() && accessController.checkPassword(ownerProfileController.getUsername(), currentPasswordInput.getText())) {
 
             if (!newPasswordInput.getText().isEmpty() && newPasswordInput.getText().equals(confirmPasswordInput.getText())) {

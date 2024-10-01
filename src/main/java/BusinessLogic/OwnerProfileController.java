@@ -59,7 +59,6 @@ public class OwnerProfileController extends ProfileController {
         return owner.getProvince();
     }
 
-    //todo controllare con alberto la correttezza e vari controller
     public void updateUsername(String newUsername) throws SQLException {
         OwnerDAO ownerDAO = new OwnerDAO();
         ownerDAO.updateUsername(owner.getUsername(),newUsername);

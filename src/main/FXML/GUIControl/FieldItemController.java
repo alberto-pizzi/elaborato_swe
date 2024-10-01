@@ -41,7 +41,6 @@ public class FieldItemController {
         this.homeController = homeController;
     }
 
-    //fixme address and image
     public void setData(Field field) throws SQLException {
         UserActionsController userActionsController = new UserActionsController();
         this.field = field;

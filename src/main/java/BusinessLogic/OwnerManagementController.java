@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-//Todo controllare che i metodi dao siano utili
 public class OwnerManagementController {
 
     private Owner owner;
