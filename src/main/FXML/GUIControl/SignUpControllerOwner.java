@@ -4,14 +4,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
-import main.java.BusinessLogic.UserAccess;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -52,13 +50,22 @@ public class SignUpControllerOwner implements Initializable {
     @FXML
     private TextField zip;
 
+    private Pane pane;
+
+    public Pane getScenePane() {
+        return pane;
+    }
+
+    public void setScenePane(Pane scenePane) {
+        this.pane = scenePane;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
     @FXML
-    private void signUpAction(ActionEvent event) throws SQLException {
+    private void handleSignUpButton(ActionEvent event) throws SQLException {
 
         AccessController access = null;
         access = new AccessController(new OwnerAccess());
@@ -70,13 +77,13 @@ public class SignUpControllerOwner implements Initializable {
 
                 System.out.println("register done");
                 try {
-                    signUp.getScene().getWindow().hide();
-                    Stage loginOwner = new Stage();
-                    Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginOwner.fxml"));
-                    loginOwner.setTitle("Sport Plus");
-                    loginOwner.setScene(new Scene(root, 1280, 720));
-                    loginOwner.show();
-                    loginOwner.setResizable(false);
+                    logIn.getScene().getWindow().setHeight(720);
+                    pane.getChildren().removeAll();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/loginOwner.fxml"));
+                    Parent view = loader.load();
+                    LoginControllerOwner controller = loader.getController();
+                    controller.setScenePane(pane);
+                    pane.getChildren().add(view);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -92,16 +99,16 @@ public class SignUpControllerOwner implements Initializable {
 
 
     @FXML
-    private void logIn(ActionEvent event) throws SQLException {
+    private void handleLogInButton(ActionEvent event) throws SQLException {
 
         try {
-            signUp.getScene().getWindow().hide();
-            Stage loginOwner = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginOwner.fxml"));
-            loginOwner.setTitle("Sport Plus");
-            loginOwner.setScene(new Scene(root, 1280, 720));
-            loginOwner.show();
-            loginOwner.setResizable(false);
+            logIn.getScene().getWindow().setHeight(720);
+            pane.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/loginOwner.fxml"));
+            Parent view = loader.load();
+            LoginControllerOwner controller = loader.getController();
+            controller.setScenePane(pane);
+            pane.getChildren().add(view);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -109,16 +116,15 @@ public class SignUpControllerOwner implements Initializable {
     }
 
     @FXML
-    private void isOwner(ActionEvent event) throws SQLException {
+    private void handleOwnerButton(ActionEvent event) throws SQLException {
 
         try {
-            signUp.getScene().getWindow().hide();
-            Stage signUpUser = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/signUpUser.fxml"));
-            signUpUser.setTitle("Sport Plus");
-            signUpUser.setScene(new Scene(root, 1280, 850));
-            signUpUser.show();
-            signUpUser.setResizable(false);
+            pane.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/signUpUser.fxml"));
+            Parent view = loader.load();
+            SignUpControllerUser controller = loader.getController();
+            controller.setScenePane(pane);
+            pane.getChildren().add(view);
         } catch (Exception e) {
             e.printStackTrace();
         }

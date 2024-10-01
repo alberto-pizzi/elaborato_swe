@@ -16,6 +16,20 @@
     -fx-background-color: #BFBFBF;
 }
 
+.menu-button-owner{
+    -fx-background-color: violet;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.menu-button-owner:hover{
+    -fx-background-color: #e8c0ec;
+}
+
+.menu-button-owner:focused, .menu-button-owner:pressed{
+    -fx-background-color: #e8c0ec;
+}
+
 .menu-selected{
     -fx-background-color: #BFBFBF;
     -fx-background-radius: 10;
@@ -90,15 +104,29 @@
     -fx-cursor: hand;
 }
 
+.profile-menu-owner{
+    -fx-background-color: white;
+    -fx-background-radius: 50;
+    -fx-cursor: hand;
+}
+
 .profile-menu:hover{
     -fx-background-color: #b7bffa;
+}
+
+.profile-menu-owner:hover{
+    -fx-background-color: #e8c0ec;
 }
 
 .profile-menu:focused, .profile-menu:pressed{
     -fx-background-color: #536DFE;
 }
 
-.profile-menu#delete:hover, .profile-menu#delete:focused, .profile-menu#delete:pressed{
+.profile-menu-owner:focused, .profile-menu-owner:pressed{
+    -fx-background-color: violet;
+}
+
+.profile-menu#delete:hover, .profile-menu#delete:focused, .profile-menu#delete:pressed,.profile-menu-owner#delete:hover, .profile-menu-owner#delete:focused, .profile-menu-owner#delete:pressed{
     -fx-background-color: #ff4b4b;
 }
 
@@ -115,3 +143,14 @@
 .confirm-button:hover{
     -fx-background-color: #22db4a;
 }
+
+.confirm-button-owner{
+    -fx-background-color: violet;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.confirm-button-owner:hover{
+    -fx-background-color: #e8c0ec;
+}
+

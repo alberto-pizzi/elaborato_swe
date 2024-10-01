@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 
@@ -42,7 +41,6 @@ public class FieldItemController {
         this.homeController = homeController;
     }
 
-    //fixme address and image
     public void setData(Field field) throws SQLException {
         UserActionsController userActionsController = new UserActionsController();
         this.field = field;
@@ -63,7 +61,7 @@ public class FieldItemController {
     }
 
     @FXML
-    public void fieldDetails(ActionEvent event) throws IOException {
+    public void handleSelectFieldButton(ActionEvent event) throws IOException {
         //TODO check correctness
         //below there are the previous code
         /*

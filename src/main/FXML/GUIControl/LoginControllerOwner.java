@@ -4,15 +4,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
 import main.java.BusinessLogic.SessionController;
-import main.java.BusinessLogic.UserAccess;
 import main.java.DomainModel.Person;
 
 import java.net.URL;
@@ -41,12 +39,22 @@ public class LoginControllerOwner implements Initializable {
 
     SessionController sessionController = SessionController.getInstance();
 
+    private Pane pane;
+
+    public Pane getScenePane() {
+        return pane;
+    }
+
+    public void setScenePane(Pane scenePane) {
+        this.pane = scenePane;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
     @FXML
-    private void logInAction(ActionEvent event) throws SQLException {
+    private void handleLogInButton(ActionEvent event) throws SQLException {
 
         AccessController access = null;
         boolean verified = false;
@@ -63,13 +71,10 @@ public class LoginControllerOwner implements Initializable {
             person = access.login(username.getText());
             sessionController.setPerson(person);
             try {
-                logIn.getScene().getWindow().hide();
-                Stage home = new Stage();
-                Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/menuPaneOwner.fxml"));
-                home.setTitle("Sport Plus");
-                home.setScene(new Scene(root, 1280, 720));
-                home.show();
-                home.setResizable(false);
+                pane.getChildren().removeAll();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/menuPaneOwner.fxml"));
+                Parent view = loader.load();
+                pane.getChildren().add(view);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -78,16 +83,16 @@ public class LoginControllerOwner implements Initializable {
     }
 
     @FXML
-    private void signUp(ActionEvent event) throws SQLException {
+    private void handleSignUpButton(ActionEvent event) throws SQLException {
 
         try {
-            logIn.getScene().getWindow().hide();
-            Stage signUpOwner = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/signUpOwner.fxml"));
-            signUpOwner.setTitle("Sport Plus");
-            signUpOwner.setScene(new Scene(root, 1280, 850));
-            signUpOwner.show();
-            signUpOwner.setResizable(false);
+            logIn.getScene().getWindow().setHeight(850);
+            pane.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/signUpOwner.fxml"));
+            Parent view = loader.load();
+            SignUpControllerOwner controller = loader.getController();
+            controller.setScenePane(pane);
+            pane.getChildren().add(view);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,13 +103,13 @@ public class LoginControllerOwner implements Initializable {
     private void isOwner(ActionEvent event) throws SQLException {
 
         try {
-            logIn.getScene().getWindow().hide();
-            Stage logInUser = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/loginUser.fxml"));
-            logInUser.setTitle("Sport Plus");
-            logInUser.setScene(new Scene(root, 1280, 720));
-            logInUser.show();
-            logInUser.setResizable(false);
+            pane.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/LoginUser.fxml"));
+            Parent view = loader.load();
+            LoginControllerUser controller = loader.getController();
+            controller.setScenePane(pane);
+            pane.getChildren().add(view);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -29,7 +29,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" onAction="#dashboard" style="-fx-background-color: transparent;" stylesheets="@css/style.css" text="Dashboard" textFill="WHITE">
+            <Button fx:id="dashboard" mnemonicParsing="false" onAction="#handleDashboardButton" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Dashboard" textFill="WHITE">
                <VBox.margin>
                   <Insets top="50.0" />
                </VBox.margin>
@@ -37,7 +37,7 @@
                   <Font size="30.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#facilities" style="-fx-background-color: transparent;" text="Facilities list" textFill="WHITE">
+            <Button fx:id="facilities" mnemonicParsing="false" onAction="#handleFacilitiesButton" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Facilities list" textFill="WHITE">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
@@ -45,7 +45,7 @@
                   <Font size="30.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#reservations" style="-fx-background-color: transparent;" text="Reservations" textFill="WHITE">
+            <Button fx:id="reservations" mnemonicParsing="false" onAction="#handleReservationsButton" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Reservations" textFill="WHITE">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
@@ -53,7 +53,7 @@
                   <Font size="30.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#profile" style="-fx-background-color: transparent;" text="Profile" textFill="WHITE">
+            <Button fx:id="profile" mnemonicParsing="false" onAction="#handleProfileButton" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Profile" textFill="WHITE">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>

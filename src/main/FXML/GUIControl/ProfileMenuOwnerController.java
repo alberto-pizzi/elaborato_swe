@@ -11,15 +11,15 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import main.java.BusinessLogic.OwnerProfileController;
 import main.java.BusinessLogic.UserActionsController;
-import main.java.BusinessLogic.UserProfileController;
-import main.java.DomainModel.User;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ProfileMenuController implements Initializable {
+public class ProfileMenuOwnerController implements Initializable {
 
     @FXML
     private Button addressProfileButton;
@@ -37,9 +37,6 @@ public class ProfileMenuController implements Initializable {
     private Button usernameProfileButton;
 
     @FXML
-    private Label welcomeMessageLabel;
-
-    @FXML
     private BorderPane profileMenuPane;
 
     @FXML
@@ -50,14 +47,8 @@ public class ProfileMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        UserActionsController userActionsController = new UserActionsController();
-
-
-        welcomeMessageLabel.setText("Hi, " + userActionsController.getUser().getUsername() + "!");
-
-
         try {
-            changeView("updateUsername.fxml");
+            changeView("updateUsernameOwner.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -71,7 +62,7 @@ public class ProfileMenuController implements Initializable {
 
     @FXML
     void handleAddressButton(ActionEvent event) throws IOException {
-        changeView("updateAddress.fxml");
+        changeView("updateAddressOwner.fxml");
     }
 
     @FXML
@@ -81,23 +72,23 @@ public class ProfileMenuController implements Initializable {
 
     @FXML
     void handleEmailButton(ActionEvent event) throws IOException {
-        changeView("updateEmail.fxml");
+        changeView("updateEmailOwner.fxml");
     }
 
     @FXML
     void handlePasswordButton(ActionEvent event) throws IOException {
-        changeView("updatePassword.fxml");
+        changeView("updatePasswordOwner.fxml");
     }
 
     @FXML
     void handleUsernameButton(ActionEvent event) throws IOException {
-        changeView("updateUsername.fxml");
+        changeView("updateUsernameOwner.fxml");
     }
 
     @FXML
-    void handleLogoutButton(ActionEvent event) throws IOException {
-        UserProfileController userProfileController = new UserProfileController();
-        userProfileController.logOut();
+    void handleLogoutButton(ActionEvent event) throws IOException{
+        OwnerProfileController ownerProfileController = new OwnerProfileController();
+        ownerProfileController.logOut();
         logoutButton.getScene().getWindow().hide();
         Stage logInUser = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/scene.fxml"));
