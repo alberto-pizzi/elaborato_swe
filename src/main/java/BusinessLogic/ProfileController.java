@@ -13,9 +13,7 @@ public abstract class ProfileController {
 
     public abstract void updateEmail(String newEmail) throws SQLException;
 
-    public void deleteProfile(String username){
-        //TODO implement
-    }
+    public  abstract void deleteProfile(String username) throws SQLException;
 
     public abstract void updateCity(String newCity) throws SQLException;
 

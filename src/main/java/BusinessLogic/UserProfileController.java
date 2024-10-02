@@ -117,4 +117,14 @@ public class UserProfileController extends ProfileController {
         UserDAO userDAO = new UserDAO();
         return userDAO.checkEmailExistence(emailEntered);
     }
+
+    @Override
+    public void deleteProfile(String username) throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        userDAO.deleteUser(username);
+
+
+        System.out.println("Profile deleted");
+
+    }
 }
