@@ -1,7 +1,7 @@
 package main.java.DomainModel;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 
@@ -9,20 +9,16 @@ import java.time.LocalTime;
 public class WorkingHours {
 
     //enumeration
-    //FIXME change with DayOfWeek by Java.
-    public enum Day {
-        MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
-    }
 
     //attributes
     private int id;
-    private Day dayOfWeek;
+    private DayOfWeek dayOfWeek;
     private Time openingHours;
     private Time closingHours;
 
     //constructor
 
-    public WorkingHours(int id, Day dayOfWeek, Time openingHours, Time closingHours) {
+    public WorkingHours(int id, DayOfWeek dayOfWeek, Time openingHours, Time closingHours) {
         this.id = id;
         this.dayOfWeek = dayOfWeek;
         this.openingHours = openingHours;
@@ -36,7 +32,7 @@ public class WorkingHours {
         return id;
     }
 
-    public Day getDayOfWeek() {
+    public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
     }
 
@@ -54,7 +50,7 @@ public class WorkingHours {
         this.id = id;
     }
 
-    public void setDayOfWeek(Day dayOfWeek) {
+    public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 

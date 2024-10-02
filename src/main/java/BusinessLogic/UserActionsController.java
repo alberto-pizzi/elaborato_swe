@@ -8,6 +8,7 @@ import main.java.ORM.*;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 
 
@@ -83,7 +84,7 @@ public class UserActionsController {
         //TODO how I implement invite creation (in DB)?
     }
 
-    public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, WorkingHours.Day dayOfWeek) throws SQLException {
+    public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
 
         return workingHoursDAO.getWHsByFacility(idFacility);

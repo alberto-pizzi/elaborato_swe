@@ -1,10 +1,9 @@
 package main.java.ORM;
 
-import main.java.DomainModel.Facility;
 import main.java.DomainModel.WorkingHours;
-import main.java.DomainModel.WorkingHours.Day;
 
 import java.sql.*;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 
 public class WorkingHoursDAO {
@@ -22,10 +21,10 @@ public class WorkingHoursDAO {
 
     //methods
 
-    public void addWHToFacility(int idFacility, Day dayOfWeek, Time openingHours, Time closingHours) throws SQLException {
+    public void addWHToFacility(int idFacility, DayOfWeek dayOfWeek, Time openingHours, Time closingHours) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"WH\" (day_of_week, opening, closing, id_facility)) " +
-                "VALUES ('%s', '%tT', '%tT', '%d')", dayOfWeek, openingHours, closingHours, idFacility);
+                "VALUES ('%s', '%tT', '%tT', '%d')", dayOfWeek.name(), openingHours, closingHours, idFacility);
 
         PreparedStatement preparedStatement = null;
 
@@ -59,9 +58,9 @@ public class WorkingHoursDAO {
 
     }
 
-    public void removeWHFromFacilityByDay(int idFacility, Day dayOfWeek) throws SQLException {
+    public void removeWHFromFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
 
-        String querySQL = String.format("DELETE FROM \"WH\" WHERE id_facility = '%d' AND day_of_week = '%s'", idFacility,dayOfWeek);
+        String querySQL = String.format("DELETE FROM \"WH\" WHERE id_facility = '%d' AND day_of_week = '%s'", idFacility,dayOfWeek.name());
 
         PreparedStatement preparedStatement = null;
 
@@ -131,7 +130,10 @@ public class WorkingHoursDAO {
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 //Day dayOfWeek = Day.valueOf(resultSet.getString("day_of_week"));
-                Day dayOfWeek = Day.MONDAY;
+                //TODO insert correct day
+                //Day dayOfWeek = Day.MONDAY;
+                DayOfWeek dayOfWeek = DayOfWeek.valueOf(resultSet.getString("day_of_week").toUpperCase());
+
                 Time openingHours = resultSet.getTime("opening");
                 Time closingHours = resultSet.getTime("closing");
                 int idFacility = resultSet.getInt("id_facility"); //FIXME is it useful?
@@ -179,11 +181,11 @@ public class WorkingHoursDAO {
         return WHs;
     }
 
-    public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, Day dayOfWeek) throws SQLException {
+    public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
         //default id (id not found)
         ArrayList<WorkingHours> WHs = new ArrayList<>();
 
-        String querySQL = String.format("SELECT * FROM \"WH\" WHERE id_facility = '%d' AND day_of_week = '%s'", idFacility, dayOfWeek);
+        String querySQL = String.format("SELECT * FROM \"WH\" WHERE id_facility = '%d' AND day_of_week = '%s'", idFacility, dayOfWeek.name());
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

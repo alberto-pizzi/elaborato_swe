@@ -16,6 +16,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.text.DecimalFormat;
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -101,7 +102,7 @@ public class BookFieldController implements Initializable {
             resetFields();
 
             if (newDate != null) {
-                updateStartTime(WorkingHours.Day.MONDAY);
+                updateStartTime(newDate.getDayOfWeek());
             }
         });
 
@@ -280,7 +281,7 @@ public class BookFieldController implements Initializable {
     }
 
 
-    private List<LocalTime> availableTimes(int minutesInterval, DateTimeFormatter formatter, WorkingHours.Day dayOfWeek) throws SQLException, ClassNotFoundException {
+    private List<LocalTime> availableTimes(int minutesInterval, DateTimeFormatter formatter, DayOfWeek dayOfWeek) throws SQLException, ClassNotFoundException {
         List<LocalTime> availableTimes = new ArrayList<>();
 
         UserActionsController userActionsController = new UserActionsController();
@@ -324,7 +325,7 @@ public class BookFieldController implements Initializable {
         return availableTimes;
     }
 
-    private void updateStartTime(WorkingHours.Day day){
+    private void updateStartTime(DayOfWeek dayOfWeek){
 
         if (startTimeChoice != null && endTimeChoice != null) {
 
@@ -332,7 +333,7 @@ public class BookFieldController implements Initializable {
             List<LocalTime> timeOptions = null; // 30 minuti
             try {
                 //TODO add correct WH day
-                timeOptions = availableTimes(15, timeFormatter, day);
+                timeOptions = availableTimes(15, timeFormatter, dayOfWeek);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } catch (ClassNotFoundException e) {
