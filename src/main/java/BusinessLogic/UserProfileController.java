@@ -46,8 +46,8 @@ public class UserProfileController extends ProfileController {
     @Override
     public void updateUsername(String newUsername) throws SQLException {
         UserDAO userDAO = new UserDAO();
-        //userDAO.updateUsername(user.getUsername(),newUsername);
-        //this.user.setUsername(newUsername);
+        userDAO.updateUsername(user.getUsername(),newUsername);
+        this.user.setUsername(newUsername);
         System.out.println("Username updated");
     }
 
@@ -122,7 +122,6 @@ public class UserProfileController extends ProfileController {
     public void deleteProfile(String username) throws SQLException {
         UserDAO userDAO = new UserDAO();
         userDAO.deleteUser(username);
-
 
         System.out.println("Profile deleted");
 

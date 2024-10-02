@@ -87,10 +87,6 @@ public class OwnerProfileController extends ProfileController {
 
     }
 
-    public void deleteProfile(){
-        //TODO implement
-    }
-
     @Override
     public void updateCity(String newCity) throws SQLException {
         OwnerDAO ownerDAO = new OwnerDAO();
@@ -128,6 +124,15 @@ public class OwnerProfileController extends ProfileController {
         Owner owner1 = ownerDAO.getOwner(username);
 
         return (owner1 != null);
+    }
+
+    @Override
+    public void deleteProfile(String username) throws SQLException {
+        OwnerDAO ownerDAO = new OwnerDAO();
+        ownerDAO.deleteUser(username);
+
+        System.out.println("Profile deleted");
+
     }
 
 }
