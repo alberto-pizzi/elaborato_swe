@@ -4,137 +4,143 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="122.0" prefWidth="1040.0" style="-fx-background-color: white; -fx-border-color: black;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FacilityItemController">
+
+<AnchorPane fx:id="facilityItemPane" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FacilityItemController">
    <children>
-      <VBox prefHeight="120.0" prefWidth="120.0">
+      <HBox prefHeight="122.0" prefWidth="1040.0" style="-fx-background-color: white; -fx-border-color: black;">
          <children>
-            <ImageView fx:id="fieldImg" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" scaleX="0.8" scaleY="0.8" />
-         </children>
-      </VBox>
-      <StackPane prefHeight="120.0" prefWidth="280.0">
-         <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox prefHeight="120.0" prefWidth="120.0">
                <children>
-                  <Label fx:id="facilityNameLabel" prefHeight="44.0" prefWidth="404.0" text="Facility Name">
+                  <ImageView fx:id="fieldImg" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" scaleX="0.8" scaleY="0.8" />
+               </children>
+            </VBox>
+            <StackPane prefHeight="120.0" prefWidth="280.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label fx:id="facilityNameLabel" prefHeight="44.0" prefWidth="404.0" text="Facility Name">
+                           <font>
+                              <Font name="System Bold" size="28.0" />
+                           </font>
+                        </Label>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label prefHeight="44.0" prefWidth="76.0" text="Address:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="facilityAddressLabel" prefHeight="44.0" prefWidth="195.0" text="Field address" textFill="#a1a1a1" wrapText="true">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+            </StackPane>
+            <StackPane prefHeight="120.0" prefWidth="281.0">
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+               <children>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="150.0">
+                           <children>
+                              <Label prefHeight="40.0" prefWidth="211.0" text="Number of fields:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="fieldsLabel" prefHeight="44.0" prefWidth="119.0" text="1" textFill="#a1a1a1">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label prefHeight="40.0" prefWidth="211.0" text="Number of managers:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="managersLabel" prefHeight="44.0" prefWidth="119.0" text="0" textFill="#a1a1a1">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="120.0" prefWidth="227.0">
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="265.0">
+                           <children>
+                              <Label prefHeight="40.0" prefWidth="129.0" text="Telephone:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="facilityPhoneNumberLabel" prefHeight="40.0" prefWidth="150.0" text="**************" textFill="#a1a1a1">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+            <VBox alignment="CENTER" prefHeight="120.0" prefWidth="180.0" spacing="15.0">
+               <children>
+                  <Button fx:id="modifyFacility" mnemonicParsing="false" onAction="#handleModifyFacilityButton" style="-fx-background-color: violet;" styleClass="leave-button" stylesheets="@css/style.css" text="Modify" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="28.0" />
+                        <Font name="System Bold" size="18.0" />
                      </font>
-                  </Label>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label prefHeight="44.0" prefWidth="76.0" text="Address:">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label fx:id="facilityAddressLabel" prefHeight="44.0" prefWidth="195.0" text="Field address" textFill="#a1a1a1" wrapText="true">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                  </Button>
+                  <Button fx:id="deleteFacility" mnemonicParsing="false" onAction="#handleDeleteFacilityButton" prefHeight="47.0" prefWidth="102.0" style="-fx-background-color: red;" styleClass="leave-button" stylesheets="@css/style.css" text="Delete" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                  </Button>
                </children>
             </VBox>
          </children>
-         <padding>
-            <Insets bottom="20.0" top="20.0" />
-         </padding>
-      </StackPane>
-      <StackPane prefHeight="120.0" prefWidth="281.0">
-         <padding>
-            <Insets bottom="20.0" top="20.0" />
-         </padding>
-         <children>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="150.0">
-                     <children>
-                        <Label prefHeight="40.0" prefWidth="211.0" text="Number of fields:">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="fieldsLabel" prefHeight="44.0" prefWidth="119.0" text="1" textFill="#a1a1a1">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label prefHeight="40.0" prefWidth="211.0" text="Number of managers:">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="managersLabel" prefHeight="44.0" prefWidth="119.0" text="0" textFill="#a1a1a1">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
-      </StackPane>
-      <StackPane prefHeight="120.0" prefWidth="227.0">
-         <padding>
-            <Insets bottom="20.0" top="20.0" />
-         </padding>
-         <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="265.0">
-                     <children>
-                        <Label prefHeight="40.0" prefWidth="129.0" text="Telephone:">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label fx:id="facilityPhoneNumber" prefHeight="40.0" prefWidth="150.0" text="**************" textFill="#a1a1a1">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
-      </StackPane>
-      <VBox alignment="CENTER" prefHeight="120.0" prefWidth="180.0" spacing="15.0">
-         <children>
-            <Button fx:id="modifyFacility" mnemonicParsing="false" onAction="#handleModifyFacilityButton" style="-fx-background-color: violet;" styleClass="leave-button" stylesheets="@css/style.css" text="Modify" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <padding>
-                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-               </padding>
-            </Button>
-            <Button fx:id="deleteFacility" mnemonicParsing="false" onAction="#handleDeleteFacilityButton" prefHeight="47.0" prefWidth="102.0" style="-fx-background-color: red;" styleClass="leave-button" stylesheets="@css/style.css" text="Delete" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <padding>
-                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-               </padding>
-            </Button>
-         </children>
-      </VBox>
+      </HBox>
    </children>
-</HBox>
+</AnchorPane>

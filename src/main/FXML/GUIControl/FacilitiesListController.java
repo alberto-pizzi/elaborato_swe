@@ -1,22 +1,18 @@
 package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.OwnerManagementController;
-import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Facility;
-import main.java.DomainModel.Field;
+import main.java.DomainModel.Group;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class FacilitiesListOwnerController implements Initializable {
+public class FacilitiesListController implements Initializable {
 
     @FXML
     private VBox fieldsList;
@@ -158,5 +154,10 @@ public class FacilitiesListOwnerController implements Initializable {
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));
         }
+    }
+
+    public void removeFacilityItemFromGUI(AnchorPane facilityItemPane, Facility facility) {
+        facilities.remove(facility);
+        fieldsList.getChildren().remove(facilityItemPane);
     }
 }

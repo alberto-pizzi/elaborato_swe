@@ -83,11 +83,11 @@ public class Facility {
         this.telephone = telephone;
     }
 
-    public int getnManager() {
+    public int getNManager() {
         return nManager;
     }
 
-    public void setnManager(int nManager) {
+    public void setNManager(int nManager) {
         this.nManager = nManager;
     }
 

@@ -116,5 +116,14 @@ public class OwnerManagementController {
         return facilityDAO.getFacilitiesByOwner(this.owner.getId());
     }
 
+    //FIXME output type?
+    public void deleteFacility(int idFacility) throws SQLException {
+
+        FacilityDAO facilityDAO = new FacilityDAO();
+
+        facilityDAO.deleteFacility(idFacility);
+    }
+
+
 
 }
