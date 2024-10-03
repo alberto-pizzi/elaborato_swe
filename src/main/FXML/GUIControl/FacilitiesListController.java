@@ -75,14 +75,14 @@ public class FacilitiesListController implements Initializable {
             try {
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+                fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityItem.fxml"));
 
-                HBox hBox = fmxLoader.load();
-                FieldItemController fieldItemController = fmxLoader.getController();
-                fieldItemController.setYourHomeController(this);
-                fieldItemController.setData(facilities.get(i));
+                AnchorPane anchorPane = fmxLoader.load();
+                FacilityItemController facilityItemController = fmxLoader.getController();
+                facilityItemController.setFacilitiesListController(this);
+                facilityItemController.setData(facilities.get(i));
 
-                fieldsList.getChildren().add(hBox);
+                fieldsList.getChildren().add(anchorPane);
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -104,14 +104,14 @@ public class FacilitiesListController implements Initializable {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityItem.fxml"));
 
-                    HBox hBox = fmxLoader.load();
-                    FieldItemController fieldItemController = fmxLoader.getController();
-                    fieldItemController.setYourHomeController(this);
-                    fieldItemController.setData(facilities.get(i));
+                    AnchorPane anchorPane = fmxLoader.load();
+                    FacilityItemController facilityItemController = fmxLoader.getController();
+                    facilityItemController.setFacilitiesListController(this);
+                    facilityItemController.setData(facilities.get(i));
 
-                    fieldsList.getChildren().add(hBox);
+                    fieldsList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
@@ -136,14 +136,14 @@ public class FacilitiesListController implements Initializable {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityItem.fxml"));
 
-                    HBox hBox = fmxLoader.load();
-                    FieldItemController fieldItemController = fmxLoader.getController();
-                    fieldItemController.setYourHomeController(this);
-                    fieldItemController.setData(facilities.get(i));
+                    AnchorPane anchorPane = fmxLoader.load();
+                    FacilityItemController facilityItemController = fmxLoader.getController();
+                    facilityItemController.setFacilitiesListController(this);
+                    facilityItemController.setData(facilities.get(i));
 
-                    fieldsList.getChildren().add(hBox);
+                    fieldsList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);

@@ -84,11 +84,10 @@ public class FacilityItemController {
     }
 
     public void setData(Facility facility) throws SQLException {
-        UserActionsController userActionsController = new UserActionsController();
         this.facility = facility;
 
         facilityNameLabel.setText(facility.getName());
-        facilityAddressLabel.setText(userActionsController.getFieldAddress(facility.getId()));
+        facilityAddressLabel.setText(facility.getAddress());
         managersLabel.setText(String.format("%d",facility.getNManager()));
         fieldsLabel.setText(String.format("%d",facility.getNFields()));
 

@@ -64,7 +64,7 @@ public class MenuOwnerController implements Initializable {
 
     @FXML
     void handleFacilitiesButton(ActionEvent event) throws IOException {
-        changeView("facilities.fxml");
+        changeView("facilitiesOwner.fxml");
         System.out.println("Facilities menu button clicked");
     }
 
