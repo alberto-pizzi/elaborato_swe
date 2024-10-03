@@ -1,6 +1,9 @@
 package main.java.BusinessLogic;
 
+import main.java.DomainModel.Facility;
+import main.java.DomainModel.Field;
 import main.java.DomainModel.Owner;
+import main.java.ORM.FacilityDAO;
 import main.java.ORM.FieldDao;
 import main.java.ORM.ReservationDao;
 
@@ -107,6 +110,11 @@ public class OwnerManagementController {
         return (fieldDao.getFieldsByOwner(owner).size()-fieldDao.reservedFields(Date.valueOf(today), owner));
     }
 
+    public ArrayList<Facility> getOwnFacilities() throws SQLException {
+        FacilityDAO facilityDAO = new FacilityDAO();
+
+        return facilityDAO.getFacilitiesByOwner(this.owner.getId());
+    }
 
 
 }

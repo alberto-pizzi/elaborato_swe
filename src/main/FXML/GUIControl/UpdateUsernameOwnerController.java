@@ -8,10 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.java.BusinessLogic.OwnerProfileController;
-import main.java.BusinessLogic.UserActionsController;
-import main.java.BusinessLogic.UserProfileController;
-import main.java.DomainModel.User;
-import main.java.ORM.UserDAO;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -46,7 +42,7 @@ public class UpdateUsernameOwnerController implements Initializable {
         boolean userExists = false;
         if (!usernameInput.getText().isEmpty()) {
 
-            userExists = ownerProfileController.checkOwnerExistence(usernameInput.getText());
+            userExists = ownerProfileController.checkPersonExistence(usernameInput.getText());
             if (!userExists) {
                 errorLabel.setVisible(false);
                 ownerProfileController.updateUsername(usernameInput.getText());
