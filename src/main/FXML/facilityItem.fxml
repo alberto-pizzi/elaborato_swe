@@ -10,10 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="facilityItemPane" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FacilityItemController">
+<AnchorPane fx:id="facilityItemPane" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FacilityItemController">
    <children>
-      <HBox prefHeight="122.0" prefWidth="1040.0" style="-fx-background-color: white; -fx-border-color: black;">
+      <HBox prefHeight="122.0" prefWidth="1000.0" style="-fx-background-color: white; -fx-border-color: black;">
          <children>
             <VBox prefHeight="120.0" prefWidth="120.0">
                <children>
