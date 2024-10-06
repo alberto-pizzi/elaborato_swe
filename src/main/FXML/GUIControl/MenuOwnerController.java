@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -64,7 +65,11 @@ public class MenuOwnerController implements Initializable {
 
     @FXML
     void handleFacilitiesButton(ActionEvent event) throws IOException {
-        changeView("facilitiesOwner.fxml");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesOwner.fxml"));
+        Parent view = loader.load();
+        FacilitiesListController controller = loader.getController();
+        controller.setMenuPane(menuPane);
+        menuPane.setCenter(view);
         System.out.println("Facilities menu button clicked");
     }
 

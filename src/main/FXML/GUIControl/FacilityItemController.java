@@ -69,17 +69,15 @@ public class FacilityItemController {
     }
 
     @FXML
-    void handleModifyFacilityButton(ActionEvent event) {
-/*
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetails.fxml"));
-        Parent fieldDetailPane = loader.load();
+    void handleModifyFacilityButton(ActionEvent event) throws IOException, SQLException {
 
-        FieldDetailController fieldDetailController = loader.getController();
-        fieldDetailController.setData(field,homeController.getMenuPane());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+        Parent facilityModifyPane = loader.load();
 
-        homeController.getMenuPane().setCenter(fieldDetailPane);
+        ModifyFacilityController modifyFacilityController = loader.getController();
+        modifyFacilityController.setData(facility,facilitiesListController.getMenuPane());
 
-        //TODO homeController.getPage().... needed? (check above)*/
+        facilitiesListController.getMenuPane().setCenter(facilityModifyPane);
 
     }
 

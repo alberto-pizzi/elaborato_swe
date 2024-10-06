@@ -1,10 +1,9 @@
 package main.java.BusinessLogic;
 
-import main.java.DomainModel.Facility;
-import main.java.DomainModel.Field;
-import main.java.DomainModel.Owner;
+import main.java.DomainModel.*;
 import main.java.ORM.FacilityDAO;
 import main.java.ORM.FieldDao;
+import main.java.ORM.ManagesDAO;
 import main.java.ORM.ReservationDao;
 
 import java.sql.Connection;
@@ -115,6 +114,19 @@ public class OwnerManagementController {
 
         return facilityDAO.getFacilitiesByOwner(this.owner.getId());
     }
+
+    public ArrayList<Field> getFieldsByFacility(Facility facility) throws SQLException {
+        FieldDao fieldDao = new FieldDao();
+
+        return fieldDao.getFieldsByFacility(facility.getId(),false);
+    }
+
+    public ArrayList<User> getManagersByFacility(Facility facility) throws SQLException {
+        ManagesDAO managesDAO = new ManagesDAO();
+
+        return managesDAO.getAllManagersByFacility(facility.getId());
+    }
+
 
     //FIXME output type?
     public void deleteFacility(int idFacility) throws SQLException {
