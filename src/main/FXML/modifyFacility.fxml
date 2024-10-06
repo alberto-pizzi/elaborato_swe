@@ -25,7 +25,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="nameInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swereal/src/main/FXML/css/style.css">
+                  <TextField fx:id="nameInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -42,7 +42,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="addressInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swereal/src/main/FXML/css/style.css">
+                  <TextField fx:id="addressInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -61,7 +61,7 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="provinceInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swereal/src/main/FXML/css/style.css">
+                        <TextField fx:id="provinceInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -78,7 +78,7 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="zipInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swereal/src/main/FXML/css/style.css">
+                        <TextField fx:id="zipInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -98,7 +98,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="cityInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swereal/src/main/FXML/css/style.css">
+            <TextField fx:id="cityInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
@@ -114,7 +114,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="countryInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swereal/src/main/FXML/css/style.css">
+            <TextField fx:id="countryInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
                <font>
                   <Font size="16.0" />
                </font>
@@ -136,13 +136,15 @@
                         </Label>
                         <ScrollPane prefHeight="200.0" prefWidth="200.0">
                           <content>
-                            <AnchorPane fx:id="managers" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="164.0" />
+                            <AnchorPane fx:id="managers" minHeight="0.0" minWidth="0.0" prefHeight="34.0" prefWidth="164.0" />
                           </content>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
                         </ScrollPane>
                         <HBox alignment="CENTER" prefWidth="180.0">
                            <children>
-                            <Button mnemonicParsing="false" text="Button" />
-                              <Button mnemonicParsing="false" text="Button" />
+                              <Button mnemonicParsing="false" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Modify" />
                            </children>
                         </HBox>
                      </children>
@@ -157,7 +159,7 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="phoneInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swereal/src/main/FXML/css/style.css">
+                        <TextField fx:id="phoneInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -176,13 +178,15 @@
                         </Label>
                         <ScrollPane prefHeight="200.0" prefWidth="200.0">
                           <content>
-                            <AnchorPane fx:id="fields" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="165.0" />
+                            <AnchorPane fx:id="fields" minHeight="0.0" minWidth="0.0" prefHeight="34.0" prefWidth="165.0" />
                           </content>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
                         </ScrollPane>
                         <HBox alignment="CENTER" prefWidth="180.0">
                            <children>
-                              <Button mnemonicParsing="false" text="Button" />
-                              <Button mnemonicParsing="false" text="Button" />
+                              <Button mnemonicParsing="false" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Modify" />
                            </children>
                         </HBox>
                      </children>
@@ -202,7 +206,7 @@
                   <ImageView fx:id="imageLabel" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </VBox>
-            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" styleClass="confirm-button-owner" stylesheets="@../../../../elaborato_swereal/src/main/FXML/css/style.css" text="Confrim">
+            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Confrim">
                <VBox.margin>
                   <Insets bottom="5.0" top="10.0" />
                </VBox.margin>

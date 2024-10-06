@@ -83,8 +83,8 @@ public class ModifyFacilityController {
             fields.getChildren().add(label);
         }
 
-        for (User f : managersList) {
-            Label label = new Label(f.getUsername());
+        for (User u : managersList) {
+            Label label = new Label(u.getUsername());
             managers.getChildren().add(label);
         }
 

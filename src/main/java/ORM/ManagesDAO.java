@@ -142,7 +142,7 @@ public class ManagesDAO {
     public ArrayList<User> getAllManagersByFacility(int idFacility) throws SQLException {
         ArrayList<User> managers = new ArrayList<>();
 
-        String querySQL = String.format("SELECT * FROM \"Manages\" INNER JOIN \"User\" ON Manages.id_user = User.id WHERE id_facility = '%d'", idFacility);
+        String querySQL = String.format("SELECT * FROM \"Manages\" INNER JOIN \"User\" ON \"Manages\".id_user = \"User\".id WHERE id_facility = '%d'", idFacility);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -176,7 +176,7 @@ public class ManagesDAO {
     public ArrayList<Facility> getAllFacilitiesByManager(int idManager) throws SQLException {
         ArrayList<Facility> facilities = new ArrayList<>();
 
-        String querySQL = String.format("SELECT * FROM \"Manages\" INNER JOIN \"Facility\" ON Manages.id_facility = Facility.id WHERE id_user = '%d'", idManager);
+        String querySQL = String.format("SELECT * FROM \"Manages\" INNER JOIN \"Facility\" ON \"Manages\".id_facility = \"Facility\".id WHERE id_user = '%d'", idManager);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
