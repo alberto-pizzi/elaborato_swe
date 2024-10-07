@@ -1,11 +1,9 @@
 package main.java.ORM;
 
-import main.java.DomainModel.Field;
 import main.java.DomainModel.Owner;
 import main.java.DomainModel.Reservation;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ReservationDao {
@@ -24,10 +22,9 @@ public class ReservationDao {
     //methods
     public void addReservation(Reservation reservation) throws SQLException {
         String querySQL = String.format("INSERT INTO \"Reservation\" (res_date, event_date,res_time, event_time_start, " +
-                "event_time_end, id_field, n_participants, is_confirmed, is_matched, id_user)) " +
-                "VALUES ('%tF', '%tF', '%tT', '%tT', '%tT', '%d', '%d', '%b', '%b', '%d')", reservation.getReservationDate(), reservation.getEventDate(),
-                reservation.getReservationTime(), reservation.getEventTimeStart(),reservation.getEventTimeEnd(), reservation.getField(),
-                reservation.getNParticipants(), reservation.isConfirmed(), reservation.isMatched(), reservation.getUser());
+                "event_time_end, id_field, is_confirmed, is_matched)) " +
+                "VALUES ('%tF', '%tF', '%tT', '%tT', '%tT', '%d', '%b', '%b')", reservation.getReservationDate(), reservation.getEventDate(),
+                reservation.getReservationTime(), reservation.getEventTimeStart(),reservation.getEventTimeEnd(), reservation.getField().getId(), reservation.isConfirmed(), reservation.isMatched());
 
         PreparedStatement preparedStatement = null;
 
@@ -91,16 +88,14 @@ public class ReservationDao {
                 Time eventTimeStart = resultSet.getTime("event_time_start");
                 Time eventTimeEnd = resultSet.getTime("event_time_end");
                 int idField = resultSet.getInt("id_field");
-                int nParticipants = resultSet.getInt("n_participants");
                 boolean isConfirmed = resultSet.getBoolean("is_confirmed");
-                int idUser = resultSet.getInt("id_user");
                 boolean isMatched = resultSet.getBoolean("is_matched");
 
                 //TODO check correctness
                 UserDAO userDAO = new UserDAO();
                 FieldDao fieldDAO = new FieldDao();
 
-                reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, fieldDAO.getField(idField), nParticipants, isConfirmed, userDAO.getUserByID(idUser), isMatched);
+                reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, fieldDAO.getField(idField), isConfirmed, isMatched);
 
             }
             else{
@@ -163,7 +158,9 @@ public class ReservationDao {
     public ArrayList<Reservation> getReservationsByUser(int idUser) throws SQLException, ClassNotFoundException {
         ArrayList<Reservation> reservations = new ArrayList<>();
 
-        String querySQL = String.format("SELECT id FROM \"Reservation\" WHERE id_user = '%d'", idUser);
+        String querySQL = String.format("SELECT R.id FROM \"Reservation\" AS R INNER JOIN \"Group\" AS G" +
+                " ON R.id = G.id_reservation INNER JOIN \"IsPart\" AS IP" +
+                " ON G.id = IP.id_group WHERE IP.id_user = '%d'", idUser);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -171,7 +168,10 @@ public class ReservationDao {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
+            int count = 0;
             while (resultSet.next()) {
+                count++;
+                System.out.println("Iter: " + count);
                 reservations.add(this.getReservation(resultSet.getInt("id")));
             }
         } catch (SQLException e) {
@@ -184,6 +184,7 @@ public class ReservationDao {
         return reservations;
     }
 
+    //TODO fix query with or remove method
     public void updateIdUser(int idReservation, int newUser) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Reservation\" SET id_user = '%d' WHERE id = '%d'", newUser, idReservation);
@@ -203,6 +204,7 @@ public class ReservationDao {
         }
     }
 
+    //TODO fix query with or remove method
     public void updateNParticipants(int idReservation, int newNumber) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Reservation\" SET n_participants = '%d' WHERE id = '%d'", newNumber, idReservation);

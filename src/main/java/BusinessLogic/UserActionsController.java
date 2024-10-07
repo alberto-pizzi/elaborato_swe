@@ -215,6 +215,10 @@ public class UserActionsController {
         //TODO should getReservation be improved with isConfirmed supporting? (into ReservationDao)
         return reservationDao.getReservationsByUser(this.user.getId());
 
+        //TODO how implement getOwnReservations method without User file inside DB?
+
+
+
     }
     //todo aggiungere uml
     public String getFieldAddress(int fieldId) throws SQLException {
