@@ -2,6 +2,8 @@ package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -12,7 +14,6 @@ import javafx.scene.layout.BorderPane;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
-import main.java.DomainModel.Person;
 import main.java.DomainModel.User;
 
 import java.io.IOException;
@@ -68,6 +69,17 @@ public class ModifyFacilityController {
     @FXML
     void handleConfirmButton(ActionEvent event) {
 
+    }
+
+    @FXML
+    void handleAddManagersButton(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
+        Parent addManagersPane = loader.load();
+
+        AddManagersController addManagersController = loader.getController();
+        addManagersController.setData(facility,this.menuPane);
+
+        menuPane.setCenter(addManagersPane);
     }
 
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {

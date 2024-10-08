@@ -1,10 +1,7 @@
 package main.java.BusinessLogic;
 
 import main.java.DomainModel.*;
-import main.java.ORM.FacilityDAO;
-import main.java.ORM.FieldDao;
-import main.java.ORM.ManagesDAO;
-import main.java.ORM.ReservationDao;
+import main.java.ORM.*;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -126,6 +123,14 @@ public class OwnerManagementController {
 
         return managesDAO.getAllManagersByFacility(facility.getId());
     }
+
+    //todo agiungere a uml
+    public ArrayList<User> getUsersByProvince() throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+
+        return userDAO.getUsersByProvince(owner.getProvince());
+    }
+
 
 
     //FIXME output type?
