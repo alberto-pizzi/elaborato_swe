@@ -72,6 +72,10 @@ public class ModifyFacilityController {
 
     private ArrayList<Field> clickedFields = new ArrayList<>();
 
+    private ArrayList<Label> clickedManagerLabels = new ArrayList<>();
+
+    private ArrayList<Label> clickedFieldLabels = new ArrayList<>();
+
     @FXML
     void handleConfirmButton(ActionEvent event) {
 
@@ -92,9 +96,11 @@ public class ModifyFacilityController {
     void clickManager(User user, Label label){
         if(clickedManagers.contains(user)){
             clickedManagers.remove(user);
+            clickedManagerLabels.remove(label);
             label.setStyle("-fx-background-color: transparent;");
         }else{
             clickedManagers.add(user);
+            clickedManagerLabels.add(label);
             label.setStyle("-fx-background-color: lightblue;");
         }
     }
@@ -103,9 +109,11 @@ public class ModifyFacilityController {
     void clickField(Field field, Label label){
         if(clickedFields.contains(field)){
             clickedFields.remove(field);
+            clickedFieldLabels.remove(label);
             label.setStyle("-fx-background-color: transparent;");
         }else{
             clickedFields.add(field);
+            clickedFieldLabels.add(label);
             label.setStyle("-fx-background-color: lightblue;");
         }
     }
@@ -155,19 +163,24 @@ public class ModifyFacilityController {
 
     @FXML
     void handleDeleteFieldsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        for (User user : clickedManagers) {
-            ownerManagementController.detachManager(user.getId(), facility.getId());
-        }
 
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        fields.getChildren().removeAll(clickedFieldLabels);
         for (Field field : clickedFields) {
             ownerManagementController.deleteField(field.getId());
+            fieldsList.remove(field);
         }
     }
 
     @FXML
-    void handleDeleteManagersButton(ActionEvent event) {
+    void handleDeleteManagersButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        managers.getChildren().removeAll(clickedManagerLabels);
+        for (User user : clickedManagers) {
+            ownerManagementController.detachManager(user.getId(), facility.getId());
+            managersList.remove(user);
+        }
     }
 
 }
