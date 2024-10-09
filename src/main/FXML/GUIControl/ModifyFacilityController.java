@@ -9,7 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
@@ -66,6 +68,10 @@ public class ModifyFacilityController {
 
     private BorderPane menuPane;
 
+    private ArrayList<User> clickedManagers = new ArrayList<>();
+
+    private ArrayList<Field> clickedFields = new ArrayList<>();
+
     @FXML
     void handleConfirmButton(ActionEvent event) {
 
@@ -82,6 +88,28 @@ public class ModifyFacilityController {
         menuPane.setCenter(addManagersPane);
     }
 
+    @FXML
+    void clickManager(User user, Label label){
+        if(clickedManagers.contains(user)){
+            clickedManagers.remove(user);
+            label.setStyle("-fx-background-color: transparent;");
+        }else{
+            clickedManagers.add(user);
+            label.setStyle("-fx-background-color: lightblue;");
+        }
+    }
+
+    @FXML
+    void clickField(Field field, Label label){
+        if(clickedFields.contains(field)){
+            clickedFields.remove(field);
+            label.setStyle("-fx-background-color: transparent;");
+        }else{
+            clickedFields.add(field);
+            label.setStyle("-fx-background-color: lightblue;");
+        }
+    }
+
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
 
         this.facility = facility;
@@ -90,13 +118,21 @@ public class ModifyFacilityController {
         managersList = ownerManagementController.getManagersByFacility(facility);
         fieldsList = ownerManagementController.getFieldsByFacility(facility);
 
-        for (Field f : fieldsList) {
-            Label label = new Label(f.getName());
+        for (Field field : fieldsList) {
+            Label label = new Label(field.getName());
+            label.setOnMouseClicked((MouseEvent event) -> {
+                System.out.println(" clicked!");
+                clickField(field ,label);
+            });
             fields.getChildren().add(label);
         }
 
-        for (User u : managersList) {
-            Label label = new Label(u.getUsername());
+        for (User user : managersList) {
+            Label label = new Label(user.getUsername());
+            label.setOnMouseClicked((MouseEvent event) -> {
+                System.out.println(" clicked!");
+                clickManager(user, label);
+            });
             managers.getChildren().add(label);
         }
 
@@ -115,8 +151,23 @@ public class ModifyFacilityController {
         imageLabel.setImage(image);
 
         this.menuPane = menuPane;
+    }
 
+    @FXML
+    void handleDeleteFieldsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        for (User user : clickedManagers) {
+            ownerManagementController.detachManager(user.getId(), facility.getId());
+        }
 
+        for (Field field : clickedFields) {
+            ownerManagementController.deleteField(field.getId());
+        }
+    }
+
+    @FXML
+    void handleDeleteManagersButton(ActionEvent event) {
 
     }
+
 }

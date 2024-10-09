@@ -42,10 +42,6 @@ public class OwnerManagementController {
 
     public void editFacility(){}
 
-    public void addField(){}
-
-    public void deleteField(){}//todo cambiare
-
     public void editField(){}
 
     public void attachManagerToFacility(){}
@@ -143,7 +139,16 @@ public class OwnerManagementController {
         managesDAO.detachManager(idUser, idFacility);
     }
 
+    //todo agiungere a uml
+    public  void deleteField(int idField) throws SQLException, ClassNotFoundException {
+        FieldDao fieldDao = new FieldDao();
+        fieldDao.deleteField(idField);
+    }
 
+    public  void addField(Field field) throws SQLException, ClassNotFoundException {
+        FieldDao fieldDao = new FieldDao();
+        fieldDao.addField(field);
+    }
 
 
     //FIXME output type?
