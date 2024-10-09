@@ -161,6 +161,7 @@ public class ModifyFacilityController {
         this.menuPane = menuPane;
     }
 
+    //todo controllare parte grafica
     @FXML
     void handleDeleteFieldsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
