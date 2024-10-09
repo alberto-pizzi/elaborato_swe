@@ -3,16 +3,20 @@ package main.FXML.GUIControl;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
+import main.java.DomainModel.Group;
 import main.java.DomainModel.User;
 
 import java.io.IOException;
@@ -82,18 +86,19 @@ public class AddManagersController implements Initializable {
             throw new RuntimeException(e);
         }
         for(int i=0; i < itemsPerPage && i < users.size(); i++){
-            /* FXMLLoader fmxLoader;
+             FXMLLoader fmxLoader;
              fmxLoader = new FXMLLoader();
-             fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+             fmxLoader.setLocation(getClass().getResource("/main/FXML/managerItem.fxml"));
 
-             HBox hBox = fmxLoader.load();
-             FieldItemController fieldItemController = fmxLoader.getController();
-             fieldItemController.setYourHomeController(this);
-             fieldItemController.setData(users.get(i));
-
-             fieldsList.getChildren().add(hBox);
-             */
-            usersList.getChildren().add(new Label(users.get(i).getUsername()));
+            HBox hBox = null;
+            try {
+                hBox = fmxLoader.load();
+                ManagerItemController managerItemController = fmxLoader.getController();
+                managerItemController.setData(users.get(i), this, facility);
+                usersList.getChildren().add(hBox);
+            } catch (IOException | SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         search.setOnKeyPressed(handler);
         String page = String.valueOf(currentPage);
@@ -107,17 +112,19 @@ public class AddManagersController implements Initializable {
             usersList.getChildren().clear();
 
             for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < users.size(); i++) {
-                /* FXMLLoader fmxLoader;
-                 fmxLoader = new FXMLLoader();
-                 fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+                FXMLLoader fmxLoader;
+                fmxLoader = new FXMLLoader();
+                fmxLoader.setLocation(getClass().getResource("/main/FXML/managerItem.fxml"));
 
-                 HBox hBox = fmxLoader.load();
-                 FieldItemController fieldItemController = fmxLoader.getController();
-                 fieldItemController.setYourHomeController(this);
-                 fieldItemController.setData(users.get(i));
-
-                 usersList.getChildren().add(hBox);*/
-                usersList.getChildren().add(new Label(users.get(i).getUsername()));
+                HBox hBox = null;
+                try {
+                    hBox = fmxLoader.load();
+                    ManagerItemController managerItemController = fmxLoader.getController();
+                    managerItemController.setData(users.get(i), this, facility);
+                    usersList.getChildren().add(hBox);
+                } catch (IOException | SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
             currentPage++;
             pageNumber.setText(String.valueOf(currentPage));
@@ -135,19 +142,19 @@ public class AddManagersController implements Initializable {
 
             for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
 
-                /* FXMLLoader fmxLoader;
-                 fmxLoader = new FXMLLoader();
-                 fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+                FXMLLoader fmxLoader;
+                fmxLoader = new FXMLLoader();
+                fmxLoader.setLocation(getClass().getResource("/main/FXML/managerItem.fxml"));
 
-                 HBox hBox = fmxLoader.load();
-                 FieldItemController fieldItemController = fmxLoader.getController();
-                 fieldItemController.setYourHomeController(this);
-                 fieldItemController.setData(fields.get(i));
-
-                 usersList.getChildren().add(hBox);*/
-                usersList.getChildren().add(new Label(users.get(i).getUsername()));
-
-
+                HBox hBox = null;
+                try {
+                    hBox = fmxLoader.load();
+                    ManagerItemController managerItemController = fmxLoader.getController();
+                    managerItemController.setData(users.get(i), this, facility);
+                    usersList.getChildren().add(hBox);
+                } catch (IOException | SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));
@@ -190,5 +197,9 @@ public class AddManagersController implements Initializable {
         System.out.println("search.getText()");
     }
 
+    public void removeUserItemFromGUI(HBox userItemBox, User user) {
+        users.remove(user);
+        usersList.getChildren().remove(userItemBox);
+    }
 
 }

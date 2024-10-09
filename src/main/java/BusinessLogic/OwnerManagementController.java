@@ -131,6 +131,19 @@ public class OwnerManagementController {
         return userDAO.getUsersByProvince(owner.getProvince());
     }
 
+    //todo agiungere a uml
+    public void attachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {
+        ManagesDAO managesDAO = new ManagesDAO();
+        managesDAO.attachManager(idUser, idFacility);
+    }
+
+    //todo agiungere a uml
+    public  void detachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {
+        ManagesDAO managesDAO = new ManagesDAO();
+        managesDAO.detachManager(idUser, idFacility);
+    }
+
+
 
 
     //FIXME output type?
