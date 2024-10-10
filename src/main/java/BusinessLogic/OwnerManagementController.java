@@ -121,24 +121,37 @@ public class OwnerManagementController {
     }
 
     //todo agiungere a uml
-    public ArrayList<User> getUsersByProvince() throws SQLException, ClassNotFoundException {
+    public ArrayList<User> getUsersByProvince(int facilityId) throws SQLException, ClassNotFoundException {
+        ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
+        ManagesDAO managesDAO = new ManagesDAO();
 
-        return userDAO.getUsersByProvince(owner.getProvince());
+        users.addAll(userDAO.getUsersByProvince(owner.getProvince()));
+        users.remove(managesDAO.getAllManagersByFacility(facilityId));
+        return users;
     }
 
     //todo agiungere a uml
-    public ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
+    public ArrayList<User> searchUsersByProvince(String provinceUser, int facilityId) throws SQLException, ClassNotFoundException {
+        ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
+        ManagesDAO managesDAO = new ManagesDAO();
 
-        return userDAO.getUsersByProvinceSearch(provinceUser);
+        users.addAll(userDAO.getUsersByProvinceSearch(provinceUser));
+        users.remove(managesDAO.getAllManagersByFacility(facilityId));
+        return users;
     }
 
     //todo agiungere a uml
-    public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
+    public ArrayList<User> searchUsersByUsername(String searchUsername, int facilityId) throws SQLException, ClassNotFoundException {
 
-        return userDAO.getUsersByUsernameSearch(searchUsername);
+        ArrayList<User> users = new ArrayList<>();
+        UserDAO userDAO = new UserDAO();
+        ManagesDAO managesDAO = new ManagesDAO();
+
+        users.addAll(userDAO.getUsersByUsernameSearch(searchUsername));
+        users.remove(managesDAO.getAllManagersByFacility(facilityId));
+        return users;
     }
 
     //todo agiungere a uml

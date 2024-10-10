@@ -63,25 +63,34 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+            <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="previous" mnemonicParsing="false" onAction="#handlePreviousButton" style="-fx-background-color: transparent;" text="Previous" underline="true">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                     <children>
+                        <Button fx:id="previous" mnemonicParsing="false" onAction="#handlePreviousButton" style="-fx-background-color: transparent;" text="Previous" underline="true">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <Label fx:id="pageNumber" text="Label">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="next" mnemonicParsing="false" onAction="#handleNextButton" style="-fx-background-color: transparent;" text="Next" underline="true">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" prefHeight="41.0" prefWidth="178.0" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Confirm">
                      <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Button>
-                  <Label fx:id="pageNumber" text="Label">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="next" mnemonicParsing="false" onAction="#handleNextButton" style="-fx-background-color: transparent;" text="Next" underline="true">
-                     <font>
-                        <Font size="24.0" />
+                        <Font size="18.0" />
                      </font>
                   </Button>
                </children>
-            </HBox>
+            </VBox>
          </children>
       </VBox>
    </children>

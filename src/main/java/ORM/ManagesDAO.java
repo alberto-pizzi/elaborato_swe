@@ -27,7 +27,7 @@ public class ManagesDAO {
     public void attachManager(int idManager, int idFacility) throws SQLException {
 
 
-        String insertQuerySQL = String.format("INSERT INTO \"Manages\" (id_facility, id_user)) " +
+        String insertQuerySQL = String.format("INSERT INTO \"Manages\" (id_facility, id_user) " +
                 "VALUES ('%d', '%d')", idFacility,idManager);
 
         String updateSQL = String.format("UPDATE \"Facility\" SET n_managers = n_managers + 1 WHERE id = '%d'", idFacility);

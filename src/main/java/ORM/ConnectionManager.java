@@ -28,6 +28,7 @@ public class ConnectionManager {
         if (connection == null)
             try {
                 connection = DriverManager.getConnection(url, username, password);
+                //connection.setAutoCommit(false);
             } catch (SQLException e) {
                 System.err.println("Error: " + e.getMessage());
             }
