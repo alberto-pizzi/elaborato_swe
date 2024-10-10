@@ -10,11 +10,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.OwnerManagementController;
+import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Group;
 import main.java.DomainModel.User;
@@ -71,7 +73,7 @@ public class AddManagersController implements Initializable {
     EventHandler<KeyEvent> handler = new EventHandler<>() {
         @Override
         public void handle(KeyEvent keyEvent) {
-            if (keyEvent.getCode() == KeyCode.ENTER) {
+            if (keyEvent.getCode() != null) {
                 searchButton.fire();
             }
         }
@@ -165,27 +167,28 @@ public class AddManagersController implements Initializable {
     @FXML
     private void handleSearchButton(ActionEvent event){
 
-        /*if(!search.getText().isEmpty()){
+        if(!search.getText().isEmpty()){
             usersList.getChildren().clear();
             currentPage = 1;
             pageNumber.setText(String.valueOf(currentPage));
-            UserActionsController userActionsController = new UserActionsController();
+            OwnerManagementController ownerManagementController = new OwnerManagementController();
             try {
                 users.clear();
-                users.addAll(userActionsController.searchField(search.getText()));
-            } catch (SQLException e) {
+                users.addAll(ownerManagementController.searchUsersByProvince(search.getText()));
+                users.addAll(ownerManagementController.searchUsersByUsername(search.getText()));
+            } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
             for(int i=0; i < itemsPerPage && i < users.size(); i++){
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/managerItem.fxml"));
 
                     HBox hBox = fmxLoader.load();
-                    FieldItemController fieldItemController = fmxLoader.getController();
-                    fieldItemController.setYourHomeController(this);
-                    fieldItemController.setData(users.get(i));
+                    ManagerItemController managerItemController = fmxLoader.getController();
+
+                    managerItemController.setData(users.get(i), this, facility);
 
                     usersList.getChildren().add(hBox);
                 } catch (IOException | SQLException e) {
@@ -194,7 +197,6 @@ public class AddManagersController implements Initializable {
                 }
             }
         }
-    }*/
         System.out.println("search.getText()");
     }
 

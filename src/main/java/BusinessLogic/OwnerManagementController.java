@@ -128,14 +128,14 @@ public class OwnerManagementController {
     }
 
     //todo agiungere a uml
-    public ArrayList<User> getUsersByProvinceSearch(String provinceUser) throws SQLException, ClassNotFoundException {
+    public ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
 
         return userDAO.getUsersByProvinceSearch(provinceUser);
     }
 
     //todo agiungere a uml
-    public ArrayList<User> getUsersByUsernameSearch(String searchUsername) throws SQLException, ClassNotFoundException {
+    public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
 
         return userDAO.getUsersByUsernameSearch(searchUsername);
