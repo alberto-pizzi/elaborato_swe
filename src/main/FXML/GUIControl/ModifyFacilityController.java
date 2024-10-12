@@ -112,6 +112,11 @@ public class ModifyFacilityController {
             clickedFieldLabels.remove(label);
             label.setStyle("-fx-background-color: transparent;");
         }else{
+            for (int i = 0; i < clickedFields.size(); i++){
+                clickedFields.remove(field);
+                clickedFieldLabels.remove(label);
+                label.setStyle("-fx-background-color: transparent;");
+            }
             clickedFields.add(field);
             clickedFieldLabels.add(label);
             label.setStyle("-fx-background-color: lightblue;");
@@ -182,6 +187,16 @@ public class ModifyFacilityController {
             ownerManagementController.detachManager(user.getId(), facility.getId());
             managersList.remove(user);
         }
+    }
+
+    void handleModifyFieldButton(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
+        Parent addManagersPane = loader.load();
+
+        ModifyFieldController modifyFieldController = loader.getController();
+        modifyFieldController.setData(facility, clickedFields.get(0), this.menuPane);
+
+        menuPane.setCenter(addManagersPane);
     }
 
 }
