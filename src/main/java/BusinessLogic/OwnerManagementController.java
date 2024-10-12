@@ -177,6 +177,11 @@ public class OwnerManagementController {
         fieldDao.addField(field);
     }
 
+    public ArrayList<Sport> getSports() throws SQLException {
+        SportDao sportDao = new SportDao();
+        return sportDao.getAllSport();
+    }
+
 
     //FIXME output type?
     public void deleteFacility(int idFacility) throws SQLException {
