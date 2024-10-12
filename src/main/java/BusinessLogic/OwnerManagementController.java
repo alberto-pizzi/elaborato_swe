@@ -191,6 +191,14 @@ public class OwnerManagementController {
         facilityDAO.deleteFacility(idFacility);
     }
 
+    public void updateField(Field field) throws SQLException, ClassNotFoundException {
+        FieldDao fieldDao = new FieldDao();
+        fieldDao.updateName(field.getId(), field.getName());
+        fieldDao.updateDescription(field.getId(), field.getDescription());
+        fieldDao.updatePrice(field.getId(), field.getPrice());
+        fieldDao.updateSport(field.getId(), field.getSport().getId());
+    }
+
 
 
 }

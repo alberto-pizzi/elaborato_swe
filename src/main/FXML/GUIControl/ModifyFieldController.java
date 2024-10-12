@@ -2,6 +2,8 @@ package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -50,17 +52,48 @@ public class ModifyFieldController {
 
     private BorderPane menuPane;
 
-    ArrayList<Sport> sports;
+    ArrayList<Sport> clickedSports = new ArrayList<>();
+    ArrayList<Sport> sports = new ArrayList<>();
 
-    private ArrayList<Label> clickedSports = new ArrayList<>();
+    private ArrayList<Label> clickedSportLabels = new ArrayList<>();
 
     @FXML
-    void handleAddManagersButton(ActionEvent event) {
+    void handleAddSportButton(ActionEvent event) {
+
+       /* FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
+        Parent addManagersPane = loader.load();
+
+        AddManagersController addManagersController = loader.getController();
+        addManagersController.setData(facility,this.menuPane);
+
+        menuPane.setCenter(addManagersPane);*/
 
     }
 
     @FXML
-    void handleConfirmButton(ActionEvent event) {
+    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        field.setSport(clickedSports.get(0));
+        if(!nameInput.getText().equals("")) {
+            field.setName(nameInput.getText());
+        }
+        if(!(priceInput.getText().equals("") || priceInput.getText().equals("$"))) {
+            field.setPrice(Float.parseFloat(priceInput.getText()));
+        }
+        if(!descriptionInput.getText().equals("")) {
+            field.setDescription(descriptionInput.getText());
+        }
+
+        ownerManagementController.updateField(field);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+        Parent facilityModifyPane = loader.load();
+
+        ModifyFacilityController modifyFacilityController = loader.getController();
+        modifyFacilityController.setData(facility, menuPane);
+
+        menuPane.setCenter(facilityModifyPane);
 
     }
 
@@ -72,17 +105,17 @@ public class ModifyFieldController {
     @FXML
     void clickSport(Sport sport, Label label){
         if(clickedSports.contains(sport)){
-            sports.remove(sport);
-            clickedSports.remove(label);
+            clickedSports.remove(sport);
+            clickedSportLabels.remove(label);
             label.setStyle("-fx-background-color: transparent;");
         }else{
-            for (int i = 0; i < sports.size(); i++){
-                sports.remove(sport);
-                clickedSports.remove(label);
+            for (int i = 0; i < clickedSports.size(); i++){
+                clickedSports.remove(sport);
+                clickedSportLabels.remove(label);
                 label.setStyle("-fx-background-color: transparent;");
             }
-            sports.add(sport);
-            clickedSports.add(label);
+            clickedSports.add(sport);
+            clickedSportLabels.add(label);
             label.setStyle("-fx-background-color: lightblue;");
         }
     }

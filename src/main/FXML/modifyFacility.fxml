@@ -188,6 +188,7 @@
                         <HBox alignment="CENTER" prefWidth="180.0" spacing="15.0">
                            <children>
                               <Button mnemonicParsing="false" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Add" />
+                              <Button mnemonicParsing="false" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Modify" />
                               <Button mnemonicParsing="false" onAction="#handleDeleteFieldsButton" styleClass="delete-button-color" stylesheets="@css/style.css" text="Delete" />
                            </children>
                         </HBox>
