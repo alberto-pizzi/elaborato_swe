@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
@@ -34,13 +35,13 @@ public class ModifyFacilityController {
     private TextField countryInput;
 
     @FXML
-    private AnchorPane fields;
+    private VBox fields;
 
     @FXML
     private ImageView imageLabel;
 
     @FXML
-    private AnchorPane managers;
+    private VBox managers;
 
     @FXML
     private Label messageLabel;
@@ -189,6 +190,7 @@ public class ModifyFacilityController {
         }
     }
 
+    @FXML
     void handleModifyFieldButton(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
         Parent addManagersPane = loader.load();

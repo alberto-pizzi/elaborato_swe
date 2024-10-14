@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
@@ -35,7 +36,7 @@ public class ModifyFieldController {
     private ImageView imageLabel;
 
     @FXML
-    private AnchorPane managers;
+    private VBox sportsList;
 
     @FXML
     private Label messageLabel;
@@ -134,7 +135,7 @@ public class ModifyFieldController {
                 System.out.println(" clicked!");
                 clickSport(sport, label);
             });
-            managers.getChildren().add(label);
+            sportsList.getChildren().add(label);
             if (sport.getId() == field.getSport().getId()) {
                 clickSport(sport, label);
             }
