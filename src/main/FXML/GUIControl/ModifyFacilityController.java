@@ -192,11 +192,11 @@ public class ModifyFacilityController {
 
     @FXML
     void handleAddFieldButton(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addField.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
         Parent addFieldPane = loader.load();
 
-        ModifyFieldController modifyFieldController = loader.getController();
-        modifyFieldController.setData(facility, clickedFields.get(0), this.menuPane);
+        NewFieldController newFieldController = loader.getController();
+        newFieldController.setData(facility,this.menuPane);
 
         menuPane.setCenter(addFieldPane);
     }

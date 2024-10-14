@@ -24,7 +24,7 @@ public class FieldDao {
     //methods
     public void addField(Field field) throws SQLException {
 
-        String querySQL = String.format("INSERT INTO \"Field\" (name, id_sport, description, price, image, id_facility)) " +
+        String querySQL = String.format("INSERT INTO \"Field\" (name, id_sport, description, price, image, id_facility) " +
                 "VALUES ('%s', '%d', '%s', '%f', '%s', '%d')", field.getName(), field.getSport().getId(), field.getDescription(),
                 field.getPrice(), field.getImage(), field.getFacility().getId());
 

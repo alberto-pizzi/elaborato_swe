@@ -64,7 +64,8 @@ public class NewFieldController {
 
         if(!nameInput.getText().equals("") && !priceInput.getText().equals("") && clickedSportLabels.size() != 0) {
             field.setName(nameInput.getText());
-            field.setPrice(Float.parseFloat(priceInput.getText()));
+            Float price = Float.parseFloat(priceInput.getText());
+            field.setPrice(price);
             field.setSport(clickedSports.get(0));
             field.setDescription(descriptionInput.getText());
             ownerManagementController.addField(field);
@@ -102,7 +103,7 @@ public class NewFieldController {
         }
     }
 
-    public void setData(Facility facility, Field field, BorderPane menuPane) throws IOException, SQLException {
+    public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
 
         this.facility = facility;
         field.setFacility(facility);
