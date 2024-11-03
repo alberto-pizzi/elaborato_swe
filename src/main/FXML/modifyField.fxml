@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NewFieldController">
+<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ModifyFieldController">
    <children>
       <VBox alignment="CENTER" prefHeight="720.0" prefWidth="1060.0">
          <children>
@@ -81,7 +81,6 @@
                         </ScrollPane>
                         <HBox alignment="CENTER" prefWidth="180.0" spacing="15.0">
                            <children>
-                              <Button mnemonicParsing="false" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Add" />
                               <Button mnemonicParsing="false" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="New" />
                            </children>
                         </HBox>

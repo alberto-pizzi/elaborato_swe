@@ -125,7 +125,6 @@ public class NewFieldController {
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
 
-        //todo aggiungere immagine
         OwnerManagementController ownerManagementController = new OwnerManagementController();
 
         if(!nameInput.getText().equals("") && !priceInput.getText().equals("") && clickedSportLabels.size() != 0) {

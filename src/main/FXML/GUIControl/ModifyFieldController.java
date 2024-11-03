@@ -70,15 +70,15 @@ public class ModifyFieldController {
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
     @FXML
-    void handleAddSportButton(ActionEvent event) {
+    void handleNewSportButton(ActionEvent event) throws IOException {
 
-       /* FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
         Parent addManagersPane = loader.load();
 
         AddManagersController addManagersController = loader.getController();
         addManagersController.setData(facility,this.menuPane);
 
-        menuPane.setCenter(addManagersPane);*/
+        menuPane.setCenter(addManagersPane);
 
     }
 

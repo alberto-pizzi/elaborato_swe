@@ -177,6 +177,11 @@ public class OwnerManagementController {
         fieldDao.addField(field);
     }
 
+    public  void addSport(Sport sport) throws SQLException, ClassNotFoundException {
+        SportDao sportDao = new SportDao();
+        sportDao.addSport(sport.getName(), sport.getPlayersRequired());
+    }
+
     public ArrayList<Sport> getSports() throws SQLException {
         SportDao sportDao = new SportDao();
         return sportDao.getAllSport();
