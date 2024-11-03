@@ -70,7 +70,7 @@ public class ModifyFieldController {
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
     @FXML
-    void handleNewSportButton(ActionEvent event) throws IOException {
+    void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
         Parent addManagersPane = loader.load();

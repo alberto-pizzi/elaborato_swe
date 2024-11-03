@@ -31,13 +31,15 @@ public class NewSportController {
     @FXML
     private TextField playersInput;
 
-    private Sport sport = new Sport();
+    private final Sport sport = new Sport();
 
     private Field field = new Field();
 
     private BorderPane menuPane;
 
     private Facility facility;
+
+    private Boolean newField = false;
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
@@ -46,13 +48,20 @@ public class NewSportController {
             sport.setName(String.valueOf(nameInput));
             sport.setPlayersRequired(Integer.parseInt(String.valueOf(playersInput)));
             ownerManagementController.addSport(sport);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-            Parent facilityModifyPane = loader.load();
+            FXMLLoader loader;
+            if(newField) {
+                loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
+                NewFieldController newFieldController = loader.getController();
+                newFieldController.setData(facility, menuPane);
+            }else {
+                loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
+                ModifyFieldController modifyFieldController = loader.getController();
+                modifyFieldController.setData(facility, field, menuPane);
+            }
 
-            ModifyFacilityController modifyFacilityController = loader.getController();
-            modifyFacilityController.setData(facility, menuPane);
+            Parent fieldPane = loader.load();
 
-            menuPane.setCenter(facilityModifyPane);
+            menuPane.setCenter(fieldPane);
         } else {
             messageLabel.setText("Please enter all the fields");
         }
@@ -63,6 +72,13 @@ public class NewSportController {
         this.field = field;
         this.facility = facility;
         this.menuPane = menuPane;
+    }
+
+    public void setData(Field field, BorderPane menuPane) throws IOException, SQLException {
+
+        this.field = field;
+        this.menuPane = menuPane;
+        newField = true;
     }
 
 }
