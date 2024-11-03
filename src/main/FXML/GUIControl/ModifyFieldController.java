@@ -14,13 +14,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
 import main.java.DomainModel.User;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -28,6 +33,9 @@ public class ModifyFieldController {
 
     @FXML
     private Button confirmButton;
+
+    @FXML
+    private Button uploadButton;
 
     @FXML
     private TextArea descriptionInput;
@@ -57,6 +65,9 @@ public class ModifyFieldController {
     ArrayList<Sport> sports = new ArrayList<>();
 
     private ArrayList<Label> clickedSportLabels = new ArrayList<>();
+    private String imageName;
+
+    FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
     @FXML
     void handleAddSportButton(ActionEvent event) {
@@ -68,6 +79,56 @@ public class ModifyFieldController {
         addManagersController.setData(facility,this.menuPane);
 
         menuPane.setCenter(addManagersPane);*/
+
+    }
+
+    @FXML
+    void handleUploadImageButton(ActionEvent event) {
+
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.setTitle("Select the image you want to upload");
+        fileChooser.setInitialDirectory(new File("C:\\"));
+        fileChooser.getExtensionFilters().add(ex1);
+        File selectedFile = fileChooser.showOpenDialog(menuPane.getScene().getWindow());
+        if (selectedFile != null) {
+            System.out.println("Open File");
+            System.out.println(selectedFile.getPath());
+            File copiedImage = new File( "./src/main/FXML/img/fields"  + selectedFile.getName());
+            imageName = selectedFile.getName();
+
+
+            try {
+                if (copiedImage.createNewFile()) {
+                    System.out.println("File created: " + copiedImage.getName());
+                } else {
+                    System.out.println("File already exists.");
+                }
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+            FileChannel sourceChannel = null;
+            FileChannel destChannel = null;
+            try {
+                sourceChannel = new FileInputStream(selectedFile).getChannel();
+                destChannel = new FileOutputStream(copiedImage).getChannel();
+                destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } finally{
+                try {
+                    assert sourceChannel != null;
+                    sourceChannel.close();
+                    assert destChannel != null;
+                    destChannel.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            Image image = new Image("file:///"+ copiedImage.getPath());
+            imageLabel.setImage(image);
+        }
 
     }
 
@@ -86,6 +147,10 @@ public class ModifyFieldController {
             field.setDescription(descriptionInput.getText());
         }
 
+        if(imageName != null){
+            field.setImage(imageName);
+        }
+
         ownerManagementController.updateField(field);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
@@ -95,11 +160,6 @@ public class ModifyFieldController {
         modifyFacilityController.setData(facility, menuPane);
 
         menuPane.setCenter(facilityModifyPane);
-
-    }
-
-    @FXML
-    void handleDeleteManagersButton(ActionEvent event) {
 
     }
 

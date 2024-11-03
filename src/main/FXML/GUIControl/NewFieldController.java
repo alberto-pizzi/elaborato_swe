@@ -1,8 +1,11 @@
 package main.FXML.GUIControl;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,19 +16,28 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
 
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class NewFieldController {
 
     @FXML
     private Button confirmButton;
+
+    @FXML
+    private Button uploadButton;
 
     @FXML
     private TextArea descriptionInput;
@@ -56,6 +68,60 @@ public class NewFieldController {
 
     private ArrayList<Label> clickedSportLabels = new ArrayList<>();
 
+    private String imageName ;
+
+    FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
+
+    @FXML
+    void handleUploadImageButton(ActionEvent event) {
+
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.setTitle("Select the image you want to upload");
+        fileChooser.setInitialDirectory(new File("C:\\"));
+        fileChooser.getExtensionFilters().add(ex1);
+        File selectedFile = fileChooser.showOpenDialog(menuPane.getScene().getWindow());
+        if (selectedFile != null) {
+            System.out.println("Open File");
+            System.out.println(selectedFile.getPath());
+            File copiedImage = new File( "./src/main/FXML/img/fields"  + selectedFile.getName());
+            imageName = selectedFile.getName();
+
+
+            try {
+                if (copiedImage.createNewFile()) {
+                    System.out.println("File created: " + copiedImage.getName());
+                } else {
+                    System.out.println("File already exists.");
+                }
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+            FileChannel sourceChannel = null;
+            FileChannel destChannel = null;
+            try {
+                sourceChannel = new FileInputStream(selectedFile).getChannel();
+                destChannel = new FileOutputStream(copiedImage).getChannel();
+                destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } finally{
+                try {
+                    assert sourceChannel != null;
+                    sourceChannel.close();
+                    assert destChannel != null;
+                    destChannel.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            Image image = new Image("file:///"+ copiedImage.getPath());
+            imageLabel.setImage(image);
+        }
+
+    }
+
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
 
@@ -68,6 +134,7 @@ public class NewFieldController {
             field.setPrice(price);
             field.setSport(clickedSports.get(0));
             field.setDescription(descriptionInput.getText());
+            field.setImage(imageName);
             ownerManagementController.addField(field);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
             Parent facilityModifyPane = loader.load();
@@ -79,9 +146,6 @@ public class NewFieldController {
         }else {
             messageLabel.setText("Please enter all the fields");
         }
-
-
-
 
     }
 
