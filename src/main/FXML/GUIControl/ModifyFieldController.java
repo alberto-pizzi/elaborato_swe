@@ -94,7 +94,7 @@ public class ModifyFieldController {
         if (selectedFile != null) {
             System.out.println("Open File");
             System.out.println(selectedFile.getPath());
-            File copiedImage = new File( "./src/main/FXML/img/fields"  + selectedFile.getName());
+            File copiedImage = new File( "./src/main/FXML/img/fields/"  + selectedFile.getName());
             imageName = selectedFile.getName();
 
 
