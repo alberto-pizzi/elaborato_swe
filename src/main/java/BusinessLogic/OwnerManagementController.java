@@ -187,6 +187,11 @@ public class OwnerManagementController {
         return sportDao.getAllSport();
     }
 
+    public void addFacility(Facility facility) throws SQLException, ClassNotFoundException {
+        FacilityDAO facilityDao = new FacilityDAO();
+        facility.setOwner(owner);
+        facilityDao.addFacility(facility.getName(), facility.getAddress(), facility.getCity(), facility.getProvince(), facility.getZip(), facility.getCountry(), facility.getTelephone(), facility.getImage(), facility.getOwner().getId());
+    }
 
     //FIXME output type?
     public void deleteFacility(int idFacility) throws SQLException {

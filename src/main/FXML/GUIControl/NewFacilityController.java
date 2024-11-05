@@ -86,13 +86,43 @@ public class NewFacilityController {
 
     @FXML
     void handleAddManagersButton(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
-        Parent addManagersPane = loader.load();
+        //fixme
+        if((!nameInput.getText().equals("")) && (!addressInput.getText().equals("")) && (!provinceInput.getText().equals(""))
+                && (!cityInput.getText().equals("")) && (!countryInput.getText().equals(""))) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
+            Parent addManagersPane = loader.load();
+            AddManagersController addManagersController = loader.getController();
+            addManagersController.setData(facility,this.menuPane);
 
-        AddManagersController addManagersController = loader.getController();
-        addManagersController.setData(facility,this.menuPane);
+            menuPane.setCenter(addManagersPane);
+        }
+    }
 
-        menuPane.setCenter(addManagersPane);
+    @FXML
+    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+
+        if((!nameInput.getText().equals("")) && (!addressInput.getText().equals("")) && (!provinceInput.getText().equals(""))
+                && (!cityInput.getText().equals("")) && (!countryInput.getText().equals(""))) {
+            facility.setName(nameInput.getText());
+            facility.setAddress(addressInput.getText());
+            facility.setProvince(provinceInput.getText());
+            facility.setCity(cityInput.getText());
+            facility.setCountry(countryInput.getText());
+            facility.setTelephone(phoneInput.getText());
+            facility.setZip(zipInput.getText());
+            ownerManagementController.addFacility(facility);
+            //todo
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+            Parent facilityModifyPane = loader.load();
+
+            ModifyFacilityController modifyFacilityController = loader.getController();
+            modifyFacilityController.setData(facility, menuPane);
+
+            menuPane.setCenter(facilityModifyPane);
+        }else {
+            messageLabel.setText("Please enter all the fields");
+        }
     }
 
     @FXML
@@ -131,6 +161,10 @@ public class NewFacilityController {
 
         this.facility = facility;
 
+        this.menuPane = menuPane;
+    }
+
+    public void continueForm(Facility facility) throws SQLException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         managersList = ownerManagementController.getManagersByFacility(facility);
         fieldsList = ownerManagementController.getFieldsByFacility(facility);
@@ -166,14 +200,8 @@ public class NewFacilityController {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
         imageLabel.setImage(image);
-
-        this.menuPane = menuPane;
     }
 
-    @FXML
-    void handleConfirmButton(ActionEvent event) {
-
-    }
 
     //todo controllare parte grafica
     @FXML
