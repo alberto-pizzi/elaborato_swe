@@ -76,7 +76,7 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                            <content>
-                              <VBox fx:id="sportList" prefHeight="200.0" prefWidth="164.0" />
+                              <VBox fx:id="sportsList" prefHeight="200.0" prefWidth="164.0" />
                            </content>
                         </ScrollPane>
                         <HBox alignment="CENTER" prefWidth="180.0" spacing="15.0">
