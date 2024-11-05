@@ -72,7 +72,7 @@ public class NewFieldController {
 
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
-
+//fixme new field non funziona
     @FXML
     void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
 
