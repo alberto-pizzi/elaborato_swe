@@ -99,7 +99,7 @@ public class NewFacilityController {
     }
 
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
 
         if((!nameInput.getText().equals("")) && (!addressInput.getText().equals("")) && (!provinceInput.getText().equals(""))
