@@ -83,7 +83,7 @@ public class NewFieldController {
             field.setName(nameInput.getText());
         }
         if(!priceInput.getText().equals("")){
-            Float price = Float.parseFloat(priceInput.getText());
+            Float price = Float.parseFloat(priceInput.getText().replace("$",""));
             field.setPrice(price);
         }
 
@@ -159,7 +159,7 @@ public class NewFieldController {
 
         if(!nameInput.getText().equals("") && !priceInput.getText().equals("") && clickedSportLabels.size() != 0) {
             field.setName(nameInput.getText());
-            Float price = Float.parseFloat(priceInput.getText());
+            Float price = Float.parseFloat(priceInput.getText().replace("$",""));
             field.setPrice(price);
             field.setSport(clickedSports.get(0));
             field.setDescription(descriptionInput.getText());

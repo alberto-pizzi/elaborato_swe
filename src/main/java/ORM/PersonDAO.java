@@ -40,8 +40,8 @@ public abstract class PersonDAO {
 
         //TODO check not mandatory parameters
 
-        String querySQL = String.format("INSERT INTO \"User\" (email, username, city, province, zip, country, password)) " +
-                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s',)", email, username, city, province, zip, country, password);
+        String querySQL = String.format("INSERT INTO \"User\" (email, username, city, province, zip, country, password) " +
+                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", email, username, city, province, zip, country, password);
 
         PreparedStatement preparedStatement = null;
 

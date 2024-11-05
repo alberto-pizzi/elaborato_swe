@@ -79,7 +79,7 @@ public class ModifyFieldController {
             field.setName(nameInput.getText());
         }
         if(!(priceInput.getText().equals("") || priceInput.getText().equals("$"))) {
-            field.setPrice(Float.parseFloat(priceInput.getText()));
+            field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
         }
         if(!descriptionInput.getText().equals("")) {
             field.setDescription(descriptionInput.getText());
@@ -153,7 +153,7 @@ public class ModifyFieldController {
             field.setName(nameInput.getText());
         }
         if(!(priceInput.getText().equals("") || priceInput.getText().equals("$"))) {
-            field.setPrice(Float.parseFloat(priceInput.getText()));
+            field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
         }
         if(!descriptionInput.getText().equals("")) {
             field.setDescription(descriptionInput.getText());

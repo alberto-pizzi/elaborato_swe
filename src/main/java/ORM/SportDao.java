@@ -25,7 +25,7 @@ public class SportDao {
     //methods
     public void addSport(String name, int playersRequired) throws SQLException {
 
-        String querySQL = String.format("INSERT INTO \"Sport\" (name, players_required)) " +
+        String querySQL = String.format("INSERT INTO \"Sport\" (name, players_required) " +
                 "VALUES ('%s', '%d')", name, playersRequired);
 
         PreparedStatement preparedStatement = null;

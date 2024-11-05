@@ -46,22 +46,25 @@ public class NewSportController {
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
         if (!nameInput.getText().equals("") && !playersInput.getText().equals("")) {
             OwnerManagementController ownerManagementController = new OwnerManagementController();
-            sport.setName(String.valueOf(nameInput));
-            sport.setPlayersRequired(Integer.parseInt(String.valueOf(playersInput)));
+            sport.setName(String.valueOf(nameInput.getText()));
+            sport.setPlayersRequired(Integer.parseInt(playersInput.getText()));
             ownerManagementController.addSport(sport);
             FXMLLoader loader;
+            Parent fieldPane;
             if(newField) {
                 loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
+                fieldPane = loader.load();
                 NewFieldController newFieldController = loader.getController();
                 newFieldController.setData(facility, menuPane);
                 newFieldController.continueForm(field);
             }else {
                 loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
+                fieldPane = loader.load();
                 ModifyFieldController modifyFieldController = loader.getController();
                 modifyFieldController.setData(facility, field, menuPane);
             }
 
-            Parent fieldPane = loader.load();
+
 
             menuPane.setCenter(fieldPane);
         } else {
