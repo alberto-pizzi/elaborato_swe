@@ -75,8 +75,18 @@ public class ModifyFieldController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
         Parent addManagersPane = loader.load();
 
-        AddManagersController addManagersController = loader.getController();
-        addManagersController.setData(facility,this.menuPane);
+        if(!nameInput.getText().equals("")) {
+            field.setName(nameInput.getText());
+        }
+        if(!(priceInput.getText().equals("") || priceInput.getText().equals("$"))) {
+            field.setPrice(Float.parseFloat(priceInput.getText()));
+        }
+        if(!descriptionInput.getText().equals("")) {
+            field.setDescription(descriptionInput.getText());
+        }
+
+        NewSportController newSportController = loader.getController();
+        newSportController.setData(field, facility,this.menuPane);
 
         menuPane.setCenter(addManagersPane);
 
@@ -94,9 +104,8 @@ public class ModifyFieldController {
         if (selectedFile != null) {
             System.out.println("Open File");
             System.out.println(selectedFile.getPath());
-            File copiedImage = new File( "./src/main/FXML/img/fields/"  + selectedFile.getName());
+            File copiedImage = new File( "src/main/FXML/img/fields/"  + selectedFile.getName());
             imageName = selectedFile.getName();
-
 
             try {
                 if (copiedImage.createNewFile()) {
@@ -126,8 +135,11 @@ public class ModifyFieldController {
                     throw new RuntimeException(e);
                 }
             }
-            Image image = new Image("file:///"+ copiedImage.getPath());
+            String pathFromRoot = "/main/FXML/img/fields/";
+            Image image = new Image(getClass().getResourceAsStream(pathFromRoot + copiedImage.getName()));
+
             imageLabel.setImage(image);
+            field.setImage(imageName);
         }
 
     }
@@ -145,10 +157,6 @@ public class ModifyFieldController {
         }
         if(!descriptionInput.getText().equals("")) {
             field.setDescription(descriptionInput.getText());
-        }
-
-        if(imageName != null){
-            field.setImage(imageName);
         }
 
         ownerManagementController.updateField(field);

@@ -54,6 +54,7 @@ public class NewSportController {
                 loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
                 NewFieldController newFieldController = loader.getController();
                 newFieldController.setData(facility, menuPane);
+                newFieldController.continueForm(field);
             }else {
                 loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
                 ModifyFieldController modifyFieldController = loader.getController();

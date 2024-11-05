@@ -72,6 +72,34 @@ public class NewFieldController {
 
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
+
+    @FXML
+    void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
+        Parent addManagersPane = loader.load();
+
+        if(!nameInput.getText().equals("")) {
+            field.setName(nameInput.getText());
+        }
+        if(!priceInput.getText().equals("")){
+            Float price = Float.parseFloat(priceInput.getText());
+            field.setPrice(price);
+        }
+
+        if(clickedSportLabels.size() != 0) {
+            field.setSport(clickedSports.get(0));
+        }
+
+        field.setDescription(descriptionInput.getText());
+
+        NewSportController newSportController = loader.getController();
+        newSportController.setData(field,this.menuPane);
+
+        menuPane.setCenter(addManagersPane);
+
+    }
+
     @FXML
     void handleUploadImageButton(ActionEvent event) {
 
@@ -84,9 +112,8 @@ public class NewFieldController {
         if (selectedFile != null) {
             System.out.println("Open File");
             System.out.println(selectedFile.getPath());
-            File copiedImage = new File( "./src/main/FXML/img/fields/"  + selectedFile.getName());
+            File copiedImage = new File( "src/main/FXML/img/fields/"  + selectedFile.getName());
             imageName = selectedFile.getName();
-
 
             try {
                 if (copiedImage.createNewFile()) {
@@ -116,8 +143,11 @@ public class NewFieldController {
                     throw new RuntimeException(e);
                 }
             }
-            Image image = new Image("file:///"+ copiedImage.getPath());
+            String pathFromRoot = "/main/FXML/img/fields/";
+            Image image = new Image(getClass().getResourceAsStream(pathFromRoot + copiedImage.getName()));
+
             imageLabel.setImage(image);
+            field.setImage(imageName);
         }
 
     }
@@ -133,7 +163,6 @@ public class NewFieldController {
             field.setPrice(price);
             field.setSport(clickedSports.get(0));
             field.setDescription(descriptionInput.getText());
-            field.setImage(imageName);
             ownerManagementController.addField(field);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
             Parent facilityModifyPane = loader.load();
@@ -184,6 +213,17 @@ public class NewFieldController {
         }
 
         this.menuPane = menuPane;
+    }
+
+    public void continueForm(Field field) {
+        nameInput.setText(field.getName());
+        priceInput.setText(field.getPrice() + "$");
+        descriptionInput.setText(field.getDescription());
+
+        String pathFromRoot = "/main/FXML/img/fields/";
+
+        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
+        imageLabel.setImage(image);
     }
 
 }
