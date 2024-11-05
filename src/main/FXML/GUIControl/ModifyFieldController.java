@@ -153,7 +153,9 @@ public class ModifyFieldController {
             field.setName(nameInput.getText());
         }
         if(!(priceInput.getText().equals("") || priceInput.getText().equals("$"))) {
-            field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
+            String price = priceInput.getText().replace("$","");
+            price = price.replace(",", ".");
+            field.setPrice(Float.parseFloat(price));
         }
         if(!descriptionInput.getText().equals("")) {
             field.setDescription(descriptionInput.getText());

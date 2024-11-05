@@ -7,6 +7,7 @@ import main.java.DomainModel.Sport;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class FieldDao {
 
@@ -24,8 +25,8 @@ public class FieldDao {
     //methods
     public void addField(Field field) throws SQLException {
 
-        String querySQL = String.format("INSERT INTO \"Field\" (name, id_sport, description, price, image, id_facility) " +
-                "VALUES ('%s', '%d', '%s', '%f', '%s', '%d')", field.getName(), field.getSport().getId(), field.getDescription(),
+        String querySQL = String.format(Locale.ENGLISH,"INSERT INTO \"Field\" (name, id_sport, description, price, image, id_facility) " +
+                "VALUES ('%s', '%d', '%s', '%.3f', '%s', '%d')", field.getName(), field.getSport().getId(), field.getDescription(),
                 field.getPrice(), field.getImage(), field.getFacility().getId());
 
         PreparedStatement preparedStatement = null;
@@ -146,7 +147,7 @@ public class FieldDao {
 
     public void updatePrice(int idField, float newPrice) throws SQLException {
 
-        String querySQL = String.format("UPDATE \"Field\" SET price = '%f' WHERE id = '%d'", newPrice, idField);
+        String querySQL = String.format(Locale.ENGLISH, "UPDATE \"Field\" SET price = '%.2f' WHERE id = '%d'", newPrice, idField);
 
         PreparedStatement preparedStatement = null;
 
