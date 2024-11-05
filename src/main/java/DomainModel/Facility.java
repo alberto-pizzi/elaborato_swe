@@ -41,6 +41,8 @@ public class Facility {
         this.owner = owner;
     }
 
+    public Facility() {}
+
     // methods
 
     public Owner getOwner() {

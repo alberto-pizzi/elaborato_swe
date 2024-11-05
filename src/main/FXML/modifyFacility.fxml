@@ -207,6 +207,7 @@
                      </VBox.margin>
                   </Label>
                   <ImageView fx:id="imageLabel" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button mnemonicParsing="false" onAction="#handleUploadImageButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Upload image" />
                </children>
             </VBox>
             <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Confrim">
