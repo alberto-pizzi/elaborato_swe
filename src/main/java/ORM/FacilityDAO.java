@@ -224,25 +224,6 @@ public class FacilityDAO {
 
     }
 
-    //TODO check type
-    public void updateDescription(int idFacility, String newDescription) throws SQLException {
-
-        String querySQL = String.format("UPDATE \"Facility\" SET description = '%s' WHERE id = '%d'", newDescription,idFacility);
-
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            preparedStatement.executeUpdate();
-            System.out.println("Facility description updated successfully.");
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-        }
-
-    }
-
     public void updateAddress(int idFacility, String newAddress) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Facility\" SET address = '%s' WHERE id = '%d'", newAddress,idFacility);
@@ -419,6 +400,40 @@ public class FacilityDAO {
         }
 
         return nFields;
+    }
+
+    //todo aggiungere uml
+    public void updateNManagers(int idFacility, int nManagers) throws SQLException {
+        String querySQL = String.format("UPDATE \"Facility\" SET n_managers = '%d' WHERE id = '%d'", nManagers,idFacility);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Facility managers number updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+    }
+
+    //todo aggiungere uml
+    public void updateNFields(int idFacility, int nfields) throws SQLException {
+        String querySQL = String.format("UPDATE \"Facility\" SET n_fields = '%d' WHERE id = '%d'", nfields,idFacility);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Facility managers number updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
     }
 
     public ArrayList<Facility> getFacilitiesByProvince(String provinceTarget) throws SQLException {

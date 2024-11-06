@@ -99,9 +99,8 @@ public class ModifyFacilityController {
             facility.setCountry(countryInput.getText());
             facility.setTelephone(phoneInput.getText());
             facility.setZip(zipInput.getText());
-            facility.setNManager(managersList.size());
             ownerManagementController.updateFacility(facility);
-            //todo
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
             Parent facilitiesList = loader.load();
 
@@ -170,6 +169,7 @@ public class ModifyFacilityController {
                 clickField(field ,label);
             });
             fields.getChildren().add(label);
+            facility.getFields().add(field);
         }
 
         for (User user : managersList) {
@@ -179,6 +179,8 @@ public class ModifyFacilityController {
                 clickManager(user, label);
             });
             managers.getChildren().add(label);
+            facility.setNManager(facility.getNManager()+1);
+
         }
 
         nameInput.setText(facility.getName());
@@ -207,6 +209,7 @@ public class ModifyFacilityController {
         for (Field field : clickedFields) {
             ownerManagementController.deleteField(field.getId());
             fieldsList.remove(field);
+            facility.getFields().remove(field);
         }
     }
 
@@ -218,6 +221,7 @@ public class ModifyFacilityController {
         for (User user : clickedManagers) {
             ownerManagementController.detachManager(user.getId(), facility.getId());
             managersList.remove(user);
+            facility.setNManager(facility.getNManager()-1);
         }
     }
 

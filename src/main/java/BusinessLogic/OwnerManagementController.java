@@ -203,6 +203,8 @@ public class OwnerManagementController {
         facilityDAO.updateCountry(facility.getId(), facility.getCountry());
         facilityDAO.updateTelephone(facility.getId(), facility.getTelephone());
         facilityDAO.updateImage(facility.getId(), facility.getImage());
+        facilityDAO.updateNFields(facility.getId(), facility.getNFields());
+        facilityDAO.updateNManagers(facility.getId(), facility.getNManager());
     }
 
     //FIXME output type?
