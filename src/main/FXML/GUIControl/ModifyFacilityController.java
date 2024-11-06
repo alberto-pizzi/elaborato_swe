@@ -190,7 +190,7 @@ public class ModifyFacilityController {
         phoneInput.setText(facility.getTelephone());
 
 
-        String pathFromRoot = "/main/FXML/img/fields/";
+        String pathFromRoot = "/main/FXML/img/facilities/";
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
         imageLabel.setImage(image);

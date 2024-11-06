@@ -81,8 +81,8 @@ public class NewFacilityController {
             facility.setTelephone(phoneInput.getText());
             facility.setZip(zipInput.getText());
             ownerManagementController.addFacility(facility);
-            //todo
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newFields.fxml"));
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
             Parent newField = loader.load();
 
             NewFieldController newFieldController = loader.getController();

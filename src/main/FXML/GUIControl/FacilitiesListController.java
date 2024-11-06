@@ -159,7 +159,7 @@ public class FacilitiesListController implements Initializable {
 
     @FXML
     public void handleNewFacilityButton(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newfacility.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newFacility.fxml"));
         Parent facilityNewPane = loader.load();
 
         NewFacilityController newFacilityController = loader.getController();
