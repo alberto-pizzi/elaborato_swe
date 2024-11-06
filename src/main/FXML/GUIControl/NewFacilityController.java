@@ -87,6 +87,7 @@ public class NewFacilityController {
 
             NewFieldController newFieldController = loader.getController();
             newFieldController.setData(facility, menuPane);
+            newFieldController.setNewFacility(true);
 
             menuPane.setCenter(newField);
         }else {

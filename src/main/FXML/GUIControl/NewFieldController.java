@@ -70,6 +70,8 @@ public class NewFieldController {
 
     private String imageName ;
 
+    private Boolean newFacility = false;
+
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
 //fixme new field non funziona
@@ -164,13 +166,46 @@ public class NewFieldController {
             field.setSport(clickedSports.get(0));
             field.setDescription(descriptionInput.getText());
             ownerManagementController.addField(field);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-            Parent facilityModifyPane = loader.load();
+            FXMLLoader loader;
+            Parent pane;
+            if(newFacility){
+                loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
+                pane = loader.load();
 
-            ModifyFacilityController modifyFacilityController = loader.getController();
-            modifyFacilityController.setData(facility, menuPane);
+                AddManagersController addManagersController = loader.getController();
+                addManagersController.setData(facility, menuPane);
+            }else{
+                loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+                pane = loader.load();
 
-            menuPane.setCenter(facilityModifyPane);
+                ModifyFacilityController modifyFacilityController = loader.getController();
+                modifyFacilityController.setData(facility, menuPane);
+            }
+
+            menuPane.setCenter(pane);
+        }else {
+            messageLabel.setText("Please enter all the fields");
+        }
+
+    }
+
+    @FXML
+    void handleAnotherFieldButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+
+        if(!nameInput.getText().equals("") && !priceInput.getText().equals("") && clickedSportLabels.size() != 0) {
+            field.setName(nameInput.getText());
+            Float price = Float.parseFloat(priceInput.getText().replace("$",""));
+            field.setPrice(price);
+            field.setSport(clickedSports.get(0));
+            field.setDescription(descriptionInput.getText());
+            ownerManagementController.addField(field);
+            nameInput.setText("");
+            priceInput.setText("");
+            descriptionInput.setText("");
+            imageName = "";
+            field = new Field();
         }else {
             messageLabel.setText("Please enter all the fields");
         }
@@ -226,4 +261,11 @@ public class NewFieldController {
         imageLabel.setImage(image);
     }
 
+    public Boolean getNewFacility() {
+        return newFacility;
+    }
+
+    public void setNewFacility(Boolean newFacility) {
+        this.newFacility = newFacility;
+    }
 }
