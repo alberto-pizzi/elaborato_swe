@@ -84,6 +84,7 @@ public class ModifyFacilityController {
 
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
+    //todo aggiungere ore di lavoro
     @FXML
     void handleConfirmButton(ActionEvent event) throws IOException, SQLException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
