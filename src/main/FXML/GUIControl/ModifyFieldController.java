@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -19,7 +18,6 @@ import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
-import main.java.DomainModel.User;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -75,13 +73,13 @@ public class ModifyFieldController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
         Parent addManagersPane = loader.load();
 
-        if(!nameInput.getText().equals("")) {
+        if(!nameInput.getText().isEmpty()) {
             field.setName(nameInput.getText());
         }
-        if(!(priceInput.getText().equals("") || priceInput.getText().equals("$"))) {
+        if(!(priceInput.getText().isEmpty() || priceInput.getText().equals("$"))) {
             field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
         }
-        if(!descriptionInput.getText().equals("")) {
+        if(!descriptionInput.getText().isEmpty()) {
             field.setDescription(descriptionInput.getText());
         }
 
