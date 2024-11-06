@@ -41,13 +41,8 @@ public class NewFacilityController {
     private TextField countryInput;
 
     @FXML
-    private VBox fields;
-
-    @FXML
     private ImageView imageLabel;
 
-    @FXML
-    private VBox managers;
 
     @FXML
     private Label messageLabel;
@@ -66,37 +61,11 @@ public class NewFacilityController {
 
     private Facility facility = new Facility();;
 
-    ArrayList<User> managersList;
-
-    ArrayList<Field> fieldsList;
-
     private BorderPane menuPane;
-
-    private ArrayList<User> clickedManagers = new ArrayList<>();
-
-    private ArrayList<Field> clickedFields = new ArrayList<>();
-
-    private ArrayList<Label> clickedManagerLabels = new ArrayList<>();
-
-    private ArrayList<Label> clickedFieldLabels = new ArrayList<>();
 
     private String imageName;
 
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
-
-    @FXML
-    void handleAddManagersButton(ActionEvent event) throws IOException, SQLException {
-        //fixme
-        if((!nameInput.getText().equals("")) && (!addressInput.getText().equals("")) && (!provinceInput.getText().equals(""))
-                && (!cityInput.getText().equals("")) && (!countryInput.getText().equals(""))) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
-            Parent addManagersPane = loader.load();
-            AddManagersController addManagersController = loader.getController();
-            addManagersController.setData(facility,this.menuPane);
-
-            menuPane.setCenter(addManagersPane);
-        }
-    }
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
@@ -113,46 +82,15 @@ public class NewFacilityController {
             facility.setZip(zipInput.getText());
             ownerManagementController.addFacility(facility);
             //todo
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-            Parent facilityModifyPane = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newFields.fxml"));
+            Parent newField = loader.load();
 
-            ModifyFacilityController modifyFacilityController = loader.getController();
-            modifyFacilityController.setData(facility, menuPane);
+            NewFieldController newFieldController = loader.getController();
+            newFieldController.setData(facility, menuPane);
 
-            menuPane.setCenter(facilityModifyPane);
+            menuPane.setCenter(newField);
         }else {
             messageLabel.setText("Please enter all the fields");
-        }
-    }
-
-    @FXML
-    void clickManager(User user, Label label){
-        if(clickedManagers.contains(user)){
-            clickedManagers.remove(user);
-            clickedManagerLabels.remove(label);
-            label.setStyle("-fx-background-color: transparent;");
-        }else{
-            clickedManagers.add(user);
-            clickedManagerLabels.add(label);
-            label.setStyle("-fx-background-color: lightblue;");
-        }
-    }
-
-    @FXML
-    void clickField(Field field, Label label){
-        if(clickedFields.contains(field)){
-            clickedFields.remove(field);
-            clickedFieldLabels.remove(label);
-            label.setStyle("-fx-background-color: transparent;");
-        }else{
-            for (int i = 0; i < clickedFields.size(); i++){
-                clickedFields.remove(field);
-                clickedFieldLabels.remove(label);
-                label.setStyle("-fx-background-color: transparent;");
-            }
-            clickedFields.add(field);
-            clickedFieldLabels.add(label);
-            label.setStyle("-fx-background-color: lightblue;");
         }
     }
 
@@ -166,26 +104,6 @@ public class NewFacilityController {
 
     public void continueForm(Facility facility) throws SQLException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
-        managersList = ownerManagementController.getManagersByFacility(facility);
-        fieldsList = ownerManagementController.getFieldsByFacility(facility);
-
-        for (Field field : fieldsList) {
-            Label label = new Label(field.getName());
-            label.setOnMouseClicked((MouseEvent event) -> {
-                System.out.println(" clicked!");
-                clickField(field ,label);
-            });
-            fields.getChildren().add(label);
-        }
-
-        for (User user : managersList) {
-            Label label = new Label(user.getUsername());
-            label.setOnMouseClicked((MouseEvent event) -> {
-                System.out.println(" clicked!");
-                clickManager(user, label);
-            });
-            managers.getChildren().add(label);
-        }
 
         nameInput.setText(facility.getName());
         addressInput.setText(facility.getAddress());
@@ -200,52 +118,6 @@ public class NewFacilityController {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
         imageLabel.setImage(image);
-    }
-
-
-    //todo controllare parte grafica
-    @FXML
-    void handleDeleteFieldsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        fields.getChildren().removeAll(clickedFieldLabels);
-        for (Field field : clickedFields) {
-            ownerManagementController.deleteField(field.getId());
-            fieldsList.remove(field);
-        }
-    }
-
-    @FXML
-    void handleDeleteManagersButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        managers.getChildren().removeAll(clickedManagerLabels);
-        for (User user : clickedManagers) {
-            ownerManagementController.detachManager(user.getId(), facility.getId());
-            managersList.remove(user);
-        }
-    }
-
-    @FXML
-    void handleAddFieldButton(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
-        Parent addFieldPane = loader.load();
-
-        NewFieldController newFieldController = loader.getController();
-        newFieldController.setData(facility,this.menuPane);
-
-        menuPane.setCenter(addFieldPane);
-    }
-
-    @FXML
-    void handleModifyFieldButton(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
-        Parent modifyFieldPane = loader.load();
-
-        ModifyFieldController modifyFieldController = loader.getController();
-        modifyFieldController.setData(facility, clickedFields.get(0), this.menuPane);
-
-        menuPane.setCenter(modifyFieldPane);
     }
 
     @FXML
