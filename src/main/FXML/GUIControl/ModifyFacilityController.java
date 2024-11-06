@@ -88,7 +88,30 @@ public class ModifyFacilityController {
 
     @FXML
     void handleConfirmButton(ActionEvent event) {
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
 
+        if((!nameInput.getText().equals("")) && (!addressInput.getText().equals("")) && (!provinceInput.getText().equals(""))
+                && (!cityInput.getText().equals("")) && (!countryInput.getText().equals(""))) {
+            facility.setName(nameInput.getText());
+            facility.setAddress(addressInput.getText());
+            facility.setProvince(provinceInput.getText());
+            facility.setCity(cityInput.getText());
+            facility.setCountry(countryInput.getText());
+            facility.setTelephone(phoneInput.getText());
+            facility.setZip(zipInput.getText());
+            ownerManagementController.addFacility(facility);
+            //todo
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newFields.fxml"));
+            Parent newField = loader.load();
+
+            NewFieldController newFieldController = loader.getController();
+            newFieldController.setData(facility, menuPane);
+            newFieldController.setNewFacility(true);
+
+            menuPane.setCenter(newField);
+        }else {
+            messageLabel.setText("Please enter all the fields");
+        }
     }
 
     @FXML

@@ -97,6 +97,7 @@ public class NewFieldController {
 
         NewSportController newSportController = loader.getController();
         newSportController.setData(field,this.menuPane);
+        newSportController.setNewFacility(newFacility);
 
         menuPane.setCenter(addManagersPane);
 

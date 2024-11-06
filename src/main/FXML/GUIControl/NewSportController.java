@@ -41,6 +41,8 @@ public class NewSportController {
 
     private Boolean newField = false;
 
+    private Boolean newFacility = false;
+
     //todo da testare e controllare se cancellarli. da controllare che cambio pagina non cancelli dati precedenti
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
@@ -57,6 +59,7 @@ public class NewSportController {
                 NewFieldController newFieldController = loader.getController();
                 newFieldController.setData(facility, menuPane);
                 newFieldController.continueForm(field);
+                newFieldController.setNewFacility(newFacility);
             }else {
                 loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
                 fieldPane = loader.load();
@@ -86,4 +89,11 @@ public class NewSportController {
         newField = true;
     }
 
+    public Boolean getNewFacility() {
+        return newFacility;
+    }
+
+    public void setNewFacility(Boolean newFacility) {
+        this.newFacility = newFacility;
+    }
 }

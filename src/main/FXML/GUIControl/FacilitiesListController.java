@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -154,6 +155,17 @@ public class FacilitiesListController implements Initializable {
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));
         }
+    }
+
+    @FXML
+    public void handleConfirmButton(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newfacility.fxml"));
+        Parent facilityNewPane = loader.load();
+
+        NewFacilityController newFacilityController = loader.getController();
+        newFacilityController.setData(menuPane);
+
+        menuPane.setCenter(facilityNewPane);
     }
 
     public void removeFacilityItemFromGUI(AnchorPane facilityItemPane, Facility facility) {

@@ -95,10 +95,7 @@ public class NewFacilityController {
         }
     }
 
-    //fixme fare in modo da distinguerlo da modify facility e setdata
-    public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
-
-        this.facility = facility;
+    public void setData(BorderPane menuPane) throws IOException, SQLException {
 
         this.menuPane = menuPane;
     }

@@ -59,6 +59,7 @@ public class AddManagersController implements Initializable {
 
     private ArrayList<User> users = new ArrayList<>();
 
+
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
 
         this.facility = facility;
