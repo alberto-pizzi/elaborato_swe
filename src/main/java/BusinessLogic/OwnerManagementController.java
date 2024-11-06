@@ -193,6 +193,18 @@ public class OwnerManagementController {
         facilityDao.addFacility(facility.getName(), facility.getAddress(), facility.getCity(), facility.getProvince(), facility.getZip(), facility.getCountry(), facility.getTelephone(), facility.getImage(), facility.getOwner().getId());
     }
 
+    public void updateFacility(Facility facility) throws SQLException {
+        FacilityDAO facilityDAO = new FacilityDAO();
+        facilityDAO.updateName(facility.getId(), facility.getName());
+        facilityDAO.updateAddress(facility.getId(), facility.getAddress());
+        facilityDAO.updateCity(facility.getId(), facility.getCity());
+        facilityDAO.updateProvince(facility.getId(), facility.getProvince());
+        facilityDAO.updateZip(facility.getId(), facility.getZip());
+        facilityDAO.updateCountry(facility.getId(), facility.getCountry());
+        facilityDAO.updateTelephone(facility.getId(), facility.getTelephone());
+        facilityDAO.updateImage(facility.getId(), facility.getImage());
+    }
+
     //FIXME output type?
     public void deleteFacility(int idFacility) throws SQLException {
 

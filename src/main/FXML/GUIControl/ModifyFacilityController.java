@@ -87,7 +87,7 @@ public class ModifyFacilityController {
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
     @FXML
-    void handleConfirmButton(ActionEvent event) {
+    void handleConfirmButton(ActionEvent event) throws IOException, SQLException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
 
         if((!nameInput.getText().equals("")) && (!addressInput.getText().equals("")) && (!provinceInput.getText().equals(""))
@@ -99,18 +99,17 @@ public class ModifyFacilityController {
             facility.setCountry(countryInput.getText());
             facility.setTelephone(phoneInput.getText());
             facility.setZip(zipInput.getText());
-            ownerManagementController.addFacility(facility);
+            facility.setNManager(managersList.size());
+            ownerManagementController.updateFacility(facility);
             //todo
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newFields.fxml"));
-            Parent newField = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
+            Parent facilitiesList = loader.load();
 
-            NewFieldController newFieldController = loader.getController();
-            newFieldController.setData(facility, menuPane);
-            newFieldController.setNewFacility(true);
+            FacilitiesListController facilitiesListController = loader.getController();
 
-            menuPane.setCenter(newField);
+            menuPane.setCenter(facilitiesList);
         }else {
-            messageLabel.setText("Please enter all the fields");
+            messageLabel.setText("Please check the fields");
         }
     }
 
