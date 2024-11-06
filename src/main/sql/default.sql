@@ -33,9 +33,9 @@ INSERT INTO "Field" (name, id_sport, description, price, image, id_facility) VAL
 ('Campo di Tennis', 2, 'Campo da tennis in terra rossa', 50.00, 'olympicField.jpg', 2);
 
 -- Popola la tabella Reservation
-INSERT INTO "Reservation" (res_date, event_date, res_time, event_time_start, event_time_end, id_field, n_participants, is_confirmed, is_matched, id_user) VALUES
-('2024-09-01', '2024-09-10', '12:00', '18:00', '20:00', 1, 22, TRUE, FALSE, 1),
-('2024-09-01', '2024-09-15', '15:00', '16:00', '18:00', 2, 2, FALSE, FALSE, 2);
+INSERT INTO "Reservation" (res_date, event_date, res_time, event_time_start, event_time_end, id_field, is_confirmed, is_matched) VALUES
+('2024-09-01', '2024-09-10', '12:00', '18:00', '20:00', 1,  TRUE, FALSE),
+('2024-09-01', '2024-09-15', '15:00', '16:00', '18:00', 2,  FALSE, FALSE);
 
 -- Popola la tabella Group
 INSERT INTO "Group" (group_head, participants_required, id_reservation) VALUES
@@ -49,7 +49,7 @@ INSERT INTO "Invite" (id_group, id_user) VALUES
 
 -- Popola la tabella IsPart
 INSERT INTO "IsPart" (id_group, id_user, guest_users) VALUES
-(1, 2, 0),
+(1, 1, 0),
 (2, 3, 1);
 
 -- Popola la tabella Manages

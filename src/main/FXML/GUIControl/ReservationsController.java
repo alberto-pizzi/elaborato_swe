@@ -44,7 +44,7 @@ public class ReservationsController implements Initializable {
 
         try{
 
-            System.out.println(reservations.size());
+            System.out.println("Reservations size: " + reservations.size());
 
             for (int i = 0; i < reservations.size(); i++) {
 
