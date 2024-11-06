@@ -89,8 +89,8 @@ public class ModifyFacilityController {
     void handleConfirmButton(ActionEvent event) throws IOException, SQLException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
 
-        if((!nameInput.getText().equals("")) && (!addressInput.getText().equals("")) && (!provinceInput.getText().equals(""))
-                && (!cityInput.getText().equals("")) && (!countryInput.getText().equals(""))) {
+        if((!nameInput.getText().isEmpty()) && (!addressInput.getText().isEmpty()) && (!provinceInput.getText().isEmpty())
+                && (!cityInput.getText().isEmpty()) && (!countryInput.getText().isEmpty())) {
             facility.setName(nameInput.getText());
             facility.setAddress(addressInput.getText());
             facility.setProvince(provinceInput.getText());
@@ -111,6 +111,7 @@ public class ModifyFacilityController {
         }
     }
 
+    //todo fare in modo non perdere dati form
     @FXML
     void handleAddManagersButton(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));

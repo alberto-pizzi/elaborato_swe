@@ -147,13 +147,13 @@ public class ModifyFieldController {
 
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         field.setSport(clickedSports.get(0));
-        if(!nameInput.getText().equals("")) {
+        if(!nameInput.getText().isEmpty()) {
             field.setName(nameInput.getText());
         }
-        if(!(priceInput.getText().equals("") || priceInput.getText().equals("$"))) {
+        if(!(priceInput.getText().isEmpty() || priceInput.getText().equals("$"))) {
             field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
         }
-        if(!descriptionInput.getText().equals("")) {
+        if(!descriptionInput.getText().isEmpty()) {
             field.setDescription(descriptionInput.getText());
         }
 
