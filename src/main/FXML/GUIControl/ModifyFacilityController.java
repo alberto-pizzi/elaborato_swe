@@ -114,6 +114,25 @@ public class ModifyFacilityController {
     //todo fare in modo non perdere dati form
     @FXML
     void handleAddManagersButton(ActionEvent event) throws IOException, SQLException {
+
+        if(!nameInput.getText().isEmpty()) {
+            facility.setName(nameInput.getText());
+        }
+        if (!addressInput.getText().isEmpty()) {
+            facility.setAddress(addressInput.getText());
+        }
+        if(!provinceInput.getText().isEmpty()) {
+            facility.setProvince(provinceInput.getText());
+        }
+        if(!cityInput.getText().isEmpty()) {
+            facility.setCity(cityInput.getText());
+        }
+        if(!countryInput.getText().isEmpty()) {
+            facility.setCountry(countryInput.getText());
+        }
+            facility.setTelephone(phoneInput.getText());
+            facility.setZip(zipInput.getText());
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
         Parent addManagersPane = loader.load();
 
@@ -227,6 +246,24 @@ public class ModifyFacilityController {
 
     @FXML
     void handleAddFieldButton(ActionEvent event) throws IOException, SQLException {
+        if(!nameInput.getText().isEmpty()) {
+            facility.setName(nameInput.getText());
+        }
+        if (!addressInput.getText().isEmpty()) {
+            facility.setAddress(addressInput.getText());
+        }
+        if(!provinceInput.getText().isEmpty()) {
+            facility.setProvince(provinceInput.getText());
+        }
+        if(!cityInput.getText().isEmpty()) {
+            facility.setCity(cityInput.getText());
+        }
+        if(!countryInput.getText().isEmpty()) {
+            facility.setCountry(countryInput.getText());
+        }
+        facility.setTelephone(phoneInput.getText());
+        facility.setZip(zipInput.getText());
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
         Parent addFieldPane = loader.load();
 
@@ -238,6 +275,24 @@ public class ModifyFacilityController {
 
     @FXML
     void handleModifyFieldButton(ActionEvent event) throws IOException, SQLException {
+        if(!nameInput.getText().isEmpty()) {
+            facility.setName(nameInput.getText());
+        }
+        if (!addressInput.getText().isEmpty()) {
+            facility.setAddress(addressInput.getText());
+        }
+        if(!provinceInput.getText().isEmpty()) {
+            facility.setProvince(provinceInput.getText());
+        }
+        if(!cityInput.getText().isEmpty()) {
+            facility.setCity(cityInput.getText());
+        }
+        if(!countryInput.getText().isEmpty()) {
+            facility.setCountry(countryInput.getText());
+        }
+        facility.setTelephone(phoneInput.getText());
+        facility.setZip(zipInput.getText());
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
         Parent modifyFieldPane = loader.load();
 
