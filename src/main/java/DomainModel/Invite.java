@@ -14,6 +14,9 @@ public class Invite extends Product {
         this.group = group;
     }
 
+    public Invite() {
+    }
+
     // methods
     public int getId() {
         return id;

@@ -5,5 +5,5 @@ abstract class Creator {
 
 
     // methods
-    public abstract Invite factoryMethod();
+    public abstract Product factoryMethod();
 }
