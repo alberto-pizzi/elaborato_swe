@@ -68,20 +68,36 @@ public class UserActionsController {
 
     }
 
-    //FIXME input and output types?
-    public void addReservation(Date eventDate, Time eventTimeStart, float duration, int idField, int nParticipants, boolean isMatched, int idUser ){
+    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int requiredParticipants, boolean isMatched ) throws SQLException {
 
         ReservationDao reservationDao = new ReservationDao();
 
-        //reservationDao.addReservation(new Reservation(eventDate,eventTimeStart,));
+        GroupDao groupDao = new GroupDao();
 
-        //TODO all input parameters are maybe better into ReservationDao? if not, is needed a constructor
+        //TODO add reservation check
+
+        Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field,!isMatched,isMatched);
+
+        reservationDao.addReservation(reservation);
+
+        //group creation
+        groupDao.addGroup(new Group(user,reservation, requiredParticipants));
+
+        if (isMatched) {
+            //TODO add matchmaking and send invite methods
+        }
+
+        //TODO add success or error banner
+
+        System.out.println("Reservation has been added into DB");
 
     }
 
     public void sendInvite(int idInvite){
 
         //TODO how I implement invite creation (in DB)?
+
+
     }
 
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {

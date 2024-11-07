@@ -180,7 +180,8 @@ public class BookFieldController implements Initializable {
 
     private void updateTotalPeople(){
         if (isMatchingCheckBox.isSelected())
-            this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + (nPlayersToMatchChoice.getValue() != null ? nPlayersToMatchChoice.getValue() : 0) + 1;
+            //FIXME counter
+            this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + (nPlayersToMatchChoice.getValue() != null ? nPlayersToMatchChoice.getValue() : field.getSport().getPlayersRequired()) + 1;
         else {
             this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + 1;
         }
@@ -440,11 +441,33 @@ public class BookFieldController implements Initializable {
 
 
     @FXML
-    public void handleConfirmButton(ActionEvent event) {
+    public void handleConfirmButton(ActionEvent event) throws SQLException {
         //TODO finish to implement
         Date eventDate = getDateFromDatePicker(); //TODO check how date format is saved onto DB
         Time eventStartTime = getEventStartTime();
         Time eventEndTime = getEventEndTime();
+
+        UserActionsController userActionsController = new UserActionsController();
+
+        /*
+        int requiredParticipants = ;
+
+        if (isMatchingCheckBox.isSelected()){
+            if (nPlayersToMatchChoice.getValue() == null)
+                requiredParticipants = field.getSport().getPlayersRequired();
+            else
+                requiredParticipants = nPlayersToMatchChoice.getValue();
+        }
+
+         */
+
+
+
+        userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected());
+
+
+
+
 
         if (eventStartTime != null && eventEndTime != null)
             System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
