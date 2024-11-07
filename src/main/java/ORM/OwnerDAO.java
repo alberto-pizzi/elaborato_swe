@@ -75,7 +75,7 @@ public class OwnerDAO extends PersonDAO {
                 String province = resultSet.getString("province");
                 String zip = resultSet.getString("zip");
                 String country = resultSet.getString("country");
-                owner = new Owner(id, email, username, city, province, zip, country, password);
+                owner = new Owner(id, email, username, password, city, province, zip, country);
             }
 
         } catch (SQLException e) {

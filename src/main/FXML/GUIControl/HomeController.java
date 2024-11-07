@@ -69,7 +69,6 @@ public class HomeController implements Initializable {
     }
 
     private List<Field> getData() throws SQLException, ClassNotFoundException {
-        List<Field> fields = new ArrayList<>();
         UserActionsController userActionsController = new UserActionsController();
         return userActionsController.getNearbyFields();
     }

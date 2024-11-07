@@ -1,9 +1,7 @@
 package main.java.BusinessLogic;
 
 import main.java.DomainModel.Owner;
-import main.java.DomainModel.User;
 import main.java.ORM.OwnerDAO;
-import main.java.ORM.UserDAO;
 
 import java.sql.SQLException;
 
@@ -119,7 +117,8 @@ public class OwnerProfileController extends ProfileController {
         System.out.println("Country updated");
     }
 
-    public boolean checkOwnerExistence(String username) throws SQLException, ClassNotFoundException {
+    @Override
+    public boolean checkPersonExistence(String username) throws SQLException, ClassNotFoundException {
         OwnerDAO ownerDAO = new OwnerDAO();
         Owner owner1 = ownerDAO.getOwner(username);
 

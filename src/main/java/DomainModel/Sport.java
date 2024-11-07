@@ -12,6 +12,9 @@ public class Sport {
         this.playersRequired = playersRequired;
     }
 
+    //todo aggoiungere uml
+    public Sport() {}
+
     // methods
     public String getName() {
         return name;

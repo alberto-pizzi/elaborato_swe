@@ -1,0 +1,357 @@
+package main.FXML.GUIControl;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import main.java.BusinessLogic.OwnerManagementController;
+import main.java.DomainModel.Facility;
+import main.java.DomainModel.Field;
+import main.java.DomainModel.User;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+public class ModifyFacilityController {
+
+    @FXML
+    private TextField cityInput;
+
+    @FXML
+    private Button confirmButton;
+
+    @FXML
+    private TextField countryInput;
+
+    @FXML
+    private VBox fields;
+
+    @FXML
+    private ImageView imageLabel;
+
+    @FXML
+    private VBox managers;
+
+    @FXML
+    private Label messageLabel;
+
+    @FXML
+    private TextField nameInput;
+
+    @FXML
+    private TextField phoneInput;
+
+    @FXML
+    private TextField provinceInput;
+
+    @FXML
+    private TextField zipInput;
+
+    @FXML
+    private TextField addressInput;
+
+    private Facility facility;
+
+    ArrayList<User> managersList;
+
+    ArrayList<Field> fieldsList;
+
+    private BorderPane menuPane;
+
+    private ArrayList<User> clickedManagers = new ArrayList<>();
+
+    private ArrayList<Field> clickedFields = new ArrayList<>();
+
+    private ArrayList<Label> clickedManagerLabels = new ArrayList<>();
+
+    private ArrayList<Label> clickedFieldLabels = new ArrayList<>();
+
+    private String imageName;
+
+    FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
+
+    //todo aggiungere ore di lavoro
+    @FXML
+    void handleConfirmButton(ActionEvent event) throws IOException, SQLException {
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+
+        if((!nameInput.getText().isEmpty()) && (!addressInput.getText().isEmpty()) && (!provinceInput.getText().isEmpty())
+                && (!cityInput.getText().isEmpty()) && (!countryInput.getText().isEmpty())) {
+            facility.setName(nameInput.getText());
+            facility.setAddress(addressInput.getText());
+            facility.setProvince(provinceInput.getText());
+            facility.setCity(cityInput.getText());
+            facility.setCountry(countryInput.getText());
+            facility.setTelephone(phoneInput.getText());
+            facility.setZip(zipInput.getText());
+            ownerManagementController.updateFacility(facility);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
+            Parent facilitiesList = loader.load();
+
+            FacilitiesListController facilitiesListController = loader.getController();
+
+            menuPane.setCenter(facilitiesList);
+        }else {
+            messageLabel.setText("Please check the fields");
+        }
+    }
+
+    //todo fare in modo non perdere dati form
+    @FXML
+    void handleAddManagersButton(ActionEvent event) throws IOException, SQLException {
+
+        if(!nameInput.getText().isEmpty()) {
+            facility.setName(nameInput.getText());
+        }
+        if (!addressInput.getText().isEmpty()) {
+            facility.setAddress(addressInput.getText());
+        }
+        if(!provinceInput.getText().isEmpty()) {
+            facility.setProvince(provinceInput.getText());
+        }
+        if(!cityInput.getText().isEmpty()) {
+            facility.setCity(cityInput.getText());
+        }
+        if(!countryInput.getText().isEmpty()) {
+            facility.setCountry(countryInput.getText());
+        }
+            facility.setTelephone(phoneInput.getText());
+            facility.setZip(zipInput.getText());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
+        Parent addManagersPane = loader.load();
+
+        AddManagersController addManagersController = loader.getController();
+        addManagersController.setData(facility,this.menuPane);
+
+        menuPane.setCenter(addManagersPane);
+    }
+
+    @FXML
+    void clickManager(User user, Label label){
+        if(clickedManagers.contains(user)){
+            clickedManagers.remove(user);
+            clickedManagerLabels.remove(label);
+            label.setStyle("-fx-background-color: transparent;");
+        }else{
+            clickedManagers.add(user);
+            clickedManagerLabels.add(label);
+            label.setStyle("-fx-background-color: lightblue;");
+        }
+    }
+
+    @FXML
+    void clickField(Field field, Label label){
+        if(clickedFields.contains(field)){
+            clickedFields.remove(field);
+            clickedFieldLabels.remove(label);
+            label.setStyle("-fx-background-color: transparent;");
+        }else{
+            for (int i = 0; i < clickedFields.size(); i++){
+                clickedFields.remove(field);
+                clickedFieldLabels.remove(label);
+                label.setStyle("-fx-background-color: transparent;");
+            }
+            clickedFields.add(field);
+            clickedFieldLabels.add(label);
+            label.setStyle("-fx-background-color: lightblue;");
+        }
+    }
+
+    public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
+
+        this.facility = facility;
+
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        managersList = ownerManagementController.getManagersByFacility(facility);
+        fieldsList = ownerManagementController.getFieldsByFacility(facility);
+
+        for (Field field : fieldsList) {
+            Label label = new Label(field.getName());
+            label.setOnMouseClicked((MouseEvent event) -> {
+                System.out.println(" clicked!");
+                clickField(field ,label);
+            });
+            fields.getChildren().add(label);
+            facility.getFields().add(field);
+        }
+
+        for (User user : managersList) {
+            Label label = new Label(user.getUsername());
+            label.setOnMouseClicked((MouseEvent event) -> {
+                System.out.println(" clicked!");
+                clickManager(user, label);
+            });
+            managers.getChildren().add(label);
+            facility.setNManager(facility.getNManager()+1);
+
+        }
+
+        nameInput.setText(facility.getName());
+        addressInput.setText(facility.getAddress());
+        cityInput.setText(facility.getCity());
+        zipInput.setText(facility.getZip());
+        countryInput.setText(facility.getCountry());
+        provinceInput.setText(facility.getProvince());
+        phoneInput.setText(facility.getTelephone());
+
+
+        String pathFromRoot = "/main/FXML/img/facilities/";
+
+        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
+        imageLabel.setImage(image);
+
+        this.menuPane = menuPane;
+    }
+
+    //todo controllare parte grafica
+    @FXML
+    void handleDeleteFieldsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        fields.getChildren().removeAll(clickedFieldLabels);
+        for (Field field : clickedFields) {
+            ownerManagementController.deleteField(field.getId());
+            fieldsList.remove(field);
+            facility.getFields().remove(field);
+        }
+    }
+
+    @FXML
+    void handleDeleteManagersButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        managers.getChildren().removeAll(clickedManagerLabels);
+        for (User user : clickedManagers) {
+            ownerManagementController.detachManager(user.getId(), facility.getId());
+            managersList.remove(user);
+            facility.setNManager(facility.getNManager()-1);
+        }
+    }
+
+    @FXML
+    void handleAddFieldButton(ActionEvent event) throws IOException, SQLException {
+        if(!nameInput.getText().isEmpty()) {
+            facility.setName(nameInput.getText());
+        }
+        if (!addressInput.getText().isEmpty()) {
+            facility.setAddress(addressInput.getText());
+        }
+        if(!provinceInput.getText().isEmpty()) {
+            facility.setProvince(provinceInput.getText());
+        }
+        if(!cityInput.getText().isEmpty()) {
+            facility.setCity(cityInput.getText());
+        }
+        if(!countryInput.getText().isEmpty()) {
+            facility.setCountry(countryInput.getText());
+        }
+        facility.setTelephone(phoneInput.getText());
+        facility.setZip(zipInput.getText());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
+        Parent addFieldPane = loader.load();
+
+        NewFieldController newFieldController = loader.getController();
+        newFieldController.setData(facility,this.menuPane);
+
+        menuPane.setCenter(addFieldPane);
+    }
+
+    @FXML
+    void handleModifyFieldButton(ActionEvent event) throws IOException, SQLException {
+        if(!nameInput.getText().isEmpty()) {
+            facility.setName(nameInput.getText());
+        }
+        if (!addressInput.getText().isEmpty()) {
+            facility.setAddress(addressInput.getText());
+        }
+        if(!provinceInput.getText().isEmpty()) {
+            facility.setProvince(provinceInput.getText());
+        }
+        if(!cityInput.getText().isEmpty()) {
+            facility.setCity(cityInput.getText());
+        }
+        if(!countryInput.getText().isEmpty()) {
+            facility.setCountry(countryInput.getText());
+        }
+        facility.setTelephone(phoneInput.getText());
+        facility.setZip(zipInput.getText());
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
+        Parent modifyFieldPane = loader.load();
+
+        ModifyFieldController modifyFieldController = loader.getController();
+        modifyFieldController.setData(facility, clickedFields.get(0), this.menuPane);
+
+        menuPane.setCenter(modifyFieldPane);
+    }
+
+    @FXML
+    void handleUploadImageButton(ActionEvent event) {
+
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.setTitle("Select the image you want to upload");
+        fileChooser.setInitialDirectory(new File("C:\\"));
+        fileChooser.getExtensionFilters().add(ex1);
+        File selectedFile = fileChooser.showOpenDialog(menuPane.getScene().getWindow());
+        if (selectedFile != null) {
+            System.out.println("Open File");
+            System.out.println(selectedFile.getPath());
+            File copiedImage = new File( "src/main/FXML/img/facilities/"  + selectedFile.getName());
+            imageName = selectedFile.getName();
+
+            try {
+                if (copiedImage.createNewFile()) {
+                    System.out.println("File created: " + copiedImage.getName());
+                } else {
+                    System.out.println("File already exists.");
+                }
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+            FileChannel sourceChannel = null;
+            FileChannel destChannel = null;
+            try {
+                sourceChannel = new FileInputStream(selectedFile).getChannel();
+                destChannel = new FileOutputStream(copiedImage).getChannel();
+                destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } finally{
+                try {
+                    assert sourceChannel != null;
+                    sourceChannel.close();
+                    assert destChannel != null;
+                    destChannel.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            String pathFromRoot = "/main/FXML/img/facilities/";
+            Image image = new Image(getClass().getResourceAsStream(pathFromRoot + copiedImage.getName()));
+
+            imageLabel.setImage(image);
+            facility.setImage(imageName);
+        }
+
+    }
+
+}

@@ -40,8 +40,8 @@ public abstract class PersonDAO {
 
         //TODO check not mandatory parameters
 
-        String querySQL = String.format("INSERT INTO \"User\" (email, username, city, province, zip, country, password)) " +
-                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s',)", email, username, city, province, zip, country, password);
+        String querySQL = String.format("INSERT INTO \"User\" (email, username, city, province, zip, country, password) " +
+                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", email, username, city, province, zip, country, password);
 
         PreparedStatement preparedStatement = null;
 
@@ -375,6 +375,43 @@ public abstract class PersonDAO {
         }
 
         return user;
+    }
+
+    //todo aggiungere a uml
+    public ArrayList<User> getUsersByProvince(String provinceUser ) throws SQLException, ClassNotFoundException {
+        //default id (id not found)
+        ArrayList<User> users = new ArrayList<>();
+
+        String querySQL = String.format("SELECT * FROM \"User\" WHERE province = '%s'", provinceUser);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                //TODO optimize redundancy
+                int id = resultSet.getInt("id");
+                String usernameSelected = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String city = resultSet.getString("city");
+                String province = resultSet.getString("province");
+                String zip = resultSet.getString("zip");
+                String country = resultSet.getString("country");
+                users.add(new User(id, email, usernameSelected, password, city, province, zip, country));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return users;
     }
 
     public boolean checkEmailExistence(String emailEntered) throws SQLException{
