@@ -25,7 +25,7 @@ public class InviteDao {
     //todo aggiornare uml tolto id user
     public void addInvite(Invite invite) throws SQLException {
 
-        String querySQL = String.format("INSERT INTO \"Invite\" (id_group, id_user)) " +
+        String querySQL = String.format("INSERT INTO \"Invite\" (id_group, id_user) " +
                 "VALUES ('%d', '%d')", invite.getGroup().getId(), invite.getUser().getId());
 
         PreparedStatement preparedStatement = null;
