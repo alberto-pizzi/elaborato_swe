@@ -64,11 +64,12 @@ public class UserActionsController {
     }
 
     //FIXME input and output types?
-    public void findOtherPlayers(int unknown){
-
+    public ArrayList <User> findOtherPlayers() throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        return userDAO.getUsersByProvince(this.user.getProvince());
     }
 
-    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int requiredParticipants, boolean isMatched ) throws SQLException {
+    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int requiredParticipants, boolean isMatched ) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();
 
@@ -81,9 +82,11 @@ public class UserActionsController {
         reservationDao.addReservation(reservation);
 
         //group creation
-        groupDao.addGroup(new Group(user,reservation, requiredParticipants));
+        Group group = new Group(user,reservation, requiredParticipants);
+        groupDao.addGroup(group);
 
         if (isMatched) {
+            sendInvites(group);
             //TODO add matchmaking and send invite methods
         }
 
@@ -97,10 +100,11 @@ public class UserActionsController {
     public void sendInvites(Group group) throws SQLException, ClassNotFoundException {
 
         InviteSender inviteSender = new InviteSender(group);
-        UserDAO userDAO = new UserDAO();
+
         InviteDao inviteDao = new InviteDao();
-        ArrayList <User> receivers = userDAO.getUsersByProvince(this.user.getProvince());
+        ArrayList <User> receivers = findOtherPlayers();
         Invite invite;
+
         for (User user : receivers) {
             invite = inviteSender.factoryMethod();
             invite.setUser(user);
