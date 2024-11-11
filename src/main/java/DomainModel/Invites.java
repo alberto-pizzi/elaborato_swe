@@ -1,25 +1,28 @@
 package main.java.DomainModel;
 
 
+import java.util.ArrayList;
+
 public class Invites extends Subject {
 
 
     // attributes
-    private Invite[] state; //TODO change to dynamic
-    private Owner owner;
+    private ArrayList<Invite> state; //TODO change to dynamic
+    private User user;
 
     // methods
 
 
-    public Owner getOwner() {
-        return owner;
+    public User getUser() {
+        return user;
     }
 
-    public void setOwner(Owner owner) {
-        this.owner = owner;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Invite[] getState() { return state; }
+    public ArrayList<Invite> getState() { return state; }
 
-    public void setState(Invite[] state) { this.state = state; }   //TODO to check
+    public void setState(ArrayList<Invite> newState) { this.state = newState; }   //TODO to check
+    public void setState(Invite newInvite) { this.state.add(newInvite); }   //TODO to check
 }
