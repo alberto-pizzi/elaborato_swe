@@ -63,7 +63,7 @@ public class UserActionsController {
         managesDAO.detachManager(user.getId(), idFacility);
     }
 
-    //FIXME input and output types?
+    //FIXME input change
     public ArrayList <User> findOtherPlayers() throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
         return userDAO.getUsersByProvince(this.user.getProvince());
