@@ -441,7 +441,7 @@ public class BookFieldController implements Initializable {
 
 
     @FXML
-    public void handleConfirmButton(ActionEvent event) throws SQLException {
+    public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         //TODO finish to implement
         Date eventDate = getDateFromDatePicker(); //TODO check how date format is saved onto DB
         Time eventStartTime = getEventStartTime();
