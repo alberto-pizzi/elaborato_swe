@@ -93,10 +93,21 @@ public class UserActionsController {
 
     }
 
-    public void sendInvite(int idInvite){
+    //todo cambiare uml
+    public void sendInvite(Group group) throws SQLException, ClassNotFoundException {
 
-        //TODO how I implement invite creation (in DB)?
+        InviteSender inviteSender = new InviteSender(group);
+        UserDAO userDAO = new UserDAO();
+        InviteDao inviteDao = new InviteDao();
+        ArrayList <User> receivers = userDAO.getUsersByProvince(this.user.getProvince());
+        Invite invite;
+        for (User user : receivers) {
+            invite = inviteSender.factoryMethod();
+            invite.setUser(user);
+            inviteDao.addInvite(invite);
+        }
 
+        System.out.println("Invites have been sent");
 
     }
 
