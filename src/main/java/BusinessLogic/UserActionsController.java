@@ -94,7 +94,7 @@ public class UserActionsController {
     }
 
     //todo cambiare uml
-    public void sendInvite(Group group) throws SQLException, ClassNotFoundException {
+    public void sendInvites(Group group) throws SQLException, ClassNotFoundException {
 
         InviteSender inviteSender = new InviteSender(group);
         UserDAO userDAO = new UserDAO();
