@@ -274,6 +274,36 @@ public class ModifyFacilityController {
     }
 
     @FXML
+    void handleChangeWorkingHoursButton(ActionEvent event) throws IOException, SQLException {
+
+        if(!nameInput.getText().isEmpty()) {
+            facility.setName(nameInput.getText());
+        }
+        if (!addressInput.getText().isEmpty()) {
+            facility.setAddress(addressInput.getText());
+        }
+        if(!provinceInput.getText().isEmpty()) {
+            facility.setProvince(provinceInput.getText());
+        }
+        if(!cityInput.getText().isEmpty()) {
+            facility.setCity(cityInput.getText());
+        }
+        if(!countryInput.getText().isEmpty()) {
+            facility.setCountry(countryInput.getText());
+        }
+        facility.setTelephone(phoneInput.getText());
+        facility.setZip(zipInput.getText());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newWorkingHours.fxml"));
+        Parent editWorkHours = loader.load();
+
+        NewWorkingHoursController newWorkingHoursController = loader.getController();
+        //newWorkingHoursController.setData(facility,this.menuPane);
+
+        menuPane.setCenter(editWorkHours);
+    }
+
+    @FXML
     void handleModifyFieldButton(ActionEvent event) throws IOException, SQLException {
         if(!nameInput.getText().isEmpty()) {
             facility.setName(nameInput.getText());

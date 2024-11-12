@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NewFieldController">
+<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NewWorkingHoursController">
    <children>
       <VBox alignment="CENTER" prefHeight="720.0" prefWidth="1060.0" spacing="30.0">
          <children>
@@ -81,6 +82,7 @@
                               <Label text="09:30" GridPane.columnIndex="3" />
                            </children>
                         </GridPane>
+                        <CheckBox fx:id="closedMonday" mnemonicParsing="false" text="This day it's closed" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="320.0">
@@ -147,6 +149,7 @@
                               <Label text="09:30" GridPane.columnIndex="3" />
                            </children>
                         </GridPane>
+                        <CheckBox fx:id="closedTuesday" mnemonicParsing="false" text="This day it's closed" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="320.0">
@@ -213,6 +216,7 @@
                               <Label text="09:30" GridPane.columnIndex="3" />
                            </children>
                         </GridPane>
+                        <CheckBox fx:id="closedWednesday" mnemonicParsing="false" text="This day it's closed" />
                      </children>
                   </VBox>
                </children>
@@ -283,6 +287,7 @@
                               <Label text="09:30" GridPane.columnIndex="3" />
                            </children>
                         </GridPane>
+                        <CheckBox fx:id="closedThursday" mnemonicParsing="false" text="This day it's closed" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="320.0">
@@ -349,6 +354,7 @@
                               <Label text="09:30" GridPane.columnIndex="3" />
                            </children>
                         </GridPane>
+                        <CheckBox fx:id="closedFriday" mnemonicParsing="false" text="This day it's closed" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="320.0">
@@ -415,6 +421,7 @@
                               <Label text="09:30" GridPane.columnIndex="3" />
                            </children>
                         </GridPane>
+                        <CheckBox fx:id="closedSaturday" mnemonicParsing="false" text="This day it's closed" />
                      </children>
                   </VBox>
                </children>
@@ -485,6 +492,7 @@
                               <Label text="09:30" GridPane.columnIndex="3" />
                            </children>
                         </GridPane>
+                        <CheckBox fx:id="closedSunday" mnemonicParsing="false" text="This day it's closed" />
                      </children>
                   </VBox>
                </children>
