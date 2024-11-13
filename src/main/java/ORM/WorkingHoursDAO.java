@@ -23,7 +23,7 @@ public class WorkingHoursDAO {
 
     public void addWHToFacility(int idFacility, DayOfWeek dayOfWeek, Time openingHours, Time closingHours) throws SQLException {
 
-        String querySQL = String.format("INSERT INTO \"WH\" (day_of_week, opening, closing, id_facility)) " +
+        String querySQL = String.format("INSERT INTO \"WH\" (day_of_week, opening, closing, id_facility) " +
                 "VALUES ('%s', '%tT', '%tT', '%d')", dayOfWeek.name(), openingHours, closingHours, idFacility);
 
         PreparedStatement preparedStatement = null;

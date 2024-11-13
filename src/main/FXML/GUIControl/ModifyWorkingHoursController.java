@@ -14,10 +14,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
+import main.java.DomainModel.WorkingHours;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -89,7 +91,7 @@ public class ModifyWorkingHoursController implements Initializable {
 
     private BorderPane menuPane;
 
-    void checkHours(String day, ArrayList<Node> hours, GridPane pane) throws SQLException, ClassNotFoundException {
+    void checkHours(String day, ArrayList<Node> hours, GridPane pane) throws SQLException, ClassNotFoundException, ParseException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         Boolean opened = false;
         String openingHours = "";
@@ -113,39 +115,42 @@ public class ModifyWorkingHoursController implements Initializable {
             ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
         }
     }
-    void setData(Facility facility, BorderPane menuPane){
+    void setData(Facility facility, BorderPane menuPane) throws SQLException {
         this.facility = facility;
         this.menuPane = menuPane;
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        ArrayList<WorkingHours> hours = ownerManagementController.getWorkingHours(facility.getId());
+
     }
 
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException, ParseException {
 
-        if (closedMonday.isSelected()) {
+        if (!closedMonday.isSelected()) {
             checkHours("MONDAY", clickedMon, monday);
         }
 
-        if (closedTuesday.isSelected()) {
+        if (!closedTuesday.isSelected()) {
             checkHours("Tuesday", clickedTue, tuesday);
         }
 
-        if (closedWednesday.isSelected()) {
+        if (!closedWednesday.isSelected()) {
             checkHours("Wednesday", clickedWed, wednesday);
         }
 
-        if (closedThursday.isSelected()) {
+        if (!closedThursday.isSelected()) {
             checkHours("Thursday", clickedThu, thursday);
         }
 
-        if (closedFriday.isSelected()) {
+        if (!closedFriday.isSelected()) {
             checkHours("Friday", clickedFri, friday);
         }
 
-        if (closedSaturday.isSelected()) {
+        if (!closedSaturday.isSelected()) {
             checkHours("Saturday", clickedSat, saturday);
         }
 
-        if (closedSunday.isSelected()) {
+        if (!closedSunday.isSelected()) {
             checkHours("Sunday", clickedSun, sunday);
         }
 

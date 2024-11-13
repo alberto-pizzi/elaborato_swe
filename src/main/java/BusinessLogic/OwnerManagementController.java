@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -224,9 +227,15 @@ public class OwnerManagementController {
         fieldDao.updateSport(field.getId(), field.getSport().getId());
     }
 
-    public void addWorkingHours(int idFacility, String openingHour, String closingHour, String day) throws SQLException, ClassNotFoundException {
+    public void addWorkingHours(int idFacility, String openingHour, String closingHour, String day) throws SQLException, ClassNotFoundException, ParseException {
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
-        workingHoursDAO.addWHToFacility(idFacility, DayOfWeek.valueOf(day), Time.valueOf(openingHour), Time.valueOf(closingHour) );
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        workingHoursDAO.addWHToFacility(idFacility, DayOfWeek.valueOf(day), new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
+    }
+
+    public ArrayList<WorkingHours> getWorkingHours(int idFacility) throws SQLException {//todo finire
+        WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
+        return workingHoursDAO.getWHsByFacility(idFacility);
     }
 
 
