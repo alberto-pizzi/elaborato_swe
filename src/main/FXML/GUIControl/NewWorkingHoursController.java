@@ -108,12 +108,12 @@ public class NewWorkingHoursController implements Initializable {
                 ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
             }
         }
-        if (opened = true){
-            opened = false;
+        if (opened){
             closingHours = "24:00";
             ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
         }
     }
+
     void setData(Facility facility, BorderPane menuPane){
         this.facility = facility;
         this.menuPane = menuPane;
