@@ -82,14 +82,13 @@ public class NewFacilityController {
             facility.setZip(zipInput.getText());
             ownerManagementController.addFacility(facility);
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
-            Parent newField = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyWorkingHours.fxml"));
+            Parent editWorkHours = loader.load();
 
-            NewFieldController newFieldController = loader.getController();
-            newFieldController.setData(facility, menuPane);
-            newFieldController.setNewFacility(true);
+            ModifyWorkingHoursController modifyWorkingHoursController = loader.getController();
+            modifyWorkingHoursController.setData(facility,this.menuPane);
 
-            menuPane.setCenter(newField);
+            menuPane.setCenter(editWorkHours);
         }else {
             messageLabel.setText("Please enter all the fields");
         }

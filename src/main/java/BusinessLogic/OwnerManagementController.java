@@ -6,6 +6,8 @@ import main.java.ORM.*;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -207,7 +209,6 @@ public class OwnerManagementController {
         facilityDAO.updateNManagers(facility.getId(), facility.getNManager());
     }
 
-    //FIXME output type?
     public void deleteFacility(int idFacility) throws SQLException {
 
         FacilityDAO facilityDAO = new FacilityDAO();
@@ -221,6 +222,11 @@ public class OwnerManagementController {
         fieldDao.updateDescription(field.getId(), field.getDescription());
         fieldDao.updatePrice(field.getId(), field.getPrice());
         fieldDao.updateSport(field.getId(), field.getSport().getId());
+    }
+
+    public void addWorkingHours(int idFacility, String openingHour, String closingHour, String day) throws SQLException, ClassNotFoundException {
+        WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
+        workingHoursDAO.addWHToFacility(idFacility, DayOfWeek.valueOf(day), Time.valueOf(openingHour), Time.valueOf(closingHour) );
     }
 
 

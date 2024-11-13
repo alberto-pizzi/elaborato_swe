@@ -294,11 +294,11 @@ public class ModifyFacilityController {
         facility.setTelephone(phoneInput.getText());
         facility.setZip(zipInput.getText());
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newWorkingHours.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyWorkingHours.fxml"));
         Parent editWorkHours = loader.load();
 
-        NewWorkingHoursController newWorkingHoursController = loader.getController();
-        //newWorkingHoursController.setData(facility,this.menuPane);
+        ModifyWorkingHoursController modifyWorkingHoursController = loader.getController();
+        modifyWorkingHoursController.setData(facility,this.menuPane);
 
         menuPane.setCenter(editWorkHours);
     }

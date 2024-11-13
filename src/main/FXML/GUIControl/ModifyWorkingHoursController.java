@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class NewWorkingHoursController implements Initializable {
+public class ModifyWorkingHoursController implements Initializable {
 
     @FXML
     private CheckBox closedFriday;
@@ -150,14 +150,15 @@ public class NewWorkingHoursController implements Initializable {
             checkHours("Sunday", clickedSun, sunday);
         }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
-        Parent newField = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+        Parent modifyFacility = loader.load();
 
-        NewFieldController newFieldController = loader.getController();
-        newFieldController.setData(facility, menuPane);
-        newFieldController.setNewFacility(true);
+        ModifyFacilityController modifyFacilityController = loader.getController();
+        modifyFacilityController.setData(facility,this.menuPane);
 
-        menuPane.setCenter(newField);
+        menuPane.setCenter(modifyFacility);
+
+
 
     }
 
