@@ -108,8 +108,7 @@ public class ModifyWorkingHoursController implements Initializable {
                 ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
             }
         }
-        if (opened = true){
-            opened = false;
+        if (opened){
             closingHours = "24:00";
             ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
         }
@@ -157,8 +156,6 @@ public class ModifyWorkingHoursController implements Initializable {
         modifyFacilityController.setData(facility,this.menuPane);
 
         menuPane.setCenter(modifyFacility);
-
-
 
     }
 
