@@ -127,7 +127,7 @@ public class ModifyWorkingHoursController implements Initializable {
                 if (hour.getOpeningHours().toString().equals(tmpLabel.getText())){
                     opened = true;
                     clickHour(hours, node);
-                } else if (!hour.getOpeningHours().toString().equals(tmpLabel.getText()) && opened && !hour.getClosingHours().toString().equals(tmpLabel.getText())){
+                } else if (opened && !hour.getClosingHours().toString().equals(tmpLabel.getText())){
                     clickHour(hours, node);
                 } else if (opened && hour.getClosingHours().toString().equals(tmpLabel.getText())){
                     break;
