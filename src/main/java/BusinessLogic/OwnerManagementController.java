@@ -233,6 +233,16 @@ public class OwnerManagementController {
         workingHoursDAO.addWHToFacility(idFacility, DayOfWeek.valueOf(day), new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
     }
 
+    public void editWorkingHours(WorkingHours workingHours) throws SQLException, ClassNotFoundException, ParseException {
+        WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
+        workingHoursDAO.updateWH(workingHours.getId(), workingHours.getOpeningHours(), workingHours.getClosingHours());
+    }
+
+    public  void deleteWorkingHours(WorkingHours workingHours) throws SQLException, ClassNotFoundException {
+        WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
+        workingHoursDAO.removeWHFromFacility(workingHours.getId());
+    }
+
     public ArrayList<WorkingHours> getWorkingHours(int idFacility) throws SQLException {//todo finire
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
         return workingHoursDAO.getWHsByFacility(idFacility);

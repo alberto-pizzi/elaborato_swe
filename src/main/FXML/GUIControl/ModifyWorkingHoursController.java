@@ -91,6 +91,8 @@ public class ModifyWorkingHoursController implements Initializable {
 
     private BorderPane menuPane;
 
+    private ArrayList<WorkingHours> workingHours;
+
     void checkHours(String day, ArrayList<Node> hours, GridPane pane) throws SQLException, ClassNotFoundException, ParseException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         Boolean opened = false;
@@ -141,9 +143,9 @@ public class ModifyWorkingHoursController implements Initializable {
         this.facility = facility;
         this.menuPane = menuPane;
         OwnerManagementController ownerManagementController = new OwnerManagementController();
-        ArrayList<WorkingHours> hours = ownerManagementController.getWorkingHours(facility.getId());
+        workingHours = ownerManagementController.getWorkingHours(facility.getId());
 
-        for (WorkingHours hour : hours) {
+        for (WorkingHours hour : workingHours) {
             checkInitHours("MONDAY", clickedMon, monday, hour);
             checkInitHours("TUESDAY", clickedTue, tuesday, hour);
             checkInitHours("WEDNESDAY", clickedWed, wednesday, hour);
