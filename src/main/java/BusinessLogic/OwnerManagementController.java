@@ -227,23 +227,23 @@ public class OwnerManagementController {
         fieldDao.updateSport(field.getId(), field.getSport().getId());
     }
 
-    public void addWorkingHours(int idFacility, String openingHour, String closingHour, String day) throws SQLException, ClassNotFoundException, ParseException {
+    public void addWorkingHours(int idFacility, String openingHour, String closingHour, String day) throws SQLException, ParseException {
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
         DateFormat formatter = new SimpleDateFormat("HH:mm");
         workingHoursDAO.addWHToFacility(idFacility, DayOfWeek.valueOf(day), new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
     }
 
-    public void editWorkingHours(WorkingHours workingHours) throws SQLException, ClassNotFoundException, ParseException {
+    public void editWorkingHours(WorkingHours workingHours) throws SQLException {
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
         workingHoursDAO.updateWH(workingHours.getId(), workingHours.getOpeningHours(), workingHours.getClosingHours());
     }
 
-    public  void deleteWorkingHours(WorkingHours workingHours) throws SQLException, ClassNotFoundException {
+    public  void deleteWorkingHours(Facility facility) throws SQLException{
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
-        workingHoursDAO.removeWHFromFacility(workingHours.getId());
+        workingHoursDAO.removeAllWHsByFacility(facility.getId());
     }
 
-    public ArrayList<WorkingHours> getWorkingHours(int idFacility) throws SQLException {//todo finire
+    public ArrayList<WorkingHours> getWorkingHours(int idFacility) throws SQLException {
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
         return workingHoursDAO.getWHsByFacility(idFacility);
     }

@@ -25,6 +25,8 @@ public class WorkingHours {
         this.closingHours = closingHours;
     }
 
+    public WorkingHours() {}
+
 
     //getter
 

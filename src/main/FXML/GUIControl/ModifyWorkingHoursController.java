@@ -93,6 +93,8 @@ public class ModifyWorkingHoursController implements Initializable {
 
     private ArrayList<WorkingHours> workingHours;
 
+    Boolean changed = false;
+
     void checkHours(String day, ArrayList<Node> hours, GridPane pane) throws SQLException, ClassNotFoundException, ParseException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         Boolean opened = false;
@@ -119,6 +121,7 @@ public class ModifyWorkingHoursController implements Initializable {
     }
 
     void checkInitHours(String day, ArrayList<Node> hours, GridPane pane, WorkingHours hour) {
+
         Label tmpLabel;
         Boolean opened = false;
 
@@ -137,9 +140,10 @@ public class ModifyWorkingHoursController implements Initializable {
             }
 
         }
+
     }
 
-    void setData(Facility facility, BorderPane menuPane) throws SQLException {
+    void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException {
         this.facility = facility;
         this.menuPane = menuPane;
         OwnerManagementController ownerManagementController = new OwnerManagementController();
@@ -160,33 +164,41 @@ public class ModifyWorkingHoursController implements Initializable {
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException, ParseException {
 
-        if (!closedMonday.isSelected()) {
-            checkHours("MONDAY", clickedMon, monday);
+        if(changed){
+
+            OwnerManagementController ownerManagementController = new OwnerManagementController();
+            ownerManagementController.deleteWorkingHours(facility);
+
+            if (!closedMonday.isSelected()) {
+                checkHours("MONDAY", clickedMon, monday);
+            }
+
+            if (!closedTuesday.isSelected()) {
+                checkHours("Tuesday", clickedTue, tuesday);
+            }
+
+            if (!closedWednesday.isSelected()) {
+                checkHours("Wednesday", clickedWed, wednesday);
+            }
+
+            if (!closedThursday.isSelected()) {
+                checkHours("Thursday", clickedThu, thursday);
+            }
+
+            if (!closedFriday.isSelected()) {
+                checkHours("Friday", clickedFri, friday);
+            }
+
+            if (!closedSaturday.isSelected()) {
+                checkHours("Saturday", clickedSat, saturday);
+            }
+
+            if (!closedSunday.isSelected()) {
+                checkHours("Sunday", clickedSun, sunday);
+            }
+
         }
 
-        if (!closedTuesday.isSelected()) {
-            checkHours("Tuesday", clickedTue, tuesday);
-        }
-
-        if (!closedWednesday.isSelected()) {
-            checkHours("Wednesday", clickedWed, wednesday);
-        }
-
-        if (!closedThursday.isSelected()) {
-            checkHours("Thursday", clickedThu, thursday);
-        }
-
-        if (!closedFriday.isSelected()) {
-            checkHours("Friday", clickedFri, friday);
-        }
-
-        if (!closedSaturday.isSelected()) {
-            checkHours("Saturday", clickedSat, saturday);
-        }
-
-        if (!closedSunday.isSelected()) {
-            checkHours("Sunday", clickedSun, sunday);
-        }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
         Parent modifyFacility = loader.load();
@@ -200,6 +212,7 @@ public class ModifyWorkingHoursController implements Initializable {
 
     @FXML
     void clickHour(ArrayList<Node> array, Node node){
+        changed = true;
         if(array.contains(node)){
             array.remove(node);
             node.setStyle("-fx-background-color: transparent;");
