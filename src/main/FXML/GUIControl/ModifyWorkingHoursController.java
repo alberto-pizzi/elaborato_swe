@@ -115,11 +115,43 @@ public class ModifyWorkingHoursController implements Initializable {
             ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
         }
     }
+
+    void checkInitHours(String day, ArrayList<Node> hours, GridPane pane, WorkingHours hour) {
+        Label tmpLabel;
+        Boolean opened = false;
+
+        if (hour.getDayOfWeek().toString().equals(day)){
+
+            for (Node node : pane.getChildren()){
+                tmpLabel = (Label) node;
+                if (hour.getOpeningHours().toString().equals(tmpLabel.getText())){
+                    opened = true;
+                    clickHour(hours, node);
+                } else if (!hour.getOpeningHours().toString().equals(tmpLabel.getText()) && opened && !hour.getClosingHours().toString().equals(tmpLabel.getText())){
+                    clickHour(hours, node);
+                } else if (opened && hour.getClosingHours().toString().equals(tmpLabel.getText())){
+                    break;
+                }
+            }
+
+        }
+    }
+
     void setData(Facility facility, BorderPane menuPane) throws SQLException {
         this.facility = facility;
         this.menuPane = menuPane;
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         ArrayList<WorkingHours> hours = ownerManagementController.getWorkingHours(facility.getId());
+
+        for (WorkingHours hour : hours) {
+            checkInitHours("MONDAY", clickedMon, monday, hour);
+            checkInitHours("TUESDAY", clickedTue, tuesday, hour);
+            checkInitHours("WEDNESDAY", clickedWed, wednesday, hour);
+            checkInitHours("THURSDAY", clickedThu, thursday, hour);
+            checkInitHours("FRIDAY", clickedFri, friday, hour);
+            checkInitHours("SATURDAY", clickedSat, saturday, hour);
+            checkInitHours("SUNDAY", clickedSun, sunday, hour);
+        }
 
     }
 
