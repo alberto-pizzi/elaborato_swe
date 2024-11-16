@@ -164,7 +164,6 @@ public class AddManagersController implements Initializable {
         }
     }
 
-    //todo implementare ricerca
     @FXML
     private void handleSearchButton(ActionEvent event){
 

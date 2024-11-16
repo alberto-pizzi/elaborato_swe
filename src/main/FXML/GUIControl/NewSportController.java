@@ -43,7 +43,6 @@ public class NewSportController {
 
     private Boolean newFacility = false;
 
-    //todo da testare e controllare se cancellarli. da controllare che cambio pagina non cancelli dati precedenti
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
         if (!nameInput.getText().equals("") && !playersInput.getText().equals("")) {

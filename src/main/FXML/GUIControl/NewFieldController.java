@@ -67,7 +67,7 @@ public class NewFieldController {
 
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
-//fixme new field non funziona
+
     @FXML
     void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
 
@@ -105,6 +105,7 @@ public class NewFieldController {
         fileChooser.setInitialDirectory(new File("C:\\"));
         fileChooser.getExtensionFilters().add(ex1);
         File selectedFile = fileChooser.showOpenDialog(menuPane.getScene().getWindow());
+
         if (selectedFile != null) {
             System.out.println("Open File");
             System.out.println(selectedFile.getPath());
@@ -162,6 +163,7 @@ public class NewFieldController {
             ownerManagementController.addField(field);
             FXMLLoader loader;
             Parent pane;
+
             if(newFacility){
                 loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
                 pane = loader.load();

@@ -55,7 +55,6 @@ public class FacilityItemController {
         this.facilitiesListController = facilitiesListController;
     }
 
-    //Todo implement
     @FXML
     void handleDeleteFacilityButton(ActionEvent event) throws SQLException {
         System.out.println("Leave button clicked: " + facilityNameLabel.getText());
@@ -89,8 +88,7 @@ public class FacilityItemController {
         managersLabel.setText(String.format("%d",facility.getNManager()));
         fieldsLabel.setText(String.format("%d",facility.getNFields()));
 
-        //Todo mettere immagine facility
-        String pathFromRoot = "/main/FXML/img/fields/";
+        String pathFromRoot = "/main/FXML/img/facilities/";
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
         fieldImg.setImage(image);

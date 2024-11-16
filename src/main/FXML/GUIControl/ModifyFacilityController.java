@@ -84,7 +84,6 @@ public class ModifyFacilityController {
 
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
-    //todo aggiungere ore di lavoro
     @FXML
     void handleConfirmButton(ActionEvent event) throws IOException, SQLException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
@@ -111,7 +110,6 @@ public class ModifyFacilityController {
         }
     }
 
-    //todo fare in modo non perdere dati form
     @FXML
     void handleAddManagersButton(ActionEvent event) throws IOException, SQLException {
 
@@ -219,7 +217,6 @@ public class ModifyFacilityController {
         this.menuPane = menuPane;
     }
 
-    //todo controllare parte grafica
     @FXML
     void handleDeleteFieldsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
@@ -274,7 +271,7 @@ public class ModifyFacilityController {
     }
 
     @FXML
-    void handleChangeWorkingHoursButton(ActionEvent event) throws IOException, SQLException {
+    void handleChangeWorkingHoursButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
         if(!nameInput.getText().isEmpty()) {
             facility.setName(nameInput.getText());
