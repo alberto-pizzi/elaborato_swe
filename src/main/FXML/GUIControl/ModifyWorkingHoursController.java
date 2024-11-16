@@ -93,7 +93,21 @@ public class ModifyWorkingHoursController implements Initializable {
 
     private ArrayList<WorkingHours> workingHours;
 
-    Boolean changed = false;
+    private Boolean changed = false;
+
+    private Boolean mondayChanged = false;
+
+    private Boolean tuesdayChanged = false;
+
+    private Boolean wednesdayChanged = false;
+
+    private Boolean thursdayChanged = false;
+
+    private Boolean fridayChanged = false;
+
+    private Boolean saturdayChanged = false;
+
+    private Boolean sundayChanged = false;
 
     void checkHours(String day, ArrayList<Node> hours, GridPane pane) throws SQLException, ClassNotFoundException, ParseException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
@@ -167,33 +181,39 @@ public class ModifyWorkingHoursController implements Initializable {
         if(changed){
 
             OwnerManagementController ownerManagementController = new OwnerManagementController();
-            ownerManagementController.deleteWorkingHours(facility);
 
-            if (!closedMonday.isSelected()) {
+            if (!closedMonday.isSelected() && mondayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, "MONDAY");
                 checkHours("MONDAY", clickedMon, monday);
             }
 
-            if (!closedTuesday.isSelected()) {
+            if (!closedTuesday.isSelected() && tuesdayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, "TUESDAY");
                 checkHours("Tuesday", clickedTue, tuesday);
             }
 
-            if (!closedWednesday.isSelected()) {
+            if (!closedWednesday.isSelected() && wednesdayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, "WEDNESDAY");
                 checkHours("Wednesday", clickedWed, wednesday);
             }
 
-            if (!closedThursday.isSelected()) {
+            if (!closedThursday.isSelected() && thursdayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, "THURSDAY");
                 checkHours("Thursday", clickedThu, thursday);
             }
 
-            if (!closedFriday.isSelected()) {
+            if (!closedFriday.isSelected() && fridayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, "FRIDAY");
                 checkHours("Friday", clickedFri, friday);
             }
 
-            if (!closedSaturday.isSelected()) {
+            if (!closedSaturday.isSelected() && saturdayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, "SATURDAY");
                 checkHours("Saturday", clickedSat, saturday);
             }
 
-            if (!closedSunday.isSelected()) {
+            if (!closedSunday.isSelected() && sundayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, "SUNDAY");
                 checkHours("Sunday", clickedSun, sunday);
             }
 
@@ -229,6 +249,7 @@ public class ModifyWorkingHoursController implements Initializable {
             node.setOnMouseClicked((MouseEvent event) -> {
                 System.out.println(" clicked!");
                 clickHour(clickedMon ,node);
+                mondayChanged = true;
             });
         }
 
@@ -236,6 +257,7 @@ public class ModifyWorkingHoursController implements Initializable {
             node.setOnMouseClicked((MouseEvent event) -> {
                 System.out.println(" clicked!");
                 clickHour(clickedTue ,node);
+                tuesdayChanged = true;
             });
         }
 
@@ -243,6 +265,7 @@ public class ModifyWorkingHoursController implements Initializable {
             node.setOnMouseClicked((MouseEvent event) -> {
                 System.out.println(" clicked!");
                 clickHour(clickedWed ,node);
+                wednesdayChanged = true;
             });
         }
 
@@ -250,6 +273,7 @@ public class ModifyWorkingHoursController implements Initializable {
             node.setOnMouseClicked((MouseEvent event) -> {
                 System.out.println(" clicked!");
                 clickHour(clickedThu ,node);
+                thursdayChanged = true;
             });
         }
 
@@ -257,6 +281,7 @@ public class ModifyWorkingHoursController implements Initializable {
             node.setOnMouseClicked((MouseEvent event) -> {
                 System.out.println(" clicked!");
                 clickHour(clickedFri ,node);
+                fridayChanged = true;
             });
         }
 
@@ -264,6 +289,7 @@ public class ModifyWorkingHoursController implements Initializable {
             node.setOnMouseClicked((MouseEvent event) -> {
                 System.out.println(" clicked!");
                 clickHour(clickedSat ,node);
+                saturdayChanged = true;
             });
         }
 
@@ -271,6 +297,7 @@ public class ModifyWorkingHoursController implements Initializable {
             node.setOnMouseClicked((MouseEvent event) -> {
                 System.out.println(" clicked!");
                 clickHour(clickedSun ,node);
+                sundayChanged = true;
             });
         }
     }

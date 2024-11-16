@@ -243,6 +243,11 @@ public class OwnerManagementController {
         workingHoursDAO.removeAllWHsByFacility(facility.getId());
     }
 
+    public  void deleteWorkingHoursByDay(Facility facility, String day) throws SQLException{
+        WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
+        workingHoursDAO.removeWHFromFacilityByDay(facility.getId(), DayOfWeek.valueOf(day));
+    }
+
     public ArrayList<WorkingHours> getWorkingHours(int idFacility) throws SQLException {
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
         return workingHoursDAO.getWHsByFacility(idFacility);
