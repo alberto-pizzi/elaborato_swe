@@ -325,7 +325,6 @@ public class ReservationDao {
         return earning;
     }
 
-    //todo aggiungere a uml
     public int dailyReservations(Date date, Owner owner) throws SQLException {
 
         int number = 0;

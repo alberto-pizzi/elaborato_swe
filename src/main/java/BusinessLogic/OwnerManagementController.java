@@ -125,7 +125,6 @@ public class OwnerManagementController {
         return managesDAO.getAllManagersByFacility(facility.getId());
     }
 
-    //todo agiungere a uml
     public ArrayList<User> getUsersByProvince(int facilityId) throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
@@ -136,7 +135,6 @@ public class OwnerManagementController {
         return users;
     }
 
-    //todo agiungere a uml
     public ArrayList<User> searchUsersByProvince(String provinceUser, int facilityId) throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
@@ -147,7 +145,6 @@ public class OwnerManagementController {
         return users;
     }
 
-    //todo agiungere a uml
     public ArrayList<User> searchUsersByUsername(String searchUsername, int facilityId) throws SQLException, ClassNotFoundException {
 
         ArrayList<User> users = new ArrayList<>();
@@ -159,19 +156,16 @@ public class OwnerManagementController {
         return users;
     }
 
-    //todo agiungere a uml
     public void attachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {
         ManagesDAO managesDAO = new ManagesDAO();
         managesDAO.attachManager(idUser, idFacility);
     }
 
-    //todo agiungere a uml
     public  void detachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {
         ManagesDAO managesDAO = new ManagesDAO();
         managesDAO.detachManager(idUser, idFacility);
     }
 
-    //todo agiungere a uml
     public  void deleteField(int idField) throws SQLException, ClassNotFoundException {
         FieldDao fieldDao = new FieldDao();
         fieldDao.deleteField(idField);

@@ -306,7 +306,7 @@ public class FieldDao {
 
         return fields;
     }
-    //todo aggiungere uml
+
     public ArrayList<Field> getFieldsByName(String searchName) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
         Sport sport = null;
@@ -425,7 +425,6 @@ public class FieldDao {
         return fields;
     }
 
-    //todo aggiungere a uml
     public ArrayList<Field> getFieldsByOwner(Owner owner) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
         Sport sport = null;
@@ -464,7 +463,6 @@ public class FieldDao {
         return fields;
     }
 
-    //todo aggiungere a uml
     public int reservedFields(Date date, Owner owner) throws SQLException {
 
         int number = 0;
@@ -489,7 +487,6 @@ public class FieldDao {
         return number;
     }
 
-    //todo aggiungere uml
     public String getFieldAddress(int fieldId) throws SQLException {
 
         String address = null;

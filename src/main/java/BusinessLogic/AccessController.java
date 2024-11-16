@@ -4,7 +4,7 @@ import main.java.DomainModel.Person;
 
 import java.sql.SQLException;
 
-//fixme mi torna poco l'utilizzo di un'intera classe solo per questo
+
 public class AccessController {
     // attributes
     private AccessStrategy accessStrategy;

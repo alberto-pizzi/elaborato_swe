@@ -7,7 +7,7 @@ public class Invites extends Subject {
 
 
     // attributes
-    private ArrayList<Invite> state; //TODO change to dynamic
+    private ArrayList<Invite> state;
     private User user;
 
     // methods
@@ -23,6 +23,6 @@ public class Invites extends Subject {
 
     public ArrayList<Invite> getState() { return state; }
 
-    public void setState(ArrayList<Invite> newState) { this.state = newState; }   //TODO to check
-    public void setState(Invite newInvite) { this.state.add(newInvite); }   //TODO to check
+    public void setState(ArrayList<Invite> newState) { this.state = newState; }
+    public void setState(Invite newInvite) { this.state.add(newInvite); }
 }
