@@ -19,7 +19,9 @@ import main.java.DomainModel.WorkingHours;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -109,7 +111,8 @@ public class ModifyWorkingHoursController implements Initializable {
 
     private Boolean sundayChanged = false;
 
-    void checkHours(String day, ArrayList<Node> hours, GridPane pane) throws SQLException, ClassNotFoundException, ParseException {
+    void checkHours(String day, ArrayList<Node> hours, GridPane pane) throws SQLException, ParseException {
+
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         Boolean opened = false;
         String openingHours = "";
@@ -134,21 +137,23 @@ public class ModifyWorkingHoursController implements Initializable {
         }
     }
 
-    void checkInitHours(String day, ArrayList<Node> hours, GridPane pane, WorkingHours hour) {
+    void checkInitHours(String day, ArrayList<Node> hours, GridPane pane, WorkingHours hour) throws ParseException {
 
         Label tmpLabel;
         Boolean opened = false;
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+
 
         if (hour.getDayOfWeek().toString().equals(day)){
 
             for (Node node : pane.getChildren()){
                 tmpLabel = (Label) node;
-                if (hour.getOpeningHours().toString().equals(tmpLabel.getText())){
+                if (hour.getOpeningHours().equals(new java.sql.Time(formatter.parse(tmpLabel.getText()).getTime()))){
                     opened = true;
                     clickHour(hours, node);
-                } else if (opened && !hour.getClosingHours().toString().equals(tmpLabel.getText())){
+                } else if (opened && !hour.getClosingHours().equals(new java.sql.Time(formatter.parse(tmpLabel.getText()).getTime()))){
                     clickHour(hours, node);
-                } else if (opened && hour.getClosingHours().toString().equals(tmpLabel.getText())){
+                } else if (opened && hour.getClosingHours().equals(new java.sql.Time(formatter.parse(tmpLabel.getText()).getTime()))){
                     break;
                 }
             }
@@ -157,7 +162,8 @@ public class ModifyWorkingHoursController implements Initializable {
 
     }
 
-    void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException {
+    void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException, ParseException {
+
         this.facility = facility;
         this.menuPane = menuPane;
         OwnerManagementController ownerManagementController = new OwnerManagementController();

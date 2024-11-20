@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class ModifyFacilityController {
@@ -268,7 +269,7 @@ public class ModifyFacilityController {
     }
 
     @FXML
-    void handleChangeWorkingHoursButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    void handleChangeWorkingHoursButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException, ParseException {
 
         fieldChecker();
 
