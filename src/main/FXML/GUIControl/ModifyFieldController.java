@@ -147,6 +147,7 @@ public class ModifyFieldController {
 
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         field.setSport(clickedSports.get(0));
+
         if(!nameInput.getText().isEmpty()) {
             field.setName(nameInput.getText());
         }
