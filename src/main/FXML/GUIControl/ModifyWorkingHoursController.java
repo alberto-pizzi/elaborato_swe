@@ -95,7 +95,7 @@ public class ModifyWorkingHoursController implements Initializable {
 
     private ArrayList<WorkingHours> workingHours;
 
-    private Boolean changed = false;
+    //private Boolean changed = false;
 
     private Boolean mondayChanged = false;
 
@@ -184,46 +184,58 @@ public class ModifyWorkingHoursController implements Initializable {
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException, ParseException {
 
-        if(changed){
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
 
-            OwnerManagementController ownerManagementController = new OwnerManagementController();
-
-            if (!closedMonday.isSelected() && mondayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, "MONDAY");
-                checkHours("MONDAY", clickedMon, monday);
-            }
-
-            if (!closedTuesday.isSelected() && tuesdayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, "TUESDAY");
-                checkHours("TUESDAY", clickedTue, tuesday);
-            }
-
-            if (!closedWednesday.isSelected() && wednesdayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, "WEDNESDAY");
-                checkHours("WEDNESDAY", clickedWed, wednesday);
-            }
-
-            if (!closedThursday.isSelected() && thursdayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, "THURSDAY");
-                checkHours("THURSDAY", clickedThu, thursday);
-            }
-
-            if (!closedFriday.isSelected() && fridayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, "FRIDAY");
-                checkHours("FRIDAY", clickedFri, friday);
-            }
-
-            if (!closedSaturday.isSelected() && saturdayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, "SATURDAY");
-                checkHours("SATURDAY", clickedSat, saturday);
-            }
-
-            if (!closedSunday.isSelected() && sundayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, "SUNDAY");
-                checkHours("SUNDAY", clickedSun, sunday);
-            }
-
+        if (!closedMonday.isSelected() && mondayChanged) {
+            ownerManagementController.deleteWorkingHoursByDay(facility, "MONDAY");
+            checkHours("MONDAY", clickedMon, monday);
+        }else if (closedMonday.isSelected()){
+            ownerManagementController.deleteWorkingHoursByDay(facility, "MONDAY");
         }
+
+        if (!closedTuesday.isSelected() && tuesdayChanged) {
+            ownerManagementController.deleteWorkingHoursByDay(facility, "TUESDAY");
+            checkHours("TUESDAY", clickedTue, tuesday);
+        } else if (closedTuesday.isSelected()){
+            ownerManagementController.deleteWorkingHoursByDay(facility, "TUESDAY");
+        }
+
+        if (!closedWednesday.isSelected() && wednesdayChanged) {
+            ownerManagementController.deleteWorkingHoursByDay(facility, "WEDNESDAY");
+            checkHours("WEDNESDAY", clickedWed, wednesday);
+        } else if (closedWednesday.isSelected()){
+            ownerManagementController.deleteWorkingHoursByDay(facility, "WEDNESDAY");
+        }
+
+        if (!closedThursday.isSelected() && thursdayChanged) {
+            ownerManagementController.deleteWorkingHoursByDay(facility, "THURSDAY");
+            checkHours("THURSDAY", clickedThu, thursday);
+        } else if (closedThursday.isSelected()){
+            ownerManagementController.deleteWorkingHoursByDay(facility, "THURSDAY");
+        }
+
+        if (!closedFriday.isSelected() && fridayChanged) {
+            ownerManagementController.deleteWorkingHoursByDay(facility, "FRIDAY");
+            checkHours("FRIDAY", clickedFri, friday);
+        } else if (closedFriday.isSelected()){
+            ownerManagementController.deleteWorkingHoursByDay(facility, "FRIDAY");
+        }
+
+        if (!closedSaturday.isSelected() && saturdayChanged) {
+            ownerManagementController.deleteWorkingHoursByDay(facility, "SATURDAY");
+            checkHours("SATURDAY", clickedSat, saturday);
+        } else if (closedSaturday.isSelected()){
+            ownerManagementController.deleteWorkingHoursByDay(facility, "SATURDAY");
+        }
+
+        if (!closedSunday.isSelected() && sundayChanged) {
+            ownerManagementController.deleteWorkingHoursByDay(facility, "SUNDAY");
+            checkHours("SUNDAY", clickedSun, sunday);
+        } else if (closedSunday.isSelected()){
+            ownerManagementController.deleteWorkingHoursByDay(facility, "SUNDAY");
+        }
+
+
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
@@ -238,7 +250,7 @@ public class ModifyWorkingHoursController implements Initializable {
 
     @FXML
     void clickHour(ArrayList<Node> array, Node node){
-        changed = true;
+        //changed = true;
         if(array.contains(node)){
             array.remove(node);
             node.setStyle("-fx-background-color: transparent;");

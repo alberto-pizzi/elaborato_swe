@@ -67,7 +67,7 @@ public class WorkingHoursDAO {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             preparedStatement.executeUpdate();
-            System.out.println("selected WH removed successfully.");
+            System.out.println("selected WHs removed successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {

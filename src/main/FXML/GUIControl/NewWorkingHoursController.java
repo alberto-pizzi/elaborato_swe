@@ -90,7 +90,8 @@ public class NewWorkingHoursController implements Initializable {
 
     private BorderPane menuPane;
 
-    void checkHours(String day, ArrayList<Node> hours, GridPane pane) throws SQLException, ClassNotFoundException, ParseException {
+    void checkHours(String day, ArrayList<Node> hours, GridPane pane) throws SQLException, ParseException {
+
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         Boolean opened = false;
         String openingHours = "";
