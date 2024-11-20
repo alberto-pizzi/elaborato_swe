@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
@@ -45,6 +44,7 @@ public class NewSportController {
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+
         if (!nameInput.getText().equals("") && !playersInput.getText().equals("")) {
             OwnerManagementController ownerManagementController = new OwnerManagementController();
             sport.setName(String.valueOf(nameInput.getText()));
@@ -52,6 +52,7 @@ public class NewSportController {
             ownerManagementController.addSport(sport);
             FXMLLoader loader;
             Parent fieldPane;
+
             if(newField) {
                 loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
                 fieldPane = loader.load();
@@ -66,12 +67,11 @@ public class NewSportController {
                 modifyFieldController.setData(facility, field, menuPane);
             }
 
-
-
             menuPane.setCenter(fieldPane);
         } else {
             messageLabel.setText("Please enter all the fields");
         }
+
     }
 
     public void setData(Field field, Facility facility, BorderPane menuPane) throws IOException, SQLException {

@@ -191,6 +191,7 @@ public class NewFieldController {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
 
         if(!nameInput.getText().equals("") && !priceInput.getText().equals("") && clickedSportLabels.size() != 0) {
+
             field.setName(nameInput.getText());
             Float price = Float.parseFloat(priceInput.getText().replace("$",""));
             field.setPrice(price);
@@ -202,6 +203,7 @@ public class NewFieldController {
             descriptionInput.setText("");
             imageName = "";
             field = new Field();
+
         }else {
             messageLabel.setText("Please enter all the fields");
         }
@@ -210,6 +212,7 @@ public class NewFieldController {
 
     @FXML
     void clickSport(Sport sport, Label label){
+
         if(clickedSports.contains(sport)){
             clickedSports.remove(sport);
             clickedSportLabels.remove(label);
@@ -224,6 +227,7 @@ public class NewFieldController {
             clickedSportLabels.add(label);
             label.setStyle("-fx-background-color: lightblue;");
         }
+
     }
 
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
@@ -247,6 +251,7 @@ public class NewFieldController {
     }
 
     public void continueForm(Field field) {
+
         nameInput.setText(field.getName());
         priceInput.setText(field.getPrice() + "$");
         descriptionInput.setText(field.getDescription());

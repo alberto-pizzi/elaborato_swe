@@ -84,6 +84,33 @@ public class ModifyFacilityController {
 
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
+    private void fieldChecker(){
+
+        if(!nameInput.getText().isEmpty()) {
+            facility.setName(nameInput.getText());
+        }
+
+        if(!addressInput.getText().isEmpty()) {
+            facility.setAddress(addressInput.getText());
+        }
+
+        if(!provinceInput.getText().isEmpty()) {
+            facility.setProvince(provinceInput.getText());
+        }
+
+        if(!cityInput.getText().isEmpty()) {
+            facility.setCity(cityInput.getText());
+        }
+
+        if(!countryInput.getText().isEmpty()) {
+            facility.setCountry(countryInput.getText());
+        }
+
+        facility.setTelephone(phoneInput.getText());
+        facility.setZip(zipInput.getText());
+
+    }
+
     @FXML
     void handleConfirmButton(ActionEvent event) throws IOException, SQLException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
@@ -113,23 +140,7 @@ public class ModifyFacilityController {
     @FXML
     void handleAddManagersButton(ActionEvent event) throws IOException, SQLException {
 
-        if(!nameInput.getText().isEmpty()) {
-            facility.setName(nameInput.getText());
-        }
-        if (!addressInput.getText().isEmpty()) {
-            facility.setAddress(addressInput.getText());
-        }
-        if(!provinceInput.getText().isEmpty()) {
-            facility.setProvince(provinceInput.getText());
-        }
-        if(!cityInput.getText().isEmpty()) {
-            facility.setCity(cityInput.getText());
-        }
-        if(!countryInput.getText().isEmpty()) {
-            facility.setCountry(countryInput.getText());
-        }
-            facility.setTelephone(phoneInput.getText());
-            facility.setZip(zipInput.getText());
+        fieldChecker();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
         Parent addManagersPane = loader.load();
@@ -227,6 +238,7 @@ public class ModifyFacilityController {
             fieldsList.remove(field);
             facility.getFields().remove(field);
         }
+
     }
 
     @FXML
@@ -243,23 +255,8 @@ public class ModifyFacilityController {
 
     @FXML
     void handleAddFieldButton(ActionEvent event) throws IOException, SQLException {
-        if(!nameInput.getText().isEmpty()) {
-            facility.setName(nameInput.getText());
-        }
-        if (!addressInput.getText().isEmpty()) {
-            facility.setAddress(addressInput.getText());
-        }
-        if(!provinceInput.getText().isEmpty()) {
-            facility.setProvince(provinceInput.getText());
-        }
-        if(!cityInput.getText().isEmpty()) {
-            facility.setCity(cityInput.getText());
-        }
-        if(!countryInput.getText().isEmpty()) {
-            facility.setCountry(countryInput.getText());
-        }
-        facility.setTelephone(phoneInput.getText());
-        facility.setZip(zipInput.getText());
+
+        fieldChecker();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
         Parent addFieldPane = loader.load();
@@ -273,23 +270,7 @@ public class ModifyFacilityController {
     @FXML
     void handleChangeWorkingHoursButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
-        if(!nameInput.getText().isEmpty()) {
-            facility.setName(nameInput.getText());
-        }
-        if (!addressInput.getText().isEmpty()) {
-            facility.setAddress(addressInput.getText());
-        }
-        if(!provinceInput.getText().isEmpty()) {
-            facility.setProvince(provinceInput.getText());
-        }
-        if(!cityInput.getText().isEmpty()) {
-            facility.setCity(cityInput.getText());
-        }
-        if(!countryInput.getText().isEmpty()) {
-            facility.setCountry(countryInput.getText());
-        }
-        facility.setTelephone(phoneInput.getText());
-        facility.setZip(zipInput.getText());
+        fieldChecker();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyWorkingHours.fxml"));
         Parent editWorkHours = loader.load();
@@ -302,23 +283,8 @@ public class ModifyFacilityController {
 
     @FXML
     void handleModifyFieldButton(ActionEvent event) throws IOException, SQLException {
-        if(!nameInput.getText().isEmpty()) {
-            facility.setName(nameInput.getText());
-        }
-        if (!addressInput.getText().isEmpty()) {
-            facility.setAddress(addressInput.getText());
-        }
-        if(!provinceInput.getText().isEmpty()) {
-            facility.setProvince(provinceInput.getText());
-        }
-        if(!cityInput.getText().isEmpty()) {
-            facility.setCity(cityInput.getText());
-        }
-        if(!countryInput.getText().isEmpty()) {
-            facility.setCountry(countryInput.getText());
-        }
-        facility.setTelephone(phoneInput.getText());
-        facility.setZip(zipInput.getText());
+
+        fieldChecker();
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
         Parent modifyFieldPane = loader.load();

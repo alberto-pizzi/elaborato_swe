@@ -9,14 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
-import main.java.DomainModel.Field;
-import main.java.DomainModel.User;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,7 +20,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class NewFacilityController {
 
@@ -73,6 +68,7 @@ public class NewFacilityController {
 
         if((!nameInput.getText().equals("")) && (!addressInput.getText().equals("")) && (!provinceInput.getText().equals(""))
                 && (!cityInput.getText().equals("")) && (!countryInput.getText().equals(""))) {
+
             facility.setName(nameInput.getText());
             facility.setAddress(addressInput.getText());
             facility.setProvince(provinceInput.getText());
@@ -97,24 +93,6 @@ public class NewFacilityController {
     public void setData(BorderPane menuPane) throws IOException, SQLException {
 
         this.menuPane = menuPane;
-    }
-
-    public void continueForm(Facility facility) throws SQLException {
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-
-        nameInput.setText(facility.getName());
-        addressInput.setText(facility.getAddress());
-        cityInput.setText(facility.getCity());
-        zipInput.setText(facility.getZip());
-        countryInput.setText(facility.getCountry());
-        provinceInput.setText(facility.getProvince());
-        phoneInput.setText(facility.getTelephone());
-
-
-        String pathFromRoot = "/main/FXML/img/fields/";
-
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
-        imageLabel.setImage(image);
     }
 
     @FXML
