@@ -128,27 +128,27 @@ public class NewWorkingHoursController implements Initializable {
         }
 
         if (!closedTuesday.isSelected()) {
-            checkHours("Tuesday", clickedTue, tuesday);
+            checkHours("TUESDAY", clickedTue, tuesday);
         }
 
         if (!closedWednesday.isSelected()) {
-            checkHours("Wednesday", clickedWed, wednesday);
+            checkHours("WEDNESDAY", clickedWed, wednesday);
         }
 
         if (!closedThursday.isSelected()) {
-            checkHours("Thursday", clickedThu, thursday);
+            checkHours("THURSDAY", clickedThu, thursday);
         }
 
         if (!closedFriday.isSelected()) {
-            checkHours("Friday", clickedFri, friday);
+            checkHours("FRIDAY", clickedFri, friday);
         }
 
         if (!closedSaturday.isSelected()) {
-            checkHours("Saturday", clickedSat, saturday);
+            checkHours("SATURDAY", clickedSat, saturday);
         }
 
         if (!closedSunday.isSelected()) {
-            checkHours("Sunday", clickedSun, sunday);
+            checkHours("SUNDAY", clickedSun, sunday);
         }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));

@@ -195,32 +195,32 @@ public class ModifyWorkingHoursController implements Initializable {
 
             if (!closedTuesday.isSelected() && tuesdayChanged) {
                 ownerManagementController.deleteWorkingHoursByDay(facility, "TUESDAY");
-                checkHours("Tuesday", clickedTue, tuesday);
+                checkHours("TUESDAY", clickedTue, tuesday);
             }
 
             if (!closedWednesday.isSelected() && wednesdayChanged) {
                 ownerManagementController.deleteWorkingHoursByDay(facility, "WEDNESDAY");
-                checkHours("Wednesday", clickedWed, wednesday);
+                checkHours("WEDNESDAY", clickedWed, wednesday);
             }
 
             if (!closedThursday.isSelected() && thursdayChanged) {
                 ownerManagementController.deleteWorkingHoursByDay(facility, "THURSDAY");
-                checkHours("Thursday", clickedThu, thursday);
+                checkHours("THURSDAY", clickedThu, thursday);
             }
 
             if (!closedFriday.isSelected() && fridayChanged) {
                 ownerManagementController.deleteWorkingHoursByDay(facility, "FRIDAY");
-                checkHours("Friday", clickedFri, friday);
+                checkHours("FRIDAY", clickedFri, friday);
             }
 
             if (!closedSaturday.isSelected() && saturdayChanged) {
                 ownerManagementController.deleteWorkingHoursByDay(facility, "SATURDAY");
-                checkHours("Saturday", clickedSat, saturday);
+                checkHours("SATURDAY", clickedSat, saturday);
             }
 
             if (!closedSunday.isSelected() && sundayChanged) {
                 ownerManagementController.deleteWorkingHoursByDay(facility, "SUNDAY");
-                checkHours("Sunday", clickedSun, sunday);
+                checkHours("SUNDAY", clickedSun, sunday);
             }
 
         }
