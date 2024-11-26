@@ -63,7 +63,7 @@ public class FieldChoiceItemController {
     @FXML
     public void handleDetailsFieldButton(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetails.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetailOwner.fxml"));
         Parent fieldDetailPane = loader.load();
 
         FieldDetailController fieldDetailController = loader.getController();
