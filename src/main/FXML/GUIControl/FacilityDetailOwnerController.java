@@ -11,17 +11,16 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class FacilityDetailOwnerController {
 
     @FXML
-    private Label fieldAddress;
-
-    @FXML
-    private Label fieldDescription;
+    private Label facilityAddress;
 
     @FXML
     private ImageView facilityImageView;
@@ -30,55 +29,55 @@ public class FacilityDetailOwnerController {
     private Label facilityNameLabel;
 
     @FXML
-    private Label fieldPricePerHour;
+    private Label facilityFieldsNumber;
 
     @FXML
-    private Label fieldSport;
+    private Label facilityManagersNumber;
+
+    @FXML
+    private Label facilityTelephone;
 
     @FXML
     private Button goToBookButton;
 
-    private Field field;
+    private Facility facility;
 
     private BorderPane menuPane;
 
     
     //methods
 
-    public void setData(Field field, BorderPane menuPane) throws IOException {
-        this.field = field;
+    public void setData(Facility facility, BorderPane menuPane) throws IOException {
 
-        facilityNameLabel.setText(field.getName());
-        fieldDescription.setText(field.getDescription());
-        //TODO set facility link
-        fieldAddress.setText(field.getFacility().getFullAddress());
-        fieldSport.setText(field.getSport().getName());
-        fieldPricePerHour.setText("$ " + String.valueOf(field.getPrice()));
+        this.facility = facility;
+
+        facilityNameLabel.setText(facility.getName());
+        facilityAddress.setText(facility.getFullAddress());
+        facilityTelephone.setText(facility.getTelephone().toString());
+        facilityFieldsNumber.setText(String.valueOf(facility.getNFields()));
+        facilityManagersNumber.setText(String.valueOf(facility.getNManager()));
         //TODO add "go to book" button
 
-        String pathFromRoot = "/main/FXML/img/fields/";
+        String pathFromRoot = "/main/FXML/img/facilities/";
 
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
+        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
         facilityImageView.setImage(image);
 
         this.menuPane = menuPane;
-
-
 
     }
 
     //todo da fare
     @FXML
-    void handleGoToBookButton(ActionEvent event) throws IOException {
+    void handleGoToFieldsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
-        Parent view = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldChoiceOwner.fxml"));
+        Parent facilityFieldsPane = loader.load();
 
-        BookFieldController bookFieldController = loader.getController();
-        bookFieldController.setData(this.field);
+        FieldChoiceController fieldChoiceController = loader.getController();
+        fieldChoiceController.setData(facility, menuPane);
 
-
-        menuPane.setCenter(view);
+        fieldChoiceController.getMenuPane().setCenter(facilityFieldsPane);
 
     }
 

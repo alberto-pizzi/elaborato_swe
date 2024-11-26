@@ -70,8 +70,6 @@ public class FieldDetailOwnerController {
 
         this.menuPane = menuPane;
 
-
-
     }
 
     //todo da fare
