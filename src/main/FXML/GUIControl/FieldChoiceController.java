@@ -14,7 +14,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
+import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 
 import java.io.IOException;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class FieldChoiceController implements Initializable {
+public class FieldChoiceController {
 
     @FXML
     private TextField search;
@@ -68,40 +70,23 @@ public class FieldChoiceController implements Initializable {
         return page;
     }
 
-    private List<Field> getData() throws SQLException, ClassNotFoundException {
-        UserActionsController userActionsController = new UserActionsController();
-        return userActionsController.getNearbyFields();
-    }
+    private void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException {
 
-    EventHandler<KeyEvent> handler = new EventHandler<>() {
-        @Override
-        public void handle(KeyEvent keyEvent) {
-            if (keyEvent.getCode() == KeyCode.ENTER) {
-                searchButton.fire();
-            }
-        }
-    };
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        try {
-            fields.addAll(getData());
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        this.fields = ownerManagementController.getFieldsByFacility(facility);
+        this.menuPane = menuPane;
         for(int i=0; i < itemsPerPage && i < fields.size(); i++){
             try {
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+                fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItem.fxml"));
 
-                HBox hBox = fmxLoader.load();
-                FieldItemController fieldItemController = fmxLoader.getController();
-                fieldItemController.setYourHomeController(this);
-                fieldItemController.setData(fields.get(i));
+                AnchorPane anchorPane = fmxLoader.load();
+                FieldChoiceItemController fieldChoiceItemController = fmxLoader.getController();
+                fieldChoiceItemController.setFieldChoiceController(this);
+                fieldChoiceItemController.setData(fields.get(i));
 
-                fieldsList.getChildren().add(hBox);
+                fieldsList.getChildren().add(anchorPane);
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -109,9 +94,9 @@ public class FieldChoiceController implements Initializable {
                 throw new RuntimeException(e);
             }
         }
-        search.setOnKeyPressed(handler);
         String page = String.valueOf(currentPage);
         pageNumber.setText(page);
+
     }
 
     @FXML
@@ -124,14 +109,14 @@ public class FieldChoiceController implements Initializable {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItem.fxml"));
 
-                    HBox hBox = fmxLoader.load();
-                    FieldItemController fieldItemController = fmxLoader.getController();
-                    fieldItemController.setYourHomeController(this);
-                    fieldItemController.setData(fields.get(i));
+                    AnchorPane anchorPane = fmxLoader.load();
+                    FieldChoiceItemController fieldChoiceItemController = fmxLoader.getController();
+                    fieldChoiceItemController.setFieldChoiceController(this);
+                    fieldChoiceItemController.setData(fields.get(i));
 
-                    fieldsList.getChildren().add(hBox);
+                    fieldsList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
@@ -151,62 +136,31 @@ public class FieldChoiceController implements Initializable {
         if(currentPage > 1){
             fieldsList.getChildren().clear();
 
-                for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
+            for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
 
-                    try {
-                        FXMLLoader fmxLoader;
-                        fmxLoader = new FXMLLoader();
-                        fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+                try {
+                    FXMLLoader fmxLoader;
+                    fmxLoader = new FXMLLoader();
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItem.fxml"));
 
-                        HBox hBox = fmxLoader.load();
-                        FieldItemController fieldItemController = fmxLoader.getController();
-                        fieldItemController.setYourHomeController(this);
-                        fieldItemController.setData(fields.get(i));
+                    AnchorPane anchorPane = fmxLoader.load();
+                    FieldChoiceItemController fieldChoiceItemController = fmxLoader.getController();
+                    fieldChoiceItemController.setFieldChoiceController(this);
+                    fieldChoiceItemController.setData(fields.get(i));
 
-                        fieldsList.getChildren().add(hBox);
-                    } catch (IOException | SQLException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-
-
+                    fieldsList.getChildren().add(anchorPane);
+                } catch (IOException | SQLException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
+
+
+            }
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));
         }
     }
 
-    @FXML
-    private void handleSearchButton(ActionEvent event){
 
-        if(!search.getText().isEmpty()){
-            fieldsList.getChildren().clear();
-            currentPage = 1;
-            pageNumber.setText(String.valueOf(currentPage));
-            UserActionsController userActionsController = new UserActionsController();
-            try {
-                fields.clear();
-                fields.addAll(userActionsController.searchField(search.getText()));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            for(int i=0; i < itemsPerPage && i < fields.size(); i++){
-                try {
-                    FXMLLoader fmxLoader;
-                    fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
 
-                    HBox hBox = fmxLoader.load();
-                    FieldItemController fieldItemController = fmxLoader.getController();
-                    fieldItemController.setYourHomeController(this);
-                    fieldItemController.setData(fields.get(i));
-
-                    fieldsList.getChildren().add(hBox);
-                } catch (IOException | SQLException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-    }
 }

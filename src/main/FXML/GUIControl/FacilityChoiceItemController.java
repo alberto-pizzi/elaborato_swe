@@ -51,16 +51,31 @@ public class FacilityChoiceItemController {
         this.facilityChoiceController = facilityChoiceController;
     }
 
+    //todo da fare
     @FXML
-    void handleModifyFacilityButton(ActionEvent event) throws IOException, SQLException {
+    void handleDetailsFacilityButton(ActionEvent event) throws IOException, SQLException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-        Parent facilityModifyPane = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityDetails.fxml"));
+        Parent facilityDetailPane = loader.load();
 
         ModifyFacilityController modifyFacilityController = loader.getController();
-        modifyFacilityController.setData(facility,facilitiesListController.getMenuPane());
+        modifyFacilityController.setData(facility,facilityChoiceController.getMenuPane());
 
-        facilitiesListController.getMenuPane().setCenter(facilityModifyPane);
+        facilityChoiceController.getMenuPane().setCenter(facilityDetailPane);
+
+    }
+
+    //todo da fare
+    @FXML
+    void handleFacilityFieldsButton(ActionEvent event) throws IOException, SQLException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldChoiceOwner.fxml"));
+        Parent facilityFieldsPane = loader.load();
+
+        FieldChoiceController fieldChoiceController = loader.getController();
+        fieldChoiceController.setData(facility,f.getMenuPane());
+
+        fieldChoiceController.getMenuPane().setCenter(facilityFieldsPane);
 
     }
 

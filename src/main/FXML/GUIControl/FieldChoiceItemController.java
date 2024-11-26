@@ -35,10 +35,10 @@ public class FieldChoiceItemController {
     private Label sportLabel;
 
     private Field field;
-    private HomeController homeController;
+    private FieldChoiceController fieldChoiceController;
 
-    public void setYourHomeController(HomeController homeController) {
-        this.homeController = homeController;
+    public void setFieldChoiceController(FieldChoiceController fieldChoiceController) {
+        this.fieldChoiceController = fieldChoiceController;
     }
 
     public void setData(Field field) throws SQLException {
@@ -61,32 +61,15 @@ public class FieldChoiceItemController {
     }
 
     @FXML
-    public void handleSelectFieldButton(ActionEvent event) throws IOException {
-        //TODO check correctness
-        //below there are the previous code
-        /*
-        FXMLLoader fmxLoader;
-        fmxLoader = new FXMLLoader();
-        fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldDetails.fxml"));
-
-        AnchorPane view = fmxLoader.load();
-        FieldDetailController fieldDetailController = fmxLoader.getController();
-        fieldDetailController.setData(field,homeController.getMenuPane());
-        homeController.getPage().getChildren().removeAll(homeController.getPage().getChildren());
-        homeController.getPage().getChildren().add(view);
-
-         */
+    public void handleDetailsFieldButton(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetails.fxml"));
         Parent fieldDetailPane = loader.load();
 
         FieldDetailController fieldDetailController = loader.getController();
-        fieldDetailController.setData(field,homeController.getMenuPane());
+        fieldDetailController.setData(field,fieldChoiceController.getMenuPane());
 
-        homeController.getMenuPane().setCenter(fieldDetailPane);
-
-        //TODO homeController.getPage().... needed? (check above)
-
+        fieldChoiceController.getMenuPane().setCenter(fieldDetailPane);
 
     }
 

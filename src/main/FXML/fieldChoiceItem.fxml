@@ -77,31 +77,33 @@
                   </VBox>
                </children>
             </StackPane>
-            <StackPane prefHeight="120.0" prefWidth="227.0">
+            <StackPane prefHeight="149.0" prefWidth="209.0">
                <padding>
                   <Insets bottom="20.0" top="20.0" />
                </padding>
-            </StackPane>
-            <VBox alignment="CENTER" prefHeight="120.0" prefWidth="180.0" spacing="15.0">
                <children>
-                  <Button fx:id="modifyFacility" mnemonicParsing="false" onAction="#handleModifyFacilityButton" prefHeight="47.0" prefWidth="141.0" style="-fx-background-color: violet;" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Details" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </padding>
-                  </Button>
-                  <Button fx:id="deleteFacility" mnemonicParsing="false" onAction="#handleDeleteFacilityButton" prefHeight="47.0" prefWidth="141.0" style="-fx-background-color: violet;" styleClass="menu-button-owner" stylesheets="@css/style.css" text="View fields" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </padding>
-                  </Button>
+                  <VBox alignment="CENTER" prefHeight="109.0" prefWidth="306.0" spacing="15.0">
+                     <children>
+                        <Button fx:id="modifyFacility" mnemonicParsing="false" onAction="#handleModifyFacilityButton" prefHeight="47.0" prefWidth="224.0" style="-fx-background-color: violet;" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Details" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </padding>
+                        </Button>
+                        <Button fx:id="deleteFacility" mnemonicParsing="false" onAction="#handleDeleteFacilityButton" prefHeight="47.0" prefWidth="235.0" style="-fx-background-color: violet;" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Make a reservation" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </padding>
+                        </Button>
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
+            </StackPane>
          </children>
       </HBox>
    </children>
