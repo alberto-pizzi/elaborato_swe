@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="facilityItemPane" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FacilityItemController">
+<AnchorPane fx:id="facilityItemPane" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldChoiceItemController">
    <children>
       <HBox prefHeight="122.0" prefWidth="1000.0" style="-fx-background-color: white; -fx-border-color: black;">
          <children>
@@ -19,18 +19,18 @@
                   <ImageView fx:id="fieldImg" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" scaleX="0.8" scaleY="0.8" />
                </children>
             </VBox>
-            <StackPane prefHeight="120.0" prefWidth="280.0">
+            <StackPane prefHeight="120.0" prefWidth="370.0">
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label fx:id="facilityNameLabel" prefHeight="44.0" prefWidth="404.0" text="Facility Name">
+                        <Label fx:id="facilityNameLabel" prefHeight="44.0" prefWidth="404.0" text="Field Name">
                            <font>
                               <Font name="System Bold" size="28.0" />
                            </font>
                         </Label>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label prefHeight="44.0" prefWidth="76.0" text="Address:">
+                              <Label prefHeight="44.0" prefWidth="76.0" text="Sport:">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -38,7 +38,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="facilityAddressLabel" prefHeight="44.0" prefWidth="195.0" text="Field address" textFill="#a1a1a1" wrapText="true">
+                              <Label fx:id="facilityAddressLabel" prefHeight="44.0" prefWidth="195.0" text="Sport name" textFill="#a1a1a1" wrapText="true">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -61,26 +61,12 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="150.0">
                            <children>
-                              <Label prefHeight="40.0" prefWidth="211.0" text="Number of fields:">
+                              <Label prefHeight="40.0" prefWidth="211.0" text="Price:">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
                               <Label fx:id="fieldsLabel" prefHeight="44.0" prefWidth="119.0" text="1" textFill="#a1a1a1">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Label prefHeight="40.0" prefWidth="211.0" text="Number of managers:">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="managersLabel" prefHeight="44.0" prefWidth="119.0" text="0" textFill="#a1a1a1">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -95,33 +81,10 @@
                <padding>
                   <Insets bottom="20.0" top="20.0" />
                </padding>
-               <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="265.0">
-                           <children>
-                              <Label prefHeight="40.0" prefWidth="129.0" text="Telephone:">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Label fx:id="facilityPhoneNumberLabel" prefHeight="40.0" prefWidth="150.0" text="**************" textFill="#a1a1a1">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-               </children>
             </StackPane>
             <VBox alignment="CENTER" prefHeight="120.0" prefWidth="180.0" spacing="15.0">
                <children>
-                  <Button fx:id="modifyFacility" mnemonicParsing="false" onAction="#handleModifyFacilityButton" style="-fx-background-color: violet;" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Modify" textFill="WHITE">
+                  <Button fx:id="modifyFacility" mnemonicParsing="false" onAction="#handleModifyFacilityButton" prefHeight="47.0" prefWidth="141.0" style="-fx-background-color: violet;" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Details" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -129,7 +92,7 @@
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                      </padding>
                   </Button>
-                  <Button fx:id="deleteFacility" mnemonicParsing="false" onAction="#handleDeleteFacilityButton" prefHeight="47.0" prefWidth="102.0" style="-fx-background-color: red;" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Delete" textFill="WHITE">
+                  <Button fx:id="deleteFacility" mnemonicParsing="false" onAction="#handleDeleteFacilityButton" prefHeight="47.0" prefWidth="141.0" style="-fx-background-color: violet;" styleClass="menu-button-owner" stylesheets="@css/style.css" text="View fields" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
