@@ -70,7 +70,7 @@ public class FieldChoiceController {
         return page;
     }
 
-    private void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException {
+    public void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException {
 
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         this.fields = ownerManagementController.getFieldsByFacility(facility);

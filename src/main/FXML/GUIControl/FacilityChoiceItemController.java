@@ -67,13 +67,13 @@ public class FacilityChoiceItemController {
 
     //todo da fare
     @FXML
-    void handleFacilityFieldsButton(ActionEvent event) throws IOException, SQLException {
+    void handleFacilityFieldsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldChoiceOwner.fxml"));
         Parent facilityFieldsPane = loader.load();
 
         FieldChoiceController fieldChoiceController = loader.getController();
-        fieldChoiceController.setData(facility,f.getMenuPane());
+        fieldChoiceController.setData(facility,facilityChoiceController.getMenuPane());
 
         fieldChoiceController.getMenuPane().setCenter(facilityFieldsPane);
 

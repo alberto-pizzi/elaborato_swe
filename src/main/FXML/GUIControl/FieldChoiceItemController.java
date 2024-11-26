@@ -73,4 +73,18 @@ public class FieldChoiceItemController {
 
     }
 
+    //todo da fare
+    @FXML
+    public void handleReservationFieldButton(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetails.fxml"));
+        Parent fieldDetailPane = loader.load();
+
+        FieldDetailController fieldDetailController = loader.getController();
+        fieldDetailController.setData(field,fieldChoiceController.getMenuPane());
+
+        fieldChoiceController.getMenuPane().setCenter(fieldDetailPane);
+
+    }
+
 }
