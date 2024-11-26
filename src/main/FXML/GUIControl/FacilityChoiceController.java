@@ -74,12 +74,12 @@ public class FacilityChoiceController implements Initializable {
             try {
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityItem.fxml"));
+                fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItem.fxml"));
 
                 AnchorPane anchorPane = fmxLoader.load();
-                FacilityItemController facilityItemController = fmxLoader.getController();
-                facilityItemController.setFacilitiesListController(this);
-                facilityItemController.setData(facilities.get(i));
+                FacilityChoiceItemController facilityChoiceItemController = fmxLoader.getController();
+                facilityChoiceItemController.setFacilitiesListController(this);
+                facilityChoiceItemController.setData(facilities.get(i));
 
                 fieldsList.getChildren().add(anchorPane);
             } catch (IOException e) {
@@ -103,12 +103,12 @@ public class FacilityChoiceController implements Initializable {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityItem.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItem.fxml"));
 
                     AnchorPane anchorPane = fmxLoader.load();
-                    FacilityItemController facilityItemController = fmxLoader.getController();
-                    facilityItemController.setFacilitiesListController(this);
-                    facilityItemController.setData(facilities.get(i));
+                    FacilityChoiceItemController facilityChoiceItemController = fmxLoader.getController();
+                    facilityChoiceItemController.setFacilitiesListController(this);
+                    facilityChoiceItemController.setData(facilities.get(i));
 
                     fieldsList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
@@ -135,12 +135,12 @@ public class FacilityChoiceController implements Initializable {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityItem.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItem.fxml"));
 
                     AnchorPane anchorPane = fmxLoader.load();
-                    FacilityItemController facilityItemController = fmxLoader.getController();
-                    facilityItemController.setFacilitiesListController(this);
-                    facilityItemController.setData(facilities.get(i));
+                    FacilityChoiceItemController facilityChoiceItemController = fmxLoader.getController();
+                    facilityChoiceItemController.setFacilitiesListController(this);
+                    facilityChoiceItemController.setData(facilities.get(i));
 
                     fieldsList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
@@ -155,19 +155,4 @@ public class FacilityChoiceController implements Initializable {
         }
     }
 
-    @FXML
-    public void handleNewFacilityButton(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newFacility.fxml"));
-        Parent facilityNewPane = loader.load();
-
-        NewFacilityController newFacilityController = loader.getController();
-        newFacilityController.setData(menuPane);
-
-        menuPane.setCenter(facilityNewPane);
-    }
-
-    public void removeFacilityItemFromGUI(AnchorPane facilityItemPane, Facility facility) {
-        facilities.remove(facility);
-        fieldsList.getChildren().remove(facilityItemPane);
-    }
 }

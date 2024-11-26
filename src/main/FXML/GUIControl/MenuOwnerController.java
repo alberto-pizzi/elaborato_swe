@@ -81,7 +81,11 @@ public class MenuOwnerController implements Initializable {
 
     @FXML
     void handleReservationsButton(ActionEvent event) throws IOException {
-        changeView("reservations.fxml");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceOwner.fxml"));
+        Parent view = loader.load();
+        FacilityChoiceController controller = loader.getController();
+        controller.setMenuPane(menuPane);
+        menuPane.setCenter(view);
         System.out.println("Reservations menu button clicked");
     }
 
