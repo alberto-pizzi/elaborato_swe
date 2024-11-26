@@ -45,22 +45,10 @@ public class FacilityChoiceItemController {
     private Button modifyFacility;
 
     private Facility facility;
-    private FacilitiesListController facilitiesListController;
+    private FacilityChoiceController facilityChoiceController;
 
-    public void setFacilitiesListController(FacilitiesListController facilitiesListController) {
-        this.facilitiesListController = facilitiesListController;
-    }
-
-    @FXML
-    void handleDeleteFacilityButton(ActionEvent event) throws SQLException {
-        System.out.println("Leave button clicked: " + facilityNameLabel.getText());
-
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        ownerManagementController.deleteFacility(facility.getId());
-
-        if (facilitiesListController != null) {
-            facilitiesListController.removeFacilityItemFromGUI(facilityItemPane, facility);
-        }
+    public void setFacilityChoiceController(FacilityChoiceController facilityChoiceController) {
+        this.facilityChoiceController = facilityChoiceController;
     }
 
     @FXML

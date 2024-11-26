@@ -78,7 +78,7 @@ public class FacilityChoiceController implements Initializable {
 
                 AnchorPane anchorPane = fmxLoader.load();
                 FacilityChoiceItemController facilityChoiceItemController = fmxLoader.getController();
-                facilityChoiceItemController.setFacilitiesListController(this);
+                facilityChoiceItemController.setFacilityChoiceController(this);
                 facilityChoiceItemController.setData(facilities.get(i));
 
                 fieldsList.getChildren().add(anchorPane);
@@ -107,7 +107,7 @@ public class FacilityChoiceController implements Initializable {
 
                     AnchorPane anchorPane = fmxLoader.load();
                     FacilityChoiceItemController facilityChoiceItemController = fmxLoader.getController();
-                    facilityChoiceItemController.setFacilitiesListController(this);
+                    facilityChoiceItemController.setFacilityChoiceController(this);
                     facilityChoiceItemController.setData(facilities.get(i));
 
                     fieldsList.getChildren().add(anchorPane);
@@ -139,7 +139,7 @@ public class FacilityChoiceController implements Initializable {
 
                     AnchorPane anchorPane = fmxLoader.load();
                     FacilityChoiceItemController facilityChoiceItemController = fmxLoader.getController();
-                    facilityChoiceItemController.setFacilitiesListController(this);
+                    facilityChoiceItemController.setFacilityChoiceController(this);
                     facilityChoiceItemController.setData(facilities.get(i));
 
                     fieldsList.getChildren().add(anchorPane);
