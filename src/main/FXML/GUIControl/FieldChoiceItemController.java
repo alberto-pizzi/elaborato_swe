@@ -34,6 +34,7 @@ public class FieldChoiceItemController {
     private Label sportLabel;
 
     private Field field;
+
     private FieldChoiceController fieldChoiceController;
 
     public void setFieldChoiceController(FieldChoiceController fieldChoiceController) {
@@ -65,8 +66,8 @@ public class FieldChoiceItemController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetailOwner.fxml"));
         Parent fieldDetailPane = loader.load();
 
-        FieldDetailController fieldDetailController = loader.getController();
-        fieldDetailController.setData(field,fieldChoiceController.getMenuPane());
+        FieldDetailOwnerController fieldDetailOwnerController = loader.getController();
+        fieldDetailOwnerController.setData(field,fieldChoiceController.getMenuPane());
 
         fieldChoiceController.getMenuPane().setCenter(fieldDetailPane);
 
@@ -79,8 +80,8 @@ public class FieldChoiceItemController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetailOwner.fxml"));
         Parent fieldDetailPane = loader.load();
 
-        FieldDetailController fieldDetailController = loader.getController();
-        fieldDetailController.setData(field,fieldChoiceController.getMenuPane());
+        FieldDetailOwnerController fieldDetailOwnerController = loader.getController();
+        fieldDetailOwnerController.setData(field,fieldChoiceController.getMenuPane());
 
         fieldChoiceController.getMenuPane().setCenter(fieldDetailPane);
 
