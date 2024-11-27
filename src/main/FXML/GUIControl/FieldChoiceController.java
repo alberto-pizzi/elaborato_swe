@@ -29,13 +29,6 @@ import java.util.ResourceBundle;
 public class FieldChoiceController {
 
     @FXML
-    private TextField search;
-
-    @FXML
-    private Button searchButton;
-
-
-    @FXML
     private VBox fieldsList;
 
     @FXML

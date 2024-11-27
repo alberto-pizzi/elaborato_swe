@@ -97,7 +97,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="facilityAddress" text="(Facility Address)">
+                              <Label fx:id="facilityAddress" text="(Facility Address)" wrapText="true">
                                  <font>
                                     <Font size="20.0" />
                                  </font>

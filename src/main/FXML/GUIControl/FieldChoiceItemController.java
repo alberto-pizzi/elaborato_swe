@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
+import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 
@@ -29,9 +31,6 @@ public class FieldChoiceItemController {
     private ImageView fieldImg;
 
     @FXML
-    private Button selectField;
-
-    @FXML
     private Label sportLabel;
 
     private Field field;
@@ -42,13 +41,13 @@ public class FieldChoiceItemController {
     }
 
     public void setData(Field field) throws SQLException {
-        UserActionsController userActionsController = new UserActionsController();
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         this.field = field;
 
 
 
         fieldNameLabel.setText(field.getName());
-        fieldAddressLabel.setText(userActionsController.getFieldAddress(field.getId()));
+        fieldAddressLabel.setText(managerOwnerManagementController.getFieldAddress(field.getId()));
         fieldPriceLabel.setText(String.format("%.2f",field.getPrice()/field.getSport().getPlayersRequired()) + "$");
 
         String pathFromRoot = "/main/FXML/img/fields/";
@@ -77,7 +76,7 @@ public class FieldChoiceItemController {
     @FXML
     public void handleReservationFieldButton(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetails.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetailOwner.fxml"));
         Parent fieldDetailPane = loader.load();
 
         FieldDetailController fieldDetailController = loader.getController();

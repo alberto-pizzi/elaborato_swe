@@ -61,12 +61,12 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="150.0">
                            <children>
-                              <Label prefHeight="40.0" prefWidth="211.0" text="Price:">
+                              <Label prefHeight="40.0" prefWidth="83.0" text="Price:">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="fieldsLabel" prefHeight="44.0" prefWidth="119.0" text="1" textFill="#a1a1a1">
+                              <Label fx:id="fieldsLabel" prefHeight="44.0" prefWidth="119.0" text="field price" textFill="#a1a1a1">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -84,7 +84,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="109.0" prefWidth="306.0" spacing="15.0">
                      <children>
-                        <Button fx:id="modifyFacility" mnemonicParsing="false" onAction="#handleModifyFacilityButton" prefHeight="47.0" prefWidth="224.0" style="-fx-background-color: violet;" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Details" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#handleDetailsFieldButton" prefHeight="47.0" prefWidth="224.0" style="-fx-background-color: violet;" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Details" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -92,7 +92,7 @@
                               <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                            </padding>
                         </Button>
-                        <Button fx:id="deleteFacility" mnemonicParsing="false" onAction="#handleDeleteFacilityButton" prefHeight="47.0" prefWidth="235.0" style="-fx-background-color: violet;" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Make a reservation" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#handleReservationFieldButton" prefHeight="47.0" prefWidth="235.0" style="-fx-background-color: violet;" styleClass="menu-button-owner" stylesheets="@css/style.css" text="Make a reservation" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>

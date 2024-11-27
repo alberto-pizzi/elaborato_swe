@@ -16,7 +16,7 @@
          <children>
             <StackPane prefHeight="40.0" prefWidth="1060.0">
                <children>
-                  <Label prefHeight="70.0" prefWidth="398.0" text="Choose a Field" textAlignment="CENTER">
+                  <Label prefHeight="70.0" prefWidth="332.0" text="Choose a Field" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="48.0" />
                      </font>
