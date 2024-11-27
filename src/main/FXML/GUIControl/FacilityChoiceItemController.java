@@ -18,9 +18,6 @@ import java.sql.SQLException;
 public class FacilityChoiceItemController {
 
     @FXML
-    private Button deleteFacility;
-
-    @FXML
     private AnchorPane facilityItemPane;
 
     @FXML
@@ -41,9 +38,6 @@ public class FacilityChoiceItemController {
     @FXML
     private Label managersLabel;
 
-    @FXML
-    private Button modifyFacility;
-
     private Facility facility;
     private FacilityChoiceController facilityChoiceController;
 
@@ -51,7 +45,6 @@ public class FacilityChoiceItemController {
         this.facilityChoiceController = facilityChoiceController;
     }
 
-    //todo da fare
     @FXML
     void handleDetailsFacilityButton(ActionEvent event) throws IOException, SQLException {
 
@@ -65,7 +58,6 @@ public class FacilityChoiceItemController {
 
     }
 
-    //todo da fare
     @FXML
     void handleFacilityFieldsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
