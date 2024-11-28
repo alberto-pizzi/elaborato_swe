@@ -9,6 +9,7 @@ public abstract class Person{
     private String province;
     private String zip;
     private String country;
+    private String target;
 
     public int getId() {
         return id;
@@ -74,10 +75,18 @@ public abstract class Person{
         this.country = country;
     }
 
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
     //constructor
 
 
-    public Person(int id, String email, String username, String password, String city, String province, String zip, String country) {
+    public Person(int id, String email, String username, String password, String city, String province, String zip, String country, String personType) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -86,5 +95,6 @@ public abstract class Person{
         this.province = province;
         this.zip = zip;
         this.country = country;
+        this.target = personType;
     }
 }
