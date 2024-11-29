@@ -9,6 +9,8 @@ DROP TABLE IF EXISTS "Invite" CASCADE;
 DROP TABLE IF EXISTS "IsPart" CASCADE;
 DROP TABLE IF EXISTS "Sport" CASCADE;
 DROP TABLE IF EXISTS "Manages" CASCADE;
+DROP TABLE IF EXISTS "NotifyUser" CASCADE;
+DROP TABLE IF EXISTS "NotifyOwner" CASCADE;
 
 
 CREATE TABLE IF NOT EXISTS "User" (
@@ -47,6 +49,12 @@ CREATE TABLE IF NOT EXISTS "Facility" (
     image TEXT,
     id_owner INTEGER,
     FOREIGN KEY (id_owner) REFERENCES "Owner"(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS "Sport" (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    players_required INTEGER NOT NULL CONSTRAINT players_positive CHECK (players_required >= 0)
 );
 
 CREATE TABLE IF NOT EXISTS "Field" (
@@ -110,16 +118,22 @@ CREATE TABLE IF NOT EXISTS "IsPart" (
     FOREIGN KEY (id_user) REFERENCES "User"(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Sport" (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    players_required INTEGER NOT NULL CONSTRAINT players_positive CHECK (players_required >= 0)
-);
-
 CREATE TABLE IF NOT EXISTS "Manages" (
     id_facility INTEGER NOT NULL,
     id_user INTEGER NOT NULL,
     PRIMARY KEY (id_facility, id_user),
     FOREIGN KEY (id_facility) REFERENCES "Facility"(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (id_user) REFERENCES "User"(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS "NotifyUser" (
+     id_user INTEGER NOT NULL,
+     id_reservation INTEGER NOT NULL,
+     PRIMARY KEY (id_user, id_reservation)
+);
+
+CREATE TABLE IF NOT EXISTS "NotifyOwner" (
+    id_owner INTEGER NOT NULL,
+    id_reservation INTEGER NOT NULL,
+    PRIMARY KEY (id_owner, id_reservation)
 );
