@@ -50,6 +50,7 @@ public class FacilityDetailOwnerController {
     public void setData(Facility facility, BorderPane menuPane) throws IOException {
 
         this.facility = facility;
+        this.menuPane = menuPane;
 
         facilityNameLabel.setText(facility.getName());
         facilityAddress.setText(facility.getFullAddress());
@@ -62,8 +63,6 @@ public class FacilityDetailOwnerController {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
         facilityImageView.setImage(image);
-
-        this.menuPane = menuPane;
 
     }
 

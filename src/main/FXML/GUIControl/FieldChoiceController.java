@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Facility;
@@ -61,8 +62,8 @@ public class FieldChoiceController {
 
     public void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException {
 
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        this.fields = ownerManagementController.getFieldsByFacility(facility);
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+        this.fields = managerOwnerManagementController.getFieldsByFacility(facility);
         this.menuPane = menuPane;
         for(int i=0; i < itemsPerPage && i < fields.size(); i++){
             try {
@@ -146,7 +147,5 @@ public class FieldChoiceController {
             pageNumber.setText(String.valueOf(currentPage));
         }
     }
-
-
 
 }

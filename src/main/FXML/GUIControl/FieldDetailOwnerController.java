@@ -60,7 +60,6 @@ public class FieldDetailOwnerController {
         fieldAddress.setText(field.getFacility().getFullAddress());
         fieldSport.setText(field.getSport().getName());
         fieldPricePerHour.setText("$ " + String.valueOf(field.getPrice()));
-        //TODO add "go to book" button
 
         String pathFromRoot = "/main/FXML/img/fields/";
 

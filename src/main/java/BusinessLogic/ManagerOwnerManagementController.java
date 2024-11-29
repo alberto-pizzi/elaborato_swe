@@ -1,13 +1,16 @@
 package main.java.BusinessLogic;
 
+import main.java.DomainModel.Facility;
+import main.java.DomainModel.Field;
 import main.java.DomainModel.Owner;
 import main.java.DomainModel.Person;
 import main.java.ORM.FieldDao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ManagerOwnerManagementController {
-//todo parlae di come fare per controllo prenotazioni, usare stessa voce?
+
     Person person;
 
     public ManagerOwnerManagementController(Person person) {
@@ -34,5 +37,11 @@ public class ManagerOwnerManagementController {
     public String getFieldAddress(int fieldId) throws SQLException {
         FieldDao fieldDao = new FieldDao();
         return fieldDao.getFieldAddress(fieldId);
+    }
+
+    public ArrayList<Field> getFieldsByFacility(Facility facility) throws SQLException {
+        FieldDao fieldDao = new FieldDao();
+
+        return fieldDao.getFieldsByFacility(facility.getId(),false);
     }
 }

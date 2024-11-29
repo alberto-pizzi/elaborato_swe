@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
@@ -187,9 +188,11 @@ public class ModifyFacilityController {
 
         this.facility = facility;
 
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         OwnerManagementController ownerManagementController = new OwnerManagementController();
+
         managersList = ownerManagementController.getManagersByFacility(facility);
-        fieldsList = ownerManagementController.getFieldsByFacility(facility);
+        fieldsList = managerOwnerManagementController.getFieldsByFacility(facility);
 
         for (Field field : fieldsList) {
             Label label = new Label(field.getName());

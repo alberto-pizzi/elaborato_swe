@@ -58,6 +58,7 @@ public class FacilityChoiceController implements Initializable {
 
     private List<Facility> getData() throws SQLException, ClassNotFoundException {
         List<Facility> facilities = new ArrayList<>();
+        //fixme da rendere generale
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         return ownerManagementController.getOwnFacilities();
     }
@@ -131,6 +132,7 @@ public class FacilityChoiceController implements Initializable {
             for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
 
                 try {
+
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
                     fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItem.fxml"));

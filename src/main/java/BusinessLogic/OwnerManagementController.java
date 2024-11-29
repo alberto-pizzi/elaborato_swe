@@ -113,12 +113,6 @@ public class OwnerManagementController {
         return facilityDAO.getFacilitiesByOwner(this.owner.getId());
     }
 
-    public ArrayList<Field> getFieldsByFacility(Facility facility) throws SQLException {
-        FieldDao fieldDao = new FieldDao();
-
-        return fieldDao.getFieldsByFacility(facility.getId(),false);
-    }
-
     public ArrayList<User> getManagersByFacility(Facility facility) throws SQLException {
         ManagesDAO managesDAO = new ManagesDAO();
 

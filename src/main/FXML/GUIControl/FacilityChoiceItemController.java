@@ -49,7 +49,6 @@ public class FacilityChoiceItemController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityDetailOwner.fxml"));
         Parent facilityDetailPane = loader.load();
 
-        //todo controllare
         FacilityDetailOwnerController facilityDetailOwnerController = loader.getController();
         facilityDetailOwnerController.setData(facility,menuPane);
 

@@ -40,6 +40,7 @@ public class FieldChoiceItemController {
 
     public void setData(Field field, BorderPane menuPane) throws SQLException {
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+
         this.field = field;
         this.menuPane = menuPane;
 
