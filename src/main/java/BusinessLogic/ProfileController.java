@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 public abstract class ProfileController {
 
+    //todo non prende token sessione da sessioncontroller
     //methods
     public abstract void updateUsername(String newUsername) throws SQLException;
 

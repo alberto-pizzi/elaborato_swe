@@ -18,8 +18,6 @@ public class UserActionsController {
 
     //constructor
 
-
-
     public UserActionsController() {
         this.user = (User) SessionController.getInstance().getPerson();
     }
