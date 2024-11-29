@@ -55,10 +55,6 @@ public class FieldChoiceController {
         return menuPane;
     }
 
-    public void setMenuPane(BorderPane menuPane) {
-        this.menuPane = menuPane;
-    }
-
     public AnchorPane getPage() {
         return page;
     }
@@ -76,8 +72,7 @@ public class FieldChoiceController {
 
                 AnchorPane anchorPane = fmxLoader.load();
                 FieldChoiceItemController fieldChoiceItemController = fmxLoader.getController();
-                fieldChoiceItemController.setFieldChoiceController(this);
-                fieldChoiceItemController.setData(fields.get(i));
+                fieldChoiceItemController.setData(fields.get(i), menuPane);
 
                 fieldsList.getChildren().add(anchorPane);
             } catch (IOException e) {
@@ -106,8 +101,7 @@ public class FieldChoiceController {
 
                     AnchorPane anchorPane = fmxLoader.load();
                     FieldChoiceItemController fieldChoiceItemController = fmxLoader.getController();
-                    fieldChoiceItemController.setFieldChoiceController(this);
-                    fieldChoiceItemController.setData(fields.get(i));
+                    fieldChoiceItemController.setData(fields.get(i), menuPane);
 
                     fieldsList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
@@ -138,8 +132,7 @@ public class FieldChoiceController {
 
                     AnchorPane anchorPane = fmxLoader.load();
                     FieldChoiceItemController fieldChoiceItemController = fmxLoader.getController();
-                    fieldChoiceItemController.setFieldChoiceController(this);
-                    fieldChoiceItemController.setData(fields.get(i));
+                    fieldChoiceItemController.setData(fields.get(i), menuPane);
 
                     fieldsList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {

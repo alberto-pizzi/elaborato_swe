@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
@@ -35,17 +36,12 @@ public class FieldChoiceItemController {
 
     private Field field;
 
-    private FieldChoiceController fieldChoiceController;
+    private BorderPane menuPane;
 
-    public void setFieldChoiceController(FieldChoiceController fieldChoiceController) {
-        this.fieldChoiceController = fieldChoiceController;
-    }
-
-    public void setData(Field field) throws SQLException {
+    public void setData(Field field, BorderPane menuPane) throws SQLException {
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         this.field = field;
-
-
+        this.menuPane = menuPane;
 
         fieldNameLabel.setText(field.getName());
         fieldAddressLabel.setText(managerOwnerManagementController.getFieldAddress(field.getId()));
@@ -67,9 +63,9 @@ public class FieldChoiceItemController {
         Parent fieldDetailPane = loader.load();
 
         FieldDetailOwnerController fieldDetailOwnerController = loader.getController();
-        fieldDetailOwnerController.setData(field,fieldChoiceController.getMenuPane());
+        fieldDetailOwnerController.setData(field,menuPane);
 
-        fieldChoiceController.getMenuPane().setCenter(fieldDetailPane);
+        menuPane.setCenter(fieldDetailPane);
 
     }
 
@@ -77,13 +73,14 @@ public class FieldChoiceItemController {
     @FXML
     public void handleReservationFieldButton(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetailOwner.fxml"));
-        Parent fieldDetailPane = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
+        Parent view = loader.load();
 
-        FieldDetailOwnerController fieldDetailOwnerController = loader.getController();
-        fieldDetailOwnerController.setData(field,fieldChoiceController.getMenuPane());
+        BookFieldController bookFieldController = loader.getController();
+        bookFieldController.setData(this.field);
 
-        fieldChoiceController.getMenuPane().setCenter(fieldDetailPane);
+
+        menuPane.setCenter(view);
 
     }
 

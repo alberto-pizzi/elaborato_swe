@@ -49,6 +49,7 @@ public class FacilityItemController {
     private Button modifyFacility;
 
     private Facility facility;
+
     private FacilitiesListController facilitiesListController;
 
     public void setFacilitiesListController(FacilitiesListController facilitiesListController) {

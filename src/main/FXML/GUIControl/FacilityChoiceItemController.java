@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
 
@@ -39,11 +40,8 @@ public class FacilityChoiceItemController {
     private Label managersLabel;
 
     private Facility facility;
-    private FacilityChoiceController facilityChoiceController;
 
-    public void setFacilityChoiceController(FacilityChoiceController facilityChoiceController) {
-        this.facilityChoiceController = facilityChoiceController;
-    }
+    private BorderPane menuPane;
 
     @FXML
     void handleDetailsFacilityButton(ActionEvent event) throws IOException, SQLException {
@@ -53,9 +51,9 @@ public class FacilityChoiceItemController {
 
         //todo controllare
         FacilityDetailOwnerController facilityDetailOwnerController = loader.getController();
-        facilityDetailOwnerController.setData(facility,facilityChoiceController.getMenuPane());
+        facilityDetailOwnerController.setData(facility,menuPane);
 
-        facilityChoiceController.getMenuPane().setCenter(facilityDetailPane);
+        menuPane.setCenter(facilityDetailPane);
 
     }
 
@@ -66,14 +64,15 @@ public class FacilityChoiceItemController {
         Parent facilityFieldsPane = loader.load();
 
         FieldChoiceController fieldChoiceController = loader.getController();
-        fieldChoiceController.setData(facility,facilityChoiceController.getMenuPane());
+        fieldChoiceController.setData(facility,menuPane);
 
-        fieldChoiceController.getMenuPane().setCenter(facilityFieldsPane);
+        menuPane.setCenter(facilityFieldsPane);
 
     }
 
-    public void setData(Facility facility) throws SQLException {
+    public void setData(Facility facility, BorderPane menuPane) throws SQLException {
         this.facility = facility;
+        this.menuPane = menuPane;
 
         facilityNameLabel.setText(facility.getName());
         facilityAddressLabel.setText(facility.getAddress());

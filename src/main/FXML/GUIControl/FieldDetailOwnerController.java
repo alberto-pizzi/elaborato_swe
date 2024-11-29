@@ -49,7 +49,6 @@ public class FieldDetailOwnerController {
 
     private BorderPane menuPane;
 
-    
     //methods
 
     public void setData(Field field, BorderPane menuPane) throws IOException {

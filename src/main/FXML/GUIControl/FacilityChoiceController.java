@@ -78,8 +78,7 @@ public class FacilityChoiceController implements Initializable {
 
                 AnchorPane anchorPane = fmxLoader.load();
                 FacilityChoiceItemController facilityChoiceItemController = fmxLoader.getController();
-                facilityChoiceItemController.setFacilityChoiceController(this);
-                facilityChoiceItemController.setData(facilities.get(i));
+                facilityChoiceItemController.setData(facilities.get(i), menuPane);
 
                 fieldsList.getChildren().add(anchorPane);
             } catch (IOException e) {
@@ -107,8 +106,7 @@ public class FacilityChoiceController implements Initializable {
 
                     AnchorPane anchorPane = fmxLoader.load();
                     FacilityChoiceItemController facilityChoiceItemController = fmxLoader.getController();
-                    facilityChoiceItemController.setFacilityChoiceController(this);
-                    facilityChoiceItemController.setData(facilities.get(i));
+                    facilityChoiceItemController.setData(facilities.get(i), menuPane);
 
                     fieldsList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
@@ -139,8 +137,7 @@ public class FacilityChoiceController implements Initializable {
 
                     AnchorPane anchorPane = fmxLoader.load();
                     FacilityChoiceItemController facilityChoiceItemController = fmxLoader.getController();
-                    facilityChoiceItemController.setFacilityChoiceController(this);
-                    facilityChoiceItemController.setData(facilities.get(i));
+                    facilityChoiceItemController.setData(facilities.get(i),menuPane);
 
                     fieldsList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
