@@ -1,6 +1,6 @@
 package main.java.DomainModel;
 
-public class Notification {
+public class Notification extends Product{
     private Person person;
     private Reservation reservation;
 
@@ -9,6 +9,8 @@ public class Notification {
         this.person = person;
         this.reservation = reservation;
     }
+
+    public Notification() {}
 
     public Person getPerson() {
         return person;
