@@ -1,10 +1,7 @@
 package main.java.BusinessLogic;
 
-import main.java.DomainModel.Notification;
-import main.java.DomainModel.Person;
-import main.java.DomainModel.Reservation;
-import main.java.DomainModel.User;
-import main.java.ORM.NotificationDAO;
+import main.java.DomainModel.*;
+import main.java.ORM.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,11 +14,44 @@ public class NotificationController {
         this.person = SessionController.getInstance().getPerson();
     }
 
-    public void sendNotifications(Reservation reservation) {}
+    public void sendNotifications(Reservation reservation) throws SQLException, ClassNotFoundException {
 
-    public void deleteNotifications(Notification notification) {
+        FacilityDAO facilityDAO = new FacilityDAO();
+        OwnerDAO ownerDAO = new OwnerDAO();
         NotificationDAO notificationDAO = new NotificationDAO();
-        notificationDAO.
+        IsPartDao isPartDao = new IsPartDao();
+        ManagesDAO managesDAO = new ManagesDAO();
+        GroupDao groupDAO = new GroupDao();
+
+        Owner owner;
+        Facility facility;
+        NotificationSender notificationSender = new NotificationSender(reservation);
+        Notification tmpNotification;
+
+        facility = facilityDAO.getFacility(reservation.getField().getFacility().getId(), false);
+        owner = ownerDAO.getOwnerByID(facility.getOwner().getId());
+
+        tmpNotification = notificationSender.factoryMethod();
+        tmpNotification.setPerson(owner);
+        //todo aggiungere a dao
+
+        for(User user : managesDAO.getAllManagersByFacility(facility.getId())){
+          tmpNotification = notificationSender.factoryMethod();
+          tmpNotification.setPerson(user);
+          //todo aggiungere a dao
+        }
+
+        for (User user: isPartDao.getGroupMembers(groupDAO.getGroupByReservation(reservation.getId()).getId())){
+            tmpNotification = notificationSender.factoryMethod();
+            tmpNotification.setPerson(user);
+            //todo aggiungere a dao
+        }
+
+    }
+
+    public void deleteNotifications(Notification notification) throws SQLException {
+        NotificationDAO notificationDAO = new NotificationDAO();
+        notificationDAO.deleteNotification(notification.getId(), person);
     }
 
     public ArrayList<Notification> getOwnNotifications() throws SQLException {

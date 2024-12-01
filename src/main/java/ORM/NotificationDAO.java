@@ -61,7 +61,7 @@ public class NotificationDAO {
 
     public void deleteNotification(int idNotification, Person person) throws SQLException {
 
-        String querySQL = String.format("DELETE FROM \"+ notificationTableName(person)+ \" WHERE id = '%d'", idNotification);
+        String querySQL = String.format("DELETE FROM \""+ notificationTableName(person)+ "\" WHERE id = '%d'", idNotification);
 
         PreparedStatement preparedStatement = null;
 

@@ -127,4 +127,47 @@ public class GroupDao {
         return group;
     }
 
+    //todo aggiungere uml
+    public Group getGroupByReservation(int idReservation) throws SQLException, ClassNotFoundException {
+
+        Group group = null;
+        ReservationDao reservationDao = new ReservationDao();
+
+        String querySQL = String.format("SELECT * FROM \"Group\" WHERE id_reservation = '%d'", idReservation);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int requiredParticipants = resultSet.getInt("participants_required");
+                int groupHead = resultSet.getInt("group_head");
+
+                Reservation reservation = reservationDao.getReservation(idReservation);
+
+
+                UserDAO userDAO = new UserDAO(); //TODO check correctness
+
+                group = new Group(id, userDAO.getUserByID(groupHead), reservation, requiredParticipants);
+
+                group.setParticipants(reservationDao.getCountAllParticipants(idReservation)); //TODO check correctness
+            }
+            else{
+                System.err.println("No group found reservation id: " + idReservation);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return group;
+    }
+
 }
