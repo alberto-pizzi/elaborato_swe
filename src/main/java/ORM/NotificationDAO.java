@@ -59,6 +59,24 @@ public class NotificationDAO {
 
     }
 
+    public void deleteNotification(int idNotification, Person person) throws SQLException {
+
+        String querySQL = String.format("DELETE FROM \"+ notificationTableName(person)+ \" WHERE id = '%d'", idNotification);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Notification removed successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
+    }
+
     public Notification getNotification(){
 
         //TODO implement

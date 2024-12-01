@@ -41,6 +41,7 @@ public class SportDao {
         }
     }
 
+    //todo discutere se si può fare
     public void deleteSport(int idSport) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"Sport\" WHERE id = '%d'", idSport);

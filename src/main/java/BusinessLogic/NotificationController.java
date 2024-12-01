@@ -21,6 +21,7 @@ public class NotificationController {
 
     public void deleteNotifications(Notification notification) {
         NotificationDAO notificationDAO = new NotificationDAO();
+        notificationDAO.
     }
 
     public ArrayList<Notification> getOwnNotifications() throws SQLException {
