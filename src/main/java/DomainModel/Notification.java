@@ -1,7 +1,7 @@
 package main.java.DomainModel;
 
 public class Notification extends Product{
-    private int id;
+
     private Person person;
     private Reservation reservation;
 
@@ -11,11 +11,6 @@ public class Notification extends Product{
         this.reservation = reservation;
     }
 
-    public Notification(int id, Person person, Reservation reservation) {
-        this.id = id;
-        this.person = person;
-        this.reservation = reservation;
-    }
 
     public Notification() {}
 
@@ -35,11 +30,4 @@ public class Notification extends Product{
         this.reservation = reservation;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }

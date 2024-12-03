@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+//TODO as interface are better?
 public abstract class PersonDAO {
     protected Connection connection;
     protected String target;
