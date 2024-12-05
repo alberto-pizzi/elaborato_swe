@@ -158,7 +158,7 @@
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                                  <styleClass>
-                                    <String fx:value="menu-button-owner" />
+                                    <String fx:value="button-owner" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
