@@ -33,18 +33,18 @@ public class NotificationController {
 
         tmpNotification = notificationSender.factoryMethod();
         tmpNotification.setPerson(owner);
-        //todo aggiungere a dao
+        notificationDAO.addNotification(tmpNotification);
 
         for(User user : managesDAO.getAllManagersByFacility(facility.getId())){
           tmpNotification = notificationSender.factoryMethod();
           tmpNotification.setPerson(user);
-          //todo aggiungere a dao
+          notificationDAO.addNotification(tmpNotification);
         }
 
         for (User user: isPartDao.getGroupMembers(groupDAO.getGroupByReservation(reservation.getId()).getId())){
             tmpNotification = notificationSender.factoryMethod();
             tmpNotification.setPerson(user);
-            //todo aggiungere a dao
+            notificationDAO.addNotification(tmpNotification);
         }
 
     }
