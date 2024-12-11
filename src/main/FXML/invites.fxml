@@ -16,7 +16,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="0.0" prefWidth="1180.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="262.0" text="Your Invites" textAlignment="CENTER">
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="70.0" prefWidth="287.0" text="Your Invites" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="48.0" />
                            </font>

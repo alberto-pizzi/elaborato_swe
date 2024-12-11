@@ -4,13 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.OwnerManagementController;
+import main.java.BusinessLogic.UserProfileController;
 import main.java.DomainModel.Facility;
 
 import java.io.IOException;
@@ -20,10 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class FacilityChoiceController implements Initializable {
-
+public class FacilityChoiceManagerController implements Initializable {
+//todo controllare se si può ridurre codice con classe base
     @FXML
-    private VBox fieldsList;
+    private VBox facilityList;
 
     @FXML
     private Button next;
@@ -58,8 +59,8 @@ public class FacilityChoiceController implements Initializable {
 
     private List<Facility> getData() throws SQLException, ClassNotFoundException {
         List<Facility> facilities = new ArrayList<>();
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        return ownerManagementController.getOwnFacilities();
+        UserProfileController userProfileController = new UserProfileController();
+        return userProfileController.getFacilitiesManaged();
     }
 
     @Override
@@ -74,13 +75,13 @@ public class FacilityChoiceController implements Initializable {
             try {
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItem.fxml"));
+                fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItemManager.fxml"));
 
                 AnchorPane anchorPane = fmxLoader.load();
-                FacilityChoiceItemController facilityChoiceItemController = fmxLoader.getController();
-                facilityChoiceItemController.setData(facilities.get(i), menuPane);
+                FacilityChoiceItemManagerController facilityChoiceItemManagerController = fmxLoader.getController();
+                facilityChoiceItemManagerController.setData(facilities.get(i), menuPane);
 
-                fieldsList.getChildren().add(anchorPane);
+                facilityList.getChildren().add(anchorPane);
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -96,24 +97,26 @@ public class FacilityChoiceController implements Initializable {
     private void handleNextButton(ActionEvent event){
 
         if(facilities.size()>itemsPerPage* currentPage) {
-            fieldsList.getChildren().clear();
+            facilityList.getChildren().clear();
 
             for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < facilities.size(); i++) {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItem.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItemManager.fxml"));
 
                     AnchorPane anchorPane = fmxLoader.load();
-                    FacilityChoiceItemController facilityChoiceItemController = fmxLoader.getController();
-                    facilityChoiceItemController.setData(facilities.get(i), menuPane);
+                    FacilityChoiceItemManagerController facilityChoiceItemManagerController = fmxLoader.getController();
+                    facilityChoiceItemManagerController.setData(facilities.get(i), menuPane);
 
-                    fieldsList.getChildren().add(anchorPane);
+                    facilityList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
+
             }
+
             currentPage++;
             pageNumber.setText(String.valueOf(currentPage));
         }
@@ -126,7 +129,7 @@ public class FacilityChoiceController implements Initializable {
     private void handlePreviousButton(ActionEvent event){
 
         if(currentPage > 1){
-            fieldsList.getChildren().clear();
+            facilityList.getChildren().clear();
 
             for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
 
@@ -134,20 +137,20 @@ public class FacilityChoiceController implements Initializable {
 
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItem.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItemManager.fxml"));
 
                     AnchorPane anchorPane = fmxLoader.load();
-                    FacilityChoiceItemController facilityChoiceItemController = fmxLoader.getController();
-                    facilityChoiceItemController.setData(facilities.get(i),menuPane);
+                    FacilityChoiceItemManagerController facilityChoiceItemManagerController = fmxLoader.getController();
+                    facilityChoiceItemManagerController.setData(facilities.get(i),menuPane);
 
-                    fieldsList.getChildren().add(anchorPane);
+                    facilityList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
 
-
             }
+
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));
         }
