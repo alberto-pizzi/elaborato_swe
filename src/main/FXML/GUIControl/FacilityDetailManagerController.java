@@ -6,18 +6,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import main.java.DomainModel.Facility;
-import main.java.DomainModel.Field;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class FacilityDetailOwnerController {
+public class FacilityDetailManagerController {
 
     @FXML
     private Label facilityAddress;
@@ -70,11 +68,11 @@ public class FacilityDetailOwnerController {
     @FXML
     void handleGoToFieldsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldChoiceOwner.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldChoiceManager.fxml"));
         Parent facilityFieldsPane = loader.load();
 
-        FieldChoiceController fieldChoiceController = loader.getController();
-        fieldChoiceController.setData(facility, menuPane);
+        FieldChoiceManagerController fieldChoiceManagerController = loader.getController();
+        fieldChoiceManagerController.setData(facility, menuPane);
 
         menuPane.setCenter(facilityFieldsPane);
 

@@ -44,11 +44,11 @@ public class FacilityChoiceItemManagerController {
     @FXML
     void handleDetailsFacilityButton(ActionEvent event) throws IOException, SQLException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityDetailOwner.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityDetailManager.fxml"));
         Parent facilityDetailPane = loader.load();
 
-        FacilityDetailOwnerController facilityDetailOwnerController = loader.getController();
-        facilityDetailOwnerController.setData(facility,menuPane);
+        FacilityDetailManagerController facilityDetailManagerController = loader.getController();
+        facilityDetailManagerController.setData(facility,menuPane);
 
         menuPane.setCenter(facilityDetailPane);
 
@@ -57,17 +57,18 @@ public class FacilityChoiceItemManagerController {
     @FXML
     void handleFacilityFieldsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldChoiceOwner.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldChoiceManager.fxml"));
         Parent facilityFieldsPane = loader.load();
 
-        FieldChoiceController fieldChoiceController = loader.getController();
-        fieldChoiceController.setData(facility,menuPane);
+        FieldChoiceManagerController fieldChoiceManagerController = loader.getController();
+        fieldChoiceManagerController.setData(facility,menuPane);
 
         menuPane.setCenter(facilityFieldsPane);
 
     }
 
     public void setData(Facility facility, BorderPane menuPane) throws SQLException {
+
         this.facility = facility;
         this.menuPane = menuPane;
 
