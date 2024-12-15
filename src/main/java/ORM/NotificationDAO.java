@@ -59,10 +59,10 @@ public class NotificationDAO {
                 if (idMessage != 0) {
                     String title = resultSet.getString("title");
                     String message = resultSet.getString("message");
-                    notification = new Notification(id,person, reservation, notificationType,title,message);
+                    notification = new Notification(id,person, reservation, NotificationType.fromStringToNotificationType(notificationType),title,message);
                 }
                 else
-                    notification = new Notification(id,person,reservation,notificationType);
+                    notification = new Notification(id,person,reservation,NotificationType.fromStringToNotificationType(notificationType));
 
             }
             else{
@@ -109,7 +109,6 @@ public class NotificationDAO {
     }
 
     //TODO id or Notification as parameter? attribute name "id" is correct?
-    //TODO add custom message cascade deleting.
     public void deleteNotification(Person person, int idNotification) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \""+ notificationTableName(person)+ "\" WHERE id = '%d'", idNotification);
@@ -135,7 +134,7 @@ public class NotificationDAO {
 
             int messageId = -1;  // -1 for message typing error
 
-            if (notification.getNotificationType().equals("ANNOUNCEMENT")) {
+            if (notification.getNotificationType() == NotificationType.ANNOUNCEMENT) {
                 messageId = createMessage(notification);
                 if (messageId == -1) {
                     throw new SQLException("Failed to create message.");
@@ -152,7 +151,7 @@ public class NotificationDAO {
             connection.rollback();
             System.err.println("Error while adding notification: " + e.getMessage());
         } finally {
-            connection.setAutoCommit(true);  // Ripristina il commit automatico
+            connection.setAutoCommit(true);  // restore auto commit
         }
     }
 
@@ -182,7 +181,7 @@ public class NotificationDAO {
 
         try (PreparedStatement pstmtNotification = connection.prepareStatement(notificationQuery)) {
             pstmtNotification.setInt(1, notification.getPerson().getId());
-            pstmtNotification.setString(2, notification.getNotificationType());
+            pstmtNotification.setString(2, notification.getNotificationType().getStringValue());
 
             if (messageId != -1) {
                 pstmtNotification.setInt(3, messageId);

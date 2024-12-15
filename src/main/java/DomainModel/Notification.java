@@ -10,28 +10,29 @@ public class Notification extends Product{
     private Reservation reservation;
     private String title;
     private String message;
-    private String notificationType;
+    //private String notificationType;
+    private NotificationType notificationType;
     //TODO add "created at" field?
 
 
-    public Notification(Person person, Reservation reservation, String notificationType) {
+    public Notification(Person person, Reservation reservation, NotificationType notificationType) {
         this.person = person;
         this.reservation = reservation;
         this.notificationType = notificationType;
     }
 
-    public Notification(int id,Person person, Reservation reservation, String notificationType) {
+    public Notification(int id,Person person, Reservation reservation, NotificationType notificationType) {
         this(person, reservation, notificationType);
         this.id = id;
     }
 
-    public Notification(Person person, Reservation reservation, String notificationType, String title, String message) {
+    public Notification(Person person, Reservation reservation, NotificationType notificationType, String title, String message) {
         this(person, reservation, notificationType);
         this.title = title;
         this.message = message;
     }
 
-    public Notification(int id,Person person, Reservation reservation, String notificationType, String title, String message) {
+    public Notification(int id,Person person, Reservation reservation, NotificationType notificationType, String title, String message) {
         this(person, reservation, notificationType, title, message);
         this.id = id;
     }
@@ -79,11 +80,11 @@ public class Notification extends Product{
         this.message = message;
     }
 
-    public String getNotificationType() {
+    public NotificationType getNotificationType() {
         return notificationType;
     }
 
-    public void setNotificationType(String notificationType) {
+    public void setNotificationType(NotificationType notificationType) {
         this.notificationType = notificationType;
     }
 
@@ -95,19 +96,19 @@ public class Notification extends Product{
         if (reservation != null) {
 
             switch (notificationType) {
-                case "CONFIRMATION":
+                case NotificationType.CONFIRMATION:
                     title = "Booking CONFIRMED on " + dateFormatter.format(reservation.getEventDate()) + " at " + timeFormatter.format(reservation.getEventTimeStart());
                     message = "Your " + (reservation.isMatched() ? "matched" : "") + " reservation at" + reservation.getField().getName() + " located in " + reservation.getField().getFacility().getFullAddress() + " is confirmed!";
                     break;
-                case "MODIFICATION":
+                case NotificationType.MODIFICATION:
                     title = "Your booking at " + reservation.getField().getName() + " has been CHANGED!";
                     message = "Now, your " + (reservation.isMatched() ? "matched" : "") + " reservation located in " + reservation.getField().getFacility().getFullAddress() + " is on " + dateFormatter.format(reservation.getEventDate()) + " at " + timeFormatter.format(reservation.getEventTimeStart());
                     break;
-                case "DELETION":
+                case NotificationType.DELETION:
                     title = "Your booking at " + reservation.getField().getName() + " has been DELETED!";
                     message = "Your " + (reservation.isMatched() ? "matched" : "") + " reservation located in " + reservation.getField().getFacility().getFullAddress() + " on " + dateFormatter.format(reservation.getEventDate()) + " at " + timeFormatter.format(reservation.getEventTimeStart()) + "has been deleted!";
                     break;
-                case "ANNOUNCEMENT":
+                case NotificationType.ANNOUNCEMENT:
                     title = "Booking Announcement: " + title;
                     if (message.isEmpty())
                         message = "Body message is empty.";
