@@ -56,5 +56,12 @@ INSERT INTO "Manages" (id_facility, id_user) VALUES
 (1, 1),
 (2, 2);
 
-INSERT INTO "NotifyOwner" (id_owner, id_reservation) VALUES
-(1, 1);
+INSERT INTO "NotificationOwner" (id_owner,notification_type,id_message, id_reservation) VALUES
+(1, 'CONFIRMATION',NULL,1);
+
+INSERT INTO "NotificationUser" (id_user,notification_type,id_message, id_reservation) VALUES
+    (2, 'CONFIRMATION',NULL,1);
+
+
+
+

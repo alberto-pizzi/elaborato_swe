@@ -2,13 +2,9 @@ package main.java.ORM;
 
 import main.java.DomainModel.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
-//TODO to finish to implement
 public class NotificationDAO {
 
     private Connection connection;
@@ -26,12 +22,65 @@ public class NotificationDAO {
     //methods
 
     private String notificationTableName(Person person){
-        return (person.getTarget() == "Owner") ? "NotifyOwner" : "NotifyUser";
+        return (person.getTarget() == "Owner") ? "NotificationOwner" : "NotificationUser";
     }
 
     private String notificationIdName(Person person){
         return (person.getTarget() == "Owner") ? "id_owner" : "id_user";
     }
+
+
+    public Notification getNotification(Person person, int idNotification) throws SQLException {
+
+        Notification notification = null;
+
+        String querySQL = String.format("SELECT * FROM \""+ notificationTableName(person)+ "\" P1 LEFT JOIN \"Message\" M1 ON P1.id_message=M1.id WHERE P1.id = '%d'", idNotification);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int idPerson = resultSet.getInt(notificationIdName(person));
+                int idReservation = resultSet.getInt("id_reservation");
+                int idMessage = resultSet.getInt("id_message");
+                String notificationType = resultSet.getString("notification_type");
+
+                Reservation reservation = null;
+                ReservationDao reservationDao = new ReservationDao();
+
+                if (idReservation != 0)
+                    reservation = reservationDao.getReservation(idReservation);
+
+                if (idMessage != 0) {
+                    String title = resultSet.getString("title");
+                    String message = resultSet.getString("message");
+                    notification = new Notification(id,person, reservation, notificationType,title,message);
+                }
+                else
+                    notification = new Notification(id,person,reservation,notificationType);
+
+            }
+            else{
+                System.err.println("No notification found with id: " + idNotification);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return notification;
+    }
+
 
     public ArrayList<Notification> getNotifications(Person person) throws SQLException {
         ArrayList<Notification> notifications = new ArrayList<>();
@@ -45,19 +94,11 @@ public class NotificationDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                int idPerson = resultSet.getInt(notificationIdName(person));
-                int idReservation = resultSet.getInt("id_reservation");
-
-                ReservationDao reservationDao = new ReservationDao();
-
-                //TODO check correctness
-                notifications.add(new Notification(person,reservationDao.getReservation(idReservation)));
-
+                //TODO check and test if id (renamed) is correct
+                notifications.add(this.getNotification(person, resultSet.getInt("id")));
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } finally {
             if (preparedStatement != null) { preparedStatement.close(); }
             if (resultSet != null) { resultSet.close(); }
@@ -68,9 +109,10 @@ public class NotificationDAO {
     }
 
     //TODO id or Notification as parameter? attribute name "id" is correct?
-    public void deleteNotification(Person person, int idReservation) throws SQLException {
+    //TODO add custom message cascade deleting.
+    public void deleteNotification(Person person, int idNotification) throws SQLException {
 
-        String querySQL = String.format("DELETE FROM \""+ notificationTableName(person)+ "\" WHERE "+ notificationIdName(person) +" = '%d' AND id_reservation = '%d'", person.getId(),idReservation);
+        String querySQL = String.format("DELETE FROM \""+ notificationTableName(person)+ "\" WHERE id = '%d'", idNotification);
 
         PreparedStatement preparedStatement = null;
 
@@ -86,67 +128,78 @@ public class NotificationDAO {
 
     }
 
-    //TODO attribute name is correct? (maybe yes)
-    public Notification getNotification(Person person, int idReservation) throws SQLException {
 
-        Notification notification = null;
-        ReservationDao reservationDao = new ReservationDao();
-
-        //TODO is better like this or with "exists" query?
-        String querySQL = String.format("SELECT * FROM \""+ notificationTableName(person)+ "\" WHERE "+ notificationIdName(person) +" = '%d' AND id_reservation = '%d'", person.getId(),idReservation);
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-
-                Reservation reservation = reservationDao.getReservation(idReservation);
-
-                notification = new Notification(person,reservation);
-
-            }
-            else{
-                System.err.println("No group found with id: " + idReservation);
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-            if (resultSet != null) { resultSet.close(); }
-        }
-
-        return notification;
-    }
-
-    //TODO Notification as parameter? (Maybe yes, like GroupDAO). Notification ID exists when I create a notification by DomainModel?
     public void addNotification(Notification notification) throws SQLException {
-
-
-        String querySQL = String.format("INSERT INTO "+ notificationTableName(notification.getPerson())+ " ("+ notificationIdName(notification.getPerson()) +", id_reservation)) " +
-                "VALUES ('%d', '%d')", notification.getPerson().getId(),notification.getReservation().getId());
-
-        PreparedStatement preparedStatement = null;
-
         try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            preparedStatement.executeUpdate();
-            System.out.println("Notification added successfully.");
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-        }
+            connection.setAutoCommit(false);
 
+            int messageId = -1;  // -1 for message typing error
+
+            if (notification.getNotificationType().equals("ANNOUNCEMENT")) {
+                messageId = createMessage(notification);
+                if (messageId == -1) {
+                    throw new SQLException("Failed to create message.");
+                }
+            }
+
+            // 0 if not announcement
+            createNotification(notification, messageId);
+
+            //commit transaction
+            connection.commit();
+            System.out.println("Notification and message added successfully.");
+        } catch (SQLException e) {
+            connection.rollback();
+            System.err.println("Error while adding notification: " + e.getMessage());
+        } finally {
+            connection.setAutoCommit(true);  // Ripristina il commit automatico
+        }
     }
+
+    private int createMessage(Notification notification) throws SQLException {
+        String messageQuery = String.format("INSERT INTO \"Message\" (title, message) VALUES ('%s', '%s')",notification.getTitle(),notification.getMessage());
+
+        try (PreparedStatement pstmtMessage = connection.prepareStatement(messageQuery, Statement.RETURN_GENERATED_KEYS)) {
+            pstmtMessage.executeUpdate();
+
+            try (ResultSet generatedKeys = pstmtMessage.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    return -1;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error while adding message: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    private void createNotification(Notification notification, int messageId) throws SQLException {
+        String notificationQuery = "INSERT INTO \"" + notificationTableName(notification.getPerson()) +
+                "\" (" + notificationIdName(notification.getPerson()) + ", notification_type, id_message, id_reservation) " +
+                "VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement pstmtNotification = connection.prepareStatement(notificationQuery)) {
+            pstmtNotification.setInt(1, notification.getPerson().getId());
+            pstmtNotification.setString(2, notification.getNotificationType());
+
+            if (messageId != -1) {
+                pstmtNotification.setInt(3, messageId);
+            } else {
+                pstmtNotification.setNull(3, java.sql.Types.INTEGER);
+            }
+
+            pstmtNotification.setInt(4, notification.getReservation().getId());
+            pstmtNotification.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error while adding notification: " + e.getMessage());
+            throw e;
+        }
+    }
+
+
+
 
 
 }

@@ -51,7 +51,7 @@ public class NotificationController {
 
     public void deleteNotifications(Notification notification) throws SQLException {
         NotificationDAO notificationDAO = new NotificationDAO();
-        notificationDAO.deleteNotification(notification.getPerson(),notification.getReservation().getId());
+        notificationDAO.deleteNotification(notification.getPerson(),notification.getId());
     }
 
     public ArrayList<Notification> getOwnNotifications() throws SQLException {
