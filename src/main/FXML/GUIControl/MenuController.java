@@ -35,6 +35,9 @@ public class MenuController implements Initializable {
     @FXML
     private Button reservationButton;
 
+    @FXML
+    private Button notificationButton;
+
     //methods
 
     @Override
@@ -91,6 +94,13 @@ public class MenuController implements Initializable {
     public void handleReservationsButtonAction(ActionEvent event) throws IOException {
         changeView("reservations.fxml");
         System.out.println("Reservations menu button clicked");
+
+    }
+
+    @FXML
+    void handleNotificationButtonAction(ActionEvent event) throws IOException {
+        changeView("notifications.fxml");
+        System.out.println("Notifications menu button clicked");
 
     }
 

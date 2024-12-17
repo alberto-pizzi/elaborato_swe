@@ -145,3 +145,8 @@
     -fx-background-color: transparent;
 }
 
+.go-to-from-notifications{
+    -fx-background-color: #0085f3;
+    -fx-background-radius: 40;
+    -fx-cursor: hand;
+}
