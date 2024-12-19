@@ -35,6 +35,7 @@ public class FieldChoiceItemManagerController {
 
     private BorderPane menuPane;
 
+    //todo bottoni reattivi
     public void setData(Field field, BorderPane menuPane) throws SQLException {
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
