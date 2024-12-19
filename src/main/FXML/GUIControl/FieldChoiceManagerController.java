@@ -59,11 +59,11 @@ public class FieldChoiceManagerController {
             try {
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItem.fxml"));
+                fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItemManager.fxml"));
 
                 AnchorPane anchorPane = fmxLoader.load();
-                FieldChoiceItemController fieldChoiceItemController = fmxLoader.getController();
-                fieldChoiceItemController.setData(fields.get(i), menuPane);
+                FieldChoiceItemManagerController fieldChoiceItemManagerController = fmxLoader.getController();
+                fieldChoiceItemManagerController.setData(fields.get(i), menuPane);
 
                 fieldsList.getChildren().add(anchorPane);
             } catch (IOException e) {
@@ -88,11 +88,11 @@ public class FieldChoiceManagerController {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItem.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItemManager.fxml"));
 
                     AnchorPane anchorPane = fmxLoader.load();
-                    FieldChoiceItemController fieldChoiceItemController = fmxLoader.getController();
-                    fieldChoiceItemController.setData(fields.get(i), menuPane);
+                    FieldChoiceItemManagerController fieldChoiceItemManagerController = fmxLoader.getController();
+                    fieldChoiceItemManagerController.setData(fields.get(i), menuPane);
 
                     fieldsList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
@@ -119,11 +119,11 @@ public class FieldChoiceManagerController {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItem.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItemManager.fxml"));
 
                     AnchorPane anchorPane = fmxLoader.load();
-                    FieldChoiceItemController fieldChoiceItemController = fmxLoader.getController();
-                    fieldChoiceItemController.setData(fields.get(i), menuPane);
+                    FieldChoiceItemManagerController fieldChoiceItemManagerController = fmxLoader.getController();
+                    fieldChoiceItemManagerController.setData(fields.get(i), menuPane);
 
                     fieldsList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
