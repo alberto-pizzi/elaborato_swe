@@ -2,7 +2,7 @@ package main.java.DomainModel;
 
 import java.util.ArrayList;
 
-public class Group {
+public class Group extends Subject{
     private int id;
     private User groupHead;
     private Reservation reservation;
@@ -11,14 +11,15 @@ public class Group {
     private int participants;
     private int requiredParticipants;
 
+    //TODO how is groupHead counted in users array? outside or inside?
+    //FIXME how guests are managed?
     public Group(int id, User groupHead, Reservation reservation, int requiredParticipants) {
         this.id = id;
         this.groupHead = groupHead;
         this.reservation = reservation;
         this.requiredParticipants = requiredParticipants;
-        //TODO check correctness
         this.users = new ArrayList<>();
-        this.participants = 0;
+        this.participants = 0; //TODO check correctness. 0 is correct?
     }
 
     public Group(User groupHead, Reservation reservation, int requiredParticipants) {
@@ -96,4 +97,55 @@ public class Group {
     public String groupProgress(){
         return String.valueOf(this.participants) + " of " + String.valueOf(this.requiredParticipants);
     }
+
+    //TODO check groupHead for first joining
+    public boolean addMember(User user, int guests){
+        if (guests < 0)
+            guests = 0;
+
+        if (this.participants + guests + 1 > this.requiredParticipants) {
+            System.out.println("Group is full!");
+            return false;
+        }
+
+        if (this.users.contains(user)) {
+            System.out.println("User is already in the group!");
+            return false;
+        }
+
+        this.users.add(user);
+        this.participants += guests + 1;
+
+        return true;
+
+    }
+
+    public boolean removeMember(User user, int guests){
+        //TODO record to manage guests per user is needed?
+
+
+        if (users.contains(user)) {
+            this.users.remove(user);
+            this.participants -= guests + 1;
+
+            if (user.equals(groupHead))
+                assignNewGroupHead();
+
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public void assignNewGroupHead(){
+        if (users.isEmpty()) {
+            groupHead = null;
+            return;
+        }
+
+        groupHead = users.getFirst();
+
+    }
+
 }

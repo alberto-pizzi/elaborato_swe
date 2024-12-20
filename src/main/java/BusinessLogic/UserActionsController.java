@@ -127,22 +127,25 @@ public class UserActionsController {
     }
 
     public void joinGroup(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException {
-        if (guestUsers <= 0)
-            guestUsers = 0;
 
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
         Group group = groupDao.getGroup(idGroup);
 
+        //this method adds a member from DomainModel
+        boolean memberAdded = group.addMember(user,guestUsers);
 
-        isPartDao.addMembership(idGroup,user.getId(),guestUsers);
-        group.setParticipants(group.getParticipants() + guestUsers + 1);
-        System.out.println("Group " + idGroup + "participants had been increased");
+        if (memberAdded) {
+            isPartDao.addMembership(idGroup,user.getId(),guestUsers);
+            System.out.println("Members added into groups");
 
-        //TODO when is full? what's happen? check alert...
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Join Group");
-        alert.setHeaderText("Group selected is full");
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Join Group Failed");
+            alert.setHeaderText("Group selected is full or you are already in");
+        }
+
 
 
     }
@@ -153,26 +156,21 @@ public class UserActionsController {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
         Group group = groupDao.getGroup(idGroup);
-        int groupHeadId = group.getGroupHead().getId();
         int ownGuests = isPartDao.countOwnGuests(idGroup,user.getId());
 
+        //this method removes a member from DomainModel
+        boolean memberRemoved = group.removeMember(user,ownGuests);
 
-        if ((ownGuests + 1) >= group.getParticipants()){
-            groupDao.deleteGroup(idGroup);
-            System.out.println("Group " + idGroup + " has been deleted");
+        if (memberRemoved){
+            isPartDao.removeMembership(idGroup,user.getId());
+
+            if (group.getParticipants() <= 0)
+                groupDao.deleteGroup(idGroup);
+            else
+                groupDao.updateGroupHead(idGroup,group.getGroupHead().getId());
         }
-        else {
-            group.setParticipants(group.getParticipants() - ownGuests - 1);
-            System.out.println("Group " + idGroup + "participants had been decreased");
-
-            if (user.getId() == groupHeadId){
-                User newGroupHead = isPartDao.groupHeadSuccessorId(idGroup,user.getId());
-                group.setGroupHead(newGroupHead);
-            }
-        }
-
-        isPartDao.removeMembership(idGroup,user.getId()); //TODO is it on correct position?
-
+        else
+            System.out.println("Error during removing");
 
     }
 

@@ -3,10 +3,11 @@ package main.java.DomainModel;
 
 import java.util.ArrayList;
 
-public class Invites extends Subject {
+public class Invites {
 
 
     // attributes
+    //TODO state (and its methods)
     private ArrayList<Invite> state;
     private User user;
 
