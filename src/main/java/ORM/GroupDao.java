@@ -107,11 +107,12 @@ public class GroupDao {
                 Reservation reservation = reservationDao.getReservation(idReservation);
 
 
-                UserDAO userDAO = new UserDAO(); //TODO check correctness
+                UserDAO userDAO = new UserDAO();
+                IsPartDao isPartDao = new IsPartDao();
 
                 group = new Group(id, userDAO.getUserByID(groupHead), reservation, requiredParticipants);
-
-                group.setParticipants(reservationDao.getCountAllParticipants(idReservation)); //TODO check correctness
+                group.setParticipants(reservationDao.getCountAllParticipants(idReservation));
+                group.setUsers(isPartDao.getGroupMembers(idGroup));
             }
             else{
                 System.err.println("No group found with id: " + idGroup);
@@ -150,11 +151,13 @@ public class GroupDao {
                 Reservation reservation = reservationDao.getReservation(idReservation);
 
 
-                UserDAO userDAO = new UserDAO(); //TODO check correctness
+                UserDAO userDAO = new UserDAO();
+                IsPartDao isPartDao = new IsPartDao();
 
                 group = new Group(id, userDAO.getUserByID(groupHead), reservation, requiredParticipants);
+                group.setParticipants(reservationDao.getCountAllParticipants(idReservation));
+                group.setUsers(isPartDao.getGroupMembers(id));
 
-                group.setParticipants(reservationDao.getCountAllParticipants(idReservation)); //TODO check correctness
             }
             else{
                 System.err.println("No group found reservation id: " + idReservation);

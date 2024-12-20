@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Group extends Subject{
     private int id;
+    //also groupHead is inside users arraylist
     private User groupHead;
     private Reservation reservation;
     private int guestUsers;
@@ -11,7 +12,6 @@ public class Group extends Subject{
     private int participants;
     private int requiredParticipants;
 
-    //TODO how is groupHead counted in users array? outside or inside?
     //FIXME how guests are managed?
     public Group(int id, User groupHead, Reservation reservation, int requiredParticipants) {
         this.id = id;
@@ -19,7 +19,7 @@ public class Group extends Subject{
         this.reservation = reservation;
         this.requiredParticipants = requiredParticipants;
         this.users = new ArrayList<>();
-        this.participants = 0; //TODO check correctness. 0 is correct?
+        this.participants = 0;
     }
 
     public Group(User groupHead, Reservation reservation, int requiredParticipants) {
@@ -28,7 +28,7 @@ public class Group extends Subject{
         this.requiredParticipants = requiredParticipants;
         //TODO check correctness
         this.users = new ArrayList<>();
-        this.participants = 1; //TODO check correctness
+        this.participants = 1;
     }
 
 

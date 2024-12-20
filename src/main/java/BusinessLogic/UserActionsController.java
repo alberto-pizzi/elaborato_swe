@@ -80,7 +80,7 @@ public class UserActionsController {
         reservationDao.addReservation(reservation);
 
         //group creation
-        Group group = new Group(user,reservation, requiredParticipants);
+        Group group = new Group(user,reservation, requiredParticipants); //TODO check if participants and users array will be filled. Check constructor.
         groupDao.addGroup(group);
 
         if (isMatched) {
