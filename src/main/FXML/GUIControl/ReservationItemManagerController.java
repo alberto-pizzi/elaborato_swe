@@ -7,10 +7,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
+import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 public class ReservationItemManagerController {
@@ -47,8 +51,8 @@ public class ReservationItemManagerController {
 
 
     private Reservation reservation;
-    private ReservationsController reservationsController;
 
+    private ReservationsManagerController reservationsController;
 
     //getters
 
@@ -56,7 +60,7 @@ public class ReservationItemManagerController {
         return reservation;
     }
 
-    public ReservationsController getReservationsController() {
+    public ReservationsManagerController getReservationsController() {
         return reservationsController;
     }
 
@@ -70,7 +74,7 @@ public class ReservationItemManagerController {
         this.reservation = reservation;
     }
 
-    public void setReservationsController(ReservationsController reservationsController) {
+    public void setReservationsController(ReservationsManagerController reservationsController) {
         this.reservationsController = reservationsController;
     }
 
@@ -94,38 +98,18 @@ public class ReservationItemManagerController {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + reservation.getField().getImage()));
         fieldImageView.setImage(image);
-
-        //TODO optimize?
-
-        String buttonFXMLsrc = "";
-        if (reservation.isMatched()) {
-            buttonFXMLsrc = "/main/FXML/goToGroupButton.fxml";
-        } else {
-            buttonFXMLsrc = "/main/FXML/managementButtons.fxml";
-        }
-
-        try {
-            //TODO optimize?
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(buttonFXMLsrc));
-            if (reservation.isMatched()) {
-                Button button = loader.load();
-                actionsVBox.getChildren().add(button);
-            } else {
-                HBox buttonsBox = loader.load();
-                actionsVBox.getChildren().add(buttonsBox);
-            }
-
-            ManagementButtonsController managementButtonsController = loader.getController();
-            managementButtonsController.setData(this);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
     }
 
+    @FXML
+    public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException {
+        System.out.println("Leave button clicked: " + fieldNameLabel.getText());
 
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+        managerOwnerManagementController.deleteReservation(reservation.getId());
+
+        if (reservationsController != null) {
+            reservationsController.removeReservationItemFromGUI(reservationItemPane,reservation);
+        }
+    }
 
 }

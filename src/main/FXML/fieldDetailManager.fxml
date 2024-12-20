@@ -145,12 +145,21 @@
                               <Insets bottom="10.0" top="50.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
+                        <VBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToBookButton" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Go to book -&gt;" textFill="WHITE">
-                                 <HBox.margin>
-                                    <Insets top="20.0" />
-                                 </HBox.margin>
+                              <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="See Reservations" textFill="WHITE">
+                                 <padding>
+                                    <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                                 <styleClass>
+                                    <String fx:value="leave-button" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                              </Button>
+                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToBookButton" prefHeight="55.0" prefWidth="448.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Go to book -&gt;" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
                                  </padding>
@@ -163,7 +172,7 @@
                                  </styleClass>
                               </Button>
                            </children>
-                        </HBox>
+                        </VBox>
                      </children>
                      <padding>
                         <Insets bottom="30.0" top="30.0" />

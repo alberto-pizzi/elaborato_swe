@@ -97,7 +97,7 @@
                   <Insets bottom="5.0" top="5.0" />
                </padding>
                <children>
-                  <VBox alignment="CENTER" prefHeight="109.0" prefWidth="306.0" spacing="15.0">
+                  <VBox alignment="CENTER" prefHeight="109.0" prefWidth="306.0" spacing="10.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#handleDetailsFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Details" textFill="WHITE">
                            <font>
@@ -111,7 +111,19 @@
                               <String fx:value="shadow" />
                            </styleClass>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#handleReservationFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Make a reservation" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="See reservations" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                           <styleClass>
+                              <String fx:value="leave-button" />
+                              <String fx:value="shadow" />
+                           </styleClass>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleReservationFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Make a reservation" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>

@@ -3,6 +3,7 @@ package main.FXML.GUIControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -11,6 +12,7 @@ import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
+import main.java.DomainModel.Group;
 import main.java.DomainModel.Reservation;
 
 import java.io.IOException;
@@ -43,6 +45,8 @@ public class ReservationsManagerController {
 
     private BorderPane menuPane;
 
+    private Field field;
+
     public BorderPane getMenuPane() {
         return menuPane;
     }
@@ -51,26 +55,26 @@ public class ReservationsManagerController {
         return page;
     }
 
-    public void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException {
+    public void setData(Field field, BorderPane menuPane) throws SQLException, ClassNotFoundException {
 
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-        this.reservations = managerOwnerManagementController.getFieldsByFacility(facility);
+        this.reservations = managerOwnerManagementController.getReservationsByField(field);
         this.menuPane = menuPane;
+        this.field = field;
         for(int i=0; i < itemsPerPage && i < reservations.size(); i++){
             try {
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItemManager.fxml"));
+                fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemManager.fxml"));
 
                 AnchorPane anchorPane = fmxLoader.load();
-                FieldChoiceItemManagerController fieldChoiceItemManagerController = fmxLoader.getController();
-                fieldChoiceItemManagerController.setData(reservations.get(i), menuPane);
+                ReservationItemManagerController reservationItemManagerController = fmxLoader.getController();
+                reservationItemManagerController.setReservationsController(this);
+                reservationItemManagerController.setData(reservations.get(i));
 
                 reservationsList.getChildren().add(anchorPane);
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException(e);
-            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -89,14 +93,15 @@ public class ReservationsManagerController {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItemManager.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemManager.fxml"));
 
                     AnchorPane anchorPane = fmxLoader.load();
-                    FieldChoiceItemManagerController fieldChoiceItemManagerController = fmxLoader.getController();
-                    fieldChoiceItemManagerController.setData(reservations.get(i), menuPane);
+                    ReservationItemManagerController reservationItemManagerController = fmxLoader.getController();
+                    reservationItemManagerController.setReservationsController(this);
+                    reservationItemManagerController.setData(reservations.get(i));
 
                     reservationsList.getChildren().add(anchorPane);
-                } catch (IOException | SQLException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
@@ -107,7 +112,10 @@ public class ReservationsManagerController {
 
     }
 
-
+    public void removeReservationItemFromGUI(AnchorPane reservationItemPane, Reservation reservation) {
+        reservations.remove(reservation);
+        reservationsList.getChildren().remove(reservationItemPane);
+    }
 
     @FXML
     private void handlePreviousButton(ActionEvent event){
@@ -120,14 +128,15 @@ public class ReservationsManagerController {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItemManager.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemManager.fxml"));
 
                     AnchorPane anchorPane = fmxLoader.load();
-                    FieldChoiceItemManagerController fieldChoiceItemManagerController = fmxLoader.getController();
-                    fieldChoiceItemManagerController.setData(reservations.get(i), menuPane);
+                    ReservationItemManagerController reservationItemManagerController = fmxLoader.getController();
+                    reservationItemManagerController.setReservationsController(this);
+                    reservationItemManagerController.setData(reservations.get(i));
 
                     reservationsList.getChildren().add(anchorPane);
-                } catch (IOException | SQLException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
@@ -137,6 +146,21 @@ public class ReservationsManagerController {
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));
         }
+    }
+
+    //todo da fare
+    @FXML
+    void handleNewReservationButton(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
+        Parent view = loader.load();
+
+        BookFieldController bookFieldController = loader.getController();
+        bookFieldController.setData(this.field);
+
+
+        menuPane.setCenter(view);
+
     }
 
 }

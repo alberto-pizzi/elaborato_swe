@@ -1,10 +1,8 @@
 package main.java.BusinessLogic;
 
-import main.java.DomainModel.Facility;
-import main.java.DomainModel.Field;
-import main.java.DomainModel.Owner;
-import main.java.DomainModel.Person;
+import main.java.DomainModel.*;
 import main.java.ORM.FieldDao;
+import main.java.ORM.ReservationDao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,9 +27,15 @@ public class ManagerOwnerManagementController {
 
     public void editReservation(){}
 
-    public void deleteReservation(){}
+    public void deleteReservation(int reservationId) throws SQLException {
+        ReservationDao reservationDao = new ReservationDao();
+        reservationDao.deleteReservation(reservationId);
+    }
 
-    public void getReservationsByField(){}
+    public ArrayList<Reservation> getReservationsByField(Field field) throws SQLException, ClassNotFoundException {
+        ReservationDao reservationDao = new ReservationDao();
+        return reservationDao.getReservationsByField(field.getId());
+    }
 
     //todo aggiungere uml
     public String getFieldAddress(int fieldId) throws SQLException {
