@@ -47,7 +47,7 @@ public class ReservationItemOwnerController {
 
     private Reservation reservation;
 
-    private ReservationsManagerController reservationsController;
+    private ReservationsOwnerController reservationsController;
 
     //getters
 
@@ -69,7 +69,7 @@ public class ReservationItemOwnerController {
         this.reservation = reservation;
     }
 
-    public void setReservationsController(ReservationsManagerController reservationsController) {
+    public void setReservationsController(ReservationsOwnerController reservationsController) {
         this.reservationsController = reservationsController;
     }
 
