@@ -85,4 +85,18 @@ public class FieldChoiceItemController {
 
     }
 
+    //todo da fare
+    @FXML
+    void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));
+        Parent view = loader.load();
+
+        ReservationsManagerController reservationsManagerController = loader.getController();
+        reservationsManagerController.setData(field, menuPane);
+
+        menuPane.setCenter(view);
+
+    }
+
 }
