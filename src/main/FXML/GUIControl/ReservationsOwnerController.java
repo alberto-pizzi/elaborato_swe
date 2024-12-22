@@ -63,12 +63,12 @@ public class ReservationsOwnerController {
             try {
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemManager.fxml"));
+                fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemOwner.fxml"));
 
                 AnchorPane anchorPane = fmxLoader.load();
-                ReservationItemManagerController reservationItemManagerController = fmxLoader.getController();
-                reservationItemManagerController.setReservationsController(this);
-                reservationItemManagerController.setData(reservations.get(i));
+                ReservationItemOwnerController reservationItemOwnerController = fmxLoader.getController();
+                reservationItemOwnerController.setReservationsController(this);
+                reservationItemOwnerController.setData(reservations.get(i));
 
                 reservationsList.getChildren().add(anchorPane);
             } catch (IOException e) {
@@ -91,12 +91,12 @@ public class ReservationsOwnerController {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemManager.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemOwner.fxml"));
 
                     AnchorPane anchorPane = fmxLoader.load();
-                    ReservationItemManagerController reservationItemManagerController = fmxLoader.getController();
-                    reservationItemManagerController.setReservationsController(this);
-                    reservationItemManagerController.setData(reservations.get(i));
+                    ReservationItemOwnerController reservationItemOwnerController = fmxLoader.getController();
+                    reservationItemOwnerController.setReservationsController(this);
+                    reservationItemOwnerController.setData(reservations.get(i));
 
                     reservationsList.getChildren().add(anchorPane);
                 } catch (IOException e) {
@@ -126,12 +126,12 @@ public class ReservationsOwnerController {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemManager.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemOwner.fxml"));
 
                     AnchorPane anchorPane = fmxLoader.load();
-                    ReservationItemManagerController reservationItemManagerController = fmxLoader.getController();
-                    reservationItemManagerController.setReservationsController(this);
-                    reservationItemManagerController.setData(reservations.get(i));
+                    ReservationItemOwnerController reservationItemOwnerController = fmxLoader.getController();
+                    reservationItemOwnerController.setReservationsController(this);
+                    reservationItemOwnerController.setData(reservations.get(i));
 
                     reservationsList.getChildren().add(anchorPane);
                 } catch (IOException e) {
