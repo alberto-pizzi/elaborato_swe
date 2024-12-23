@@ -59,7 +59,7 @@ public class FieldChoiceController {
     public AnchorPane getPage() {
         return page;
     }
-
+//todo uniformare setdata e inizializzazione
     public void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException {
 
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();

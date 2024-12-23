@@ -92,8 +92,8 @@ public class FieldChoiceItemController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));
         Parent view = loader.load();
 
-        ReservationsManagerController reservationsManagerController = loader.getController();
-        reservationsManagerController.setData(field, menuPane);
+        ReservationsOwnerController reservationsOwnerController = loader.getController();
+        reservationsOwnerController.setData(field, menuPane);
 
         menuPane.setCenter(view);
 

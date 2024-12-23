@@ -49,10 +49,6 @@ public class FacilityChoiceManagerController implements Initializable {
         return menuPane;
     }
 
-    public void setMenuPane(BorderPane menuPane) {
-        this.menuPane = menuPane;
-    }
-
     public AnchorPane getPage() {
         return page;
     }
@@ -71,6 +67,13 @@ public class FacilityChoiceManagerController implements Initializable {
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+        String page = String.valueOf(currentPage);
+        pageNumber.setText(page);
+    }
+
+    public void setData(BorderPane menuPane) {
+        this.menuPane = menuPane;
         for(int i=0; i < itemsPerPage && i < facilities.size(); i++){
             try {
                 FXMLLoader fmxLoader;
@@ -89,8 +92,6 @@ public class FacilityChoiceManagerController implements Initializable {
                 throw new RuntimeException(e);
             }
         }
-        String page = String.valueOf(currentPage);
-        pageNumber.setText(page);
     }
 
     @FXML

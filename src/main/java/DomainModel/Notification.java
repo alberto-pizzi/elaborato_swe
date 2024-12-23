@@ -96,19 +96,19 @@ public class Notification extends Product{
         if (reservation != null) {
 
             switch (notificationType) {
-                case NotificationType.CONFIRMATION:
+                case CONFIRMATION:
                     title = "Booking CONFIRMED on " + dateFormatter.format(reservation.getEventDate()) + " at " + timeFormatter.format(reservation.getEventTimeStart());
                     message = "Your " + (reservation.isMatched() ? "matched" : "") + " reservation at" + reservation.getField().getName() + " located in " + reservation.getField().getFacility().getFullAddress() + " is confirmed!";
                     break;
-                case NotificationType.MODIFICATION:
+                case MODIFICATION:
                     title = "Your booking at " + reservation.getField().getName() + " has been CHANGED!";
                     message = "Now, your " + (reservation.isMatched() ? "matched" : "") + " reservation located in " + reservation.getField().getFacility().getFullAddress() + " is on " + dateFormatter.format(reservation.getEventDate()) + " at " + timeFormatter.format(reservation.getEventTimeStart());
                     break;
-                case NotificationType.DELETION:
+                case DELETION:
                     title = "Your booking at " + reservation.getField().getName() + " has been DELETED!";
                     message = "Your " + (reservation.isMatched() ? "matched" : "") + " reservation located in " + reservation.getField().getFacility().getFullAddress() + " on " + dateFormatter.format(reservation.getEventDate()) + " at " + timeFormatter.format(reservation.getEventTimeStart()) + "has been deleted!";
                     break;
-                case NotificationType.ANNOUNCEMENT:
+                case ANNOUNCEMENT:
                     title = "Booking Announcement: " + title;
                     if (message.isEmpty())
                         message = "Body message is empty.";
