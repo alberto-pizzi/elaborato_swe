@@ -16,6 +16,7 @@ import main.java.DomainModel.Field;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class FieldDetailOwnerController {
@@ -85,6 +86,18 @@ public class FieldDetailOwnerController {
 
     }
 
+    //todo da fare
+    @FXML
+    void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsManager.fxml"));
+        Parent view = loader.load();
+
+        ReservationsManagerController reservationsManagerController = loader.getController();
+        reservationsManagerController.setData(field, menuPane);
+
+        menuPane.setCenter(view);
+
+    }
 
 }

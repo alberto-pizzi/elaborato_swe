@@ -35,11 +35,11 @@
                   </VBox>
                </children>
             </StackPane>
-            <HBox prefHeight="608.0" prefWidth="1060.0">
+            <HBox alignment="CENTER" prefHeight="608.0" prefWidth="1060.0">
                <children>
-                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="589.0">
                      <children>
-                        <ImageView fx:id="fieldImageView" fitHeight="448.0" fitWidth="537.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="fieldImageView" fitHeight="448.0" fitWidth="478.0" pickOnBounds="true" preserveRatio="true">
                            <effect>
                               <DropShadow />
                            </effect>
@@ -145,12 +145,21 @@
                               <Insets bottom="10.0" top="50.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
+                        <VBox alignment="CENTER" spacing="15.0">
                            <children>
-                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToBookButton" stylesheets="@css/style.css" text="Go to book -&gt;" textFill="WHITE">
-                                 <HBox.margin>
-                                    <Insets top="20.0" />
-                                 </HBox.margin>
+                              <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" prefHeight="55.0" prefWidth="451.0" stylesheets="@css/style.css" text="See reservations" textFill="WHITE">
+                                 <padding>
+                                    <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                                 <styleClass>
+                                    <String fx:value="button-owner" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                              </Button>
+                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToBookButton" prefHeight="55.0" prefWidth="451.0" stylesheets="@css/style.css" text="Go to book -&gt;" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
                                  </padding>
@@ -163,7 +172,7 @@
                                  </styleClass>
                               </Button>
                            </children>
-                        </HBox>
+                        </VBox>
                      </children>
                      <padding>
                         <Insets bottom="30.0" top="30.0" />

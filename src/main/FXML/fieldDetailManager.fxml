@@ -147,7 +147,7 @@
                         </HBox>
                         <VBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="See Reservations" textFill="WHITE">
+                              <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="See reservations" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
                                  </padding>
