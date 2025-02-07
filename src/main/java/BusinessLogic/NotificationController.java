@@ -14,7 +14,7 @@ public class NotificationController {
         this.person = SessionController.getInstance().getPerson();
     }
 
-    public void sendNotifications(Reservation reservation) throws SQLException, ClassNotFoundException {
+    public void sendNotifications(Reservation reservation,NotificationType notificationType, String notificationTitle,  String notificationMessage) throws SQLException, ClassNotFoundException {
 
         FacilityDAO facilityDAO = new FacilityDAO();
         OwnerDAO ownerDAO = new OwnerDAO();
@@ -25,7 +25,12 @@ public class NotificationController {
 
         Owner owner;
         Facility facility;
-        NotificationSender notificationSender = new NotificationSender(reservation);
+
+        if(notificationType != NotificationType.ANNOUNCEMENT){
+            notificationMessage = null;
+        }
+
+        NotificationSender notificationSender = new NotificationSender(reservation, notificationType, notificationTitle, notificationMessage);
         Notification tmpNotification;
 
         facility = facilityDAO.getFacility(reservation.getField().getFacility().getId(), false);
@@ -33,18 +38,18 @@ public class NotificationController {
 
         tmpNotification = notificationSender.factoryMethod();
         tmpNotification.setPerson(owner);
-        //todo aggiungere a dao
+        notificationDAO.addNotification(tmpNotification);
 
         for(User user : managesDAO.getAllManagersByFacility(facility.getId())){
           tmpNotification = notificationSender.factoryMethod();
           tmpNotification.setPerson(user);
-          //todo aggiungere a dao
+          notificationDAO.addNotification(tmpNotification);
         }
 
         for (User user: isPartDao.getGroupMembers(groupDAO.getGroupByReservation(reservation.getId()).getId())){
             tmpNotification = notificationSender.factoryMethod();
             tmpNotification.setPerson(user);
-            //todo aggiungere a dao
+            notificationDAO.addNotification(tmpNotification);
         }
 
     }

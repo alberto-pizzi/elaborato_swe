@@ -4,20 +4,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
-import main.java.BusinessLogic.OwnerManagementController;
-import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class FieldChoiceItemController {
+public class FieldChoiceItemManagerController {
 
     @FXML
     private Label fieldNameLabel;
@@ -38,6 +35,7 @@ public class FieldChoiceItemController {
 
     private BorderPane menuPane;
 
+    //todo bottoni reattivi
     public void setData(Field field, BorderPane menuPane) throws SQLException {
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
@@ -60,11 +58,11 @@ public class FieldChoiceItemController {
     @FXML
     public void handleDetailsFieldButton(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetailOwner.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetailManager.fxml"));
         Parent fieldDetailPane = loader.load();
 
-        FieldDetailOwnerController fieldDetailOwnerController = loader.getController();
-        fieldDetailOwnerController.setData(field,menuPane);
+        FieldDetailManagerController fieldDetailManagerController = loader.getController();
+        fieldDetailManagerController.setData(field,menuPane);
 
         menuPane.setCenter(fieldDetailPane);
 
@@ -89,11 +87,11 @@ public class FieldChoiceItemController {
     @FXML
     void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsManager.fxml"));
         Parent view = loader.load();
 
-        ReservationsOwnerController reservationsOwnerController = loader.getController();
-        reservationsOwnerController.setData(field, menuPane);
+        ReservationsManagerController reservationsManagerController = loader.getController();
+        reservationsManagerController.setData(field, menuPane);
 
         menuPane.setCenter(view);
 

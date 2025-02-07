@@ -16,17 +16,13 @@
     -fx-background-color: #BFBFBF;
 }
 
-.menu-button-owner{
+.button-owner{
     -fx-background-color: violet;
     -fx-background-radius: 10;
     -fx-cursor: hand;
 }
 
-.menu-button-owner:hover{
-    -fx-background-color: #e8c0ec;
-}
-
-.menu-button-owner:focused, .menu-button-owner:pressed{
+.button-owner:focused, .button-owner:pressed, .button-owner:hover{
     -fx-background-color: #e8c0ec;
 }
 
@@ -144,14 +140,9 @@
     -fx-background-color: #22db4a;
 }
 
-.confirm-button-owner{
-    -fx-background-color: violet;
-    -fx-background-radius: 10;
+.clickable{
     -fx-cursor: hand;
-}
-
-.confirm-button-owner:hover{
-    -fx-background-color: #e8c0ec;
+    -fx-background-color: transparent;
 }
 
 .go-to-from-notifications{

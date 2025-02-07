@@ -3,6 +3,7 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
@@ -12,20 +13,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FacilityDetailOwnerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldDetailManagerController">
    <children>
-      <VBox maxWidth="1060.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
+      <VBox maxWidth="1180.0" prefHeight="570.0" prefWidth="1180.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
             <StackPane prefHeight="113.0" prefWidth="1060.0">
                <children>
                   <VBox alignment="CENTER" prefHeight="72.0" prefWidth="1180.0">
                      <children>
-                        <Label prefHeight="39.0" prefWidth="162.0" text="Facility Details:">
+                        <Label prefHeight="39.0" prefWidth="137.0" text="Field Details:">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="facilityNameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="1142.0" text="Facility Name" textAlignment="CENTER">
+                        <Label fx:id="fieldNameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="1142.0" text="Field Name" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="48.0" />
                            </font>
@@ -38,7 +39,7 @@
                <children>
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <ImageView fx:id="facilityImageView" fitHeight="448.0" fitWidth="537.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="fieldImageView" fitHeight="448.0" fitWidth="537.0" pickOnBounds="true" preserveRatio="true">
                            <effect>
                               <DropShadow />
                            </effect>
@@ -55,7 +56,7 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
-                              <Label text="Fields number:">
+                              <Label prefHeight="30.0" prefWidth="136.0" text="Descritpion:">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -63,16 +64,16 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="facilityFieldsNumber" text="(Facility Fields)">
+                              <Label fx:id="fieldDescription" text="(Field Description)">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
+                        <HBox alignment="CENTER" prefHeight="42.0" prefWidth="586.0">
                            <children>
-                              <Label text="Managers number:">
+                              <Label text="Facility:">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -80,11 +81,11 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="facilityManagersNumber" text="(Facility Managers)">
+                              <Hyperlink fx:id="facilityLink" text="(Facility Link)">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
-                              </Label>
+                              </Hyperlink>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
@@ -97,7 +98,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="facilityAddress" text="(Facility Address)" wrapText="true">
+                              <Label fx:id="fieldAddress" text="(Field Address)" wrapText="true">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -106,7 +107,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
-                              <Label text="Telephone:">
+                              <Label text="Sport:">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -114,7 +115,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="facilityTelephone" prefHeight="30.0" prefWidth="166.0" text="*********">
+                              <Label fx:id="fieldSport" text="Football">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -123,10 +124,30 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
-                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToFieldsButton" stylesheets="@css/style.css" text="Go to fields-&gt;" textFill="WHITE">
+                              <Label text="Price (per hour):">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
                                  <HBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets right="10.0" />
                                  </HBox.margin>
+                              </Label>
+                              <Label fx:id="fieldPricePerHour" text="100 $">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="50.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <VBox alignment="CENTER" spacing="10.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="See reservations" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
                                  </padding>
@@ -134,12 +155,24 @@
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                                  <styleClass>
-                                    <String fx:value="button-owner" />
+                                    <String fx:value="leave-button" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                              </Button>
+                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToBookButton" prefHeight="55.0" prefWidth="448.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Go to book -&gt;" textFill="WHITE">
+                                 <padding>
+                                    <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                                 <styleClass>
+                                    <String fx:value="leave-button" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
                            </children>
-                        </HBox>
+                        </VBox>
                      </children>
                      <padding>
                         <Insets bottom="30.0" top="30.0" />

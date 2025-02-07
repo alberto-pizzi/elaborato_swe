@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="facilityItemPane" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FacilityChoiceItemController">
+<AnchorPane fx:id="facilityItemPane" prefHeight="122.0" prefWidth="1112.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FacilityChoiceItemManagerController">
    <children>
-      <HBox prefHeight="122.0" prefWidth="1000.0" style="-fx-background-color: white; -fx-border-color: black;">
+      <HBox prefHeight="122.0" prefWidth="1112.0" style="-fx-background-color: white; -fx-border-color: black;">
          <children>
             <VBox prefHeight="120.0" prefWidth="120.0">
                <children>
@@ -122,7 +122,7 @@
             </StackPane>
             <VBox alignment="CENTER" prefHeight="120.0" prefWidth="180.0" spacing="15.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleDetailsFacilityButton" prefHeight="47.0" prefWidth="141.0" stylesheets="@css/style.css" text="Details" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#handleDetailsFacilityButton" prefHeight="47.0" prefWidth="141.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Details" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -130,11 +130,11 @@
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                      </padding>
                      <styleClass>
-                        <String fx:value="button-owner" />
+                        <String fx:value="leave-button" />
                         <String fx:value="shadow" />
                      </styleClass>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#handleFacilityFieldsButton" prefHeight="47.0" prefWidth="141.0" stylesheets="@css/style.css" text="View fields" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#handleFacilityFieldsButton" prefHeight="47.0" prefWidth="141.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="View fields" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -142,7 +142,7 @@
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                      </padding>
                      <styleClass>
-                        <String fx:value="button-owner" />
+                        <String fx:value="leave-button" />
                         <String fx:value="shadow" />
                      </styleClass>
                   </Button>

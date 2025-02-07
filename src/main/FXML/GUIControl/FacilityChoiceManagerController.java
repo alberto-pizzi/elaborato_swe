@@ -1,24 +1,18 @@
 package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.OwnerManagementController;
-import main.java.BusinessLogic.UserActionsController;
+import main.java.BusinessLogic.UserProfileController;
 import main.java.DomainModel.Facility;
-import main.java.DomainModel.Field;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,13 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class FieldChoiceController {
-
+public class FacilityChoiceManagerController implements Initializable {
+//todo controllare se si può ridurre codice con classe base
     @FXML
-    private VBox fieldsList;
-
-    @FXML
-    private Button previous;
+    private VBox facilityList;
 
     @FXML
     private Button next;
@@ -42,9 +33,11 @@ public class FieldChoiceController {
     private Label pageNumber;
 
     @FXML
+    private Button previous;
+
     private AnchorPane page;
 
-    private List<Field> fields = new ArrayList<>();
+    private List<Facility> facilities = new ArrayList<>();
 
     int currentPage = 1;
 
@@ -59,23 +52,39 @@ public class FieldChoiceController {
     public AnchorPane getPage() {
         return page;
     }
-//todo uniformare setdata e inizializzazione
-    public void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException {
 
-        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-        this.fields = managerOwnerManagementController.getFieldsByFacility(facility);
+    private List<Facility> getData() throws SQLException, ClassNotFoundException {
+        List<Facility> facilities = new ArrayList<>();
+        UserProfileController userProfileController = new UserProfileController();
+        return userProfileController.getFacilitiesManaged();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        try {
+            facilities.addAll(getData());
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        String page = String.valueOf(currentPage);
+        pageNumber.setText(page);
+    }
+
+    public void setData(BorderPane menuPane) {
         this.menuPane = menuPane;
-        for(int i=0; i < itemsPerPage && i < fields.size(); i++){
+        for(int i=0; i < itemsPerPage && i < facilities.size(); i++){
             try {
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItem.fxml"));
+                fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItemManager.fxml"));
 
                 AnchorPane anchorPane = fmxLoader.load();
-                FieldChoiceItemController fieldChoiceItemController = fmxLoader.getController();
-                fieldChoiceItemController.setData(fields.get(i), menuPane);
+                FacilityChoiceItemManagerController facilityChoiceItemManagerController = fmxLoader.getController();
+                facilityChoiceItemManagerController.setData(facilities.get(i), menuPane);
 
-                fieldsList.getChildren().add(anchorPane);
+                facilityList.getChildren().add(anchorPane);
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -83,33 +92,32 @@ public class FieldChoiceController {
                 throw new RuntimeException(e);
             }
         }
-        String page = String.valueOf(currentPage);
-        pageNumber.setText(page);
-
     }
 
     @FXML
     private void handleNextButton(ActionEvent event){
 
-        if(fields.size()>itemsPerPage* currentPage) {
-            fieldsList.getChildren().clear();
+        if(facilities.size()>itemsPerPage* currentPage) {
+            facilityList.getChildren().clear();
 
-            for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < fields.size(); i++) {
+            for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < facilities.size(); i++) {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItem.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItemManager.fxml"));
 
                     AnchorPane anchorPane = fmxLoader.load();
-                    FieldChoiceItemController fieldChoiceItemController = fmxLoader.getController();
-                    fieldChoiceItemController.setData(fields.get(i), menuPane);
+                    FacilityChoiceItemManagerController facilityChoiceItemManagerController = fmxLoader.getController();
+                    facilityChoiceItemManagerController.setData(facilities.get(i), menuPane);
 
-                    fieldsList.getChildren().add(anchorPane);
+                    facilityList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
+
             }
+
             currentPage++;
             pageNumber.setText(String.valueOf(currentPage));
         }
@@ -122,27 +130,28 @@ public class FieldChoiceController {
     private void handlePreviousButton(ActionEvent event){
 
         if(currentPage > 1){
-            fieldsList.getChildren().clear();
+            facilityList.getChildren().clear();
 
             for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
 
                 try {
+
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItem.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItemManager.fxml"));
 
                     AnchorPane anchorPane = fmxLoader.load();
-                    FieldChoiceItemController fieldChoiceItemController = fmxLoader.getController();
-                    fieldChoiceItemController.setData(fields.get(i), menuPane);
+                    FacilityChoiceItemManagerController facilityChoiceItemManagerController = fmxLoader.getController();
+                    facilityChoiceItemManagerController.setData(facilities.get(i),menuPane);
 
-                    fieldsList.getChildren().add(anchorPane);
+                    facilityList.getChildren().add(anchorPane);
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
 
-
             }
+
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));
         }

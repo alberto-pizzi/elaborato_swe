@@ -48,17 +48,12 @@ public class FacilityChoiceController implements Initializable {
         return menuPane;
     }
 
-    public void setMenuPane(BorderPane menuPane) {
-        this.menuPane = menuPane;
-    }
-
     public AnchorPane getPage() {
         return page;
     }
 
     private List<Facility> getData() throws SQLException, ClassNotFoundException {
         List<Facility> facilities = new ArrayList<>();
-        //fixme da rendere generale
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         return ownerManagementController.getOwnFacilities();
     }
@@ -71,6 +66,13 @@ public class FacilityChoiceController implements Initializable {
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+        String page = String.valueOf(currentPage);
+        pageNumber.setText(page);
+    }
+
+    public void setData(BorderPane menuPane) {
+        this.menuPane = menuPane;
         for(int i=0; i < itemsPerPage && i < facilities.size(); i++){
             try {
                 FXMLLoader fmxLoader;
@@ -89,8 +91,6 @@ public class FacilityChoiceController implements Initializable {
                 throw new RuntimeException(e);
             }
         }
-        String page = String.valueOf(currentPage);
-        pageNumber.setText(page);
     }
 
     @FXML
