@@ -46,6 +46,9 @@ public class HomeController implements Initializable {
     private Label pageNumber;
 
     @FXML
+    private Label currentSearch;
+
+    @FXML
     private AnchorPane page;
 
     private List<Field> fields = new ArrayList<>();
@@ -187,6 +190,7 @@ public class HomeController implements Initializable {
             try {
                 fields.clear();
                 fields.addAll(userActionsController.searchField(search.getText()));
+                currentSearch.setText("Results for" + "'" + search.getText() + "'");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
