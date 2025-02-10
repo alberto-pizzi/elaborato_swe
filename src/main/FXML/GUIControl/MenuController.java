@@ -52,8 +52,8 @@ public class MenuController implements Initializable {
             UserActionsController userActionsController = new UserActionsController();
 
             if(!(userActionsController.isManager())){
-                managerReservationsButton.setVisible(false);
-                managerReservationsButton.setDisable(true);
+                //managerReservationsButton.setVisible(false);
+               // managerReservationsButton.setDisable(true);
             }
 
         } catch (IOException e) {
@@ -119,12 +119,12 @@ public class MenuController implements Initializable {
 
     @FXML
     void handleManagerReservationsButtonAction(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceOwner.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceManager.fxml"));
         Parent view = loader.load();
-        FacilityChoiceController controller = loader.getController();
+        FacilityChoiceManagerController controller = loader.getController();
         controller.setData(menuPane);
         menuPane.setCenter(view);
-        System.out.println("Reservations menu button clicked");
+        System.out.println("Manager reservations menu button clicked");
     }
 
 
