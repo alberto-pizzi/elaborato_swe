@@ -47,6 +47,17 @@ public class UserActionsController {
 
     }
 
+    //todo aggiungere uml
+    public boolean isManager() throws SQLException {
+        ManagesDAO managesDAO = new ManagesDAO();
+        int facilities = managesDAO.managedFacilities(user.getId());
+        boolean isManager = false;
+        if (facilities >= 1) {
+            isManager = true;
+        }
+        return isManager;
+    }
+
     public void attachMember(int idFacility) throws SQLException {
 
         ManagesDAO managesDAO = new ManagesDAO();

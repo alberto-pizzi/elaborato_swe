@@ -173,6 +173,34 @@ public class ManagesDAO {
         return managers;
     }
 
+    //todo aggiungere uml
+    public int managedFacilities(int idManager ) throws SQLException {
+        String querySQL = String.format("Count id_facility FROM \"Manages\"  WHERE id_user = '%d'", idManager);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int  facilities = 0;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+
+
+            if (resultSet.next()) {
+
+                facilities = resultSet.getInt("count");
+
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return facilities;
+    }
+
     public ArrayList<Facility> getAllFacilitiesByManager(int idManager) throws SQLException {
         ArrayList<Facility> facilities = new ArrayList<>();
 
