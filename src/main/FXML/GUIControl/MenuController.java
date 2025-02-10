@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
+import main.java.BusinessLogic.UserProfileController;
 
 public class MenuController implements Initializable {
 
@@ -49,11 +50,11 @@ public class MenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             goToHome();
-            UserActionsController userActionsController = new UserActionsController();
-
-            if(!(userActionsController.isManager())){
-                //managerReservationsButton.setVisible(false);
-               // managerReservationsButton.setDisable(true);
+            UserProfileController userProfileController = new UserProfileController();
+            int managedFacilities = userProfileController.getFacilitiesManaged().size();
+            if(managedFacilities < 1){
+                managerReservationsButton.setVisible(false);
+                managerReservationsButton.setDisable(true);
             }
 
         } catch (IOException e) {
