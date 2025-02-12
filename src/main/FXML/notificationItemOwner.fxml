@@ -18,16 +18,16 @@
       <String fx:value="shadow" />
    </styleClass>
    <children>
-      <StackPane layoutX="130.0" prefHeight="120.0" prefWidth="780.0">
+      <StackPane layoutX="130.0" prefHeight="120.0" prefWidth="694.0">
          <children>
-            <VBox prefHeight="80.0">
+            <VBox prefHeight="80.0" prefWidth="703.0">
                <children>
                   <Label fx:id="notificationTitleLabel" alignment="CENTER" prefHeight="44.0" text="Notification Title">
                      <font>
                         <Font name="System Bold" size="28.0" />
                      </font>
                   </Label>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="40.0" prefWidth="686.0">
                      <children>
                         <Label fx:id="notificationMessageLabel" prefHeight="44.0" text="Notification message" textFill="#a1a1a1" wrapText="true">
                            <font>

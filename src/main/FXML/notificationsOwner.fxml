@@ -32,7 +32,10 @@
                <content>
                   <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="1040.0">
                      <children>
-                        <VBox fx:id="notificationsVBox" alignment="TOP_CENTER" maxWidth="1060.0" prefHeight="200.0" prefWidth="1040.0" />
+                        <VBox fx:id="notificationsVBox" alignment="TOP_CENTER" maxWidth="1060.0" prefHeight="200.0" prefWidth="1040.0">
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding></VBox>
                      </children>
                   </StackPane>
                </content>
