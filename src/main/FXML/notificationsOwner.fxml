@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NotificationsOwnerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="1060.0" minWidth="1060.0" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NotificationsOwnerController">
    <children>
-      <VBox style="-fx-background-color: #fff; -fx-background-radius: 10;">
+      <VBox prefHeight="720.0" prefWidth="1060.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
             <StackPane prefHeight="99.0" prefWidth="1180.0">
                <children>
@@ -25,14 +25,14 @@
                   </VBox>
                </children>
             </StackPane>
-            <ScrollPane fx:id="scroll" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" prefHeight="400.0" prefWidth="1180.0" style="-fx-background-color: #fff;">
+            <ScrollPane fx:id="scroll" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1040.0" prefHeight="550.0" prefWidth="1040.0" style="-fx-background-color: #fff;">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
                <content>
-                  <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="402.0" prefWidth="1177.0">
+                  <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="1040.0">
                      <children>
-                        <VBox fx:id="notificationsVBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" />
+                        <VBox fx:id="notificationsVBox" alignment="TOP_CENTER" maxWidth="1060.0" prefHeight="200.0" prefWidth="1040.0" />
                      </children>
                   </StackPane>
                </content>

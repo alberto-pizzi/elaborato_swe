@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="notificationItemPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1100.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NotificationItemOwnerController">
+<AnchorPane fx:id="notificationItemPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1000.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NotificationItemOwnerController">
    <styleClass>
       <String fx:value="group-item" />
       <String fx:value="shadow" />
@@ -47,7 +47,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="gotoButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleGotoButton" prefHeight="40.0" prefWidth="40.0" styleClass="go-to-from-notifications" stylesheets="@css/style.css" textFill="WHITE">
+                  <Button fx:id="gotoButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleGotoButton" prefHeight="40.0" prefWidth="40.0" stylesheets="@css/style.css" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -61,8 +61,12 @@
                            </image>
                         </ImageView>
                      </graphic>
+                     <styleClass>
+                        <String fx:value="button-owner" />
+                        <String fx:value="shadow" />
+                     </styleClass>
                   </Button>
-                  <Button fx:id="deleteNotificationButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#handleDeleteNotificationButton" prefHeight="40.0" prefWidth="40.0" styleClass="decline-button" stylesheets="@css/style.css" textFill="WHITE">
+                  <Button fx:id="deleteNotificationButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#handleDeleteNotificationButton" prefHeight="40.0" prefWidth="40.0" stylesheets="@css/style.css" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -73,6 +77,10 @@
                            </image>
                         </ImageView>
                      </graphic>
+                     <styleClass>
+                        <String fx:value="decline-button" />
+                        <String fx:value="shadow" />
+                     </styleClass>
                   </Button>
                </children>
             </HBox>
