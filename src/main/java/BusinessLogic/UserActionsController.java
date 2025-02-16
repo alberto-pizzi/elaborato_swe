@@ -254,4 +254,26 @@ public class UserActionsController {
         return fieldDao.getFieldAddress(fieldId);
     }
 
+    //todo aggiungere uml
+    public Field getReservationField(Reservation reservation) throws SQLException, ClassNotFoundException {
+        FieldDao fieldDao = new FieldDao();
+        return fieldDao.getField(reservation.getField().getId());
+    }
+
+    //todo aggiungere uml
+    public ArrayList <User> getGroupMembers (int idReservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+        IsPartDao isPartDao = new IsPartDao();
+
+        return isPartDao.getGroupMembers(groupDao.getGroupByReservation(idReservation).getId());
+    }
+
+    //todo aggiungere uml
+    public int getOwnGuests(int idReservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+        IsPartDao isPartDao = new IsPartDao();
+
+        return isPartDao.countOwnGuests(groupDao.getGroupByReservation(idReservation).getId(),user.getId());
+    }
+
 }

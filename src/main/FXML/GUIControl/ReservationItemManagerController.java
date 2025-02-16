@@ -14,6 +14,7 @@ import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
@@ -110,6 +111,20 @@ public class ReservationItemManagerController {
         if (reservationsController != null) {
             reservationsController.removeReservationItemFromGUI(reservationItemPane,reservation);
         }
+    }
+
+    @FXML
+    void handleEditButton(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
+        Parent view = loader.load();
+
+        BookFieldController bookFieldController = loader.getController();
+        bookFieldController.setData(this.reservation);
+
+
+        menuPane.setCenter(view);
+
     }
 
 }
