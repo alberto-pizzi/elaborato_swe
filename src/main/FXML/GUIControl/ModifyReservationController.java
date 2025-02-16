@@ -410,15 +410,6 @@ public class ModifyReservationController implements Initializable {
     }
 
 
-
-    @FXML
-    public void handleMatchingCheckBoxAction(ActionEvent actionEvent) {
-        otherPlayersSelectorBox.setVisible(isMatchingCheckBox.isSelected());
-        updateTotalPeople();
-        updatePricePerPerson(false);
-    }
-
-
     public Date getDateFromDatePicker(){
         LocalDate date = datePicker.getValue();
         if (date != null) {
