@@ -185,8 +185,9 @@ public class ModifyReservationController implements Initializable {
 
         totalPeople = userActionsController.getGroupMembers(reservation.getId()).size();
         previousGuests = userActionsController.getOwnGuests(reservation.getId());
-        fieldTotalParticipants.setText(totalPeople.toString());
+        fieldTotalParticipants.setText(String.valueOf(totalPeople));
         nGuestsChoice.setValue(totalPeople);
+        startTimeChoice.setValue();
     }
 
     private void updateTotalPeople(){
