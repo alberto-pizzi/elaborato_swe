@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.OwnerManagementController;
@@ -98,6 +99,8 @@ public class ModifyReservationController implements Initializable {
     private int totalPeople = 1;
     private int previousGuests;
 
+    private BorderPane menuPane;
+
 
 
     //methods
@@ -178,11 +181,12 @@ public class ModifyReservationController implements Initializable {
 
     }
 
-    public void setData(Reservation reservation) throws SQLException, ClassNotFoundException {
+    public void setData(Reservation reservation, BorderPane menuPane) throws SQLException, ClassNotFoundException {
         UserActionsController userActionsController = new UserActionsController();
 
         this.reservation = reservation;
         this.field = userActionsController.getReservationField(this.reservation);
+        this.menuPane = menuPane;
 
         fieldAddress.setText(field.getFacility().getFullAddress());
         fieldNameLabel.setText(field.getFacility().getName());
@@ -217,7 +221,9 @@ public class ModifyReservationController implements Initializable {
         }
     }
 
-    private void reservationChecker(){
+    private void reservationChecker() throws SQLException, ClassNotFoundException {
+
+        UserActionsController userActionsController = new UserActionsController();
 
         if( datePicker.getValue() != null) {
             reservation.setEventDate(Date.valueOf(datePicker.getValue()));
@@ -233,23 +239,23 @@ public class ModifyReservationController implements Initializable {
 
         //todo aggiuimgere guests
         if(nGuestsChoice.getValue() != null) {
-            reservation.set;
+            userActionsController.changeOwnGuests(reservation.getId(),nGuestsChoice.getValue());
         }
 
     }
 
     @FXML
-    void handleAddClientsButton(ActionEvent event) throws IOException, SQLException {
+    void handleAddClientsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
         reservationChecker();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
-        Parent addManagersPane = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addClients.fxml"));
+        Parent addClientsPane = loader.load();
 
-        AddManagersController addManagersController = loader.getController();
-        addManagersController.setData(facility,this.menuPane);
+        AddClientsController addClientsController = loader.getController();
+        addClientsController.setData(reservation,this.menuPane);
 
-        menuPane.setCenter(addManagersPane);
+        menuPane.setCenter(addClientsPane);
     }
 
     @FXML

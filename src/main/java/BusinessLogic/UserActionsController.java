@@ -284,4 +284,12 @@ public class UserActionsController {
         isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
     }
 
+    //todo aggiungere uml
+    public void changeOwnGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
+        IsPartDao isPartDao = new IsPartDao();
+        GroupDao groupDao = new GroupDao();
+
+        isPartDao.updateGuestsUsers(groupDao.getGroupByReservation(idReservation).getId(),user.getId(),guestNewNumber);
+    }
+
 }

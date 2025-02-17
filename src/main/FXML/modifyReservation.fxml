@@ -244,9 +244,9 @@
                         </ScrollPane>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0" spacing="20.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#handleAddClientsButton" prefHeight="25.0" prefWidth="51.0" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Add" textFill="WHITE">
+                              <Button mnemonicParsing="false" onAction="#handleAddClientsButton" prefHeight="25.0" prefWidth="51.0" stylesheets="@css/style.css" text="Add" textFill="WHITE">
                                  <styleClass>
-                                    <String fx:value="accept-button" />
+                                    <String fx:value="go-to-from-notifications" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>

@@ -150,3 +150,7 @@
     -fx-background-radius: 40;
     -fx-cursor: hand;
 }
+
+.go-to-from-notifications:hover{
+    c-fx-background-color: #b7dbfa;
+}
