@@ -275,6 +275,8 @@ public class UserActionsController {
 
         return isPartDao.countOwnGuests(groupDao.getGroupByReservation(idReservation).getId(),user.getId());
     }
+
+    //todo aggiungere uml
     public void removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();

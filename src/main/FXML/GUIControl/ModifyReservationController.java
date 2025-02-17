@@ -217,10 +217,31 @@ public class ModifyReservationController implements Initializable {
         }
     }
 
+    private void reservationChecker(){
+
+        if( datePicker.getValue() != null) {
+            reservation.setEventDate(Date.valueOf(datePicker.getValue()));
+        }
+
+        if(startTimeChoice.getValue() != null) {
+            reservation.setEventTimeStart(Time.valueOf(startTimeChoice.getValue()));
+        }
+
+        if (endTimeChoice.getValue() != null) {
+            reservation.setEventTimeEnd(Time.valueOf(endTimeChoice.getValue()));
+        }
+
+        //todo aggiuimgere guests
+        if(nGuestsChoice.getValue() != null) {
+            reservation.set;
+        }
+
+    }
+
     @FXML
     void handleAddClientsButton(ActionEvent event) throws IOException, SQLException {
 
-        fieldChecker();
+        reservationChecker();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
         Parent addManagersPane = loader.load();
