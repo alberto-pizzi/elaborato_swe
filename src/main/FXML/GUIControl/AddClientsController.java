@@ -171,12 +171,12 @@ public class AddClientsController implements Initializable {
             usersList.getChildren().clear();
             currentPage = 1;
             pageNumber.setText(String.valueOf(currentPage));
-            OwnerManagementController ownerManagementController = new OwnerManagementController();
+            UserActionsController userActionsController = new UserActionsController();
             try {
                 currentSearch.setText("Results for  " + "'" + search.getText() + "'");
                 users.clear();
-                users.addAll(ownerManagementController.searchUsersByProvince(search.getText(), facility.getId()));
-                users.addAll(ownerManagementController.searchUsersByUsername(search.getText(), facility.getId()));
+                users.addAll(userActionsController.searchUsersByProvince(search.getText()));
+                users.addAll(userActionsController.searchUsersByUsername(search.getText()));
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }

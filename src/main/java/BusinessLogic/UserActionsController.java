@@ -11,6 +11,8 @@ import java.sql.Date;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 
+import static main.java.DomainModel.NotificationType.MODIFICATION;
+
 
 public class UserActionsController {
 
@@ -298,6 +300,44 @@ public class UserActionsController {
         GroupDao groupDao = new GroupDao();
 
         isPartDao.updateGuestsUsers(groupDao.getGroupByReservation(idReservation).getId(),user.getId(),guestNewNumber);
+    }
+
+    //todo aggiungere uml
+    public ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
+        ArrayList<User> users = new ArrayList<>();
+        UserDAO userDAO = new UserDAO();
+        ManagesDAO managesDAO = new ManagesDAO();
+
+        users.addAll(userDAO.getUsersByProvinceSearch(provinceUser));
+        return users;
+    }
+
+    //todo aggiungere uml
+    public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
+
+        ArrayList<User> users = new ArrayList<>();
+        UserDAO userDAO = new UserDAO();
+        ManagesDAO managesDAO = new ManagesDAO();
+
+        users.addAll(userDAO.getUsersByUsernameSearch(searchUsername));
+        return users;
+    }
+
+    //todo aggiungere uml
+    public void updateReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
+
+       ReservationDao reservationDao = new ReservationDao();
+       NotificationController notificationController = new NotificationController();
+       Reservation previousReservation = reservationDao.getReservation(reservation.getId());
+       String notificationTitle = "Una prenotazione è stata modificata";
+       String notificationMessage = "La prenotazione il giorno " + previousReservation.getReservationDate() + " alle " + previousReservation.getEventTimeStart() + " è stata modificata da " + user.getUsername();
+
+       reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
+       reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
+       reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
+       notificationController.sendNotifications(reservation, MODIFICATION, notificationTitle, notificationMessage);
+
+
     }
 
 }

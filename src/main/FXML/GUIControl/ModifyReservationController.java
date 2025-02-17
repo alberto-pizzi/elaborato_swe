@@ -534,39 +534,20 @@ public class ModifyReservationController implements Initializable {
 
     @FXML
     public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-        //TODO finish to implement
-        Date eventDate = getDateFromDatePicker(); //TODO check how date format is saved onto DB
+
         Time eventStartTime = getEventStartTime();
         Time eventEndTime = getEventEndTime();
+        reservationChecker();
+
 
         UserActionsController userActionsController = new UserActionsController();
 
-        /*
-        int requiredParticipants = ;
-
-        if (isMatchingCheckBox.isSelected()){
-            if (nPlayersToMatchChoice.getValue() == null)
-                requiredParticipants = field.getSport().getPlayersRequired();
-            else
-                requiredParticipants = nPlayersToMatchChoice.getValue();
-        }
-
-         */
-
-
-
-        //userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected());
-
-
-
-
+        userActionsController.updateReservation(reservation);
 
         if (eventStartTime != null && eventEndTime != null)
             System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
         else
             System.out.println("Insert data");
-
-
 
     }
 
