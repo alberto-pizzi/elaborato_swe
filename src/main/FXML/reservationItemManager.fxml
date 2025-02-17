@@ -154,7 +154,7 @@
       </StackPane>
       <VBox fx:id="actionsVBox" alignment="CENTER" prefHeight="120.0" prefWidth="165.0" spacing="5.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleEditButton" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Edit" textFill="WHITE">
+            <Button fx:id="editButton" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Edit" textFill="WHITE">
                <styleClass>
                   <String fx:value="leave-button" />
                   <String fx:value="shadow" />

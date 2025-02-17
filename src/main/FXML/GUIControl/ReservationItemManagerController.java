@@ -26,6 +26,9 @@ public class ReservationItemManagerController {
     private AnchorPane reservationItemPane;
 
     @FXML
+    private Button editButton;
+
+    @FXML
     private VBox actionsVBox;
 
     @FXML
@@ -101,6 +104,12 @@ public class ReservationItemManagerController {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + reservation.getField().getImage()));
         fieldImageView.setImage(image);
+
+        if(reservation.isMatched()) {
+            editButton.setDisable(true);
+            editButton.setVisible(false);
+        }
+
     }
 
     @FXML
@@ -122,8 +131,7 @@ public class ReservationItemManagerController {
         Parent view = loader.load();
 
         ModifyReservationController modifyReservationController = loader.getController();
-        modifyReservationController.setData(this.reservation);
-
+        modifyReservationController.setData(this.reservation, reservationsController.getMenuPane());
 
         reservationsController.getMenuPane().setCenter(view);
 

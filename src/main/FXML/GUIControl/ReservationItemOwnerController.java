@@ -1,6 +1,9 @@
 package main.FXML.GUIControl;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,6 +12,8 @@ import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.DomainModel.Reservation;
 
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
@@ -19,6 +24,9 @@ public class ReservationItemOwnerController {
 
     @FXML
     private VBox actionsVBox;
+
+    @FXML
+    private Button editButton;
 
     @FXML
     private Label bookingDate;
@@ -93,6 +101,12 @@ public class ReservationItemOwnerController {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + reservation.getField().getImage()));
         fieldImageView.setImage(image);
+
+        if(reservation.isMatched()) {
+            editButton.setDisable(true);
+            editButton.setVisible(false);
+        }
+
     }
 
     @FXML
@@ -105,6 +119,19 @@ public class ReservationItemOwnerController {
         if (reservationsController != null) {
             reservationsController.removeReservationItemFromGUI(reservationItemPane,reservation);
         }
+    }
+
+    @FXML
+    void handleEditButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
+        Parent view = loader.load();
+
+        ModifyReservationController modifyReservationController = loader.getController();
+        modifyReservationController.setData(this.reservation, reservationsController.getMenuPane());
+
+        reservationsController.getMenuPane().setCenter(view);
+
     }
 
 }
