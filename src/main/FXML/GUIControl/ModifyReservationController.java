@@ -2,17 +2,22 @@ package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
+import main.java.DomainModel.User;
 import main.java.DomainModel.WorkingHours;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -78,6 +83,12 @@ public class ModifyReservationController implements Initializable {
     @FXML
     private ChoiceBox<String> startTimeChoice;
 
+    @FXML
+    private VBox clients;
+
+    ArrayList<User> usersList;
+    private ArrayList<Label> clickedUserLabels = new ArrayList<>();
+    private ArrayList<User> clickedUsers = new ArrayList<>();
     private Field field;
     private Reservation reservation;
 
@@ -192,6 +203,44 @@ public class ModifyReservationController implements Initializable {
         datePicker.setValue(reservation.getEventDate().toLocalDate());
         updateTotalPrice(true);
         updatePricePerPerson(true);
+    }
+
+    @FXML
+    void handleAddClientsButton(ActionEvent event) throws IOException, SQLException {
+
+        fieldChecker();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
+        Parent addManagersPane = loader.load();
+
+        AddManagersController addManagersController = loader.getController();
+        addManagersController.setData(facility,this.menuPane);
+
+        menuPane.setCenter(addManagersPane);
+    }
+
+    @FXML
+    void clickUser(User user, Label label){
+        if(clickedUsers.contains(user)){
+            clickedUsers.remove(user);
+            clickedUserLabels.remove(label);
+            label.setStyle("-fx-background-color: transparent;");
+        }else{
+            clickedUsers.add(user);
+            clickedUserLabels.add(label);
+            label.setStyle("-fx-background-color: lightblue;");
+        }
+    }
+
+    @FXML
+    void handleDeleteClientsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        clients.getChildren().removeAll(clickedUserLabels);
+        for (User user : clickedUsers) {
+            ownerManagementController.detachManager(user.getId(), facility.getId());
+            usersList.remove(user);
+        }
     }
 
     private void updateTotalPeople(){
