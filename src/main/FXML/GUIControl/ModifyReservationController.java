@@ -247,10 +247,11 @@ public class ModifyReservationController implements Initializable {
     @FXML
     void handleDeleteClientsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        UserActionsController userActionsController = new UserActionsController();
         clients.getChildren().removeAll(clickedUserLabels);
         for (User user : clickedUsers) {
-            ownerManagementController.detachManager(user.getId(), facility.getId());
+
+            userActionsController.removeGroupMember(reservation.getId(), user.getId());
             usersList.remove(user);
         }
     }

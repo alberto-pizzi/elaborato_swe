@@ -275,5 +275,11 @@ public class UserActionsController {
 
         return isPartDao.countOwnGuests(groupDao.getGroupByReservation(idReservation).getId(),user.getId());
     }
+    public void removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
+        IsPartDao isPartDao = new IsPartDao();
+        GroupDao groupDao = new GroupDao();
+
+        isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
+    }
 
 }
