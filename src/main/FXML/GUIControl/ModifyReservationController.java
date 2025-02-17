@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.OwnerManagementController;
@@ -203,6 +204,17 @@ public class ModifyReservationController implements Initializable {
         datePicker.setValue(reservation.getEventDate().toLocalDate());
         updateTotalPrice(true);
         updatePricePerPerson(true);
+
+        usersList = userActionsController.getGroupMembers(reservation.getId());
+
+        for (User user : usersList) {
+            Label label = new Label(user.getUsername());
+            label.setOnMouseClicked((MouseEvent event) -> {
+                System.out.println(" clicked!");
+                clickUser(user, label);
+            });
+            clients.getChildren().add(label);
+        }
     }
 
     @FXML
