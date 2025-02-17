@@ -187,7 +187,11 @@ public class ModifyReservationController implements Initializable {
         previousGuests = userActionsController.getOwnGuests(reservation.getId());
         fieldTotalParticipants.setText(String.valueOf(totalPeople));
         nGuestsChoice.setValue(totalPeople);
-        startTimeChoice.setValue();
+        startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart()));
+        endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd()));
+        datePicker.setValue(reservation.getEventDate().toLocalDate());
+        updateTotalPrice(true);
+        updatePricePerPerson(true);
     }
 
     private void updateTotalPeople(){
@@ -226,7 +230,6 @@ public class ModifyReservationController implements Initializable {
         this.totalPeople = 1;
 
         updateTotalPrice(true);
-        isMatchingCheckBox.setSelected(false);
         durationBox.setVisible(false);
 
         nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
@@ -463,7 +466,7 @@ public class ModifyReservationController implements Initializable {
 
 
 
-        userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected());
+        //userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected());
 
 
 

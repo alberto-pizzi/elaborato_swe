@@ -2,6 +2,7 @@ package main.FXML.GUIControl;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -14,6 +15,7 @@ import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -114,16 +116,16 @@ public class ReservationItemManagerController {
     }
 
     @FXML
-    void handleEditButton(ActionEvent event) throws IOException {
+    void handleEditButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
         Parent view = loader.load();
 
-        BookFieldController bookFieldController = loader.getController();
-        bookFieldController.setData(this.reservation);
+        ModifyReservationController modifyReservationController = loader.getController();
+        modifyReservationController.setData(this.reservation);
 
 
-        menuPane.setCenter(view);
+        reservationsController.getMenuPane().setCenter(view);
 
     }
 

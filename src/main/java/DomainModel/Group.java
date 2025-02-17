@@ -144,6 +144,7 @@ public class Group extends Subject{
             return;
         }
 
+
         groupHead = users.getFirst();
 
     }

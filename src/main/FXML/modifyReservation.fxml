@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -38,9 +39,9 @@
             </StackPane>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+                  <VBox alignment="CENTER_LEFT" maxWidth="260.0" prefHeight="200.0" prefWidth="260.0">
                      <children>
-                        <ImageView fx:id="fieldImageView" fitHeight="388.0" fitWidth="442.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="fieldImageView" fitHeight="180.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <effect>
                               <DropShadow />
                            </effect>
@@ -195,7 +196,7 @@
                         </HBox>
                         <HBox alignment="BOTTOM_CENTER" prefHeight="49.0" prefWidth="586.0" spacing="20.0">
                            <children>
-                              <Button fx:id="confirmButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#handleConfirmButton" stylesheets="@css/style.css" text="Confirm" textFill="WHITE">
+                              <Button fx:id="confirmButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#handleConfirmButton" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Confirm" textFill="WHITE">
                                  <HBox.margin>
                                     <Insets top="20.0" />
                                  </HBox.margin>
@@ -210,7 +211,7 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <Button fx:id="confirmButton1" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="127.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleDeleteButton" stylesheets="@css/style.css" text="Delete" textFill="WHITE">
+                              <Button fx:id="deleteButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="127.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleDeleteButton" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Delete" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="100.0" right="100.0" top="10.0" />
                                  </padding>
@@ -227,6 +228,34 @@
                      </children>
                      <padding>
                         <Insets bottom="30.0" top="30.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="260.0" prefHeight="200.0" prefWidth="260.0">
+                     <children>
+                        <Label text="Other clients:">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                          <content>
+                              <VBox fx:id="clients" prefHeight="365.0" prefWidth="183.0" />
+                          </content>
+                        </ScrollPane>
+                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0" spacing="20.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#handleAddClientsButton" prefHeight="25.0" prefWidth="51.0" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Add" textFill="WHITE">
+                                 <styleClass>
+                                    <String fx:value="accept-button" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#handleDeleteClientsButton" styleClass="decline-button" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Delete" textFill="WHITE" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="30.0" right="30.0" />
                      </padding>
                   </VBox>
                </children>
