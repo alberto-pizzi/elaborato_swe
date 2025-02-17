@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="userItemBox" prefWidth="1000.0" style="-fx-background-color: white; -fx-border-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ManagerItemController">
+<HBox fx:id="userItemBox" prefHeight="120.0" prefWidth="1100.0" style="-fx-background-color: white; -fx-border-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ClientItemController">
    <children>
       <StackPane prefHeight="120.0" prefWidth="294.0">
          <children>
@@ -107,7 +107,7 @@
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>
                <styleClass>
-                  <String fx:value="confirm-button" />
+                  <String fx:value="go-to-from-notifications" />
                   <String fx:value="shadow" />
                </styleClass>
             </Button>

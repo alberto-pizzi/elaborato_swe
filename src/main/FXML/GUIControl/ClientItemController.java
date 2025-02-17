@@ -6,7 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import main.java.BusinessLogic.OwnerManagementController;
+import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Facility;
+import main.java.DomainModel.Reservation;
 import main.java.DomainModel.User;
 
 import java.sql.SQLException;
@@ -32,14 +34,16 @@ public class ClientItemController {
     private HBox userItemBox;
 
     private User user;
-    private Facility facility;
-    private AddManagersController addManagersController;
 
-    public void setData(User user, AddManagersController addManagersController, Facility facility) throws SQLException {
+    private Reservation reservation
+            ;
+    private AddClientsController addClientsController;
 
-        this.addManagersController = addManagersController;
+    public void setData(User user, AddClientsController addClientsController, Reservation reservation) throws SQLException {
+
+        this.addClientsController = addClientsController;
         this.user = user;
-        this.facility = facility;
+        this.reservation = reservation;
 
         userCityLabel.setText(user.getCity());
         usernameLabel.setText(user.getUsername());
@@ -49,10 +53,10 @@ public class ClientItemController {
 
     @FXML
     void handleAddUserButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        ownerManagementController.attachManager(user.getId(), facility.getId());
-        if (addManagersController != null) {
-            addManagersController.removeUserItemFromGUI(userItemBox,user);
+        UserActionsController userActionsController = new UserActionsController();
+        userActionsController.addGroupMember(reservation.getId(), user.getId());
+        if (addClientsController != null) {
+            addClientsController.removeUserItemFromGUI(userItemBox,user);
         }
     }
 
