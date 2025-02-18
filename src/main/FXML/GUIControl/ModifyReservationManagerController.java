@@ -16,7 +16,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
-import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
 import main.java.DomainModel.User;
@@ -37,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ModifyReservationOwnerController implements Initializable {
+public class ModifyReservationManagerController implements Initializable {
 
 
     @FXML
@@ -252,11 +251,11 @@ public class ModifyReservationOwnerController implements Initializable {
 
         reservationChecker();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addClientsOwner.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addClientsManager.fxml"));
         Parent addClientsPane = loader.load();
 
-        AddClientsOwnerController addClientsOwnerController = loader.getController();
-        addClientsOwnerController.setData(reservation,this.menuPane);
+        AddClientsManagerController addClientsManagerController = loader.getController();
+        addClientsManagerController.setData(reservation,this.menuPane);
 
         menuPane.setCenter(addClientsPane);
     }
@@ -552,11 +551,12 @@ public class ModifyReservationOwnerController implements Initializable {
         else
             System.out.println("Insert data");
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceOwner.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceManager.fxml"));
         Parent view = loader.load();
-        FacilityChoiceController controller = loader.getController();
+        FacilityChoiceManagerController controller = loader.getController();
         controller.setData(menuPane);
         menuPane.setCenter(view);
+        System.out.println("Manager reservations menu button clicked");
 
     }
 

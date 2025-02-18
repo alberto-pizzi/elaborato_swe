@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -533,7 +534,7 @@ public class ModifyReservationController implements Initializable {
 
 
     @FXML
-    public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
 
         Time eventStartTime = getEventStartTime();
         Time eventEndTime = getEventEndTime();
@@ -548,6 +549,12 @@ public class ModifyReservationController implements Initializable {
             System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
         else
             System.out.println("Insert data");
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
+        //todo da controllare no passaggio menupane
+        Parent view = loader.load();
+        menuPane.setCenter(view);
 
     }
 
