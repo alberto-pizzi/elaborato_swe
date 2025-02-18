@@ -88,8 +88,8 @@ public class AddClientsOwnerController implements Initializable {
 
     private List<User> getData() throws SQLException, ClassNotFoundException {
         //todo cambiare per owner
-        UserActionsController userActionsController = new UserActionsController();
-        return userActionsController.findOtherPlayers();
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        return ownerManagementController.findOtherPlayers();
     }
 
     EventHandler<KeyEvent> handler = new EventHandler<>() {

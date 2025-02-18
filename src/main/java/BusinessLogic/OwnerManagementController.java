@@ -45,6 +45,7 @@ public class OwnerManagementController {
 
     }
 
+    //todo controllare queste funzioni
     public void editFacility(){}
 
     public void editField(){}
@@ -277,5 +278,10 @@ public class OwnerManagementController {
 
     }
 
+    //FIXME input change
+    public ArrayList <User> findOtherPlayers() throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        return userDAO.getUsersByProvince(this.owner.getProvince());
+    }
 
 }
