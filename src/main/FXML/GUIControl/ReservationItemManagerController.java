@@ -105,11 +105,6 @@ public class ReservationItemManagerController {
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + reservation.getField().getImage()));
         fieldImageView.setImage(image);
 
-        if(reservation.isMatched()) {
-            editButton.setDisable(true);
-            editButton.setVisible(false);
-        }
-
     }
 
     @FXML
