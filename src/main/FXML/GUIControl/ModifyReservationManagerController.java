@@ -560,4 +560,16 @@ public class ModifyReservationManagerController implements Initializable {
 
     }
 
+    @FXML
+    void handleDeleteButton() throws IOException, SQLException, ClassNotFoundException {
+
+       /* FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
+        Parent view = loader.load();
+
+        ModifyReservationController modifyReservationController = loader.getController();
+        modifyReservationController.setData(this.reservation, reservationsController.getMenuPane());
+
+        reservationsController.getMenuPane().setCenter(view);*/
+
+    }
 }

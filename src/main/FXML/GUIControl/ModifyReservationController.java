@@ -315,7 +315,6 @@ public class ModifyReservationController implements Initializable {
         endTimeChoice.getItems().clear();
         startTimeChoice.getItems().clear();
         nGuestsChoice.getItems().clear();
-        nPlayersToMatchChoice.getItems().clear();
 
         this.totalPeople = 1;
 
@@ -323,7 +322,6 @@ public class ModifyReservationController implements Initializable {
         durationBox.setVisible(false);
 
         nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-        nPlayersToMatchChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
         updatePricePerPerson(true);
     }
@@ -555,6 +553,19 @@ public class ModifyReservationController implements Initializable {
         //todo da controllare no passaggio menupane
         Parent view = loader.load();
         menuPane.setCenter(view);
+
+    }
+
+    @FXML
+    void handleDeleteButton() throws IOException, SQLException, ClassNotFoundException {
+/*
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
+        Parent view = loader.load();
+
+        ModifyReservationController modifyReservationController = loader.getController();
+        modifyReservationController.setData(this.reservation, reservationsController.getMenuPane());
+
+        reservationsController.getMenuPane().setCenter(view);*/
 
     }
 

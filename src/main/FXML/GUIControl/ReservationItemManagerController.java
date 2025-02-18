@@ -120,7 +120,7 @@ public class ReservationItemManagerController {
     }
 
     @FXML
-    void handleEditButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    void handleEditButton() throws IOException, SQLException, ClassNotFoundException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservationManager.fxml"));
         Parent view = loader.load();

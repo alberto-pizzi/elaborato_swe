@@ -171,17 +171,6 @@ public class ModifyReservationOwnerController implements Initializable {
         });
 
 
-        nPlayersToMatchChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue != null) {
-                updateTotalPeople();
-                updatePricePerPerson(false);
-            }
-            else
-                pricePerPersonLabel.setText("Guests not selected");
-
-        });
-
-
     }
 
     public void setData(Reservation reservation, BorderPane menuPane) throws SQLException, ClassNotFoundException {
@@ -317,7 +306,6 @@ public class ModifyReservationOwnerController implements Initializable {
         endTimeChoice.getItems().clear();
         startTimeChoice.getItems().clear();
         nGuestsChoice.getItems().clear();
-        nPlayersToMatchChoice.getItems().clear();
 
         this.totalPeople = 1;
 
@@ -325,7 +313,6 @@ public class ModifyReservationOwnerController implements Initializable {
         durationBox.setVisible(false);
 
         nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-        nPlayersToMatchChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
         updatePricePerPerson(true);
     }
@@ -557,6 +544,19 @@ public class ModifyReservationOwnerController implements Initializable {
         FacilityChoiceController controller = loader.getController();
         controller.setData(menuPane);
         menuPane.setCenter(view);
+
+    }
+
+    @FXML
+    void handleDeleteButton() throws IOException, SQLException, ClassNotFoundException {
+
+       /* FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
+        Parent view = loader.load();
+
+        ModifyReservationController modifyReservationController = loader.getController();
+        modifyReservationController.setData(this.reservation, reservationsController.getMenuPane());
+
+        reservationsController.getMenuPane().setCenter(view);*/
 
     }
 
