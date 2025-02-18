@@ -75,9 +75,8 @@ public class ManagerOwnerManagementController {
     //todo aggiungere uml
     public ArrayList<User> getGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
-        IsPartDao isPartDao = new IsPartDao();
 
-        return isPartDao.getGroupMembers(groupDao.getGroupByReservation(idReservation).getId());
+        return groupDao.getGroupByReservation(idReservation).getUsers();
     }
 
     //todo cambiare uml
@@ -128,7 +127,8 @@ public class ManagerOwnerManagementController {
         IsPartDao isPartDao = new IsPartDao();
 
         Group group = groupDao.getGroup(idReservation);
-        return isPartDao.countOwnGuests(group.getId(), group.getGroupHead().getId());
+        int check = isPartDao.countOwnGuests(group.getId(), group.getGroupHead().getId());
+        return check;
     }
 
     //todo aggiungere uml

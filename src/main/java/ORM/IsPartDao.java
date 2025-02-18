@@ -74,7 +74,7 @@ public class IsPartDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                users.add(userDAO.getUser(resultSet.getString("username")));
+                users.add(userDAO.getUserByID(resultSet.getInt("id_user")));
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());

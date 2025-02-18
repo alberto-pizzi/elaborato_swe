@@ -165,9 +165,6 @@ public class ModifyReservationOwnerController implements Initializable {
                 updateTotalPeople();
                 updatePricePerPerson(false);
             }
-            else
-                pricePerPersonLabel.setText("Guests not selected");
-
         });
 
 
@@ -191,15 +188,16 @@ public class ModifyReservationOwnerController implements Initializable {
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         fieldImageView.setImage(image);
 
+        //fixme trasformare in persone tortali
+        datePicker.setValue(reservation.getEventDate().toLocalDate());
         totalPeople = managerOwnerManagementController.getGroupMembers(reservation.getId()).size();
         previousGuests = managerOwnerManagementController.getHeadGuests(reservation.getId());
         fieldTotalParticipants.setText(String.valueOf(totalPeople));
-        nGuestsChoice.setValue(totalPeople);
+        nGuestsChoice.setValue(previousGuests);
         startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart()));
         endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd()));
-        datePicker.setValue(reservation.getEventDate().toLocalDate());
         updateTotalPrice(true);
-        updatePricePerPerson(true);
+        updatePricePerPerson(false);
 
         usersList = managerOwnerManagementController.getGroupMembers(reservation.getId());
 
