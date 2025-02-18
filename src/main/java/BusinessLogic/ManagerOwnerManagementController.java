@@ -4,7 +4,10 @@ import main.java.DomainModel.*;
 import main.java.ORM.*;
 
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
+
+import static main.java.DomainModel.NotificationType.MODIFICATION;
 
 public class ManagerOwnerManagementController {
 
@@ -24,7 +27,21 @@ public class ManagerOwnerManagementController {
 
     }
 
-    public void editReservation() {
+    //todo aggiungere uml
+    public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
+
+        ReservationDao reservationDao = new ReservationDao();
+        NotificationController notificationController = new NotificationController();
+        Reservation previousReservation = reservationDao.getReservation(reservation.getId());
+        String notificationTitle = "Una prenotazione è stata modificata";
+        String notificationMessage = "La prenotazione il giorno " + previousReservation.getReservationDate() + " alle " + previousReservation.getEventTimeStart() + " è stata modificata da " + person.getUsername();
+
+        reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
+        reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
+        reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
+        notificationController.sendNotifications(reservation, MODIFICATION, notificationTitle, notificationMessage);
+
+
     }
 
     public void deleteReservation(int reservationId) throws SQLException {
@@ -129,6 +146,12 @@ public class ManagerOwnerManagementController {
         GroupDao groupDao = new GroupDao();
 
         isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
+    }
+
+    public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
+        WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
+
+        return workingHoursDAO.getWHsByFacility(idFacility);
     }
 
 }

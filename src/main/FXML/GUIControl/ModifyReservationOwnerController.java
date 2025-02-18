@@ -389,11 +389,11 @@ public class ModifyReservationOwnerController implements Initializable {
     private List<LocalTime> availableTimes(int minutesInterval, DateTimeFormatter formatter, DayOfWeek dayOfWeek) throws SQLException, ClassNotFoundException {
         List<LocalTime> availableTimes = new ArrayList<>();
 
-        UserActionsController userActionsController = new UserActionsController();
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
-        ArrayList<WorkingHours> WHs = userActionsController.getWHsByFacilityByDay(field.getFacility().getId(), dayOfWeek);
+        ArrayList<WorkingHours> WHs = managerOwnerManagementController.getWHsByFacilityByDay(field.getFacility().getId(), dayOfWeek);
 
-        ArrayList<Reservation> reservations = userActionsController.getReservationsByField(field.getId());
+        ArrayList<Reservation> reservations = managerOwnerManagementController.getReservationsByField(field);
 
         for (WorkingHours wh : WHs) {
             //FIXME remove if and add specific DAO query with correct DayOfWeek
@@ -457,10 +457,10 @@ public class ModifyReservationOwnerController implements Initializable {
 
         List<LocalTime> availableTimes = new ArrayList<>();
 
-        UserActionsController userActionsController = new UserActionsController();
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
 
-        ArrayList<Reservation> reservations = userActionsController.getReservationsByField(field.getId());
+        ArrayList<Reservation> reservations = managerOwnerManagementController.getReservationsByField(field);
         if (selectedTime != null) {
 
             LocalTime closing = wh.getClosingHours().toLocalTime();
@@ -536,21 +536,28 @@ public class ModifyReservationOwnerController implements Initializable {
 
 
     @FXML
-    public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
 
         Time eventStartTime = getEventStartTime();
         Time eventEndTime = getEventEndTime();
         reservationChecker();
 
 
-        UserActionsController userActionsController = new UserActionsController();
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
-        userActionsController.updateReservation(reservation);
+        managerOwnerManagementController.editReservation(reservation);
 
         if (eventStartTime != null && eventEndTime != null)
             System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
         else
             System.out.println("Insert data");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceOwner.fxml"));
+        Parent view = loader.load();
+        FacilityChoiceController controller = loader.getController();
+        controller.setData(menuPane);
+        menuPane.setCenter(view);
+        System.out.println("Reservations menu button clicked");
 
     }
 
