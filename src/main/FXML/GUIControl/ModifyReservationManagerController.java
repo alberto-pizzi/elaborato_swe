@@ -170,17 +170,6 @@ public class ModifyReservationManagerController implements Initializable {
         });
 
 
-        nPlayersToMatchChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue != null) {
-                updateTotalPeople();
-                updatePricePerPerson(false);
-            }
-            else
-                pricePerPersonLabel.setText("Guests not selected");
-
-        });
-
-
     }
 
     public void setData(Reservation reservation, BorderPane menuPane) throws SQLException, ClassNotFoundException {
@@ -316,7 +305,6 @@ public class ModifyReservationManagerController implements Initializable {
         endTimeChoice.getItems().clear();
         startTimeChoice.getItems().clear();
         nGuestsChoice.getItems().clear();
-        nPlayersToMatchChoice.getItems().clear();
 
         this.totalPeople = 1;
 
@@ -324,7 +312,6 @@ public class ModifyReservationManagerController implements Initializable {
         durationBox.setVisible(false);
 
         nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-        nPlayersToMatchChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
         updatePricePerPerson(true);
     }
