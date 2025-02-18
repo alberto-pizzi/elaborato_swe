@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 import main.java.DomainModel.User;
@@ -51,8 +52,8 @@ public class ClientItemOwnerController {
 
     @FXML
     void handleAddUserButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-        UserActionsController userActionsController = new UserActionsController();
-        userActionsController.sendInvite(reservation, user.getId());
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        ownerManagementController.sendInvite(reservation, user.getId());
         if (addClientsOwnerController != null) {
             addClientsOwnerController.removeUserItemFromGUI(userItemBox,user);
         }

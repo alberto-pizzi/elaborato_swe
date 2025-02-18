@@ -129,23 +129,40 @@ public class OwnerManagementController {
         return users;
     }
 
-    public ArrayList<User> searchUsersByProvince(String provinceUser, int facilityId) throws SQLException, ClassNotFoundException {
+    public ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
-        ManagesDAO managesDAO = new ManagesDAO();
 
         users.addAll(userDAO.getUsersByProvinceSearch(provinceUser));
+        return users;
+    }
+
+    public ArrayList<User> searchManagersByProvince(String provinceUser, int facilityId) throws SQLException, ClassNotFoundException {
+        ArrayList<User> users = new ArrayList<>();
+        ManagesDAO managesDAO = new ManagesDAO();
+
+        users.addAll(searchUsersByProvince(provinceUser));
         users.remove(managesDAO.getAllManagersByFacility(facilityId));
         return users;
     }
 
-    public ArrayList<User> searchUsersByUsername(String searchUsername, int facilityId) throws SQLException, ClassNotFoundException {
+
+
+    public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
 
         ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
-        ManagesDAO managesDAO = new ManagesDAO();
 
         users.addAll(userDAO.getUsersByUsernameSearch(searchUsername));
+        return users;
+    }
+
+    public ArrayList<User> searchManagersByUsername(String searchUsername, int facilityId) throws SQLException, ClassNotFoundException {
+
+        ArrayList<User> users = new ArrayList<>();
+        ManagesDAO managesDAO = new ManagesDAO();
+
+        users.addAll(searchUsersByUsername(searchUsername));
         users.remove(managesDAO.getAllManagersByFacility(facilityId));
         return users;
     }
@@ -241,6 +258,24 @@ public class OwnerManagementController {
         return workingHoursDAO.getWHsByFacility(idFacility);
     }
 
+    //todo cambiare uml
+    public void sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
+
+        GroupDao groupDao = new GroupDao();
+        InviteSender inviteSender = new InviteSender(groupDao.getGroupByReservation(reservation.getId()));
+
+        InviteDao inviteDao = new InviteDao();
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserByID(idUser);
+        Invite invite;
+
+        invite = inviteSender.factoryMethod();
+        invite.setUser(user);
+        inviteDao.addInvite(invite);
+
+        System.out.println("Invite has been sent");
+
+    }
 
 
 }
