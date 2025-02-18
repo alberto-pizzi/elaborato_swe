@@ -128,6 +128,11 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="53.0" prefWidth="586.0" spacing="50.0">
                            <children>
+                              <Label text="Guest users (without account):">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
                               <ChoiceBox fx:id="nGuestsChoice" prefHeight="26.0" prefWidth="215.0" />
                            </children>
                         </HBox>
