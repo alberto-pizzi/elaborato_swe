@@ -13,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
@@ -88,8 +89,8 @@ public class AddClientsOwnerController implements Initializable {
 
     private List<User> getData() throws SQLException, ClassNotFoundException {
         //todo cambiare per owner
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        return ownerManagementController.findOtherPlayers();
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+        return managerOwnerManagementController.findOtherPlayers();
     }
 
     EventHandler<KeyEvent> handler = new EventHandler<>() {
@@ -171,12 +172,12 @@ public class AddClientsOwnerController implements Initializable {
             usersList.getChildren().clear();
             currentPage = 1;
             pageNumber.setText(String.valueOf(currentPage));
-            OwnerManagementController ownerManagementController = new OwnerManagementController();
+            ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
             try {
                 currentSearch.setText("Results for  " + "'" + search.getText() + "'");
                 users.clear();
-                users.addAll(ownerManagementController.searchUsersByProvince(search.getText()));
-                users.addAll(ownerManagementController.searchUsersByUsername(search.getText()));
+                users.addAll(managerOwnerManagementController.searchUsersByProvince(search.getText()));
+                users.addAll(managerOwnerManagementController.searchUsersByUsername(search.getText()));
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }

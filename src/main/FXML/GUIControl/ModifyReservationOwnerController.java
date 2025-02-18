@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
@@ -184,10 +185,10 @@ public class ModifyReservationOwnerController implements Initializable {
     }
 
     public void setData(Reservation reservation, BorderPane menuPane) throws SQLException, ClassNotFoundException {
-        UserActionsController userActionsController = new UserActionsController();
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
         this.reservation = reservation;
-        this.field = userActionsController.getReservationField(this.reservation);
+        this.field = managerOwnerManagementController.getReservationField(this.reservation);
         this.menuPane = menuPane;
 
         fieldAddress.setText(field.getFacility().getFullAddress());
@@ -201,8 +202,8 @@ public class ModifyReservationOwnerController implements Initializable {
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         fieldImageView.setImage(image);
 
-        totalPeople = userActionsController.getGroupMembers(reservation.getId()).size();
-        previousGuests = userActionsController.getOwnGuests(reservation.getId());
+        totalPeople = managerOwnerManagementController.getGroupMembers(reservation.getId()).size();
+        previousGuests = managerOwnerManagementController.getHeadGuests(reservation.getId());
         fieldTotalParticipants.setText(String.valueOf(totalPeople));
         nGuestsChoice.setValue(totalPeople);
         startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart()));
@@ -211,7 +212,7 @@ public class ModifyReservationOwnerController implements Initializable {
         updateTotalPrice(true);
         updatePricePerPerson(true);
 
-        usersList = userActionsController.getGroupMembers(reservation.getId());
+        usersList = managerOwnerManagementController.getGroupMembers(reservation.getId());
 
         for (User user : usersList) {
             Label label = new Label(user.getUsername());
@@ -225,7 +226,7 @@ public class ModifyReservationOwnerController implements Initializable {
 
     private void reservationChecker() throws SQLException, ClassNotFoundException {
 
-        UserActionsController userActionsController = new UserActionsController();
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
         if( datePicker.getValue() != null) {
             reservation.setEventDate(Date.valueOf(datePicker.getValue()));
@@ -241,7 +242,7 @@ public class ModifyReservationOwnerController implements Initializable {
 
         //todo aggiuimgere guests
         if(nGuestsChoice.getValue() != null) {
-            userActionsController.changeOwnGuests(reservation.getId(),nGuestsChoice.getValue());
+            managerOwnerManagementController.changeHeadGuests(reservation.getId(),nGuestsChoice.getValue());
         }
 
     }
@@ -251,11 +252,11 @@ public class ModifyReservationOwnerController implements Initializable {
 
         reservationChecker();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addClients.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addClientsOwner.fxml"));
         Parent addClientsPane = loader.load();
 
-        AddClientsController addClientsController = loader.getController();
-        addClientsController.setData(reservation,this.menuPane);
+        AddClientsOwnerController addClientsOwnerController = loader.getController();
+        addClientsOwnerController.setData(reservation,this.menuPane);
 
         menuPane.setCenter(addClientsPane);
     }
@@ -276,11 +277,11 @@ public class ModifyReservationOwnerController implements Initializable {
     @FXML
     void handleDeleteClientsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        UserActionsController userActionsController = new UserActionsController();
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         clients.getChildren().removeAll(clickedUserLabels);
         for (User user : clickedUsers) {
 
-            userActionsController.removeGroupMember(reservation.getId(), user.getId());
+            managerOwnerManagementController.removeGroupMember(reservation.getId(), user.getId());
             usersList.remove(user);
         }
     }

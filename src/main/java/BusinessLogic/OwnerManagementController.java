@@ -259,29 +259,6 @@ public class OwnerManagementController {
         return workingHoursDAO.getWHsByFacility(idFacility);
     }
 
-    //todo cambiare uml
-    public void sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
 
-        GroupDao groupDao = new GroupDao();
-        InviteSender inviteSender = new InviteSender(groupDao.getGroupByReservation(reservation.getId()));
-
-        InviteDao inviteDao = new InviteDao();
-        UserDAO userDAO = new UserDAO();
-        User user = userDAO.getUserByID(idUser);
-        Invite invite;
-
-        invite = inviteSender.factoryMethod();
-        invite.setUser(user);
-        inviteDao.addInvite(invite);
-
-        System.out.println("Invite has been sent");
-
-    }
-
-    //FIXME input change
-    public ArrayList <User> findOtherPlayers() throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
-        return userDAO.getUsersByProvince(this.owner.getProvince());
-    }
 
 }
