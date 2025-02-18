@@ -31,7 +31,7 @@ public class FieldDetailController implements Initializable {
 
 
     @FXML
-    private Hyperlink facilityLink;
+    private Label facilityName;
 
     @FXML
     private Label fieldAddress;
@@ -58,7 +58,7 @@ public class FieldDetailController implements Initializable {
 
     private BorderPane menuPane;
 
-    
+
     //methods
 
     @Override
@@ -84,7 +84,7 @@ public class FieldDetailController implements Initializable {
 
         fieldNameLabel.setText(field.getName());
         fieldDescription.setText(field.getDescription());
-        //TODO set facility link
+        facilityName.setText(field.getFacility().getName());
         fieldAddress.setText(field.getFacility().getFullAddress());
         fieldSport.setText(field.getSport().getName());
         fieldPricePerHour.setText("$ " + String.valueOf(field.getPrice()));
@@ -114,7 +114,5 @@ public class FieldDetailController implements Initializable {
         menuPane.setCenter(view);
 
     }
-
-
 
 }
