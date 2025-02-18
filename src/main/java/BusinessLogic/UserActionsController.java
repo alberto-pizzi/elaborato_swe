@@ -115,6 +115,25 @@ public class UserActionsController {
 
     }
 
+    //todo cambiare uml
+    public void sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
+
+        GroupDao groupDao = new GroupDao();
+        InviteSender inviteSender = new InviteSender(groupDao.getGroupByReservation(reservation.getId()));
+
+        InviteDao inviteDao = new InviteDao();
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserByID(idUser);
+        Invite invite;
+
+        invite = inviteSender.factoryMethod();
+        invite.setUser(user);
+        inviteDao.addInvite(invite);
+
+        System.out.println("Invite has been sent");
+
+    }
+
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
 

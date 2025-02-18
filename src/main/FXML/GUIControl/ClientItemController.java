@@ -54,7 +54,7 @@ public class ClientItemController {
     @FXML
     void handleAddUserButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         UserActionsController userActionsController = new UserActionsController();
-        userActionsController.addGroupMember(reservation.getId(), user.getId());
+        userActionsController.sendInvite(reservation, user.getId());
         if (addClientsController != null) {
             addClientsController.removeUserItemFromGUI(userItemBox,user);
         }
