@@ -181,7 +181,7 @@ public class BookFieldController implements Initializable {
     private void updateTotalPeople(){
         if (isMatchingCheckBox.isSelected())
             //FIXME counter
-            this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + (nPlayersToMatchChoice.getValue() != null ? nPlayersToMatchChoice.getValue() : field.getSport().getPlayersRequired()) + 1;
+            this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + ((nPlayersToMatchChoice.getValue() != null) && (!nPlayersToMatchChoice.getValue().equals(0)) ? nPlayersToMatchChoice.getValue() : field.getSport().getPlayersRequired()) + 1;
         else {
             this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + 1;
         }
@@ -221,7 +221,7 @@ public class BookFieldController implements Initializable {
         durationBox.setVisible(false);
 
         nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-        nPlayersToMatchChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+        nPlayersToMatchChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
         updatePricePerPerson(true);
     }
