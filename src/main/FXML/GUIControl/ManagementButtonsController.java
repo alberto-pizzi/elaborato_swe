@@ -1,6 +1,8 @@
 package main.FXML.GUIControl;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -8,6 +10,8 @@ import javafx.scene.layout.HBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -37,9 +41,15 @@ public class ManagementButtonsController {
     }
 
     @FXML
-    public void handleEditButtonAction(){
-        //TODO implement
-        System.out.println("Edit button clicked: " + reservationItemController.getReservation().getId());
+    public void handleEditButtonAction() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservationManager.fxml"));
+        Parent view = loader.load();
+
+        ModifyReservationManagerController modifyReservationManagerController = loader.getController();
+       /* modifyReservationManagerController.setData(reservationItemController.getReservation(), reservationItemController.getReservationItemPane());
+
+        reservationItemController.getReservationItemPane().setCenter(view);
+        System.out.println("Edit button clicked: " + reservationItemController.getReservation().getId());*/
 
     }
 
