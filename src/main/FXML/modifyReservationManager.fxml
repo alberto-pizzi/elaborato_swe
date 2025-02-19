@@ -196,7 +196,7 @@
                         </HBox>
                         <HBox alignment="BOTTOM_CENTER" prefHeight="49.0" prefWidth="586.0" spacing="20.0">
                            <children>
-                              <Button fx:id="confirmButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#handleConfirmButton" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Confirm" textFill="WHITE">
+                              <Button fx:id="confirmButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#handleConfirmButton" stylesheets="@css/style.css" text="Confirm" textFill="WHITE">
                                  <HBox.margin>
                                     <Insets top="20.0" />
                                  </HBox.margin>
@@ -211,7 +211,7 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <Button fx:id="deleteButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="127.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleDeleteButton" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Delete" textFill="WHITE">
+                              <Button fx:id="deleteButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="127.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleDeleteButton" stylesheets="@css/style.css" text="Delete" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="100.0" right="100.0" top="10.0" />
                                  </padding>
@@ -250,7 +250,7 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#handleDeleteClientsButton" styleClass="decline-button" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Delete" textFill="WHITE" />
+                              <Button mnemonicParsing="false" onAction="#handleDeleteClientsButton" styleClass="decline-button" stylesheets="@css/style.css" text="Delete" textFill="WHITE" />
                            </children>
                         </HBox>
                      </children>
