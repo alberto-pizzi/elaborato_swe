@@ -87,8 +87,9 @@ public class InviteItemController {
     }
 
     @FXML
-    public void handleAcceptInviteButton() {
-        //TODO implement
+    public void handleAcceptInviteButton() throws SQLException, ClassNotFoundException {
+        UserActionsController userActionsController = new UserActionsController();
+        userActionsController.acceptInvite(invite);
         System.out.println("Accept button clicked: " + invite.getId());
         yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
 
@@ -96,7 +97,7 @@ public class InviteItemController {
 
     @FXML
     public void handleDeclineInviteButton() throws SQLException {
-        //TODO implement
+
         UserActionsController userActionsController = new UserActionsController();
         userActionsController.declineInvite(invite.getId());
         System.out.println("Decline button clicked: " + invite.getId());
