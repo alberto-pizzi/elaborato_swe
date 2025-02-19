@@ -32,6 +32,9 @@ public class BookFieldController implements Initializable {
     private Button confirmButton;
 
     @FXML
+    private Label errorLabel;
+
+    @FXML
     private DatePicker datePicker;
 
     @FXML
@@ -82,6 +85,8 @@ public class BookFieldController implements Initializable {
     private float totalPrice;
     private int totalPeople = 1;
 
+    MessagesController messagesController;
+
 
 
     //methods
@@ -94,6 +99,8 @@ public class BookFieldController implements Initializable {
 
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
+
+        this.messagesController = new MessagesController(errorLabel);
 
         resetFields();
 
@@ -443,7 +450,14 @@ public class BookFieldController implements Initializable {
     @FXML
     public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         //TODO finish to implement
-        Date eventDate = getDateFromDatePicker(); //TODO check how date format is saved onto DB
+        Date eventDate = getDateFromDatePicker();
+
+        LocalTime nowLocalTime = LocalTime.now();
+        Time nowTime = Time.valueOf(nowLocalTime);
+
+        LocalDate todayLocalDate = LocalDate.now();
+        Date todayDate = Date.valueOf(todayLocalDate);
+
         Time eventStartTime = getEventStartTime();
         Time eventEndTime = getEventEndTime();
 
@@ -462,17 +476,30 @@ public class BookFieldController implements Initializable {
          */
 
 
-
-        userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected());
-
-
-
-
-
-        if (eventStartTime != null && eventEndTime != null)
-            System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
-        else
+        if (eventDate == null){
+            messagesController.showMessage("Please select a valid date.", MessagesController.MessageType.ERROR,5);
+        }
+        else if (eventDate.compareTo(todayDate) < 0) {
+            messagesController.showMessage("Previous days is not allowed. Please, retry!", MessagesController.MessageType.ERROR,5);
+        }
+        else if (eventStartTime == null || eventEndTime == null) {
             System.out.println("Insert data");
+            messagesController.showMessage("Please select valid times.", MessagesController.MessageType.ERROR,5);
+        }
+        else if (eventStartTime.compareTo(nowTime) < 0 || eventEndTime.compareTo(nowTime) < 0) {
+            messagesController.showMessage("Previous hours is not allowed. Please, retry! ", MessagesController.MessageType.ERROR,5);
+        }
+        else if (eventEndTime.compareTo(eventStartTime) <= 0) {
+            messagesController.showMessage("End time must be after start one. ", MessagesController.MessageType.ERROR,5);
+        }
+        else{
+            //TODO finish to implement
+            System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
+            //userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected()); //TODO activate it
+            System.out.println("Booking confirmed");
+        }
+
+
 
 
 
