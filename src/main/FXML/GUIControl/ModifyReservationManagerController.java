@@ -116,8 +116,6 @@ public class ModifyReservationManagerController implements Initializable {
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
 
-        resetFields();
-
         datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
             //FIXME fix output times visualizzation with "...". It is just graphical bug.
             resetFields();
@@ -183,6 +181,7 @@ public class ModifyReservationManagerController implements Initializable {
         fieldNameLabel.setText(field.getFacility().getName());
         fieldSport.setText(field.getSport().getName());
 
+        resetFields();
         //TODO add facility link
 
         String pathFromRoot = "/main/FXML/img/fields/";

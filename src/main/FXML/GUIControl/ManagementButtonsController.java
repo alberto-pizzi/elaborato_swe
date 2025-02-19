@@ -42,11 +42,11 @@ public class ManagementButtonsController {
 
     @FXML
     public void handleEditButtonAction() throws IOException, SQLException, ClassNotFoundException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservationManager.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
         Parent view = loader.load();
 
-        ModifyReservationManagerController modifyReservationManagerController = loader.getController();
-        modifyReservationManagerController.setData(reservationItemController.getReservation(), reservationItemController.getReservationsController().getMenuPane());
+        ModifyReservationController modifyReservationController = loader.getController();
+        modifyReservationController.setData(reservationItemController.getReservation(), reservationItemController.getReservationsController().getMenuPane());
 
         reservationItemController.getReservationsController().getMenuPane().setCenter(view);
         System.out.println("Edit button clicked: " + reservationItemController.getReservation().getId());
