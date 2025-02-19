@@ -4,8 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Invite;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 
@@ -88,13 +90,18 @@ public class InviteItemController {
     public void handleAcceptInviteButton() {
         //TODO implement
         System.out.println("Accept button clicked: " + invite.getId());
+        yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
 
     }
 
     @FXML
-    public void handleDeclineInviteButton() {
+    public void handleDeclineInviteButton() throws SQLException {
         //TODO implement
+        UserActionsController userActionsController = new UserActionsController();
+        userActionsController.declineInvite(invite.getId());
         System.out.println("Decline button clicked: " + invite.getId());
+        yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
+
 
     }
 
