@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import static main.java.DomainModel.NotificationType.MODIFICATION;
@@ -115,11 +117,32 @@ public class UserActionsController {
 
     }
 
+    public boolean editRights(Reservation reservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+
+        Boolean pass = false;
+        Group group = groupDao.getGroupByReservation(reservation.getId());
+        //todo Da finire
+        if(group.getGroupHead().getId() == user.getId()) {
+            pass = true;
+        }
+        if(!reservation.isMatched()){
+            pass = true;
+        }
+
+        if(reservation.getEventTimeStart().getTime() + 2:00: < Time.valueOf(LocalTime.now()).getTime()){
+        }
+
+        return pass;
+    }
     //todo cambiare uml
     public void sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
 
         GroupDao groupDao = new GroupDao();
-        InviteSender inviteSender = new InviteSender(groupDao.getGroupByReservation(reservation.getId()));
+
+        Group group = groupDao.getGroupByReservation(reservation.getId());
+
+        InviteSender inviteSender = new InviteSender(group);
 
         InviteDao inviteDao = new InviteDao();
         UserDAO userDAO = new UserDAO();
