@@ -148,7 +148,7 @@ public class UserActionsController {
     }
 
     public void acceptInvite(Invite invite) throws SQLException, ClassNotFoundException {
-        //todo da aggiungere scelta
+        //todo da aggiungere scelta guests
         joinGroup(invite.getGroup().getId(), 0);
         InviteDao inviteDao = new InviteDao();
 

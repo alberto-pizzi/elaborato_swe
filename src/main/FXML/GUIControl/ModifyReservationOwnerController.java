@@ -137,7 +137,7 @@ public class ModifyReservationOwnerController implements Initializable {
                     //TODO pass correct WH
                     updateEndTimes(LocalTime.parse(newTime),field.getFacility().getWorkingHours().get(0),15);
 
-                    updateTotalPrice(true);
+                    updateTotalPrice();
                     updatePricePerPerson(true);
                 }
 
@@ -152,7 +152,7 @@ public class ModifyReservationOwnerController implements Initializable {
         endTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
            setDuration();
            this.totalPrice = calculateTotalPrice() * field.getPrice();
-           updateTotalPrice(false);
+           updateTotalPrice();
 
            updatePricePerPerson(false);
         });
@@ -196,7 +196,7 @@ public class ModifyReservationOwnerController implements Initializable {
         nGuestsChoice.setValue(previousGuests);
         startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart()));
         endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd()));
-        updateTotalPrice(true);
+        updateTotalPrice();
         updatePricePerPerson(false);
 
         usersList = managerOwnerManagementController.getGroupMembers(reservation.getId());
@@ -279,17 +279,11 @@ public class ModifyReservationOwnerController implements Initializable {
         previousGuests = nGuestsChoice.getValue();
     }
 
-    private void updateTotalPrice(boolean reset){
+    private void updateTotalPrice(){
         String price;
-
-        if (reset) {
-            if (field != null)
-                this.totalPrice = field.getPrice();
-            price = priceFormat.format(this.totalPrice) + " $ (per person)";
-        }
-        else
-            price = priceFormat.format(this.totalPrice) + " $";
-
+        this.totalPrice = field.getPrice();
+        totalPrice *= calculateTotalPrice();
+        price = priceFormat.format(this.totalPrice) + " $";
         fieldTotalPrice.setText(price);
     }
 
@@ -303,16 +297,13 @@ public class ModifyReservationOwnerController implements Initializable {
     private void resetFields(){
         endTimeChoice.getItems().clear();
         startTimeChoice.getItems().clear();
-        nGuestsChoice.getItems().clear();
 
         this.totalPeople = 1;
 
-        updateTotalPrice(true);
+        updateTotalPrice();
         durationBox.setVisible(false);
 
-        nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-
-        updatePricePerPerson(true);
+        updatePricePerPerson(false);
     }
 
     public Duration getDuration(){
