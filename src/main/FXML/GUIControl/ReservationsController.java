@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
@@ -27,6 +28,18 @@ public class ReservationsController implements Initializable {
     private ScrollPane scroll;
 
     private ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+
+    //fixme menupane fix
+
+    BorderPane menuPane;
+
+    void setPane(BorderPane pane) {
+        this.menuPane = pane;
+    }
+
+    BorderPane getMenuPane() {
+        return this.menuPane;
+    }
 
     //methods
     @Override
