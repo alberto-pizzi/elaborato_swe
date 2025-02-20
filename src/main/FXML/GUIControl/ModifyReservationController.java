@@ -113,7 +113,7 @@ public class ModifyReservationController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         //TODO add login singleton connection, if needed
-
+        UserActionsController userActionsController = new UserActionsController();
 
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
@@ -163,6 +163,17 @@ public class ModifyReservationController implements Initializable {
             if (newValue != null) {
                 updateTotalPeople();
                 updatePricePerPerson(false);
+                try {
+                    if(userActionsController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
+                        addClient.setVisible(false);
+                        addClient.setDisable(true);
+                    }else{
+                        addClient.setVisible(true);
+                        addClient.setDisable(false);
+                    }
+                } catch (SQLException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -187,15 +198,15 @@ public class ModifyReservationController implements Initializable {
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         fieldImageView.setImage(image);
 
-        if(userActionsController.isFull(reservation)) {
-            addClient.setVisible(false);
-            addClient.setDisable(true);
-        }
         datePicker.setValue(reservation.getEventDate().toLocalDate());
         totalPeople = userActionsController.getGroupMembers(reservation.getId()).size();
         previousGuests = userActionsController.getOwnGuests(reservation.getId());
         fieldTotalParticipants.setText(String.valueOf(totalPeople));
         nGuestsChoice.setValue(previousGuests);
+        if(userActionsController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
+            addClient.setVisible(false);
+            addClient.setDisable(true);
+        }
         startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart()));
         endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd()));
         updateTotalPrice();

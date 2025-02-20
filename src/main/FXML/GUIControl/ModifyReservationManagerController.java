@@ -114,7 +114,7 @@ public class ModifyReservationManagerController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         //TODO add login singleton connection, if needed
-
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
@@ -164,6 +164,17 @@ public class ModifyReservationManagerController implements Initializable {
             if (newValue != null) {
                 updateTotalPeople();
                 updatePricePerPerson(false);
+                try {
+                    if(managerOwnerManagementController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
+                        addClient.setVisible(false);
+                        addClient.setDisable(true);
+                    }else{
+                        addClient.setVisible(true);
+                        addClient.setDisable(false);
+                    }
+                } catch (SQLException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
             else
                 pricePerPersonLabel.setText("Guests not selected");
@@ -191,15 +202,16 @@ public class ModifyReservationManagerController implements Initializable {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         fieldImageView.setImage(image);
-        if(managerOwnerManagementController.isFull(reservation)) {
-            addClient.setVisible(false);
-            addClient.setDisable(true);
-        }
+
         datePicker.setValue(reservation.getEventDate().toLocalDate());
         totalPeople = managerOwnerManagementController.getGroupMembers(reservation.getId()).size();
         previousGuests = managerOwnerManagementController.getHeadGuests(reservation.getId());
         fieldTotalParticipants.setText(String.valueOf(totalPeople));
         nGuestsChoice.setValue(previousGuests);
+        if(managerOwnerManagementController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
+            addClient.setVisible(false);
+            addClient.setDisable(true);
+        }
         startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart()));
         endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd()));
         updateTotalPrice();
