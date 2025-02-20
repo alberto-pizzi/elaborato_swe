@@ -9,8 +9,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 public class ReservationItemController {
@@ -76,7 +78,8 @@ public class ReservationItemController {
 
     //methods
 
-    public void setData(Reservation reservation) {
+    public void setData(Reservation reservation) throws SQLException, ClassNotFoundException {
+        UserActionsController userActionsController = new UserActionsController();
         this.reservation = reservation;
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -95,13 +98,13 @@ public class ReservationItemController {
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + reservation.getField().getImage()));
         fieldImageView.setImage(image);
 
-        //TODO optimize?
+        //TODO già fatto cambiato così funziona in tutti i casi
 
         String buttonFXMLsrc = "";
-        if (reservation.isMatched()) {
-            buttonFXMLsrc = "/main/FXML/goToGroupButton.fxml";
-        } else {
+        if (userActionsController.editRights(reservation)) {
             buttonFXMLsrc = "/main/FXML/managementButtons.fxml";
+        } else {
+            buttonFXMLsrc = "/main/FXML/goToGroupButton.fxml";
         }
 
         try {

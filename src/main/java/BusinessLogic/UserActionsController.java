@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -120,17 +121,18 @@ public class UserActionsController {
     public boolean editRights(Reservation reservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
 
-        Boolean pass = false;
+        Boolean pass = true;
         Group group = groupDao.getGroupByReservation(reservation.getId());
         //todo Da finire
-        if(group.getGroupHead().getId() == user.getId()) {
-            pass = true;
+        if(group.getGroupHead().getId() != user.getId()) {
+            pass = false;
         }
-        if(!reservation.isMatched()){
-            pass = true;
+        if(reservation.isMatched()){
+            pass = false;
         }
 
-        if(reservation.getEventTimeStart().getTime() + 2:00: < Time.valueOf(LocalTime.now()).getTime()){
+        if(reservation.getEventTimeStart().toLocalTime().getHour() - LocalTime.now().getHour() < 2 && reservation.getReservationDate().toLocalDate().equals(LocalDate.now())){
+            pass = false;
         }
 
         return pass;
