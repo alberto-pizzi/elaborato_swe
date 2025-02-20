@@ -137,6 +137,14 @@ public class UserActionsController {
 
         return pass;
     }
+
+    public Boolean isFull(Reservation reservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+        Group group = groupDao.getGroupByReservation(reservation.getId());
+
+        return  group.participantsCheck(0);
+    }
+
     //todo cambiare uml
     public void sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
 

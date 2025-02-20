@@ -43,6 +43,9 @@ public class ModifyReservationManagerController implements Initializable {
     private Button confirmButton;
 
     @FXML
+    private Button addClient;
+
+    @FXML
     private DatePicker datePicker;
 
     @FXML
@@ -188,7 +191,10 @@ public class ModifyReservationManagerController implements Initializable {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         fieldImageView.setImage(image);
-
+        if(managerOwnerManagementController.isFull(reservation)) {
+            addClient.setVisible(false);
+            addClient.setDisable(true);
+        }
         datePicker.setValue(reservation.getEventDate().toLocalDate());
         totalPeople = managerOwnerManagementController.getGroupMembers(reservation.getId()).size();
         previousGuests = managerOwnerManagementController.getHeadGuests(reservation.getId());

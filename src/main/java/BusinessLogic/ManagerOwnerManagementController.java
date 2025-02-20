@@ -54,6 +54,13 @@ public class ManagerOwnerManagementController {
         return reservationDao.getReservationsByField(field.getId());
     }
 
+    public Boolean isFull(Reservation reservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+        Group group = groupDao.getGroupByReservation(reservation.getId());
+
+        return  group.participantsCheck(0);
+    }
+
     //todo aggiungere uml
     public String getFieldAddress(int fieldId) throws SQLException {
         FieldDao fieldDao = new FieldDao();
