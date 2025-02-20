@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AddClientsManagerController implements Initializable {
+public class InviteClientsManagerController implements Initializable {
 
     @FXML
     private VBox usersList;

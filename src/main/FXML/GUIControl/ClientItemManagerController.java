@@ -35,11 +35,11 @@ public class ClientItemManagerController {
 
     private Reservation reservation
             ;
-    private AddClientsManagerController addClientsManagerController;
+    private InviteClientsManagerController inviteClientsManagerController;
 
-    public void setData(User user, AddClientsManagerController addClientsManagerController, Reservation reservation) throws SQLException {
+    public void setData(User user, InviteClientsManagerController inviteClientsManagerController, Reservation reservation) throws SQLException {
 
-        this.addClientsManagerController = addClientsManagerController;
+        this.inviteClientsManagerController = inviteClientsManagerController;
         this.user = user;
         this.reservation = reservation;
 
@@ -50,11 +50,11 @@ public class ClientItemManagerController {
     }
 
     @FXML
-    void handleAddUserButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void handleInviteUserButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         managerOwnerManagementController.sendInvite(reservation, user.getId());
-        if (addClientsManagerController != null) {
-            addClientsManagerController.removeUserItemFromGUI(userItemBox,user);
+        if (inviteClientsManagerController != null) {
+            inviteClientsManagerController.removeUserItemFromGUI(userItemBox,user);
         }
     }
 

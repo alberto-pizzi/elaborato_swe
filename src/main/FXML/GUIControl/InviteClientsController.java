@@ -13,8 +13,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import main.java.BusinessLogic.ManagerOwnerManagementController;
-import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 import main.java.DomainModel.User;
@@ -26,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AddClientsOwnerController implements Initializable {
+public class InviteClientsController implements Initializable {
 
     @FXML
     private VBox usersList;
@@ -72,13 +70,13 @@ public class AddClientsOwnerController implements Initializable {
         for(int i=0; i < itemsPerPage && i < users.size(); i++){
             FXMLLoader fmxLoader;
             fmxLoader = new FXMLLoader();
-            fmxLoader.setLocation(getClass().getResource("/main/FXML/clientItemOwner.fxml"));
+            fmxLoader.setLocation(getClass().getResource("/main/FXML/clientItem.fxml"));
 
             HBox hBox = null;
             try {
                 hBox = fmxLoader.load();
-                ClientItemOwnerController clientItemOwnerController = fmxLoader.getController();
-                clientItemOwnerController.setData(users.get(i), this, reservation);
+                ClientItemController clientItemController = fmxLoader.getController();
+                clientItemController.setData(users.get(i), this, reservation);
                 usersList.getChildren().add(hBox);
             } catch (IOException | SQLException e) {
                 throw new RuntimeException(e);
@@ -88,9 +86,8 @@ public class AddClientsOwnerController implements Initializable {
     }
 
     private List<User> getData() throws SQLException, ClassNotFoundException {
-        //todo cambiare per owner
-        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-        return managerOwnerManagementController.findOtherPlayers();
+        UserActionsController userActionsController = new UserActionsController();
+        return userActionsController.findOtherPlayers();
     }
 
     EventHandler<KeyEvent> handler = new EventHandler<>() {
@@ -118,13 +115,13 @@ public class AddClientsOwnerController implements Initializable {
             for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < users.size(); i++) {
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/clientItemOwner.fxml"));
+                fmxLoader.setLocation(getClass().getResource("/main/FXML/clientItem.fxml"));
 
                 HBox hBox = null;
                 try {
                     hBox = fmxLoader.load();
-                    ClientItemOwnerController clientItemOwnerController = fmxLoader.getController();
-                    clientItemOwnerController.setData(users.get(i), this, reservation);
+                    ClientItemController clientItemController = fmxLoader.getController();
+                    clientItemController.setData(users.get(i), this, reservation);
                     usersList.getChildren().add(hBox);
                 } catch (IOException | SQLException e) {
                     throw new RuntimeException(e);
@@ -148,13 +145,13 @@ public class AddClientsOwnerController implements Initializable {
 
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/clientItemOwner.fxml"));
+                fmxLoader.setLocation(getClass().getResource("/main/FXML/clientItem.fxml"));
 
                 HBox hBox = null;
                 try {
                     hBox = fmxLoader.load();
-                    ClientItemOwnerController clientItemOwnerController = fmxLoader.getController();
-                    clientItemOwnerController.setData(users.get(i), this, reservation);
+                    ClientItemController clientItemController = fmxLoader.getController();
+                    clientItemController.setData(users.get(i), this, reservation);
                     usersList.getChildren().add(hBox);
                 } catch (IOException | SQLException e) {
                     throw new RuntimeException(e);
@@ -172,12 +169,12 @@ public class AddClientsOwnerController implements Initializable {
             usersList.getChildren().clear();
             currentPage = 1;
             pageNumber.setText(String.valueOf(currentPage));
-            ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+            UserActionsController userActionsController = new UserActionsController();
             try {
                 currentSearch.setText("Results for  " + "'" + search.getText() + "'");
                 users.clear();
-                users.addAll(managerOwnerManagementController.searchUsersByProvince(search.getText()));
-                users.addAll(managerOwnerManagementController.searchUsersByUsername(search.getText()));
+                users.addAll(userActionsController.searchUsersByProvince(search.getText()));
+                users.addAll(userActionsController.searchUsersByUsername(search.getText()));
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -185,12 +182,12 @@ public class AddClientsOwnerController implements Initializable {
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/clientItemOwner.fxml"));
+                    fmxLoader.setLocation(getClass().getResource("/main/FXML/clientItem.fxml"));
 
                     HBox hBox = fmxLoader.load();
-                    ClientItemOwnerController clientItemOwnerController = fmxLoader.getController();
+                    ClientItemController clientItemController = fmxLoader.getController();
 
-                    clientItemOwnerController.setData(users.get(i), this, reservation);
+                    clientItemController.setData(users.get(i), this, reservation);
 
                     usersList.getChildren().add(hBox);
                 } catch (IOException | SQLException e) {
@@ -203,11 +200,11 @@ public class AddClientsOwnerController implements Initializable {
     }
 
     public void handleConfirmButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservationOwner.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
         Parent reservationModifyPane = loader.load();
 
-        ModifyReservationOwnerController modifyReservationOwnerController = loader.getController();
-        modifyReservationOwnerController.setData(reservation, menuPane);
+        ModifyReservationController modifyReservationController = loader.getController();
+        modifyReservationController.setData(reservation, menuPane);
 
         menuPane.setCenter(reservationModifyPane);
     }

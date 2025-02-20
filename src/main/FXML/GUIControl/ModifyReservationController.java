@@ -9,11 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
@@ -248,17 +246,17 @@ public class ModifyReservationController implements Initializable {
     }
 
     @FXML
-    void handleAddClientsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    void handleInviteClientsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
         reservationChecker();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addClients.fxml"));
-        Parent addClientsPane = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/inviteClients.fxml"));
+        Parent inviteClientsPane = loader.load();
 
-        AddClientsController addClientsController = loader.getController();
-        addClientsController.setData(reservation,this.menuPane);
+        InviteClientsController inviteClientsController = loader.getController();
+        inviteClientsController.setData(reservation,this.menuPane);
 
-        menuPane.setCenter(addClientsPane);
+        menuPane.setCenter(inviteClientsPane);
     }
 
     @FXML

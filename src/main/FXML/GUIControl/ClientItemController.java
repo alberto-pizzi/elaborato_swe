@@ -5,9 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
-import main.java.DomainModel.Facility;
 import main.java.DomainModel.Reservation;
 import main.java.DomainModel.User;
 
@@ -37,11 +35,11 @@ public class ClientItemController {
 
     private Reservation reservation
             ;
-    private AddClientsController addClientsController;
+    private InviteClientsController inviteClientsController;
 
-    public void setData(User user, AddClientsController addClientsController, Reservation reservation) throws SQLException {
+    public void setData(User user, InviteClientsController inviteClientsController, Reservation reservation) throws SQLException {
 
-        this.addClientsController = addClientsController;
+        this.inviteClientsController = inviteClientsController;
         this.user = user;
         this.reservation = reservation;
 
@@ -52,11 +50,11 @@ public class ClientItemController {
     }
 
     @FXML
-    void handleAddUserButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void handleInviteUserButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         UserActionsController userActionsController = new UserActionsController();
         userActionsController.sendInvite(reservation, user.getId());
-        if (addClientsController != null) {
-            addClientsController.removeUserItemFromGUI(userItemBox,user);
+        if (inviteClientsController != null) {
+            inviteClientsController.removeUserItemFromGUI(userItemBox,user);
         }
     }
 

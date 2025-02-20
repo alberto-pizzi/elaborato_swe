@@ -99,7 +99,7 @@
       </StackPane>
       <VBox alignment="CENTER" prefHeight="120.0" prefWidth="180.0">
          <children>
-            <Button fx:id="addUser" mnemonicParsing="false" onAction="#handleAddUserButton" prefHeight="52.0" prefWidth="75.0" stylesheets="@css/style.css" text="Add" textFill="WHITE">
+            <Button fx:id="inviteUser" mnemonicParsing="false" onAction="#handleInviteUserButton" prefHeight="52.0" prefWidth="98.0" stylesheets="@css/style.css" text="Invite" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>

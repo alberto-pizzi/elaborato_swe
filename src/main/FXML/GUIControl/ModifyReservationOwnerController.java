@@ -16,7 +16,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
-import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
 import main.java.DomainModel.User;
@@ -252,17 +251,17 @@ public class ModifyReservationOwnerController implements Initializable {
     }
 
     @FXML
-    void handleAddClientsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    void handleInviteClientsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
         reservationChecker();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addClientsOwner.fxml"));
-        Parent addClientsPane = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/inviteClientsOwner.fxml"));
+        Parent inviteClientsPane = loader.load();
 
-        AddClientsOwnerController addClientsOwnerController = loader.getController();
-        addClientsOwnerController.setData(reservation,this.menuPane);
+        InviteClientsOwnerController inviteClientsOwnerController = loader.getController();
+        inviteClientsOwnerController.setData(reservation,this.menuPane);
 
-        menuPane.setCenter(addClientsPane);
+        menuPane.setCenter(inviteClientsPane);
     }
 
     @FXML

@@ -253,17 +253,17 @@ public class ModifyReservationManagerController implements Initializable {
     }
 
     @FXML
-    void handleAddClientsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    void handleInviteClientsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
         reservationChecker();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addClientsManager.fxml"));
-        Parent addClientsPane = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/inviteClientsManager.fxml"));
+        Parent inviteClientsPane = loader.load();
 
-        AddClientsManagerController addClientsManagerController = loader.getController();
-        addClientsManagerController.setData(reservation,this.menuPane);
+        InviteClientsManagerController inviteClientsManagerController = loader.getController();
+        inviteClientsManagerController.setData(reservation,this.menuPane);
 
-        menuPane.setCenter(addClientsPane);
+        menuPane.setCenter(inviteClientsPane);
     }
 
     @FXML
