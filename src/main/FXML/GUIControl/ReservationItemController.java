@@ -110,7 +110,7 @@ public class ReservationItemController {
         try {
             //TODO optimize?
             FXMLLoader loader = new FXMLLoader(getClass().getResource(buttonFXMLsrc));
-            if (reservation.isMatched()) {
+            if (!userActionsController.editRights(reservation)) {
                 Button button = loader.load();
                 actionsVBox.getChildren().add(button);
             } else {

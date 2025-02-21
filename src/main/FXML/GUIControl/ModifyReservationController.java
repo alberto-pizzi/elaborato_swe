@@ -162,17 +162,6 @@ public class ModifyReservationController implements Initializable {
             if (newValue != null) {
                 updateTotalPeople();
                 updatePricePerPerson(false);
-                try {
-                    if(userActionsController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
-                        addClient.setVisible(false);
-                        addClient.setDisable(true);
-                    }else{
-                        addClient.setVisible(true);
-                        addClient.setDisable(false);
-                    }
-                } catch (SQLException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
             }
         });
 
@@ -201,11 +190,9 @@ public class ModifyReservationController implements Initializable {
         totalPeople = userActionsController.getGroupMembers(reservation.getId()).size();
         previousGuests = userActionsController.getOwnGuests(reservation.getId());
         fieldTotalParticipants.setText(String.valueOf(totalPeople));
+        nGuestsChoice.getItems().clear();
+        nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
         nGuestsChoice.setValue(previousGuests);
-        if(userActionsController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
-            addClient.setVisible(false);
-            addClient.setDisable(true);
-        }
         startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart()));
         endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd()));
         updateTotalPrice();

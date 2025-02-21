@@ -164,7 +164,7 @@ public class ModifyReservationOwnerController implements Initializable {
                 updateTotalPeople();
                 updatePricePerPerson(false);
                 try {
-                    if(managerOwnerManagementController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
+                    if(managerOwnerManagementController.isFull(reservation, nGuestsChoice.getValue() - previousGuests) && reservation.isMatched()) {
                         addClient.setVisible(false);
                         addClient.setDisable(true);
                     }else{
@@ -204,11 +204,25 @@ public class ModifyReservationOwnerController implements Initializable {
         totalPeople = managerOwnerManagementController.getGroupMembers(reservation.getId()).size();
         previousGuests = managerOwnerManagementController.getHeadGuests(reservation.getId());
         fieldTotalParticipants.setText(String.valueOf(totalPeople));
-        nGuestsChoice.setValue(previousGuests);
-        if(managerOwnerManagementController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
-            addClient.setVisible(false);
-            addClient.setDisable(true);
+        nGuestsChoice.getItems().clear();
+        if(reservation.isMatched()){
+
+            for(int i = 0 ; i <= managerOwnerManagementController.getMaxGroupMembers(reservation.getId()) - totalPeople; i++) {
+                nGuestsChoice.getItems().add(i);
+            }
+            if(nGuestsChoice.getItems().isEmpty()){
+                nGuestsChoice.getItems().add(0);
+            }
+
+            if(managerOwnerManagementController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
+                addClient.setVisible(false);
+                addClient.setDisable(true);
+            }
+
+        }else{
+            nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
         }
+        nGuestsChoice.setValue(previousGuests);
         startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart()));
         endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd()));
         updateTotalPrice();
