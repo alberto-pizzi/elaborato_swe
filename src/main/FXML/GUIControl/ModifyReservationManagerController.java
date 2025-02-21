@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -34,6 +31,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ModifyReservationManagerController implements Initializable {
@@ -533,32 +531,57 @@ public class ModifyReservationManagerController implements Initializable {
     @FXML
     public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
 
-        Time eventStartTime = getEventStartTime();
-        Time eventEndTime = getEventEndTime();
-        reservationChecker();
+        System.out.println("Confirm button clicked: " + reservation.getId());
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Modify Reservation");
+        //FIXME improve date format
+        alert.setHeaderText(reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
+        alert.setContentText("Are you sure you want to modify this reservation?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
+
+            reservationChecker();
+
+            ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+
+            managerOwnerManagementController.editReservation(reservation);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceManager.fxml"));
+            Parent view = loader.load();
+            FacilityChoiceManagerController controller = loader.getController();
+            controller.setData(menuPane);
+            menuPane.setCenter(view);
 
 
-        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-
-        managerOwnerManagementController.editReservation(reservation);
-
-        if (eventStartTime != null && eventEndTime != null)
-            System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
-        else
-            System.out.println("Insert data");
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceManager.fxml"));
-        Parent view = loader.load();
-        FacilityChoiceManagerController controller = loader.getController();
-        controller.setData(menuPane);
-        menuPane.setCenter(view);
-        System.out.println("Manager reservations menu button clicked");
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
+        }
 
     }
 
     @FXML
     void handleDeleteButton() throws IOException, SQLException, ClassNotFoundException {
 
+        System.out.println("Delete button clicked: " + reservation.getId());
+
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Reservation");
+        //FIXME improve date format
+        alert.setHeaderText(reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
+        alert.setContentText("Are you sure you want to delete this reservation?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
+
+            //fixme da implementare
+
+
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
+        }
        /* FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
         Parent view = loader.load();
 

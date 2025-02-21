@@ -31,6 +31,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ModifyReservationController implements Initializable {
@@ -526,30 +527,56 @@ public class ModifyReservationController implements Initializable {
     @FXML
     public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
 
-        Time eventStartTime = getEventStartTime();
-        Time eventEndTime = getEventEndTime();
-        reservationChecker();
+        System.out.println("Delete button clicked: " + reservation.getId());
 
 
-        UserActionsController userActionsController = new UserActionsController();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Reservation");
+        //FIXME improve date format
+        alert.setHeaderText(reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
+        alert.setContentText("Are you sure you want to delete this reservation?");
 
-        userActionsController.updateReservation(reservation);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
 
-        if (eventStartTime != null && eventEndTime != null)
-            System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
-        else
-            System.out.println("Insert data");
+            reservationChecker();
 
+            UserActionsController userActionsController = new UserActionsController();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
-        //todo da controllare no passaggio menupane
-        Parent view = loader.load();
-        menuPane.setCenter(view);
+            userActionsController.updateReservation(reservation);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
+            //todo da controllare no passaggio menupane
+            Parent view = loader.load();
+            menuPane.setCenter(view);
+
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
+        }
 
     }
 
     @FXML
     void handleDeleteButton() throws IOException, SQLException, ClassNotFoundException {
+
+        System.out.println("Delete button clicked: " + reservation.getId());
+
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Reservation");
+        //FIXME improve date format
+        alert.setHeaderText(reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
+        alert.setContentText("Are you sure you want to delete this reservation?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
+
+            //fixme da implementare
+
+
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
+        }
 /*
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
         Parent view = loader.load();
