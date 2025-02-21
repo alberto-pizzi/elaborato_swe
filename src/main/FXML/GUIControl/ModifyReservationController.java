@@ -276,13 +276,30 @@ public class ModifyReservationController implements Initializable {
     @FXML
     void handleDeleteClientsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        UserActionsController userActionsController = new UserActionsController();
-        clients.getChildren().removeAll(clickedUserLabels);
-        for (User user : clickedUsers) {
+        System.out.println("Delete button clicked: " + reservation.getId());
 
-            userActionsController.removeGroupMember(reservation.getId(), user.getId());
-            usersList.remove(user);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Members");
+        //FIXME improve date format
+        alert.setHeaderText(reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
+        alert.setContentText("Are you sure you want to delete these members?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
+
+            UserActionsController userActionsController = new UserActionsController();
+            clients.getChildren().removeAll(clickedUserLabels);
+            for (User user : clickedUsers) {
+
+                userActionsController.removeGroupMember(reservation.getId(), user.getId());
+                usersList.remove(user);
+            }
+
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
         }
+
     }
 
     private void updateTotalPeople(){
