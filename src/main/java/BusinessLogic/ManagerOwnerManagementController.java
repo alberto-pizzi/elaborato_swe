@@ -106,9 +106,16 @@ public class ManagerOwnerManagementController {
     }
 
     //FIXME input change
-    public ArrayList<User> findOtherPlayers() throws SQLException, ClassNotFoundException {
+    public ArrayList<User> findInvitablePlayers(Reservation reservation) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
-        return userDAO.getUsersByProvince(this.person.getProvince());
+        GroupDao groupDao = new GroupDao();
+
+        ArrayList <User> users = new ArrayList<>();
+        Group group = groupDao.getGroupByReservation(reservation.getId());
+
+        users.addAll(userDAO.getUsersByProvince(group.getGroupHead().getProvince()));
+        users.removeAll(group.getUsers());
+        return users;
     }
 
     public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {

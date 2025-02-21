@@ -72,6 +72,19 @@ public class UserActionsController {
         return userDAO.getUsersByProvince(this.user.getProvince());
     }
 
+    //FIXME input change
+    public ArrayList <User> findInvitablePlayers(Reservation reservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+        UserDAO userDAO = new UserDAO();
+
+        ArrayList <User> users = new ArrayList<>();
+        Group group = groupDao.getGroupByReservation(reservation.getId());
+
+        users.addAll(userDAO.getUsersByProvince(this.user.getProvince()));
+        users.removeAll(group.getUsers());
+        return users;
+    }
+
     public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int requiredParticipants, boolean isMatched ) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();
@@ -103,6 +116,7 @@ public class UserActionsController {
     public void sendInvites(Group group) throws SQLException, ClassNotFoundException {
 
         InviteSender inviteSender = new InviteSender(group);
+
 
         InviteDao inviteDao = new InviteDao();
         ArrayList <User> receivers = findOtherPlayers();

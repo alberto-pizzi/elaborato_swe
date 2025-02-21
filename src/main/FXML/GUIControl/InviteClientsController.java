@@ -87,7 +87,7 @@ public class InviteClientsController implements Initializable {
 
     private List<User> getData() throws SQLException, ClassNotFoundException {
         UserActionsController userActionsController = new UserActionsController();
-        return userActionsController.findOtherPlayers();
+        return userActionsController.findInvitablePlayers(reservation);
     }
 
     EventHandler<KeyEvent> handler = new EventHandler<>() {
