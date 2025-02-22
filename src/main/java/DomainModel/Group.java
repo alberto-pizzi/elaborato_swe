@@ -98,12 +98,16 @@ public class Group extends Subject{
         return String.valueOf(this.participants) + " of " + String.valueOf(this.requiredParticipants);
     }
 
+    public Boolean participantsCheck(int guests){
+        return this.participants + guests + 1 > this.requiredParticipants;
+    }
+
     //TODO check groupHead for first joining
     public boolean addMember(User user, int guests){
         if (guests < 0)
             guests = 0;
 
-        if (this.participants + guests + 1 > this.requiredParticipants) {
+        if (participantsCheck(guests)) {
             System.out.println("Group is full!");
             return false;
         }
@@ -143,6 +147,7 @@ public class Group extends Subject{
             groupHead = null;
             return;
         }
+
 
         groupHead = users.get(0);
 

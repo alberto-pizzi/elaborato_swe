@@ -45,6 +45,7 @@ public class OwnerManagementController {
 
     }
 
+    //todo controllare queste funzioni
     public void editFacility(){}
 
     public void editField(){}
@@ -129,23 +130,40 @@ public class OwnerManagementController {
         return users;
     }
 
-    public ArrayList<User> searchUsersByProvince(String provinceUser, int facilityId) throws SQLException, ClassNotFoundException {
+    public ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
-        ManagesDAO managesDAO = new ManagesDAO();
 
         users.addAll(userDAO.getUsersByProvinceSearch(provinceUser));
+        return users;
+    }
+
+    public ArrayList<User> searchManagersByProvince(String provinceUser, int facilityId) throws SQLException, ClassNotFoundException {
+        ArrayList<User> users = new ArrayList<>();
+        ManagesDAO managesDAO = new ManagesDAO();
+
+        users.addAll(searchUsersByProvince(provinceUser));
         users.remove(managesDAO.getAllManagersByFacility(facilityId));
         return users;
     }
 
-    public ArrayList<User> searchUsersByUsername(String searchUsername, int facilityId) throws SQLException, ClassNotFoundException {
+
+
+    public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
 
         ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
-        ManagesDAO managesDAO = new ManagesDAO();
 
         users.addAll(userDAO.getUsersByUsernameSearch(searchUsername));
+        return users;
+    }
+
+    public ArrayList<User> searchManagersByUsername(String searchUsername, int facilityId) throws SQLException, ClassNotFoundException {
+
+        ArrayList<User> users = new ArrayList<>();
+        ManagesDAO managesDAO = new ManagesDAO();
+
+        users.addAll(searchUsersByUsername(searchUsername));
         users.remove(managesDAO.getAllManagersByFacility(facilityId));
         return users;
     }

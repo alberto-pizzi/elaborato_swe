@@ -9,7 +9,11 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+
+import static main.java.DomainModel.NotificationType.MODIFICATION;
 
 
 public class UserActionsController {
@@ -67,6 +71,22 @@ public class UserActionsController {
         return userDAO.getUsersByProvince(this.user.getProvince());
     }
 
+    //FIXME input change
+    public ArrayList<User> searchInvitablePlayers(Reservation reservation, Boolean searched, String searchText) throws SQLException, ClassNotFoundException {
+
+        GroupDao groupDao = new GroupDao();
+        ArrayList<User> invitablePlayers = new ArrayList<>();
+
+        if(searched) {
+            invitablePlayers.addAll(searchUsersByProvince(searchText));
+            invitablePlayers.addAll(searchUsersByUsername(searchText));
+        }else{
+            invitablePlayers.addAll(searchUsersByProvince(this.user.getProvince()));
+        }
+        invitablePlayers.removeAll(groupDao.getGroupByReservation(reservation.getId()).getUsers());
+        return invitablePlayers;
+    }
+
     public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int requiredParticipants, boolean isMatched ) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();
@@ -99,6 +119,7 @@ public class UserActionsController {
 
         InviteSender inviteSender = new InviteSender(group);
 
+
         InviteDao inviteDao = new InviteDao();
         ArrayList <User> receivers = findOtherPlayers();
         Invite invite;
@@ -113,6 +134,55 @@ public class UserActionsController {
 
     }
 
+    public boolean editRights(Reservation reservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+
+        Boolean pass = true;
+        Group group = groupDao.getGroupByReservation(reservation.getId());
+        //todo Da finire
+        if(group.getGroupHead().getId() != user.getId()) {
+            pass = false;
+        }
+        if(reservation.isMatched()){
+            pass = false;
+        }
+
+        if(reservation.getEventTimeStart().toLocalTime().getHour() - LocalTime.now().getHour() < 2 && reservation.getReservationDate().toLocalDate().equals(LocalDate.now())){
+            pass = false;
+        }
+
+        return pass;
+    }
+
+    public Boolean isFull(Reservation reservation, int guests) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+        Group group = groupDao.getGroupByReservation(reservation.getId());
+
+        return  group.participantsCheck(guests);
+    }
+
+    //todo cambiare uml
+    public void sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
+
+        GroupDao groupDao = new GroupDao();
+
+        Group group = groupDao.getGroupByReservation(reservation.getId());
+
+        InviteSender inviteSender = new InviteSender(group);
+
+        InviteDao inviteDao = new InviteDao();
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserByID(idUser);
+        Invite invite;
+
+        invite = inviteSender.factoryMethod();
+        invite.setUser(user);
+        inviteDao.addInvite(invite);
+
+        System.out.println("Invite has been sent");
+
+    }
+
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
 
@@ -124,6 +194,14 @@ public class UserActionsController {
 
         inviteDao.deleteInvite(idInvite);
 
+    }
+
+    public void acceptInvite(Invite invite) throws SQLException, ClassNotFoundException {
+        //todo da aggiungere scelta guests
+        joinGroup(invite.getGroup().getId(), 0);
+        InviteDao inviteDao = new InviteDao();
+
+        inviteDao.deleteInvite(invite.getId());
     }
 
     public void joinGroup(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException {
@@ -252,6 +330,95 @@ public class UserActionsController {
     public String getFieldAddress(int fieldId) throws SQLException {
         FieldDao fieldDao = new FieldDao();
         return fieldDao.getFieldAddress(fieldId);
+    }
+
+    //todo aggiungere uml
+    public Field getReservationField(Reservation reservation) throws SQLException, ClassNotFoundException {
+        FieldDao fieldDao = new FieldDao();
+        return fieldDao.getField(reservation.getField().getId());
+    }
+
+    //todo aggiungere uml
+    public ArrayList <User> getGroupMembers (int idReservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+        IsPartDao isPartDao = new IsPartDao();
+
+        return isPartDao.getGroupMembers(groupDao.getGroupByReservation(idReservation).getId());
+    }
+
+    //todo aggiungere uml
+    public int getGroupParticipants(int idReservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+
+        return groupDao.getGroupByReservation(idReservation).getParticipants();
+    }
+
+    //todo aggiungere uml
+    public int getOwnGuests(int idReservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+        IsPartDao isPartDao = new IsPartDao();
+
+        return isPartDao.countOwnGuests(groupDao.getGroupByReservation(idReservation).getId(),user.getId());
+    }
+
+    //todo aggiungere uml
+    public void removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
+        IsPartDao isPartDao = new IsPartDao();
+        GroupDao groupDao = new GroupDao();
+
+        isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
+    }
+
+    //todo aggiungere uml
+    public void addGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
+        IsPartDao isPartDao = new IsPartDao();
+        GroupDao groupDao = new GroupDao();
+
+        isPartDao.addMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember, 0);
+    }
+
+    //todo aggiungere uml
+    public void changeOwnGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
+        IsPartDao isPartDao = new IsPartDao();
+        GroupDao groupDao = new GroupDao();
+
+        isPartDao.updateGuestsUsers(groupDao.getGroupByReservation(idReservation).getId(),user.getId(),guestNewNumber);
+    }
+
+    //todo aggiungere uml
+    public ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
+        ArrayList<User> users = new ArrayList<>();
+        UserDAO userDAO = new UserDAO();
+
+        users.addAll(userDAO.getUsersByProvinceSearch(provinceUser));
+        return users;
+    }
+
+    //todo aggiungere uml
+    public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
+
+        ArrayList<User> users = new ArrayList<>();
+        UserDAO userDAO = new UserDAO();
+
+        users.addAll(userDAO.getUsersByUsernameSearch(searchUsername));
+        return users;
+    }
+
+    //todo aggiungere uml
+    public void updateReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
+
+       ReservationDao reservationDao = new ReservationDao();
+       NotificationController notificationController = new NotificationController();
+       Reservation previousReservation = reservationDao.getReservation(reservation.getId());
+       String notificationTitle = "Una prenotazione è stata modificata";
+       String notificationMessage = "La prenotazione il giorno " + previousReservation.getReservationDate() + " alle " + previousReservation.getEventTimeStart() + " è stata modificata da " + user.getUsername();
+
+       reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
+       reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
+       reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
+       notificationController.sendNotifications(reservation, MODIFICATION, notificationTitle, notificationMessage);
+
+
     }
 
 }

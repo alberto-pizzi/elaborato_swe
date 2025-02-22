@@ -151,6 +151,11 @@
     -fx-cursor: hand;
 }
 
+.go-to-from-notifications:hover{
+    c-fx-background-color: #a1d1f6;
+}
+
+
 .separator-line{
     -fx-background-color: grey;
 }

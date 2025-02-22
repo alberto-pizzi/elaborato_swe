@@ -61,6 +61,11 @@
                   <Font size="30.0" />
                </font>
             </Button>
+            <Button fx:id="notification" layoutX="16.0" layoutY="439.0" mnemonicParsing="false" onAction="#handleNotificationButton" styleClass="button-owner" stylesheets="@css/style.css" text="Notifications" textFill="WHITE">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
          </children>
       </VBox>
    </left>

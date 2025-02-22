@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ModifyFacilityController">
+<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ModifyFacilityController">
    <children>
       <VBox alignment="CENTER" prefHeight="720.0" prefWidth="1060.0">
          <children>
@@ -25,7 +25,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="nameInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
+                  <TextField fx:id="nameInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -42,7 +42,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="addressInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
+                  <TextField fx:id="addressInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -61,7 +61,7 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="provinceInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
+                        <TextField fx:id="provinceInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -78,7 +78,7 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="zipInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
+                        <TextField fx:id="zipInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -95,7 +95,7 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="phoneInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
+                        <TextField fx:id="phoneInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -115,7 +115,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="cityInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
+            <TextField fx:id="cityInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
@@ -131,7 +131,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="countryInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
+            <TextField fx:id="countryInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css">
                <font>
                   <Font size="16.0" />
                </font>
@@ -161,13 +161,13 @@
                         </ScrollPane>
                         <HBox alignment="CENTER" prefWidth="180.0" spacing="15.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#handleAddManagersButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Add" />
-                              <Button mnemonicParsing="false" onAction="#handleDeleteManagersButton" styleClass="delete-button-color" stylesheets="@css/style.css" text="Delete" />
+                              <Button mnemonicParsing="false" onAction="#handleAddManagersButton" prefHeight="25.0" prefWidth="51.0" styleClass="confirm-button-owner" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Add" />
+                              <Button mnemonicParsing="false" onAction="#handleDeleteManagersButton" styleClass="delete-button-color" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Delete" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
-                  <Button mnemonicParsing="false" onAction="#handleChangeWorkingHoursButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Modify working hours" />
+                  <Button mnemonicParsing="false" onAction="#handleChangeWorkingHoursButton" styleClass="confirm-button-owner" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Modify working hours" />
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="180.0">
                      <children>
                         <Label text="Fields:">
@@ -188,9 +188,9 @@
                         </ScrollPane>
                         <HBox alignment="CENTER" prefWidth="180.0" spacing="15.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#handleAddFieldButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Add" />
-                              <Button mnemonicParsing="false" onAction="#handleModifyFieldButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Modify" />
-                              <Button mnemonicParsing="false" onAction="#handleDeleteFieldsButton" styleClass="delete-button-color" stylesheets="@css/style.css" text="Delete" />
+                              <Button mnemonicParsing="false" onAction="#handleAddFieldButton" prefHeight="25.0" prefWidth="51.0" styleClass="confirm-button-owner" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Add" />
+                              <Button mnemonicParsing="false" onAction="#handleModifyFieldButton" prefHeight="25.0" prefWidth="67.0" styleClass="confirm-button-owner" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Modify" />
+                              <Button mnemonicParsing="false" onAction="#handleDeleteFieldsButton" prefHeight="25.0" prefWidth="64.0" styleClass="delete-button-color" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Delete" />
                            </children>
                         </HBox>
                      </children>
@@ -208,10 +208,10 @@
                      </VBox.margin>
                   </Label>
                   <ImageView fx:id="imageLabel" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button mnemonicParsing="false" onAction="#handleUploadImageButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Upload image" />
+                  <Button mnemonicParsing="false" onAction="#handleUploadImageButton" styleClass="confirm-button-owner" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Upload image" />
                </children>
             </VBox>
-            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Confrim">
+            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" styleClass="confirm-button-owner" stylesheets="@../../../../elaborato_swe12/src/main/FXML/css/style.css" text="Confrim">
                <VBox.margin>
                   <Insets bottom="5.0" top="10.0" />
                </VBox.margin>

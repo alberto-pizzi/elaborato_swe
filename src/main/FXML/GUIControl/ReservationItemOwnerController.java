@@ -1,6 +1,11 @@
 package main.FXML.GUIControl;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,8 +14,11 @@ import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.DomainModel.Reservation;
 
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 public class ReservationItemOwnerController {
 
@@ -19,6 +27,9 @@ public class ReservationItemOwnerController {
 
     @FXML
     private VBox actionsVBox;
+
+    @FXML
+    private Button editButton;
 
     @FXML
     private Label bookingDate;
@@ -93,18 +104,50 @@ public class ReservationItemOwnerController {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + reservation.getField().getImage()));
         fieldImageView.setImage(image);
+
     }
 
     @FXML
     public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException {
-        System.out.println("Leave button clicked: " + fieldNameLabel.getText());
+        System.out.println("Delete button clicked: " + reservation.getId());
+
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Reservation");
+        //FIXME improve date format
+        alert.setHeaderText(reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
+        alert.setContentText("Are you sure you want to delete this reservation?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
+
+            //fixme da implementare
+
+
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
+        }
+        /*System.out.println("Leave button clicked: " + fieldNameLabel.getText());
 
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         managerOwnerManagementController.deleteReservation(reservation.getId());
 
         if (reservationsController != null) {
             reservationsController.removeReservationItemFromGUI(reservationItemPane,reservation);
-        }
+        }*/
+    }
+
+    @FXML
+    void handleEditButton() throws IOException, SQLException, ClassNotFoundException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservationOwner.fxml"));
+        Parent view = loader.load();
+
+        ModifyReservationOwnerController modifyReservationOwnerController = loader.getController();
+        modifyReservationOwnerController.setData(this.reservation, reservationsController.getMenuPane());
+
+        reservationsController.getMenuPane().setCenter(view);
+
     }
 
 }

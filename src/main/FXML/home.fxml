@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.HomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.HomeController">
    <children>
       <VBox prefHeight="519.0" prefWidth="1180.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
@@ -19,11 +19,20 @@
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label prefHeight="70.0" prefWidth="336.0" text="Choose a field" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="48.0" />
-                           </font>
-                        </Label>
+                        <VBox>
+                           <children>
+                              <Label prefHeight="70.0" prefWidth="336.0" text="Choose a field" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="48.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="currentSearch" prefHeight="70.0" prefWidth="336.0" text="Fields in your province" textAlignment="CENTER" wrapText="true">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="777.0" style="-fx-border-color: black; -fx-border-radius: 10px;">
                            <children>
                               <TextField fx:id="search" prefHeight="51.0" prefWidth="666.0" promptText="Search..." style="-fx-background-radius: 10px; -fx-border-color: white; -fx-background-color: white;">

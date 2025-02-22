@@ -89,4 +89,10 @@ public class MenuOwnerController implements Initializable {
         System.out.println("Reservations menu button clicked");
     }
 
+    @FXML
+    void handleNotificationButton(ActionEvent event) throws IOException {
+        changeView("notificationsOwner.fxml");
+        System.out.println("Notifications menu button clicked");
+    }
+
 }

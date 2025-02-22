@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="reservationItemPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1100.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ReservationItemManagerController">
+<AnchorPane fx:id="reservationItemPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1100.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ReservationItemManagerController">
    <styleClass>
       <String fx:value="group-item" />
       <String fx:value="shadow" />
@@ -154,7 +154,7 @@
       </StackPane>
       <VBox fx:id="actionsVBox" alignment="CENTER" prefHeight="120.0" prefWidth="165.0" spacing="5.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button mnemonicParsing="false" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Edit" textFill="WHITE">
+            <Button fx:id="editButton" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Edit" textFill="WHITE">
                <styleClass>
                   <String fx:value="leave-button" />
                   <String fx:value="shadow" />
