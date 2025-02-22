@@ -26,7 +26,7 @@ public class IsPartDao {
     //methods
     public void addMembership(int idGroup, int idUser, int guestUsers) throws SQLException {
 
-        String querySQL = String.format("INSERT INTO \"IsPart\" (id_group, id_user,guest_users)) " +
+        String querySQL = String.format("INSERT INTO \"IsPart\" (id_group, id_user,guest_users) " +
                 "VALUES ('%d', '%d', '%d')", idGroup, idUser, guestUsers);
 
         PreparedStatement preparedStatement = null;
