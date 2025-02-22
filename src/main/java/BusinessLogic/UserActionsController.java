@@ -421,4 +421,9 @@ public class UserActionsController {
 
     }
 
+    public User searchUserByUsername(String username) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        return  userDAO.getUser(username);
+    }
+
 }

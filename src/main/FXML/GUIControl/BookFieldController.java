@@ -522,16 +522,34 @@ public class BookFieldController implements Initializable {
 
 
     @FXML
-    void handleAddButton(ActionEvent event) {
-
+    void handleAddButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
         if (guestUsernameField.getText().isEmpty()) {
-            //TODO implement error
+            messagesController.showMessage("Please enter a guest username.", MessagesController.MessageType.ERROR,5);
         }
         else{
-            //TODO implement behavior
 
-            guestUsernameField.clear();
+            UserActionsController userActionsController = new UserActionsController();
+            User userToBeAdded = userActionsController.searchUserByUsername(guestUsernameField.getText());
+
+            if (userToBeAdded != null) {
+
+                if (!userToBeAdded.getUsername().equals(userActionsController.getUser().getUsername())) {
+
+                    if (!accountList.getItems().contains(userToBeAdded.getUsername()))
+                        accountList.getItems().add(userToBeAdded.getUsername());
+                    else
+                        messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,5);
+
+                }
+                else
+                    messagesController.showMessage("Username must be different from yours", MessagesController.MessageType.ERROR,5);
+
+                guestUsernameField.clear();
+            }
+            else{
+                messagesController.showMessage("User not found", MessagesController.MessageType.ERROR,5);
+            }
 
         }
 
@@ -539,14 +557,12 @@ public class BookFieldController implements Initializable {
 
     @FXML
     void handleRemoveAllButton(ActionEvent event) {
-        //TODO implement
-
+        accountList.getItems().clear();
     }
 
     @FXML
     void handleRemoveButton(ActionEvent event) {
-
-        //TODO implement
+        accountList.getItems().removeAll(accountList.getSelectionModel().getSelectedItem());
     }
 
 

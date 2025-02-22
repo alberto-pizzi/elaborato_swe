@@ -103,6 +103,7 @@ public class FieldDetailController implements Initializable {
 
     @FXML
     void handleGoToBookButton(ActionEvent event) throws IOException {
+        //FIXME menu disappear
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
         Parent view = loader.load();
