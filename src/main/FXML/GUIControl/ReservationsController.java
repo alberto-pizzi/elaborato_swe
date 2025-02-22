@@ -76,10 +76,12 @@ public class ReservationsController implements Initializable {
 
         } catch (IOException e){
             e.printStackTrace();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
 
-        }
+    }
 
     //TODO template needed?
     public void removeReservationItemFromGUI(AnchorPane reservationItemPane, Reservation reservation) {

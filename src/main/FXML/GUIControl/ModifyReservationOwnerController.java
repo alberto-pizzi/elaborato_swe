@@ -54,6 +54,9 @@ public class ModifyReservationOwnerController implements Initializable {
     private Label durationLabel;
 
     @FXML
+    private Label isMatched;
+
+    @FXML
     private ChoiceBox<String> endTimeChoice;
 
     @FXML
@@ -207,6 +210,8 @@ public class ModifyReservationOwnerController implements Initializable {
         nGuestsChoice.getItems().clear();
         if(reservation.isMatched()){
 
+            isMatched.setText("The reservation is matched");
+
             for(int i = 0 ; i <= managerOwnerManagementController.getMaxGroupMembers(reservation.getId()) - totalPeople; i++) {
                 nGuestsChoice.getItems().add(i);
             }
@@ -220,6 +225,9 @@ public class ModifyReservationOwnerController implements Initializable {
             }
 
         }else{
+
+            isMatched.setText("The reservation is not matched");
+
             nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
         }
         nGuestsChoice.setValue(previousGuests);

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="1094.0" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ModifyReservationOwnerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="1094.0" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ModifyReservationOwnerController">
    <children>
       <VBox prefHeight="720.0" prefWidth="1060.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
@@ -126,6 +126,11 @@
                               </Label>
                            </children>
                         </HBox>
+                        <Label prefHeight="30.0" prefWidth="240.0" text="Guest of the grouphead:">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
                         <HBox alignment="CENTER" prefHeight="53.0" prefWidth="586.0" spacing="50.0">
                            <children>
                               <ChoiceBox fx:id="nGuestsChoice" prefHeight="26.0" prefWidth="215.0" />
@@ -173,6 +178,18 @@
                            <VBox.margin>
                               <Insets bottom="10.0" top="50.0" />
                            </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
+                           <children>
+                              <Label fx:id="isMatched" prefHeight="35.0" prefWidth="537.0" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
