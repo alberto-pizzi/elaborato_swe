@@ -165,7 +165,7 @@ public class ManagerOwnerManagementController {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
 
-        Group group = groupDao.getGroup(idReservation);
+        Group group = groupDao.getGroupByReservation(idReservation);
         isPartDao.updateGuestsUsers(group.getId(),group.getGroupHead().getId(),guestNewNumber);
     }
 
