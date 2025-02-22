@@ -204,7 +204,7 @@ public class ModifyReservationOwnerController implements Initializable {
 
         //fixme trasformare in persone tortali
         datePicker.setValue(reservation.getEventDate().toLocalDate());
-        totalPeople = managerOwnerManagementController.getGroupMembers(reservation.getId()).size();
+        totalPeople = managerOwnerManagementController.getGroupParticipants(reservation.getId());
         previousGuests = managerOwnerManagementController.getHeadGuests(reservation.getId());
         fieldTotalParticipants.setText(String.valueOf(totalPeople));
         nGuestsChoice.getItems().clear();

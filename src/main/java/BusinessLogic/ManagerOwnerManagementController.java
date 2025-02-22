@@ -87,6 +87,14 @@ public class ManagerOwnerManagementController {
     }
 
     //todo aggiungere uml
+    public int getGroupParticipants(int idReservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+
+        return groupDao.getGroupByReservation(idReservation).getParticipants();
+    }
+
+
+    //todo aggiungere uml
     public int getMaxGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
 

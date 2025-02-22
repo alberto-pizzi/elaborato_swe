@@ -205,7 +205,7 @@ public class ModifyReservationManagerController implements Initializable {
         fieldImageView.setImage(image);
 
         datePicker.setValue(reservation.getEventDate().toLocalDate());
-        totalPeople = managerOwnerManagementController.getGroupMembers(reservation.getId()).size();
+        totalPeople = managerOwnerManagementController.getGroupParticipants(reservation.getId());
         previousGuests = managerOwnerManagementController.getHeadGuests(reservation.getId());
         fieldTotalParticipants.setText(String.valueOf(totalPeople));
         nGuestsChoice.getItems().clear();
