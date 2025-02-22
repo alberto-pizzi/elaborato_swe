@@ -156,7 +156,7 @@
                               </Label>
                            </children>
                         </HBox>
-                        <Label fx:id="isMatched" prefHeight="30.0" prefWidth="466.0">
+                        <Label fx:id="isMatched" prefHeight="30.0" prefWidth="466.0" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>

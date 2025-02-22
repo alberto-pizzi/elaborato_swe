@@ -550,8 +550,9 @@ public class ModifyReservationController implements Initializable {
             userActionsController.updateReservation(reservation);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
-            //todo da controllare no passaggio menupane
             Parent view = loader.load();
+            ReservationsController reservationsController = loader.getController();
+            reservationsController.setPane(menuPane);
             menuPane.setCenter(view);
 
         } else if(result.get() == ButtonType.CANCEL){
