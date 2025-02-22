@@ -121,16 +121,25 @@ public class ManagerOwnerManagementController {
     }
 
     //FIXME input change
-    public ArrayList<User> findInvitablePlayers(Reservation reservation) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
+    public ArrayList<User> searchInvitablePlayers(Reservation reservation, Boolean searched, String searchText) throws SQLException, ClassNotFoundException {
+
         GroupDao groupDao = new GroupDao();
+        ArrayList<User> invitablePlayers = new ArrayList<>();
 
-        ArrayList <User> users = new ArrayList<>();
-        Group group = groupDao.getGroupByReservation(reservation.getId());
+        if(searched) {
+            invitablePlayers.addAll(searchUsersByProvince(searchText));
+            invitablePlayers.addAll(searchUsersByUsername(searchText));
+        }else{
+            invitablePlayers.addAll(searchUsersByProvince(groupDao.getGroupByReservation(reservation.getId()).getGroupHead().getProvince()));
+        }
+        invitablePlayers.removeAll(groupDao.getGroupByReservation(reservation.getId()).getUsers());
+        return invitablePlayers;
+    }
 
-        users.addAll(userDAO.getUsersByProvince(group.getGroupHead().getProvince()));
-        users.removeAll(group.getUsers());
-        return users;
+    //FIXME input change
+    public ArrayList <User> findOtherPlayers(String province) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        return userDAO.getUsersByProvince(province);
     }
 
     public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
@@ -155,9 +164,8 @@ public class ManagerOwnerManagementController {
         GroupDao groupDao = new GroupDao();
         IsPartDao isPartDao = new IsPartDao();
 
-        Group group = groupDao.getGroup(idReservation);
-        int check = isPartDao.countOwnGuests(group.getId(), group.getGroupHead().getId());
-        return check;
+        Group group = groupDao.getGroupByReservation(idReservation);
+        return isPartDao.countOwnGuests(group.getId(), group.getGroupHead().getId());
     }
 
     //todo aggiungere uml

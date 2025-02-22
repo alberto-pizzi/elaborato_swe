@@ -202,7 +202,6 @@ public class ModifyReservationOwnerController implements Initializable {
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         fieldImageView.setImage(image);
 
-        //fixme trasformare in persone tortali
         datePicker.setValue(reservation.getEventDate().toLocalDate());
         totalPeople = managerOwnerManagementController.getGroupParticipants(reservation.getId());
         previousGuests = managerOwnerManagementController.getHeadGuests(reservation.getId());

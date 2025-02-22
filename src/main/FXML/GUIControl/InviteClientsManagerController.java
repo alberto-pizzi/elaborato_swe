@@ -88,7 +88,7 @@ public class InviteClientsManagerController implements Initializable {
     private List<User> getData() throws SQLException, ClassNotFoundException {
         //todo cambiare per owner
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-        return managerOwnerManagementController.findInvitablePlayers(reservation);
+        return managerOwnerManagementController.searchInvitablePlayers(reservation, false, "");
     }
 
     EventHandler<KeyEvent> handler = new EventHandler<>() {
@@ -174,8 +174,7 @@ public class InviteClientsManagerController implements Initializable {
             try {
                 currentSearch.setText("Results for  " + "'" + search.getText() + "'");
                 users.clear();
-                users.addAll(managerOwnerManagementController.searchUsersByProvince(search.getText()));
-                users.addAll(managerOwnerManagementController.searchUsersByUsername(search.getText()));
+                users.addAll(managerOwnerManagementController.searchInvitablePlayers(reservation, true, search.getText()));
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }

@@ -87,7 +87,7 @@ public class InviteClientsController implements Initializable {
 
     private List<User> getData() throws SQLException, ClassNotFoundException {
         UserActionsController userActionsController = new UserActionsController();
-        return userActionsController.findInvitablePlayers(reservation);
+        return userActionsController.searchInvitablePlayers(reservation, false, "");
     }
 
     EventHandler<KeyEvent> handler = new EventHandler<>() {
@@ -173,8 +173,7 @@ public class InviteClientsController implements Initializable {
             try {
                 currentSearch.setText("Results for  " + "'" + search.getText() + "'");
                 users.clear();
-                users.addAll(userActionsController.searchUsersByProvince(search.getText()));
-                users.addAll(userActionsController.searchUsersByUsername(search.getText()));
+                users.addAll(userActionsController.searchInvitablePlayers(reservation, true, search.getText()));
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }

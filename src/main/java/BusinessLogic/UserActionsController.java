@@ -10,7 +10,6 @@ import java.sql.Time;
 import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -73,16 +72,19 @@ public class UserActionsController {
     }
 
     //FIXME input change
-    public ArrayList <User> findInvitablePlayers(Reservation reservation) throws SQLException, ClassNotFoundException {
+    public ArrayList<User> searchInvitablePlayers(Reservation reservation, Boolean searched, String searchText) throws SQLException, ClassNotFoundException {
+
         GroupDao groupDao = new GroupDao();
-        UserDAO userDAO = new UserDAO();
+        ArrayList<User> invitablePlayers = new ArrayList<>();
 
-        ArrayList <User> users = new ArrayList<>();
-        Group group = groupDao.getGroupByReservation(reservation.getId());
-
-        users.addAll(userDAO.getUsersByProvince(this.user.getProvince()));
-        users.removeAll(group.getUsers());
-        return users;
+        if(searched) {
+            invitablePlayers.addAll(searchUsersByProvince(searchText));
+            invitablePlayers.addAll(searchUsersByUsername(searchText));
+        }else{
+            invitablePlayers.addAll(searchUsersByProvince(this.user.getProvince()));
+        }
+        invitablePlayers.removeAll(groupDao.getGroupByReservation(reservation.getId()).getUsers());
+        return invitablePlayers;
     }
 
     public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int requiredParticipants, boolean isMatched ) throws SQLException, ClassNotFoundException {
@@ -387,7 +389,6 @@ public class UserActionsController {
     public ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
-        ManagesDAO managesDAO = new ManagesDAO();
 
         users.addAll(userDAO.getUsersByProvinceSearch(provinceUser));
         return users;
@@ -398,7 +399,6 @@ public class UserActionsController {
 
         ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
-        ManagesDAO managesDAO = new ManagesDAO();
 
         users.addAll(userDAO.getUsersByUsernameSearch(searchUsername));
         return users;
