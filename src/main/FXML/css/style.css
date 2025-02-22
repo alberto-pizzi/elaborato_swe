@@ -150,3 +150,7 @@
     -fx-background-radius: 40;
     -fx-cursor: hand;
 }
+
+.separator-line{
+    -fx-background-color: grey;
+}

@@ -32,6 +32,21 @@ public class BookFieldController implements Initializable {
     private Button confirmButton;
 
     @FXML
+    private Button addButton;
+
+    @FXML
+    private Button removeAllButton;
+
+    @FXML
+    private Button removeButton;
+
+    @FXML
+    private ListView<String> accountList;
+
+    @FXML
+    private TextField guestUsernameField;
+
+    @FXML
     private Label errorLabel;
 
     @FXML
@@ -503,6 +518,35 @@ public class BookFieldController implements Initializable {
 
 
 
+    }
+
+
+    @FXML
+    void handleAddButton(ActionEvent event) {
+
+
+        if (guestUsernameField.getText().isEmpty()) {
+            //TODO implement error
+        }
+        else{
+            //TODO implement behavior
+
+            guestUsernameField.clear();
+
+        }
+
+    }
+
+    @FXML
+    void handleRemoveAllButton(ActionEvent event) {
+        //TODO implement
+
+    }
+
+    @FXML
+    void handleRemoveButton(ActionEvent event) {
+
+        //TODO implement
     }
 
 
