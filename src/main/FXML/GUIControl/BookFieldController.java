@@ -510,7 +510,7 @@ public class BookFieldController implements Initializable {
         else{
             //TODO finish to implement
             System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
-            //userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected()); //TODO activate it
+            userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected());
             System.out.println("Booking confirmed");
         }
 

@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import static main.java.DomainModel.NotificationType.DELETION;
 import static main.java.DomainModel.NotificationType.MODIFICATION;
 
 
@@ -102,6 +103,8 @@ public class UserActionsController {
         //group creation
         Group group = new Group(user,reservation, requiredParticipants); //TODO check if participants and users array will be filled. Check constructor.
         groupDao.addGroup(group);
+
+        //TODO add invite methods
 
         if (isMatched) {
             sendInvites(group);
@@ -262,7 +265,14 @@ public class UserActionsController {
 
         ReservationDao reservationDao = new ReservationDao();
 
+        //TODO add notification cycle. Is that correct position?
+        NotificationController notificationController = new NotificationController();
+
+        //notificationController.sendNotifications(reservationDao.getReservation(idReservation),DELETION,"");
+
         reservationDao.deleteReservation(idReservation);
+
+
     }
 
     public void leaveOwnGroups() throws SQLException, ClassNotFoundException {

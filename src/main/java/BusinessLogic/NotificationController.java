@@ -26,10 +26,12 @@ public class NotificationController {
         Owner owner;
         Facility facility;
 
+        //TODO implement announcement form
         if(notificationType != NotificationType.ANNOUNCEMENT){
             notificationMessage = null;
         }
 
+        //TODO notificationTitle and notificationMessage should not be there
         NotificationSender notificationSender = new NotificationSender(reservation, notificationType, notificationTitle, notificationMessage);
         Notification tmpNotification;
 

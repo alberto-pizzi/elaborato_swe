@@ -17,7 +17,8 @@ public class Group extends Subject{
         this.id = id;
         this.groupHead = groupHead;
         this.reservation = reservation;
-        this.requiredParticipants = requiredParticipants;
+        //FIXME is requiredParticipants management correct?
+        this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
         this.users = new ArrayList<>();
         this.participants = 0;
     }
@@ -25,7 +26,8 @@ public class Group extends Subject{
     public Group(User groupHead, Reservation reservation, int requiredParticipants) {
         this.groupHead = groupHead;
         this.reservation = reservation;
-        this.requiredParticipants = requiredParticipants;
+        //FIXME is requiredParticipants management correct?
+        this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
         //TODO check correctness
         this.users = new ArrayList<>();
         this.participants = 1;
@@ -95,10 +97,20 @@ public class Group extends Subject{
     //methods
 
     public String groupProgress(){
-        return String.valueOf(this.participants) + " of " + String.valueOf(this.requiredParticipants);
+
+        String label = String.valueOf(this.participants);
+
+        if (!reservation.isMatched()) {
+            label += " of " + String.valueOf(this.requiredParticipants);
+        }
+
+        return label;
     }
 
     public Boolean participantsCheck(int guests){
+        if (!reservation.isMatched()) {
+            return false;
+        }
         return this.participants + guests + 1 > this.requiredParticipants;
     }
 
