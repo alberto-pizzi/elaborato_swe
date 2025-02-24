@@ -203,6 +203,7 @@ public class BookFieldController implements Initializable {
     private void updateTotalPeople(){
         if (isMatchingCheckBox.isSelected())
             //FIXME counter
+            //FIXME check if null and 0 comparison generate some error
             this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + ((nPlayersToMatchChoice.getValue() != null) && (!nPlayersToMatchChoice.getValue().equals(0)) ? nPlayersToMatchChoice.getValue() : field.getSport().getPlayersRequired()) + 1;
         else {
             this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + 1;

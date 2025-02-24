@@ -1,6 +1,5 @@
 package main.java.ORM;
 
-import main.java.DomainModel.Facility;
 import main.java.DomainModel.Group;
 import main.java.DomainModel.Reservation;
 
@@ -8,7 +7,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 public class GroupDao {
 
@@ -104,7 +102,7 @@ public class GroupDao {
                 int groupHead = resultSet.getInt("group_head");
                 int idReservation = resultSet.getInt("id_reservation");
 
-                Reservation reservation = reservationDao.getReservation(idReservation);
+                Reservation reservation = reservationDao.getReservation(idReservation, false);
 
 
                 UserDAO userDAO = new UserDAO();
@@ -148,7 +146,7 @@ public class GroupDao {
                 int requiredParticipants = resultSet.getInt("participants_required");
                 int groupHead = resultSet.getInt("group_head");
 
-                Reservation reservation = reservationDao.getReservation(idReservation);
+                Reservation reservation = reservationDao.getReservation(idReservation, false);
 
 
                 UserDAO userDAO = new UserDAO();

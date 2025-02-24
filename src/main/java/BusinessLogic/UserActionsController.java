@@ -261,16 +261,19 @@ public class UserActionsController {
     }
 
     //FIXME output type?
-    public void deleteReservation(int idReservation) throws SQLException {
+    public void deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();
 
-        //TODO add notification cycle. Is that correct position?
         NotificationController notificationController = new NotificationController();
 
-        //notificationController.sendNotifications(reservationDao.getReservation(idReservation),DELETION,"");
+        Reservation reservation = reservationDao.getReservation(idReservation, false);
 
-        reservationDao.deleteReservation(idReservation);
+        notificationController.sendNotifications(reservation,DELETION,""); //FIXME check notificationMessage utlity
+
+        //set isDeleted flag to true
+        reservation.setDeleted(true);
+        reservationDao.updateIsDeleted(idReservation,true);
 
 
     }
@@ -419,14 +422,14 @@ public class UserActionsController {
 
        ReservationDao reservationDao = new ReservationDao();
        NotificationController notificationController = new NotificationController();
-       Reservation previousReservation = reservationDao.getReservation(reservation.getId());
+       Reservation previousReservation = reservationDao.getReservation(reservation.getId(), false);
        String notificationTitle = "Una prenotazione è stata modificata";
        String notificationMessage = "La prenotazione il giorno " + previousReservation.getReservationDate() + " alle " + previousReservation.getEventTimeStart() + " è stata modificata da " + user.getUsername();
 
        reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
        reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
        reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
-       notificationController.sendNotifications(reservation, MODIFICATION, notificationTitle, notificationMessage);
+       notificationController.sendNotifications(reservation, MODIFICATION, notificationMessage);
 
 
     }

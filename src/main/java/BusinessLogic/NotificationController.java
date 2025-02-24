@@ -14,7 +14,7 @@ public class NotificationController {
         this.person = SessionController.getInstance().getPerson();
     }
 
-    public void sendNotifications(Reservation reservation,NotificationType notificationType, String notificationTitle,  String notificationMessage) throws SQLException, ClassNotFoundException {
+    public void sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) throws SQLException, ClassNotFoundException {
 
         FacilityDAO facilityDAO = new FacilityDAO();
         OwnerDAO ownerDAO = new OwnerDAO();
@@ -31,8 +31,8 @@ public class NotificationController {
             notificationMessage = null;
         }
 
-        //TODO notificationTitle and notificationMessage should not be there
-        NotificationSender notificationSender = new NotificationSender(reservation, notificationType, notificationTitle, notificationMessage);
+        //TODO optimize notificationMessage (only for announcement)
+        NotificationSender notificationSender = new NotificationSender(reservation, notificationType, notificationMessage);
         Notification tmpNotification;
 
         facility = facilityDAO.getFacility(reservation.getField().getFacility().getId(), false);

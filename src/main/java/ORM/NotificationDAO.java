@@ -54,7 +54,7 @@ public class NotificationDAO {
                 ReservationDao reservationDao = new ReservationDao();
 
                 if (idReservation != 0)
-                    reservation = reservationDao.getReservation(idReservation);
+                    reservation = reservationDao.getReservation(idReservation, true);
 
                 if (idMessage != 0) {
                     String title = resultSet.getString("title");

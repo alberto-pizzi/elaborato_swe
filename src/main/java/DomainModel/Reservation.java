@@ -13,6 +13,7 @@ public class Reservation {
     private Field field;
     private boolean isConfirmed;
     private boolean isMatched;
+    private boolean isDeleted;
 
     public Reservation(int reservationId, Date reservationDate, Time reservationTime, Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, boolean isConfirmed, boolean isMatched) {
         this.id = reservationId;
@@ -24,6 +25,7 @@ public class Reservation {
         this.field = field;
         this.isConfirmed = isConfirmed;
         this.isMatched = isMatched;
+        this.isDeleted = false;
     }
 
     public Reservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, boolean isConfirmed, boolean isMatched) {
@@ -34,6 +36,7 @@ public class Reservation {
         this.field = field;
         this.isConfirmed = isConfirmed;
         this.isMatched = isMatched;
+        this.isDeleted = false;
     }
 
     //getters
@@ -94,7 +97,13 @@ public class Reservation {
         this.field = field;
     }
 
-    //setters
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
 
     public boolean isConfirmed() {
         return isConfirmed;

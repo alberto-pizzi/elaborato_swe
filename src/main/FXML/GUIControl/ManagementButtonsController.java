@@ -54,7 +54,7 @@ public class ManagementButtonsController {
     }
 
     @FXML
-    public void handleDeleteButtonAction() throws SQLException {
+    public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException {
         //TODO implement
         System.out.println("Delete button clicked: " + reservationItemController.getReservation().getId());
 

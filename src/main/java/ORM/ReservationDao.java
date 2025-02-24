@@ -22,9 +22,9 @@ public class ReservationDao {
     //methods
     public void addReservation(Reservation reservation) throws SQLException {
         String querySQL = String.format("INSERT INTO \"Reservation\" (res_date, event_date,res_time, event_time_start, " +
-                "event_time_end, id_field, is_confirmed, is_matched)) " +
-                "VALUES ('%tF', '%tF', '%tT', '%tT', '%tT', '%d', '%b', '%b')", reservation.getReservationDate(), reservation.getEventDate(),
-                reservation.getReservationTime(), reservation.getEventTimeStart(),reservation.getEventTimeEnd(), reservation.getField().getId(), reservation.isConfirmed(), reservation.isMatched());
+                "event_time_end, id_field, is_confirmed, is_matched, is_deleted)) " +
+                "VALUES ('%tF', '%tF', '%tT', '%tT', '%tT', '%d', '%b', '%b', '%b')", reservation.getReservationDate(), reservation.getEventDate(),
+                reservation.getReservationTime(), reservation.getEventTimeStart(),reservation.getEventTimeEnd(), reservation.getField().getId(), reservation.isConfirmed(), reservation.isMatched(), reservation.isDeleted());
 
         PreparedStatement preparedStatement = null;
 
@@ -69,11 +69,11 @@ public class ReservationDao {
         return count;
     }
 
-    public Reservation getReservation(int idReservation) throws SQLException, ClassNotFoundException {
+    public Reservation getReservation(int idReservation, boolean considerDeleted) throws SQLException, ClassNotFoundException {
 
         Reservation reservation = null;
 
-        String querySQL = String.format("SELECT * FROM \"Reservation\" WHERE id = '%d'", idReservation);
+        String querySQL = String.format("SELECT * FROM \"Reservation\" WHERE id = '%d' AND is_deleted = '%b'", idReservation,considerDeleted);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -144,7 +144,7 @@ public class ReservationDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                reservations.add(this.getReservation(resultSet.getInt("id")));
+                reservations.add(this.getReservation(resultSet.getInt("id"), false));
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -173,7 +173,7 @@ public class ReservationDao {
             while (resultSet.next()) {
                 count++;
                 System.out.println("Iter: " + count);
-                reservations.add(this.getReservation(resultSet.getInt("id")));
+                reservations.add(this.getReservation(resultSet.getInt("id"), false));
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -244,6 +244,25 @@ public class ReservationDao {
         }
     }
 
+    public void updateIsDeleted(int idReservation, boolean isDeleted) throws SQLException {
+
+        String querySQL = String.format("UPDATE \"Reservation\" SET is_deleted = '%b' WHERE id = '%d'", isDeleted, idReservation);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Deleted updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
     public void updateEventDate(int idReservation, Date date) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Reservation\" SET event_date = '%tF' WHERE id = '%d'", date, idReservation);
@@ -301,11 +320,11 @@ public class ReservationDao {
         }
     }
 
-    //todo aggiungere a uml
+    //todo aggiungere a uml. Check if deleted reservation are useless or useful. Now is set to FALSE
     public int DailyEarning(Date date, Owner owner) throws SQLException {
 
         int earning = 0;
-        String querySQL =  String.format("SELECT SUM(price) AS earnings FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d'", date, owner.getId());
+        String querySQL =  String.format("SELECT SUM(price) AS earnings FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".is_deleted = FALSE AND \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d'", date, owner.getId());
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -326,10 +345,11 @@ public class ReservationDao {
         return earning;
     }
 
+    //TODO Check if deleted reservation are useless or useful. Now is set to FALSE
     public int dailyReservations(Date date, Owner owner) throws SQLException {
 
         int number = 0;
-        String querySQL =  String.format("SELECT count(\"Reservation\".id) AS number FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d'", date, owner.getId());
+        String querySQL =  String.format("SELECT count(\"Reservation\".id) AS number FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".is_deleted = FALSE AND \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d'", date, owner.getId());
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
