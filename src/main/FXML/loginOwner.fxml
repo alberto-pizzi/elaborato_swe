@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: aeaeae;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.LoginControllerOwner">
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
@@ -72,7 +71,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="logIn" mnemonicParsing="false" onAction="#handleLogInButton" prefHeight="168.0" prefWidth="480.0" style="-fx-background-radius: 10px; -fx-background-color: d220f9;" text="Log In">
+                        <Button fx:id="logIn" mnemonicParsing="false" onAction="#handleLogInButton" prefHeight="168.0" prefWidth="480.0" styleClass="button-owner" stylesheets="@css/style.css" text="Log In">
                            <padding>
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
@@ -87,7 +86,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="SignUp" mnemonicParsing="false" onAction="#handleSignUpButton" prefHeight="25.0" prefWidth="481.0" style="-fx-background-radius: 10px; -fx-background-color: darkgray;" text="Sign Up">
+                        <Button fx:id="SignUp" mnemonicParsing="false" onAction="#handleSignUpButton" prefHeight="25.0" prefWidth="481.0" styleClass="singUp-button" stylesheets="@css/style.css" text="Sign Up">
                            <padding>
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
@@ -107,7 +106,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
                <children>
-                  <Button fx:id="owner" mnemonicParsing="false" onAction="#isOwner" prefHeight="0.0" prefWidth="132.0" style="-fx-background-radius: 10px; -fx-background-color: orange;" text="I am a user">
+                  <Button fx:id="owner" mnemonicParsing="false" onAction="#isOwner" prefHeight="0.0" prefWidth="132.0" styleClass="loginChange-button" stylesheets="@css/style.css" text="I am a user">
                      <padding>
                         <Insets bottom="10.0" top="10.0" />
                      </padding>
