@@ -56,7 +56,7 @@ public class ReservationsOwnerController {
     public void setData(Field field, BorderPane menuPane) throws SQLException, ClassNotFoundException {
 
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-        this.reservations = managerOwnerManagementController.getReservationsByField(field);
+        this.reservations = managerOwnerManagementController.getReservationsByField(field.getId());
         this.menuPane = menuPane;
         this.field = field;
         for(int i=0; i < itemsPerPage && i < reservations.size(); i++){

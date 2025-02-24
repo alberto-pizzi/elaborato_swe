@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.InviteClientsManagerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.InviteClientsManagerController">
    <children>
       <VBox prefHeight="564.0" prefWidth="1180.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
@@ -98,7 +98,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" prefHeight="41.0" prefWidth="178.0" stylesheets="@css/style.css" text="Confirm" textFill="WHITE">
+                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleDoneButton" prefHeight="41.0" prefWidth="178.0" stylesheets="@css/style.css" text="Done" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>

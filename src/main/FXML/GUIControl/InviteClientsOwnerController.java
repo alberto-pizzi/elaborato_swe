@@ -199,7 +199,7 @@ public class InviteClientsOwnerController implements Initializable {
         System.out.println("search.getText()");
     }
 
-    public void handleConfirmButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    public void handleDoneButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservationOwner.fxml"));
         Parent reservationModifyPane = loader.load();
 

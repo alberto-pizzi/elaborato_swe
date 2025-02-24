@@ -425,7 +425,7 @@ public class ModifyReservationManagerController implements Initializable {
 
         ArrayList<WorkingHours> WHs = managerOwnerManagementController.getWHsByFacilityByDay(field.getFacility().getId(), dayOfWeek);
 
-        ArrayList<Reservation> reservations = managerOwnerManagementController.getReservationsByField(field);
+        ArrayList<Reservation> reservations = managerOwnerManagementController.getReservationsByField(field.getId());
 
         for (WorkingHours wh : WHs) {
             //FIXME remove if and add specific DAO query with correct DayOfWeek
@@ -492,7 +492,7 @@ public class ModifyReservationManagerController implements Initializable {
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
 
-        ArrayList<Reservation> reservations = managerOwnerManagementController.getReservationsByField(field);
+        ArrayList<Reservation> reservations = managerOwnerManagementController.getReservationsByField(field.getId());
         if (selectedTime != null) {
 
             LocalTime closing = wh.getClosingHours().toLocalTime();

@@ -547,7 +547,7 @@ public class ModifyReservationController implements Initializable {
 
             UserActionsController userActionsController = new UserActionsController();
 
-            userActionsController.updateReservation(reservation);
+            userActionsController.editReservation(reservation);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
             Parent view = loader.load();

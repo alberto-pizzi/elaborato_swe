@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import static main.java.DomainModel.NotificationType.MODIFICATION;
 
-public class ManagerOwnerManagementController {
+public class ManagerOwnerManagementController extends PersonController{
 
     Person person;
 
@@ -49,24 +49,6 @@ public class ManagerOwnerManagementController {
         reservationDao.deleteReservation(reservationId);
     }
 
-    public ArrayList<Reservation> getReservationsByField(Field field) throws SQLException, ClassNotFoundException {
-        ReservationDao reservationDao = new ReservationDao();
-        return reservationDao.getReservationsByField(field.getId());
-    }
-
-    public Boolean isFull(Reservation reservation, int guests) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
-        Group group = groupDao.getGroupByReservation(reservation.getId());
-
-        return  group.participantsCheck(guests);
-    }
-
-    //todo aggiungere uml
-    public String getFieldAddress(int fieldId) throws SQLException {
-        FieldDao fieldDao = new FieldDao();
-        return fieldDao.getFieldAddress(fieldId);
-    }
-
     public ArrayList<Field> getFieldsByFacility(Facility facility) throws SQLException {
         FieldDao fieldDao = new FieldDao();
 
@@ -74,50 +56,10 @@ public class ManagerOwnerManagementController {
     }
 
     //todo aggiungere uml
-    public Field getReservationField(Reservation reservation) throws SQLException, ClassNotFoundException {
-        FieldDao fieldDao = new FieldDao();
-        return fieldDao.getField(reservation.getField().getId());
-    }
-
-    //todo aggiungere uml
-    public ArrayList<User> getGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
-
-        return groupDao.getGroupByReservation(idReservation).getUsers();
-    }
-
-    //todo aggiungere uml
-    public int getGroupParticipants(int idReservation) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
-
-        return groupDao.getGroupByReservation(idReservation).getParticipants();
-    }
-
-
-    //todo aggiungere uml
     public int getMaxGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
 
         return groupDao.getGroupByReservation(idReservation).getRequiredParticipants();
-    }
-
-    //todo cambiare uml
-    public void sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
-
-        GroupDao groupDao = new GroupDao();
-        InviteSender inviteSender = new InviteSender(groupDao.getGroupByReservation(reservation.getId()));
-
-        InviteDao inviteDao = new InviteDao();
-        UserDAO userDAO = new UserDAO();
-        User user = userDAO.getUserByID(idUser);
-        Invite invite;
-
-        invite = inviteSender.factoryMethod();
-        invite.setUser(user);
-        inviteDao.addInvite(invite);
-
-        System.out.println("Invite has been sent");
-
     }
 
     //FIXME input change
@@ -136,29 +78,6 @@ public class ManagerOwnerManagementController {
         return invitablePlayers;
     }
 
-    //FIXME input change
-    public ArrayList <User> findOtherPlayers(String province) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
-        return userDAO.getUsersByProvince(province);
-    }
-
-    public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
-
-        ArrayList<User> users = new ArrayList<>();
-        UserDAO userDAO = new UserDAO();
-
-        users.addAll(userDAO.getUsersByUsernameSearch(searchUsername));
-        return users;
-    }
-
-    public ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
-        ArrayList<User> users = new ArrayList<>();
-        UserDAO userDAO = new UserDAO();
-
-        users.addAll(userDAO.getUsersByProvinceSearch(provinceUser));
-        return users;
-    }
-
     //todo aggiungere uml
     public int getHeadGuests(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
@@ -175,14 +94,6 @@ public class ManagerOwnerManagementController {
 
         Group group = groupDao.getGroupByReservation(idReservation);
         isPartDao.updateGuestsUsers(group.getId(),group.getGroupHead().getId(),guestNewNumber);
-    }
-
-    //todo aggiungere uml
-    public void removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
-        IsPartDao isPartDao = new IsPartDao();
-        GroupDao groupDao = new GroupDao();
-
-        isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
     }
 
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
