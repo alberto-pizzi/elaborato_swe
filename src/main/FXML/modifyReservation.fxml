@@ -249,9 +249,9 @@
                         </ScrollPane>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0" spacing="20.0">
                            <children>
-                              <Button fx:id="addClient" mnemonicParsing="false" onAction="#handleInviteClientsButton" prefHeight="25.0" prefWidth="51.0" stylesheets="@css/style.css" text="Invite" textFill="WHITE">
+                              <Button fx:id="addClient" mnemonicParsing="false" onAction="#handleInviteClientsButton" prefHeight="25.0" prefWidth="51.0" style="-fx-border-radius: 20;" stylesheets="@css/style.css" text="Invite" textFill="WHITE">
                                  <styleClass>
-                                    <String fx:value="go-to-from-notifications" />
+                                    <String fx:value="login-button" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.InviteClientsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.InviteClientsController">
    <children>
       <VBox prefHeight="564.0" prefWidth="1180.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
@@ -41,7 +41,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </TextField>
-                              <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleSearchButton" prefHeight="41.0" prefWidth="178.0" stylesheets="@css/style.css" text="Search" textFill="WHITE">
+                              <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleSearchButton" prefHeight="41.0" prefWidth="178.0" style="-fx-background-radius: 20;" stylesheets="@css/style.css" text="Search" textFill="WHITE">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -49,7 +49,7 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                                  <styleClass>
-                                    <String fx:value="go-to-from-notifications" />
+                                    <String fx:value="login-button" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
