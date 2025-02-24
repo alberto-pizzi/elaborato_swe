@@ -6,8 +6,7 @@ import main.java.ORM.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class PersonController {
-    private Person person;
+public abstract class PersonController {
 
     public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
 
