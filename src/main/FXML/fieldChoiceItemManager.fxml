@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="facilityItemPane" prefHeight="121.0" prefWidth="1112.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldChoiceItemManagerController">
+<AnchorPane fx:id="facilityItemPane" prefHeight="121.0" prefWidth="1112.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldChoiceItemManagerController">
    <children>
       <HBox maxHeight="122.0" prefHeight="121.0" prefWidth="1112.0" style="-fx-background-color: white; -fx-border-color: black;">
          <children>
@@ -99,7 +99,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="109.0" prefWidth="306.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleDetailsFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Details" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#handleDetailsFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Details" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -107,11 +107,11 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                            <styleClass>
-                              <String fx:value="leave-button" />
+                              <String fx:value="login-button" />
                               <String fx:value="shadow" />
                            </styleClass>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="See reservations" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="See reservations" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -119,11 +119,11 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                            <styleClass>
-                              <String fx:value="leave-button" />
+                              <String fx:value="login-button" />
                               <String fx:value="shadow" />
                            </styleClass>
                         </Button>
-                        <Button layoutX="10.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleReservationFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Make a reservation" textFill="WHITE">
+                        <Button layoutX="10.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleReservationFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Make a reservation" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -131,8 +131,8 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                            <styleClass>
-                              <String fx:value="leave-button" />
                               <String fx:value="shadow" />
+                              <String fx:value="login-button" />
                            </styleClass>
                         </Button>
                      </children>
