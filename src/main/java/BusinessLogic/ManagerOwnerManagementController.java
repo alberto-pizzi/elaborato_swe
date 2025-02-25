@@ -7,8 +7,7 @@ import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 
-import static main.java.DomainModel.NotificationType.DELETION;
-import static main.java.DomainModel.NotificationType.MODIFICATION;
+import static main.java.DomainModel.NotificationType.*;
 
 public class ManagerOwnerManagementController extends PersonController{
 
@@ -112,7 +111,18 @@ public class ManagerOwnerManagementController extends PersonController{
         reservation.setDeleted(true);
         reservationDao.updateIsDeleted(idReservation,true);
 
+    }
 
+    public void reservationAnnouncement(Notification notification, Reservation reservation) throws SQLException, ClassNotFoundException {
+        NotificationController notificationController = new NotificationController();
+        notificationController.sendNotifications(reservation,ANNOUNCEMENT,notification.getMessage());
+    }
+
+    public void fieldAnnouncement(Notification notification, Field field) throws SQLException, ClassNotFoundException {
+        ArrayList<Reservation> reservations = new ArrayList<>(this.getReservationsByField(field.getId()));
+        for(Reservation reservation : reservations) {
+            this.reservationAnnouncement(notification, reservation);
+        }
     }
 
 }
