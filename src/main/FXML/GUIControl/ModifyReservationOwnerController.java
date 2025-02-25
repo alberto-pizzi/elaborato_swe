@@ -597,7 +597,7 @@ public class ModifyReservationOwnerController implements Initializable {
     }
 
     @FXML
-    public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException, IOException {
+    public void handleDeleteButton() throws SQLException, ClassNotFoundException, IOException {
         //TODO implement
         System.out.println("Delete button clicked: " + reservation.getId());
 
