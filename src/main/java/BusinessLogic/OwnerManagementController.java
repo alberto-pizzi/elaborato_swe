@@ -149,24 +149,6 @@ public class OwnerManagementController {
         return users;
     }
 
-    //FIXME output type?
-    public void deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
-
-        ReservationDao reservationDao = new ReservationDao();
-
-        NotificationController notificationController = new NotificationController();
-
-        Reservation reservation = reservationDao.getReservation(idReservation, false);
-
-        notificationController.sendNotifications(reservation,DELETION,""); //FIXME check notificationMessage utlity
-
-        //set isDeleted flag to true
-        reservation.setDeleted(true);
-        reservationDao.updateIsDeleted(idReservation,true);
-
-
-    }
-
     public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
 
         ArrayList<User> users = new ArrayList<>();

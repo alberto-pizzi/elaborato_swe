@@ -616,14 +616,15 @@ public class ModifyReservationManagerController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            OwnerManagementController ownerManagementController = new OwnerManagementController();
-            ownerManagementController.deleteReservation(reservation.getId());
+            ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+            Field reservationField = managerOwnerManagementController.getReservationField(reservation);
+            managerOwnerManagementController.deleteReservation(reservation.getId());
             System.out.println("Deleted!");
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceManager.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsManager.fxml"));
             Parent view = loader.load();
-            FacilityChoiceManagerController controller = loader.getController();
-            controller.setData(menuPane);
+            ReservationsManagerController controller = loader.getController();
+            controller.setData(reservationField, menuPane);
             menuPane.setCenter(view);
 
         } else if(result.get() == ButtonType.CANCEL){

@@ -127,9 +127,9 @@ public class ReservationItemManagerController {
         if(result.get() == ButtonType.OK){
 
             if (reservationsController != null) {
-                OwnerManagementController ownerManagementController = new OwnerManagementController();
+                ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
-                ownerManagementController.deleteReservation(reservation.getId());
+                managerOwnerManagementController.deleteReservation(reservation.getId());
                 reservationsController.removeReservationItemFromGUI(this.getReservationItemPane(),reservation);
                 System.out.println("Deleted!");
             }

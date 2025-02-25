@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 
+import static main.java.DomainModel.NotificationType.DELETION;
 import static main.java.DomainModel.NotificationType.MODIFICATION;
 
 public class ManagerOwnerManagementController extends PersonController{
@@ -41,11 +42,6 @@ public class ManagerOwnerManagementController extends PersonController{
         notificationController.sendNotifications(reservation, MODIFICATION, notificationMessage);
 
 
-    }
-
-    public void deleteReservation(int reservationId) throws SQLException {
-        ReservationDao reservationDao = new ReservationDao();
-        reservationDao.deleteReservation(reservationId);
     }
 
     public ArrayList<Field> getFieldsByFacility(Facility facility) throws SQLException {
@@ -99,6 +95,24 @@ public class ManagerOwnerManagementController extends PersonController{
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
 
         return workingHoursDAO.getWHsByFacility(idFacility);
+    }
+
+    //FIXME output type?
+    public void deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
+
+        ReservationDao reservationDao = new ReservationDao();
+
+        NotificationController notificationController = new NotificationController();
+
+        Reservation reservation = reservationDao.getReservation(idReservation, false);
+
+        notificationController.sendNotifications(reservation,DELETION,""); //FIXME check notificationMessage utlity
+
+        //set isDeleted flag to true
+        reservation.setDeleted(true);
+        reservationDao.updateIsDeleted(idReservation,true);
+
+
     }
 
 }
