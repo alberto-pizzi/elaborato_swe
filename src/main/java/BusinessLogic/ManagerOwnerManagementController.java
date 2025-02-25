@@ -113,15 +113,15 @@ public class ManagerOwnerManagementController extends PersonController{
 
     }
 
-    public void reservationAnnouncement(Notification notification, Reservation reservation) throws SQLException, ClassNotFoundException {
+    public void reservationAnnouncement(String notificationMessage, Reservation reservation) throws SQLException, ClassNotFoundException {
         NotificationController notificationController = new NotificationController();
-        notificationController.sendNotifications(reservation,ANNOUNCEMENT,notification.getMessage());
+        notificationController.sendNotifications(reservation,ANNOUNCEMENT,notificationMessage);
     }
 
-    public void fieldAnnouncement(Notification notification, Field field) throws SQLException, ClassNotFoundException {
+    public void fieldAnnouncement(String notificationMessage, Field field) throws SQLException, ClassNotFoundException {
         ArrayList<Reservation> reservations = new ArrayList<>(this.getReservationsByField(field.getId()));
         for(Reservation reservation : reservations) {
-            this.reservationAnnouncement(notification, reservation);
+            this.reservationAnnouncement(notificationMessage, reservation);
         }
     }
 
