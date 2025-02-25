@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
+import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
@@ -597,7 +598,8 @@ public class ModifyReservationOwnerController implements Initializable {
     }
 
     @FXML
-    void handleDeleteButton() throws IOException, SQLException, ClassNotFoundException {
+    public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException {
+        //TODO implement
         System.out.println("Delete button clicked: " + reservation.getId());
 
 
@@ -610,20 +612,17 @@ public class ModifyReservationOwnerController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            //fixme da implementare
+            if (reservationsController != null) {
+                OwnerManagementController ownerManagementController = new OwnerManagementController();
 
+                ownerManagementController.deleteReservation(reservation.getId());
+                reservationsController.removeReservationItemFromGUI(this.getReservationItemPane(),reservation);
+                System.out.println("Deleted!");
+            }
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
         }
-
-       /* FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
-        Parent view = loader.load();
-
-        ModifyReservationController modifyReservationController = loader.getController();
-        modifyReservationController.setData(this.reservation, reservationsController.getMenuPane());
-
-        reservationsController.getMenuPane().setCenter(view);*/
 
     }
 

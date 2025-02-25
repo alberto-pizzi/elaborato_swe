@@ -14,6 +14,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static main.java.DomainModel.NotificationType.DELETION;
+
 public class OwnerManagementController {
 
     private Owner owner;
@@ -147,7 +149,23 @@ public class OwnerManagementController {
         return users;
     }
 
+    //FIXME output type?
+    public void deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
 
+        ReservationDao reservationDao = new ReservationDao();
+
+        NotificationController notificationController = new NotificationController();
+
+        Reservation reservation = reservationDao.getReservation(idReservation, false);
+
+        notificationController.sendNotifications(reservation,DELETION,""); //FIXME check notificationMessage utlity
+
+        //set isDeleted flag to true
+        reservation.setDeleted(true);
+        reservationDao.updateIsDeleted(idReservation,true);
+
+
+    }
 
     public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
 

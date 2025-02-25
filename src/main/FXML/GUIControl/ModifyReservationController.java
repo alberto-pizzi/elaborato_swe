@@ -562,34 +562,32 @@ public class ModifyReservationController implements Initializable {
     }
 
     @FXML
-    void handleDeleteButton() throws IOException, SQLException, ClassNotFoundException {
-
-        System.out.println("Delete button clicked: " + reservation.getId());
+    public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException {
+        //TODO implement
+        System.out.println("Delete button clicked: " + reservationItemController.getReservation().getId());
 
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Reservation");
         //FIXME improve date format
-        alert.setHeaderText(reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
+        alert.setHeaderText(reservationItemController.getReservation().getField().getName() + " at " + reservationItemController.getReservation().getEventTimeStart() + " of " + reservationItemController.getReservation().getEventDate());
         alert.setContentText("Are you sure you want to delete this reservation?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            //fixme da implementare
+            if (reservationItemController != null) {
+                UserActionsController userActionsController = new UserActionsController();
 
+                userActionsController.deleteReservation(reservationItemController.getReservation().getId());
+                reservationItemController.getReservationsController().removeReservationItemFromGUI(reservationItemController.getReservationItemPane(),reservationItemController.getReservation());
+                System.out.println("Deleted!");
+            }
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
         }
-/*
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
-        Parent view = loader.load();
 
-        ModifyReservationController modifyReservationController = loader.getController();
-        modifyReservationController.setData(this.reservation, reservationsController.getMenuPane());
-
-        reservationsController.getMenuPane().setCenter(view);*/
 
     }
 

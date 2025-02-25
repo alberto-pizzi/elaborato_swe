@@ -14,6 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
+import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 
@@ -112,6 +113,7 @@ public class ReservationItemManagerController {
 
     @FXML
     public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException {
+        //TODO implement
         System.out.println("Delete button clicked: " + reservation.getId());
 
 
@@ -124,20 +126,18 @@ public class ReservationItemManagerController {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            //fixme da implementare
+            if (reservationsController != null) {
+                OwnerManagementController ownerManagementController = new OwnerManagementController();
 
+                ownerManagementController.deleteReservation(reservation.getId());
+                reservationsController.removeReservationItemFromGUI(this.getReservationItemPane(),reservation);
+                System.out.println("Deleted!");
+            }
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
         }
-        /*System.out.println("Leave button clicked: " + fieldNameLabel.getText());
 
-        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-        managerOwnerManagementController.deleteReservation(reservation.getId());
-
-        if (reservationsController != null) {
-            reservationsController.removeReservationItemFromGUI(reservationItemPane,reservation);
-        }*/
     }
 
     @FXML
