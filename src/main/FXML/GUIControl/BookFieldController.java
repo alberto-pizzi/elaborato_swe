@@ -465,7 +465,6 @@ public class BookFieldController implements Initializable {
 
     @FXML
     public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-        //TODO finish to implement
         Date eventDate = getDateFromDatePicker();
 
         LocalTime nowLocalTime = LocalTime.now();
@@ -478,19 +477,6 @@ public class BookFieldController implements Initializable {
         Time eventEndTime = getEventEndTime();
 
         UserActionsController userActionsController = new UserActionsController();
-
-        /*
-        int requiredParticipants = ;
-
-        if (isMatchingCheckBox.isSelected()){
-            if (nPlayersToMatchChoice.getValue() == null)
-                requiredParticipants = field.getSport().getPlayersRequired();
-            else
-                requiredParticipants = nPlayersToMatchChoice.getValue();
-        }
-
-         */
-
 
         if (eventDate == null){
             messagesController.showMessage("Please select a valid date.", MessagesController.MessageType.ERROR,5);
@@ -509,21 +495,18 @@ public class BookFieldController implements Initializable {
             messagesController.showMessage("End time must be after start one. ", MessagesController.MessageType.ERROR,5);
         }
         else{
-            //TODO finish to implement
             System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
-            userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected());
-            System.out.println("Booking confirmed");
+
+            ArrayList<String> accounts = new ArrayList<>(accountList.getItems());
+            userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected(), accounts);
+            System.out.println("Booking done");
         }
-
-
-
-
 
     }
 
 
     @FXML
-    void handleAddButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleAddButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
         if (guestUsernameField.getText().isEmpty()) {
             messagesController.showMessage("Please enter a guest username.", MessagesController.MessageType.ERROR,5);
@@ -557,12 +540,12 @@ public class BookFieldController implements Initializable {
     }
 
     @FXML
-    void handleRemoveAllButton(ActionEvent event) {
+    public void handleRemoveAllButton(ActionEvent event) {
         accountList.getItems().clear();
     }
 
     @FXML
-    void handleRemoveButton(ActionEvent event) {
+    public void handleRemoveButton(ActionEvent event) {
         accountList.getItems().removeAll(accountList.getSelectionModel().getSelectedItem());
     }
 

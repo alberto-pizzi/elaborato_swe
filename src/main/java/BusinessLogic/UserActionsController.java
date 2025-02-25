@@ -88,7 +88,7 @@ public class UserActionsController {
         return invitablePlayers;
     }
 
-    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int requiredParticipants, boolean isMatched ) throws SQLException, ClassNotFoundException {
+    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int requiredParticipants, boolean isMatched, ArrayList<String> accounts) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();
 
@@ -104,11 +104,18 @@ public class UserActionsController {
         Group group = new Group(user,reservation, requiredParticipants); //TODO check if participants and users array will be filled. Check constructor.
         groupDao.addGroup(group);
 
-        //TODO add invite methods
-
         if (isMatched) {
             sendInvites(group);
             //TODO add matchmaking and send invite methods
+        }
+        else {
+            //TODO optimize it, if needed
+            UserDAO userDAO = new UserDAO();
+
+            for (String accountUsername : accounts){
+                sendInvite(reservation,userDAO.getUserID(accountUsername)); //TODO could be better by username than by id?
+            }
+
         }
 
         //TODO add success or error banner
