@@ -585,13 +585,13 @@ public class ModifyReservationManagerController implements Initializable {
             reservationChecker();
 
             ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-
+            Field reservationField = managerOwnerManagementController.getReservationField(reservation);
             managerOwnerManagementController.editReservation(reservation);
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceManager.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsManager.fxml"));
             Parent view = loader.load();
-            FacilityChoiceManagerController controller = loader.getController();
-            controller.setData(menuPane);
+            ReservationsManagerController controller = loader.getController();
+            controller.setData(reservationField, menuPane);
             menuPane.setCenter(view);
 
 

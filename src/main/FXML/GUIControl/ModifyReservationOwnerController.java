@@ -581,15 +581,14 @@ public class ModifyReservationOwnerController implements Initializable {
             reservationChecker();
 
             ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-
+            Field reservationField = managerOwnerManagementController.getReservationField(reservation);
             managerOwnerManagementController.editReservation(reservation);
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceOwner.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));
             Parent view = loader.load();
-            FacilityChoiceController controller = loader.getController();
-            controller.setData(menuPane);
+            ReservationsOwnerController controller = loader.getController();
+            controller.setData(reservationField, menuPane);
             menuPane.setCenter(view);
-
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
