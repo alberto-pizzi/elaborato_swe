@@ -598,7 +598,7 @@ public class ModifyReservationOwnerController implements Initializable {
     }
 
     @FXML
-    public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException {
+    public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException, IOException {
         //TODO implement
         System.out.println("Delete button clicked: " + reservation.getId());
 
@@ -612,13 +612,16 @@ public class ModifyReservationOwnerController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            if (reservationsController != null) {
-                OwnerManagementController ownerManagementController = new OwnerManagementController();
+            OwnerManagementController ownerManagementController = new OwnerManagementController();
 
-                ownerManagementController.deleteReservation(reservation.getId());
-                reservationsController.removeReservationItemFromGUI(this.getReservationItemPane(),reservation);
-                System.out.println("Deleted!");
-            }
+            ownerManagementController.deleteReservation(reservation.getId());
+            System.out.println("Deleted!");
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceOwner.fxml"));
+            Parent view = loader.load();
+            FacilityChoiceController controller = loader.getController();
+            controller.setData(menuPane);
+            menuPane.setCenter(view);
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");

@@ -562,32 +562,35 @@ public class ModifyReservationController implements Initializable {
     }
 
     @FXML
-    public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException {
+    public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException, IOException {
         //TODO implement
-        System.out.println("Delete button clicked: " + reservationItemController.getReservation().getId());
+        System.out.println("Delete button clicked: " + reservation.getId());
 
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Reservation");
         //FIXME improve date format
-        alert.setHeaderText(reservationItemController.getReservation().getField().getName() + " at " + reservationItemController.getReservation().getEventTimeStart() + " of " + reservationItemController.getReservation().getEventDate());
+        alert.setHeaderText(reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
         alert.setContentText("Are you sure you want to delete this reservation?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            if (reservationItemController != null) {
-                UserActionsController userActionsController = new UserActionsController();
+            UserActionsController userActionsController = new UserActionsController();
 
-                userActionsController.deleteReservation(reservationItemController.getReservation().getId());
-                reservationItemController.getReservationsController().removeReservationItemFromGUI(reservationItemController.getReservationItemPane(),reservationItemController.getReservation());
-                System.out.println("Deleted!");
-            }
+            userActionsController.deleteReservation(reservation.getId());
+            System.out.println("Deleted!");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
+            Parent view = loader.load();
+            ReservationsController controller = loader.getController();
+            controller.setPane(menuPane);
+            menuPane.setCenter(view);
+            System.out.println("Reservations menu button clicked");
+
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
         }
-
 
     }
 
