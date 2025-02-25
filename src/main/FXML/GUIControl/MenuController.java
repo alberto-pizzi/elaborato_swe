@@ -104,6 +104,7 @@ public class MenuController implements Initializable {
 
     }
 
+    //TODO
     @FXML
     public void handleReservationsButtonAction(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));

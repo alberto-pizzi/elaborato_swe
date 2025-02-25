@@ -32,14 +32,13 @@ public class ManagerOwnerManagementController extends PersonController{
 
         ReservationDao reservationDao = new ReservationDao();
         NotificationController notificationController = new NotificationController();
-        Reservation previousReservation = reservationDao.getReservation(reservation.getId());
-        String notificationTitle = "Una prenotazione è stata modificata";
+        Reservation previousReservation = reservationDao.getReservation(reservation.getId(), false);
         String notificationMessage = "La prenotazione il giorno " + previousReservation.getReservationDate() + " alle " + previousReservation.getEventTimeStart() + " è stata modificata da " + person.getUsername();
 
         reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
         reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
         reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
-        notificationController.sendNotifications(reservation, MODIFICATION, notificationTitle, notificationMessage);
+        notificationController.sendNotifications(reservation, MODIFICATION, notificationMessage);
 
 
     }

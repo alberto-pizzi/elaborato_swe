@@ -80,7 +80,7 @@ public class InviteItemController {
         groupLeaderNameLabel.setText(invite.getGroup().getGroupHead().getUsername());
         fieldAddressLabel.setText(invite.getGroup().getReservation().getField().getFacility().getFullAddress());
         fieldSportLabel.setText(invite.getGroup().getReservation().getField().getSport().getName());
-        currentPartecipantsLabel.setText(String.valueOf(invite.getGroup().getParticipants()) + " of " + String.valueOf(invite.getGroup().getRequiredParticipants()));
+        currentPartecipantsLabel.setText(invite.getGroup().groupProgress());
         inviteDateLabel.setText(dateFormatter.format(invite.getGroup().getReservation().getEventDate()));
         inviteTimeLabel.setText(timeFormatter.format(invite.getGroup().getReservation().getEventTimeStart()));
         fieldNameLabel.setText(invite.getGroup().getReservation().getField().getName());

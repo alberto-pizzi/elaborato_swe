@@ -32,6 +32,24 @@ public class BookFieldController implements Initializable {
     private Button confirmButton;
 
     @FXML
+    private Button addButton;
+
+    @FXML
+    private Button removeAllButton;
+
+    @FXML
+    private Button removeButton;
+
+    @FXML
+    private ListView<String> accountList;
+
+    @FXML
+    private TextField guestUsernameField;
+
+    @FXML
+    private Label errorLabel;
+
+    @FXML
     private DatePicker datePicker;
 
     @FXML
@@ -82,6 +100,8 @@ public class BookFieldController implements Initializable {
     private float totalPrice;
     private int totalPeople = 1;
 
+    MessagesController messagesController;
+
 
 
     //methods
@@ -94,6 +114,8 @@ public class BookFieldController implements Initializable {
 
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
+
+        this.messagesController = new MessagesController(errorLabel);
 
         resetFields();
 
@@ -181,7 +203,8 @@ public class BookFieldController implements Initializable {
     private void updateTotalPeople(){
         if (isMatchingCheckBox.isSelected())
             //FIXME counter
-            this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + (nPlayersToMatchChoice.getValue() != null ? nPlayersToMatchChoice.getValue() : field.getSport().getPlayersRequired()) + 1;
+            //FIXME check if null and 0 comparison generate some error
+            this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + ((nPlayersToMatchChoice.getValue() != null) && (!nPlayersToMatchChoice.getValue().equals(0)) ? nPlayersToMatchChoice.getValue() : field.getSport().getPlayersRequired()) + 1;
         else {
             this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + 1;
         }
@@ -221,7 +244,7 @@ public class BookFieldController implements Initializable {
         durationBox.setVisible(false);
 
         nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-        nPlayersToMatchChoice.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+        nPlayersToMatchChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
         updatePricePerPerson(true);
     }
@@ -442,40 +465,88 @@ public class BookFieldController implements Initializable {
 
     @FXML
     public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-        //TODO finish to implement
-        Date eventDate = getDateFromDatePicker(); //TODO check how date format is saved onto DB
+        Date eventDate = getDateFromDatePicker();
+
+        LocalTime nowLocalTime = LocalTime.now();
+        Time nowTime = Time.valueOf(nowLocalTime);
+
+        LocalDate todayLocalDate = LocalDate.now();
+        Date todayDate = Date.valueOf(todayLocalDate);
+
         Time eventStartTime = getEventStartTime();
         Time eventEndTime = getEventEndTime();
 
         UserActionsController userActionsController = new UserActionsController();
 
-        /*
-        int requiredParticipants = ;
+        if (eventDate == null){
+            messagesController.showMessage("Please select a valid date.", MessagesController.MessageType.ERROR,5);
+        }
+        else if (eventDate.compareTo(todayDate) < 0) {
+            messagesController.showMessage("Previous days is not allowed. Please, retry!", MessagesController.MessageType.ERROR,5);
+        }
+        else if (eventStartTime == null || eventEndTime == null) {
+            System.out.println("Insert data");
+            messagesController.showMessage("Please select valid times.", MessagesController.MessageType.ERROR,5);
+        }
+        else if (eventStartTime.compareTo(nowTime) < 0 || eventEndTime.compareTo(nowTime) < 0) {
+            messagesController.showMessage("Previous hours is not allowed. Please, retry! ", MessagesController.MessageType.ERROR,5);
+        }
+        else if (eventEndTime.compareTo(eventStartTime) <= 0) {
+            messagesController.showMessage("End time must be after start one. ", MessagesController.MessageType.ERROR,5);
+        }
+        else{
+            System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
 
-        if (isMatchingCheckBox.isSelected()){
-            if (nPlayersToMatchChoice.getValue() == null)
-                requiredParticipants = field.getSport().getPlayersRequired();
-            else
-                requiredParticipants = nPlayersToMatchChoice.getValue();
+            ArrayList<String> accounts = new ArrayList<>(accountList.getItems());
+            userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected(), accounts);
+            System.out.println("Booking done");
         }
 
-         */
+    }
 
 
+    @FXML
+    public void handleAddButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected());
+        if (guestUsernameField.getText().isEmpty()) {
+            messagesController.showMessage("Please enter a guest username.", MessagesController.MessageType.ERROR,5);
+        }
+        else{
 
+            UserActionsController userActionsController = new UserActionsController();
+            User userToBeAdded = userActionsController.searchUserByUsername(guestUsernameField.getText());
 
+            if (userToBeAdded != null) {
 
+                if (!userToBeAdded.getUsername().equals(userActionsController.getUser().getUsername())) {
 
+                    if (!accountList.getItems().contains(userToBeAdded.getUsername()))
+                        accountList.getItems().add(userToBeAdded.getUsername());
+                    else
+                        messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,5);
 
-        if (eventStartTime != null && eventEndTime != null)
-            System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
-        else
-            System.out.println("Insert data");
+                }
+                else
+                    messagesController.showMessage("Username must be different from yours", MessagesController.MessageType.ERROR,5);
 
+                guestUsernameField.clear();
+            }
+            else{
+                messagesController.showMessage("User not found", MessagesController.MessageType.ERROR,5);
+            }
 
+        }
 
+    }
+
+    @FXML
+    public void handleRemoveAllButton(ActionEvent event) {
+        accountList.getItems().clear();
+    }
+
+    @FXML
+    public void handleRemoveButton(ActionEvent event) {
+        accountList.getItems().removeAll(accountList.getSelectionModel().getSelectedItem());
     }
 
 

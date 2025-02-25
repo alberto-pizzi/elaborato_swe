@@ -7,14 +7,11 @@ public class NotificationSender extends Creator {
 
     private final NotificationType notificationType;
 
-    private final String notificationTitle;
-
     private final String notificationMessage;
 
-    public NotificationSender(Reservation reservationSender, NotificationType notificationType, String notificationTitle, String notificationMessage) {
+    public NotificationSender(Reservation reservationSender, NotificationType notificationType, String notificationMessage) {
         this.reservationSender = reservationSender;
         this.notificationType = notificationType;
-        this.notificationTitle = notificationTitle;
         this.notificationMessage = notificationMessage;//todo da levare se non annuncio
     }
 
@@ -24,7 +21,6 @@ public class NotificationSender extends Creator {
         Notification notification = new Notification();
         notification.setReservation(reservationSender);
         notification.setNotificationType(notificationType);
-        notification.setTitle(notificationTitle);
         notification.setMessage(notificationMessage);//todo da levare se non annuncio
         return notification;
     }
