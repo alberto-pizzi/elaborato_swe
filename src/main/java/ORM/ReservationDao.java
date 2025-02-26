@@ -21,10 +21,10 @@ public class ReservationDao {
 
     //methods
     public void addReservation(Reservation reservation) throws SQLException {
-        String querySQL = String.format("INSERT INTO \"Reservation\" (res_date, event_date,res_time, event_time_start, " +
-                "event_time_end, id_field, is_confirmed, is_matched, is_deleted)) " +
-                "VALUES ('%tF', '%tF', '%tT', '%tT', '%tT', '%d', '%b', '%b', '%b')", reservation.getReservationDate(), reservation.getEventDate(),
-                reservation.getReservationTime(), reservation.getEventTimeStart(),reservation.getEventTimeEnd(), reservation.getField().getId(), reservation.isConfirmed(), reservation.isMatched(), reservation.isDeleted());
+        String querySQL = String.format("INSERT INTO \"Reservation\" (event_date, event_time_start, " +
+                "event_time_end, id_field, is_confirmed, is_matched, is_deleted) " +
+                "VALUES ( '%tF', '%tT', '%tT', '%d', '%b', '%b', '%b')",  reservation.getEventDate(),
+                reservation.getEventTimeStart(),reservation.getEventTimeEnd(), reservation.getField().getId(), reservation.isConfirmed(), reservation.isMatched(), reservation.isDeleted());
 
         PreparedStatement preparedStatement = null;
 

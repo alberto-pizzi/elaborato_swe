@@ -24,8 +24,9 @@ public class GroupDao {
     public void addGroup(Group group) throws SQLException {
 
 
+        //TODO check query run
         String querySQL = String.format("INSERT INTO \"Group\" (group_head, participants_required, id_reservation)) " +
-                "VALUES ('%d', '%d', '%d')", group.getGroupHead(), group.getRequiredParticipants(), group.getReservation().getId());
+                "VALUES ('%d', '%d', '%d')", group.getGroupHead().getId(), group.getRequiredParticipants(), group.getReservation().getId());
 
         PreparedStatement preparedStatement = null;
 

@@ -102,7 +102,8 @@ public class ReservationItemController {
 
         String buttonFXMLsrc = "";
         //Both have same GUI controller
-        if (userActionsController.editRights(reservation)) {
+        //FIXME check logic of if clause
+        if (!userActionsController.editRights(reservation)) {
             buttonFXMLsrc = "/main/FXML/managementButtons.fxml";
         } else {
             buttonFXMLsrc = "/main/FXML/goToGroupButton.fxml";
@@ -111,7 +112,7 @@ public class ReservationItemController {
         try {
             //TODO optimize?
             FXMLLoader loader = new FXMLLoader(getClass().getResource(buttonFXMLsrc));
-            if (!userActionsController.editRights(reservation)) {
+            if (userActionsController.editRights(reservation)) {
                 Button button = loader.load();
                 actionsVBox.getChildren().add(button);
             } else {
