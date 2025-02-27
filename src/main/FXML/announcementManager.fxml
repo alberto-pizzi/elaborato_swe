@@ -28,11 +28,11 @@
                   </VBox>
                </children>
             </StackPane>
-            <VBox alignment="TOP_CENTER" prefHeight="478.0" prefWidth="624.0">
+            <VBox alignment="CENTER" prefHeight="478.0" prefWidth="624.0">
                <children>
-                  <HBox alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="358.0" prefHeight="49.0" prefWidth="586.0" spacing="20.0">
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="358.0" prefHeight="49.0" prefWidth="586.0" spacing="20.0">
                      <children>
-                        <Label fx:id="errorMessage" prefHeight="30.0" prefWidth="874.0" textAlignment="CENTER" textFill="RED">
+                        <Label fx:id="errorMessage" prefHeight="66.0" prefWidth="1198.0" textAlignment="JUSTIFY" textFill="RED">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -47,8 +47,8 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="messageText" prefHeight="260.0" prefWidth="1180.0" />
-                  <Label fx:id="letterCounter" prefHeight="30.0" prefWidth="324.0" textAlignment="CENTER" textFill="RED">
+                  <TextArea fx:id="messageText" prefHeight="260.0" prefWidth="1180.0" wrapText="true" />
+                  <Label fx:id="letterCounter" prefHeight="30.0" prefWidth="1187.0" textAlignment="JUSTIFY">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
