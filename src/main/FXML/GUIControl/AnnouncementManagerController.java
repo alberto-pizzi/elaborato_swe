@@ -52,12 +52,12 @@ public class AnnouncementManagerController {
 
         messageText.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
-                letterCounter.setText(String.valueOf(letterCounter.getText().length())+ "/" + messageLimit);
+                letterCounter.setText(String.valueOf(messageText.getText().length())+ "/" + messageLimit);
             }
         });
     }
 
-    private void setData(BorderPane menuPane, Reservation reservation) {
+    public void setData(BorderPane menuPane, Reservation reservation) {
         this.menuPane = menuPane;
         this.reservation = reservation;
     }
@@ -129,7 +129,7 @@ public class AnnouncementManagerController {
                 System.out.println("Cancel!");
             }
         }else{
-            messagesController.showMessage("Too many characters in the message.The maximum is" + messageLimit, MessagesController.MessageType.ERROR,5);
+            messagesController.showMessage("Too many characters in the message.The maximum is " + messageLimit, MessagesController.MessageType.ERROR,5);
         }
 
 

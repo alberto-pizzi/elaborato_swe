@@ -141,6 +141,16 @@ public class ReservationItemManagerController {
     }
 
     @FXML
+    void handleAnnouncementButton() throws SQLException, ClassNotFoundException, IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/announcementManager.fxml"));
+        Parent view = loader.load();
+        AnnouncementManagerController announcementManagerController = loader.getController();
+        announcementManagerController.setData( reservationsController.getMenuPane(), this.reservation);
+
+        reservationsController.getMenuPane().setCenter(view);
+    }
+
+    @FXML
     void handleEditButton() throws IOException, SQLException, ClassNotFoundException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservationManager.fxml"));
