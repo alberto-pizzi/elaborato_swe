@@ -1,3 +1,9 @@
+-- drop triggers
+DROP TRIGGER IF EXISTS trg_check_delete_reservation_user ON "NotificationUser";
+DROP TRIGGER IF EXISTS trg_check_delete_reservation_owner ON "NotificationOwner";
+DROP TRIGGER IF EXISTS trigger_delete_message_user ON "NotificationUser";
+DROP TRIGGER IF EXISTS trigger_delete_message_owner ON "NotificationOwner";
+
 -- trigger function
 CREATE OR REPLACE FUNCTION delete_unused_messages()
 RETURNS TRIGGER AS $$
