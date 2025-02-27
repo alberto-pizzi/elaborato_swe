@@ -88,7 +88,7 @@ public class UserActionsController {
         return invitablePlayers;
     }
 
-    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int requiredParticipants, boolean isMatched, ArrayList<String> accounts) throws SQLException, ClassNotFoundException {
+    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, ArrayList<String> accounts) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();
 
@@ -98,11 +98,13 @@ public class UserActionsController {
 
         Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field,!isMatched,isMatched);
 
-        reservationDao.addReservation(reservation);
+        int newReservationId = reservationDao.addReservation(reservation);
+        reservation.setId(newReservationId); //WARNING: it's very important
 
         //group creation
         Group group = new Group(user,reservation, requiredParticipants); //TODO check if participants and users array will be filled. Check constructor.
-        groupDao.addGroup(group);
+        int newGroupId = groupDao.addGroup(group);
+        joinGroup(newGroupId,guests);
 
         if (isMatched) {
             sendInvites(group);
