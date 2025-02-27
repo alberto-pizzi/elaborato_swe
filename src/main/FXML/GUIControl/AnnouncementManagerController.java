@@ -54,6 +54,10 @@ public class AnnouncementManagerController {
         messageText.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
                 letterCounter.setText(String.valueOf(messageText.getText().length())+ "/" + messageLimit);
+                if(messageText.getText().length() >= messageLimit) {
+                    messagesController.showMessage("Too many characters in the message.The maximum is " + messageLimit, MessagesController.MessageType.ERROR,5);
+                    errorMessage.setAlignment(Pos.CENTER);
+                }
             }
         });
     }
