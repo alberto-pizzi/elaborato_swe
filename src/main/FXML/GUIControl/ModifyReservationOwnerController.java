@@ -256,11 +256,11 @@ public class ModifyReservationOwnerController implements Initializable {
             reservation.setEventDate(Date.valueOf(datePicker.getValue()));
         }
 
-        if(startTimeChoice.getValue() != null) {
+        if((startTimeChoice.getValue() != null) && (!startTimeChoice.getValue().equals(String.valueOf(reservation.getEventTimeStart().toLocalTime())))) {
             reservation.setEventTimeStart(Time.valueOf(startTimeChoice.getValue()));
         }
 
-        if (endTimeChoice.getValue() != null) {
+        if((endTimeChoice.getValue() != null)  && (!endTimeChoice.getValue().equals(String.valueOf(reservation.getEventTimeEnd().toLocalTime())))) {
             reservation.setEventTimeEnd(Time.valueOf(endTimeChoice.getValue()));
         }
 
