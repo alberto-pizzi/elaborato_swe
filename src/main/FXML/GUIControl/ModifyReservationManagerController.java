@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -213,6 +214,7 @@ public class ModifyReservationManagerController implements Initializable {
         if(reservation.isMatched()){
 
             isMatched.setText("The reservation is matched");
+            isMatched.setAlignment(Pos.CENTER);
 
             for(int i = 0 ; i <= managerOwnerManagementController.getMaxGroupMembers(reservation.getId()) - totalPeople; i++) {
                 nGuestsChoice.getItems().add(i);
@@ -229,6 +231,7 @@ public class ModifyReservationManagerController implements Initializable {
         }else{
 
             isMatched.setText("The reservation is not matched");
+            isMatched.setAlignment(Pos.CENTER);
 
             nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
         }
