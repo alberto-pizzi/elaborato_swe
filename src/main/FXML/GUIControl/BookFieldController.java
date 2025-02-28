@@ -488,7 +488,7 @@ public class BookFieldController implements Initializable {
             System.out.println("Insert data");
             messagesController.showMessage("Please select valid times.", MessagesController.MessageType.ERROR,5);
         }
-        else if (eventStartTime.compareTo(nowTime) < 0 || eventEndTime.compareTo(nowTime) < 0) {
+        else if ((eventDate.compareTo(todayDate) == 0) && (eventStartTime.compareTo(nowTime) < 0 || eventEndTime.compareTo(nowTime) < 0)) {
             messagesController.showMessage("Previous hours is not allowed. Please, retry! ", MessagesController.MessageType.ERROR,5);
         }
         else if (eventEndTime.compareTo(eventStartTime) <= 0) {
@@ -498,7 +498,8 @@ public class BookFieldController implements Initializable {
             System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
 
             ArrayList<String> accounts = new ArrayList<>(accountList.getItems());
-            userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,totalPeople,isMatchingCheckBox.isSelected(), accounts);
+            int guests = nGuestsChoice.getValue() == null ? 0 : nGuestsChoice.getValue();
+            userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,guests, totalPeople, isMatchingCheckBox.isSelected(), accounts);
             System.out.println("Booking done");
         }
 

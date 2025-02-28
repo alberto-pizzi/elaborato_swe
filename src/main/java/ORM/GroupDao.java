@@ -3,10 +3,7 @@ package main.java.ORM;
 import main.java.DomainModel.Group;
 import main.java.DomainModel.Reservation;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class GroupDao {
 
@@ -21,17 +18,28 @@ public class GroupDao {
     }
 
     //methods
-    public void addGroup(Group group) throws SQLException {
+    public int addGroup(Group group) throws SQLException {
 
 
-        String querySQL = String.format("INSERT INTO \"Group\" (group_head, participants_required, id_reservation)) " +
-                "VALUES ('%d', '%d', '%d')", group.getGroupHead(), group.getRequiredParticipants(), group.getReservation().getId());
+        //TODO check query run
+        String querySQL = String.format("INSERT INTO \"Group\" (group_head, participants_required, id_reservation) " +
+                "VALUES ('%d', '%d', '%d')", group.getGroupHead().getId(), group.getRequiredParticipants(), group.getReservation().getId());
+
+        int idAdded = 0;
 
         PreparedStatement preparedStatement = null;
 
+
         try {
-            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement = connection.prepareStatement(querySQL, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
             System.out.println("Group added successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -41,6 +49,7 @@ public class GroupDao {
             }
         }
 
+        return idAdded;
     }
 
     public void deleteGroup(int idGroup) throws SQLException {

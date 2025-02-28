@@ -30,7 +30,7 @@ public class Group extends Subject{
         this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
         //TODO check correctness
         this.users = new ArrayList<>();
-        this.participants = 1;
+        this.participants = 0; //TODO check correctness
     }
 
 
