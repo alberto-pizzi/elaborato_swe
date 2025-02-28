@@ -132,7 +132,7 @@ public class UserActionsController extends PersonController{
 
         Boolean pass = true;
         Group group = groupDao.getGroupByReservation(reservation.getId());
-        //todo Da finire
+
         if(group.getGroupHead().getId() != user.getId()) {
             pass = false;
         }
