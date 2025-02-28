@@ -3,10 +3,7 @@ package main.java.ORM;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Invite;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class InviteDao {
@@ -23,23 +20,31 @@ public class InviteDao {
 
     //methods
     //todo aggiornare uml tolto id user
-    public void addInvite(Invite invite) throws SQLException {
+    public int addInvite(Invite invite) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"Invite\" (id_group, id_user) " +
                 "VALUES ('%d', '%d')", invite.getGroup().getId(), invite.getUser().getId());
 
+        int idAdded = 0;
+
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement = connection.prepareStatement(querySQL, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
             System.out.println("Invite added successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
             if (preparedStatement != null) { preparedStatement.close(); }
         }
-
+        return idAdded;
     }
 
     public void deleteInvite(int idInvite) throws SQLException {

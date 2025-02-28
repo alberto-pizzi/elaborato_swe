@@ -3,10 +3,7 @@ package main.java.ORM;
 import main.java.DomainModel.Invite;
 import main.java.DomainModel.Sport;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class SportDao {
@@ -23,22 +20,31 @@ public class SportDao {
     }
 
     //methods
-    public void addSport(String name, int playersRequired) throws SQLException {
+    public int addSport(String name, int playersRequired) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"Sport\" (name, players_required) " +
                 "VALUES ('%s', '%d')", name, playersRequired);
 
+        int idAdded = 0;
+
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement = connection.prepareStatement(querySQL, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
             System.out.println("Sport added successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
             if (preparedStatement != null) { preparedStatement.close(); }
         }
+        return idAdded;
     }
 
     //todo discutere se si può fare
