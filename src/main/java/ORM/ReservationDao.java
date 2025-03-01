@@ -101,12 +101,13 @@ public class ReservationDao {
                 int idField = resultSet.getInt("id_field");
                 boolean isConfirmed = resultSet.getBoolean("is_confirmed");
                 boolean isMatched = resultSet.getBoolean("is_matched");
+                boolean isDeleted = resultSet.getBoolean("is_deleted");
 
                 //TODO check correctness
                 UserDAO userDAO = new UserDAO();
                 FieldDao fieldDAO = new FieldDao();
 
-                reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, fieldDAO.getField(idField), isConfirmed, isMatched);
+                reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, fieldDAO.getField(idField), isConfirmed, isMatched, isDeleted);
 
             }
             else{

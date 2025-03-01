@@ -114,6 +114,13 @@ public class Group extends Subject{
         return this.participants + guests + 1 > this.requiredParticipants;
     }
 
+    public Boolean canJoin(int guests, int nAccounts, boolean considerHimself){
+        if (!reservation.isMatched()) {
+            return true;
+        }
+        return this.participants + guests + nAccounts + (considerHimself ? 1 : 0)  <= this.requiredParticipants;
+    }
+
     //TODO check groupHead for first joining
     public boolean addMember(User user, int guests){
         if (guests < 0)

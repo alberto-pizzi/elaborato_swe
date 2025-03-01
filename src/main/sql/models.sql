@@ -104,14 +104,14 @@ CREATE TABLE IF NOT EXISTS "Group" (
 
 CREATE TABLE IF NOT EXISTS "Invite" (
     id SERIAL PRIMARY KEY,
-    id_group INTEGER NOT NULL UNIQUE,
+    id_group INTEGER NOT NULL UNIQUE, --FIXME is UNIQUE correct? Maybe not, so it must be removed
     id_user INTEGER NOT NULL,
     FOREIGN KEY (id_group) REFERENCES "Group"(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (id_user) REFERENCES "User"(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "IsPart" (
-    id_group INTEGER NOT NULL UNIQUE,
+    id_group INTEGER NOT NULL UNIQUE, --FIXME is UNIQUE correct? Maybe not, so it must be removed
     id_user INTEGER NOT NULL,
     guest_users INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

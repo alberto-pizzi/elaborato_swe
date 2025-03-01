@@ -335,13 +335,16 @@ public class BookFieldController implements Initializable {
                 while (current.isBefore(closing)) {
                     boolean isAvailable = true;
 
+                    //FIXME error when reservation is null
                     for (Reservation reservation : reservations) {
-                        LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
-                        LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
+                        if (reservation != null) {
+                            LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
+                            LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
 
-                        if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
-                            isAvailable = false;
-                            break;
+                            if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
+                                isAvailable = false;
+                                break;
+                            }
                         }
 
                     }
@@ -400,14 +403,15 @@ public class BookFieldController implements Initializable {
                 boolean isAvailable = true;
 
                 for (Reservation reservation : reservations) {
-                    LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
-                    LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
+                    if (reservation != null) {
+                        LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
+                        LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
 
-                    if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
-                        isAvailable = false;
-                        break;
+                        if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
+                            isAvailable = false;
+                            break;
+                        }
                     }
-
                 }
 
                 if (!current.equals(selectedTime)) {

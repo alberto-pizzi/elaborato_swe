@@ -1,10 +1,15 @@
 package main.java.BusinessLogic;
 
-import javafx.scene.control.Alert;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import main.FXML.GUIControl.MessagesController;
+import main.FXML.GUIControl.SelectGuestsPaneController;
 import main.java.DomainModel.*;
 
 import main.java.ORM.*;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
@@ -12,6 +17,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static main.java.DomainModel.NotificationType.DELETION;
 import static main.java.DomainModel.NotificationType.MODIFICATION;
@@ -104,20 +110,21 @@ public class UserActionsController {
         //group creation
         Group group = new Group(user,reservation, requiredParticipants); //TODO check if participants and users array will be filled. Check constructor.
         int newGroupId = groupDao.addGroup(group);
+        group.setId(newGroupId); //WARNING: it's very important
         joinGroup(newGroupId,guests);
 
         if (isMatched) {
             sendInvites(group);
             //TODO add matchmaking and send invite methods
         }
-        else {
-            //TODO optimize it, if needed
-            UserDAO userDAO = new UserDAO();
 
-            for (String accountUsername : accounts){
-                sendInvite(reservation,userDAO.getUserID(accountUsername)); //TODO could be better by username than by id?
+        //TODO optimize it, if needed
+        UserDAO userDAO = new UserDAO();
+
+        for (String accountUsername : accounts){
+            if (accountUsername != null) {
+                sendInvite(reservation, userDAO.getUserID(accountUsername)); //TODO could be better by username than by id?
             }
-
         }
 
         //TODO add success or error banner
@@ -137,9 +144,12 @@ public class UserActionsController {
         Invite invite;
 
         for (User user : receivers) {
-            invite = inviteSender.factoryMethod();
-            invite.setUser(user);
-            inviteDao.addInvite(invite);
+            //TODO added user != null
+            if (user != null) {
+                invite = inviteSender.factoryMethod();
+                invite.setUser(user);
+                inviteDao.addInvite(invite);
+            }
         }
 
         System.out.println("Invites have been sent");
@@ -187,11 +197,13 @@ public class UserActionsController {
         User user = userDAO.getUserByID(idUser);
         Invite invite;
 
-        invite = inviteSender.factoryMethod();
-        invite.setUser(user);
-        inviteDao.addInvite(invite);
-
-        System.out.println("Invite has been sent");
+        //TODO added user != null
+        if (user != null) {
+            invite = inviteSender.factoryMethod();
+            invite.setUser(user);
+            inviteDao.addInvite(invite);
+            System.out.println("Invite has been sent");
+        }
 
     }
 
@@ -208,12 +220,85 @@ public class UserActionsController {
 
     }
 
-    public void acceptInvite(Invite invite) throws SQLException, ClassNotFoundException {
-        //todo da aggiungere scelta guests
-        joinGroup(invite.getGroup().getId(), 0);
-        InviteDao inviteDao = new InviteDao();
+    //TODO changed to boolean (uml)
+    public boolean acceptInvite(Invite invite) throws SQLException, ClassNotFoundException {
 
-        inviteDao.deleteInvite(invite.getId());
+        boolean accepted = false;
+
+        if (invite.getGroup().getReservation().isMatched()) {
+
+            DialogPane selectGuestsDialogPane;
+            SelectGuestsPaneController selectGuestsPaneController;
+
+            //load guests selector
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/selectGuestsPane.fxml"));
+            try {
+                selectGuestsDialogPane = loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            selectGuestsPaneController = loader.getController(); //connect controller
+
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setTitle("Who do you want to add?");
+            dialog.setDialogPane(selectGuestsDialogPane);
+
+            Button okButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("Send Invite");
+
+
+            okButton.addEventFilter(ActionEvent.ACTION, event -> {
+
+                int guests = selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0;
+                int accounts = selectGuestsPaneController.getAccountList().getItems().size();
+
+                boolean canJoin = invite.getGroup().canJoin(guests, accounts, true);
+
+                if (!canJoin) {
+                    event.consume(); // prevents dialog closing
+                    selectGuestsPaneController.getMessagesController().showMessage("Too much guests for this group.", MessagesController.MessageType.ERROR, 3);
+                }
+
+            });
+
+            Optional<ButtonType> result = dialog.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+
+                int guests = selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0;
+
+                //himself join into group
+                joinGroup(invite.getGroup().getId(), guests);
+
+                //send invites to other (his) players
+                ArrayList<String> accountsList = new ArrayList<>(selectGuestsPaneController.getAccountList().getItems());
+                UserDAO userDAO = new UserDAO();
+                for (String accountUsername : accountsList) {
+                    if (accountUsername != null) {
+                        sendInvite(invite.getGroup().getReservation(), userDAO.getUserID(accountUsername)); //TODO could be better by username than by id?
+                    }
+                }
+
+                accepted = true;
+
+                //delete this invite
+                InviteDao inviteDao = new InviteDao();
+                inviteDao.deleteInvite(invite.getId());
+
+            }
+
+
+        } else {
+            //guests are 0 because in not matched booking are not allowed guests
+            joinGroup(invite.getGroup().getId(), 0);
+            accepted = true;
+
+            //delete this invite
+            InviteDao inviteDao = new InviteDao();
+            inviteDao.deleteInvite(invite.getId());
+        }
+
+        return accepted;
     }
 
     public void joinGroup(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException {

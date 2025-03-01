@@ -53,8 +53,15 @@ public class NotificationDAO {
                 Reservation reservation = null;
                 ReservationDao reservationDao = new ReservationDao();
 
-                if (idReservation != 0)
+                //I do two distinct search
+                if (idReservation != 0) {
                     reservation = reservationDao.getReservation(idReservation, true);
+                    if (reservation == null) {
+                        reservation = reservationDao.getReservation(idReservation, false);
+
+                    }
+                }
+
 
                 if (idMessage != 0) {
                     String title = resultSet.getString("title");

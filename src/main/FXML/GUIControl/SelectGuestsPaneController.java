@@ -40,6 +40,7 @@ public class SelectGuestsPaneController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.messagesController = new MessagesController(messageLabel);
+        nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
     }
 
@@ -89,6 +90,14 @@ public class SelectGuestsPaneController implements Initializable {
 
     public void setRemoveButton(Button removeButton) {
         this.removeButton = removeButton;
+    }
+
+    public MessagesController getMessagesController() {
+        return messagesController;
+    }
+
+    public void setMessagesController(MessagesController messagesController) {
+        this.messagesController = messagesController;
     }
 
     @FXML
