@@ -173,8 +173,8 @@ public class BookFieldController implements Initializable {
 
         });
 
+        //TODO improve parameters (remove super?)
         selectGuestsPaneController.getAccountList().getItems().addListener((ListChangeListener<? super String>) change -> {
-            System.out.println("La lista è cambiata!");
 
             updateTotalPeople();
             updatePricePerPerson(false);
