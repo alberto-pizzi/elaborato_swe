@@ -100,7 +100,7 @@ public class Group extends Subject{
 
         String label = String.valueOf(this.participants);
 
-        if (!reservation.isMatched()) {
+        if (reservation.isMatched()) {
             label += " of " + String.valueOf(this.requiredParticipants);
         }
 
