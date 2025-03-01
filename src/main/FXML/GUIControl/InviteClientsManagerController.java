@@ -86,7 +86,6 @@ public class InviteClientsManagerController implements Initializable {
     }
 
     private List<User> getData() throws SQLException, ClassNotFoundException {
-        //todo cambiare per owner
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         return managerOwnerManagementController.searchInvitablePlayers(reservation, false, "");
     }

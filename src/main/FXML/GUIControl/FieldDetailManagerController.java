@@ -83,7 +83,6 @@ public class FieldDetailManagerController {
 
     }
 
-    //todo da fare
     @FXML
     void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 

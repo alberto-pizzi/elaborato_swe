@@ -35,7 +35,6 @@ public class FieldChoiceItemManagerController {
 
     private BorderPane menuPane;
 
-    //todo bottoni reattivi
     public void setData(Field field, BorderPane menuPane) throws SQLException {
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
@@ -83,7 +82,6 @@ public class FieldChoiceItemManagerController {
 
     }
 
-    //todo da fare
     @FXML
     void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 

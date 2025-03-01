@@ -269,7 +269,6 @@ public class ModifyReservationManagerController implements Initializable {
             reservation.setEventTimeEnd(Time.valueOf(endTimeChoice.getValue()));
         }
 
-        //todo aggiuimgere guests
         if(nGuestsChoice.getValue() != null) {
             managerOwnerManagementController.changeHeadGuests(reservation.getId(),nGuestsChoice.getValue());
         }

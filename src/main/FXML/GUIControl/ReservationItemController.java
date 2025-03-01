@@ -98,8 +98,6 @@ public class ReservationItemController {
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + reservation.getField().getImage()));
         fieldImageView.setImage(image);
 
-        //TODO già fatto cambiato così funziona in tutti i casi
-
         String buttonFXMLsrc = "";
         //Both have same GUI controller
         //todo controllare  funzione

@@ -100,7 +100,7 @@ public class AnnouncementManagerController {
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
 
-        if(messageText.getText().length() < messageLimit){
+        if(messageText.getText().length() < messageLimit && !messageText.getText().isEmpty()) {
 
             //TODO implement
             System.out.println("Confirm button clicked: ");
@@ -115,25 +115,25 @@ public class AnnouncementManagerController {
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == ButtonType.OK){
 
-                if(messageText.getText().isEmpty()){
-                    //FIXME da implementare alert e controllo
-                }else{
-                    ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-                    Field reservationField = managerOwnerManagementController.getReservationField(reservation);
-                    managerOwnerManagementController.reservationAnnouncement(messageText.getText(), reservation);
-                    System.out.println("Sent!");
+                ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+                Field reservationField = managerOwnerManagementController.getReservationField(reservation);
+                managerOwnerManagementController.reservationAnnouncement(messageText.getText(), reservation);
+                System.out.println("Sent!");
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsManager.fxml"));
-                    Parent view = loader.load();
-                    ReservationsManagerController controller = loader.getController();
-                    controller.setData(reservationField, menuPane);
-                    menuPane.setCenter(view);}
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsManager.fxml"));
+                Parent view = loader.load();
+                ReservationsManagerController controller = loader.getController();
+                controller.setData(reservationField, menuPane);
+                menuPane.setCenter(view);
 
 
             } else if(result.get() == ButtonType.CANCEL){
                 System.out.println("Cancel!");
             }
-        }else{
+        } else if (messageText.getText().isEmpty()) {
+            messagesController.showMessage("The message is blank", MessagesController.MessageType.ERROR,5);
+            errorMessage.setAlignment(Pos.CENTER);
+        }else {
             messagesController.showMessage("Too many characters in the message.The maximum is " + messageLimit, MessagesController.MessageType.ERROR,5);
             errorMessage.setAlignment(Pos.CENTER);
         }

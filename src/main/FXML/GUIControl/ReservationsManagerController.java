@@ -141,7 +141,6 @@ public class ReservationsManagerController {
                     throw new RuntimeException(e);
                 }
 
-
             }
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));
