@@ -27,7 +27,6 @@ public class ManagerOwnerManagementController extends PersonController{
 
     }
 
-    //todo aggiungere uml
     public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();
@@ -49,7 +48,6 @@ public class ManagerOwnerManagementController extends PersonController{
         return fieldDao.getFieldsByFacility(facility.getId(), false);
     }
 
-    //todo aggiungere uml
     public int getMaxGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
 
@@ -72,7 +70,6 @@ public class ManagerOwnerManagementController extends PersonController{
         return invitablePlayers;
     }
 
-    //todo aggiungere uml
     public int getHeadGuests(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
         IsPartDao isPartDao = new IsPartDao();
@@ -81,7 +78,6 @@ public class ManagerOwnerManagementController extends PersonController{
         return isPartDao.countOwnGuests(group.getId(), group.getGroupHead().getId());
     }
 
-    //todo aggiungere uml
     public void changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
@@ -118,6 +114,7 @@ public class ManagerOwnerManagementController extends PersonController{
         notificationController.sendNotifications(reservation,ANNOUNCEMENT,notificationMessage);
     }
 
+    //todo parlarne non ha accesso a reservation visto che fa riferimento ad un campo
     public void fieldAnnouncement(String notificationMessage, Field field) throws SQLException, ClassNotFoundException {
         ArrayList<Reservation> reservations = new ArrayList<>(this.getReservationsByField(field.getId()));
         for(Reservation reservation : reservations) {

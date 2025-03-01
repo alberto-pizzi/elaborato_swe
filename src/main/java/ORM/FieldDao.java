@@ -241,7 +241,7 @@ public class FieldDao {
 
         return fields;
     }
-    //todo aggiungere a uml
+
     public ArrayList<Field> getAllFields(boolean loadFacility) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
 

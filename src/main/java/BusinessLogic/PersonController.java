@@ -26,23 +26,18 @@ public abstract class PersonController {
         return users;
     }
 
-
-    //todo aggiungere uml
     public ArrayList<User> getGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
 
         return groupDao.getGroupByReservation(idReservation).getUsers();
     }
 
-
-    //todo aggiungere uml
     public int getGroupParticipants(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
 
         return groupDao.getGroupByReservation(idReservation).getParticipants();
     }
 
-    //todo cambiare uml
     public void sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
 
         GroupDao groupDao = new GroupDao();
@@ -64,7 +59,6 @@ public abstract class PersonController {
 
     }
 
-    //todo aggiungere uml
     public void removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
@@ -85,13 +79,11 @@ public abstract class PersonController {
         return  group.participantsCheck(guests);
     }
 
-    //todo aggiungere uml
     public Field getReservationField(Reservation reservation) throws SQLException, ClassNotFoundException {
         FieldDao fieldDao = new FieldDao();
         return fieldDao.getField(reservation.getField().getId());
     }
 
-    //todo aggiungere uml
     public String getFieldAddress(int fieldId) throws SQLException {
         FieldDao fieldDao = new FieldDao();
         return fieldDao.getFieldAddress(fieldId);

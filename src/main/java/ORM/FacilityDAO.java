@@ -408,7 +408,6 @@ public class FacilityDAO {
         return nFields;
     }
 
-    //todo aggiungere uml
     public void updateNManagers(int idFacility, int nManagers) throws SQLException {
         String querySQL = String.format("UPDATE \"Facility\" SET n_managers = '%d' WHERE id = '%d'", nManagers,idFacility);
 
@@ -425,7 +424,6 @@ public class FacilityDAO {
         }
     }
 
-    //todo aggiungere uml
     public void updateNFields(int idFacility, int nfields) throws SQLException {
         String querySQL = String.format("UPDATE \"Facility\" SET n_fields = '%d' WHERE id = '%d'", nfields,idFacility);
 

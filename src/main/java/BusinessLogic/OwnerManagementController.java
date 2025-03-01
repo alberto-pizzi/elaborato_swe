@@ -58,8 +58,6 @@ public class OwnerManagementController {
 
     public void getAllFacilityManagers(){}
 
-    //todo aggiungere uml
-
     public int dailyEarning() throws SQLException {
         ReservationDao reservationDao = new ReservationDao();
         return reservationDao.DailyEarning(Date.valueOf(LocalDate.now()), owner);

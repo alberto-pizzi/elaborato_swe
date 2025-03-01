@@ -284,7 +284,6 @@ public class UserActionsController extends PersonController{
 
     }
 
-    //todo aggiungere uml
     public int getOwnGuests(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
         IsPartDao isPartDao = new IsPartDao();
@@ -292,7 +291,6 @@ public class UserActionsController extends PersonController{
         return isPartDao.countOwnGuests(groupDao.getGroupByReservation(idReservation).getId(),user.getId());
     }
 
-    //todo aggiungere uml
     public void addGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
@@ -300,7 +298,6 @@ public class UserActionsController extends PersonController{
         isPartDao.addMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember, 0);
     }
 
-    //todo aggiungere uml
     public void changeOwnGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
@@ -308,7 +305,6 @@ public class UserActionsController extends PersonController{
         isPartDao.updateGuestsUsers(groupDao.getGroupByReservation(idReservation).getId(),user.getId(),guestNewNumber);
     }
 
-    //todo cambiare uml
     public void sendInvites(Group group) throws SQLException, ClassNotFoundException {
 
         InviteSender inviteSender = new InviteSender(group);
@@ -328,7 +324,6 @@ public class UserActionsController extends PersonController{
 
     }
 
-    //todo aggiungere uml
     public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
 
        ReservationDao reservationDao = new ReservationDao();

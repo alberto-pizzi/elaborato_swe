@@ -32,7 +32,6 @@ public class OwnerProfileController extends ProfileController {
         this.owner = null;
     }
 
-    //todo aggiungere a uml
     public String  getEmail() {
         return owner.getEmail();
     }

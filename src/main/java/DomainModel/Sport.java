@@ -12,7 +12,6 @@ public class Sport {
         this.playersRequired = playersRequired;
     }
 
-    //todo aggoiungere uml
     public Sport() {}
 
     // methods
