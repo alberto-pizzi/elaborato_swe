@@ -49,7 +49,7 @@ public class FieldItemController {
 
         fieldNameLabel.setText(field.getName());
         fieldAddressLabel.setText(userActionsController.getFieldAddress(field.getId()));
-        fieldPriceLabel.setText(String.format("%.2f",field.getPrice()/field.getSport().getPlayersRequired()) + "$");
+        fieldPriceLabel.setText(String.format("%.2f",field.getPrice()) + "$");
 
         String pathFromRoot = "/main/FXML/img/fields/";
 
