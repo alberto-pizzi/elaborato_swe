@@ -38,7 +38,7 @@ public class NotificationController {
         owner = ownerDAO.getOwnerByID(facility.getOwner().getId());
 
         tmpNotification = notificationSender.factoryMethod();
-        tmpNotification.setPerson(owner);
+        tmpNotification.setRecipient(owner);
         notificationDAO.addNotification(tmpNotification);
 
         ArrayList<User> managers = managesDAO.getAllManagersByFacility(facility.getId());
@@ -48,13 +48,13 @@ public class NotificationController {
 
         for(User user : managers){
           tmpNotification = notificationSender.factoryMethod();
-          tmpNotification.setPerson(user);
+          tmpNotification.setRecipient(user);
           notificationDAO.addNotification(tmpNotification);
         }
 
         for (User user:invitableUsers){
             tmpNotification = notificationSender.factoryMethod();
-            tmpNotification.setPerson(user);
+            tmpNotification.setRecipient(user);
             notificationDAO.addNotification(tmpNotification);
         }
 
@@ -62,7 +62,7 @@ public class NotificationController {
 
     public void deleteNotifications(Notification notification) throws SQLException {
         NotificationDAO notificationDAO = new NotificationDAO();
-        notificationDAO.deleteNotification(notification.getPerson(),notification.getId());
+        notificationDAO.deleteNotification(notification.getRecipient(),notification.getId());
     }
 
     public ArrayList<Notification> getOwnNotifications() throws SQLException {

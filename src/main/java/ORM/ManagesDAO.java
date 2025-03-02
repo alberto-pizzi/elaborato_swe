@@ -189,7 +189,7 @@ public class ManagesDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            FacilityDAO facilityDAO = new FacilityDAO(); //TODO check correctness
+            FacilityDAO facilityDAO = new FacilityDAO();
             while (resultSet.next()) {
 
                 facilities.add(facilityDAO.getFacility(resultSet.getInt("id"), false));

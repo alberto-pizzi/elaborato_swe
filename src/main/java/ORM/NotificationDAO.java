@@ -53,8 +53,15 @@ public class NotificationDAO {
                 Reservation reservation = null;
                 ReservationDao reservationDao = new ReservationDao();
 
-                if (idReservation != 0)
+                //I do two distinct search
+                if (idReservation != 0) {
                     reservation = reservationDao.getReservation(idReservation, true);
+                    if (reservation == null) {
+                        reservation = reservationDao.getReservation(idReservation, false);
+
+                    }
+                }
+
 
                 if (idMessage != 0) {
                     String title = resultSet.getString("title");
@@ -108,7 +115,6 @@ public class NotificationDAO {
 
     }
 
-    //TODO id or Notification as parameter? attribute name "id" is correct?
     public void deleteNotification(Person person, int idNotification) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \""+ notificationTableName(person)+ "\" WHERE id = '%d'", idNotification);
@@ -175,12 +181,12 @@ public class NotificationDAO {
     }
 
     private void createNotification(Notification notification, int messageId) throws SQLException {
-        String notificationQuery = "INSERT INTO \"" + notificationTableName(notification.getPerson()) +
-                "\" (" + notificationIdName(notification.getPerson()) + ", notification_type, id_message, id_reservation) " +
+        String notificationQuery = "INSERT INTO \"" + notificationTableName(notification.getRecipient()) +
+                "\" (" + notificationIdName(notification.getRecipient()) + ", notification_type, id_message, id_reservation) " +
                 "VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement pstmtNotification = connection.prepareStatement(notificationQuery)) {
-            pstmtNotification.setInt(1, notification.getPerson().getId());
+            pstmtNotification.setInt(1, notification.getRecipient().getId());
             pstmtNotification.setString(2, notification.getNotificationType().getStringValue());
 
             if (messageId != -1) {

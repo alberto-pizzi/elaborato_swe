@@ -1,7 +1,9 @@
 package main.FXML.GUIControl;
 
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -11,6 +13,7 @@ import javafx.scene.layout.HBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -23,6 +26,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class BookFieldController implements Initializable {
@@ -30,21 +34,6 @@ public class BookFieldController implements Initializable {
 
     @FXML
     private Button confirmButton;
-
-    @FXML
-    private Button addButton;
-
-    @FXML
-    private Button removeAllButton;
-
-    @FXML
-    private Button removeButton;
-
-    @FXML
-    private ListView<String> accountList;
-
-    @FXML
-    private TextField guestUsernameField;
 
     @FXML
     private Label errorLabel;
@@ -80,9 +69,6 @@ public class BookFieldController implements Initializable {
     private CheckBox isMatchingCheckBox;
 
     @FXML
-    private ChoiceBox<Integer> nGuestsChoice;
-
-    @FXML
     private ChoiceBox<Integer> nPlayersToMatchChoice;
 
     @FXML
@@ -94,13 +80,19 @@ public class BookFieldController implements Initializable {
     @FXML
     private ChoiceBox<String> startTimeChoice;
 
+    @FXML
+    private Button addGuestsButton;
+
     private Field field;
 
     private DecimalFormat priceFormat;
     private float totalPrice;
     private int totalPeople = 1;
 
-    MessagesController messagesController;
+    private MessagesController messagesController;
+
+    private SelectGuestsPaneController selectGuestsPaneController;
+    private DialogPane selectGuestsDialogPane;
 
 
 
@@ -111,16 +103,26 @@ public class BookFieldController implements Initializable {
 
         //TODO add login singleton connection, if needed
 
-
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
 
         this.messagesController = new MessagesController(errorLabel);
 
+        //load guests selector
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/selectGuestsPane.fxml"));
+        try {
+            this.selectGuestsDialogPane = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        this.selectGuestsPaneController = loader.getController(); //connect controller
+
+
+        //init all
         resetFields();
 
         datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
-            //FIXME fix output times visualizzation with "...". It is just graphical bug.
+
             resetFields();
 
             if (newDate != null) {
@@ -133,9 +135,11 @@ public class BookFieldController implements Initializable {
             try {
                 endTimeChoice.getItems().clear();
 
-                if (newTime != null) {
-                    //TODO pass correct WH
-                    updateEndTimes(LocalTime.parse(newTime),field.getFacility().getWorkingHours().get(0),15);
+                if (newTime != null && datePicker.getValue() != null) {
+
+                    UserActionsController userActionsController = new UserActionsController();
+
+                    updateEndTimes(LocalTime.parse(newTime),userActionsController.getWHsByFacilityByDay(field.getFacility().getId(), datePicker.getValue().getDayOfWeek()),15);
 
                     updateTotalPrice(true);
                     updatePricePerPerson(true);
@@ -151,8 +155,9 @@ public class BookFieldController implements Initializable {
 
         endTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
            setDuration();
-           this.totalPrice = calculateTotalPrice() * field.getPrice();
-           updateTotalPrice(false);
+           //this.totalPrice = Reservation.totalPrice(field,calculateDurationInHours());
+
+            updateTotalPrice(false);
 
            updatePricePerPerson(false);
         });
@@ -160,7 +165,7 @@ public class BookFieldController implements Initializable {
 
 
 
-        nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+        selectGuestsPaneController.getnGuestsChoice().getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 updateTotalPeople();
                 updatePricePerPerson(false);
@@ -168,6 +173,13 @@ public class BookFieldController implements Initializable {
             else
                 pricePerPersonLabel.setText("Guests not selected");
 
+        });
+
+        //TODO improve parameters (remove super?)
+        selectGuestsPaneController.getAccountList().getItems().addListener((ListChangeListener<? super String>) change -> {
+
+            updateTotalPeople();
+            updatePricePerPerson(false);
         });
 
 
@@ -201,25 +213,27 @@ public class BookFieldController implements Initializable {
     }
 
     private void updateTotalPeople(){
+
+        this.totalPeople = (selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0) + selectGuestsPaneController.getAccountList().getItems().size() + 1;
+
         if (isMatchingCheckBox.isSelected())
-            //FIXME counter
-            //FIXME check if null and 0 comparison generate some error
-            this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + ((nPlayersToMatchChoice.getValue() != null) && (!nPlayersToMatchChoice.getValue().equals(0)) ? nPlayersToMatchChoice.getValue() : field.getSport().getPlayersRequired()) + 1;
-        else {
-            this.totalPeople = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + 1;
-        }
+            this.totalPeople += ((nPlayersToMatchChoice.getValue() != null) && (!nPlayersToMatchChoice.getValue().equals(0)) ? nPlayersToMatchChoice.getValue() : field.getSport().getPlayersRequired());
+
     }
 
     private void updateTotalPrice(boolean reset){
-        String price;
+        String price = "";
 
         if (reset) {
-            if (field != null)
+            if (field != null) {
                 this.totalPrice = field.getPrice();
-            price = priceFormat.format(this.totalPrice) + " $ (per person)";
+                price = priceFormat.format(this.totalPrice) + " $ (per hour)";
+            }
         }
-        else
+        else {
+            this.totalPrice = Reservation.totalPrice(field,calculateDurationInHours());
             price = priceFormat.format(this.totalPrice) + " $";
+        }
 
         fieldTotalPrice.setText(price);
     }
@@ -228,22 +242,22 @@ public class BookFieldController implements Initializable {
         if (reset)
             pricePerPersonLabel.setText("Guests not selected");
         else
-            pricePerPersonLabel.setText(this.priceFormat.format(totalPrice/(float)totalPeople) + " $");
+            pricePerPersonLabel.setText(this.priceFormat.format(Reservation.pricePerUser(totalPrice,totalPeople)) + " $");
     }
 
     private void resetFields(){
         endTimeChoice.getItems().clear();
         startTimeChoice.getItems().clear();
-        nGuestsChoice.getItems().clear();
+        selectGuestsPaneController.getnGuestsChoice().getItems().clear();
         nPlayersToMatchChoice.getItems().clear();
 
-        this.totalPeople = 1;
+        updateTotalPeople();
 
         updateTotalPrice(true);
         isMatchingCheckBox.setSelected(false);
         durationBox.setVisible(false);
 
-        nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+        selectGuestsPaneController.getnGuestsChoice().getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
         nPlayersToMatchChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
         updatePricePerPerson(true);
@@ -260,7 +274,7 @@ public class BookFieldController implements Initializable {
             return null;
     }
 
-    public float calculateTotalPrice(){
+    public float calculateDurationInHours(){
         if (startTimeChoice.getValue() != null && endTimeChoice.getValue() != null) {
             long totalMinutes = getDuration().toMinutes();
 
@@ -326,12 +340,14 @@ public class BookFieldController implements Initializable {
                     boolean isAvailable = true;
 
                     for (Reservation reservation : reservations) {
-                        LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
-                        LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
+                        if (reservation != null) {
+                            LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
+                            LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
 
-                        if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
-                            isAvailable = false;
-                            break;
+                            if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
+                                isAvailable = false;
+                                break;
+                            }
                         }
 
                     }
@@ -372,47 +388,57 @@ public class BookFieldController implements Initializable {
 
 
     //FIXME optimize?
-    private void updateEndTimes(LocalTime selectedTime, WorkingHours wh, int minutesInterval) throws SQLException, ClassNotFoundException {
+    private void updateEndTimes(LocalTime selectedTime, ArrayList<WorkingHours> dailyWHs, int minutesInterval) throws SQLException, ClassNotFoundException {
 
         List<LocalTime> availableTimes = new ArrayList<>();
 
         UserActionsController userActionsController = new UserActionsController();
 
-
         ArrayList<Reservation> reservations = userActionsController.getReservationsByField(field.getId());
         if (selectedTime != null) {
 
-            LocalTime closing = wh.getClosingHours().toLocalTime();
+            LocalTime closing = null;
 
-            LocalTime current = selectedTime;
-
-            while (current.isBefore(closing)) {
-                boolean isAvailable = true;
-
-                for (Reservation reservation : reservations) {
-                    LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
-                    LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
-
-                    if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
-                        isAvailable = false;
-                        break;
-                    }
-
-                }
-
-                if (!current.equals(selectedTime)) {
-                    endTimeChoice.getItems().add(current.toString());
-                }
-
-                if (isAvailable) {
-                    availableTimes.add(current);
-                }
-                else{
+            //search own WH (on same day)
+            for (WorkingHours wh : dailyWHs) {
+                if (wh.isWithinRange(selectedTime)){
+                    closing = wh.getClosingHours().toLocalTime();
                     break;
                 }
 
-                current = current.plusMinutes(minutesInterval);
+            }
 
+            LocalTime current = selectedTime;
+
+            if (closing != null) {
+                while (current.isBefore(closing)) {
+                    boolean isAvailable = true;
+
+                    for (Reservation reservation : reservations) {
+                        if (reservation != null) {
+                            LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
+                            LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
+
+                            if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
+                                isAvailable = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!current.equals(selectedTime)) {
+                        endTimeChoice.getItems().add(current.toString());
+                    }
+
+                    if (isAvailable) {
+                        availableTimes.add(current);
+                    } else {
+                        break;
+                    }
+
+                    current = current.plusMinutes(minutesInterval);
+
+                }
             }
         }
     }
@@ -423,7 +449,6 @@ public class BookFieldController implements Initializable {
         long durationInMinutes = (long) (durationInHours * 60);
         return startTime.plusMinutes((int)durationInMinutes);
     }
-
 
 
     @FXML
@@ -462,7 +487,6 @@ public class BookFieldController implements Initializable {
     }
 
 
-
     @FXML
     public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         Date eventDate = getDateFromDatePicker();
@@ -497,60 +521,28 @@ public class BookFieldController implements Initializable {
         else{
             System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
 
-            ArrayList<String> accounts = new ArrayList<>(accountList.getItems());
-            int guests = nGuestsChoice.getValue() == null ? 0 : nGuestsChoice.getValue();
+            ArrayList<String> accounts = new ArrayList<>(selectGuestsPaneController.getAccountList().getItems());
+            int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
             userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,guests, totalPeople, isMatchingCheckBox.isSelected(), accounts);
             System.out.println("Booking done");
-        }
 
-    }
-
-
-    @FXML
-    public void handleAddButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-
-        if (guestUsernameField.getText().isEmpty()) {
-            messagesController.showMessage("Please enter a guest username.", MessagesController.MessageType.ERROR,5);
-        }
-        else{
-
-            UserActionsController userActionsController = new UserActionsController();
-            User userToBeAdded = userActionsController.searchUserByUsername(guestUsernameField.getText());
-
-            if (userToBeAdded != null) {
-
-                if (!userToBeAdded.getUsername().equals(userActionsController.getUser().getUsername())) {
-
-                    if (!accountList.getItems().contains(userToBeAdded.getUsername()))
-                        accountList.getItems().add(userToBeAdded.getUsername());
-                    else
-                        messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,5);
-
-                }
-                else
-                    messagesController.showMessage("Username must be different from yours", MessagesController.MessageType.ERROR,5);
-
-                guestUsernameField.clear();
-            }
-            else{
-                messagesController.showMessage("User not found", MessagesController.MessageType.ERROR,5);
-            }
-
+            //TODO is add redirect to home needed?
+            resetFields();
+            messagesController.showMessage("Booking done successfully", MessagesController.MessageType.SUCCESS,5);
         }
 
     }
 
     @FXML
-    public void handleRemoveAllButton(ActionEvent event) {
-        accountList.getItems().clear();
+    public void handleAddGuestsButton(ActionEvent event) {
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Who do you want to add?");
+        dialog.setDialogPane(selectGuestsDialogPane);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+
     }
-
-    @FXML
-    public void handleRemoveButton(ActionEvent event) {
-        accountList.getItems().removeAll(accountList.getSelectionModel().getSelectedItem());
-    }
-
-
 
 
 }

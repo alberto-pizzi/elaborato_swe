@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<DialogPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.SelectGuestsPaneController">
+   <content>
+      <VBox alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefWidth="586.0" spacing="50.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Guest users (without account):">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="nGuestsChoice" prefHeight="26.0" prefWidth="215.0" />
+               </children>
+            </HBox>
+            <Line endX="550.0" stroke="#8d8d8d" strokeWidth="0.5">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </Line>
+            <HBox alignment="CENTER" minHeight="-Infinity" prefHeight="120.0" prefWidth="586.0">
+               <children>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <Label text="Guest users (with account):">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="293.0">
+                           <children>
+                              <TextField fx:id="guestUsernameField" prefHeight="25.0" prefWidth="207.0" />
+                              <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAddButton" text="Add" />
+                           </children>
+                        </HBox>
+                        <Label fx:id="messageLabel" text="Error Label" textFill="#e80000" visible="false">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="removeButton" mnemonicParsing="false" onAction="#handleRemoveButton" text="Remove" />
+                              <Button fx:id="removeAllButton" mnemonicParsing="false" onAction="#handleRemoveAllButton" text="Remove All" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <ListView fx:id="accountList" prefHeight="115.0" prefWidth="200.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </content>
+   <buttonTypes>
+      <ButtonType fx:constant="OK" />
+   </buttonTypes>
+</DialogPane>

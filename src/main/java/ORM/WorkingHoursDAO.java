@@ -129,14 +129,11 @@ public class WorkingHoursDAO {
 
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                //Day dayOfWeek = Day.valueOf(resultSet.getString("day_of_week"));
-                //TODO insert correct day
-                //Day dayOfWeek = Day.MONDAY;
                 DayOfWeek dayOfWeek = DayOfWeek.valueOf(resultSet.getString("day_of_week").toUpperCase());
 
                 Time openingHours = resultSet.getTime("opening");
                 Time closingHours = resultSet.getTime("closing");
-                int idFacility = resultSet.getInt("id_facility"); //FIXME is it useful?
+                int idFacility = resultSet.getInt("id_facility");
 
                 WH = new WorkingHours(id, dayOfWeek, openingHours, closingHours);
             }

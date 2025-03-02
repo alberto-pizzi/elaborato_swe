@@ -189,3 +189,9 @@
 .separator-line{
     -fx-background-color: grey;
 }
+
+.add-guests-button{
+    -fx-background-color: #ffdc6a;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}

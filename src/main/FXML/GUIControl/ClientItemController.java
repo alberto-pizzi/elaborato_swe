@@ -52,6 +52,7 @@ public class ClientItemController {
     @FXML
     void handleInviteUserButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         UserActionsController userActionsController = new UserActionsController();
+        //FIXME is that receiver correct?
         userActionsController.sendInvite(reservation, user.getId());
         if (inviteClientsController != null) {
             inviteClientsController.removeUserItemFromGUI(userItemBox,user);

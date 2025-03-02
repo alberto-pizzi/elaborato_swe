@@ -1,12 +1,15 @@
 package main.FXML.GUIControl;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Invite;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
@@ -89,9 +92,10 @@ public class InviteItemController {
     @FXML
     public void handleAcceptInviteButton() throws SQLException, ClassNotFoundException {
         UserActionsController userActionsController = new UserActionsController();
-        userActionsController.acceptInvite(invite);
+        boolean accepted = userActionsController.acceptInvite(invite);
         System.out.println("Accept button clicked: " + invite.getId());
-        yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
+        if (accepted)
+            yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
 
     }
 

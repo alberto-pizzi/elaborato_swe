@@ -15,7 +15,7 @@ public class Reservation {
     private boolean isMatched;
     private boolean isDeleted;
 
-    public Reservation(int reservationId, Date reservationDate, Time reservationTime, Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, boolean isConfirmed, boolean isMatched) {
+    public Reservation(int reservationId, Date reservationDate, Time reservationTime, Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, boolean isConfirmed, boolean isMatched, boolean isDeleted) {
         this.id = reservationId;
         this.reservationDate = reservationDate;
         this.reservationTime = reservationTime;
@@ -25,11 +25,10 @@ public class Reservation {
         this.field = field;
         this.isConfirmed = isConfirmed;
         this.isMatched = isMatched;
-        this.isDeleted = false;
+        this.isDeleted = isDeleted;
     }
 
     public Reservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, boolean isConfirmed, boolean isMatched) {
-        //FIXME this.id, this.reservatinoDate and this.reservatinTime? Are they automatically created by DB?
         this.eventDate = eventDate;
         this.eventTimeStart = eventTimeStart;
         this.eventTimeEnd = eventTimeEnd;
@@ -123,18 +122,13 @@ public class Reservation {
 
     //methods
 
-    public int[] calculateReservationEndTime(float duration){
-        //TODO add implementation and choose method's return type
-        return null;
+
+    public static float pricePerUser(float totalPrice, int nUsers){
+        return totalPrice / nUsers;
     }
 
-    public static float pricePerUser(Field field, int nUsers){
-        //FIXME duration needed?
-        return field.getPrice() / nUsers;
+    public static float totalPrice(Field field, float hours){
+        return field.getPrice() * hours;
     }
 
-    public boolean setIsConfirmed(boolean state){
-        //TODO implement setIsConfirmed (observer), change return type
-        return false;
-    }
 }

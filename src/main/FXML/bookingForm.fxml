@@ -7,8 +7,6 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -155,51 +153,19 @@
                               </Label>
                            </children>
                         </HBox>
-                        <Line endX="550.0" stroke="#8d8d8d" strokeWidth="0.5" />
-                        <HBox alignment="CENTER" prefWidth="586.0" spacing="50.0">
-                           <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" text="Guest users (without account):">
-                                 <font>
-                                    <Font name="System Bold" size="18.0" />
-                                 </font>
-                              </Label>
-                              <ChoiceBox fx:id="nGuestsChoice" prefHeight="26.0" prefWidth="215.0" />
-                           </children>
+                        <Line endX="550.0" stroke="#8d8d8d" strokeWidth="0.5">
                            <VBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <Line endX="550.0" stroke="#8d8d8d" strokeWidth="0.5" />
-                        <HBox alignment="CENTER" minHeight="-Infinity" prefHeight="120.0" prefWidth="586.0">
+                              <Insets bottom="10.0" />
+                           </VBox.margin></Line>
+                        <HBox alignment="CENTER">
                            <children>
-                              <VBox alignment="CENTER">
-                                 <children>
-                                    <Label text="Guest users (with account):">
-                                       <font>
-                                          <Font name="System Bold" size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <HBox alignment="CENTER" prefHeight="120.0" prefWidth="293.0">
-                                       <children>
-                                          <TextField fx:id="guestUsernameField" prefHeight="25.0" prefWidth="207.0" />
-                                          <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAddButton" text="Add" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Button fx:id="removeButton" mnemonicParsing="false" onAction="#handleRemoveButton" text="Remove" />
-                                          <Button fx:id="removeAllButton" mnemonicParsing="false" onAction="#handleRemoveAllButton" text="Remove All" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                              <ListView fx:id="accountList" prefHeight="115.0" prefWidth="200.0" />
+                              <Button fx:id="addGuestsButton" mnemonicParsing="false" onAction="#handleAddGuestsButton" styleClass="add-guests-button, shadow" stylesheets="@css/style.css" text="Add Guests..." />
                            </children>
-                           <VBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </VBox.margin>
                         </HBox>
-                        <Line endX="550.0" stroke="#8d8d8d" strokeWidth="0.5" />
+                        <Line endX="550.0" stroke="#8d8d8d" strokeWidth="0.5">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></Line>
                         <HBox alignment="CENTER" prefHeight="103.0" prefWidth="586.0">
                            <children>
                               <Label text="Looking for other players?">
@@ -232,7 +198,7 @@
                            <children>
                               <Label text="Total Price:">
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font size="20.0" />
                                  </font>
                                  <HBox.margin>
                                     <Insets right="10.0" />
@@ -240,7 +206,7 @@
                               </Label>
                               <Label fx:id="fieldTotalPrice" text="100 $">
                                  <font>
-                                    <Font name="System Bold" size="24.0" />
+                                    <Font name="System Bold" size="20.0" />
                                  </font>
                                  <HBox.margin>
                                     <Insets right="5.0" />
@@ -275,6 +241,9 @@
                            <font>
                               <Font name="System Italic" size="18.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
                         </Label>
                         <HBox alignment="BOTTOM_CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
@@ -283,10 +252,10 @@
                                     <Insets />
                                  </HBox.margin>
                                  <padding>
-                                    <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
+                                    <Insets bottom="5.0" left="80.0" right="80.0" top="5.0" />
                                  </padding>
                                  <font>
-                                    <Font name="System Bold" size="24.0" />
+                                    <Font name="System Bold" size="22.0" />
                                  </font>
                                  <styleClass>
                                     <String fx:value="accept-button" />

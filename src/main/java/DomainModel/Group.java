@@ -17,7 +17,6 @@ public class Group extends Subject{
         this.id = id;
         this.groupHead = groupHead;
         this.reservation = reservation;
-        //FIXME is requiredParticipants management correct?
         this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
         this.users = new ArrayList<>();
         this.participants = 0;
@@ -26,11 +25,9 @@ public class Group extends Subject{
     public Group(User groupHead, Reservation reservation, int requiredParticipants) {
         this.groupHead = groupHead;
         this.reservation = reservation;
-        //FIXME is requiredParticipants management correct?
         this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
-        //TODO check correctness
         this.users = new ArrayList<>();
-        this.participants = 0; //TODO check correctness
+        this.participants = 0;
     }
 
 
@@ -100,7 +97,7 @@ public class Group extends Subject{
 
         String label = String.valueOf(this.participants);
 
-        if (!reservation.isMatched()) {
+        if (reservation.isMatched()) {
             label += " of " + String.valueOf(this.requiredParticipants);
         }
 
@@ -112,6 +109,13 @@ public class Group extends Subject{
             return false;
         }
         return this.participants + guests + 1 > this.requiredParticipants;
+    }
+
+    public Boolean canJoin(int guests, int nAccounts, boolean considerHimself){
+        if (!reservation.isMatched()) {
+            return true;
+        }
+        return this.participants + guests + nAccounts + (considerHimself ? 1 : 0)  <= this.requiredParticipants;
     }
 
     //TODO check groupHead for first joining
@@ -137,10 +141,8 @@ public class Group extends Subject{
     }
 
     public boolean removeMember(User user, int guests){
-        //TODO record to manage guests per user is needed?
 
-
-        if (users.contains(user)) {
+        if (user != null && users.contains(user)) {
             this.users.remove(user);
             this.participants -= guests + 1;
 

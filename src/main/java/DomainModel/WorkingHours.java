@@ -74,4 +74,8 @@ public class WorkingHours {
         return actualTime.isAfter(localOpeningTimeFromSql) && actualTime.isBefore(localClosingTimeFromSql);
     }
 
+    public boolean isWithinRange(LocalTime target){
+        return target.isAfter(this.openingHours.toLocalTime()) && target.isBefore(this.closingHours.toLocalTime());
+    }
+
 }

@@ -86,7 +86,6 @@ public class FacilityDAO {
 
             if (resultSet.next()) {
 
-                //FIXME check attributes
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String address = resultSet.getString("address");
@@ -100,15 +99,13 @@ public class FacilityDAO {
                 String image = resultSet.getString("image");
                 int idOwner = resultSet.getInt("id_owner");
 
-                OwnerDAO ownerDAO = new OwnerDAO(); //TODO check correctness
+                OwnerDAO ownerDAO = new OwnerDAO();
 
                 facility = new Facility(id, name, address, city, province, zip, country, nManagers, telephone, image, ownerDAO.getOwnerByID(idOwner));
 
-                //TODO check correctness
                 WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
                 facility.setWorkingHours(workingHoursDAO.getWHsByFacility(id));
 
-                //TODO check correctness
                 if (loadFields) {
                     FieldDao fieldDao = new FieldDao();
                     ArrayList<Field> fields = fieldDao.getFieldsByFacility(idFacility, false);
@@ -338,7 +335,6 @@ public class FacilityDAO {
 
     }
 
-    //TODO check type
     public void updateImage(int idFacility, String newImage) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Facility\" SET image = '%s' WHERE id = '%d'", newImage,idFacility);

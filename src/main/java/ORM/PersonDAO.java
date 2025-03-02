@@ -287,7 +287,8 @@ public abstract class PersonDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            id = resultSet.getInt("id");
+            if (resultSet.next())
+                id = resultSet.getInt("id");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {

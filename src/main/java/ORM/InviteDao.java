@@ -79,7 +79,7 @@ public class InviteDao {
                 int inviteId = resultSet.getInt("id");
                 int groupId = resultSet.getInt("id_group");
 
-                GroupDao groupDao = new GroupDao(); //TODO check correctness
+                GroupDao groupDao = new GroupDao();
 
                 invites.add(new Invite(inviteId, groupDao.getGroup(groupId)));
 
