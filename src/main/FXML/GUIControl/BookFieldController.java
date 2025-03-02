@@ -522,7 +522,10 @@ public class BookFieldController implements Initializable {
             int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
             userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,guests, totalPeople, isMatchingCheckBox.isSelected(), accounts);
             System.out.println("Booking done");
-            //TODO add redirect to home or whatever
+
+            //TODO is add redirect to home needed?
+            resetFields();
+            messagesController.showMessage("Booking done successfully", MessagesController.MessageType.SUCCESS,5);
         }
 
     }
