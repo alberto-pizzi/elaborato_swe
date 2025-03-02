@@ -68,7 +68,6 @@ public class FieldDao {
                 String image = resultSet.getString("image");
                 int idFacility = resultSet.getInt("id_facility");
 
-                //TODO check correctness
                 FacilityDAO facilityDao = new FacilityDAO();
                 Facility facility = facilityDao.getFacility(idFacility, false);
 
@@ -291,7 +290,7 @@ public class FieldDao {
                 String image = resultSet.getString("image");
                 int idFacility = resultSet.getInt("id_facility");
 
-                FacilityDAO facilityDAO = new FacilityDAO(); //TODO check correctness
+                FacilityDAO facilityDAO = new FacilityDAO();
 
                 fields.add(new Field(id, name, sport, description, price, image, facilityDAO.getFacility(idFacility, false)));
             }
@@ -329,7 +328,7 @@ public class FieldDao {
                 String image = resultSet.getString("image");
                 int idFacility = resultSet.getInt("id_facility");
 
-                FacilityDAO facilityDAO = new FacilityDAO(); //TODO check correctness
+                FacilityDAO facilityDAO = new FacilityDAO();
 
                 fields.add(new Field(id, name, sport, description, price, image, facilityDAO.getFacility(idFacility, false)));
             }
@@ -367,7 +366,7 @@ public class FieldDao {
                 String image = resultSet.getString("image");
                 int idFacility = resultSet.getInt("id_facility");
 
-                FacilityDAO facilityDAO = new FacilityDAO(); //TODO check correctness
+                FacilityDAO facilityDAO = new FacilityDAO();
 
                 fields.add(new Field(id, name, sport, description, price, image, facilityDAO.getFacility(idFacility, false)));
             }
@@ -447,7 +446,7 @@ public class FieldDao {
                 String image = resultSet.getString("image");
                 int idFacility = resultSet.getInt("id_facility");
 
-                FacilityDAO facilityDAO = new FacilityDAO(); //TODO check correctness
+                FacilityDAO facilityDAO = new FacilityDAO();
 
                 fields.add(new Field(id, name, sport, description, price, image, facilityDAO.getFacility(idFacility, false)));
             }

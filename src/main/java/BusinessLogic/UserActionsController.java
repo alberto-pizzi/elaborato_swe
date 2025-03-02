@@ -48,7 +48,7 @@ public class UserActionsController {
     }
 
     //methods
-    //FIXME check input parameters
+    //TODO it should be removed? Maybe yes
     public float calculatePricePerPerson(int idField, int nPeople) throws SQLException, ClassNotFoundException {
 
         FieldDao fieldDao = new FieldDao();
@@ -94,6 +94,7 @@ public class UserActionsController {
         return invitablePlayers;
     }
 
+    //TODO should be changed output type into boolean for manage success or error banner by caller?
     public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, ArrayList<String> accounts) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();
@@ -108,17 +109,15 @@ public class UserActionsController {
         reservation.setId(newReservationId); //WARNING: it's very important
 
         //group creation
-        Group group = new Group(user,reservation, requiredParticipants); //TODO check if participants and users array will be filled. Check constructor.
+        Group group = new Group(user,reservation, requiredParticipants);
         int newGroupId = groupDao.addGroup(group);
         group.setId(newGroupId); //WARNING: it's very important
         joinGroup(newGroupId,guests);
 
         if (isMatched) {
             sendInvites(group);
-            //TODO add matchmaking and send invite methods
         }
 
-        //TODO optimize it, if needed
         UserDAO userDAO = new UserDAO();
 
         for (String accountUsername : accounts){
@@ -126,8 +125,6 @@ public class UserActionsController {
                 sendInvite(reservation, userDAO.getUserID(accountUsername)); //TODO could be better by username than by id?
             }
         }
-
-        //TODO add success or error banner
 
         System.out.println("Reservation has been added into DB");
 
@@ -354,7 +351,7 @@ public class UserActionsController {
 
     }
 
-    //FIXME output type?
+    //FIXME output type? Boolean?
     public void deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();
@@ -416,7 +413,7 @@ public class UserActionsController {
 
         IsPartDao isPartDao = new IsPartDao();
 
-        return isPartDao.getAllGroupsByUser(this.user.getId()); //FIXME id by method parameter or id like this?
+        return isPartDao.getAllGroupsByUser(this.user.getId());
 
     }
 

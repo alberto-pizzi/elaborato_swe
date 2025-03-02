@@ -4,48 +4,46 @@ import java.text.SimpleDateFormat;
 
 public class Notification extends Product{
 
-    //TODO rename person into "recipient?
     private int id;
-    private Person person;
+    private Person recipient;
     private Reservation reservation;
     private String title;
     private String message;
-    //private String notificationType;
     private NotificationType notificationType;
     //TODO add "created at" field?
 
 
-    public Notification(Person person, Reservation reservation, NotificationType notificationType) {
-        this.person = person;
+    public Notification(Person recipient, Reservation reservation, NotificationType notificationType) {
+        this.recipient = recipient;
         this.reservation = reservation;
         this.notificationType = notificationType;
     }
 
-    public Notification(int id,Person person, Reservation reservation, NotificationType notificationType) {
-        this(person, reservation, notificationType);
+    public Notification(int id, Person recipient, Reservation reservation, NotificationType notificationType) {
+        this(recipient, reservation, notificationType);
         this.id = id;
     }
 
-    public Notification(Person person, Reservation reservation, NotificationType notificationType, String title, String message) {
-        this(person, reservation, notificationType);
+    public Notification(Person recipient, Reservation reservation, NotificationType notificationType, String title, String message) {
+        this(recipient, reservation, notificationType);
         this.title = title;
         this.message = message;
     }
 
-    public Notification(int id,Person person, Reservation reservation, NotificationType notificationType, String title, String message) {
-        this(person, reservation, notificationType, title, message);
+    public Notification(int id, Person recipient, Reservation reservation, NotificationType notificationType, String title, String message) {
+        this(recipient, reservation, notificationType, title, message);
         this.id = id;
     }
 
 
     public Notification() {}
 
-    public Person getPerson() {
-        return person;
+    public Person getRecipient() {
+        return recipient;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setRecipient(Person recipient) {
+        this.recipient = recipient;
     }
 
     public Reservation getReservation() {

@@ -155,8 +155,9 @@ public class BookFieldController implements Initializable {
 
         endTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
            setDuration();
-           this.totalPrice = calculateTotalPrice() * field.getPrice();
-           updateTotalPrice(false);
+           //this.totalPrice = Reservation.totalPrice(field,calculateDurationInHours());
+
+            updateTotalPrice(false);
 
            updatePricePerPerson(false);
         });
@@ -229,8 +230,10 @@ public class BookFieldController implements Initializable {
                 price = priceFormat.format(this.totalPrice) + " $ (per hour)";
             }
         }
-        else
+        else {
+            this.totalPrice = Reservation.totalPrice(field,calculateDurationInHours());
             price = priceFormat.format(this.totalPrice) + " $";
+        }
 
         fieldTotalPrice.setText(price);
     }
@@ -239,7 +242,7 @@ public class BookFieldController implements Initializable {
         if (reset)
             pricePerPersonLabel.setText("Guests not selected");
         else
-            pricePerPersonLabel.setText(this.priceFormat.format(totalPrice/(float)totalPeople) + " $");
+            pricePerPersonLabel.setText(this.priceFormat.format(Reservation.pricePerUser(totalPrice,totalPeople)) + " $");
     }
 
     private void resetFields(){
@@ -271,7 +274,7 @@ public class BookFieldController implements Initializable {
             return null;
     }
 
-    public float calculateTotalPrice(){
+    public float calculateDurationInHours(){
         if (startTimeChoice.getValue() != null && endTimeChoice.getValue() != null) {
             long totalMinutes = getDuration().toMinutes();
 

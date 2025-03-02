@@ -103,7 +103,6 @@ public class ReservationDao {
                 boolean isMatched = resultSet.getBoolean("is_matched");
                 boolean isDeleted = resultSet.getBoolean("is_deleted");
 
-                //TODO check correctness
                 UserDAO userDAO = new UserDAO();
                 FieldDao fieldDAO = new FieldDao();
 

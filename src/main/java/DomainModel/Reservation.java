@@ -122,18 +122,13 @@ public class Reservation {
 
     //methods
 
-    public int[] calculateReservationEndTime(float duration){
-        //TODO add implementation and choose method's return type
-        return null;
+
+    public static float pricePerUser(float totalPrice, int nUsers){
+        return totalPrice / nUsers;
     }
 
-    public static float pricePerUser(Field field, int nUsers){
-        //FIXME duration needed?
-        return field.getPrice() / nUsers;
+    public static float totalPrice(Field field, float hours){
+        return field.getPrice() * hours;
     }
 
-    public boolean setIsConfirmed(boolean state){
-        //TODO implement setIsConfirmed (observer), change return type
-        return false;
-    }
 }

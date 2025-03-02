@@ -17,7 +17,6 @@ public class Group extends Subject{
         this.id = id;
         this.groupHead = groupHead;
         this.reservation = reservation;
-        //FIXME is requiredParticipants management correct?
         this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
         this.users = new ArrayList<>();
         this.participants = 0;
@@ -26,11 +25,9 @@ public class Group extends Subject{
     public Group(User groupHead, Reservation reservation, int requiredParticipants) {
         this.groupHead = groupHead;
         this.reservation = reservation;
-        //FIXME is requiredParticipants management correct?
         this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
-        //TODO check correctness
         this.users = new ArrayList<>();
-        this.participants = 0; //TODO check correctness
+        this.participants = 0;
     }
 
 
@@ -144,10 +141,8 @@ public class Group extends Subject{
     }
 
     public boolean removeMember(User user, int guests){
-        //TODO record to manage guests per user is needed?
 
-
-        if (users.contains(user)) {
+        if (user != null && users.contains(user)) {
             this.users.remove(user);
             this.participants -= guests + 1;
 
