@@ -93,4 +93,33 @@ public class InviteDao {
 
         return invites;
     }
+
+    public Boolean  checkInvite(int idUser,int idGroup) throws SQLException, ClassNotFoundException {
+
+        String querySQL = String.format("SELECT count(*) AS results FROM \"Invite\" WHERE id_group = '%d' AND id_user = '%d'", idGroup, idUser);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+
+                int invites = resultSet.getInt("results");
+
+                if (invites > 0)
+                    return true;
+            }else{
+                System.err.println("No invite found ");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return false;
+    }
 }

@@ -49,13 +49,17 @@ public abstract class PersonController {
         InviteDao inviteDao = new InviteDao();
         UserDAO userDAO = new UserDAO();
         User user = userDAO.getUserByID(idUser);
-        Invite invite;
+        if(inviteDao.checkInvite(idUser,group.getId())){
+            System.out.println("Invite already exists");
+        }else{
+            Invite invite;
 
-        invite = inviteSender.factoryMethod();
-        invite.setUser(user);
-        inviteDao.addInvite(invite);
+            invite = inviteSender.factoryMethod();
+            invite.setUser(user);
+            inviteDao.addInvite(invite);
 
-        System.out.println("Invite has been sent");
+            System.out.println("Invite has been sent");
+        }
 
     }
 
