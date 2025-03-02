@@ -159,7 +159,7 @@
                            </VBox.margin></Line>
                         <HBox alignment="CENTER">
                            <children>
-                              <Button fx:id="addGuestsButton" mnemonicParsing="false" onAction="#handleAddGuestsButton" text="Add Guests..." />
+                              <Button fx:id="addGuestsButton" mnemonicParsing="false" onAction="#handleAddGuestsButton" styleClass="add-guests-button, shadow" stylesheets="@css/style.css" text="Add Guests..." />
                            </children>
                         </HBox>
                         <Line endX="550.0" stroke="#8d8d8d" strokeWidth="0.5">
@@ -198,7 +198,7 @@
                            <children>
                               <Label text="Total Price:">
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font size="20.0" />
                                  </font>
                                  <HBox.margin>
                                     <Insets right="10.0" />
@@ -206,7 +206,7 @@
                               </Label>
                               <Label fx:id="fieldTotalPrice" text="100 $">
                                  <font>
-                                    <Font name="System Bold" size="24.0" />
+                                    <Font name="System Bold" size="20.0" />
                                  </font>
                                  <HBox.margin>
                                     <Insets right="5.0" />
@@ -241,6 +241,9 @@
                            <font>
                               <Font name="System Italic" size="18.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
                         </Label>
                         <HBox alignment="BOTTOM_CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
@@ -249,10 +252,10 @@
                                     <Insets />
                                  </HBox.margin>
                                  <padding>
-                                    <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
+                                    <Insets bottom="5.0" left="80.0" right="80.0" top="5.0" />
                                  </padding>
                                  <font>
-                                    <Font name="System Bold" size="24.0" />
+                                    <Font name="System Bold" size="22.0" />
                                  </font>
                                  <styleClass>
                                     <String fx:value="accept-button" />
