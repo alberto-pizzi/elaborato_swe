@@ -71,8 +71,30 @@ public class ProfileMenuOwnerController implements Initializable {
     }
 
     @FXML
-    void handleDeleteProfileButton(ActionEvent event) {
-        //TODO implement (add alert)
+    void handleDeleteProfileButton(ActionEvent event) throws SQLException, IOException {
+        System.out.println("Delete button clicked: ");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete account");
+        //FIXME improve date format
+        alert.setHeaderText("Confirm account deletion");
+        alert.setContentText("Are you sure you want to delete this account?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
+
+            OwnerProfileController ownerProfileController = new OwnerProfileController();
+            ownerProfileController.deleteProfile(ownerProfileController.getUsername());
+            logoutButton.getScene().getWindow().hide();
+            Stage logInUser = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/scene.fxml"));
+            logInUser.setTitle("Sport Plus");
+            logInUser.setScene(new Scene(root, 1280, 720));
+            logInUser.show();
+            logInUser.setResizable(false);
+
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
+        }
     }
 
     @FXML

@@ -36,7 +36,7 @@ public class UpdateEmailOwnerController implements Initializable {
 
     //todo controllo email già usata
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException {
+    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -51,11 +51,11 @@ public class UpdateEmailOwnerController implements Initializable {
             if (emailInput.getText().isEmpty()) {
                 errorLabel.setVisible(true);
                 errorLabel.setText("Please enter a valid email");
-            }
-            else {
+            } else {
                 OwnerProfileController ownerProfileController = new OwnerProfileController();
-                //todo fare in modo che controlli se è gia usata
-                if (ownerProfileController.updateEmail(emailInput.getText())) {
+                boolean emailExistence = ownerProfileController.checkEmail(emailInput.getText());
+                if (!emailExistence) {
+                    ownerProfileController.updateEmail(emailInput.getText());
                     errorLabel.setVisible(false);
                     System.out.println("Email confirmed");
                 } else {
