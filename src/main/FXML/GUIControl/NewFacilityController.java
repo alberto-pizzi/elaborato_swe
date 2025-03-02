@@ -4,9 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -20,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class NewFacilityController {
 
@@ -64,29 +63,43 @@ public class NewFacilityController {
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        System.out.println("Confirm button clicked: ");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm facility");
+        //FIXME improve date format
+        alert.setHeaderText("Confirm facility");
+        alert.setContentText("Are you sure you want to add this facility?");
 
-        if((!nameInput.getText().equals("")) && (!addressInput.getText().equals("")) && (!provinceInput.getText().equals(""))
-                && (!cityInput.getText().equals("")) && (!countryInput.getText().equals(""))) {
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
 
-            facility.setName(nameInput.getText());
-            facility.setAddress(addressInput.getText());
-            facility.setProvince(provinceInput.getText());
-            facility.setCity(cityInput.getText());
-            facility.setCountry(countryInput.getText());
-            facility.setTelephone(phoneInput.getText());
-            facility.setZip(zipInput.getText());
-            ownerManagementController.addFacility(facility);
+            OwnerManagementController ownerManagementController = new OwnerManagementController();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newWorkingHours.fxml"));
-            Parent newWorkHours = loader.load();
+            if((!nameInput.getText().equals("")) && (!addressInput.getText().equals("")) && (!provinceInput.getText().equals(""))
+                    && (!cityInput.getText().equals("")) && (!countryInput.getText().equals(""))) {
 
-            NewWorkingHoursController newWorkingHoursController = loader.getController();
-            newWorkingHoursController.setData(facility,this.menuPane);
+                facility.setName(nameInput.getText());
+                facility.setAddress(addressInput.getText());
+                facility.setProvince(provinceInput.getText());
+                facility.setCity(cityInput.getText());
+                facility.setCountry(countryInput.getText());
+                facility.setTelephone(phoneInput.getText());
+                facility.setZip(zipInput.getText());
+                ownerManagementController.addFacility(facility);
 
-            menuPane.setCenter(newWorkHours);
-        }else {
-            messageLabel.setText("Please enter all the fields");
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newWorkingHours.fxml"));
+                Parent newWorkHours = loader.load();
+
+                NewWorkingHoursController newWorkingHoursController = loader.getController();
+                newWorkingHoursController.setData(facility,this.menuPane);
+
+                menuPane.setCenter(newWorkHours);
+            }else {
+                messageLabel.setText("Please enter all the fields");
+            }
+
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
         }
     }
 

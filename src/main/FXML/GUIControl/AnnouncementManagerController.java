@@ -71,8 +71,6 @@ public class AnnouncementManagerController {
     void handleCancelButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
         //TODO implement
         System.out.println("Cancel button clicked: ");
-
-
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Cancel announcement");
         //FIXME improve date format

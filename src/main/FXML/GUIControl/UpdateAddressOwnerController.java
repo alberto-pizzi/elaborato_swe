@@ -3,14 +3,13 @@ package main.FXML.GUIControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import main.java.BusinessLogic.OwnerProfileController;
 import main.java.BusinessLogic.UserProfileController;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -55,19 +54,34 @@ public class UpdateAddressOwnerController implements Initializable {
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException {
-        if (!provinceInput.getText().isEmpty()){
 
-            ownerProfileController.updateProvince(provinceInput.getText());
-            ownerProfileController.updateCity(cityInput.getText());
-            ownerProfileController.updateZip(zipInput.getText());
-            ownerProfileController.updateCountry(countryInput.getText());
+        System.out.println("Confirm button clicked: ");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm modification");
+        //FIXME improve date format
+        alert.setHeaderText("Confirm modifcation");
+        alert.setContentText("Are you sure you want to modify the address?");
 
-            String message = "Address edited successfully!";
-            messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-        }
-        else {
-            String message = "Province is required. Address not edited.";
-            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
+
+            if (!provinceInput.getText().isEmpty()){
+
+                ownerProfileController.updateProvince(provinceInput.getText());
+                ownerProfileController.updateCity(cityInput.getText());
+                ownerProfileController.updateZip(zipInput.getText());
+                ownerProfileController.updateCountry(countryInput.getText());
+
+                String message = "Address edited successfully!";
+                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+            }
+            else {
+                String message = "Province is required. Address not edited.";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            }
+
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
         }
     }
 }
