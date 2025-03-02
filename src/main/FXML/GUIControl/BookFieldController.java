@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -136,9 +135,11 @@ public class BookFieldController implements Initializable {
             try {
                 endTimeChoice.getItems().clear();
 
-                if (newTime != null) {
-                    //TODO pass correct WH
-                    updateEndTimes(LocalTime.parse(newTime),field.getFacility().getWorkingHours().get(0),15);
+                if (newTime != null && datePicker.getValue() != null) {
+
+                    UserActionsController userActionsController = new UserActionsController();
+
+                    updateEndTimes(LocalTime.parse(newTime),userActionsController.getWHsByFacilityByDay(field.getFacility().getId(), datePicker.getValue().getDayOfWeek()),15);
 
                     updateTotalPrice(true);
                     updatePricePerPerson(true);
@@ -335,7 +336,6 @@ public class BookFieldController implements Initializable {
                 while (current.isBefore(closing)) {
                     boolean isAvailable = true;
 
-                    //FIXME error when reservation is null
                     for (Reservation reservation : reservations) {
                         if (reservation != null) {
                             LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
@@ -385,48 +385,57 @@ public class BookFieldController implements Initializable {
 
 
     //FIXME optimize?
-    private void updateEndTimes(LocalTime selectedTime, WorkingHours wh, int minutesInterval) throws SQLException, ClassNotFoundException {
+    private void updateEndTimes(LocalTime selectedTime, ArrayList<WorkingHours> dailyWHs, int minutesInterval) throws SQLException, ClassNotFoundException {
 
         List<LocalTime> availableTimes = new ArrayList<>();
 
         UserActionsController userActionsController = new UserActionsController();
 
-
         ArrayList<Reservation> reservations = userActionsController.getReservationsByField(field.getId());
         if (selectedTime != null) {
 
-            LocalTime closing = wh.getClosingHours().toLocalTime();
+            LocalTime closing = null;
 
-            LocalTime current = selectedTime;
-
-            while (current.isBefore(closing)) {
-                boolean isAvailable = true;
-
-                for (Reservation reservation : reservations) {
-                    if (reservation != null) {
-                        LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
-                        LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
-
-                        if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
-                            isAvailable = false;
-                            break;
-                        }
-                    }
-                }
-
-                if (!current.equals(selectedTime)) {
-                    endTimeChoice.getItems().add(current.toString());
-                }
-
-                if (isAvailable) {
-                    availableTimes.add(current);
-                }
-                else{
+            //search own WH (on same day)
+            for (WorkingHours wh : dailyWHs) {
+                if (wh.isWithinRange(selectedTime)){
+                    closing = wh.getClosingHours().toLocalTime();
                     break;
                 }
 
-                current = current.plusMinutes(minutesInterval);
+            }
 
+            LocalTime current = selectedTime;
+
+            if (closing != null) {
+                while (current.isBefore(closing)) {
+                    boolean isAvailable = true;
+
+                    for (Reservation reservation : reservations) {
+                        if (reservation != null) {
+                            LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
+                            LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
+
+                            if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
+                                isAvailable = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!current.equals(selectedTime)) {
+                        endTimeChoice.getItems().add(current.toString());
+                    }
+
+                    if (isAvailable) {
+                        availableTimes.add(current);
+                    } else {
+                        break;
+                    }
+
+                    current = current.plusMinutes(minutesInterval);
+
+                }
             }
         }
     }

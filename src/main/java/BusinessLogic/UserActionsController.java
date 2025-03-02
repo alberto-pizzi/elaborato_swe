@@ -210,7 +210,7 @@ public class UserActionsController {
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
 
-        return workingHoursDAO.getWHsByFacility(idFacility);
+        return workingHoursDAO.getWHsByFacilityByDay(idFacility,dayOfWeek);
     }
 
     public void declineInvite(int idInvite) throws SQLException {
