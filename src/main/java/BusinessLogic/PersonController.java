@@ -51,7 +51,7 @@ public abstract class PersonController {
         User user = userDAO.getUserByID(idUser);
         if(inviteDao.checkInvite(idUser,group.getId())){
             System.out.println("Invite already exists");
-        }else{
+        }else if (user != null){
             Invite invite;
 
             invite = inviteSender.factoryMethod();
