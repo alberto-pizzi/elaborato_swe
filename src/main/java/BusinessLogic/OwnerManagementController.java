@@ -143,8 +143,23 @@ public class OwnerManagementController {
         ManagesDAO managesDAO = new ManagesDAO();
 
         users.addAll(searchUsersByProvince(provinceUser));
-        users.remove(managesDAO.getAllManagersByFacility(facilityId));
-        return users;
+        //todo controllare con albe
+        ArrayList<User> managingAlready= managesDAO.getAllManagersByFacility(facilityId);
+        ArrayList<User> notManagers = new ArrayList<>();
+        Boolean found = false;
+        for (User user : users) {
+            for (User alreadyIn : managingAlready){
+                if (user.getId() == alreadyIn.getId()){
+                    found = true;
+                    break;
+                }
+            }
+            if (!found){
+                notManagers.add(user);
+            }
+            found = false;
+        }
+        return notManagers;
     }
 
     public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
@@ -162,8 +177,23 @@ public class OwnerManagementController {
         ManagesDAO managesDAO = new ManagesDAO();
 
         users.addAll(searchUsersByUsername(searchUsername));
-        users.remove(managesDAO.getAllManagersByFacility(facilityId));
-        return users;
+        //todo controllare con albe
+        ArrayList<User> managingAlready= managesDAO.getAllManagersByFacility(facilityId);
+        ArrayList<User> notManagers = new ArrayList<>();
+        Boolean found = false;
+        for (User user : users) {
+            for (User alreadyIn : managingAlready){
+                if (user.getId() == alreadyIn.getId()){
+                    found = true;
+                    break;
+                }
+            }
+            if (!found){
+                notManagers.add(user);
+            }
+            found = false;
+        }
+        return notManagers;
     }
 
     public void attachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {

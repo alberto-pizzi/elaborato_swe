@@ -88,7 +88,7 @@ public class AddManagersController implements Initializable {
 
     private List<User> getData() throws SQLException, ClassNotFoundException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
-        return ownerManagementController.getUsersByProvince(facility.getId());
+        return ownerManagementController.searchManagersByProvince(facility.getProvince(), facility.getId());
     }
 
     EventHandler<KeyEvent> handler = new EventHandler<>() {

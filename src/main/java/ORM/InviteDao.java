@@ -96,7 +96,7 @@ public class InviteDao {
 
     public Boolean  checkInvite(int idUser,int idGroup) throws SQLException, ClassNotFoundException {
 
-        String querySQL = String.format("SELECT count(*) AS results FROM \"Invite\" WHERE id_group = '%d' AND id_user = '%d'", idGroup, idUser);
+        String querySQL = String.format("SELECT count(*) AS results FROM \"Invite\" WHERE id_user = '%d' AND id_group = '%d'",idUser, idGroup);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

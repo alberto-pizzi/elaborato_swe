@@ -82,15 +82,30 @@ public class UserActionsController extends PersonController{
     public ArrayList<User> searchInvitablePlayers(Reservation reservation, Boolean searched, String searchText) throws SQLException, ClassNotFoundException {
 
         GroupDao groupDao = new GroupDao();
-        ArrayList<User> invitablePlayers = new ArrayList<>();
+        ArrayList<User> players = new ArrayList<>();
 
         if(searched) {
-            invitablePlayers.addAll(searchUsersByProvince(searchText));
-            invitablePlayers.addAll(searchUsersByUsername(searchText));
+            players.addAll(searchUsersByProvince(searchText));
+            players.addAll(searchUsersByUsername(searchText));
         }else{
-            invitablePlayers.addAll(searchUsersByProvince(this.user.getProvince()));
+            players.addAll(searchUsersByProvince(this.user.getProvince()));
         }
-        invitablePlayers.removeAll(groupDao.getGroupByReservation(reservation.getId()).getUsers());
+        //todo controllare con albe
+        ArrayList<User> playingAlready= groupDao.getGroupByReservation(reservation.getId()).getUsers();
+        ArrayList<User> invitablePlayers = new ArrayList<>();
+        Boolean found = false;
+        for (User user : players) {
+            for (User alreadyIn : playingAlready){
+                if (user.getId() == alreadyIn.getId()){
+                    found = true;
+                    break;
+                }
+            }
+            if (!found){
+                invitablePlayers.add(user);
+            }
+            found = false;
+        }
         return invitablePlayers;
     }
 
