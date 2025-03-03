@@ -221,11 +221,6 @@ public class ModifyReservationOwnerController implements Initializable {
                 nGuestsChoice.getItems().add(0);
             }
 
-            if(managerOwnerManagementController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
-                addClient.setVisible(false);
-                addClient.setDisable(true);
-            }
-
         }else{
 
             isMatched.setText("The reservation is not matched");
@@ -234,6 +229,10 @@ public class ModifyReservationOwnerController implements Initializable {
             nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
         }
         nGuestsChoice.setValue(previousGuests);
+        if(reservation.isMatched() && managerOwnerManagementController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
+            addClient.setVisible(false);
+            addClient.setDisable(true);
+        }
         startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart().toLocalTime()));
         endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd().toLocalTime()));
         updateTotalPrice();
