@@ -379,7 +379,6 @@ public abstract class PersonDAO {
         return user;
     }
 
-    //todo aggiungere a uml
     public ArrayList<User> getUsersByProvince(String provinceUser ) throws SQLException, ClassNotFoundException {
         //default id (id not found)
         ArrayList<User> users = new ArrayList<>();

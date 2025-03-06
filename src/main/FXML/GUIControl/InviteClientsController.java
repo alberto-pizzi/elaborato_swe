@@ -198,7 +198,7 @@ public class InviteClientsController implements Initializable {
         System.out.println("search.getText()");
     }
 
-    public void handleConfirmButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    public void handleDoneButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
         Parent reservationModifyPane = loader.load();
 

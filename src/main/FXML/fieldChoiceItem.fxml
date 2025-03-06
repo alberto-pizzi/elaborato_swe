@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="facilityItemPane" maxHeight="151.0" prefHeight="151.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldChoiceItemController">
+<AnchorPane fx:id="facilityItemPane" maxHeight="151.0" prefHeight="151.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldChoiceItemController">
    <children>
       <HBox prefHeight="151.0" prefWidth="1000.0" style="-fx-background-color: white; -fx-border-color: black;">
          <children>
@@ -99,7 +99,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="93.0" prefWidth="209.0" spacing="10.0">
                      <children>
-                        <Button minHeight="30.0" mnemonicParsing="false" onAction="#handleDetailsFieldButton" prefHeight="35.0" prefWidth="224.0" stylesheets="@css/style.css" text="Details" textFill="WHITE">
+                        <Button minHeight="30.0" mnemonicParsing="false" onAction="#handleDetailsFieldButton" prefHeight="35.0" prefWidth="224.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Details" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -114,7 +114,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Button>
-                        <Button layoutX="10.0" layoutY="10.0" minHeight="30.0" mnemonicParsing="false" onAction="#handleSeeReservationsButton" prefHeight="35.0" prefWidth="224.0" stylesheets="@css/style.css" text="See reservations" textFill="WHITE">
+                        <Button layoutX="10.0" layoutY="10.0" minHeight="30.0" mnemonicParsing="false" onAction="#handleSeeReservationsButton" prefHeight="35.0" prefWidth="224.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="See reservations" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -126,7 +126,7 @@
                               <String fx:value="shadow" />
                            </styleClass>
                         </Button>
-                        <Button minHeight="30.0" mnemonicParsing="false" onAction="#handleReservationFieldButton" prefHeight="35.0" prefWidth="235.0" stylesheets="@css/style.css" text="Make a reservation" textFill="WHITE">
+                        <Button minHeight="30.0" mnemonicParsing="false" onAction="#handleReservationFieldButton" prefHeight="35.0" prefWidth="235.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Make a reservation" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>

@@ -4,9 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
@@ -15,6 +13,7 @@ import main.java.DomainModel.Sport;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class NewSportController {
 
@@ -44,34 +43,46 @@ public class NewSportController {
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+        System.out.println("Confirm button clicked: ");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm sport");
+        //FIXME improve date format
+        alert.setHeaderText("Confirm Sport");
+        alert.setContentText("Are you sure you want to add this sport?");
 
-        if (!nameInput.getText().equals("") && !playersInput.getText().equals("")) {
-            OwnerManagementController ownerManagementController = new OwnerManagementController();
-            sport.setName(String.valueOf(nameInput.getText()));
-            sport.setPlayersRequired(Integer.parseInt(playersInput.getText()));
-            ownerManagementController.addSport(sport);
-            FXMLLoader loader;
-            Parent fieldPane;
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
 
-            if(newField) {
-                loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
-                fieldPane = loader.load();
-                NewFieldController newFieldController = loader.getController();
-                newFieldController.setData(facility, menuPane);
-                newFieldController.continueForm(field);
-                newFieldController.setNewFacility(newFacility);
-            }else {
-                loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
-                fieldPane = loader.load();
-                ModifyFieldController modifyFieldController = loader.getController();
-                modifyFieldController.setData(facility, field, menuPane);
+            if (!nameInput.getText().equals("") && !playersInput.getText().equals("")) {
+                OwnerManagementController ownerManagementController = new OwnerManagementController();
+                sport.setName(String.valueOf(nameInput.getText()));
+                sport.setPlayersRequired(Integer.parseInt(playersInput.getText()));
+                ownerManagementController.addSport(sport);
+                FXMLLoader loader;
+                Parent fieldPane;
+
+                if(newField) {
+                    loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
+                    fieldPane = loader.load();
+                    NewFieldController newFieldController = loader.getController();
+                    newFieldController.setData(facility, menuPane);
+                    newFieldController.continueForm(field);
+                    newFieldController.setNewFacility(newFacility);
+                }else {
+                    loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
+                    fieldPane = loader.load();
+                    ModifyFieldController modifyFieldController = loader.getController();
+                    modifyFieldController.setData(facility, field, menuPane);
+                }
+
+                menuPane.setCenter(fieldPane);
+            } else {
+                messageLabel.setText("Please enter all the fields");
             }
 
-            menuPane.setCenter(fieldPane);
-        } else {
-            messageLabel.setText("Please enter all the fields");
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
         }
-
     }
 
     public void setData(Field field, Facility facility, BorderPane menuPane) throws IOException, SQLException {

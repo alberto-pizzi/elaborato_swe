@@ -106,8 +106,6 @@ public class InviteItemController {
         userActionsController.declineInvite(invite.getId());
         System.out.println("Decline button clicked: " + invite.getId());
         yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
-
-
     }
 
 }

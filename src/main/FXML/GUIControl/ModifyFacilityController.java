@@ -4,9 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -27,6 +25,7 @@ import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ModifyFacilityController {
 
@@ -115,27 +114,42 @@ public class ModifyFacilityController {
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws IOException, SQLException {
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
 
-        if((!nameInput.getText().isEmpty()) && (!addressInput.getText().isEmpty()) && (!provinceInput.getText().isEmpty())
-                && (!cityInput.getText().isEmpty()) && (!countryInput.getText().isEmpty())) {
-            facility.setName(nameInput.getText());
-            facility.setAddress(addressInput.getText());
-            facility.setProvince(provinceInput.getText());
-            facility.setCity(cityInput.getText());
-            facility.setCountry(countryInput.getText());
-            facility.setTelephone(phoneInput.getText());
-            facility.setZip(zipInput.getText());
-            ownerManagementController.updateFacility(facility);
+        System.out.println("Confirm button clicked: ");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm modifications");
+        //FIXME improve date format
+        alert.setHeaderText("Confirm modifications");
+        alert.setContentText("Are you sure you want to modify this facility?");
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
-            Parent facilitiesList = loader.load();
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
 
-            FacilitiesListController facilitiesListController = loader.getController();
+            OwnerManagementController ownerManagementController = new OwnerManagementController();
 
-            menuPane.setCenter(facilitiesList);
-        }else {
-            messageLabel.setText("Please check the fields");
+            if((!nameInput.getText().isEmpty()) && (!addressInput.getText().isEmpty()) && (!provinceInput.getText().isEmpty())
+                    && (!cityInput.getText().isEmpty()) && (!countryInput.getText().isEmpty())) {
+                facility.setName(nameInput.getText());
+                facility.setAddress(addressInput.getText());
+                facility.setProvince(provinceInput.getText());
+                facility.setCity(cityInput.getText());
+                facility.setCountry(countryInput.getText());
+                facility.setTelephone(phoneInput.getText());
+                facility.setZip(zipInput.getText());
+                ownerManagementController.updateFacility(facility);
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
+                Parent facilitiesList = loader.load();
+
+                FacilitiesListController facilitiesListController = loader.getController();
+
+                menuPane.setCenter(facilitiesList);
+            }else {
+                messageLabel.setText("Please check the fields");
+            }
+
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
         }
     }
 
@@ -235,12 +249,26 @@ public class ModifyFacilityController {
     @FXML
     void handleDeleteFieldsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        fields.getChildren().removeAll(clickedFieldLabels);
-        for (Field field : clickedFields) {
-            ownerManagementController.deleteField(field.getId());
-            fieldsList.remove(field);
-            facility.getFields().remove(field);
+        System.out.println("Delete button clicked: ");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete fields");
+        //FIXME improve date format
+        alert.setHeaderText("Confirm deletion");
+        alert.setContentText("Are you sure you want to delete these fields?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
+
+            OwnerManagementController ownerManagementController = new OwnerManagementController();
+            fields.getChildren().removeAll(clickedFieldLabels);
+            for (Field field : clickedFields) {
+                ownerManagementController.deleteField(field.getId());
+                fieldsList.remove(field);
+                facility.getFields().remove(field);
+            }
+
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
         }
 
     }
@@ -248,13 +276,28 @@ public class ModifyFacilityController {
     @FXML
     void handleDeleteManagersButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        managers.getChildren().removeAll(clickedManagerLabels);
-        for (User user : clickedManagers) {
-            ownerManagementController.detachManager(user.getId(), facility.getId());
-            managersList.remove(user);
-            facility.setNManager(facility.getNManager()-1);
+        System.out.println("Delete button clicked: ");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete managers");
+        //FIXME improve date format
+        alert.setHeaderText("Confirm deletion");
+        alert.setContentText("Are you sure you want to delete these managers?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
+
+            OwnerManagementController ownerManagementController = new OwnerManagementController();
+            managers.getChildren().removeAll(clickedManagerLabels);
+            for (User user : clickedManagers) {
+                ownerManagementController.detachManager(user.getId(), facility.getId());
+                managersList.remove(user);
+                facility.setNManager(facility.getNManager()-1);
+            }
+
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
         }
+
     }
 
     @FXML

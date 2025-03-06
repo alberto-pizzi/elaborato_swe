@@ -86,7 +86,6 @@ public class InviteClientsOwnerController implements Initializable {
     }
 
     private List<User> getData() throws SQLException, ClassNotFoundException {
-        //todo cambiare per owner
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         return managerOwnerManagementController.searchInvitablePlayers(reservation, false, "");
     }
@@ -199,7 +198,7 @@ public class InviteClientsOwnerController implements Initializable {
         System.out.println("search.getText()");
     }
 
-    public void handleConfirmButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    public void handleDoneButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservationOwner.fxml"));
         Parent reservationModifyPane = loader.load();
 

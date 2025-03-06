@@ -134,7 +134,6 @@ public class GroupDao {
         return group;
     }
 
-    //todo aggiungere uml
     public Group getGroupByReservation(int idReservation) throws SQLException, ClassNotFoundException {
 
         Group group = null;

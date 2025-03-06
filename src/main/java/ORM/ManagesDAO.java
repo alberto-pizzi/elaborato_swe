@@ -3,10 +3,7 @@ package main.java.ORM;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.User;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ManagesDAO {
@@ -24,7 +21,7 @@ public class ManagesDAO {
 
     //methods
 
-    public void attachManager(int idManager, int idFacility) throws SQLException {
+    public int attachManager(int idManager, int idFacility) throws SQLException {
 
 
         String insertQuerySQL = String.format("INSERT INTO \"Manages\" (id_facility, id_user) " +
@@ -32,13 +29,14 @@ public class ManagesDAO {
 
         String updateSQL = String.format("UPDATE \"Facility\" SET n_managers = n_managers + 1 WHERE id = '%d'", idFacility);
 
+        int idAdded = 0;
 
         PreparedStatement preparedStatementForInsert = null;
         PreparedStatement preparedStatementForUpdate = null;
 
         try {
             //first query
-            preparedStatementForInsert = connection.prepareStatement(insertQuerySQL);
+            preparedStatementForInsert = connection.prepareStatement(insertQuerySQL, Statement.RETURN_GENERATED_KEYS);
             int facilityRowsAffectedForInsert = preparedStatementForInsert.executeUpdate();
 
             if (facilityRowsAffectedForInsert == 0){
@@ -54,6 +52,12 @@ public class ManagesDAO {
             }
 
             connection.commit();
+
+            ResultSet resultSet = preparedStatementForInsert.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
             System.out.println("New manager attached successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -79,7 +83,7 @@ public class ManagesDAO {
                 e.printStackTrace();
             }
         }
-
+        return idAdded;
     }
 
     public void detachManager(int idManager, int idFacility) throws SQLException {

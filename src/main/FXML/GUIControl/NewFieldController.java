@@ -4,10 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -23,6 +20,7 @@ import java.io.*;
 import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class NewFieldController {
 
@@ -151,43 +149,56 @@ public class NewFieldController {
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+        System.out.println("Confirm button clicked: ");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Field");
+        //FIXME improve date format
+        alert.setHeaderText("Confirm field");
+        alert.setContentText("Are you sure you want to add this field?");
 
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
 
-        if(!nameInput.getText().equals("") && !priceInput.getText().equals("") && clickedSportLabels.size() != 0) {
-            field.setName(nameInput.getText());
-            Float price = Float.parseFloat(priceInput.getText().replace("$",""));
-            field.setPrice(price);
-            field.setSport(clickedSports.get(0));
-            field.setDescription(descriptionInput.getText());
-            ownerManagementController.addField(field);
-            FXMLLoader loader;
-            Parent pane;
+            OwnerManagementController ownerManagementController = new OwnerManagementController();
 
-            if(newFacility){
-                loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
-                pane = loader.load();
+            if(!nameInput.getText().equals("") && !priceInput.getText().equals("") && clickedSportLabels.size() != 0) {
+                field.setName(nameInput.getText());
+                Float price = Float.parseFloat(priceInput.getText().replace("$",""));
+                field.setPrice(price);
+                field.setSport(clickedSports.get(0));
+                field.setDescription(descriptionInput.getText());
+                ownerManagementController.addField(field);
+                FXMLLoader loader;
+                Parent pane;
 
-                AddManagersController addManagersController = loader.getController();
-                addManagersController.setData(facility, menuPane);
-            }else{
-                loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-                pane = loader.load();
+                if(newFacility){
+                    loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
+                    pane = loader.load();
 
-                ModifyFacilityController modifyFacilityController = loader.getController();
-                modifyFacilityController.setData(facility, menuPane);
+                    AddManagersController addManagersController = loader.getController();
+                    addManagersController.setData(facility, menuPane);
+                }else{
+                    loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+                    pane = loader.load();
+
+                    ModifyFacilityController modifyFacilityController = loader.getController();
+                    modifyFacilityController.setData(facility, menuPane);
+                }
+
+                menuPane.setCenter(pane);
+            }else {
+                messageLabel.setText("Please enter all the fields");
             }
 
-            menuPane.setCenter(pane);
-        }else {
-            messageLabel.setText("Please enter all the fields");
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
         }
 
     }
 
     @FXML
     void handleAnotherFieldButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
-
+//todo controllare
         OwnerManagementController ownerManagementController = new OwnerManagementController();
 
         if(!nameInput.getText().equals("") && !priceInput.getText().equals("") && clickedSportLabels.size() != 0) {

@@ -32,7 +32,6 @@ public class OwnerProfileController extends ProfileController {
         this.owner = null;
     }
 
-    //todo aggiungere a uml
     public String  getEmail() {
         return owner.getEmail();
     }
@@ -123,6 +122,12 @@ public class OwnerProfileController extends ProfileController {
         Owner owner1 = ownerDAO.getOwner(username);
 
         return (owner1 != null);
+    }
+
+    @Override
+    public boolean checkEmail(String emailEntered) throws SQLException, ClassNotFoundException {
+        OwnerDAO ownerDAO = new OwnerDAO();
+        return ownerDAO.checkEmailExistence(emailEntered);
     }
 
     @Override

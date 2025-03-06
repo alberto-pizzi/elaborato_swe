@@ -46,7 +46,7 @@ public class FieldChoiceItemController {
 
         fieldNameLabel.setText(field.getName());
         fieldAddressLabel.setText(managerOwnerManagementController.getFieldAddress(field.getId()));
-        fieldPriceLabel.setText(String.format("%.2f",field.getPrice()/field.getSport().getPlayersRequired()) + "$");
+        fieldPriceLabel.setText(String.format("%.2f",field.getPrice()) + "$");
 
         String pathFromRoot = "/main/FXML/img/fields/";
 
@@ -85,7 +85,6 @@ public class FieldChoiceItemController {
 
     }
 
-    //todo da fare
     @FXML
     void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 

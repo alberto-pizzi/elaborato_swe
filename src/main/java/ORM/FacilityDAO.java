@@ -3,10 +3,7 @@ package main.java.ORM;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 
 
@@ -27,23 +24,32 @@ public class FacilityDAO {
 
     //methods
 
-    public void addFacility(String name, String address, String city, String province, String zip, String country, String telephone, String image, int idOwner) throws SQLException {
+    public int addFacility(String name, String address, String city, String province, String zip, String country, String telephone, String image, int idOwner) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"Facility\" (name, address, city, province, zip, country, n_managers, n_fields, telephone, image, WH_Mon, WH_Tue, WH_Wed, WH_Thu, WH_Fri, WH_Sat, WH_Sun, id_owner) " +
                 "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%d')", name, address, city, province, zip, country, 0,0,telephone,image,idOwner);
 
+
+        int idAdded = 0;
+
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement = connection.prepareStatement(querySQL, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
             System.out.println("Facility added successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
             if (preparedStatement != null) { preparedStatement.close(); }
         }
-
+        return idAdded;
     }
 
     //TODO cascade delete?
@@ -398,7 +404,6 @@ public class FacilityDAO {
         return nFields;
     }
 
-    //todo aggiungere uml
     public void updateNManagers(int idFacility, int nManagers) throws SQLException {
         String querySQL = String.format("UPDATE \"Facility\" SET n_managers = '%d' WHERE id = '%d'", nManagers,idFacility);
 
@@ -415,7 +420,6 @@ public class FacilityDAO {
         }
     }
 
-    //todo aggiungere uml
     public void updateNFields(int idFacility, int nfields) throws SQLException {
         String querySQL = String.format("UPDATE \"Facility\" SET n_fields = '%d' WHERE id = '%d'", nfields,idFacility);
 

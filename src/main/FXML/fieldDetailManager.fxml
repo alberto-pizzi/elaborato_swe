@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldDetailManagerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldDetailManagerController">
    <children>
       <VBox maxWidth="1180.0" prefHeight="570.0" prefWidth="1180.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
@@ -147,7 +147,7 @@
                         </HBox>
                         <VBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="See reservations" textFill="WHITE">
+                              <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" stylesheets="@css/style.css" text="See reservations" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
                                  </padding>
@@ -155,11 +155,11 @@
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                                  <styleClass>
-                                    <String fx:value="leave-button" />
+                                    <String fx:value="login-button" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToBookButton" prefHeight="55.0" prefWidth="448.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Go to book -&gt;" textFill="WHITE">
+                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToBookButton" prefHeight="55.0" prefWidth="448.0" stylesheets="@css/style.css" text="Go to book -&gt;" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
                                  </padding>
@@ -167,7 +167,7 @@
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                                  <styleClass>
-                                    <String fx:value="leave-button" />
+                                    <String fx:value="login-button" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>

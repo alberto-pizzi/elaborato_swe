@@ -98,12 +98,10 @@ public class ReservationItemController {
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + reservation.getField().getImage()));
         fieldImageView.setImage(image);
 
-        //TODO già fatto cambiato così funziona in tutti i casi
-
         String buttonFXMLsrc = "";
         //Both have same GUI controller
-        //FIXME check logic of if clause
-        if (!userActionsController.editRights(reservation)) {
+        //todo controllare  funzione
+        if (userActionsController.editRights(reservation)) {
             buttonFXMLsrc = "/main/FXML/managementButtons.fxml";
         } else {
             buttonFXMLsrc = "/main/FXML/goToGroupButton.fxml";
@@ -113,11 +111,11 @@ public class ReservationItemController {
             //TODO optimize?
             FXMLLoader loader = new FXMLLoader(getClass().getResource(buttonFXMLsrc));
             if (userActionsController.editRights(reservation)) {
-                Button button = loader.load();
-                actionsVBox.getChildren().add(button);
-            } else {
                 HBox buttonsBox = loader.load();
                 actionsVBox.getChildren().add(buttonsBox);
+            } else {
+                Button button = loader.load();
+                actionsVBox.getChildren().add(button);
             }
 
             ManagementButtonsController managementButtonsController = loader.getController();

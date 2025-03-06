@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -13,6 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
+import main.java.BusinessLogic.OwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
@@ -210,6 +212,7 @@ public class ModifyReservationOwnerController implements Initializable {
         if(reservation.isMatched()){
 
             isMatched.setText("The reservation is matched");
+            isMatched.setAlignment(Pos.CENTER);
 
             for(int i = 0 ; i <= managerOwnerManagementController.getMaxGroupMembers(reservation.getId()) - totalPeople; i++) {
                 nGuestsChoice.getItems().add(i);
@@ -218,20 +221,20 @@ public class ModifyReservationOwnerController implements Initializable {
                 nGuestsChoice.getItems().add(0);
             }
 
-            if(managerOwnerManagementController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
-                addClient.setVisible(false);
-                addClient.setDisable(true);
-            }
-
         }else{
 
             isMatched.setText("The reservation is not matched");
+            isMatched.setAlignment(Pos.CENTER);
 
             nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
         }
         nGuestsChoice.setValue(previousGuests);
-        startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart()));
-        endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd()));
+        if(reservation.isMatched() && managerOwnerManagementController.isFull(reservation, nGuestsChoice.getValue() - previousGuests)) {
+            addClient.setVisible(false);
+            addClient.setDisable(true);
+        }
+        startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart().toLocalTime()));
+        endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd().toLocalTime()));
         updateTotalPrice();
         updatePricePerPerson(false);
 
@@ -255,15 +258,14 @@ public class ModifyReservationOwnerController implements Initializable {
             reservation.setEventDate(Date.valueOf(datePicker.getValue()));
         }
 
-        if(startTimeChoice.getValue() != null) {
+        if((startTimeChoice.getValue() != null) && (!startTimeChoice.getValue().equals(String.valueOf(reservation.getEventTimeStart().toLocalTime())))) {
             reservation.setEventTimeStart(Time.valueOf(startTimeChoice.getValue()));
         }
 
-        if (endTimeChoice.getValue() != null) {
+        if((endTimeChoice.getValue() != null)  && (!endTimeChoice.getValue().equals(String.valueOf(reservation.getEventTimeEnd().toLocalTime())))) {
             reservation.setEventTimeEnd(Time.valueOf(endTimeChoice.getValue()));
         }
 
-        //todo aggiuimgere guests
         if(nGuestsChoice.getValue() != null) {
             managerOwnerManagementController.changeHeadGuests(reservation.getId(),nGuestsChoice.getValue());
         }
@@ -422,7 +424,7 @@ public class ModifyReservationOwnerController implements Initializable {
 
         ArrayList<WorkingHours> WHs = managerOwnerManagementController.getWHsByFacilityByDay(field.getFacility().getId(), dayOfWeek);
 
-        ArrayList<Reservation> reservations = managerOwnerManagementController.getReservationsByField(field);
+        ArrayList<Reservation> reservations = managerOwnerManagementController.getReservationsByField(field.getId());
 
         for (WorkingHours wh : WHs) {
             //FIXME remove if and add specific DAO query with correct DayOfWeek
@@ -489,7 +491,7 @@ public class ModifyReservationOwnerController implements Initializable {
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
 
-        ArrayList<Reservation> reservations = managerOwnerManagementController.getReservationsByField(field);
+        ArrayList<Reservation> reservations = managerOwnerManagementController.getReservationsByField(field.getId());
         if (selectedTime != null) {
 
             LocalTime closing = wh.getClosingHours().toLocalTime();
@@ -580,15 +582,14 @@ public class ModifyReservationOwnerController implements Initializable {
             reservationChecker();
 
             ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-
+            Field reservationField = managerOwnerManagementController.getReservationField(reservation);
             managerOwnerManagementController.editReservation(reservation);
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceOwner.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));
             Parent view = loader.load();
-            FacilityChoiceController controller = loader.getController();
-            controller.setData(menuPane);
+            ReservationsOwnerController controller = loader.getController();
+            controller.setData(reservationField, menuPane);
             menuPane.setCenter(view);
-
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
@@ -597,7 +598,8 @@ public class ModifyReservationOwnerController implements Initializable {
     }
 
     @FXML
-    void handleDeleteButton() throws IOException, SQLException, ClassNotFoundException {
+    public void handleDeleteButton() throws SQLException, ClassNotFoundException, IOException {
+        //TODO implement
         System.out.println("Delete button clicked: " + reservation.getId());
 
 
@@ -610,20 +612,20 @@ public class ModifyReservationOwnerController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            //fixme da implementare
+            ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+            Field reservationField = managerOwnerManagementController.getReservationField(reservation);
+            managerOwnerManagementController.deleteReservation(reservation.getId());
+            System.out.println("Deleted!");
 
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));
+            Parent view = loader.load();
+            ReservationsOwnerController controller = loader.getController();
+            controller.setData(reservationField, menuPane);
+            menuPane.setCenter(view);
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
         }
-
-       /* FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
-        Parent view = loader.load();
-
-        ModifyReservationController modifyReservationController = loader.getController();
-        modifyReservationController.setData(this.reservation, reservationsController.getMenuPane());
-
-        reservationsController.getMenuPane().setCenter(view);*/
 
     }
 

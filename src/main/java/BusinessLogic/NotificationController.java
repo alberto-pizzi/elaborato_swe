@@ -26,7 +26,6 @@ public class NotificationController {
         Owner owner;
         Facility facility;
 
-        //TODO implement announcement form
         if(notificationType != NotificationType.ANNOUNCEMENT){
             notificationMessage = null;
         }
@@ -42,13 +41,18 @@ public class NotificationController {
         tmpNotification.setRecipient(owner);
         notificationDAO.addNotification(tmpNotification);
 
-        for(User user : managesDAO.getAllManagersByFacility(facility.getId())){
+        ArrayList<User> managers = managesDAO.getAllManagersByFacility(facility.getId());
+        ArrayList<User> invitableUsers = new ArrayList<>();
+        invitableUsers.addAll(isPartDao.getGroupMembers(groupDAO.getGroupByReservation(reservation.getId()).getId()));
+        invitableUsers.removeAll(managers);
+
+        for(User user : managers){
           tmpNotification = notificationSender.factoryMethod();
           tmpNotification.setRecipient(user);
           notificationDAO.addNotification(tmpNotification);
         }
 
-        for (User user: isPartDao.getGroupMembers(groupDAO.getGroupByReservation(reservation.getId()).getId())){
+        for (User user:invitableUsers){
             tmpNotification = notificationSender.factoryMethod();
             tmpNotification.setRecipient(user);
             notificationDAO.addNotification(tmpNotification);

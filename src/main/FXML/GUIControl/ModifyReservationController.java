@@ -193,8 +193,8 @@ public class ModifyReservationController implements Initializable {
         nGuestsChoice.getItems().clear();
         nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
         nGuestsChoice.setValue(previousGuests);
-        startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart()));
-        endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd()));
+        startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart().toLocalTime()));
+        endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd().toLocalTime()));
         updateTotalPrice();
         updatePricePerPerson(false);
 
@@ -218,15 +218,14 @@ public class ModifyReservationController implements Initializable {
             reservation.setEventDate(Date.valueOf(datePicker.getValue()));
         }
 
-        if(startTimeChoice.getValue() != null) {
+        if((startTimeChoice.getValue() != null) && (!startTimeChoice.getValue().equals(String.valueOf(reservation.getEventTimeStart().toLocalTime())))) {
             reservation.setEventTimeStart(Time.valueOf(startTimeChoice.getValue()));
         }
 
-        if (endTimeChoice.getValue() != null) {
+        if((endTimeChoice.getValue() != null)  && (!endTimeChoice.getValue().equals(String.valueOf(reservation.getEventTimeEnd().toLocalTime())))) {
             reservation.setEventTimeEnd(Time.valueOf(endTimeChoice.getValue()));
         }
 
-        //todo aggiuimgere guests
         if(nGuestsChoice.getValue() != null) {
             userActionsController.changeOwnGuests(reservation.getId(),nGuestsChoice.getValue());
         }
@@ -547,7 +546,7 @@ public class ModifyReservationController implements Initializable {
 
             UserActionsController userActionsController = new UserActionsController();
 
-            userActionsController.updateReservation(reservation);
+            userActionsController.editReservation(reservation);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
             Parent view = loader.load();
@@ -562,8 +561,8 @@ public class ModifyReservationController implements Initializable {
     }
 
     @FXML
-    void handleDeleteButton() throws IOException, SQLException, ClassNotFoundException {
-
+    public void handleDeleteButton() throws SQLException, ClassNotFoundException, IOException {
+        //TODO implement
         System.out.println("Delete button clicked: " + reservation.getId());
 
 
@@ -576,20 +575,21 @@ public class ModifyReservationController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            //fixme da implementare
+            UserActionsController userActionsController = new UserActionsController();
+
+            userActionsController.deleteReservation(reservation.getId());
+            System.out.println("Deleted!");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
+            Parent view = loader.load();
+            ReservationsController controller = loader.getController();
+            controller.setPane(menuPane);
+            menuPane.setCenter(view);
+            System.out.println("Reservations menu button clicked");
 
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
         }
-/*
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
-        Parent view = loader.load();
-
-        ModifyReservationController modifyReservationController = loader.getController();
-        modifyReservationController.setData(this.reservation, reservationsController.getMenuPane());
-
-        reservationsController.getMenuPane().setCenter(view);*/
 
     }
 

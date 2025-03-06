@@ -64,7 +64,6 @@ public class FacilityDetailManagerController {
 
     }
 
-    //todo da fare
     @FXML
     void handleGoToFieldsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 

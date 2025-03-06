@@ -4,6 +4,36 @@
     -fx-cursor: hand;
 }
 
+.loginChange-button{
+    -fx-background-color: #ff9900;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.loginChange-button:hover{
+    -fx-background-color: #ffc400;
+}
+
+.login-button{
+    -fx-background-color:  #4169e1#4682b4f620f9;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.login-button:hover{
+    -fx-background-color:  #6782da #4682b4f620f9;
+}
+
+.singUp-button{
+    -fx-background-color: #757575;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.singUp-button:hover{
+    -fx-background-color: #b5b5b5;
+}
+
 .menu-button:pressed{
     -fx-background-color: #BFBFBF;
 }

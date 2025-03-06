@@ -29,8 +29,6 @@ public class ReservationsController implements Initializable {
 
     private ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 
-    //fixme menupane fix
-
     BorderPane menuPane;
 
     void setPane(BorderPane pane) {

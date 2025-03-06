@@ -4,10 +4,7 @@ import main.java.DomainModel.Group;
 import main.java.DomainModel.Invite;
 import main.java.DomainModel.User;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class IsPartDao {
@@ -24,23 +21,31 @@ public class IsPartDao {
     }
 
     //methods
-    public void addMembership(int idGroup, int idUser, int guestUsers) throws SQLException {
+    public int addMembership(int idGroup, int idUser, int guestUsers) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"IsPart\" (id_group, id_user,guest_users) " +
                 "VALUES ('%d', '%d', '%d')", idGroup, idUser, guestUsers);
 
+        int idAdded = 0;
+
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement = connection.prepareStatement(querySQL, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
             System.out.println("Membership added successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
             if (preparedStatement != null) { preparedStatement.close(); }
         }
-
+        return idAdded;
     }
 
     public void removeMembership(int idGroup, int idUser) throws SQLException {

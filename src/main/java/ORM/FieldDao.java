@@ -23,24 +23,32 @@ public class FieldDao {
     }
 
     //methods
-    public void addField(Field field) throws SQLException {
+    public int addField(Field field) throws SQLException {
 
         String querySQL = String.format(Locale.ENGLISH,"INSERT INTO \"Field\" (name, id_sport, description, price, image, id_facility) " +
                 "VALUES ('%s', '%d', '%s', '%.3f', '%s', '%d')", field.getName(), field.getSport().getId(), field.getDescription(),
                 field.getPrice(), field.getImage(), field.getFacility().getId());
 
+        int idAdded = 0;
+
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement = connection.prepareStatement(querySQL, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
             System.out.println("Field added successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
             if (preparedStatement != null) { preparedStatement.close(); }
         }
-
+        return idAdded;
     }
 
     public Field getField(int idField) throws SQLException, ClassNotFoundException {
@@ -232,7 +240,7 @@ public class FieldDao {
 
         return fields;
     }
-    //todo aggiungere a uml
+
     public ArrayList<Field> getAllFields(boolean loadFacility) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
 

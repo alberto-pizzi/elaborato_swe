@@ -80,6 +80,6 @@ public class ManagementButtonsController {
             System.out.println("Cancel!");
         }
 
-
     }
+
 }

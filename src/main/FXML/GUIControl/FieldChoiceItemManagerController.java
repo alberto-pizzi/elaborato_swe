@@ -35,7 +35,6 @@ public class FieldChoiceItemManagerController {
 
     private BorderPane menuPane;
 
-    //todo bottoni reattivi
     public void setData(Field field, BorderPane menuPane) throws SQLException {
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
@@ -44,7 +43,7 @@ public class FieldChoiceItemManagerController {
 
         fieldNameLabel.setText(field.getName());
         fieldAddressLabel.setText(managerOwnerManagementController.getFieldAddress(field.getId()));
-        fieldPriceLabel.setText(String.format("%.2f",field.getPrice()/field.getSport().getPlayersRequired()) + "$");
+        fieldPriceLabel.setText(String.format("%.2f",field.getPrice()) + "$");
 
         String pathFromRoot = "/main/FXML/img/fields/";
 
@@ -83,7 +82,6 @@ public class FieldChoiceItemManagerController {
 
     }
 
-    //todo da fare
     @FXML
     void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
