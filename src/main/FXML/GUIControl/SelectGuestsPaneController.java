@@ -1,11 +1,13 @@
 package main.FXML.GUIControl;
 
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
+import main.java.DomainModel.Group;
 import main.java.DomainModel.User;
 
 import java.net.URL;
@@ -43,6 +45,10 @@ public class SelectGuestsPaneController implements Initializable {
 
     protected MessagesController messagesController;
 
+    //reservation guests
+    protected Group group = null;
+
+
 
 
 
@@ -50,8 +56,8 @@ public class SelectGuestsPaneController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.messagesController = new MessagesController(messageLabel);
-        //FIXME filter no. guests by group
-        nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+
+        updateGuestsChoice();
 
         searchList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -75,8 +81,46 @@ public class SelectGuestsPaneController implements Initializable {
             searchList.getItems().addAll(usernames);
         });
 
+        accountList.getItems().addListener((ListChangeListener<String>) change -> {
+            int newSize = accountList.getItems().size();
+            while (change.next()) {
+                if (change.wasAdded() || change.wasRemoved()) {
+                    //System.out.println("La dimensione della lista è cambiata: " + newSize);
+                    try {
+                        updateAddButton();
+                        updateGuestsChoice();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+
+        nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                try {
+                    updateAddButton();
+                    updateGuestsChoice();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else
+                System.out.println("Null Value"); //FIXME
+
+        });
 
 
+
+    }
+
+    public void setData(Group group){
+        this.group = group;
+        updateGuestsChoice();
     }
 
     public ListView<String> getAccountList() {
@@ -151,12 +195,10 @@ public class SelectGuestsPaneController implements Initializable {
                     accountList.getItems().add(userToBeAdded);
                 else
                     messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,3);
-
             }
             else
                 messagesController.showMessage("Username must be different from yours", MessagesController.MessageType.ERROR,3);
 
-            guestUsernameField.clear();
         }
         else{
             messagesController.showMessage("User not found or not selected", MessagesController.MessageType.ERROR,3);
@@ -164,6 +206,77 @@ public class SelectGuestsPaneController implements Initializable {
 
 
 
+    }
+
+    public void fillGuestsChoiceWithProgressiveNumbers(int minNum, int maxNum) {
+        nGuestsChoice.getItems().clear();
+        for (int i = minNum; i <= maxNum; i++)
+            nGuestsChoice.getItems().add(i);
+
+    }
+
+    //FIXME calculation logic
+    //FIXME userId may be not correct
+    //FIXME is it here the correct position?
+    public int getTotalParticipantsPartial(boolean countHimself) throws SQLException, ClassNotFoundException {
+        int totalGuests = 0;
+        UserActionsController actionsController = new UserActionsController();
+
+        if (group != null && group.getReservation() != null)
+            totalGuests = PersonController.getUserGuests(group.getReservation().getId(),actionsController.getUser().getId());
+
+        return (countHimself ? 1 : 0) + (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + totalGuests + (accountList != null ? accountList.getItems().size() : 0);
+    }
+
+    //TODO to be overridden
+    public void updateGuestsChoice(){
+        nGuestsChoice.getItems().clear();
+
+        if (group != null && group.getReservation() != null && group.getReservation().isMatched()){
+            //maxValue is  addReservation and acceptInvite (so adding)
+            fillGuestsChoiceWithProgressiveNumbers(0, group.getRequiredParticipants()-group.getParticipants()); //FIXME maxValue to be fixed
+        }
+        else{
+            fillGuestsChoiceWithProgressiveNumbers(0,15); //FIXME 15 is correct as maxValue?
+        }
+
+    }
+
+    //FIXME fix logic
+    public boolean canOthersBeAdded() throws SQLException, ClassNotFoundException {
+        //if group is null, then it is an ADDING because group wouldn't exist
+
+        if (group != null){
+            if (group.getReservation() != null && group.getReservation().isMatched()){
+
+                if (nGuestsChoice.getValue() != null && accountList != null)
+                    return group.getParticipants() - PersonController.getUserGuests(group.getReservation().getId(), nGuestsChoice.getValue()) + accountList.getItems().size() <= group.getRequiredParticipants();
+                else
+                    return false;
+
+            }
+            else
+                return true;
+        }
+
+        return true;
+    }
+
+    public void updateAddButton() throws SQLException, ClassNotFoundException {
+        //TODO to be removed
+        System.out.println("Accounts size: "+accountList.getItems().size());
+        System.out.println("Guests size: "+ nGuestsChoice.getValue());
+        System.out.println("Group exists: " + group);
+
+        addButton.setDisable(!canOthersBeAdded());
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     @FXML

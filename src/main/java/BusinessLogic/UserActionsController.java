@@ -223,6 +223,9 @@ public class UserActionsController extends PersonController{
             }
             selectGuestsPaneController = loader.getController(); //connect controller
 
+            selectGuestsPaneController.setData(invite.getGroup());
+
+
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setTitle("Who do you want to add?");
             dialog.setDialogPane(selectGuestsDialogPane);
@@ -408,12 +411,6 @@ public class UserActionsController extends PersonController{
         return fieldDao.getFieldAddress(fieldId);
     }
 
-    public int getOwnGuests(int idReservation) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
-        IsPartDao isPartDao = new IsPartDao();
-
-        return isPartDao.countOwnGuests(groupDao.getGroupByReservation(idReservation).getId(),user.getId());
-    }
 
     public void addGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();

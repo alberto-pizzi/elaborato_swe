@@ -26,6 +26,13 @@ public abstract class PersonController {
         return users;
     }
 
+    public static int getUserGuests(int idReservation, int userId) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+        IsPartDao isPartDao = new IsPartDao();
+
+        return isPartDao.countOwnGuests(groupDao.getGroupByReservation(idReservation).getId(),userId);
+    }
+
     public ArrayList<User> getGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
 
