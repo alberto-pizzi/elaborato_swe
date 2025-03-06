@@ -434,8 +434,8 @@ public class UserActionsController extends PersonController{
        ReservationDao reservationDao = new ReservationDao();
        NotificationController notificationController = new NotificationController();
        Reservation previousReservation = reservationDao.getReservation(reservation.getId(), false);
-       String notificationTitle = "Una prenotazione è stata modificata";
-       String notificationMessage = "La prenotazione il giorno " + previousReservation.getReservationDate() + " alle " + previousReservation.getEventTimeStart() + " è stata modificata da " + user.getUsername();
+       String notificationTitle = "The reservation has been modified";
+       String notificationMessage = "The reservation the day " + previousReservation.getReservationDate() + " ad " + previousReservation.getEventTimeStart() + " has been modified by " + user.getUsername();
 
        reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
        reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
