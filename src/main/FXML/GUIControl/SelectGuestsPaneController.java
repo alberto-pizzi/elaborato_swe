@@ -17,6 +17,9 @@ public class SelectGuestsPaneController implements Initializable {
     private ListView<String> accountList;
 
     @FXML
+    private ListView<String> searchList;
+
+    @FXML
     private Button addButton;
 
     @FXML
@@ -41,6 +44,14 @@ public class SelectGuestsPaneController implements Initializable {
 
         this.messagesController = new MessagesController(messageLabel);
         nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+
+        searchList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        searchList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                guestUsernameField.setText(newValue);
+            }
+        });
 
     }
 

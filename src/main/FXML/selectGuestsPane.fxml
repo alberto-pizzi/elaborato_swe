@@ -44,7 +44,14 @@
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="293.0">
                            <children>
                               <TextField fx:id="guestUsernameField" prefHeight="25.0" prefWidth="207.0" />
-                              <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAddButton" text="Add" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                           <children>
+                              <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAddButton" text="Add to I.L." />
                            </children>
                         </HBox>
                         <Label fx:id="messageLabel" text="Error Label" textFill="#e80000" visible="false">
@@ -55,12 +62,32 @@
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <Button fx:id="removeButton" mnemonicParsing="false" onAction="#handleRemoveButton" text="Remove" />
-                              <Button fx:id="removeAllButton" mnemonicParsing="false" onAction="#handleRemoveAllButton" text="Remove All" />
+                              <Button fx:id="removeAllButton" mnemonicParsing="false" onAction="#handleRemoveAllButton" text="Remove All">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin></Button>
                            </children>
                         </HBox>
                      </children>
                   </VBox>
-                  <ListView fx:id="accountList" prefHeight="115.0" prefWidth="200.0" />
+                  <VBox alignment="CENTER">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                     <children>
+                        <Label text="Searched:" />
+                        <ListView fx:id="searchList" prefHeight="115.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                     <children>
+                        <Label text="Inviting List (I.L.):" />
+                        <ListView fx:id="accountList" prefHeight="115.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
                </children>
             </HBox>
          </children>
