@@ -4,54 +4,78 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.User;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+
 
 public class SelectGuestsPaneController implements Initializable {
 
     @FXML
-    private ListView<String> accountList;
+    protected ListView<String> accountList;
 
     @FXML
-    private ListView<String> searchList;
+    protected ListView<String> searchList;
 
     @FXML
-    private Button addButton;
+    protected Button addButton;
 
     @FXML
-    private TextField guestUsernameField;
+    protected TextField guestUsernameField;
 
     @FXML
-    private ChoiceBox<Integer> nGuestsChoice;
+    protected ChoiceBox<Integer> nGuestsChoice;
 
     @FXML
-    private Button removeAllButton;
+    protected Button removeAllButton;
 
     @FXML
-    private Button removeButton;
+    protected Button removeButton;
 
     @FXML
-    private Label messageLabel;
+    protected Label messageLabel;
 
-    private MessagesController messagesController;
+    protected MessagesController messagesController;
+
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         this.messagesController = new MessagesController(messageLabel);
+        //FIXME filter no. guests by group
         nGuestsChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
         searchList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        searchList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                guestUsernameField.setText(newValue);
+        guestUsernameField.textProperty().addListener((observable, oldValue, newValue) -> {
+
+            searchList.getItems().clear();
+
+            ArrayList<String> usernames = new ArrayList<>();
+            try {
+                ArrayList<User> users = PersonController.searchUsersByUsername(newValue);
+                for (User user : users){
+                    usernames.add(user.getUsername());
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
+
+
+            searchList.getItems().addAll(usernames);
         });
+
+
 
     }
 
@@ -114,34 +138,31 @@ public class SelectGuestsPaneController implements Initializable {
     @FXML
     public void handleAddButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        if (guestUsernameField.getText().isEmpty()) {
-            messagesController.showMessage("Please enter a guest username.", MessagesController.MessageType.ERROR,5);
+
+        UserActionsController userActionsController = new UserActionsController();
+
+        String userToBeAdded = searchList.getSelectionModel().getSelectedItem();
+
+        if (userToBeAdded != null) {
+
+            if (!userToBeAdded.equals(userActionsController.getUser().getUsername())) {
+
+                if (!accountList.getItems().contains(userToBeAdded))
+                    accountList.getItems().add(userToBeAdded);
+                else
+                    messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,3);
+
+            }
+            else
+                messagesController.showMessage("Username must be different from yours", MessagesController.MessageType.ERROR,3);
+
+            guestUsernameField.clear();
         }
         else{
-
-            UserActionsController userActionsController = new UserActionsController();
-            User userToBeAdded = userActionsController.searchUserByUsername(guestUsernameField.getText());
-
-            if (userToBeAdded != null) {
-
-                if (!userToBeAdded.getUsername().equals(userActionsController.getUser().getUsername())) {
-
-                    if (!accountList.getItems().contains(userToBeAdded.getUsername()))
-                        accountList.getItems().add(userToBeAdded.getUsername());
-                    else
-                        messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,5);
-
-                }
-                else
-                    messagesController.showMessage("Username must be different from yours", MessagesController.MessageType.ERROR,5);
-
-                guestUsernameField.clear();
-            }
-            else{
-                messagesController.showMessage("User not found", MessagesController.MessageType.ERROR,5);
-            }
-
+            messagesController.showMessage("User not found or not selected", MessagesController.MessageType.ERROR,3);
         }
+
+
 
     }
 

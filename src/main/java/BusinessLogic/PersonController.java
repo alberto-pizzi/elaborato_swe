@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public abstract class PersonController {
 
-    public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
+    public static ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
 
         ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
@@ -17,7 +17,7 @@ public abstract class PersonController {
         return users;
     }
 
-    public ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
+    public static ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
 
         ArrayList<User> users = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
