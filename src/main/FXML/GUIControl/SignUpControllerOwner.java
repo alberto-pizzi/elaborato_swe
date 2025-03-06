@@ -70,22 +70,25 @@ public class SignUpControllerOwner implements Initializable {
         AccessController access = null;
         access = new AccessController(new OwnerAccess());
         System.out.println("Owner ");
+        //fixme there isn't any check on already used email or username
         if(!(password == null || username == null || email == null)) {
-
             if(password == passwordConfirmed) {
-                access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText());
-
-                System.out.println("register done");
-                try {
-                    logIn.getScene().getWindow().setHeight(720);
-                    pane.getChildren().removeAll();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/loginOwner.fxml"));
-                    Parent view = loader.load();
-                    LoginControllerOwner controller = loader.getController();
-                    controller.setScenePane(pane);
-                    pane.getChildren().add(view);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                //todo controllare allaccio e message controller
+                if(access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText())){
+                    System.out.println("register done");
+                    try {
+                        logIn.getScene().getWindow().setHeight(720);
+                        pane.getChildren().removeAll();
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/loginOwner.fxml"));
+                        Parent view = loader.load();
+                        LoginControllerOwner controller = loader.getController();
+                        controller.setScenePane(pane);
+                        pane.getChildren().add(view);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    System.out.println("An error has occurred");
                 }
             }else{
                 System.out.println("The password is not the same in the two fields");

@@ -167,25 +167,30 @@ public class NewFieldController {
                 field.setPrice(price);
                 field.setSport(clickedSports.get(0));
                 field.setDescription(descriptionInput.getText());
-                ownerManagementController.addField(field);
-                FXMLLoader loader;
-                Parent pane;
+                //todo controllare allaccio e message controller
+                if(ownerManagementController.addField(field)){
+                    System.out.println("Field created: " + field.getName());
+                    FXMLLoader loader;
+                    Parent pane;
 
-                if(newFacility){
-                    loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
-                    pane = loader.load();
+                    if(newFacility){
+                        loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
+                        pane = loader.load();
 
-                    AddManagersController addManagersController = loader.getController();
-                    addManagersController.setData(facility, menuPane);
+                        AddManagersController addManagersController = loader.getController();
+                        addManagersController.setData(facility, menuPane);
+                    }else{
+                        loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+                        pane = loader.load();
+
+                        ModifyFacilityController modifyFacilityController = loader.getController();
+                        modifyFacilityController.setData(facility, menuPane);
+                    }
+                    menuPane.setCenter(pane);
                 }else{
-                    loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-                    pane = loader.load();
-
-                    ModifyFacilityController modifyFacilityController = loader.getController();
-                    modifyFacilityController.setData(facility, menuPane);
+                    messageLabel.setText("An error has occurred");
+                    System.out.println("An error has occurred");
                 }
-
-                menuPane.setCenter(pane);
             }else {
                 messageLabel.setText("Please enter all the fields");
             }
@@ -198,7 +203,6 @@ public class NewFieldController {
 
     @FXML
     void handleAnotherFieldButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
-//todo controllare
         OwnerManagementController ownerManagementController = new OwnerManagementController();
 
         if(!nameInput.getText().equals("") && !priceInput.getText().equals("") && clickedSportLabels.size() != 0) {
@@ -208,14 +212,22 @@ public class NewFieldController {
             field.setPrice(price);
             field.setSport(clickedSports.get(0));
             field.setDescription(descriptionInput.getText());
-            ownerManagementController.addField(field);
-            nameInput.setText("");
-            priceInput.setText("");
-            descriptionInput.setText("");
-            imageName = "";
-            field = new Field();
-
+            //todo controllare allaccio e message controller
+            if(ownerManagementController.addField(field)){
+                System.out.println("Field added");
+                messageLabel.setVisible(false);
+                nameInput.setText("");
+                priceInput.setText("");
+                descriptionInput.setText("");
+                imageName = "";
+                field = new Field();
+            }else{
+                messageLabel.setVisible(true);
+                messageLabel.setText("An error has occurred");
+                System.out.println("An error has occurred");
+            }
         }else {
+            messageLabel.setVisible(true);
             messageLabel.setText("Please enter all the fields");
         }
 

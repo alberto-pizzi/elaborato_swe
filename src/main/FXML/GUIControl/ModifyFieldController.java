@@ -148,25 +148,26 @@ public class ModifyFieldController {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         field.setSport(clickedSports.get(0));
 
-        if(!nameInput.getText().isEmpty()) {
+        if(!nameInput.getText().isEmpty() || priceInput.getText().isEmpty() || descriptionInput.getText().isEmpty()) {
             field.setName(nameInput.getText());
-        }
-        if(!(priceInput.getText().isEmpty() || priceInput.getText().equals("$"))) {
             field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
-        }
-        if(!descriptionInput.getText().isEmpty()) {
             field.setDescription(descriptionInput.getText());
+            //todo controllare allaccio e message controller
+            if(ownerManagementController.updateField(field)){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+                Parent facilityModifyPane = loader.load();
+
+                ModifyFacilityController modifyFacilityController = loader.getController();
+                modifyFacilityController.setData(facility, menuPane);
+
+                menuPane.setCenter(facilityModifyPane);
+            }else{
+                System.out.println("An error has occurred");
+            }
+        }else{
+            messageLabel.setVisible(true);
+            messageLabel.setText("Please fill all fields");
         }
-
-        ownerManagementController.updateField(field);
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-        Parent facilityModifyPane = loader.load();
-
-        ModifyFacilityController modifyFacilityController = loader.getController();
-        modifyFacilityController.setData(facility, menuPane);
-
-        menuPane.setCenter(facilityModifyPane);
 
     }
 

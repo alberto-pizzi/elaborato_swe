@@ -54,20 +54,18 @@ public class UpdateAddressController implements Initializable {
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException {
-        if (!provinceInput.getText().isEmpty()){
+        if (!provinceInput.getText().isEmpty() && !cityInput.getText().isEmpty() && !countryInput.getText().isEmpty() && !zipInput.getText().isEmpty()) {
             UserProfileController userProfileController = new UserProfileController();
-
-            userProfileController.updateProvince(provinceInput.getText());
-            userProfileController.updateCity(cityInput.getText());
-            userProfileController.updateZip(zipInput.getText());
-            userProfileController.updateCountry(countryInput.getText());
-
-            String message = "Address edited successfully!";
-            messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-
-        }
-        else {
-            String message = "Province is required. Address not edited.";
+            //todo controllare allaccio e usare messageController
+            if (userProfileController.updateProvince(provinceInput.getText()) && userProfileController.updateCity(cityInput.getText()) && userProfileController.updateCountry(countryInput.getText()) && userProfileController.updateZip(zipInput.getText())) {
+                String message = "Address edited successfully!";
+                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
+            } else {
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
+            }
+        }else {
+            String message = "Please fill all the fields.";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }

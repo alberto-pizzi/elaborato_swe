@@ -57,10 +57,15 @@ public class UpdateUsernameOwnerController implements Initializable {
 
                 userExists = ownerProfileController.checkPersonExistence(usernameInput.getText());
                 if (!userExists) {
-                    errorLabel.setVisible(false);
-                    ownerProfileController.updateUsername(usernameInput.getText());
-                    System.out.println("User updated, new username is: " + usernameInput.getText());
-                    System.out.println("Username confirmed");
+                    //todo controllare allaccio e usare messageController
+                    if(ownerProfileController.updateUsername(usernameInput.getText())){
+                        errorLabel.setVisible(false);
+                        System.out.println("User updated, new username is: " + usernameInput.getText());
+                        System.out.println("Username confirmed");
+                    }else{
+                        errorLabel.setText("An error has occurred");
+                        errorLabel.setVisible(true);
+                    }
                 }
                 else{
                     errorLabel.setText("Username already exists");

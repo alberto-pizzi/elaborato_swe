@@ -55,9 +55,14 @@ public class UpdateEmailOwnerController implements Initializable {
                 OwnerProfileController ownerProfileController = new OwnerProfileController();
                 boolean emailExistence = ownerProfileController.checkEmail(emailInput.getText());
                 if (!emailExistence) {
-                    ownerProfileController.updateEmail(emailInput.getText());
-                    errorLabel.setVisible(false);
-                    System.out.println("Email confirmed");
+                    //todo controllare allaccio e usare messageController
+                    if(ownerProfileController.updateEmail(emailInput.getText())){
+                        errorLabel.setVisible(false);
+                        System.out.println("Email confirmed");
+                    }else{
+                        errorLabel.setVisible(true);
+                        errorLabel.setText("An error has occurred");
+                    }
                 } else {
                     errorLabel.setVisible(true);
                     errorLabel.setText("This email is already in use");

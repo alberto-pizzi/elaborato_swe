@@ -57,63 +57,107 @@ public class OwnerProfileController extends ProfileController {
     }
 
     @Override
-    public void updateUsername(String newUsername) throws SQLException {
-        OwnerDAO ownerDAO = new OwnerDAO();
-        ownerDAO.updateUsername(owner.getUsername(),newUsername);
-        this.owner.setUsername(newUsername);
-        System.out.println("Username updated");
+    public boolean updateUsername(String newUsername) throws SQLException {
+        try {
+            OwnerDAO ownerDAO = new OwnerDAO();
+            ownerDAO.updateUsername(owner.getUsername(),newUsername);
+            this.owner.setUsername(newUsername);
+            System.out.println("Username updated");
+        }catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void updatePassword(String newPassword) throws SQLException {
-
-        OwnerDAO ownerDAO = new OwnerDAO();
-        ownerDAO.updatePassword(owner.getUsername(),newPassword);
-        this.owner.setPassword(newPassword);
-        System.out.println("Password updated");
-
+    public boolean updatePassword(String newPassword) throws SQLException {
+        try {
+            OwnerDAO ownerDAO = new OwnerDAO();
+            ownerDAO.updatePassword(owner.getUsername(), newPassword);
+            this.owner.setPassword(newPassword);
+            System.out.println("Password updated");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void updateEmail(String newEmail) throws SQLException {
+    public boolean updateEmail(String newEmail) throws SQLException {
+        try {
+            OwnerDAO ownerDAO = new OwnerDAO();
+            ownerDAO.updateEmail(owner.getUsername(), newEmail);
+            this.owner.setEmail(newEmail);
+            System.out.println("Email updated");
 
-        OwnerDAO ownerDAO = new OwnerDAO();
-        ownerDAO.updateEmail(owner.getUsername(), newEmail);
-        this.owner.setEmail(newEmail);
-        System.out.println("Email updated");
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void updateCity(String newCity) throws SQLException {
-        OwnerDAO ownerDAO = new OwnerDAO();
-        ownerDAO.updateCity(owner.getUsername(), newCity);
-        this.owner.setCity(newCity);
-        System.out.println("City updated");
+    public boolean updateCity(String newCity) throws SQLException {
+        try {
+            OwnerDAO ownerDAO = new OwnerDAO();
+            ownerDAO.updateCity(owner.getUsername(), newCity);
+            this.owner.setCity(newCity);
+            System.out.println("City updated");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void updateProvince(String newProvince) throws SQLException {
-        OwnerDAO ownerDAO = new OwnerDAO();
-        ownerDAO.updateProvince(owner.getUsername(), newProvince);
-        this.owner.setProvince(newProvince);
-        System.out.println("Province updated");
+    public boolean updateProvince(String newProvince) throws SQLException {
+        try {
+            OwnerDAO ownerDAO = new OwnerDAO();
+            ownerDAO.updateProvince(owner.getUsername(), newProvince);
+            this.owner.setProvince(newProvince);
+            System.out.println("Province updated");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void updateZip(String newZip) throws SQLException {
-        OwnerDAO ownerDAO = new OwnerDAO();
-        ownerDAO.updateZip(owner.getUsername(),newZip);
-        this.owner.setZip(newZip);
-        System.out.println("Zip updated");
+    public boolean updateZip(String newZip) throws SQLException {
+        try {
+            OwnerDAO ownerDAO = new OwnerDAO();
+            ownerDAO.updateZip(owner.getUsername(),newZip);
+            this.owner.setZip(newZip);
+            System.out.println("Zip updated");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void updateCountry(String newCountry) throws SQLException {
-        OwnerDAO ownerDAO = new OwnerDAO();
-        ownerDAO.updateCountry(owner.getUsername(),newCountry);
-        this.owner.setCountry(newCountry);
-        System.out.println("Country updated");
+    public boolean updateCountry(String newCountry) throws SQLException {
+        try {
+            OwnerDAO ownerDAO = new OwnerDAO();
+            ownerDAO.updateCountry(owner.getUsername(),newCountry);
+            this.owner.setCountry(newCountry);
+            System.out.println("Country updated");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+
     }
 
     @Override
@@ -131,12 +175,18 @@ public class OwnerProfileController extends ProfileController {
     }
 
     @Override
-    public void deleteProfile(String username) throws SQLException {
-        OwnerDAO ownerDAO = new OwnerDAO();
-        ownerDAO.deleteUser(username);
+    public boolean deleteProfile(String username) throws SQLException {
+        try {
+            OwnerDAO ownerDAO = new OwnerDAO();
+            ownerDAO.deleteUser(username);
 
-        System.out.println("Profile deleted");
+            System.out.println("Profile deleted");
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 }

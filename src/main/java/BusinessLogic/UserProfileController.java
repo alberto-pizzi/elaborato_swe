@@ -3,6 +3,7 @@ package main.java.BusinessLogic;
 import main.java.DomainModel.User;
 import main.java.DomainModel.Facility;
 import main.java.ORM.ManagesDAO;
+import main.java.ORM.OwnerDAO;
 import main.java.ORM.UserDAO;
 
 import java.sql.SQLException;
@@ -44,63 +45,109 @@ public class UserProfileController extends ProfileController {
     }
 
     @Override
-    public void updateUsername(String newUsername) throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateUsername(user.getUsername(),newUsername);
-        this.user.setUsername(newUsername);
-        System.out.println("Username updated");
+    public boolean updateUsername(String newUsername) throws SQLException {
+        try {
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateUsername(user.getUsername(),newUsername);
+            this.user.setUsername(newUsername);
+            System.out.println("Username updated");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void updatePassword(String newPassword) throws SQLException {
+    public boolean updatePassword(String newPassword) throws SQLException {
+        try {
+            UserDAO userDAO = new UserDAO();
+            userDAO.updatePassword(user.getUsername(),newPassword);
+            this.user.setPassword(newPassword);
+            System.out.println("Password updated");
 
-        UserDAO userDAO = new UserDAO();
-        userDAO.updatePassword(user.getUsername(),newPassword);
-        this.user.setPassword(newPassword);
-        System.out.println("Password updated");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+            return true;
+    }
+
+    @Override
+    public boolean updateEmail(String newEmail) throws SQLException {
+        try {
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateEmail(user.getUsername(),newEmail);
+            this.user.setEmail(newEmail);
+            System.out.println("Email updated");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateCity(String newCity) throws SQLException {
+        try {
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateCity(user.getUsername(),newCity);
+            this.user.setCity(newCity);
+            System.out.println("City updated");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateProvince(String newProvince) throws SQLException {
+        try {
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateProvince(user.getUsername(),newProvince);
+            this.user.setProvince(newProvince);
+            System.out.println("Province updated");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
 
     }
 
     @Override
-    public void updateEmail(String newEmail) throws SQLException {
+    public boolean updateZip(String newZip) throws SQLException {
+        try {
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateZip(user.getUsername(),newZip);
+            this.user.setZip(newZip);
+            System.out.println("Zip updated");
 
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateEmail(user.getUsername(),newEmail);
-        this.user.setEmail(newEmail);
-        System.out.println("Email updated");
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void updateCity(String newCity) throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateCity(user.getUsername(),newCity);
-        this.user.setCity(newCity);
-        System.out.println("City updated");
-    }
+    public boolean updateCountry(String newCountry) throws SQLException {
+        try {
+            UserDAO userDAO = new UserDAO();
+            userDAO.updateCountry(user.getUsername(),newCountry);
+            this.user.setCountry(newCountry);
+            System.out.println("Country updated");
 
-    @Override
-    public void updateProvince(String newProvince) throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateProvince(user.getUsername(),newProvince);
-        this.user.setProvince(newProvince);
-        System.out.println("Province updated");
-    }
-
-    @Override
-    public void updateZip(String newZip) throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateZip(user.getUsername(),newZip);
-        this.user.setZip(newZip);
-        System.out.println("Zip updated");
-    }
-
-    @Override
-    public void updateCountry(String newCountry) throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateCountry(user.getUsername(),newCountry);
-        this.user.setCountry(newCountry);
-        System.out.println("Country updated");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     //TODO check correctness (inheritance)
@@ -119,11 +166,18 @@ public class UserProfileController extends ProfileController {
     }
 
     @Override
-    public void deleteProfile(String username) throws SQLException {
-        UserDAO userDAO = new UserDAO();
-        userDAO.deleteUser(username);
+    public boolean deleteProfile(String username) throws SQLException {
+        try {
+            UserDAO userDAO = new UserDAO();
+            userDAO.deleteUser(username);
 
-        System.out.println("Profile deleted");
+            System.out.println("Profile deleted");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
 
     }
 }

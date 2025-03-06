@@ -81,17 +81,14 @@ public class ProfileMenuOwnerController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
-
             OwnerProfileController ownerProfileController = new OwnerProfileController();
-            ownerProfileController.deleteProfile(ownerProfileController.getUsername());
-            logoutButton.getScene().getWindow().hide();
-            Stage logInUser = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/scene.fxml"));
-            logInUser.setTitle("Sport Plus");
-            logInUser.setScene(new Scene(root, 1280, 720));
-            logInUser.show();
-            logInUser.setResizable(false);
-
+            //todo controllare allaccio e usare messageController
+            if(ownerProfileController.deleteProfile(ownerProfileController.getUsername())){
+                System.out.println("Deleted!");
+                handleLogoutButton(event);
+            }else{
+                //fixme fare parte negativa
+            }
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
         }

@@ -78,12 +78,14 @@ public class FacilityItemController {
             System.out.println("Delete button clicked: " + facilityNameLabel.getText());
 
             OwnerManagementController ownerManagementController = new OwnerManagementController();
-            ownerManagementController.deleteFacility(facility.getId());
-
-            if (facilitiesListController != null) {
-                facilitiesListController.removeFacilityItemFromGUI(facilityItemPane, facility);
+            //todo controllare allaccio e message controller
+            if(ownerManagementController.deleteFacility(facility.getId())){
+                if (facilitiesListController != null) {
+                    facilitiesListController.removeFacilityItemFromGUI(facilityItemPane, facility);
+                }
+            }else{
+                System.out.println("An error has occurred");
             }
-
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");

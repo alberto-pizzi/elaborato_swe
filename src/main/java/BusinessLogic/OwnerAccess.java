@@ -22,7 +22,7 @@ public class OwnerAccess implements AccessStrategy{
     }
 
     @Override
-    public void register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
+    public boolean register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
 
         OwnerDAO dao = new OwnerDAO();
 
@@ -32,6 +32,7 @@ public class OwnerAccess implements AccessStrategy{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
 
     @Override

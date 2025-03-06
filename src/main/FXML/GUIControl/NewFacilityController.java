@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
+import main.java.DomainModel.Field;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -85,15 +86,19 @@ public class NewFacilityController {
                 facility.setCountry(countryInput.getText());
                 facility.setTelephone(phoneInput.getText());
                 facility.setZip(zipInput.getText());
-                ownerManagementController.addFacility(facility);
+                //todo controllare allaccio e message controller
+                if(ownerManagementController.addFacility(facility)){
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newWorkingHours.fxml"));
+                    Parent newWorkHours = loader.load();
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newWorkingHours.fxml"));
-                Parent newWorkHours = loader.load();
+                    NewWorkingHoursController newWorkingHoursController = loader.getController();
+                    newWorkingHoursController.setData(facility,this.menuPane);
 
-                NewWorkingHoursController newWorkingHoursController = loader.getController();
-                newWorkingHoursController.setData(facility,this.menuPane);
-
-                menuPane.setCenter(newWorkHours);
+                    menuPane.setCenter(newWorkHours);
+                }else{
+                    messageLabel.setText("An error has occurred");
+                    System.out.println("An error has occurred");
+                }
             }else {
                 messageLabel.setText("Please enter all the fields");
             }
@@ -108,6 +113,7 @@ public class NewFacilityController {
         this.menuPane = menuPane;
     }
 
+    //fixme usare messages oltre a system out
     @FXML
     void handleUploadImageButton(ActionEvent event) {
 

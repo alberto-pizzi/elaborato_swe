@@ -1,7 +1,6 @@
 package main.java.BusinessLogic;
 
 import main.java.DomainModel.User;
-import main.java.ORM.OwnerDAO;
 import main.java.ORM.UserDAO;
 
 import java.sql.SQLException;
@@ -21,7 +20,7 @@ public class UserAccess implements AccessStrategy{
     }
 
     @Override
-    public void register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
+    public boolean register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
 
         UserDAO dao = new UserDAO();
 
@@ -31,6 +30,7 @@ public class UserAccess implements AccessStrategy{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
 
     @Override

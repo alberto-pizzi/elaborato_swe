@@ -65,18 +65,17 @@ public class UpdateAddressOwnerController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            if (!provinceInput.getText().isEmpty()){
-
-                ownerProfileController.updateProvince(provinceInput.getText());
-                ownerProfileController.updateCity(cityInput.getText());
-                ownerProfileController.updateZip(zipInput.getText());
-                ownerProfileController.updateCountry(countryInput.getText());
-
-                String message = "Address edited successfully!";
-                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-            }
-            else {
-                String message = "Province is required. Address not edited.";
+            if (!provinceInput.getText().isEmpty() && !cityInput.getText().isEmpty() && !countryInput.getText().isEmpty() && !zipInput.getText().isEmpty()) {
+                //todo controllare allaccio e usare messageController
+                if(ownerProfileController.updateProvince(provinceInput.getText()) && ownerProfileController.updateCity(cityInput.getText()) && ownerProfileController.updateCountry(countryInput.getText()) && ownerProfileController.updateZip(zipInput.getText())){
+                    String message = "Address edited successfully!";
+                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                }else{
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                }
+            }else {
+                String message = "Please fill all the fields.";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 

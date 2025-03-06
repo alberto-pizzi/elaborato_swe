@@ -136,14 +136,18 @@ public class ModifyFacilityController {
                 facility.setCountry(countryInput.getText());
                 facility.setTelephone(phoneInput.getText());
                 facility.setZip(zipInput.getText());
-                ownerManagementController.updateFacility(facility);
+                //todo controllare allaccio e message controller
+                if(ownerManagementController.updateFacility(facility)){
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
+                    Parent facilitiesList = loader.load();
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
-                Parent facilitiesList = loader.load();
+                    FacilitiesListController facilitiesListController = loader.getController();
 
-                FacilitiesListController facilitiesListController = loader.getController();
-
-                menuPane.setCenter(facilitiesList);
+                    menuPane.setCenter(facilitiesList);
+                }else{
+                    messageLabel.setText("An error has occurred");
+                    System.out.println("An error has occurred");
+                }
             }else {
                 messageLabel.setText("Please check the fields");
             }
@@ -262,6 +266,7 @@ public class ModifyFacilityController {
             OwnerManagementController ownerManagementController = new OwnerManagementController();
             fields.getChildren().removeAll(clickedFieldLabels);
             for (Field field : clickedFields) {
+                //todo aggiungere boolean control?
                 ownerManagementController.deleteField(field.getId());
                 fieldsList.remove(field);
                 facility.getFields().remove(field);

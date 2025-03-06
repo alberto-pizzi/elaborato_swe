@@ -9,6 +9,6 @@ public interface AccessStrategy {
 
     //methods
     Person login(String username) throws SQLException;
-    void register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException;
+    boolean register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException;
     boolean checkPassword(String username, String password) throws SQLException;
 }
