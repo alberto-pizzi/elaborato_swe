@@ -3,12 +3,8 @@ package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import main.java.BusinessLogic.OwnerProfileController;
 
 import java.net.URL;
@@ -21,12 +17,12 @@ public class UpdateUsernameOwnerController implements Initializable {
     private Button confirmButton;
 
     @FXML
-    private Label errorLabel;
+    private Label messageLabel;
 
     @FXML
     private TextField usernameInput;
 
-
+    private MessagesController messagesController;
 
     //methods
 
@@ -35,7 +31,7 @@ public class UpdateUsernameOwnerController implements Initializable {
 
         OwnerProfileController ownerProfileController = new OwnerProfileController();
         usernameInput.setText(ownerProfileController.getUsername());
-
+        messagesController = new MessagesController(messageLabel);
     }
 
     @FXML
@@ -45,7 +41,7 @@ public class UpdateUsernameOwnerController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm modification");
         //FIXME improve date format
-        alert.setHeaderText("Confirm modifcation");
+        alert.setHeaderText("Confirm modification");
         alert.setContentText("Are you sure you want to modify the username?");
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -57,19 +53,18 @@ public class UpdateUsernameOwnerController implements Initializable {
 
                 userExists = ownerProfileController.checkPersonExistence(usernameInput.getText());
                 if (!userExists) {
-                    //todo controllare allaccio e usare messageController
+                    //todo controllare allaccio
                     if(ownerProfileController.updateUsername(usernameInput.getText())){
-                        errorLabel.setVisible(false);
-                        System.out.println("User updated, new username is: " + usernameInput.getText());
-                        System.out.println("Username confirmed");
+                        String message = "User updated, new username is: " + usernameInput.getText();
+                        messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
                     }else{
-                        errorLabel.setText("An error has occurred");
-                        errorLabel.setVisible(true);
+                        String message = "An error has occurred";
+                        messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
                     }
                 }
                 else{
-                    errorLabel.setText("Username already exists");
-                    errorLabel.setVisible(true);
+                    String message = "Username already exists";
+                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
                 }
 
             }

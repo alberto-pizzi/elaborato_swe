@@ -66,7 +66,7 @@ public class UpdateAddressOwnerController implements Initializable {
         if(result.get() == ButtonType.OK){
 
             if (!provinceInput.getText().isEmpty() && !cityInput.getText().isEmpty() && !countryInput.getText().isEmpty() && !zipInput.getText().isEmpty()) {
-                //todo controllare allaccio e usare messageController
+                //todo controllare allaccio
                 if(ownerProfileController.updateProvince(provinceInput.getText()) && ownerProfileController.updateCity(cityInput.getText()) && ownerProfileController.updateCountry(countryInput.getText()) && ownerProfileController.updateZip(zipInput.getText())){
                     String message = "Address edited successfully!";
                     messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);

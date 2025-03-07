@@ -3,6 +3,7 @@ package main.FXML.GUIControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -17,12 +18,14 @@ import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class NewFieldController {
+public class NewFieldController implements Initializable {
 
     @FXML
     private Button confirmButton;
@@ -55,6 +58,7 @@ public class NewFieldController {
     private BorderPane menuPane;
 
     ArrayList<Sport> clickedSports = new ArrayList<>();
+
     ArrayList<Sport> sports = new ArrayList<>();
 
     private ArrayList<Label> clickedSportLabels = new ArrayList<>();
@@ -63,8 +67,14 @@ public class NewFieldController {
 
     private Boolean newFacility = false;
 
+    private MessagesController messagesController;
+
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        messagesController = new MessagesController(messageLabel);
+    }
 
     @FXML
     void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
@@ -112,12 +122,15 @@ public class NewFieldController {
 
             try {
                 if (copiedImage.createNewFile()) {
-                    System.out.println("File created: " + copiedImage.getName());
+                    String message = "File created: " + copiedImage.getName();
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 } else {
-                    System.out.println("File already exists.");
+                    String message = "File already exists";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             } catch (IOException e) {
-                System.out.println("An error occurred.");
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 e.printStackTrace();
             }
             FileChannel sourceChannel = null;
@@ -167,7 +180,7 @@ public class NewFieldController {
                 field.setPrice(price);
                 field.setSport(clickedSports.get(0));
                 field.setDescription(descriptionInput.getText());
-                //todo controllare allaccio e message controller
+                //todo controllare allaccio
                 if(ownerManagementController.addField(field)){
                     System.out.println("Field created: " + field.getName());
                     FXMLLoader loader;
@@ -188,11 +201,12 @@ public class NewFieldController {
                     }
                     menuPane.setCenter(pane);
                 }else{
-                    messageLabel.setText("An error has occurred");
-                    System.out.println("An error has occurred");
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }else {
-                messageLabel.setText("Please enter all the fields");
+                String message = "Please enter all the fields";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 
         } else if(result.get() == ButtonType.CANCEL){
@@ -212,23 +226,21 @@ public class NewFieldController {
             field.setPrice(price);
             field.setSport(clickedSports.get(0));
             field.setDescription(descriptionInput.getText());
-            //todo controllare allaccio e message controller
+            //todo controllare allaccio
             if(ownerManagementController.addField(field)){
                 System.out.println("Field added");
-                messageLabel.setVisible(false);
                 nameInput.setText("");
                 priceInput.setText("");
                 descriptionInput.setText("");
                 imageName = "";
                 field = new Field();
             }else{
-                messageLabel.setVisible(true);
-                messageLabel.setText("An error has occurred");
-                System.out.println("An error has occurred");
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
         }else {
-            messageLabel.setVisible(true);
-            messageLabel.setText("Please enter all the fields");
+            String message = "Please enter all the fields";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
 
     }

@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import main.java.BusinessLogic.OwnerProfileController;
-import main.java.BusinessLogic.UserActionsController;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -20,7 +19,9 @@ public class UpdateEmailOwnerController implements Initializable {
     private TextField emailInput;
 
     @FXML
-    private Label errorLabel;
+    private Label messageLabel;
+
+    private MessagesController messagesController;
 
     //methods
 
@@ -29,9 +30,8 @@ public class UpdateEmailOwnerController implements Initializable {
 
 
         OwnerProfileController ownerProfileController = new OwnerProfileController();
-
         emailInput.setText(ownerProfileController.getEmail());
-
+        messagesController = new MessagesController(messageLabel);
     }
 
     //todo controllo email già usata
@@ -49,23 +49,23 @@ public class UpdateEmailOwnerController implements Initializable {
         if(result.get() == ButtonType.OK){
 
             if (emailInput.getText().isEmpty()) {
-                errorLabel.setVisible(true);
-                errorLabel.setText("Please enter a valid email");
+                messageLabel.setVisible(true);
+                messageLabel.setText("Please enter a valid email");
             } else {
                 OwnerProfileController ownerProfileController = new OwnerProfileController();
                 boolean emailExistence = ownerProfileController.checkEmail(emailInput.getText());
                 if (!emailExistence) {
-                    //todo controllare allaccio e usare messageController
+                    //todo controllare allaccio
                     if(ownerProfileController.updateEmail(emailInput.getText())){
-                        errorLabel.setVisible(false);
-                        System.out.println("Email confirmed");
+                        String message = "Email updated successfully";
+                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                     }else{
-                        errorLabel.setVisible(true);
-                        errorLabel.setText("An error has occurred");
+                        String message = "An error has occurred";
+                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                     }
                 } else {
-                    errorLabel.setVisible(true);
-                    errorLabel.setText("This email is already in use");
+                    String message = "This email is already in use";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
 
             }

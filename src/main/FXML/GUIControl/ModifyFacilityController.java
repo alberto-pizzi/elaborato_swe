@@ -3,6 +3,7 @@ package main.FXML.GUIControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -21,13 +22,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class ModifyFacilityController {
+public class ModifyFacilityController implements Initializable {
 
     @FXML
     private TextField cityInput;
@@ -83,7 +86,14 @@ public class ModifyFacilityController {
 
     private String imageName;
 
+    private MessagesController messagesController;
+
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        messagesController = new MessagesController(messageLabel);
+    }
 
     private void fieldChecker(){
 
@@ -136,7 +146,7 @@ public class ModifyFacilityController {
                 facility.setCountry(countryInput.getText());
                 facility.setTelephone(phoneInput.getText());
                 facility.setZip(zipInput.getText());
-                //todo controllare allaccio e message controller
+                //todo controllare allaccio
                 if(ownerManagementController.updateFacility(facility)){
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
                     Parent facilitiesList = loader.load();
@@ -145,11 +155,12 @@ public class ModifyFacilityController {
 
                     menuPane.setCenter(facilitiesList);
                 }else{
-                    messageLabel.setText("An error has occurred");
-                    System.out.println("An error has occurred");
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }else {
-                messageLabel.setText("Please check the fields");
+                String message = "Please check the fields";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 
         } else if(result.get() == ButtonType.CANCEL){
@@ -266,8 +277,11 @@ public class ModifyFacilityController {
             OwnerManagementController ownerManagementController = new OwnerManagementController();
             fields.getChildren().removeAll(clickedFieldLabels);
             for (Field field : clickedFields) {
-                //todo aggiungere boolean control?
-                ownerManagementController.deleteField(field.getId());
+                if(!ownerManagementController.deleteField(field.getId())){
+                    String message = "An error has occurred, only some fields have been deleted";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    break;
+                }
                 fieldsList.remove(field);
                 facility.getFields().remove(field);
             }
@@ -361,15 +375,17 @@ public class ModifyFacilityController {
             System.out.println(selectedFile.getPath());
             File copiedImage = new File( "src/main/FXML/img/facilities/"  + selectedFile.getName());
             imageName = selectedFile.getName();
-
             try {
                 if (copiedImage.createNewFile()) {
-                    System.out.println("File created: " + copiedImage.getName());
+                    String message = "File created: " + copiedImage.getName();
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 } else {
-                    System.out.println("File already exists.");
+                    String message = "File already exists";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             } catch (IOException e) {
-                System.out.println("An error occurred.");
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 e.printStackTrace();
             }
             FileChannel sourceChannel = null;

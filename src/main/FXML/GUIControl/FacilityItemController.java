@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.OwnerManagementController;
+import main.java.BusinessLogic.OwnerProfileController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
@@ -24,7 +25,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class FacilityItemController {
+public class FacilityItemController implements Initializable {
 
     @FXML
     private Button deleteFacility;
@@ -56,6 +57,13 @@ public class FacilityItemController {
     private Facility facility;
 
     private FacilitiesListController facilitiesListController;
+
+    private MessagesController messagesController;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        //messagesController = new MessagesController(messageLabel);
+    }
 
     public void setFacilitiesListController(FacilitiesListController facilitiesListController) {
         this.facilitiesListController = facilitiesListController;

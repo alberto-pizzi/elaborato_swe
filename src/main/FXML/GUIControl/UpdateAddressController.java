@@ -56,7 +56,7 @@ public class UpdateAddressController implements Initializable {
     void handleConfirmButton(ActionEvent event) throws SQLException {
         if (!provinceInput.getText().isEmpty() && !cityInput.getText().isEmpty() && !countryInput.getText().isEmpty() && !zipInput.getText().isEmpty()) {
             UserProfileController userProfileController = new UserProfileController();
-            //todo controllare allaccio e usare messageController
+            //todo controllare allaccio
             if (userProfileController.updateProvince(provinceInput.getText()) && userProfileController.updateCity(cityInput.getText()) && userProfileController.updateCountry(countryInput.getText()) && userProfileController.updateZip(zipInput.getText())) {
                 String message = "Address edited successfully!";
                 messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);

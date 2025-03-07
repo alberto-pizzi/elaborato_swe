@@ -55,7 +55,6 @@ public class UpdateEmailController implements Initializable {
                 if(userProfileController.updateEmail(emailInput.getText())){
                     String message = "Email updated! New email is: " + emailInput.getText();
                     messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-                    System.out.println("Email confirmed");
                 }else{
                     String message = "An error has occurred";
                     messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);

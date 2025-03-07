@@ -58,7 +58,7 @@ public class ManagerItemController {
     }
 
     @FXML
-    void handleAddUserButton(ActionEvent event) throws SQLException, ClassNotFoundException {//TODO implement
+    void handleAddUserButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         System.out.println("Add button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Add manager");

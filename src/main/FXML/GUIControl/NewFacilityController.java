@@ -3,6 +3,7 @@ package main.FXML.GUIControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -10,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import main.java.BusinessLogic.OwnerManagementController;
+import main.java.BusinessLogic.OwnerProfileController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 
@@ -17,11 +19,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class NewFacilityController {
+public class NewFacilityController implements Initializable {
 
     @FXML
     private TextField addressInput;
@@ -60,7 +64,14 @@ public class NewFacilityController {
 
     private String imageName;
 
+    private MessagesController messagesController;
+
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        messagesController = new MessagesController(messageLabel);
+    }
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
@@ -86,7 +97,7 @@ public class NewFacilityController {
                 facility.setCountry(countryInput.getText());
                 facility.setTelephone(phoneInput.getText());
                 facility.setZip(zipInput.getText());
-                //todo controllare allaccio e message controller
+                //todo controllare allaccio
                 if(ownerManagementController.addFacility(facility)){
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newWorkingHours.fxml"));
                     Parent newWorkHours = loader.load();
@@ -96,11 +107,12 @@ public class NewFacilityController {
 
                     menuPane.setCenter(newWorkHours);
                 }else{
-                    messageLabel.setText("An error has occurred");
-                    System.out.println("An error has occurred");
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }else {
-                messageLabel.setText("Please enter all the fields");
+                String message = "Please enter all the fields";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 
         } else if(result.get() == ButtonType.CANCEL){
@@ -113,7 +125,6 @@ public class NewFacilityController {
         this.menuPane = menuPane;
     }
 
-    //fixme usare messages oltre a system out
     @FXML
     void handleUploadImageButton(ActionEvent event) {
 
@@ -131,12 +142,15 @@ public class NewFacilityController {
 
             try {
                 if (copiedImage.createNewFile()) {
-                    System.out.println("File created: " + copiedImage.getName());
+                    String message = "File created: " + copiedImage.getName();
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 } else {
-                    System.out.println("File already exists.");
+                    String message = "File already exists";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             } catch (IOException e) {
-                System.out.println("An error occurred.");
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 e.printStackTrace();
             }
             FileChannel sourceChannel = null;

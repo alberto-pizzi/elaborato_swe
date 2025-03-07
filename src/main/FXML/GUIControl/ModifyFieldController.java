@@ -3,6 +3,7 @@ package main.FXML.GUIControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,11 +24,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class ModifyFieldController {
+public class ModifyFieldController implements Initializable {
 
     @FXML
     private Button confirmButton;
@@ -60,12 +63,21 @@ public class ModifyFieldController {
     private BorderPane menuPane;
 
     ArrayList<Sport> clickedSports = new ArrayList<>();
+
     ArrayList<Sport> sports = new ArrayList<>();
 
     private ArrayList<Label> clickedSportLabels = new ArrayList<>();
+
     private String imageName;
 
+    private MessagesController messagesController;
+
     FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        messagesController = new MessagesController(messageLabel);
+    }
 
     @FXML
     void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
@@ -104,15 +116,17 @@ public class ModifyFieldController {
             System.out.println(selectedFile.getPath());
             File copiedImage = new File( "src/main/FXML/img/fields/"  + selectedFile.getName());
             imageName = selectedFile.getName();
-
             try {
                 if (copiedImage.createNewFile()) {
-                    System.out.println("File created: " + copiedImage.getName());
+                    String message = "File created: " + copiedImage.getName();
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 } else {
-                    System.out.println("File already exists.");
+                    String message = "File already exists";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             } catch (IOException e) {
-                System.out.println("An error occurred.");
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 e.printStackTrace();
             }
             FileChannel sourceChannel = null;
@@ -152,7 +166,7 @@ public class ModifyFieldController {
             field.setName(nameInput.getText());
             field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
             field.setDescription(descriptionInput.getText());
-            //todo controllare allaccio e message controller
+            //todo controllare allaccio
             if(ownerManagementController.updateField(field)){
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
                 Parent facilityModifyPane = loader.load();
@@ -162,11 +176,12 @@ public class ModifyFieldController {
 
                 menuPane.setCenter(facilityModifyPane);
             }else{
-                System.out.println("An error has occurred");
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
         }else{
-            messageLabel.setVisible(true);
-            messageLabel.setText("Please fill all fields");
+            String message = "Please fill all fields";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
 
     }

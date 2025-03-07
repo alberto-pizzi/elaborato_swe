@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.UserAccess;
+import main.java.BusinessLogic.UserActionsController;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -52,6 +53,8 @@ public class SignUpControllerUser implements Initializable {
 
     private Pane pane;
 
+    private  MessagesController messagesController;
+
     public Pane getScenePane() {
         return pane;
     }
@@ -61,7 +64,11 @@ public class SignUpControllerUser implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL location, ResourceBundle resources) {
+
+        //messagesController = new MessagesController(messageLabel);
+
+
     }
 
     @FXML

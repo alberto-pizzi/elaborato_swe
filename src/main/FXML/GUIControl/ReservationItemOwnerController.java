@@ -111,10 +111,7 @@ public class ReservationItemOwnerController {
 
     @FXML
     public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException {
-        //TODO implement
         System.out.println("Delete button clicked: " + reservation.getId());
-
-
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Reservation");
         //FIXME improve date format

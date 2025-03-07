@@ -63,7 +63,6 @@ public class UpdatePasswordOwnerController implements Initializable {
                         if(ownerProfileController.updatePassword(newPasswordInput.getText())){
                             String message = "Password changed successfully!";
                             messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-                            System.out.println("Password confirmed");
                         }else{
                             String message = "An error has occurred";
                             messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);

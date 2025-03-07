@@ -67,7 +67,6 @@ public class AnnouncementOwnerController {
 
     @FXML
     void handleCancelButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
-        //TODO implement
         System.out.println("Cancel button clicked: ");
 
 
@@ -99,8 +98,6 @@ public class AnnouncementOwnerController {
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
 
         if(messageText.getText().length() < messageLimit && !messageText.getText().isEmpty()){
-
-            //TODO implement
             System.out.println("Confirm button clicked: ");
 
 
