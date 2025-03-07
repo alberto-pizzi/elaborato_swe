@@ -33,6 +33,17 @@ public abstract class PersonController {
         return isPartDao.countOwnGuests(groupDao.getGroupByReservation(idReservation).getId(),userId);
     }
 
+    //TODO is it useful?
+    public static int getMaxAddableGuestsForMatched(Group group, int idReservation, int userId, boolean considerHimself) throws SQLException, ClassNotFoundException {
+        int actualGuestsByUser = PersonController.getUserGuests(idReservation,userId);
+
+        if (group == null)
+            return 0;
+
+        return group.getRequiredParticipants() - group.getParticipants() + actualGuestsByUser + (considerHimself ? 1 : 0);
+
+    }
+
     public ArrayList<User> getGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
 

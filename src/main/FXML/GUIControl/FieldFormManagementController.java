@@ -66,9 +66,11 @@ public abstract class FieldFormManagementController implements Initializable {
     @FXML
     protected Label fieldTotalPrice;
 
+    //FIXME add inheritance
     @FXML
     protected CheckBox isMatchingCheckBox;
 
+    //FIXME add inheritance
     @FXML
     protected ChoiceBox<Integer> nPlayersToMatchChoice;
 
@@ -97,8 +99,9 @@ public abstract class FieldFormManagementController implements Initializable {
 
     //inheritance
     //TODO find a smart method to manage these fields
+    //TODO Group is better than Reservation because it has more information
     protected Reservation reservation = null;
-    protected BorderPane borderPane = null;
+    protected BorderPane menuPane = null;
 
     
     
@@ -115,18 +118,19 @@ public abstract class FieldFormManagementController implements Initializable {
         this.messagesController = new MessagesController(errorLabel);
 
         //load guests selector
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/selectGuestsPane.fxml"));
-        try {
-            this.selectGuestsDialogPane = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        this.selectGuestsPaneController = loader.getController(); //connect controller
-
+        loadOwnGuestSelectorPane();
 
         //init all
         resetFields();
 
+        //listeners
+        formListeners();
+
+    }
+
+    //TODO add setData, better if it uses inheritance and polymorphism
+
+    protected void formListeners(){
         datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
 
             resetFields();
@@ -135,7 +139,6 @@ public abstract class FieldFormManagementController implements Initializable {
                 updateStartTime(newDate.getDayOfWeek());
             }
         });
-
 
         startTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
             try {
@@ -158,7 +161,6 @@ public abstract class FieldFormManagementController implements Initializable {
             }
         });
 
-
         endTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
             setDuration();
             //this.totalPrice = Reservation.totalPrice(field,calculateDurationInHours());
@@ -167,9 +169,6 @@ public abstract class FieldFormManagementController implements Initializable {
 
             updatePricePerPerson(false);
         });
-
-
-
 
         selectGuestsPaneController.getnGuestsChoice().getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
@@ -188,21 +187,29 @@ public abstract class FieldFormManagementController implements Initializable {
             updatePricePerPerson(false);
         });
 
+        //FIXME add inheritance
+        if (nPlayersToMatchChoice != null) {
+            nPlayersToMatchChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+                if (newValue != null) {
+                    updateTotalPeople();
+                    updatePricePerPerson(false);
+                } else
+                    pricePerPersonLabel.setText("Guests not selected");
 
-        nPlayersToMatchChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue != null) {
-                updateTotalPeople();
-                updatePricePerPerson(false);
-            }
-            else
-                pricePerPersonLabel.setText("Guests not selected");
-
-        });
-
+            });
+        }
 
     }
 
-    //TODO add setData, better if it uses inheritance and polymorphism
+    protected void loadOwnGuestSelectorPane(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/selectGuestsPane.fxml"));
+        try {
+            this.selectGuestsDialogPane = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        this.selectGuestsPaneController = loader.getController(); //connect controller
+    }
 
     protected void updateTotalPeople(){
 

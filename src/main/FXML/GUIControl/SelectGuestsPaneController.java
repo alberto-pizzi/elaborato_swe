@@ -57,7 +57,13 @@ public class SelectGuestsPaneController implements Initializable {
 
         this.messagesController = new MessagesController(messageLabel);
 
-        updateGuestsChoice();
+        try {
+            updateGuestsChoice();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         searchList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -102,7 +108,7 @@ public class SelectGuestsPaneController implements Initializable {
             if (newValue != null) {
                 try {
                     updateAddButton();
-                    updateGuestsChoice();
+                    //updateGuestsChoice(); //FIXME
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (ClassNotFoundException e) {
@@ -118,7 +124,7 @@ public class SelectGuestsPaneController implements Initializable {
 
     }
 
-    public void setData(Group group){
+    public void setData(Group group) throws SQLException, ClassNotFoundException {
         this.group = group;
         updateGuestsChoice();
     }
@@ -218,6 +224,7 @@ public class SelectGuestsPaneController implements Initializable {
     //FIXME calculation logic
     //FIXME userId may be not correct
     //FIXME is it here the correct position?
+    //FIXME fix calculation
     public int getTotalParticipantsPartial(boolean countHimself) throws SQLException, ClassNotFoundException {
         int totalGuests = 0;
         UserActionsController actionsController = new UserActionsController();
@@ -229,15 +236,17 @@ public class SelectGuestsPaneController implements Initializable {
     }
 
     //TODO to be overridden
-    public void updateGuestsChoice(){
-        nGuestsChoice.getItems().clear();
+    public void updateGuestsChoice() throws SQLException, ClassNotFoundException {
+        if (nGuestsChoice.getValue() == null)
+            nGuestsChoice.getItems().clear();
 
-        if (group != null && group.getReservation() != null && group.getReservation().isMatched()){
-            //maxValue is  addReservation and acceptInvite (so adding)
-            fillGuestsChoiceWithProgressiveNumbers(0, group.getRequiredParticipants()-group.getParticipants()); //FIXME maxValue to be fixed
-        }
-        else{
-            fillGuestsChoiceWithProgressiveNumbers(0,15); //FIXME 15 is correct as maxValue?
+
+        if (group != null) {
+            if (group.getReservation() != null && group.getReservation().isMatched())
+                //maxValue is  addReservation and acceptInvite (so adding)
+                fillGuestsChoiceWithProgressiveNumbers(0, group.getRequiredParticipants() - group.getParticipants()); //FIXME maxValue to be fixed
+            else
+                fillGuestsChoiceWithProgressiveNumbers(0, 15); //FIXME 15 is correct as maxValue?
         }
 
     }

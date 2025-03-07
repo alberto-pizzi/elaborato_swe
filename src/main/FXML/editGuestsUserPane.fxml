@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ManageGuestsManagerPaneController">
+<DialogPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ManageGuestsUserPaneController">
    <content>
       <VBox alignment="CENTER">
          <children>
@@ -79,11 +79,6 @@
                      </HBox.margin>
                      <children>
                         <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" text="Add to I.L. -&gt;" />
-                        <Button fx:id="forceAddButton" mnemonicParsing="false" onAction="#handleForceAddButton" prefHeight="25.0" text="Force Add to Group -&gt;&gt;">
-                           <VBox.margin>
-                              <Insets top="5.0" />
-                           </VBox.margin>
-                        </Button>
                      </children>
                   </VBox>
                   <VBox alignment="CENTER">
