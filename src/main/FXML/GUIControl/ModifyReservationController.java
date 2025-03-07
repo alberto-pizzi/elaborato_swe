@@ -109,7 +109,7 @@ public class ModifyReservationController extends FieldFormManagementController i
 
         endTimeChoice.getItems().clear();
         startTimeChoice.getItems().clear();
-        selectGuestsPaneController.getnGuestsChoice().getItems().clear();
+        selectGuestsPaneController.getnGuestsChoice().getItems().clear(); //FIXME
         //nPlayersToMatchChoice.getItems().clear();
 
         updateTotalPeople();
@@ -119,7 +119,7 @@ public class ModifyReservationController extends FieldFormManagementController i
           //  isMatchingCheckBox.setSelected(false);
         durationBox.setVisible(false);
 
-        selectGuestsPaneController.getnGuestsChoice().getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+        selectGuestsPaneController.getnGuestsChoice().getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15); //FIXME
         //nPlayersToMatchChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
         updatePricePerPerson(true);

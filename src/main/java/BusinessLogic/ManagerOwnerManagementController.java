@@ -48,11 +48,7 @@ public class ManagerOwnerManagementController extends PersonController{
         return fieldDao.getFieldsByFacility(facility.getId(), false);
     }
 
-    public int getMaxGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
 
-        return groupDao.getGroupByReservation(idReservation).getRequiredParticipants();
-    }
 
     //FIXME input change
     public ArrayList<User> searchInvitablePlayers(Reservation reservation, Boolean searched, String searchText) throws SQLException, ClassNotFoundException {

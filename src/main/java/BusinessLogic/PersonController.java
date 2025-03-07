@@ -88,6 +88,12 @@ public abstract class PersonController {
         isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
     }
 
+    public int getMaxGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+
+        return groupDao.getGroupByReservation(idReservation).getRequiredParticipants();
+    }
+
 
     public ArrayList<Reservation> getReservationsByField(int idField) throws SQLException, ClassNotFoundException {
         ReservationDao reservationDao = new ReservationDao();
