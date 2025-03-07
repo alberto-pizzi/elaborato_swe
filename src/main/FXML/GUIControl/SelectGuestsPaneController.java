@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Group;
+import main.java.DomainModel.Reservation;
 import main.java.DomainModel.User;
 
 import java.net.URL;

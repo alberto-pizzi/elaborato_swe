@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.OwnerManagementController;
+import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 
@@ -158,6 +159,8 @@ public class ReservationItemManagerController {
 
         ModifyReservationManagerController modifyReservationManagerController = loader.getController();
         modifyReservationManagerController.setData(this.reservation, reservationsController.getMenuPane());
+
+        modifyReservationManagerController.selectGuestsPaneController.setData(PersonController.getGroupByReservation(this.reservation.getId()));
 
         reservationsController.getMenuPane().setCenter(view);
 

@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.HBox;
+import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 
@@ -47,6 +48,8 @@ public class ManagementButtonsController {
 
         ModifyReservationController modifyReservationController = loader.getController();
         modifyReservationController.setData(reservationItemController.getReservation(), reservationItemController.getReservationsController().getMenuPane());
+
+        modifyReservationController.selectGuestsPaneController.setData(PersonController.getGroupByReservation(reservationItemController.getReservation().getId()));
 
         reservationItemController.getReservationsController().getMenuPane().setCenter(view);
         System.out.println("Edit button clicked: " + reservationItemController.getReservation().getId());

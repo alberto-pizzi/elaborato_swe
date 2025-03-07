@@ -44,6 +44,12 @@ public abstract class PersonController {
 
     }
 
+    //TODO is it correct? Maybe yes
+    public static Group getGroupByReservation(int idReservation) throws SQLException, ClassNotFoundException {
+        GroupDao groupDao = new GroupDao();
+        return groupDao.getGroupByReservation(idReservation);
+    }
+
     public ArrayList<User> getGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
 

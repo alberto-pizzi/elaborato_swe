@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
@@ -127,7 +128,7 @@ public class ModifyReservationController extends FieldFormManagementController i
     }
 
     @Override
-    protected void loadOwnGuestSelectorPane(){
+    protected void loadOwnGuestSelectorPane() throws SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/editGuestsUserPane.fxml"));
         try {
             this.selectGuestsDialogPane = loader.load();

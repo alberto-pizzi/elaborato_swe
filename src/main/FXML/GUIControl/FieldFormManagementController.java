@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
+import main.java.DomainModel.Group;
 import main.java.DomainModel.Reservation;
 import main.java.DomainModel.WorkingHours;
 
@@ -118,7 +119,13 @@ public abstract class FieldFormManagementController implements Initializable {
         this.messagesController = new MessagesController(errorLabel);
 
         //load guests selector
-        loadOwnGuestSelectorPane();
+        try {
+            loadOwnGuestSelectorPane();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         //init all
         resetFields();
@@ -201,7 +208,7 @@ public abstract class FieldFormManagementController implements Initializable {
 
     }
 
-    protected void loadOwnGuestSelectorPane(){
+    protected void loadOwnGuestSelectorPane() throws SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/selectGuestsPane.fxml"));
         try {
             this.selectGuestsDialogPane = loader.load();
