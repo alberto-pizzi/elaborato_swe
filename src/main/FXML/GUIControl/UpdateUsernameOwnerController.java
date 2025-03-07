@@ -59,12 +59,12 @@ public class UpdateUsernameOwnerController implements Initializable {
                         messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
                     }else{
                         String message = "An error has occurred";
-                        messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                     }
                 }
                 else{
                     String message = "Username already exists";
-                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
 
             }

@@ -65,7 +65,7 @@ public class UpdatePasswordOwnerController implements Initializable {
                             messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
                         }else{
                             String message = "An error has occurred";
-                            messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                         }
                     }else{
                         String message = "Enter different password from current one.";

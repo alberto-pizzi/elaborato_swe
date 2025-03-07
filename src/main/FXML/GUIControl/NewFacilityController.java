@@ -143,7 +143,7 @@ public class NewFacilityController implements Initializable {
             try {
                 if (copiedImage.createNewFile()) {
                     String message = "File created: " + copiedImage.getName();
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
                 } else {
                     String message = "File already exists";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);

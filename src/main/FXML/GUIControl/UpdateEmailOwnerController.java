@@ -49,8 +49,8 @@ public class UpdateEmailOwnerController implements Initializable {
         if(result.get() == ButtonType.OK){
 
             if (emailInput.getText().isEmpty()) {
-                messageLabel.setVisible(true);
-                messageLabel.setText("Please enter a valid email");
+                String message = "Please enter a valid email";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             } else {
                 OwnerProfileController ownerProfileController = new OwnerProfileController();
                 boolean emailExistence = ownerProfileController.checkEmail(emailInput.getText());
@@ -58,7 +58,7 @@ public class UpdateEmailOwnerController implements Initializable {
                     //todo controllare allaccio
                     if(ownerProfileController.updateEmail(emailInput.getText())){
                         String message = "Email updated successfully";
-                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                        messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
                     }else{
                         String message = "An error has occurred";
                         messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
