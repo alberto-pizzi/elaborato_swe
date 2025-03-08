@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -51,6 +52,9 @@ public class SignUpControllerUser implements Initializable {
     @FXML
     private TextField zip;
 
+    @FXML
+    private Label messageLabel;
+
     private Pane pane;
 
     private  MessagesController messagesController;
@@ -65,10 +69,7 @@ public class SignUpControllerUser implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        //messagesController = new MessagesController(messageLabel);
-
-
+        messagesController = new MessagesController(messageLabel);
     }
 
     @FXML
@@ -81,7 +82,7 @@ public class SignUpControllerUser implements Initializable {
         if(!(password == null || username == null || email == null || province == null)) {
             //fixme there isn't any check on already used email or username
             if(password == passwordConfirmed) {
-                //todo controllare allaccio e message controller
+                //todo controllare allaccio
                 if(access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText())){
                     System.out.println("register done");
                     try {
@@ -96,14 +97,17 @@ public class SignUpControllerUser implements Initializable {
                         e.printStackTrace();
                     }
                 }else{
-                    System.out.println("An error has occurred");
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
                 }
             }else{
-                System.out.println("The password is not the same in the two fields");
+                String message = "The password is not the same in the two fields";
+                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
             }
 
         }else{
-            System.out.println("Fields missing");
+            String message = "Fields missing";
+            messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
         }
     }
 

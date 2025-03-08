@@ -40,11 +40,12 @@
                   </StackPane>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="1083.0" spacing="20.0">
                      <children>
+                        <Label fx:id="messageLabel" minHeight="40.0" prefHeight="30.0" prefWidth="729.0" textFill="RED" visible="false" />
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <TextField id="username" fx:id="username" prefHeight="25.0" prefWidth="485.0" promptText="Username" style="-fx-background-radius: 10px;">
                                  <HBox.margin>
-                                    <Insets top="30.0" />
+                                    <Insets />
                                  </HBox.margin>
                                  <font>
                                     <Font size="14.0" />
