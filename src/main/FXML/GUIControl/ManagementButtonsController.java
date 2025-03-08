@@ -9,9 +9,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.HBox;
 import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
-import main.java.DomainModel.Reservation;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -49,7 +47,7 @@ public class ManagementButtonsController {
         ModifyReservationController modifyReservationController = loader.getController();
         modifyReservationController.setData(reservationItemController.getReservation(), reservationItemController.getReservationsController().getMenuPane());
 
-        modifyReservationController.selectGuestsPaneController.setData(PersonController.getGroupByReservation(reservationItemController.getReservation().getId()));
+        modifyReservationController.selectGuestsPaneController.setData(PersonController.getGroupByReservation(reservationItemController.getReservation().getId()),true );
 
         reservationItemController.getReservationsController().getMenuPane().setCenter(view);
         System.out.println("Edit button clicked: " + reservationItemController.getReservation().getId());

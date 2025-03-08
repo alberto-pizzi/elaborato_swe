@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Group;
-import main.java.DomainModel.Reservation;
 import main.java.DomainModel.User;
 
 import java.net.URL;
@@ -45,6 +44,8 @@ public class SelectGuestsPaneController implements Initializable {
     protected Label messageLabel;
 
     protected MessagesController messagesController;
+
+    protected boolean isEditMode = false;
 
     //if null is JUST to make a reservation
     protected Group group = null;
@@ -111,11 +112,14 @@ public class SelectGuestsPaneController implements Initializable {
             }
         });
 
+        nGuestsChoiceListener();
+    }
+
+    protected void nGuestsChoiceListener(){
         nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 try {
                     updateAddButton();
-                    //updateGuestsChoice(); //FIXME
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (ClassNotFoundException e) {
@@ -128,8 +132,9 @@ public class SelectGuestsPaneController implements Initializable {
         });
     }
 
-    public void setData(Group group) throws SQLException, ClassNotFoundException {
+    public void setData(Group group, boolean isEditMode) throws SQLException, ClassNotFoundException {
         this.group = group;
+        this.isEditMode = isEditMode;
         updateGuestsChoice();
     }
 

@@ -223,7 +223,7 @@ public class UserActionsController extends PersonController{
             }
             selectGuestsPaneController = loader.getController(); //connect controller
 
-            selectGuestsPaneController.setData(invite.getGroup());
+            selectGuestsPaneController.setData(invite.getGroup(), false);
 
 
             Dialog<ButtonType> dialog = new Dialog<>();

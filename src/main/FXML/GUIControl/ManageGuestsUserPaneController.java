@@ -1,10 +1,8 @@
 package main.FXML.GUIControl;
 
-import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import main.java.BusinessLogic.PersonController;
@@ -29,8 +27,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     @FXML
     protected ListView<GroupMember> effectiveGroupMembersList;
 
-    //TODO to be finished
-    protected ArrayList<GroupMember> groupMembersChanged;
+    //TODO add into handleConfirm (for push updates)
+    protected ArrayList<GroupMember> groupMembersChanged = new ArrayList<>();
 
 
     @Override
@@ -41,12 +39,6 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
     }
 
-    //TODO is it needed?
-    @Override
-    protected void addListeners(){
-        super.addListeners();
-
-    }
 
     //TODO to be overridden
     protected void fillEffectiveGroupMembersList() throws SQLException, ClassNotFoundException {
@@ -64,8 +56,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     }
 
    @Override
-   public void setData(Group group) throws SQLException, ClassNotFoundException {
-       super.setData(group);
+   public void setData(Group group, boolean isEditMode) throws SQLException, ClassNotFoundException {
+       super.setData(group, isEditMode);
        fillEffectiveGroupMembersList();
    }
 
@@ -94,6 +86,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     }
 
     //TODO finish to implement
+    //TODO add groupHead condition and manager condition
     public void updateRemoveButtons(){
         UserActionsController userActionsController = new UserActionsController();
 
@@ -121,7 +114,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         if (group != null){
             if (groupMember != null){
                 //FIXME group DomainModel not be updated
-                PersonController.removeGroupMember(group.getReservation().getId(), groupMember.user().getId());
+                PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
                 effectiveGroupMembersList.getItems().remove(groupMember);
 
                 updatePartialParticipants();
@@ -138,7 +131,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         if (group != null && !effectiveGroupMembersList.getItems().isEmpty()){
             for (GroupMember groupMember : effectiveGroupMembersList.getItems()){
                 //FIXME group DomainModel not be updated
-                PersonController.removeGroupMember(group.getReservation().getId(),groupMember.user().getId());
+                PersonController.removeGroupMember(group.getReservation().getId(),groupMember.getUser().getId());
                 effectiveGroupMembersList.getItems().remove(groupMember);
             }
 
