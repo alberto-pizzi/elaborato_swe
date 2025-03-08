@@ -45,10 +45,15 @@ public class ProfileMenuController implements Initializable {
     private Label welcomeMessageLabel;
 
     @FXML
+    private Label messageLabel;
+
+    @FXML
     private BorderPane profileMenuPane;
 
     @FXML
     private Button logoutButton;
+
+    private MessagesController messagesController;
 
     //methods
 
@@ -56,10 +61,8 @@ public class ProfileMenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         UserActionsController userActionsController = new UserActionsController();
-
-
         welcomeMessageLabel.setText("Hi, " + userActionsController.getUser().getUsername() + "!");
-
+        messagesController = new MessagesController(messageLabel);
 
         try {
             changeView("updateUsername.fxml");
@@ -81,8 +84,6 @@ public class ProfileMenuController implements Initializable {
 
     @FXML
     void handleDeleteProfileButton(ActionEvent event) throws SQLException, IOException {
-        //TODO implement (add alert)
-
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Reservation");
         //FIXME improve date format
@@ -92,11 +93,13 @@ public class ProfileMenuController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
             UserProfileController userProfileController = new UserProfileController();
-            //todo controllare allaccio e usare messageController
+            //todo controllare allaccio
             if( userProfileController.deleteProfile(userProfileController.getUser().getUsername())){
                 System.out.println("Deleted!");
                 handleLogoutButton(event);
             }else{
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                 //fixme fare parte negativa
             }
         } else if(result.get() == ButtonType.CANCEL){

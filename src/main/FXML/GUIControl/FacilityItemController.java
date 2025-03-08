@@ -62,11 +62,11 @@ public class FacilityItemController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //messagesController = new MessagesController(messageLabel);
     }
 
     public void setFacilitiesListController(FacilitiesListController facilitiesListController) {
         this.facilitiesListController = facilitiesListController;
+        this.messagesController = new MessagesController(facilitiesListController.getMessageLabel());
     }
 
     @FXML
@@ -86,13 +86,16 @@ public class FacilityItemController implements Initializable {
             System.out.println("Delete button clicked: " + facilityNameLabel.getText());
 
             OwnerManagementController ownerManagementController = new OwnerManagementController();
-            //todo controllare allaccio e message controller
+            //todo controllare allaccio
             if(ownerManagementController.deleteFacility(facility.getId())){
+                String message = "Deletion Successful";
+                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
                 if (facilitiesListController != null) {
                     facilitiesListController.removeFacilityItemFromGUI(facilityItemPane, facility);
                 }
             }else{
-                System.out.println("An error has occurred");
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
             }
 
         } else if(result.get() == ButtonType.CANCEL){

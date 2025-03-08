@@ -97,16 +97,16 @@ public class SignUpControllerOwner implements Initializable {
                     }
                 }else{
                     String message = "An error has occurred";
-                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                 }
             }else{
                 String message = "The password is not the same in the two fields";
-                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
             }
 
         }else{
             String message = "Fields missing";
-            messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
         }
 
     }

@@ -2,14 +2,16 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ProfileMenuOwnerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ProfileMenuOwnerController">
    <children>
       <BorderPane fx:id="profileMenuPane" prefHeight="720.0" prefWidth="1060.0">
          <bottom>
@@ -75,39 +77,45 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Button id="delete" fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Logout">
-                     <graphic>
-                        <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@img/icons/logout.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <HBox.margin>
-                        <Insets left="50.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button id="delete" fx:id="deleteProfileButton1" alignment="CENTER" mnemonicParsing="false" onAction="#handleDeleteProfileButton" prefHeight="43.0" prefWidth="297.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Delete Profile">
-                     <graphic>
-                        <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@img/icons/deleteProfile.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Button>
+                  <VBox>
+                     <children>
+                        <Label fx:id="messageLabel" minHeight="30.0" prefHeight="30.0" prefWidth="433.0" textFill="RED" visible="false" />
+                        <HBox spacing="10.0">
+                           <children>
+                              <Button id="delete" fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Logout">
+                                 <graphic>
+                                    <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@img/icons/logout.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </Button>
+                              <Button id="delete" fx:id="deleteProfileButton1" alignment="CENTER" mnemonicParsing="false" onAction="#handleDeleteProfileButton" prefHeight="43.0" prefWidth="297.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Delete Profile">
+                                 <graphic>
+                                    <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@img/icons/deleteProfile.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
                <padding>
                   <Insets left="15.0" right="15.0" />

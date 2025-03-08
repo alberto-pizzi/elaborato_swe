@@ -36,6 +36,9 @@ public class FacilitiesListController implements Initializable {
     @FXML
     private Button previous;
 
+    @FXML
+    private Label messageLabel;
+
     private AnchorPane page;
 
     private List<Facility> facilities = new ArrayList<>();
@@ -56,6 +59,10 @@ public class FacilitiesListController implements Initializable {
 
     public AnchorPane getPage() {
         return page;
+    }
+
+    public Label getMessageLabel() {
+        return messageLabel;
     }
 
     private List<Facility> getData() throws SQLException, ClassNotFoundException {

@@ -45,6 +45,7 @@
                   </VBox>
                </content>
             </ScrollPane>
+            <Label fx:id="messageLabel" prefHeight="67.0" prefWidth="945.0" textFill="RED" wrapText="true" />
          </children>
       </VBox>
       <VBox alignment="CENTER" layoutY="563.0" prefHeight="158.0" prefWidth="1060.0" style="-fx-background-color: white;">

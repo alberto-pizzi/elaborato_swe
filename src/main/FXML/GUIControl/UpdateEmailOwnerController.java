@@ -34,7 +34,6 @@ public class UpdateEmailOwnerController implements Initializable {
         messagesController = new MessagesController(messageLabel);
     }
 
-    //todo controllo email già usata
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 

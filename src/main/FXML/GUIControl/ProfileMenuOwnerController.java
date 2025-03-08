@@ -47,11 +47,15 @@ public class ProfileMenuOwnerController implements Initializable {
     @FXML
     private Button logoutButton;
 
+    @FXML
+    private Label messageLabel;
+
+    private MessagesController messagesController;
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        messagesController = new MessagesController(messageLabel);
         try {
             changeView("updateUsernameOwner.fxml");
         } catch (IOException e) {
@@ -82,11 +86,13 @@ public class ProfileMenuOwnerController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
             OwnerProfileController ownerProfileController = new OwnerProfileController();
-            //todo controllare allaccio e usare messageController
+            //todo controllare allaccio
             if(ownerProfileController.deleteProfile(ownerProfileController.getUsername())){
                 System.out.println("Deleted!");
                 handleLogoutButton(event);
             }else{
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                 //fixme fare parte negativa
             }
         } else if(result.get() == ButtonType.CANCEL){
