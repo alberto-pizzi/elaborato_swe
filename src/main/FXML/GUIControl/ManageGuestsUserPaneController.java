@@ -114,7 +114,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         if (group != null){
             if (groupMember != null){
                 //FIXME group DomainModel not be updated
-                PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+                //TODO add draft array
+                //PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
                 effectiveGroupMembersList.getItems().remove(groupMember);
 
                 updatePartialParticipants();
@@ -131,7 +132,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         if (group != null && !effectiveGroupMembersList.getItems().isEmpty()){
             for (GroupMember groupMember : effectiveGroupMembersList.getItems()){
                 //FIXME group DomainModel not be updated
-                PersonController.removeGroupMember(group.getReservation().getId(),groupMember.getUser().getId());
+                //TODO add draft array
+                //PersonController.removeGroupMember(group.getReservation().getId(),groupMember.getUser().getId());
                 effectiveGroupMembersList.getItems().remove(groupMember);
             }
 

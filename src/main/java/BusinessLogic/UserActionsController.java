@@ -411,14 +411,6 @@ public class UserActionsController extends PersonController{
         return fieldDao.getFieldAddress(fieldId);
     }
 
-
-    public void addGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
-        IsPartDao isPartDao = new IsPartDao();
-        GroupDao groupDao = new GroupDao();
-
-        isPartDao.addMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember, 0);
-    }
-
     public void changeOwnGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();

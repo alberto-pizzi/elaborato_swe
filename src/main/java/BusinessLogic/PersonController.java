@@ -96,6 +96,14 @@ public abstract class PersonController {
         isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
     }
 
+    //TODO changed into static. Is it correct?
+    public static void addGroupMember(int idReservation, int idMember, int ownGuests) throws SQLException, ClassNotFoundException {
+        IsPartDao isPartDao = new IsPartDao();
+        GroupDao groupDao = new GroupDao();
+
+        isPartDao.addMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember, ownGuests);
+    }
+
     public int getMaxGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
 
@@ -130,4 +138,12 @@ public abstract class PersonController {
         UserDAO userDAO = new UserDAO();
         return userDAO.getUserID(username);
     }
+
+    //TODO changed into static. Is it correct?
+    public static User getUserByID(int id) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        return userDAO.getUserByID(id);
+    }
+
+
 }

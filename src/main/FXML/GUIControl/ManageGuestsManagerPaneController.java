@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.GroupMember;
@@ -22,27 +23,40 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
 
 
+    public boolean isUserIntoEffectiveGroupMembers(String targetUsername){
+        for (GroupMember groupMember : effectiveGroupMembersList.getItems()){
+            if (groupMember.getUser().getUsername().equals(targetUsername)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @FXML
-    public void handleForceAddButton(ActionEvent event) {
+    public void handleForceAddButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         System.out.println("FORCE ADD BUTTON");
-        //TODO implement
+
+        String userToBeAdded = searchList.getSelectionModel().getSelectedItem();
+
+        if (userToBeAdded != null) {
+
+            if (!isUserIntoEffectiveGroupMembers(userToBeAdded) && group != null) {
+                int userId = ManagerOwnerManagementController.getUserIdByUsername(userToBeAdded);
+                int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
+                //ManagerOwnerManagementController.addGroupMember(group.getReservation().getId(),userId,ownGuests);
+                //TODO add draft array
+                effectiveGroupMembersList.getItems().add(new GroupMember(ManagerOwnerManagementController.getUserByID(userId),ownGuests));
+            }
+            else
+                messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,3);
+
+        }
+        else{
+            messagesController.showMessage("User not found or not selected", MessagesController.MessageType.ERROR,3);
+        }
+
     }
 
-    //TODO remove override
-    @FXML
-    @Override
-    public void handleRemoveGroupMemberButton(ActionEvent event) {
-        System.out.println("REMOVE GROUP MEMBER BUTTON");
-        //TODO implement overridden?
-    }
-
-    //TODO remove override
-    @FXML
-    @Override
-    public void handleRemoveAllMembersButton(ActionEvent event) {
-        System.out.println("REMOVE ALL MEMBERS BUTTON");
-        //TODO implement overridden?
-    }
 
     @Override
     protected void fillEffectiveGroupMembersList() throws SQLException, ClassNotFoundException {
@@ -95,9 +109,23 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     protected void addListeners(){
         super.addListeners();
 
+
+        searchList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                updateGuestsLabel(newSelection, true);
+
+                if (searchList.getSelectionModel().getSelectedItem() != null) {
+                    fillGuestsChoiceWithProgressiveNumbers(0,15); //FIXME add right calculation (dynamic)
+                    nGuestsChoice.setValue(0);
+                }
+
+            }
+        });
+
+
         effectiveGroupMembersList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                updateGuestsLabel(newSelection.getUser().getUsername());
+                updateGuestsLabel(newSelection.getUser().getUsername(), false);
                 try {
                     updateGuestsChoice();
                 } catch (SQLException e) {
@@ -107,16 +135,21 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                 }
             }
         });
+
+
     }
 
-    protected void updateGuestsLabel(String username){
+    protected void updateGuestsLabel(String username, boolean isSearched){
 
         if (isEditMode){
             if (username == null || username.isEmpty()){
                 guestUsersWALabel.setText("Guest Users (not selected)");
             }
             else{
-                guestUsersWALabel.setText("Guest Users (" + username + ")");
+                if (isSearched)
+                    guestUsersWALabel.setText("Assign guests (" + username + ")");
+                else
+                    guestUsersWALabel.setText("Guest Users (" + username + ")");
             }
         }
 
