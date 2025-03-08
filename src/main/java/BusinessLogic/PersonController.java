@@ -87,7 +87,9 @@ public abstract class PersonController {
 
     }
 
-    public void removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
+
+    //TODO changed into static. Is it correct?
+    public static void removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
 
@@ -121,5 +123,11 @@ public abstract class PersonController {
     public String getFieldAddress(int fieldId) throws SQLException {
         FieldDao fieldDao = new FieldDao();
         return fieldDao.getFieldAddress(fieldId);
+    }
+
+    //TODO changed into static. Is it correct?
+    public static int getUserIdByUsername(String username) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        return userDAO.getUserID(username);
     }
 }

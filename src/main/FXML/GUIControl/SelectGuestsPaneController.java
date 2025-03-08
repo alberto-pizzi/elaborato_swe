@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
-
+//to make a reservation and to accept an invites
 public class SelectGuestsPaneController implements Initializable {
 
     @FXML
@@ -46,8 +46,10 @@ public class SelectGuestsPaneController implements Initializable {
 
     protected MessagesController messagesController;
 
-    //reservation guests
+    //if null is JUST to make a reservation
     protected Group group = null;
+
+    protected int partialParticipants = 0;
 
 
 
@@ -68,6 +70,11 @@ public class SelectGuestsPaneController implements Initializable {
 
         searchList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
+        addListeners();
+
+    }
+
+    protected void addListeners(){
         guestUsernameField.textProperty().addListener((observable, oldValue, newValue) -> {
 
             searchList.getItems().clear();
@@ -92,7 +99,6 @@ public class SelectGuestsPaneController implements Initializable {
             int newSize = accountList.getItems().size();
             while (change.next()) {
                 if (change.wasAdded() || change.wasRemoved()) {
-                    //System.out.println("La dimensione della lista è cambiata: " + newSize);
                     try {
                         updateAddButton();
                         updateGuestsChoice();
@@ -120,14 +126,18 @@ public class SelectGuestsPaneController implements Initializable {
                 System.out.println("Null Value"); //FIXME
 
         });
-
-
-
     }
 
     public void setData(Group group) throws SQLException, ClassNotFoundException {
         this.group = group;
         updateGuestsChoice();
+    }
+
+    public void updatePartialParticipants(){
+        partialParticipants = 1 + accountList.getItems().size() + (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
+
+
+        System.out.println("PartialParticipants: " + partialParticipants);
     }
 
     public ListView<String> getAccountList() {
@@ -243,10 +253,13 @@ public class SelectGuestsPaneController implements Initializable {
 
 
         if (group != null) {
-            if (group.getReservation() != null && group.getReservation().isMatched())
+            int maxValue;
+            if (group.getReservation() != null && group.getReservation().isMatched()) {
                 //maxValue is  addReservation and acceptInvite (so adding)
-                fillGuestsChoiceWithProgressiveNumbers(0, group.getRequiredParticipants() - group.getParticipants()); //FIXME maxValue to be fixed
-            else
+                maxValue = group.getRequiredParticipants() - group.getParticipants() - 1;
+                fillGuestsChoiceWithProgressiveNumbers(0, maxValue); //FIXME maxValue to be fixed
+
+            }else
                 fillGuestsChoiceWithProgressiveNumbers(0, 15); //FIXME 15 is correct as maxValue?
         }
 

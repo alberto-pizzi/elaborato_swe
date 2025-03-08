@@ -318,7 +318,7 @@ public class ModifyReservationOwnerController implements Initializable {
             clients.getChildren().removeAll(clickedUserLabels);
             for (User user : clickedUsers) {
 
-                managerOwnerManagementController.removeGroupMember(reservation.getId(), user.getId());
+                ManagerOwnerManagementController.removeGroupMember(reservation.getId(), user.getId());
                 usersList.remove(user);
             }
 
