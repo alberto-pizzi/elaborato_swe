@@ -133,6 +133,7 @@ public class SelectGuestsPaneController implements Initializable {
         updateGuestsChoice();
     }
 
+    //FIXME
     public void updatePartialParticipants(){
         partialParticipants = 1 + accountList.getItems().size() + (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
 

@@ -15,6 +15,7 @@ import main.java.DomainModel.User;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
@@ -28,6 +29,9 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     @FXML
     protected ListView<GroupMember> effectiveGroupMembersList;
 
+    //TODO to be finished
+    protected ArrayList<GroupMember> groupMembersChanged;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -37,11 +41,10 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
     }
 
+    //TODO is it needed?
     @Override
     protected void addListeners(){
         super.addListeners();
-
-
 
     }
 
