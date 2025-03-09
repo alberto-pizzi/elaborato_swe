@@ -161,13 +161,10 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     //TODO implement
     @Override
     public void updateDraftParticipants(boolean considerHimself){
-        //super.updateDraftParticipants(considerHimself);
-
-        //partialParticipants += countPartialEffectiveGroupMembers(); //FIXME consider himself?
 
         partialParticipants = (accountList != null ? accountList.getItems().size() : 0) + countPartialEffectiveGroupMembers();
 
-
+        //TODO disable adding button?
     }
 
 

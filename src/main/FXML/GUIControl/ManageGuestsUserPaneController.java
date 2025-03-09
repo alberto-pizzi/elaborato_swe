@@ -46,6 +46,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
         partialParticipants += countPartialEffectiveGroupMembers();
 
+        //TODO disable add to IL button?
+
     }
 
     protected int countPartialEffectiveGroupMembers(){
@@ -170,7 +172,6 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
                 updateDraftParticipants(true); //FIXME put it inside remove methods?
 
-                System.out.println("DRAFT REMOVE SIZE: "+ groupMembersRemoved.size());
             }
         }
 
@@ -190,7 +191,6 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
             updateDraftParticipants(true);
 
-            System.out.println("DRAFT REMOVE ALL SIZE: "+ groupMembersRemoved.size());
 
         }
 
