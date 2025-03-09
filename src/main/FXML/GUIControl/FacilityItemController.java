@@ -82,9 +82,6 @@ public class FacilityItemController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
-
-            System.out.println("Delete button clicked: " + facilityNameLabel.getText());
-
             OwnerManagementController ownerManagementController = new OwnerManagementController();
             //todo controllare allaccio
             if(ownerManagementController.deleteFacility(facility.getId())){

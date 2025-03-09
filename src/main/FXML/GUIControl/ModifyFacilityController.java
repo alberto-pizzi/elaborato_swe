@@ -148,6 +148,7 @@ public class ModifyFacilityController implements Initializable {
                 facility.setZip(zipInput.getText());
                 //todo controllare allaccio
                 if(ownerManagementController.updateFacility(facility)){
+                    System.out.println("Facility updated");
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
                     Parent facilitiesList = loader.load();
 

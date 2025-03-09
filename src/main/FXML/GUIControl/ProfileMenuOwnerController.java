@@ -117,28 +117,15 @@ public class ProfileMenuOwnerController implements Initializable {
 
     @FXML
     void handleLogoutButton(ActionEvent event) throws IOException{
-        System.out.println("Logout button clicked: ");
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Logout");
-        //FIXME improve date format
-        alert.setHeaderText("Confirm logout");
-        alert.setContentText("Are you sure you want to exit from the account?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.get() == ButtonType.OK){
-
-            OwnerProfileController ownerProfileController = new OwnerProfileController();
-            ownerProfileController.logOut();
-            logoutButton.getScene().getWindow().hide();
-            Stage logInUser = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/scene.fxml"));
-            logInUser.setTitle("Sport Plus");
-            logInUser.setScene(new Scene(root, 1280, 720));
-            logInUser.show();
-            logInUser.setResizable(false);
-
-        } else if(result.get() == ButtonType.CANCEL){
-            System.out.println("Cancel!");
-        }
+        OwnerProfileController ownerProfileController = new OwnerProfileController();
+        ownerProfileController.logOut();
+        logoutButton.getScene().getWindow().hide();
+        Stage logInUser = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/scene.fxml"));
+        logInUser.setTitle("Sport Plus");
+        logInUser.setScene(new Scene(root, 1280, 720));
+        logInUser.show();
+        logInUser.setResizable(false);
+        System.out.println("Logout done");
     }
 }

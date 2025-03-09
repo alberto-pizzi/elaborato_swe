@@ -106,6 +106,7 @@ public class NewFacilityController implements Initializable {
                     newWorkingHoursController.setData(facility,this.menuPane);
 
                     menuPane.setCenter(newWorkHours);
+                    System.out.println("Facility created");
                 }else{
                     String message = "An error has occurred";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);

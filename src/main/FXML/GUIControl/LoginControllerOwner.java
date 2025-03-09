@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -26,6 +27,9 @@ public class LoginControllerOwner implements Initializable {
     private Button SignUp;
 
     @FXML
+    private Label messageLabel;
+
+    @FXML
     private Button owner;
 
     @FXML
@@ -41,6 +45,8 @@ public class LoginControllerOwner implements Initializable {
 
     private Pane pane;
 
+    private MessagesController messagesController;
+
     public Pane getScenePane() {
         return pane;
     }
@@ -51,6 +57,7 @@ public class LoginControllerOwner implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        messagesController = new MessagesController(messageLabel);
     }
 
     @FXML
@@ -65,7 +72,8 @@ public class LoginControllerOwner implements Initializable {
 
         verified = access.checkPassword(username.getText(), password.getText());
         if (!verified) {
-            forgot.setText("Wrong password or username, forgot password?");
+            String message = "Wrong password or username, forgot password?";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }else{
             System.out.println("login done");
             person = access.login(username.getText());

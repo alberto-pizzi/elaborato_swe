@@ -185,7 +185,6 @@ public class NewFieldController implements Initializable {
                     System.out.println("Field created: " + field.getName());
                     FXMLLoader loader;
                     Parent pane;
-
                     if(newFacility){
                         loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
                         pane = loader.load();
@@ -228,7 +227,8 @@ public class NewFieldController implements Initializable {
             field.setDescription(descriptionInput.getText());
             //todo controllare allaccio
             if(ownerManagementController.addField(field)){
-                System.out.println("Field added");
+                String message = "Field created and added";
+                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
                 nameInput.setText("");
                 priceInput.setText("");
                 descriptionInput.setText("");

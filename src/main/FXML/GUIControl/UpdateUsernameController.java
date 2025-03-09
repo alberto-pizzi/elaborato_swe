@@ -36,8 +36,6 @@ public class UpdateUsernameController implements Initializable {
         usernameInput.setText(userActionsController.getUser().getUsername());
 
         messagesController = new MessagesController(messageLabel);
-
-
     }
 
     @FXML

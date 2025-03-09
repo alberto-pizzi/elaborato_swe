@@ -168,6 +168,7 @@ public class ModifyFieldController implements Initializable {
             field.setDescription(descriptionInput.getText());
             //todo controllare allaccio
             if(ownerManagementController.updateField(field)){
+                System.out.println("Field updated");
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
                 Parent facilityModifyPane = loader.load();
 

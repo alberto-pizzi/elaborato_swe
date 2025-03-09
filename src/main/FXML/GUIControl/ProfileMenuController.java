@@ -134,5 +134,6 @@ public class ProfileMenuController implements Initializable {
         logInUser.setScene(new Scene(root, 1280, 720));
         logInUser.show();
         logInUser.setResizable(false);
+        System.out.println("Logout done");
     }
 }
