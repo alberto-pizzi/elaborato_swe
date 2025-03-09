@@ -27,8 +27,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     @FXML
     protected ListView<GroupMember> effectiveGroupMembersList;
 
-    //TODO add into handleConfirm (for push updates)
-    protected ArrayList<GroupMember> groupMembersChanged = new ArrayList<>();
+
+
 
 
     @Override
@@ -39,6 +39,30 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
     }
 
+    @Override
+    public void updateDraftParticipants(boolean considerHimself){
+        //FIXME consider himself? Check effectiveGroupMembersList if himself is included.
+        super.updateDraftParticipants(considerHimself);
+
+        partialParticipants += countPartialEffectiveGroupMembers();
+
+    }
+
+    protected int countPartialEffectiveGroupMembers(){
+        int count = 0;
+
+        if (effectiveGroupMembersList != null) {
+            for (GroupMember groupMember : effectiveGroupMembersList.getItems()) {
+                if (groupMember != null) {
+                    count += groupMember.getOwnGuests() + 1; //1 is for himself
+                }
+            }
+
+        }
+
+
+        return count;
+    }
 
     //TODO to be overridden
     protected void fillEffectiveGroupMembersList() throws SQLException, ClassNotFoundException {
@@ -105,6 +129,34 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         }
     }
 
+    protected void addOrReplaceMemberIntoDraftArray(ArrayList<GroupMember> draftArray, GroupMember groupMember) {
+        if (draftArray != null & groupMember != null) {
+
+            for (int i = 0; i < draftArray.size(); i++) {
+                if (draftArray.get(i).getUser().getUsername().equals(groupMember.getUser().getUsername())) {
+                    draftArray.set(i, groupMember);
+                    return;
+                }
+            }
+            draftArray.add(groupMember);
+        }
+        else
+            System.out.println("Draft array or group member given is null");
+    }
+
+    protected void removeGroupMemberFromDraft(GroupMember groupMember){
+        if (effectiveGroupMembersList != null && groupMembersRemoved != null) {
+
+            addOrReplaceMemberIntoDraftArray(groupMembersRemoved, groupMember);
+
+            effectiveGroupMembersList.getItems().remove(groupMember);
+        }
+        else
+            System.out.println("Draft ArrayLists are null (removing)");
+    }
+
+
+
     @FXML
     public void handleRemoveGroupMemberButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         System.out.println("REMOVE GROUP MEMBER BUTTON");
@@ -113,12 +165,12 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
         if (group != null){
             if (groupMember != null){
-                //FIXME group DomainModel not be updated
-                //TODO add draft array
-                //PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
-                effectiveGroupMembersList.getItems().remove(groupMember);
 
-                updatePartialParticipants();
+                removeGroupMemberFromDraft(groupMember);
+
+                updateDraftParticipants(true); //FIXME put it inside remove methods?
+
+                System.out.println("DRAFT REMOVE SIZE: "+ groupMembersRemoved.size());
             }
         }
 
@@ -131,13 +183,14 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         //TODO add Alert
         if (group != null && !effectiveGroupMembersList.getItems().isEmpty()){
             for (GroupMember groupMember : effectiveGroupMembersList.getItems()){
-                //FIXME group DomainModel not be updated
-                //TODO add draft array
-                //PersonController.removeGroupMember(group.getReservation().getId(),groupMember.getUser().getId());
-                effectiveGroupMembersList.getItems().remove(groupMember);
+
+                removeGroupMemberFromDraft(groupMember);
+
             }
 
-            updatePartialParticipants();
+            updateDraftParticipants(true);
+
+            System.out.println("DRAFT REMOVE ALL SIZE: "+ groupMembersRemoved.size());
 
         }
 

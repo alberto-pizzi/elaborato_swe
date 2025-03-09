@@ -43,9 +43,10 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             if (!isUserIntoEffectiveGroupMembers(userToBeAdded) && group != null) {
                 int userId = ManagerOwnerManagementController.getUserIdByUsername(userToBeAdded);
                 int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
-                //ManagerOwnerManagementController.addGroupMember(group.getReservation().getId(),userId,ownGuests);
-                //TODO add draft array
-                effectiveGroupMembersList.getItems().add(new GroupMember(ManagerOwnerManagementController.getUserByID(userId),ownGuests));
+
+                addGroupMemberIntoDraft(new GroupMember(ManagerOwnerManagementController.getUserByID(userId),ownGuests));
+
+                System.out.println("DRAFT ADD SIZE: "+ groupMembersAdded.size());
             }
             else
                 messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,3);
@@ -72,15 +73,17 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
         }
     }
 
-    protected void addOrReplaceMemberChanged(GroupMember groupMemberChanged) {
-        for (int i=0; i<groupMembersChanged.size(); i++){
-            if (groupMembersChanged.get(i).getUser().equals(groupMemberChanged.getUser())){
-                groupMembersChanged.set(i, groupMemberChanged);
-                return;
-            }
+    protected void addGroupMemberIntoDraft(GroupMember groupMember){
+        if (effectiveGroupMembersList != null && groupMembersAdded != null) {
+
+            addOrReplaceMemberIntoDraftArray(groupMembersAdded, groupMember);
+
+            effectiveGroupMembersList.getItems().add(groupMember);
         }
-        groupMembersChanged.add(groupMemberChanged);
+        else
+            System.out.println("Draft ArrayLists are null (adding)");
     }
+
 
     @Override
     protected void nGuestsChoiceListener(){
@@ -88,10 +91,10 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             if (newValue != null) {
                 try {
                     updateAddButton();
-                    if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null && !Objects.equals(oldValue, newValue)) {
+                    if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null && !Objects.equals(oldValue, newValue)) { //FIXME oldValue logic
                         effectiveGroupMembersList.getSelectionModel().getSelectedItem().setOwnGuests((nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0));
-                        addOrReplaceMemberChanged(effectiveGroupMembersList.getSelectionModel().getSelectedItem());
-                        System.out.println("Change saved");
+                        addOrReplaceMemberIntoDraftArray(groupMembersChanged,effectiveGroupMembersList.getSelectionModel().getSelectedItem());
+
                     }
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
@@ -100,7 +103,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                 }
             }
             else
-                System.out.println("Null Value"); //FIXME
+                System.out.println("Null Value");
 
         });
     }
@@ -152,6 +155,18 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                     guestUsersWALabel.setText("Guest Users (" + username + ")");
             }
         }
+
+    }
+
+    //TODO implement
+    @Override
+    public void updateDraftParticipants(boolean considerHimself){
+        //super.updateDraftParticipants(considerHimself);
+
+        //partialParticipants += countPartialEffectiveGroupMembers(); //FIXME consider himself?
+
+        partialParticipants = (accountList != null ? accountList.getItems().size() : 0) + countPartialEffectiveGroupMembers();
+
 
     }
 

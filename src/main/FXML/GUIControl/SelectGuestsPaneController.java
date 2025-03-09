@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Group;
+import main.java.DomainModel.GroupMember;
 import main.java.DomainModel.User;
 
 import java.net.URL;
@@ -52,6 +53,11 @@ public class SelectGuestsPaneController implements Initializable {
 
     protected int partialParticipants = 0;
 
+    //TODO add into handleConfirm (for push updates)
+    protected ArrayList<GroupMember> groupMembersChanged = new ArrayList<>();
+    protected ArrayList<GroupMember> groupMembersRemoved = new ArrayList<>();
+    protected ArrayList<GroupMember> groupMembersAdded = new ArrayList<>();
+
 
 
 
@@ -72,6 +78,10 @@ public class SelectGuestsPaneController implements Initializable {
         searchList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         addListeners();
+
+        groupMembersRemoved.clear();
+        groupMembersChanged.clear();
+        groupMembersAdded.clear();
 
     }
 
@@ -138,12 +148,9 @@ public class SelectGuestsPaneController implements Initializable {
         updateGuestsChoice();
     }
 
-    //FIXME
-    public void updatePartialParticipants(){
-        partialParticipants = 1 + accountList.getItems().size() + (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
+    public void updateDraftParticipants(boolean considerHimself){
+        partialParticipants = (considerHimself ? 1 : 0) + (accountList != null ? accountList.getItems().size() : 0) + (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
 
-
-        System.out.println("PartialParticipants: " + partialParticipants);
     }
 
     public ListView<String> getAccountList() {
