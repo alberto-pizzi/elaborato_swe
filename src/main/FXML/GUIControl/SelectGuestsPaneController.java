@@ -111,7 +111,7 @@ public class SelectGuestsPaneController implements Initializable {
             while (change.next()) {
                 if (change.wasAdded() || change.wasRemoved()) {
                     try {
-                        updateAddButton();
+                        updateAddButtons();
                         updateGuestsChoice();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -129,7 +129,7 @@ public class SelectGuestsPaneController implements Initializable {
         nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 try {
-                    updateAddButton();
+                    updateAddButtons();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (ClassNotFoundException e) {
@@ -294,7 +294,8 @@ public class SelectGuestsPaneController implements Initializable {
         return true;
     }
 
-    public void updateAddButton() throws SQLException, ClassNotFoundException {
+    //FIXME fix its call locations
+    public void updateAddButtons() throws SQLException, ClassNotFoundException {
         addButton.setDisable(!canOthersBeAdded());
     }
 

@@ -90,7 +90,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
         nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 try {
-                    updateAddButton();
+                    updateAddButtons();
                     if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null && !Objects.equals(oldValue, newValue)) { //FIXME oldValue logic
                         effectiveGroupMembersList.getSelectionModel().getSelectedItem().setOwnGuests((nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0));
                         addOrReplaceMemberIntoDraftArray(groupMembersChanged,effectiveGroupMembersList.getSelectionModel().getSelectedItem());
@@ -166,6 +166,12 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
         //TODO disable adding button?
 
+    }
+
+    @Override
+    public void updateAddButtons() throws SQLException, ClassNotFoundException {
+        super.updateAddButtons();
+        forceAddButton.setDisable(!canOthersBeAdded());
     }
 
 
