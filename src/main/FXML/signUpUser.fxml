@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="registerPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.SignUpControllerUser">
+<Pane fx:id="registerPane" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.SignUpControllerUser">
    <children>
       <BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: aeaeae;">
          <bottom>
@@ -40,7 +40,10 @@
                   </StackPane>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="1083.0" spacing="20.0">
                      <children>
-                        <Label fx:id="messageLabel" minHeight="40.0" prefHeight="30.0" prefWidth="729.0" textFill="RED" visible="false" />
+                        <Label fx:id="messageLabel" alignment="CENTER" minHeight="40.0" prefHeight="30.0" prefWidth="729.0" text="Error: text" textFill="RED" visible="false">
+                           <font>
+                              <Font size="16.0" />
+                           </font></Label>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <TextField id="username" fx:id="username" prefHeight="25.0" prefWidth="485.0" promptText="Username" style="-fx-background-radius: 10px;">

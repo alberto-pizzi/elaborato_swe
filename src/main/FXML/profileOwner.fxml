@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ProfileMenuOwnerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ProfileMenuOwnerController">
    <children>
       <BorderPane fx:id="profileMenuPane" prefHeight="720.0" prefWidth="1060.0">
          <bottom>
@@ -79,7 +79,10 @@
                   </Button>
                   <VBox>
                      <children>
-                        <Label fx:id="messageLabel" minHeight="30.0" prefHeight="30.0" prefWidth="433.0" textFill="RED" visible="false" />
+                        <Label fx:id="messageLabel" alignment="CENTER" minHeight="30.0" prefHeight="30.0" prefWidth="442.0" text="Error: text" textFill="RED" visible="false">
+                           <font>
+                              <Font size="16.0" />
+                           </font></Label>
                         <HBox spacing="10.0">
                            <children>
                               <Button id="delete" fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Logout">

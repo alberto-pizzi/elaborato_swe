@@ -60,14 +60,14 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <VBox>
+                        <VBox alignment="CENTER" prefWidth="606.0">
                            <HBox.margin>
                               <Insets top="15.0" />
                            </HBox.margin>
                            <children>
-                              <Button fx:id="messageLabel" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="286.0" style="-fx-background-color: transparent;" textFill="RED" underline="true" visible="false">
+                              <Button fx:id="messageLabel" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="606.0" style="-fx-background-color: transparent;" text="Error: text" textFill="RED" visible="false">
                                  <font>
-                                    <Font size="13.0" />
+                                    <Font size="16.0" />
                                  </font>
                               </Button>
                               <Button fx:id="forgot" mnemonicParsing="false" prefHeight="25.0" prefWidth="286.0" style="-fx-background-color: transparent;" text="Forgot Password" underline="true">

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FacilitiesListController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FacilitiesListController">
    <children>
       <VBox alignment="CENTER" prefHeight="628.0" prefWidth="1060.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
@@ -45,10 +45,13 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <Label fx:id="messageLabel" prefHeight="67.0" prefWidth="945.0" textFill="RED" wrapText="true" />
+            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="67.0" prefWidth="945.0" text="Error: text" textFill="RED" visible="false">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutY="563.0" prefHeight="158.0" prefWidth="1060.0" style="-fx-background-color: white;">
+      <VBox alignment="CENTER" layoutY="626.0" prefHeight="95.0" prefWidth="1060.0" style="-fx-background-color: white;">
          <children>
             <HBox alignment="CENTER" prefHeight="24.0" prefWidth="1060.0" spacing="30.0">
                <children>
