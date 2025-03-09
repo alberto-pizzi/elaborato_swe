@@ -214,17 +214,20 @@ public class SelectGuestsPaneController implements Initializable {
 
             if (!userToBeAdded.equals(userActionsController.getUser().getUsername())) {
 
-                if (!accountList.getItems().contains(userToBeAdded))
-                    accountList.getItems().add(userToBeAdded);
-                else
+                if (PersonController.isGroupMember(group.getReservation().getId(),userToBeAdded)) //FIXME replace it with effectiveGroupMembersArray and inheritance
+                    messagesController.showMessage("Username already into group.", MessagesController.MessageType.ERROR,3);
+                else if (accountList.getItems().contains(userToBeAdded))
                     messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,3);
+                else
+                    accountList.getItems().add(userToBeAdded);
+
             }
             else
-                messagesController.showMessage("Username must be different from yours", MessagesController.MessageType.ERROR,3);
+                messagesController.showMessage("Username must be different from yours.", MessagesController.MessageType.ERROR,3);
 
         }
         else{
-            messagesController.showMessage("User not found or not selected", MessagesController.MessageType.ERROR,3);
+            messagesController.showMessage("User not found or not selected.", MessagesController.MessageType.ERROR,3);
         }
 
 

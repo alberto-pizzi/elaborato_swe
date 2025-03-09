@@ -96,6 +96,20 @@ public abstract class PersonController {
         isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
     }
 
+    public static boolean isGroupMember(int idReservation, String usernameMember) throws SQLException, ClassNotFoundException {
+        IsPartDao isPartDao = new IsPartDao();
+        GroupDao groupDao = new GroupDao();
+
+        ArrayList<User> members = isPartDao.getGroupMembers(groupDao.getGroupByReservation(idReservation).getId());
+
+        for (User user : members) {
+            if (user.getUsername().equals(usernameMember))
+                return true;
+        }
+
+        return false;
+    }
+
     //TODO changed into static. Is it correct?
     public static void addGroupMember(int idReservation, int idMember, int ownGuests) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
