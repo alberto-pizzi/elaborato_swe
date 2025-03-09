@@ -41,10 +41,9 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
     @Override
     public void updateDraftParticipants(boolean considerHimself){
-        //FIXME consider himself? Check effectiveGroupMembersList if himself is included.
-        super.updateDraftParticipants(considerHimself);
+        super.updateDraftParticipants(true);
 
-        partialParticipants += countPartialEffectiveGroupMembers();
+        partialParticipants += countPartialEffectiveGroupMembers(); //himself is not considered into effectiveGroupMembers
 
         //TODO disable add to IL button?
 

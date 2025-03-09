@@ -165,6 +165,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
         partialParticipants = (accountList != null ? accountList.getItems().size() : 0) + countPartialEffectiveGroupMembers();
 
         //TODO disable adding button?
+
     }
 
 

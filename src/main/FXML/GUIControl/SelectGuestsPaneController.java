@@ -281,19 +281,12 @@ public class SelectGuestsPaneController implements Initializable {
 
     }
 
-    //FIXME fix logic
     public boolean canOthersBeAdded() throws SQLException, ClassNotFoundException {
         //if group is null, then it is an ADDING because group wouldn't exist
 
         if (group != null){
-            if (group.getReservation() != null && group.getReservation().isMatched()){
-
-                if (nGuestsChoice.getValue() != null && accountList != null)
-                    return group.getParticipants() - PersonController.getUserGuests(group.getReservation().getId(), nGuestsChoice.getValue()) + accountList.getItems().size() <= group.getRequiredParticipants();
-                else
-                    return false;
-
-            }
+            if (group.getReservation() != null && group.getReservation().isMatched())
+                return partialParticipants <= group.getRequiredParticipants();
             else
                 return true;
         }
@@ -302,11 +295,6 @@ public class SelectGuestsPaneController implements Initializable {
     }
 
     public void updateAddButton() throws SQLException, ClassNotFoundException {
-        //TODO to be removed
-        System.out.println("Accounts size: "+accountList.getItems().size());
-        System.out.println("Guests size: "+ nGuestsChoice.getValue());
-        System.out.println("Group exists: " + group);
-
         addButton.setDisable(!canOthersBeAdded());
     }
 
