@@ -294,6 +294,16 @@ public class SelectGuestsPaneController implements Initializable {
 
     }
 
+    //TODO is here right position?
+    public int getMaxAddableGuestsForMatched(int guestsSelected, boolean considerHimself){
+
+        if (group == null)
+            return 0;
+
+        return group.getRequiredParticipants() - partialParticipants + guestsSelected + (considerHimself ? 1 : 0);
+
+    }
+
     public boolean canOthersBeAdded() throws SQLException, ClassNotFoundException {
         //if group is null, then it is an ADDING because group wouldn't exist
 
