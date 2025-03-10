@@ -20,6 +20,8 @@ import java.util.ResourceBundle;
 //to make a reservation and to accept an invites
 public class SelectGuestsPaneController implements Initializable {
 
+    protected final int maxPossibleGuestsPerUser = 15;
+
     @FXML
     protected ListView<String> accountList;
 
@@ -113,7 +115,6 @@ public class SelectGuestsPaneController implements Initializable {
             while (change.next()) {
                 if (change.wasAdded() || change.wasRemoved()) {
                     try {
-                        //updateAddButtons();
                         updateGuestsChoice();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -280,22 +281,28 @@ public class SelectGuestsPaneController implements Initializable {
         if (nGuestsChoice.getValue() == null)
             nGuestsChoice.getItems().clear();
 
+        int maxValue = 0;
+        int minValue = 0;
 
-        if (group != null) {
-            int maxValue;
-            if (group.getReservation() != null && group.getReservation().isMatched()) {
+        if (group != null && group.getReservation() != null) {
+
+            if (group.getReservation().isMatched()) {
                 //maxValue is  addReservation and acceptInvite (so adding)
-                maxValue = group.getRequiredParticipants() - group.getParticipants() - 1;
-                fillGuestsChoiceWithProgressiveNumbers(0, maxValue); //FIXME maxValue to be fixed
+                int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
+                maxValue = calculateMaxAddableGuestsForMatched(ownGuests,false);
 
             }else
-                fillGuestsChoiceWithProgressiveNumbers(0, 15); //FIXME 15 is correct as maxValue?
+                maxValue = maxPossibleGuestsPerUser;
         }
+        else
+            maxValue = maxPossibleGuestsPerUser;
+
+        fillGuestsChoiceWithProgressiveNumbers(minValue, maxValue);
 
     }
 
     //TODO is here right position?
-    public int getMaxAddableGuestsForMatched(int guestsSelected, boolean considerHimself){
+    public int calculateMaxAddableGuestsForMatched(int guestsSelected, boolean considerHimself){
 
         if (group == null)
             return 0;

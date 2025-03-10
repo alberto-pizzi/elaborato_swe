@@ -89,16 +89,12 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
    //FIXME check
     @Override
     public void updateGuestsChoice() throws SQLException, ClassNotFoundException {
-        if (nGuestsChoice.getValue() == null)
-            nGuestsChoice.getItems().clear();
+
+        super.updateGuestsChoice();
+
+        UserActionsController userActionsController = new UserActionsController();
 
         if (group != null && group.getReservation() != null){
-            UserActionsController userActionsController = new UserActionsController();
-
-            if (group.getReservation().isMatched())
-                fillGuestsChoiceWithProgressiveNumbers(0, PersonController.getMaxAddableGuestsForMatched(group,group.getReservation().getId(),userActionsController.getUser().getId(),false)); //FIXME maxValue to be fixed
-            else
-                fillGuestsChoiceWithProgressiveNumbers(0,15);
 
             //FIXME choice value is not selected
             int value = PersonController.getUserGuests(group.getReservation().getId(),userActionsController.getUser().getId());

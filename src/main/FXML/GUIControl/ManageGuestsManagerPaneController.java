@@ -94,7 +94,10 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
         nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 //updateAddButtons();
+
                 if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null && !Objects.equals(oldValue, newValue)) { //FIXME oldValue logic
+
+                    //FIXME guests by searched users users override effective ones
                     effectiveGroupMembersList.getSelectionModel().getSelectedItem().setOwnGuests((nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0));
                     addOrReplaceMemberIntoDraftArray(groupMembersChanged,effectiveGroupMembersList.getSelectionModel().getSelectedItem());
 
@@ -125,7 +128,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                 updateGuestsLabel(newSelection, true);
 
                 if (searchList.getSelectionModel().getSelectedItem() != null) {
-                    fillGuestsChoiceWithProgressiveNumbers(0,15); //FIXME add right calculation (dynamic)
+                    fillGuestsChoiceWithProgressiveNumbers(0,calculateMaxAddableGuestsForMatched(0,false)); //FIXME add right calculation (dynamic)
                     nGuestsChoice.setValue(0);
                 }
 
@@ -185,7 +188,8 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
         if (isEditMode){
 
             if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null) {
-                fillGuestsChoiceWithProgressiveNumbers(0,15); //FIXME add right calculation (dynamic)
+                int guestsSelected = effectiveGroupMembersList.getSelectionModel().getSelectedItem().getOwnGuests();
+                fillGuestsChoiceWithProgressiveNumbers(0, calculateMaxAddableGuestsForMatched(guestsSelected,false));
                 nGuestsChoice.setValue(effectiveGroupMembersList.getSelectionModel().getSelectedItem().getOwnGuests());
             }
             else{
@@ -193,8 +197,10 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             }
 
         }
+        else{
+            //TODO implement for "add mode"
+        }
 
-        //TODO implement for "add mode"
 
     }
 
