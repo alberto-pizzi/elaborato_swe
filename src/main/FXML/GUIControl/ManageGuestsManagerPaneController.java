@@ -11,7 +11,6 @@ import main.java.DomainModel.GroupMember;
 import main.java.DomainModel.User;
 
 import java.sql.SQLException;
-import java.util.Objects;
 
 public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneController {
 
@@ -151,7 +150,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     @Override
     public void updateDraftParticipants(boolean considerHimself){
 
-        partialParticipants = (accountList != null ? accountList.getItems().size() : 0) + countPartialEffectiveGroupMembers();
+        participantsDraft = (accountList != null ? accountList.getItems().size() : 0) + countPartialEffectiveGroupMembers();
 
     }
 

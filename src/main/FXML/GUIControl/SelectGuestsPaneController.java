@@ -23,7 +23,7 @@ public class SelectGuestsPaneController implements Initializable {
     protected final int maxPossibleGuestsPerUser = 15;
 
     @FXML
-    protected ListView<String> accountList;
+    protected ListView<String> accountList; //TODO change name
 
     @FXML
     protected ListView<String> searchList;
@@ -53,7 +53,7 @@ public class SelectGuestsPaneController implements Initializable {
     //if null is JUST to make a reservation
     protected Group group = null;
 
-    protected int partialParticipants = 0;
+    protected int participantsDraft = 0;
 
     //TODO add into handleConfirm (for push updates)
     protected ArrayList<GroupMember> groupMembersChanged = new ArrayList<>();
@@ -159,7 +159,7 @@ public class SelectGuestsPaneController implements Initializable {
     }
 
     public void updateDraftParticipants(boolean considerHimself){
-        partialParticipants = (considerHimself ? 1 : 0) + (accountList != null ? accountList.getItems().size() : 0) + (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
+        participantsDraft = (considerHimself ? 1 : 0) + (accountList != null ? accountList.getItems().size() : 0) + (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
 
 
     }
@@ -174,6 +174,10 @@ public class SelectGuestsPaneController implements Initializable {
 
     public Button getAddButton() {
         return addButton;
+    }
+
+    public int getParticipantsDraft() {
+        return participantsDraft;
     }
 
     public void setAddButton(Button addButton) {
@@ -293,7 +297,7 @@ public class SelectGuestsPaneController implements Initializable {
         if (group == null)
             return 0;
 
-        return group.getRequiredParticipants() - partialParticipants + guestsSelected - (considerHimself ? 1 : 0);
+        return group.getRequiredParticipants() - participantsDraft + guestsSelected - (considerHimself ? 1 : 0);
 
     }
 
@@ -302,7 +306,7 @@ public class SelectGuestsPaneController implements Initializable {
 
         if (group != null){
             if (group.getReservation() != null && group.getReservation().isMatched())
-                return partialParticipants < group.getRequiredParticipants(); //< because users are added one by one and counted AFTER adding.
+                return participantsDraft < group.getRequiredParticipants(); //< because users are added one by one and counted AFTER adding.
             else
                 return true;
         }

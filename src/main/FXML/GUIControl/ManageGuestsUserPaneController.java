@@ -42,7 +42,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     @Override
     public void updateDraftParticipants(boolean considerHimself){
         super.updateDraftParticipants(true);
-        partialParticipants += countPartialEffectiveGroupMembers(); //himself is not considered into effectiveGroupMembers
+        participantsDraft += countPartialEffectiveGroupMembers(); //himself is not considered into effectiveGroupMembers
 
     }
 
