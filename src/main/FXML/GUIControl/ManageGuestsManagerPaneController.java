@@ -161,6 +161,14 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
         forceAddButton.setDisable(!canOthersBeAdded());
     }
 
+    @Override
+    public boolean canOthersBeAdded() throws SQLException, ClassNotFoundException {
+        if (!isAssignGuests)
+            return false;
+        else
+            return super.canOthersBeAdded();
+    }
+
 
     @Override
     public void updateGuestsChoice() throws SQLException, ClassNotFoundException {
