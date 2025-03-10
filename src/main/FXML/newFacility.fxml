@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NewFacilityController">
+<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NewFacilityController">
    <children>
       <VBox alignment="CENTER" prefHeight="720.0" prefWidth="1060.0">
          <children>
@@ -153,10 +153,10 @@
                      </VBox.margin>
                   </Label>
                   <ImageView fx:id="imageLabel" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button mnemonicParsing="false" onAction="#handleUploadImageButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Upload image" />
+                  <Button mnemonicParsing="false" onAction="#handleUploadImageButton" styleClass="button-owner" stylesheets="@css/style.css" text="Upload image" wrapText="true" />
                </children>
             </VBox>
-            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Confrim">
+            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" styleClass="button-owner" stylesheets="@css/style.css" text="Confrim" wrapText="true">
                <VBox.margin>
                   <Insets bottom="5.0" top="10.0" />
                </VBox.margin>

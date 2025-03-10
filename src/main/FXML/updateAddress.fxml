@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.UpdateAddressController">
+<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.UpdateAddressController">
    <children>
       <VBox alignment="CENTER" prefHeight="570.0" prefWidth="900.0">
          <children>
@@ -97,7 +97,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="25.0" prefWidth="774.0" text="Error: text" textFill="RED" visible="false">
+            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="25.0" prefWidth="774.0" text="Error: text" textFill="RED" visible="false" wrapText="true">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>

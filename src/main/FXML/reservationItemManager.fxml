@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="reservationItemPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1100.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ReservationItemManagerController">
+<AnchorPane fx:id="reservationItemPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1100.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ReservationItemManagerController">
    <styleClass>
       <String fx:value="group-item" />
       <String fx:value="shadow" />
@@ -23,7 +23,7 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label fx:id="fieldNameLabel" prefHeight="44.0" prefWidth="404.0" text="Field Name">
+                  <Label fx:id="fieldNameLabel" prefHeight="44.0" prefWidth="404.0" text="Field Name" wrapText="true">
                      <font>
                         <Font name="System Bold" size="28.0" />
                      </font>
@@ -66,7 +66,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="fieldSport" prefHeight="44.0" prefWidth="130.0" text="Football" textFill="#a1a1a1">
+                        <Label fx:id="fieldSport" prefHeight="44.0" prefWidth="130.0" text="Football" textFill="#a1a1a1" wrapText="true">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -83,7 +83,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="matching" prefHeight="40.0" prefWidth="105.0" text="No" textFill="#a1a1a1">
+                        <Label fx:id="matching" prefHeight="40.0" prefWidth="105.0" text="No" textFill="#a1a1a1" wrapText="true">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -124,7 +124,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="eventTimeStart" prefHeight="40.0" prefWidth="85.0" text="7:00 PM" textFill="#a1a1a1">
+                        <Label fx:id="eventTimeStart" prefHeight="40.0" prefWidth="85.0" text="7:00 PM" textFill="#a1a1a1" wrapText="true">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -141,7 +141,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="bookingDate" prefHeight="40.0" prefWidth="195.0" text="11/12/2024 at 5:34 PM" textFill="#a1a1a1">
+                        <Label fx:id="bookingDate" prefHeight="40.0" prefWidth="195.0" text="11/12/2024 at 5:34 PM" textFill="#a1a1a1" wrapText="true">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -154,7 +154,7 @@
       </StackPane>
       <VBox fx:id="actionsVBox" alignment="CENTER" prefHeight="120.0" prefWidth="165.0" spacing="5.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button fx:id="editButton" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Edit" textFill="WHITE">
+            <Button fx:id="editButton" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Edit" textFill="WHITE" wrapText="true">
                <styleClass>
                   <String fx:value="leave-button" />
                   <String fx:value="shadow" />
@@ -163,7 +163,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#handleAnnouncementButton" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Announcement" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#handleAnnouncementButton" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Announcement" textFill="WHITE" wrapText="true">
                <styleClass>
                   <String fx:value="leave-button" />
                   <String fx:value="shadow" />
@@ -172,7 +172,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button layoutX="10.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleDeleteButtonAction" prefWidth="209.0" stylesheets="@css/style.css" text="Delete" textFill="WHITE">
+            <Button layoutX="10.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleDeleteButtonAction" prefWidth="209.0" stylesheets="@css/style.css" text="Delete" textFill="WHITE" wrapText="true">
                <styleClass>
                   <String fx:value="leave-button" />
                   <String fx:value="shadow" />

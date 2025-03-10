@@ -64,7 +64,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="fieldDescription" text="(Field Description)">
+                              <Label fx:id="fieldDescription" text="(Field Description)" wrapText="true">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -81,7 +81,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Hyperlink fx:id="facilityLink" text="(Facility Link)">
+                              <Hyperlink fx:id="facilityLink" text="(Facility Link)" wrapText="true">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -115,7 +115,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="fieldSport" text="Football">
+                              <Label fx:id="fieldSport" text="Football" wrapText="true">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -132,7 +132,7 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="fieldPricePerHour" text="100 $">
+                              <Label fx:id="fieldPricePerHour" text="100 $" wrapText="true">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
@@ -147,7 +147,7 @@
                         </HBox>
                         <VBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" stylesheets="@css/style.css" text="See reservations" textFill="WHITE">
+                              <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" stylesheets="@css/style.css" text="See reservations" textFill="WHITE" wrapText="true">
                                  <padding>
                                     <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
                                  </padding>
@@ -159,7 +159,7 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToBookButton" prefHeight="55.0" prefWidth="448.0" stylesheets="@css/style.css" text="Go to book -&gt;" textFill="WHITE">
+                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToBookButton" prefHeight="55.0" prefWidth="448.0" stylesheets="@css/style.css" text="Go to book -&gt;" textFill="WHITE" wrapText="true">
                                  <padding>
                                     <Insets bottom="10.0" left="130.0" right="130.0" top="10.0" />
                                  </padding>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -8,13 +9,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NewSportController">
+<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NewSportController">
    <children>
       <VBox alignment="CENTER" prefHeight="720.0" prefWidth="1060.0">
          <children>
             <VBox alignment="CENTER" prefHeight="72.0" prefWidth="180.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="Name:" textAlignment="CENTER">
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Name:" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -31,7 +32,7 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="72.0" prefWidth="180.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="Players required" textAlignment="CENTER">
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Players required" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -46,7 +47,7 @@
                   </TextField>
                </children>
             </VBox>
-            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Confrim">
+            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" stylesheets="@css/style.css" text="Confrim" wrapText="true">
                <VBox.margin>
                   <Insets bottom="5.0" top="10.0" />
                </VBox.margin>
@@ -56,8 +57,12 @@
                <font>
                   <Font size="16.0" />
                </font>
+               <styleClass>
+                  <String fx:value="button-owner" />
+                  <String fx:value="shadow" />
+               </styleClass>
             </Button>
-            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="25.0" prefWidth="774.0" text="Error: text" textFill="RED" visible="false">
+            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="25.0" prefWidth="774.0" text="Error: text" textFill="RED" visible="false" wrapText="true">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>

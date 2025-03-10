@@ -24,7 +24,7 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label fx:id="facilityNameLabel" prefHeight="44.0" prefWidth="404.0" text="Facility Name">
+                        <Label fx:id="facilityNameLabel" prefHeight="44.0" prefWidth="404.0" text="Facility Name" wrapText="true">
                            <font>
                               <Font name="System Bold" size="28.0" />
                            </font>
@@ -67,7 +67,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="fieldsLabel" prefHeight="44.0" prefWidth="119.0" text="1" textFill="#a1a1a1">
+                              <Label fx:id="fieldsLabel" prefHeight="44.0" prefWidth="119.0" text="1" textFill="#a1a1a1" wrapText="true">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -81,7 +81,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="managersLabel" prefHeight="44.0" prefWidth="119.0" text="0" textFill="#a1a1a1">
+                              <Label fx:id="managersLabel" prefHeight="44.0" prefWidth="119.0" text="0" textFill="#a1a1a1" wrapText="true">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -109,7 +109,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="facilityPhoneNumberLabel" prefHeight="40.0" prefWidth="150.0" text="**************" textFill="#a1a1a1">
+                              <Label fx:id="facilityPhoneNumberLabel" prefHeight="40.0" prefWidth="150.0" text="**************" textFill="#a1a1a1" wrapText="true">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -122,7 +122,7 @@
             </StackPane>
             <VBox alignment="CENTER" prefHeight="120.0" prefWidth="180.0" spacing="15.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleDetailsFacilityButton" prefHeight="47.0" prefWidth="141.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Details" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#handleDetailsFacilityButton" prefHeight="47.0" prefWidth="141.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Details" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -134,7 +134,7 @@
                         <String fx:value="shadow" />
                      </styleClass>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#handleFacilityFieldsButton" prefHeight="47.0" prefWidth="141.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="View fields" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#handleFacilityFieldsButton" prefHeight="47.0" prefWidth="141.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="View fields" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>

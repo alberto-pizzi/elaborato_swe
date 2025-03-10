@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FacilitiesListController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FacilitiesListController">
    <children>
       <VBox alignment="CENTER" prefHeight="628.0" prefWidth="1060.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
@@ -24,7 +24,7 @@
                   </Label>
                </children>
             </StackPane>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleNewFacilityButton" prefHeight="64.0" prefWidth="238.0" stylesheets="@css/style.css" text="New facility" textFill="WHITE">
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleNewFacilityButton" prefHeight="64.0" prefWidth="238.0" stylesheets="@css/style.css" text="New facility" textFill="WHITE" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
@@ -45,7 +45,7 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="67.0" prefWidth="945.0" text="Error: text" textFill="RED" visible="false">
+            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="67.0" prefWidth="945.0" text="Error: text" textFill="RED" visible="false" wrapText="true">
                <font>
                   <Font size="16.0" />
                </font></Label>

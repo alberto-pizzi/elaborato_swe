@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ProfileMenuOwnerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ProfileMenuOwnerController">
    <children>
       <BorderPane fx:id="profileMenuPane" prefHeight="720.0" prefWidth="1060.0">
          <bottom>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" styleClass="profile-menu-box" stylesheets="@css/style.css" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="usernameProfileButton1" mnemonicParsing="false" onAction="#handleUsernameButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Username">
+                  <Button fx:id="usernameProfileButton1" mnemonicParsing="false" onAction="#handleUsernameButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Username" wrapText="true">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -32,7 +32,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Button fx:id="emailProfileButton1" alignment="CENTER" mnemonicParsing="false" onAction="#handleEmailButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Email">
+                  <Button fx:id="emailProfileButton1" alignment="CENTER" mnemonicParsing="false" onAction="#handleEmailButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Email" wrapText="true">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -47,7 +47,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Button fx:id="passwordProfileButton1" alignment="CENTER" mnemonicParsing="false" onAction="#handlePasswordButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Password">
+                  <Button fx:id="passwordProfileButton1" alignment="CENTER" mnemonicParsing="false" onAction="#handlePasswordButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Password" wrapText="true">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -62,7 +62,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Button fx:id="addressProfileButton1" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddressButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Address">
+                  <Button fx:id="addressProfileButton1" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddressButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Address" wrapText="true">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -79,13 +79,13 @@
                   </Button>
                   <VBox>
                      <children>
-                        <Label fx:id="messageLabel" alignment="CENTER" minHeight="30.0" prefHeight="30.0" prefWidth="442.0" text="Error: text" textFill="RED" visible="false">
+                        <Label fx:id="messageLabel" alignment="CENTER" minHeight="30.0" prefHeight="30.0" prefWidth="442.0" text="Error: text" textFill="RED" visible="false" wrapText="true">
                            <font>
                               <Font size="16.0" />
                            </font></Label>
                         <HBox spacing="10.0">
                            <children>
-                              <Button id="delete" fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Logout">
+                              <Button id="delete" fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Logout" wrapText="true">
                                  <graphic>
                                     <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -100,7 +100,7 @@
                                     <Insets />
                                  </opaqueInsets>
                               </Button>
-                              <Button id="delete" fx:id="deleteProfileButton1" alignment="CENTER" mnemonicParsing="false" onAction="#handleDeleteProfileButton" prefHeight="43.0" prefWidth="297.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Delete Profile">
+                              <Button id="delete" fx:id="deleteProfileButton1" alignment="CENTER" mnemonicParsing="false" onAction="#handleDeleteProfileButton" prefHeight="43.0" prefWidth="297.0" styleClass="profile-menu-owner" stylesheets="@css/style.css" text="Delete Profile" wrapText="true">
                                  <graphic>
                                     <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                        <image>

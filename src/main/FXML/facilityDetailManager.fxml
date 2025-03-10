@@ -25,7 +25,7 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="facilityNameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="1142.0" text="Facility Name" textAlignment="CENTER">
+                        <Label fx:id="facilityNameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="1142.0" text="Facility Name" textAlignment="CENTER" wrapText="true">
                            <font>
                               <Font name="System Bold" size="48.0" />
                            </font>
@@ -63,7 +63,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="facilityFieldsNumber" text="(Facility Fields)">
+                              <Label fx:id="facilityFieldsNumber" text="(Facility Fields)" wrapText="true">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -80,7 +80,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="facilityManagersNumber" text="(Facility Managers)">
+                              <Label fx:id="facilityManagersNumber" text="(Facility Managers)" wrapText="true">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -114,7 +114,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="facilityTelephone" prefHeight="30.0" prefWidth="166.0" text="*********">
+                              <Label fx:id="facilityTelephone" prefHeight="30.0" prefWidth="166.0" text="*********" wrapText="true">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -123,7 +123,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
                            <children>
-                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToFieldsButton" stylesheets="@css/style.css" text="Go to fields-&gt;" textFill="WHITE">
+                              <Button fx:id="goToBookButton" mnemonicParsing="false" onAction="#handleGoToFieldsButton" stylesheets="@css/style.css" text="Go to fields-&gt;" textFill="WHITE" wrapText="true">
                                  <HBox.margin>
                                     <Insets top="20.0" />
                                  </HBox.margin>
