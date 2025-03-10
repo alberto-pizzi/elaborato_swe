@@ -21,6 +21,9 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     @FXML
     protected Label guestUsersWALabel;
 
+    @FXML
+    protected Button saveGuestsButton;
+
 
 
     public boolean isUserIntoEffectiveGroupMembers(String targetUsername){
@@ -202,6 +205,11 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
         }
 
 
+    }
+
+    @FXML
+    public void handleSaveGuestsButton(ActionEvent event) {
+        //TODO implement
     }
 
 
