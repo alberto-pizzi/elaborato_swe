@@ -83,6 +83,8 @@ public class SelectGuestsPaneController implements Initializable {
         groupMembersChanged.clear();
         groupMembersAdded.clear();
 
+
+
     }
 
     protected void addListeners(){
@@ -111,7 +113,7 @@ public class SelectGuestsPaneController implements Initializable {
             while (change.next()) {
                 if (change.wasAdded() || change.wasRemoved()) {
                     try {
-                        updateAddButtons();
+                        //updateAddButtons();
                         updateGuestsChoice();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -128,6 +130,8 @@ public class SelectGuestsPaneController implements Initializable {
     protected void nGuestsChoiceListener(){
         nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
+
+                updateDraftParticipants(true);
                 try {
                     updateAddButtons();
                 } catch (SQLException e) {
@@ -146,10 +150,16 @@ public class SelectGuestsPaneController implements Initializable {
         this.group = group;
         this.isEditMode = isEditMode;
         updateGuestsChoice();
+
+        //TODO is it correct here?
+
+        updateDraftParticipants(true);
+        updateAddButtons();
     }
 
     public void updateDraftParticipants(boolean considerHimself){
         partialParticipants = (considerHimself ? 1 : 0) + (accountList != null ? accountList.getItems().size() : 0) + (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
+
 
     }
 
@@ -221,12 +231,15 @@ public class SelectGuestsPaneController implements Initializable {
 
             if (!userToBeAdded.equals(userActionsController.getUser().getUsername())) {
 
-                if (PersonController.isGroupMember(group.getReservation().getId(),userToBeAdded)) //FIXME replace it with effectiveGroupMembersArray and inheritance
+                if (PersonController.isGroupMember(group.getReservation().getId(),userToBeAdded)) //FIXME !!!!! replace it with effectiveGroupMembersArray and inheritance
                     messagesController.showMessage("Username already into group.", MessagesController.MessageType.ERROR,3);
                 else if (accountList.getItems().contains(userToBeAdded))
                     messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,3);
-                else
+                else {
                     accountList.getItems().add(userToBeAdded);
+                    updateDraftParticipants(true);
+                    updateAddButtons();
+                }
 
             }
             else
@@ -286,7 +299,7 @@ public class SelectGuestsPaneController implements Initializable {
 
         if (group != null){
             if (group.getReservation() != null && group.getReservation().isMatched())
-                return partialParticipants <= group.getRequiredParticipants();
+                return partialParticipants < group.getRequiredParticipants(); //< because users are added one by one and counted AFTER adding.
             else
                 return true;
         }
@@ -294,7 +307,6 @@ public class SelectGuestsPaneController implements Initializable {
         return true;
     }
 
-    //FIXME fix its call locations
     public void updateAddButtons() throws SQLException, ClassNotFoundException {
         addButton.setDisable(!canOthersBeAdded());
     }
@@ -308,12 +320,18 @@ public class SelectGuestsPaneController implements Initializable {
     }
 
     @FXML
-    public void handleRemoveAllButton(ActionEvent event) {
+    public void handleRemoveAllButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         accountList.getItems().clear();
+
+        updateDraftParticipants(true);
+        updateAddButtons();
     }
 
     @FXML
-    public void handleRemoveButton(ActionEvent event) {
+    public void handleRemoveButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         accountList.getItems().removeAll(accountList.getSelectionModel().getSelectedItem());
+
+        updateDraftParticipants(true);
+        updateAddButtons();
     }
 }

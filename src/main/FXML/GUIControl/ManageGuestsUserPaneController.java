@@ -42,10 +42,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     @Override
     public void updateDraftParticipants(boolean considerHimself){
         super.updateDraftParticipants(true);
-
         partialParticipants += countPartialEffectiveGroupMembers(); //himself is not considered into effectiveGroupMembers
-
-        //TODO disable add to IL button?
 
     }
 
@@ -65,7 +62,6 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         return count;
     }
 
-    //TODO to be overridden
     protected void fillEffectiveGroupMembersList() throws SQLException, ClassNotFoundException {
         UserActionsController userActionsController = new UserActionsController();
         effectiveGroupMembersList.getItems().clear();
@@ -84,6 +80,9 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
    public void setData(Group group, boolean isEditMode) throws SQLException, ClassNotFoundException {
        super.setData(group, isEditMode);
        fillEffectiveGroupMembersList();
+
+       updateDraftParticipants(true);
+       updateAddButtons();
    }
 
 
@@ -169,7 +168,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
                 removeGroupMemberFromDraft(groupMember);
 
-                updateDraftParticipants(true); //FIXME put it inside remove methods?
+                updateDraftParticipants(true);
+                updateAddButtons();
 
             }
         }
@@ -189,6 +189,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
             }
 
             updateDraftParticipants(true);
+            updateAddButtons();
 
 
         }

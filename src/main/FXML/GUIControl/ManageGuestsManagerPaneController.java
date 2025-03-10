@@ -40,16 +40,20 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
         if (userToBeAdded != null) {
 
-            if (!isUserIntoEffectiveGroupMembers(userToBeAdded) && group != null) {
-                int userId = ManagerOwnerManagementController.getUserIdByUsername(userToBeAdded);
-                int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
+            if (group != null) {
+                if (!accountList.getItems().contains(userToBeAdded) && !isUserIntoEffectiveGroupMembers(userToBeAdded)) {
+                    int userId = ManagerOwnerManagementController.getUserIdByUsername(userToBeAdded);
+                    int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
 
-                addGroupMemberIntoDraft(new GroupMember(ManagerOwnerManagementController.getUserByID(userId),ownGuests));
+                    addGroupMemberIntoDraft(new GroupMember(ManagerOwnerManagementController.getUserByID(userId), ownGuests));
 
-                System.out.println("DRAFT ADD SIZE: "+ groupMembersAdded.size());
+                    updateDraftParticipants(true);
+                    updateAddButtons();
+                } else
+                    messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR, 3);
             }
             else
-                messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,3);
+                messagesController.showMessage("Group not found.", MessagesController.MessageType.ERROR, 3);
 
         }
         else{
@@ -89,17 +93,20 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     protected void nGuestsChoiceListener(){
         nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
-                try {
-                    updateAddButtons();
-                    if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null && !Objects.equals(oldValue, newValue)) { //FIXME oldValue logic
-                        effectiveGroupMembersList.getSelectionModel().getSelectedItem().setOwnGuests((nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0));
-                        addOrReplaceMemberIntoDraftArray(groupMembersChanged,effectiveGroupMembersList.getSelectionModel().getSelectedItem());
+                //updateAddButtons();
+                if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null && !Objects.equals(oldValue, newValue)) { //FIXME oldValue logic
+                    effectiveGroupMembersList.getSelectionModel().getSelectedItem().setOwnGuests((nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0));
+                    addOrReplaceMemberIntoDraftArray(groupMembersChanged,effectiveGroupMembersList.getSelectionModel().getSelectedItem());
 
+                    updateDraftParticipants(true);
+                    try {
+                        updateAddButtons();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
                     }
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+
                 }
             }
             else
@@ -158,13 +165,10 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
     }
 
-    //TODO implement
     @Override
     public void updateDraftParticipants(boolean considerHimself){
 
         partialParticipants = (accountList != null ? accountList.getItems().size() : 0) + countPartialEffectiveGroupMembers();
-
-        //TODO disable adding button?
 
     }
 

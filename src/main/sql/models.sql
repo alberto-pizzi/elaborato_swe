@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS "Reservation" (
 
 CREATE TABLE IF NOT EXISTS "Group" (
     id SERIAL PRIMARY KEY,
-    group_head INTEGER NOT NULL,
+    group_head INTEGER NOT NULL, -- TODO isPart link?
     participants_required INTEGER NOT NULL,
     id_reservation INTEGER NOT NULL UNIQUE,
     FOREIGN KEY (id_reservation) REFERENCES "Reservation"(id) ON DELETE CASCADE ON UPDATE CASCADE,
