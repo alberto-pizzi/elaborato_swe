@@ -24,6 +24,8 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     @FXML
     protected Button saveGuestsButton;
 
+    protected boolean isAssignGuests = true; //assign guests mode (true) or update guests mode (false)
+
 
 
     public boolean isUserIntoEffectiveGroupMembers(String targetUsername){
@@ -93,35 +95,6 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
 
     @Override
-    protected void nGuestsChoiceListener(){
-        nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue != null) {
-                //updateAddButtons();
-
-                if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null && !Objects.equals(oldValue, newValue)) { //FIXME oldValue logic
-
-                    //FIXME guests by searched users users override effective ones
-                    effectiveGroupMembersList.getSelectionModel().getSelectedItem().setOwnGuests((nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0));
-                    addOrReplaceMemberIntoDraftArray(groupMembersChanged,effectiveGroupMembersList.getSelectionModel().getSelectedItem());
-
-                    updateDraftParticipants(true);
-                    try {
-                        updateAddButtons();
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ClassNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
-            }
-            else
-                System.out.println("Null Value");
-
-        });
-    }
-
-    @Override
     protected void addListeners(){
         super.addListeners();
 
@@ -131,7 +104,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                 updateGuestsLabel(newSelection, true);
 
                 if (searchList.getSelectionModel().getSelectedItem() != null) {
-                    fillGuestsChoiceWithProgressiveNumbers(0,calculateMaxAddableGuestsForMatched(0,false)); //FIXME add right calculation (dynamic)
+                    fillGuestsChoiceWithProgressiveNumbers(0,calculateMaxAddableGuestsForMatched(0,true));
                     nGuestsChoice.setValue(0);
                 }
 
@@ -162,10 +135,14 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                 guestUsersWALabel.setText("Guest Users (not selected)");
             }
             else{
-                if (isSearched)
+                if (isSearched) {
                     guestUsersWALabel.setText("Assign guests (" + username + ")");
-                else
+                    isAssignGuests = true;
+                }
+                else {
                     guestUsersWALabel.setText("Guest Users (" + username + ")");
+                    isAssignGuests = false;
+                }
             }
         }
 
@@ -208,8 +185,26 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     }
 
     @FXML
-    public void handleSaveGuestsButton(ActionEvent event) {
-        //TODO implement
+    public void handleSaveGuestsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+
+        if (!isAssignGuests) {
+
+            if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null) {
+
+                effectiveGroupMembersList.getSelectionModel().getSelectedItem().setOwnGuests((nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0));
+                addOrReplaceMemberIntoDraftArray(groupMembersChanged, effectiveGroupMembersList.getSelectionModel().getSelectedItem());
+
+                updateDraftParticipants(true);
+                updateAddButtons();
+
+                messagesController.showMessage("Guests updated.", MessagesController.MessageType.SUCCESS, 3);
+
+
+            } else
+                messagesController.showMessage("Guests value not valid.", MessagesController.MessageType.ERROR, 3);
+        }
+        else
+            messagesController.showMessage("Select correct user.", MessagesController.MessageType.WARNING, 3);
     }
 
 

@@ -262,21 +262,7 @@ public class SelectGuestsPaneController implements Initializable {
 
     }
 
-    //FIXME calculation logic
-    //FIXME userId may be not correct
-    //FIXME is it here the correct position?
-    //FIXME fix calculation
-    public int getTotalParticipantsPartial(boolean countHimself) throws SQLException, ClassNotFoundException {
-        int totalGuests = 0;
-        UserActionsController actionsController = new UserActionsController();
 
-        if (group != null && group.getReservation() != null)
-            totalGuests = PersonController.getUserGuests(group.getReservation().getId(),actionsController.getUser().getId());
-
-        return (countHimself ? 1 : 0) + (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0) + totalGuests + (accountList != null ? accountList.getItems().size() : 0);
-    }
-
-    //TODO to be overridden
     public void updateGuestsChoice() throws SQLException, ClassNotFoundException {
         if (nGuestsChoice.getValue() == null)
             nGuestsChoice.getItems().clear();
@@ -307,7 +293,7 @@ public class SelectGuestsPaneController implements Initializable {
         if (group == null)
             return 0;
 
-        return group.getRequiredParticipants() - partialParticipants + guestsSelected + (considerHimself ? 1 : 0);
+        return group.getRequiredParticipants() - partialParticipants + guestsSelected - (considerHimself ? 1 : 0);
 
     }
 
