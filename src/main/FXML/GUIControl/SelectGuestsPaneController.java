@@ -23,6 +23,16 @@ public class SelectGuestsPaneController implements Initializable {
     protected final int maxPossibleGuestsPerUser = 15;
 
     @FXML
+    protected Label participantsDraftLabel;
+
+    @FXML
+    protected Label requiredParticipantsLabel;
+
+    @FXML
+    protected Label totalPricePerPersonDraftLabel;
+
+
+    @FXML
     protected ListView<String> accountList; //TODO change name
 
     @FXML
