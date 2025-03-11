@@ -179,7 +179,7 @@ public abstract class FieldFormManagementController implements Initializable {
 
         selectGuestsPaneController.getnGuestsChoice().getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
-                updateTotalPeople();
+                //updateTotalPeople(); //fixme yes for add
                 updatePricePerPerson(false);
             }
             else
@@ -190,7 +190,7 @@ public abstract class FieldFormManagementController implements Initializable {
         //TODO improve parameters (remove super?)
         selectGuestsPaneController.getAccountList().getItems().addListener((ListChangeListener<? super String>) change -> {
 
-            updateTotalPeople();
+            //updateTotalPeople(); //FIXME yes for add
             updatePricePerPerson(false);
         });
 
@@ -198,7 +198,7 @@ public abstract class FieldFormManagementController implements Initializable {
         if (nPlayersToMatchChoice != null) {
             nPlayersToMatchChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
                 if (newValue != null) {
-                    updateTotalPeople();
+                    //updateTotalPeople(); //FIXME yes for add
                     updatePricePerPerson(false);
                 } else
                     pricePerPersonLabel.setText("Guests not selected");
