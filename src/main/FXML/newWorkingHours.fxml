@@ -469,7 +469,7 @@
                   </VBox>
                </children>
             </HBox>
-            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" styleClass="confirm-button-owner" stylesheets="@css/style.css" text="Confrim">
+            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" styleClass="button-owner" stylesheets="@css/style.css" text="Confrim" wrapText="true">
                <VBox.margin>
                   <Insets bottom="5.0" top="10.0" />
                </VBox.margin>
