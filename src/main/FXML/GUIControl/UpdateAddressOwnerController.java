@@ -58,7 +58,6 @@ public class UpdateAddressOwnerController implements Initializable {
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm modification");
-        //FIXME improve date format
         alert.setHeaderText("Confirm modifcation");
         alert.setContentText("Are you sure you want to modify the address?");
 

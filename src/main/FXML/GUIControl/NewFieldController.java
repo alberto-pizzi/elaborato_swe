@@ -94,7 +94,6 @@ public class NewFieldController extends MediaManagerController {
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Field");
-        //FIXME improve date format
         alert.setHeaderText("Confirm field");
         alert.setContentText("Are you sure you want to add this field?");
 
@@ -195,8 +194,8 @@ public class NewFieldController extends MediaManagerController {
     }
 
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
-        //todo controllare override
-        this.setData(menuPane);
+
+        this.menuPane = menuPane;
         this.facility = facility;
         field.setFacility(facility);
 

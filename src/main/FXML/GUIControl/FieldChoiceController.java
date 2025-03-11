@@ -59,7 +59,7 @@ public class FieldChoiceController {
     public AnchorPane getPage() {
         return page;
     }
-//todo uniformare setdata e inizializzazione
+
     public void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException {
 
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
@@ -85,7 +85,6 @@ public class FieldChoiceController {
         }
         String page = String.valueOf(currentPage);
         pageNumber.setText(page);
-
     }
 
     @FXML
@@ -115,8 +114,6 @@ public class FieldChoiceController {
         }
 
     }
-
-
 
     @FXML
     private void handlePreviousButton(ActionEvent event){

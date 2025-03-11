@@ -46,7 +46,6 @@ public class NewFacilityController extends MediaManagerController {
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm facility");
-        //FIXME improve date format
         alert.setHeaderText("Confirm facility");
         alert.setContentText("Are you sure you want to add this facility?");
 

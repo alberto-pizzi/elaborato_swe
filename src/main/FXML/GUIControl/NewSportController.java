@@ -46,7 +46,6 @@ public class NewSportController {
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm sport");
-        //FIXME improve date format
         alert.setHeaderText("Confirm Sport");
         alert.setContentText("Are you sure you want to add this sport?");
 

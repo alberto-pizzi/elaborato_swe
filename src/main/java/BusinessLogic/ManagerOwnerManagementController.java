@@ -129,7 +129,7 @@ public class ManagerOwnerManagementController extends PersonController{
         notificationController.sendNotifications(reservation,ANNOUNCEMENT,notificationMessage);
     }
 
-    //todo parlarne non ha accesso a reservation visto che fa riferimento ad un campo
+    //todo usare
     public void fieldAnnouncement(String notificationMessage, Field field) throws SQLException, ClassNotFoundException {
         ArrayList<Reservation> reservations = new ArrayList<>(this.getReservationsByField(field.getId()));
         for(Reservation reservation : reservations) {

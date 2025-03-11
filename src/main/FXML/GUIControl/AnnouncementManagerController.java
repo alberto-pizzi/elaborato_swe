@@ -72,7 +72,6 @@ public class AnnouncementManagerController {
         System.out.println("Cancel button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Cancel announcement");
-        //FIXME improve date format
         alert.setHeaderText("Stop announcement");
         alert.setContentText("Are you sure you want to cancel this announcement?");
 
@@ -104,7 +103,6 @@ public class AnnouncementManagerController {
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm announcement");
-            //FIXME improve date format
             alert.setHeaderText("Make announcement");
             alert.setContentText("Are you sure you want to make this announcement?");
 

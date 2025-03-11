@@ -76,7 +76,6 @@ public class FacilityItemController implements Initializable {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Facility");
-        //FIXME improve date format
         alert.setHeaderText(facility.getName() + " situated in "+ facility.getFullAddress());
         alert.setContentText("Are you sure you want to delete this facility?");
 

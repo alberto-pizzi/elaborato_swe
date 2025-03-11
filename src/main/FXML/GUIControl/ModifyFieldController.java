@@ -132,7 +132,6 @@ public class ModifyFieldController extends MediaManagerController {
     }
 
     public void setData(Facility facility, Field field, BorderPane menuPane) throws IOException, SQLException {
-
         this.facility = facility;
         this.field = field;
 
@@ -159,7 +158,6 @@ public class ModifyFieldController extends MediaManagerController {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         imageLabel.setImage(image);
-//todo controllare override
         this.menuPane = menuPane;
     }
 }

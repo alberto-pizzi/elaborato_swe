@@ -79,7 +79,6 @@ public class ProfileMenuOwnerController implements Initializable {
         System.out.println("Delete button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete account");
-        //FIXME improve date format
         alert.setHeaderText("Confirm account deletion");
         alert.setContentText("Are you sure you want to delete this account?");
 

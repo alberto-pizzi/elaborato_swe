@@ -100,7 +100,6 @@ public class ModifyFacilityController extends MediaManagerController {
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm modifications");
-        //FIXME improve date format
         alert.setHeaderText("Confirm modifications");
         alert.setContentText("Are you sure you want to modify this facility?");
 
@@ -240,7 +239,6 @@ public class ModifyFacilityController extends MediaManagerController {
         System.out.println("Delete button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete fields");
-        //FIXME improve date format
         alert.setHeaderText("Confirm deletion");
         alert.setContentText("Are you sure you want to delete these fields?");
 
@@ -271,7 +269,6 @@ public class ModifyFacilityController extends MediaManagerController {
         System.out.println("Delete button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete managers");
-        //FIXME improve date format
         alert.setHeaderText("Confirm deletion");
         alert.setContentText("Are you sure you want to delete these managers?");
 

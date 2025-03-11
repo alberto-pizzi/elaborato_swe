@@ -86,7 +86,6 @@ public class ProfileMenuController implements Initializable {
     void handleDeleteProfileButton(ActionEvent event) throws SQLException, IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Reservation");
-        //FIXME improve date format
         alert.setHeaderText("Delete Profile");
         alert.setContentText("Are you sure you want to delete your profile forever?");
 
