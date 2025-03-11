@@ -12,7 +12,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class OwnerManagementController {
+public class OwnerManagementController extends ManagerOwnerManagementController{
 
     private Owner owner;
 
@@ -126,14 +126,6 @@ public class OwnerManagementController {
         return users;
     }
 
-    public ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
-        ArrayList<User> users = new ArrayList<>();
-        UserDAO userDAO = new UserDAO();
-
-        users.addAll(userDAO.getUsersByProvinceSearch(provinceUser));
-        return users;
-    }
-
     public ArrayList<User> searchManagersByProvince(String provinceUser, int facilityId) throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         ManagesDAO managesDAO = new ManagesDAO();
@@ -156,15 +148,6 @@ public class OwnerManagementController {
             found = false;
         }
         return notManagers;
-    }
-
-    public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
-
-        ArrayList<User> users = new ArrayList<>();
-        UserDAO userDAO = new UserDAO();
-
-        users.addAll(userDAO.getUsersByUsernameSearch(searchUsername));
-        return users;
     }
 
     public ArrayList<User> searchManagersByUsername(String searchUsername, int facilityId) throws SQLException, ClassNotFoundException {
