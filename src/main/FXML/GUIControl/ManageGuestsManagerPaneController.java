@@ -27,14 +27,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
 
 
-    public boolean isUserIntoEffectiveGroupMembers(String targetUsername){
-        for (GroupMember groupMember : effectiveGroupMembersList.getItems()){
-            if (groupMember.getUser().getUsername().equals(targetUsername)){
-                return true;
-            }
-        }
-        return false;
-    }
+
 
     @FXML
     public void handleForceAddButton(ActionEvent event) throws SQLException, ClassNotFoundException {

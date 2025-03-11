@@ -290,7 +290,7 @@ public class SelectGuestsPaneController implements Initializable {
 
             if (!userToBeAdded.equals(userActionsController.getUser().getUsername())) {
 
-                if (PersonController.isGroupMember(group.getReservation().getId(),userToBeAdded)) //FIXME !!!!! replace it with effectiveGroupMembersArray and inheritance
+                if (isGroupMember(userToBeAdded)) //TODO is it correct?
                     messagesController.showMessage("Username already into group.", MessagesController.MessageType.ERROR,3);
                 else if (accountList.getItems().contains(userToBeAdded))
                     messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,3);
@@ -312,7 +312,11 @@ public class SelectGuestsPaneController implements Initializable {
         }
 
 
+    }
 
+    //TODO is it correct?
+    protected boolean isGroupMember(String username){
+        return false;
     }
 
     public void fillGuestsChoiceWithProgressiveNumbers(int minNum, int maxNum) {

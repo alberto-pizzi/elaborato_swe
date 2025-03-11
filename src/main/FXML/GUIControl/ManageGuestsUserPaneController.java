@@ -29,8 +29,6 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
 
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -44,6 +42,15 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         super.updateDraftParticipants(true);
         participantsDraft += countPartialEffectiveGroupMembers(); //himself is not considered into effectiveGroupMembers
 
+    }
+
+    public boolean isUserIntoEffectiveGroupMembers(String targetUsername){
+        for (GroupMember groupMember : effectiveGroupMembersList.getItems()){
+            if (groupMember.getUser().getUsername().equals(targetUsername)){
+                return true;
+            }
+        }
+        return false;
     }
 
     protected int countPartialEffectiveGroupMembers(){
@@ -60,6 +67,11 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
 
         return count;
+    }
+
+    @Override
+    protected boolean isGroupMember(String username){
+        return isUserIntoEffectiveGroupMembers(username);
     }
 
     protected void fillEffectiveGroupMembersList() throws SQLException, ClassNotFoundException {

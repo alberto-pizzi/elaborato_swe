@@ -69,13 +69,15 @@ public class FieldChoiceItemManagerController {
 
     //todo da fare
     @FXML
-    public void handleReservationFieldButton(ActionEvent event) throws IOException {
+    public void handleReservationFieldButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
         Parent view = loader.load();
 
         BookFieldController bookFieldController = loader.getController();
         bookFieldController.setData(this.field);
+
+        bookFieldController.selectGuestsPaneController.setData(null,false);
 
 
         menuPane.setCenter(view);
