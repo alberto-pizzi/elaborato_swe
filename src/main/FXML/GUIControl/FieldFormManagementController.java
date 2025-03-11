@@ -67,13 +67,7 @@ public abstract class FieldFormManagementController implements Initializable {
     @FXML
     protected Label fieldTotalPrice;
 
-    //FIXME add inheritance
-    @FXML
-    protected CheckBox isMatchingCheckBox;
 
-    //FIXME add inheritance
-    @FXML
-    protected ChoiceBox<Integer> nPlayersToMatchChoice;
 
     @FXML
     protected VBox otherPlayersSelectorBox;
@@ -135,8 +129,11 @@ public abstract class FieldFormManagementController implements Initializable {
 
     }
 
-    //TODO add setData, better if it uses inheritance and polymorphism
+    protected void dateTimeListeners(){
 
+    }
+
+    //TODO add setData, better if it uses inheritance and polymorphism
     protected void formListeners(){
         datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
 
@@ -179,7 +176,8 @@ public abstract class FieldFormManagementController implements Initializable {
 
         selectGuestsPaneController.getnGuestsChoice().getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
-                //updateTotalPeople(); //fixme yes for add
+                if (!selectGuestsPaneController.isEditMode)
+                    updateTotalPeople(); //TODO only for add. It is correct?
                 updatePricePerPerson(false);
             }
             else
@@ -190,21 +188,12 @@ public abstract class FieldFormManagementController implements Initializable {
         //TODO improve parameters (remove super?)
         selectGuestsPaneController.getAccountList().getItems().addListener((ListChangeListener<? super String>) change -> {
 
-            //updateTotalPeople(); //FIXME yes for add
+            if (!selectGuestsPaneController.isEditMode)
+                updateTotalPeople(); //TODO only for add. It is correct?
             updatePricePerPerson(false);
         });
 
-        //FIXME add inheritance
-        if (nPlayersToMatchChoice != null) {
-            nPlayersToMatchChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-                if (newValue != null) {
-                    //updateTotalPeople(); //FIXME yes for add
-                    updatePricePerPerson(false);
-                } else
-                    pricePerPersonLabel.setText("Guests not selected");
 
-            });
-        }
 
     }
 
@@ -221,9 +210,6 @@ public abstract class FieldFormManagementController implements Initializable {
     protected void updateTotalPeople(){
 
         this.totalPeople = (selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0) + selectGuestsPaneController.getAccountList().getItems().size() + 1;
-
-        if (isMatchingCheckBox != null && isMatchingCheckBox.isSelected())
-            this.totalPeople += ((nPlayersToMatchChoice.getValue() != null) && (!nPlayersToMatchChoice.getValue().equals(0)) ? nPlayersToMatchChoice.getValue() : field.getSport().getPlayersRequired());
 
     }
 
@@ -258,17 +244,14 @@ public abstract class FieldFormManagementController implements Initializable {
         endTimeChoice.getItems().clear();
         startTimeChoice.getItems().clear();
         selectGuestsPaneController.getnGuestsChoice().getItems().clear();
-        nPlayersToMatchChoice.getItems().clear();
 
         updateTotalPeople();
 
         updateTotalPrice(true);
-        if (isMatchingCheckBox != null)
-            isMatchingCheckBox.setSelected(false);
+
         durationBox.setVisible(false);
 
         selectGuestsPaneController.getnGuestsChoice().getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-        nPlayersToMatchChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
         updatePricePerPerson(true);
     }

@@ -31,9 +31,68 @@ import java.util.ResourceBundle;
 
 public class BookFieldController extends FieldFormManagementController implements Initializable {
 
-    //TODO add matching choice
+
+    //FIXME add inheritance
+    @FXML
+    protected CheckBox isMatchingCheckBox;
+
+    //FIXME add inheritance
+    @FXML
+    protected ChoiceBox<Integer> nPlayersToMatchChoice;
+
+    protected final int maxPossibleMatchedPlayers = 30;
 
     //methods
+
+    @Override
+    protected void formListeners(){
+        super.formListeners();
+
+        if (nPlayersToMatchChoice != null) {
+            nPlayersToMatchChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+                if (newValue != null) {
+                    updateTotalPeople();
+                    updatePricePerPerson(false);
+                } else
+                    pricePerPersonLabel.setText("Guests not selected");
+
+            });
+        }
+
+
+        selectGuestsPaneController.getAccountList().getItems().addListener((ListChangeListener<String>) change -> {
+            int newSize = selectGuestsPaneController.getAccountList().getItems().size();
+            while (change.next()) {
+                if (change.wasAdded() || change.wasRemoved()) {
+                    updateTotalPeople();
+                    updatePricePerPerson(false);
+
+                }
+            }
+        });
+
+    }
+
+    @Override
+    protected void updateTotalPeople(){
+        super.updateTotalPeople();
+
+        if (isMatchingCheckBox != null && isMatchingCheckBox.isSelected())
+            this.totalPeople += ((nPlayersToMatchChoice.getValue() != null) && (!nPlayersToMatchChoice.getValue().equals(0)) ? nPlayersToMatchChoice.getValue() : field.getSport().getPlayersRequired());
+
+    }
+
+    @Override
+    protected void resetFields(){
+        super.resetFields();
+
+        nPlayersToMatchChoice.getItems().clear();
+
+        if (isMatchingCheckBox != null)
+            isMatchingCheckBox.setSelected(false);
+
+        fillPlayersToMatchChoiceWithProgressiveNumbers(0, maxPossibleMatchedPlayers);
+    }
 
     public void setData(Field field) {
         this.field = field;
@@ -42,7 +101,6 @@ public class BookFieldController extends FieldFormManagementController implement
         fieldNameLabel.setText(field.getFacility().getName());
         fieldSport.setText(field.getSport().getName());
 
-        //TODO add facility link
 
         String pathFromRoot = "/main/FXML/img/fields/";
 
@@ -56,6 +114,14 @@ public class BookFieldController extends FieldFormManagementController implement
         otherPlayersSelectorBox.setVisible(isMatchingCheckBox.isSelected());
         updateTotalPeople();
         updatePricePerPerson(false);
+    }
+
+    //TODO is it useful?
+    public void fillPlayersToMatchChoiceWithProgressiveNumbers(int minNum, int maxNum) {
+        nPlayersToMatchChoice.getItems().clear();
+        for (int i = minNum; i <= maxNum; i++)
+            nPlayersToMatchChoice.getItems().add(i);
+
     }
 
 
@@ -105,19 +171,6 @@ public class BookFieldController extends FieldFormManagementController implement
 
     }
 
-    /*
-    @FXML
-    public void handleAddGuestsButton(ActionEvent event) {
-
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("Who do you want to add?");
-        dialog.setDialogPane(selectGuestsDialogPane);
-
-        Optional<ButtonType> result = dialog.showAndWait();
-
-    }
-
-     */
 
 
 }

@@ -105,11 +105,11 @@
                </VBox.margin>
             </HBox>
             <Line endX="550.0" stroke="#8d8d8d" strokeWidth="0.5" />
-            <HBox alignment="CENTER">
+            <HBox alignment="CENTER" fillHeight="false" spacing="5.0">
                <children>
-                  <HBox>
+                  <HBox alignment="CENTER" minWidth="200.0">
                      <children>
-                        <Label text="Participants Draft:">
+                        <Label minWidth="120.0" text="Participants Draft:">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
@@ -117,7 +117,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="participantsDraftLabel" text="NULL">
+                        <Label fx:id="participantsDraftLabel" minWidth="50.0" text="NULL">
                            <font>
                               <Font name="System Italic" size="14.0" />
                            </font>
@@ -127,9 +127,9 @@
                         <Insets right="50.0" />
                      </HBox.margin>
                   </HBox>
-                  <HBox>
+                  <HBox alignment="CENTER" minWidth="200.0">
                      <children>
-                        <Label text="Required Participants:">
+                        <Label minWidth="150.0" text="Required Participants:">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -137,7 +137,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="requiredParticipantsLabel" text="NULL">
+                        <Label fx:id="requiredParticipantsLabel" minWidth="50.0" text="NULL">
                            <font>
                               <Font name="System Italic" size="14.0" />
                            </font>
@@ -147,9 +147,9 @@
                         <Insets right="50.0" />
                      </HBox.margin>
                   </HBox>
-                  <HBox>
+                  <HBox alignment="CENTER" minWidth="200.0">
                      <children>
-                        <Label text="Total Price (per person draft): ">
+                        <Label minWidth="200.0" text="Total Price (per person draft): ">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -157,7 +157,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="totalPricePerPersonDraftLabel" text="NULL">
+                        <Label fx:id="totalPricePerPersonDraftLabel" minWidth="50.0" text="NULL">
                            <font>
                               <Font name="System Italic" size="14.0" />
                            </font>

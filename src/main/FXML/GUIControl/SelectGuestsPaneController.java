@@ -319,6 +319,7 @@ public class SelectGuestsPaneController implements Initializable {
         return false;
     }
 
+    //TODO should it be static?
     public void fillGuestsChoiceWithProgressiveNumbers(int minNum, int maxNum) {
         nGuestsChoice.getItems().clear();
         for (int i = minNum; i <= maxNum; i++)
@@ -347,7 +348,8 @@ public class SelectGuestsPaneController implements Initializable {
         else
             maxValue = maxPossibleGuestsPerUser;
 
-        fillGuestsChoiceWithProgressiveNumbers(minValue, maxValue);
+        if (group != null)
+            fillGuestsChoiceWithProgressiveNumbers(minValue, maxValue);
 
     }
 
