@@ -9,10 +9,12 @@ import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Group;
 import main.java.DomainModel.GroupMember;
+import main.java.DomainModel.Reservation;
 import main.java.DomainModel.User;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -71,6 +73,9 @@ public class SelectGuestsPaneController implements Initializable {
     protected ArrayList<GroupMember> groupMembersAdded = new ArrayList<>();
 
 
+    protected DecimalFormat priceFormat;
+
+    protected float totalPrice = 0;
 
 
 
@@ -94,6 +99,10 @@ public class SelectGuestsPaneController implements Initializable {
         groupMembersRemoved.clear();
         groupMembersChanged.clear();
         groupMembersAdded.clear();
+
+        //set decimal format
+        this.priceFormat = new DecimalFormat("#.##");
+        this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
 
 
 
@@ -138,11 +147,21 @@ public class SelectGuestsPaneController implements Initializable {
         nGuestsChoiceListener();
     }
 
+    public float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     protected void nGuestsChoiceListener(){
         nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
 
                 updateDraftParticipants(true);
+                updateIndicatorLabels();
+
                 try {
                     updateAddButtons();
                 } catch (SQLException e) {
@@ -166,6 +185,31 @@ public class SelectGuestsPaneController implements Initializable {
 
         updateDraftParticipants(true);
         updateAddButtons();
+        updateIndicatorLabels();
+
+    }
+
+    public void updateIndicatorLabels(){
+        participantsDraftLabel.setText(String.valueOf(participantsDraft));
+        updateTotalPricePerPersonDraftLabel();
+
+        if (group != null){
+
+            if (group.getReservation().isMatched())
+                requiredParticipantsLabel.setText(String.valueOf(group.getRequiredParticipants()));
+            else
+                requiredParticipantsLabel.setText("NO");
+
+        }
+        else{
+            requiredParticipantsLabel.setText("NO");
+        }
+
+    }
+
+    public void updateTotalPricePerPersonDraftLabel(){
+        totalPricePerPersonDraftLabel.setText(priceFormat.format(Reservation.pricePerUser(totalPrice,participantsDraft)) + " $");
+
     }
 
     public void updateDraftParticipants(boolean considerHimself){
@@ -254,6 +298,8 @@ public class SelectGuestsPaneController implements Initializable {
                     accountList.getItems().add(userToBeAdded);
                     updateDraftParticipants(true);
                     updateAddButtons();
+                    updateIndicatorLabels();
+
                 }
 
             }
@@ -342,6 +388,8 @@ public class SelectGuestsPaneController implements Initializable {
 
         updateDraftParticipants(true);
         updateAddButtons();
+        updateIndicatorLabels();
+
     }
 
     @FXML
@@ -350,5 +398,7 @@ public class SelectGuestsPaneController implements Initializable {
 
         updateDraftParticipants(true);
         updateAddButtons();
+        updateIndicatorLabels();
+
     }
 }

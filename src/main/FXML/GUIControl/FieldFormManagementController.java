@@ -242,6 +242,9 @@ public abstract class FieldFormManagementController implements Initializable {
         }
 
         fieldTotalPrice.setText(price);
+
+        if (selectGuestsPaneController != null)
+            selectGuestsPaneController.setTotalPrice(totalPrice);
     }
 
     protected void updatePricePerPerson(boolean reset){

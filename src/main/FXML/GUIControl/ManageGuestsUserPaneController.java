@@ -83,6 +83,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
        updateDraftParticipants(true);
        updateAddButtons();
+       updateIndicatorLabels();
+
    }
 
 
@@ -166,6 +168,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
                 updateDraftParticipants(true);
                 updateAddButtons();
+                updateIndicatorLabels();
+
 
             }
         }
@@ -186,6 +190,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
             updateDraftParticipants(true);
             updateAddButtons();
+            updateIndicatorLabels();
+
 
 
         }

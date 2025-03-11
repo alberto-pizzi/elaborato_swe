@@ -53,6 +53,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
                     updateDraftParticipants(true);
                     updateAddButtons();
+                    updateIndicatorLabels();
                 } else
                     messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR, 3);
             }
@@ -203,6 +204,8 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
                 updateDraftParticipants(true);
                 updateAddButtons();
+                updateIndicatorLabels();
+
 
                 messagesController.showMessage("Guests updated.", MessagesController.MessageType.SUCCESS, 3);
 
