@@ -228,8 +228,10 @@ public abstract class FieldFormManagementController implements Initializable {
 
         fieldTotalPrice.setText(price);
 
-        if (selectGuestsPaneController != null)
+        if (selectGuestsPaneController != null) {
             selectGuestsPaneController.setTotalPrice(totalPrice);
+            selectGuestsPaneController.updateTotalPricePerPersonDraftLabel(); //TODO is it correct? Maybe yes
+        }
     }
 
     protected void updatePricePerPerson(boolean reset){
