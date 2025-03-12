@@ -35,7 +35,7 @@ public class SelectGuestsPaneController implements Initializable {
 
 
     @FXML
-    protected ListView<String> accountList; //TODO change name
+    protected ListView<String> inviteListDraft;
 
     @FXML
     protected ListView<String> searchList;
@@ -129,8 +129,8 @@ public class SelectGuestsPaneController implements Initializable {
             searchList.getItems().addAll(usernames);
         });
 
-        accountList.getItems().addListener((ListChangeListener<String>) change -> {
-            int newSize = accountList.getItems().size();
+        inviteListDraft.getItems().addListener((ListChangeListener<String>) change -> {
+            int newSize = inviteListDraft.getItems().size();
             while (change.next()) {
                 if (change.wasAdded() || change.wasRemoved()) {
                     try {
@@ -221,17 +221,17 @@ public class SelectGuestsPaneController implements Initializable {
     }
 
     public void updateDraftParticipants(boolean considerHimself){
-        participantsDraft = (considerHimself ? 1 : 0) + (accountList != null ? accountList.getItems().size() : 0) + (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
+        participantsDraft = (considerHimself ? 1 : 0) + (inviteListDraft != null ? inviteListDraft.getItems().size() : 0) + (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
 
 
     }
 
-    public ListView<String> getAccountList() {
-        return accountList;
+    public ListView<String> getInviteListDraft() {
+        return inviteListDraft;
     }
 
-    public void setAccountList(ListView<String> accountList) {
-        this.accountList = accountList;
+    public void setInviteListDraft(ListView<String> inviteListDraft) {
+        this.inviteListDraft = inviteListDraft;
     }
 
     public Button getAddButton() {
@@ -300,10 +300,10 @@ public class SelectGuestsPaneController implements Initializable {
 
                 if (isGroupMember(userToBeAdded)) //TODO is it correct?
                     messagesController.showMessage("Username already into group.", MessagesController.MessageType.ERROR,3);
-                else if (accountList.getItems().contains(userToBeAdded))
+                else if (inviteListDraft.getItems().contains(userToBeAdded))
                     messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,3);
                 else {
-                    accountList.getItems().add(userToBeAdded);
+                    inviteListDraft.getItems().add(userToBeAdded);
                     updateDraftParticipants(true);
                     updateAddButtons();
                     updateIndicatorLabels();
@@ -398,7 +398,7 @@ public class SelectGuestsPaneController implements Initializable {
 
     @FXML
     public void handleRemoveAllButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-        accountList.getItems().clear();
+        inviteListDraft.getItems().clear();
 
         updateDraftParticipants(true);
         updateAddButtons();
@@ -408,7 +408,7 @@ public class SelectGuestsPaneController implements Initializable {
 
     @FXML
     public void handleRemoveButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-        accountList.getItems().removeAll(accountList.getSelectionModel().getSelectedItem());
+        inviteListDraft.getItems().removeAll(inviteListDraft.getSelectionModel().getSelectedItem());
 
         updateDraftParticipants(true);
         updateAddButtons();

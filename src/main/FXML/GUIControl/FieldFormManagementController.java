@@ -12,7 +12,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
-import main.java.DomainModel.Group;
 import main.java.DomainModel.Reservation;
 import main.java.DomainModel.WorkingHours;
 
@@ -186,7 +185,7 @@ public abstract class FieldFormManagementController implements Initializable {
         });
 
         //TODO improve parameters (remove super?)
-        selectGuestsPaneController.getAccountList().getItems().addListener((ListChangeListener<? super String>) change -> {
+        selectGuestsPaneController.getInviteListDraft().getItems().addListener((ListChangeListener<? super String>) change -> {
 
             if (!selectGuestsPaneController.isEditMode)
                 updateTotalPeople(); //TODO only for add. It is correct?
@@ -209,7 +208,7 @@ public abstract class FieldFormManagementController implements Initializable {
 
     protected void updateTotalPeople(){
 
-        this.totalPeople = (selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0) + selectGuestsPaneController.getAccountList().getItems().size() + 1;
+        this.totalPeople = (selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0) + selectGuestsPaneController.getInviteListDraft().getItems().size() + 1;
 
     }
 

@@ -38,7 +38,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
         if (userToBeAdded != null) {
 
             if (group != null) {
-                if (!accountList.getItems().contains(userToBeAdded) && !isUserIntoEffectiveGroupMembers(userToBeAdded)) {
+                if (!inviteListDraft.getItems().contains(userToBeAdded) && !isUserIntoEffectiveGroupMembers(userToBeAdded)) {
                     int userId = ManagerOwnerManagementController.getUserIdByUsername(userToBeAdded);
                     int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
 
@@ -144,7 +144,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     @Override
     public void updateDraftParticipants(boolean considerHimself){
 
-        participantsDraft = (accountList != null ? accountList.getItems().size() : 0) + countPartialEffectiveGroupMembers();
+        participantsDraft = (inviteListDraft != null ? inviteListDraft.getItems().size() : 0) + countPartialEffectiveGroupMembers();
 
     }
 

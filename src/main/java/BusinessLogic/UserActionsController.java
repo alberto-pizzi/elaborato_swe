@@ -238,7 +238,7 @@ public class UserActionsController extends PersonController{
             okButton.addEventFilter(ActionEvent.ACTION, event -> {
 
                 int guests = selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0;
-                int accounts = selectGuestsPaneController.getAccountList().getItems().size();
+                int accounts = selectGuestsPaneController.getInviteListDraft().getItems().size();
 
                 boolean canJoin = invite.getGroup().canJoin(guests, accounts, true);
 
@@ -259,7 +259,7 @@ public class UserActionsController extends PersonController{
                 joinGroup(invite.getGroup().getId(), guests);
 
                 //send invites to other (his) players
-                ArrayList<String> accountsList = new ArrayList<>(selectGuestsPaneController.getAccountList().getItems());
+                ArrayList<String> accountsList = new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems());
                 UserDAO userDAO = new UserDAO();
                 for (String accountUsername : accountsList) {
                     if (accountUsername != null) {

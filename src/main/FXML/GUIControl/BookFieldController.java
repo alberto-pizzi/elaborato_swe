@@ -3,31 +3,18 @@ package main.FXML.GUIControl;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.*;
 
-import java.io.IOException;
-import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.text.DecimalFormat;
-import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 public class BookFieldController extends FieldFormManagementController implements Initializable {
 
@@ -60,8 +47,8 @@ public class BookFieldController extends FieldFormManagementController implement
         }
 
 
-        selectGuestsPaneController.getAccountList().getItems().addListener((ListChangeListener<String>) change -> {
-            int newSize = selectGuestsPaneController.getAccountList().getItems().size();
+        selectGuestsPaneController.getInviteListDraft().getItems().addListener((ListChangeListener<String>) change -> {
+            int newSize = selectGuestsPaneController.getInviteListDraft().getItems().size();
             while (change.next()) {
                 if (change.wasAdded() || change.wasRemoved()) {
                     updateTotalPeople();
@@ -159,7 +146,7 @@ public class BookFieldController extends FieldFormManagementController implement
         else{
             System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
 
-            ArrayList<String> accounts = new ArrayList<>(selectGuestsPaneController.getAccountList().getItems());
+            ArrayList<String> accounts = new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems());
             int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
             userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,guests, totalPeople, isMatchingCheckBox.isSelected(), accounts);
             System.out.println("Booking done");

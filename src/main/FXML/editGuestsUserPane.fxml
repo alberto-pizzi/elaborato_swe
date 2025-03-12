@@ -87,7 +87,7 @@
                      </HBox.margin>
                      <children>
                         <Label text="Inviting List (I.L.):" />
-                        <ListView fx:id="accountList" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="190.0" prefWidth="200.0" />
+                        <ListView fx:id="inviteListDraft" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="190.0" prefWidth="200.0" />
                         <HBox alignment="CENTER">
                            <children>
                               <Button fx:id="removeButton" mnemonicParsing="false" onAction="#handleRemoveButton" text="Remove" />
