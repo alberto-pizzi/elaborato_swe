@@ -97,6 +97,8 @@ public class ModifyReservationController extends FieldFormManagementController i
             userActionsController.changeOwnGuests(reservation.getId(),selectGuestsPaneController.getnGuestsChoice().getValue());
         }
 
+        //FIXME add other checks
+
     }
 
     @Override
@@ -108,17 +110,13 @@ public class ModifyReservationController extends FieldFormManagementController i
         endTimeChoice.getItems().clear();
         startTimeChoice.getItems().clear();
         selectGuestsPaneController.getnGuestsChoice().getItems().clear(); //FIXME
-        //nPlayersToMatchChoice.getItems().clear();
 
         updateTotalPeople();
 
         updateTotalPrice(true);
-        //if (isMatchingCheckBox != null)
-          //  isMatchingCheckBox.setSelected(false);
         durationBox.setVisible(false);
 
         selectGuestsPaneController.getnGuestsChoice().getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15); //FIXME
-        //nPlayersToMatchChoice.getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 
         updatePricePerPerson(true);
 
@@ -162,7 +160,11 @@ public class ModifyReservationController extends FieldFormManagementController i
 
             UserActionsController userActionsController = new UserActionsController();
 
+            if (selectGuestsPaneController != null)
+                selectGuestsPaneController.applyChanges(); //FIXME is it correct?
+
             userActionsController.editReservation(reservation);
+
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
             Parent view = loader.load();

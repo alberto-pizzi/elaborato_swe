@@ -100,6 +100,26 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
    }
 
 
+   @Override
+   public void applyChanges() throws SQLException, ClassNotFoundException {
+
+        UserActionsController userActionsController = new UserActionsController();
+
+        //TODO is it right here checking groupHead?
+        if (group.getGroupHead().getUsername().equals(userActionsController.getUser().getUsername())) {
+            for (GroupMember groupMember : groupMembersRemoved) {
+                UserActionsController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+            }
+        }
+
+        //TODO add inviting system connection
+
+       //TODO to be finished
+
+
+   }
+
+
    //FIXME check
     @Override
     public void updateGuestsChoice() throws SQLException, ClassNotFoundException {

@@ -162,6 +162,34 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             return super.canOthersBeAdded();
     }
 
+    @Override
+    public void applyChanges() throws SQLException, ClassNotFoundException {
+
+        if (group != null) {
+            ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+
+            //removed
+            for (GroupMember groupMember : groupMembersRemoved) {
+                ManagerOwnerManagementController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+            }
+
+            //added
+            for (GroupMember groupMember : groupMembersAdded) {
+                ManagerOwnerManagementController.addGroupMember(group.getReservation().getId(),groupMember.getUser().getId(),groupMember.getOwnGuests());
+            }
+
+            //changed
+            for (GroupMember groupMember : groupMembersChanged) {
+                managerOwnerManagementController.changeUserGuests(group.getReservation().getId(),groupMember.getUser().getId(),groupMember.getOwnGuests());
+            }
+
+        }
+        else
+            System.out.println("Group is null during applyChanges");
+
+
+    }
+
 
     @Override
     public void updateGuestsChoice() throws SQLException, ClassNotFoundException {

@@ -135,6 +135,7 @@ public class UserActionsController extends PersonController{
 
         UserDAO userDAO = new UserDAO();
 
+        //sends invites to users into inviteList (draft)
         for (String accountUsername : accounts){
             if (accountUsername != null) {
                 sendInvite(reservation, userDAO.getUserID(accountUsername)); //TODO could be better by username than by id?
@@ -418,6 +419,7 @@ public class UserActionsController extends PersonController{
         isPartDao.updateGuestsUsers(groupDao.getGroupByReservation(idReservation).getId(),user.getId(),guestNewNumber);
     }
 
+    //TODO add group as parameter and its updates
     public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
 
        ReservationDao reservationDao = new ReservationDao();
@@ -429,6 +431,7 @@ public class UserActionsController extends PersonController{
        reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
        reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
        reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
+
        notificationController.sendNotifications(reservation, MODIFICATION, notificationMessage);
 
 

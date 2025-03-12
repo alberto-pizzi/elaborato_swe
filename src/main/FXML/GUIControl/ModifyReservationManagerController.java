@@ -76,6 +76,14 @@ public class ModifyReservationManagerController extends ModifyReservationControl
         this.selectGuestsPaneController = loader.getController(); //connect controller
     }
 
+    @Override
+    public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+        //TODO implement override
+        System.out.println("Confirm button (Manager) clicked");
+    }
+
+    //TODO how we manage deletions?
 
 
-}
+
+    }

@@ -207,6 +207,14 @@ public class SelectGuestsPaneController implements Initializable {
 
     }
 
+    //this method have to call by external class because it CONFIRMS changes.
+    public void applyChanges() throws SQLException, ClassNotFoundException {
+
+        //TODO implementation is needed?
+        System.out.println("Apply Changes (base pane)");
+
+    }
+
     public void updateTotalPricePerPersonDraftLabel(){
         totalPricePerPersonDraftLabel.setText(priceFormat.format(Reservation.pricePerUser(totalPrice,participantsDraft)) + " $");
 
