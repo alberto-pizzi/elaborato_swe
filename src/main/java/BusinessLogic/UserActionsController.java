@@ -325,23 +325,7 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    //FIXME output type?
-    public void deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
 
-        ReservationDao reservationDao = new ReservationDao();
-
-        NotificationController notificationController = new NotificationController();
-
-        Reservation reservation = reservationDao.getReservation(idReservation, false);
-
-        notificationController.sendNotifications(reservation,DELETION,""); //FIXME check notificationMessage utlity
-
-        //set isDeleted flag to true
-        reservation.setDeleted(true);
-        reservationDao.updateIsDeleted(idReservation,true);
-
-
-    }
 
     public void leaveOwnGroups() throws SQLException, ClassNotFoundException {
         ArrayList<Group> groups = new ArrayList<>();
@@ -407,23 +391,6 @@ public class UserActionsController extends PersonController<User>{
         isPartDao.updateGuestsUsers(groupDao.getGroupByReservation(idReservation).getId(), person.getId(),guestNewNumber);
     }
 
-    //TODO add group as parameter and its updates
-    public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
-
-       ReservationDao reservationDao = new ReservationDao();
-       NotificationController notificationController = new NotificationController();
-       Reservation previousReservation = reservationDao.getReservation(reservation.getId(), false);
-       String notificationTitle = "Una prenotazione è stata modificata";
-       String notificationMessage = "La prenotazione il giorno " + previousReservation.getReservationDate() + " alle " + previousReservation.getEventTimeStart() + " è stata modificata da " + person.getUsername();
-
-       reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
-       reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
-       reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
-
-       notificationController.sendNotifications(reservation, MODIFICATION, notificationMessage);
-
-
-    }
 
     public User searchUserByUsername(String username) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
