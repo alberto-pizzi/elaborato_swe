@@ -15,7 +15,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.BusinessLogic.UserProfileController;
-import main.java.DomainModel.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -57,7 +56,7 @@ public class ProfileMenuController implements Initializable {
         UserActionsController userActionsController = new UserActionsController();
 
 
-        welcomeMessageLabel.setText("Hi, " + userActionsController.getUser().getUsername() + "!");
+        welcomeMessageLabel.setText("Hi, " + userActionsController.getPerson().getUsername() + "!");
 
 
         try {

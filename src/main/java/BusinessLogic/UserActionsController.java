@@ -23,29 +23,17 @@ import static main.java.DomainModel.NotificationType.DELETION;
 import static main.java.DomainModel.NotificationType.MODIFICATION;
 
 
-public class UserActionsController extends PersonController{
+public class UserActionsController extends PersonController<User>{
 
-    private User user;
 
     //constructor
 
     public UserActionsController() {
-        this.user = (User) SessionController.getInstance().getPerson();
+        super((User) SessionController.getInstance().getPerson());
     }
 
 
-    //getter
 
-    public User getUser() {
-        return user;
-    }
-
-    //setter
-
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     //methods
     //TODO it should be removed? Maybe yes
@@ -62,20 +50,20 @@ public class UserActionsController extends PersonController{
 
         ManagesDAO managesDAO = new ManagesDAO();
 
-        managesDAO.attachManager(user.getId(), idFacility);
+        managesDAO.attachManager(person.getId(), idFacility);
     }
 
     public void detachMember(int idFacility) throws SQLException {
 
         ManagesDAO managesDAO = new ManagesDAO();
 
-        managesDAO.detachManager(user.getId(), idFacility);
+        managesDAO.detachManager(person.getId(), idFacility);
     }
 
     //FIXME input change
     public ArrayList <User> findOtherPlayers() throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
-        return userDAO.getUsersByProvince(this.user.getProvince());
+        return userDAO.getUsersByProvince(this.person.getProvince());
     }
 
     //FIXME input change
@@ -88,7 +76,7 @@ public class UserActionsController extends PersonController{
             players.addAll(searchUsersByProvince(searchText));
             players.addAll(searchUsersByUsername(searchText));
         }else{
-            players.addAll(searchUsersByProvince(this.user.getProvince()));
+            players.addAll(searchUsersByProvince(this.person.getProvince()));
         }
         //todo controllare con albe
         ArrayList<User> playingAlready= groupDao.getGroupByReservation(reservation.getId()).getUsers();
@@ -124,7 +112,7 @@ public class UserActionsController extends PersonController{
         reservation.setId(newReservationId); //WARNING: it's very important
 
         //group creation
-        Group group = new Group(user,reservation, requiredParticipants);
+        Group group = new Group(person,reservation, requiredParticipants);
         int newGroupId = groupDao.addGroup(group);
         group.setId(newGroupId); //WARNING: it's very important
         joinGroup(newGroupId,guests);
@@ -178,7 +166,7 @@ public class UserActionsController extends PersonController{
         Boolean pass = true;
         Group group = groupDao.getGroupByReservation(reservation.getId());
         //todo Da finire
-        if(group.getGroupHead().getId() != user.getId()) {
+        if(group.getGroupHead().getId() != person.getId()) {
             pass = false;
         }
         if(reservation.isMatched()){
@@ -296,10 +284,10 @@ public class UserActionsController extends PersonController{
         Group group = groupDao.getGroup(idGroup);
 
         //this method adds a member from DomainModel
-        boolean memberAdded = group.addMember(user,guestUsers);
+        boolean memberAdded = group.addMember(person,guestUsers);
 
         if (memberAdded) {
-            isPartDao.addMembership(idGroup,user.getId(),guestUsers);
+            isPartDao.addMembership(idGroup, person.getId(),guestUsers);
             System.out.println("Members added into groups");
 
         }
@@ -319,13 +307,13 @@ public class UserActionsController extends PersonController{
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
         Group group = groupDao.getGroup(idGroup);
-        int ownGuests = isPartDao.countOwnGuests(idGroup,user.getId());
+        int ownGuests = isPartDao.countOwnGuests(idGroup, person.getId());
 
         //this method removes a member from DomainModel
-        boolean memberRemoved = group.removeMember(user,ownGuests);
+        boolean memberRemoved = group.removeMember(person,ownGuests);
 
         if (memberRemoved){
-            isPartDao.removeMembership(idGroup,user.getId());
+            isPartDao.removeMembership(idGroup, person.getId());
 
             if (group.getParticipants() <= 0)
                 groupDao.deleteGroup(idGroup);
@@ -375,14 +363,14 @@ public class UserActionsController extends PersonController{
     public ArrayList<Invite> getOwnInvites() throws SQLException, ClassNotFoundException {
         InviteDao inviteDao = new InviteDao();
 
-        return inviteDao.getInvitesByUser(user.getId());
+        return inviteDao.getInvitesByUser(person.getId());
 
     }
 
     public ArrayList<Field> getNearbyFields() throws SQLException {
         FieldDao fieldDao = new FieldDao();
 
-        return fieldDao.getFieldsByProvince(user.getProvince());
+        return fieldDao.getFieldsByProvince(person.getProvince());
 
     }
 
@@ -390,7 +378,7 @@ public class UserActionsController extends PersonController{
 
         IsPartDao isPartDao = new IsPartDao();
 
-        return isPartDao.getAllGroupsByUser(this.user.getId());
+        return isPartDao.getAllGroupsByUser(this.person.getId());
 
     }
 
@@ -399,7 +387,7 @@ public class UserActionsController extends PersonController{
         ReservationDao reservationDao = new ReservationDao();
 
         //TODO should getReservation be improved with isConfirmed supporting? (into ReservationDao)
-        return reservationDao.getReservationsByUser(this.user.getId());
+        return reservationDao.getReservationsByUser(this.person.getId());
 
         //TODO how implement getOwnReservations method without User file inside DB?
 
@@ -416,7 +404,7 @@ public class UserActionsController extends PersonController{
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
 
-        isPartDao.updateGuestsUsers(groupDao.getGroupByReservation(idReservation).getId(),user.getId(),guestNewNumber);
+        isPartDao.updateGuestsUsers(groupDao.getGroupByReservation(idReservation).getId(), person.getId(),guestNewNumber);
     }
 
     //TODO add group as parameter and its updates
@@ -426,7 +414,7 @@ public class UserActionsController extends PersonController{
        NotificationController notificationController = new NotificationController();
        Reservation previousReservation = reservationDao.getReservation(reservation.getId(), false);
        String notificationTitle = "Una prenotazione è stata modificata";
-       String notificationMessage = "La prenotazione il giorno " + previousReservation.getReservationDate() + " alle " + previousReservation.getEventTimeStart() + " è stata modificata da " + user.getUsername();
+       String notificationMessage = "La prenotazione il giorno " + previousReservation.getReservationDate() + " alle " + previousReservation.getEventTimeStart() + " è stata modificata da " + person.getUsername();
 
        reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
        reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());

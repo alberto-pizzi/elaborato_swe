@@ -81,7 +81,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         //fill effective group members
         if (group != null){
             for (User user : PersonController.getGroupMembers(group.getReservation().getId())){
-                if (!user.getUsername().equals(userActionsController.getUser().getUsername()))
+                if (!user.getUsername().equals(userActionsController.getPerson().getUsername()))
                     effectiveGroupMembersList.getItems().add(new GroupMember(user,PersonController.getUserGuests(group.getReservation().getId(),user.getId())));
             }
 
@@ -106,7 +106,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         UserActionsController userActionsController = new UserActionsController();
 
         //TODO is it right here checking groupHead?
-        if (group.getGroupHead().getUsername().equals(userActionsController.getUser().getUsername())) {
+        if (group.getGroupHead().getUsername().equals(userActionsController.getPerson().getUsername())) {
             for (GroupMember groupMember : groupMembersRemoved) {
                 UserActionsController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
             }
@@ -131,7 +131,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         if (group != null && group.getReservation() != null){
 
             //FIXME choice value is not selected
-            int value = PersonController.getUserGuests(group.getReservation().getId(),userActionsController.getUser().getId());
+            int value = PersonController.getUserGuests(group.getReservation().getId(),userActionsController.getPerson().getId());
             nGuestsChoice.setValue(value);
 
 
@@ -146,7 +146,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
         if (group != null){
             //FIXME fix logic. Is editRights needed?
-           if (group.getGroupHead().equals(userActionsController.getUser())){
+           if (group.getGroupHead().equals(userActionsController.getPerson())){
                removeAllMembersButton.setDisable(false);
                removeGroupMemberButton.setDisable(false);
            }

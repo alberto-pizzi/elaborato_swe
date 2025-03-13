@@ -296,7 +296,7 @@ public class SelectGuestsPaneController implements Initializable {
 
         if (userToBeAdded != null) {
 
-            if (!userToBeAdded.equals(userActionsController.getUser().getUsername())) {
+            if (!userToBeAdded.equals(userActionsController.getPerson().getUsername())) {
 
                 if (isGroupMember(userToBeAdded)) //TODO is it correct?
                     messagesController.showMessage("Username already into group.", MessagesController.MessageType.ERROR,3);

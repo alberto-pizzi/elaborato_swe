@@ -11,14 +11,12 @@ import static main.java.DomainModel.NotificationType.*;
 
 public class ManagerOwnerManagementController extends PersonController{
 
-    Person person;
-
     public ManagerOwnerManagementController(Person person) {
-        this.person = person;
+        super(person);
     }
 
     public ManagerOwnerManagementController() {
-        this.person = SessionController.getInstance().getPerson();
+        super(SessionController.getInstance().getPerson());
     }
 
 

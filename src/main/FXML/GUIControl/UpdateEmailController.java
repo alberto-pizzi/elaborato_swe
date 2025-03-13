@@ -36,7 +36,7 @@ public class UpdateEmailController implements Initializable {
         UserActionsController userActionsController = new UserActionsController();
 
 
-        emailInput.setText(userActionsController.getUser().getEmail());
+        emailInput.setText(userActionsController.getPerson().getEmail());
 
         messagesController = new MessagesController(messageLabel);
 
