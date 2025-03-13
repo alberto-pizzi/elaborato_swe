@@ -63,12 +63,11 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
     @Override
     protected void fillEffectiveGroupMembersList() throws SQLException, ClassNotFoundException {
-        UserActionsController userActionsController = new UserActionsController();
         effectiveGroupMembersList.getItems().clear();
 
         //fill effective group members
         if (group != null){
-            for (User user : userActionsController.getGroupMembers(group.getReservation().getId())){
+            for (User user : PersonController.getGroupMembers(group.getReservation().getId())){
                 effectiveGroupMembersList.getItems().add(new GroupMember(user, PersonController.getUserGuests(group.getReservation().getId(),user.getId())));
             }
 

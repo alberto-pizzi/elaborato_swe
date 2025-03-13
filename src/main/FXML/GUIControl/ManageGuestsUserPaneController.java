@@ -80,7 +80,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
         //fill effective group members
         if (group != null){
-            for (User user : userActionsController.getGroupMembers(group.getReservation().getId())){
+            for (User user : PersonController.getGroupMembers(group.getReservation().getId())){
                 if (!user.getUsername().equals(userActionsController.getUser().getUsername()))
                     effectiveGroupMembersList.getItems().add(new GroupMember(user,PersonController.getUserGuests(group.getReservation().getId(),user.getId())));
             }

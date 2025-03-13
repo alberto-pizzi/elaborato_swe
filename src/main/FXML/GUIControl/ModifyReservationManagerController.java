@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
@@ -44,7 +45,7 @@ public class ModifyReservationManagerController extends ModifyReservationControl
 
     protected void reservationChecker() throws SQLException, ClassNotFoundException {
 
-        UserActionsController userActionsController = new UserActionsController();
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
         if( datePicker.getValue() != null) {
             reservation.setEventDate(Date.valueOf(datePicker.getValue()));
@@ -59,7 +60,7 @@ public class ModifyReservationManagerController extends ModifyReservationControl
         }
 
         if(selectGuestsPaneController.getnGuestsChoice().getValue() != null) {
-            userActionsController.changeOwnGuests(reservation.getId(),selectGuestsPaneController.getnGuestsChoice().getValue());
+            //managerOwnerManagementController.changeOwnGuests(reservation.getId(),selectGuestsPaneController.getnGuestsChoice().getValue());
         }
 
     }
@@ -79,7 +80,7 @@ public class ModifyReservationManagerController extends ModifyReservationControl
     @Override
     public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
         //TODO implement override
-        System.out.println("Confirm button (Manager) clicked");
+        System.out.println("Confirm button (Manager/Owner) clicked");
     }
 
     //TODO how we manage deletions?

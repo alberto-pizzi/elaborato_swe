@@ -14,6 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
+import main.java.BusinessLogic.PersonController;
 import main.java.DomainModel.Reservation;
 import main.java.DomainModel.User;
 
@@ -204,6 +205,9 @@ public class InviteClientsOwnerController implements Initializable {
 
         ModifyReservationOwnerController modifyReservationOwnerController = loader.getController();
         modifyReservationOwnerController.setData(reservation, menuPane);
+
+        modifyReservationOwnerController.selectGuestsPaneController.setData(PersonController.getGroupByReservation(this.reservation.getId()),true );
+
 
         menuPane.setCenter(reservationModifyPane);
     }

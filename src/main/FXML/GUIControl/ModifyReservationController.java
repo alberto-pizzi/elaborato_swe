@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -40,6 +41,9 @@ public class ModifyReservationController extends FieldFormManagementController i
     @FXML
     protected Label fieldTotalParticipants;
 
+    @FXML
+    protected Label isMatched;
+
 
 
     //methods
@@ -68,6 +72,15 @@ public class ModifyReservationController extends FieldFormManagementController i
 
 
         fieldTotalParticipants.setText(String.valueOf(totalPeople));
+
+        if (reservation.isMatched()){
+            isMatched.setText("The reservation is matched");
+        }
+        else {
+            isMatched.setText("The reservation is not matched");
+        }
+        isMatched.setAlignment(Pos.CENTER);
+
 
         startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart().toLocalTime()));
         endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd().toLocalTime()));
