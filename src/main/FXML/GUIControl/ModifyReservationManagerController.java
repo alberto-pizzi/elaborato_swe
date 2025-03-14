@@ -19,14 +19,10 @@ public class ModifyReservationManagerController extends ModifyReservationControl
 
 
     //methods
-
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        constructController();
-
+    protected void assignPersonController(){
         personController = new ManagerOwnerManagementController();
     }
-
 
     protected void reservationChecker() throws SQLException, ClassNotFoundException {
 

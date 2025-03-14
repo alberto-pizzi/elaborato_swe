@@ -48,12 +48,6 @@ public class ModifyReservationController extends FieldFormManagementController i
 
     //methods
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        constructController();
-
-        personController = new UserActionsController();
-    }
 
     public void setData(Reservation reservation, BorderPane menuPane) throws SQLException, ClassNotFoundException {
         this.reservation = reservation;

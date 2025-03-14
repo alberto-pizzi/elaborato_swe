@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.PersonController;
+import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
 import main.java.DomainModel.WorkingHours;
@@ -106,11 +107,6 @@ public abstract class FieldFormManagementController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        constructController();
-
-    }
-
-    protected void constructController(){
         //TODO add login singleton connection, if needed
 
         this.priceFormat = new DecimalFormat("#.##");
@@ -132,6 +128,14 @@ public abstract class FieldFormManagementController implements Initializable {
 
         //listeners
         formListeners();
+
+        //assign right person controller by type of person
+        assignPersonController();
+
+    }
+
+    protected void assignPersonController(){
+        personController = new UserActionsController();
     }
 
     //TODO add setData, better if it uses inheritance and polymorphism
