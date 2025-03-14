@@ -25,20 +25,6 @@ public class ManagerOwnerManagementController extends PersonController{
 
     }
 
-    public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
-
-        ReservationDao reservationDao = new ReservationDao();
-        NotificationController notificationController = new NotificationController();
-        Reservation previousReservation = reservationDao.getReservation(reservation.getId(), false);
-        String notificationMessage = "La prenotazione il giorno " + previousReservation.getReservationDate() + " alle " + previousReservation.getEventTimeStart() + " è stata modificata da " + person.getUsername();
-
-        reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
-        reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
-        reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
-        notificationController.sendNotifications(reservation, MODIFICATION, notificationMessage);
-
-
-    }
 
     public ArrayList<Field> getFieldsByFacility(Facility facility) throws SQLException {
         FieldDao fieldDao = new FieldDao();
@@ -109,22 +95,6 @@ public class ManagerOwnerManagementController extends PersonController{
         return workingHoursDAO.getWHsByFacility(idFacility);
     }
 
-    //FIXME output type?
-    public void deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
-
-        ReservationDao reservationDao = new ReservationDao();
-
-        NotificationController notificationController = new NotificationController();
-
-        Reservation reservation = reservationDao.getReservation(idReservation, false);
-
-        notificationController.sendNotifications(reservation,DELETION,""); //FIXME check notificationMessage utlity
-
-        //set isDeleted flag to true
-        reservation.setDeleted(true);
-        reservationDao.updateIsDeleted(idReservation,true);
-
-    }
 
     public void reservationAnnouncement(String notificationMessage, Reservation reservation) throws SQLException, ClassNotFoundException {
         NotificationController notificationController = new NotificationController();
