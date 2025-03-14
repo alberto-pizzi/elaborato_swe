@@ -73,33 +73,49 @@ public class SignUpControllerUser implements Initializable {
     }
 
     @FXML
-    private void handleSignUpButton(ActionEvent event) throws SQLException {
+    private void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
         AccessController access = null;
         access = new AccessController(new UserAccess());
         System.out.println("User ");
 
         if(!(password == null || username == null || email == null || province == null)) {
-            //fixme there isn't any check on already used email or username
+
             if(password == passwordConfirmed) {
-                //todo controllare allaccio
-                if(access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText())){
-                    System.out.println("register done");
-                    try {
-                        logIn.getScene().getWindow().setHeight(720);
-                        pane.getChildren().removeAll();
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/loginUser.fxml"));
-                        Parent view = loader.load();
-                        LoginControllerUser controller = loader.getController();
-                        controller.setScenePane(pane);
-                        pane.getChildren().add(view);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+
+                if(access.checkEmail(email.getText())){
+
+                    if(access.checkPersonExistence(username.getText())){
+
+                        //todo controllare allaccio
+                        if(access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText())){
+                            System.out.println("register done");
+                            try {
+                                logIn.getScene().getWindow().setHeight(720);
+                                pane.getChildren().removeAll();
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/loginUser.fxml"));
+                                Parent view = loader.load();
+                                LoginControllerUser controller = loader.getController();
+                                controller.setScenePane(pane);
+                                pane.getChildren().add(view);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }else{
+                            String message = "An error has occurred";
+                            messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
+                        }
+                    }else{
+                        String message = "This username is already in use";
+                        messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                     }
+
                 }else{
-                    String message = "An error has occurred";
+                    String message = "This email is already in use";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                 }
+
             }else{
                 String message = "The password is not the same in the two fields";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
