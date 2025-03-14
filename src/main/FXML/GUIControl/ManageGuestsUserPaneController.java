@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import main.java.BusinessLogic.PersonController;
-import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Group;
 import main.java.DomainModel.GroupMember;
 import main.java.DomainModel.User;
@@ -75,13 +74,12 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     }
 
     protected void fillEffectiveGroupMembersList() throws SQLException, ClassNotFoundException {
-        UserActionsController userActionsController = new UserActionsController();
         effectiveGroupMembersList.getItems().clear();
 
         //fill effective group members
         if (group != null){
             for (User user : PersonController.getGroupMembers(group.getReservation().getId())){
-                if (!user.getUsername().equals(userActionsController.getPerson().getUsername()))
+                if (!user.getUsername().equals(personController.getPerson().getUsername()))
                     effectiveGroupMembersList.getItems().add(new GroupMember(user,PersonController.getUserGuests(group.getReservation().getId(),user.getId())));
             }
 
@@ -103,12 +101,11 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
    @Override
    public void applyChanges() throws SQLException, ClassNotFoundException {
 
-        UserActionsController userActionsController = new UserActionsController();
 
         //TODO is it right here checking groupHead?
-        if (group.getGroupHead().getUsername().equals(userActionsController.getPerson().getUsername())) {
+        if (group.getGroupHead().getUsername().equals(personController.getPerson().getUsername())) {
             for (GroupMember groupMember : groupMembersRemoved) {
-                UserActionsController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+                PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
             }
         }
 
@@ -126,12 +123,10 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
         super.updateGuestsChoice();
 
-        UserActionsController userActionsController = new UserActionsController();
-
         if (group != null && group.getReservation() != null){
 
             //FIXME choice value is not selected
-            int value = PersonController.getUserGuests(group.getReservation().getId(),userActionsController.getPerson().getId());
+            int value = PersonController.getUserGuests(group.getReservation().getId(),personController.getPerson().getId());
             nGuestsChoice.setValue(value);
 
 
@@ -142,11 +137,10 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     //TODO finish to implement
     //TODO add groupHead condition and manager condition
     public void updateRemoveButtons(){
-        UserActionsController userActionsController = new UserActionsController();
 
         if (group != null){
             //FIXME fix logic. Is editRights needed?
-           if (group.getGroupHead().equals(userActionsController.getPerson())){
+           if (group.getGroupHead().equals(personController.getPerson())){
                removeAllMembersButton.setDisable(false);
                removeGroupMemberButton.setDisable(false);
            }

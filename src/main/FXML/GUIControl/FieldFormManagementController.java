@@ -97,7 +97,7 @@ public abstract class FieldFormManagementController implements Initializable {
     protected Reservation reservation = null;
     protected BorderPane menuPane = null;
 
-    PersonController personController;
+    protected PersonController personController;
 
     
     

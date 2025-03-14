@@ -27,7 +27,10 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
 
 
-
+    @Override
+    protected void assignPersonController(){
+        personController = new ManagerOwnerManagementController();
+    }
 
     @FXML
     public void handleForceAddButton(ActionEvent event) throws SQLException, ClassNotFoundException {
