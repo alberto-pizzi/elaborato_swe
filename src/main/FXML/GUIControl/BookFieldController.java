@@ -125,8 +125,6 @@ public class BookFieldController extends FieldFormManagementController implement
         Time eventStartTime = getEventStartTime();
         Time eventEndTime = getEventEndTime();
 
-        UserActionsController userActionsController = new UserActionsController();
-
         if (eventDate == null){
             messagesController.showMessage("Please select a valid date.", MessagesController.MessageType.ERROR,5);
         }
@@ -148,7 +146,7 @@ public class BookFieldController extends FieldFormManagementController implement
 
             ArrayList<String> accounts = new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems());
             int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
-            userActionsController.addReservation(eventDate,eventStartTime,eventEndTime,field,guests, totalPeople, isMatchingCheckBox.isSelected(), accounts);
+            personController.addReservation(eventDate,eventStartTime,eventEndTime,field,guests, totalPeople, isMatchingCheckBox.isSelected(), accounts);
             System.out.println("Booking done");
 
             //TODO is add redirect to home needed?

@@ -94,6 +94,8 @@ public class UserActionsController extends PersonController<User>{
     }
 
     //TODO should be changed output type into boolean for manage success or error banner by caller?
+    //TODO move to PersonController (with its own overrides)
+    @Override
     public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, ArrayList<String> accounts) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();

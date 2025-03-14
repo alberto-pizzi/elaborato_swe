@@ -3,7 +3,9 @@ package main.java.BusinessLogic;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 
@@ -57,7 +59,13 @@ public class PersonController<T extends Person> {
         return workingHoursDAO.getWHsByFacilityByDay(idFacility,dayOfWeek);
     }
 
-    //TODO add group as parameter and its updates
+    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, ArrayList<String> accounts) throws SQLException, ClassNotFoundException {
+        //TODO implement (base method)
+        System.out.println("Adding reservation. Base method.");
+    }
+
+
+        //TODO add group as parameter and its updates
     public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();

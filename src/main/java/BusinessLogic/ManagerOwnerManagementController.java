@@ -3,13 +3,15 @@ package main.java.BusinessLogic;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 
 import static main.java.DomainModel.NotificationType.*;
 
-public class ManagerOwnerManagementController extends PersonController{
+public class ManagerOwnerManagementController extends PersonController<Person>{
 
     public ManagerOwnerManagementController(Person person) {
         super(person);
@@ -31,7 +33,6 @@ public class ManagerOwnerManagementController extends PersonController{
 
         return fieldDao.getFieldsByFacility(facility.getId(), false);
     }
-
 
 
     //FIXME input change
@@ -71,6 +72,12 @@ public class ManagerOwnerManagementController extends PersonController{
 
         Group group = groupDao.getGroupByReservation(idReservation);
         return isPartDao.countOwnGuests(group.getId(), group.getGroupHead().getId());
+    }
+
+    @Override
+    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, ArrayList<String> accounts) throws SQLException, ClassNotFoundException {
+        //TODO implement (MangerOwner method) Force adding.
+        System.out.println("Adding reservation. MangerOwner method.");
     }
 
     public void changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
