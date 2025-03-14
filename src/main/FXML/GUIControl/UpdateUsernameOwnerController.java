@@ -5,7 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import main.java.BusinessLogic.AccessController;
+import main.java.BusinessLogic.OwnerAccess;
 import main.java.BusinessLogic.OwnerProfileController;
+import main.java.BusinessLogic.UserAccess;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -47,10 +50,12 @@ public class UpdateUsernameOwnerController implements Initializable {
         if(result.get() == ButtonType.OK){
 
             OwnerProfileController ownerProfileController = new OwnerProfileController();
+            AccessController accessController = new AccessController(new OwnerAccess());
+
             boolean userExists = false;
             if (!usernameInput.getText().isEmpty()) {
 
-                userExists = ownerProfileController.checkPersonExistence(usernameInput.getText());
+                userExists = accessController.checkPersonExistence(usernameInput.getText());
                 if (!userExists) {
                     //todo controllare allaccio
                     if(ownerProfileController.updateUsername(usernameInput.getText())){

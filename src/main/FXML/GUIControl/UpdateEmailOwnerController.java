@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import main.java.BusinessLogic.AccessController;
+import main.java.BusinessLogic.OwnerAccess;
 import main.java.BusinessLogic.OwnerProfileController;
 
 import java.net.URL;
@@ -51,7 +53,9 @@ public class UpdateEmailOwnerController implements Initializable {
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             } else {
                 OwnerProfileController ownerProfileController = new OwnerProfileController();
-                boolean emailExistence = ownerProfileController.checkEmail(emailInput.getText());
+                AccessController accessController = new AccessController(new OwnerAccess());
+                boolean emailExistence = accessController.checkEmail(emailInput.getText());
+
                 if (!emailExistence) {
                     //todo controllare allaccio
                     if(ownerProfileController.updateEmail(emailInput.getText())){

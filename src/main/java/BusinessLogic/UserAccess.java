@@ -47,4 +47,18 @@ public class UserAccess implements AccessStrategy{
         return verified;
     }
 
+    @Override
+    public boolean checkPersonExistence(String username) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUser(username);
+
+        return (user != null);
+    }
+
+    @Override
+    public boolean checkEmail(String emailEntered) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        return userDAO.checkEmailExistence(emailEntered);
+    }
+
 }

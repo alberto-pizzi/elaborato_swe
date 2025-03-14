@@ -161,20 +161,6 @@ public class OwnerProfileController extends ProfileController {
     }
 
     @Override
-    public boolean checkPersonExistence(String username) throws SQLException, ClassNotFoundException {
-        OwnerDAO ownerDAO = new OwnerDAO();
-        Owner owner1 = ownerDAO.getOwner(username);
-
-        return (owner1 != null);
-    }
-
-    @Override
-    public boolean checkEmail(String emailEntered) throws SQLException, ClassNotFoundException {
-        OwnerDAO ownerDAO = new OwnerDAO();
-        return ownerDAO.checkEmailExistence(emailEntered);
-    }
-
-    @Override
     public boolean deleteProfile(String username) throws SQLException {
         try {
             OwnerDAO ownerDAO = new OwnerDAO();

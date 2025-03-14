@@ -150,21 +150,6 @@ public class UserProfileController extends ProfileController {
         return true;
     }
 
-    //TODO check correctness (inheritance)
-    @Override
-    public boolean checkPersonExistence(String username) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
-        User user = userDAO.getUser(username);
-
-        return (user != null);
-    }
-
-    @Override
-    public boolean checkEmail(String emailEntered) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
-        return userDAO.checkEmailExistence(emailEntered);
-    }
-
     @Override
     public boolean deleteProfile(String username) throws SQLException {
         try {

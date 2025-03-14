@@ -33,6 +33,12 @@ public class AccessController {
     public boolean checkPassword(String username, String password) throws SQLException {
         return accessStrategy.checkPassword(username, password);
     }
+    public boolean checkPersonExistence(String username) throws SQLException, ClassNotFoundException {
+        return accessStrategy.checkPersonExistence(username);
+    }
+    public boolean checkEmail(String emailEntered) throws SQLException, ClassNotFoundException {
+        return accessStrategy.checkEmail(emailEntered);
+    }
 
     public boolean register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
         try {

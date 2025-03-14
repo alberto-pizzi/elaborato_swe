@@ -7,6 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import main.java.BusinessLogic.AccessController;
+import main.java.BusinessLogic.UserAccess;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.BusinessLogic.UserProfileController;
 
@@ -43,10 +45,10 @@ public class UpdateUsernameController implements Initializable {
 
         if (!usernameInput.getText().isEmpty()) {
 
-            UserActionsController userActionsController = new UserActionsController();
             UserProfileController userProfileController = new UserProfileController();
+            AccessController accessController = new AccessController(new UserAccess());
 
-            boolean userExistence = userProfileController.checkPersonExistence(usernameInput.getText());
+            boolean userExistence = accessController.checkPersonExistence(usernameInput.getText());
 
             if (!userExistence) {
                 //todo controllare allaccio
