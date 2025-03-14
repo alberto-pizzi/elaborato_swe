@@ -85,7 +85,7 @@
                               <Button mnemonicParsing="false" onAction="#handleNewSportButton" stylesheets="@css/style.css" text="New" textFill="WHITE" wrapText="true">
                                  <styleClass>
                                     <String fx:value="shadow" />
-                                    <String fx:value="confirm-button" />
+                                    <String fx:value="button-owner" />
                                  </styleClass></Button>
                            </children>
                         </HBox>
@@ -107,11 +107,11 @@
                   <Button fx:id="uploadButton" mnemonicParsing="false" onAction="#handleUploadImageButton" stylesheets="@css/style.css" text="Upload image" textFill="WHITE" wrapText="true">
                      <styleClass>
                         <String fx:value="shadow" />
-                        <String fx:value="confirm-button" />
+                        <String fx:value="button-owner" />
                      </styleClass></Button>
                </children>
             </VBox>
-            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" stylesheets="@css/style.css" text="Confrim" wrapText="true">
+            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" stylesheets="@css/style.css" text="Confrim" textFill="WHITE" wrapText="true">
                <VBox.margin>
                   <Insets bottom="5.0" top="10.0" />
                </VBox.margin>
@@ -123,7 +123,7 @@
                </font>
                <styleClass>
                   <String fx:value="shadow" />
-                  <String fx:value="button-owner" />
+                  <String fx:value="confirm-button" />
                </styleClass>
             </Button>
             <Button fx:id="confirmButton1" mnemonicParsing="false" onAction="#handleAnotherFieldButton" stylesheets="@css/style.css" text="Add another field" textFill="WHITE" wrapText="true">
@@ -135,7 +135,7 @@
                </font>
                <styleClass>
                   <String fx:value="shadow" />
-                  <String fx:value="confirm-button" />
+                  <String fx:value="button-owner" />
                </styleClass>
             </Button>
             <Label fx:id="messageLabel" alignment="CENTER" prefHeight="25.0" prefWidth="774.0" text="Error: text" textFill="RED" visible="false" wrapText="true">

@@ -107,7 +107,7 @@
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>
                <styleClass>
-                  <String fx:value="confirm-button" />
+                  <String fx:value="button-owner" />
                   <String fx:value="shadow" />
                </styleClass>
             </Button>

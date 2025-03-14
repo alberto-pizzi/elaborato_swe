@@ -99,7 +99,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="managerReservationsButton" contentDisplay="TOP" layoutX="446.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleManagerReservationsButtonAction" stylesheets="@css/style.css" text="Manager operations">
+            <Button fx:id="managerReservationsButton" contentDisplay="TOP" layoutX="446.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleManagerReservationsButtonAction" stylesheets="@css/style.css" text="Manager operations" textFill="WHITE">
                <padding>
                   <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
                </padding>
@@ -112,7 +112,7 @@
                </graphic>
                <styleClass>
                   <String fx:value="menu-button" />
-                  <String fx:value="button-owner" />
+                  <String fx:value="manager-button" />
                </styleClass>
             </Button>
          </children>

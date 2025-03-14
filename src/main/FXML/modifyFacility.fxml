@@ -164,7 +164,7 @@
                            <children>
                               <Button mnemonicParsing="false" onAction="#handleAddManagersButton" prefHeight="25.0" prefWidth="51.0" stylesheets="@css/style.css" text="Add" textFill="WHITE" wrapText="true">
                                  <styleClass>
-                                    <String fx:value="confirm-button" />
+                                    <String fx:value="button-owner" />
                                     <String fx:value="shadow" />
                                  </styleClass></Button>
                               <Button mnemonicParsing="false" onAction="#handleDeleteManagersButton" style="-fx-background-radius: 10;" stylesheets="@css/style.css" text="Delete" textFill="WHITE" wrapText="true">
@@ -178,7 +178,7 @@
                   </VBox>
                   <Button mnemonicParsing="false" onAction="#handleChangeWorkingHoursButton" stylesheets="@css/style.css" text="Modify working hours" textFill="WHITE" wrapText="true">
                      <styleClass>
-                        <String fx:value="confirm-button" />
+                        <String fx:value="button-owner" />
                         <String fx:value="shadow" />
                      </styleClass></Button>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="180.0">
@@ -203,12 +203,12 @@
                            <children>
                               <Button mnemonicParsing="false" onAction="#handleAddFieldButton" prefHeight="25.0" prefWidth="51.0" stylesheets="@css/style.css" text="Add" textFill="WHITE" wrapText="true">
                                  <styleClass>
-                                    <String fx:value="confirm-button" />
+                                    <String fx:value="button-owner" />
                                     <String fx:value="shadow" />
                                  </styleClass></Button>
                               <Button mnemonicParsing="false" onAction="#handleModifyFieldButton" prefHeight="25.0" prefWidth="67.0" stylesheets="@css/style.css" text="Modify" textFill="WHITE" wrapText="true">
                                  <styleClass>
-                                    <String fx:value="confirm-button" />
+                                    <String fx:value="button-owner" />
                                     <String fx:value="shadow" />
                                  </styleClass></Button>
                               <Button mnemonicParsing="false" onAction="#handleDeleteFieldsButton" prefHeight="25.0" prefWidth="64.0" style="-fx-background-radius: 10;" stylesheets="@css/style.css" text="Delete" textFill="WHITE" wrapText="true">
@@ -235,7 +235,7 @@
                   <ImageView fx:id="imageLabel" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                   <Button mnemonicParsing="false" onAction="#handleUploadImageButton" stylesheets="@css/style.css" text="Upload image" textFill="WHITE" wrapText="true">
                      <styleClass>
-                        <String fx:value="confirm-button" />
+                        <String fx:value="button-owner" />
                         <String fx:value="shadow" />
                      </styleClass></Button>
                </children>
@@ -251,7 +251,7 @@
                   <Font size="16.0" />
                </font>
                <styleClass>
-                  <String fx:value="button-owner" />
+                  <String fx:value="confirm-button" />
                   <String fx:value="shadow" />
                </styleClass>
             </Button>

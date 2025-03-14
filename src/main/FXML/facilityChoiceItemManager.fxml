@@ -130,7 +130,7 @@
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                      </padding>
                      <styleClass>
-                        <String fx:value="login-button" />
+                        <String fx:value="manager-button" />
                         <String fx:value="shadow" />
                      </styleClass>
                   </Button>
@@ -142,7 +142,7 @@
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                      </padding>
                      <styleClass>
-                        <String fx:value="login-button" />
+                        <String fx:value="manager-button" />
                         <String fx:value="shadow" />
                      </styleClass>
                   </Button>

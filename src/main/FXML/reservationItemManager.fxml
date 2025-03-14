@@ -154,18 +154,18 @@
       </StackPane>
       <VBox fx:id="actionsVBox" alignment="CENTER" prefHeight="120.0" prefWidth="165.0" spacing="5.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button fx:id="editButton" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Edit" textFill="WHITE" wrapText="true">
+            <Button fx:id="editButton" mnemonicParsing="false" onAction="#handleEditButton" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Edit" textFill="WHITE" wrapText="true">
                <styleClass>
-                  <String fx:value="leave-button" />
+                  <String fx:value="manager-button" />
                   <String fx:value="shadow" />
                </styleClass>
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#handleAnnouncementButton" prefWidth="209.0" style="-fx-background-color: #4169e1#4682b4f620f9;" stylesheets="@css/style.css" text="Announcement" textFill="WHITE" wrapText="true">
+            <Button mnemonicParsing="false" onAction="#handleAnnouncementButton" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Announcement" textFill="WHITE" wrapText="true">
                <styleClass>
-                  <String fx:value="leave-button" />
+                  <String fx:value="manager-button" />
                   <String fx:value="shadow" />
                </styleClass>
                <font>

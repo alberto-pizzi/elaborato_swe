@@ -155,7 +155,7 @@
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                                  <styleClass>
-                                    <String fx:value="login-button" />
+                                    <String fx:value="manager-button" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
@@ -167,7 +167,7 @@
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                                  <styleClass>
-                                    <String fx:value="login-button" />
+                                    <String fx:value="manager-button" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
