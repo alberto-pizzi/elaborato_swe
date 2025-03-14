@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import main.java.BusinessLogic.*;
 
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -40,7 +41,7 @@ public class UpdatePasswordOwnerController implements Initializable {
     }
 
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException {
+    void handleConfirmButton(ActionEvent event) throws SQLException, NoSuchAlgorithmException {
 
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

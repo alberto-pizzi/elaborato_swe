@@ -5,6 +5,7 @@ import main.java.DomainModel.Facility;
 import main.java.ORM.ManagesDAO;
 import main.java.ORM.UserDAO;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -52,11 +53,12 @@ public class UserProfileController extends ProfileController {
     }
 
     @Override
-    public void updatePassword(String newPassword) throws SQLException {
+    public void updatePassword(String newPassword) throws SQLException, NoSuchAlgorithmException {
 
         UserDAO userDAO = new UserDAO();
-        userDAO.updatePassword(user.getUsername(),newPassword);
-        this.user.setPassword(newPassword);
+        String encodedPassword = PasswordEncoder.hashPassword(newPassword);
+        userDAO.updatePassword(user.getUsername(),encodedPassword);
+        this.user.setPassword(encodedPassword);
         System.out.println("Password updated");
 
     }

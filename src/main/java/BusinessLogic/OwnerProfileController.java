@@ -3,6 +3,7 @@ package main.java.BusinessLogic;
 import main.java.DomainModel.Owner;
 import main.java.ORM.OwnerDAO;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public class OwnerProfileController extends ProfileController {
@@ -65,11 +66,12 @@ public class OwnerProfileController extends ProfileController {
     }
 
     @Override
-    public void updatePassword(String newPassword) throws SQLException {
+    public void updatePassword(String newPassword) throws SQLException, NoSuchAlgorithmException {
 
         OwnerDAO ownerDAO = new OwnerDAO();
-        ownerDAO.updatePassword(owner.getUsername(),newPassword);
-        this.owner.setPassword(newPassword);
+        String encodedPassword = PasswordEncoder.hashPassword(newPassword);
+        ownerDAO.updatePassword(owner.getUsername(),encodedPassword);
+        this.owner.setPassword(encodedPassword);
         System.out.println("Password updated");
 
     }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 //TODO as interface are better?
 public abstract class PersonDAO {
     protected Connection connection;
-    protected String target;
+    protected String target; //target is used also as DB table name
 
     //getter
     public String getTarget() {
@@ -204,9 +204,9 @@ public abstract class PersonDAO {
     }
 
 
-    public boolean checkPassword(String username, String passwordEntered) throws SQLException{
+    public boolean checkPassword(String username, String passwordEncoded) throws SQLException{
 
-        String querySQL = String.format("SELECT count(*) AS results FROM \""+ this.target + "\" WHERE username = '%s' AND password = '%s'", username,passwordEntered);
+        String querySQL = String.format("SELECT count(*) AS results FROM \""+ this.target + "\" WHERE username = '%s' AND password = '%s'", username,passwordEncoded);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -338,6 +338,39 @@ public abstract class PersonDAO {
         }
 
         return user;
+    }
+
+    public String getEncodedPassword(String username) throws SQLException, ClassNotFoundException {
+        //default id (id not found)
+        String encodedPassword = "";
+
+        String querySQL = String.format("SELECT password FROM \""+ this.target +"\" WHERE username = '%s'", username);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+
+
+                encodedPassword = resultSet.getString("password");
+
+            }
+            else{
+                System.err.println("No User found with username: " + username);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return encodedPassword;
     }
 
     public User getUserByID(int idUser) throws SQLException, ClassNotFoundException {

@@ -70,9 +70,10 @@ public class SignUpControllerOwner implements Initializable {
         AccessController access = null;
         access = new AccessController(new OwnerAccess());
         System.out.println("Owner ");
+        //FIXME fix text field texts
         if(!(password == null || username == null || email == null)) {
 
-            if(password == passwordConfirmed) {
+            if(password.getText().equals(passwordConfirmed.getText())) {
                 access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText());
 
                 System.out.println("register done");

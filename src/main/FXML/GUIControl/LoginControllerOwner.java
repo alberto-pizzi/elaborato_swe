@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
+import main.java.BusinessLogic.OwnerProfileController;
 import main.java.BusinessLogic.SessionController;
 import main.java.DomainModel.Person;
 
