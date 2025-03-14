@@ -63,6 +63,8 @@ public class PersonController<T extends Person> {
         reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
         reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
 
+        //TODO add other data to be updated
+
         notificationController.sendNotifications(reservation, MODIFICATION, notificationMessage);
 
 
