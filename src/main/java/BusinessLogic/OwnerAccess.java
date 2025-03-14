@@ -50,16 +50,32 @@ public class OwnerAccess implements AccessStrategy{
     }
 
     @Override
-    public boolean checkPersonExistence(String username) throws SQLException, ClassNotFoundException {
+    public boolean checkPersonExistence(String username) throws SQLException{
+
         OwnerDAO ownerDAO = new OwnerDAO();
-        Owner owner1 = ownerDAO.getOwner(username);
+        Owner owner1;
+        try {
+            owner1 = ownerDAO.getOwner(username);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         return (owner1 != null);
     }
 
     @Override
-    public boolean checkEmail(String emailEntered) throws SQLException, ClassNotFoundException {
+    public boolean checkEmail(String emailEntered) throws SQLException{
+
+        boolean verified = false;
         OwnerDAO ownerDAO = new OwnerDAO();
-        return ownerDAO.checkEmailExistence(emailEntered);
+
+        try {
+            verified = ownerDAO.checkEmailExistence(emailEntered);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return verified;
     }
+
 }

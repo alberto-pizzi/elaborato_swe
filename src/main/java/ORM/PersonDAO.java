@@ -300,7 +300,7 @@ public abstract class PersonDAO {
     }
 
 
-    public User getUser(String username) throws SQLException, ClassNotFoundException {
+    public User getUser(String username) throws SQLException{
         //default id (id not found)
         User user = null;
 
