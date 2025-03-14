@@ -13,14 +13,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Optional;
-
-import static main.java.DomainModel.NotificationType.DELETION;
-import static main.java.DomainModel.NotificationType.MODIFICATION;
 
 
 public class UserActionsController extends PersonController<User>{
@@ -118,7 +114,7 @@ public class UserActionsController extends PersonController<User>{
         joinGroup(newGroupId,guests);
 
         if (isMatched) {
-            sendInvites(group);
+            sendInvites(group, findOtherPlayers());
         }
 
         UserDAO userDAO = new UserDAO();
@@ -134,31 +130,6 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    public void sendInvites(Group group) throws SQLException, ClassNotFoundException {
-
-        InviteSender inviteSender = new InviteSender(group);
-
-
-        InviteDao inviteDao = new InviteDao();
-        ArrayList <User> receivers = findOtherPlayers();
-        Invite invite;
-
-        for (User user : receivers) {
-            if(inviteDao.checkInvite(user.getId(),group.getId())){
-                System.out.println("Invite already exists");
-            }else if(user != null){
-
-                invite = inviteSender.factoryMethod();
-                invite.setUser(user);
-                inviteDao.addInvite(invite);
-
-                System.out.println("Invite has been sent");
-            }
-        }
-
-        System.out.println("Invites have been sent");
-
-    }
 
     public boolean editRights(Reservation reservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();

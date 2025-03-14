@@ -149,6 +149,31 @@ public class PersonController<T extends Person> {
 
     }
 
+    public void sendInvites(Group group, ArrayList<User> receivers) throws SQLException, ClassNotFoundException {
+
+        InviteSender inviteSender = new InviteSender(group);
+
+
+        InviteDao inviteDao = new InviteDao();
+        Invite invite;
+
+        for (User user : receivers) {
+            if(inviteDao.checkInvite(user.getId(),group.getId())){
+                System.out.println("Invite already exists");
+            }else if(user != null){
+
+                invite = inviteSender.factoryMethod();
+                invite.setUser(user);
+                inviteDao.addInvite(invite);
+
+                System.out.println("Invite has been sent");
+            }
+        }
+
+        System.out.println("Invites have been sent");
+
+    }
+
 
     //TODO changed into static. Is it correct?
     public static void removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
