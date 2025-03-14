@@ -4,8 +4,9 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+
 import main.java.BusinessLogic.ManagerOwnerManagementController;
-import main.java.BusinessLogic.UserActionsController;
+
 import main.java.DomainModel.Reservation;
 
 import java.sql.SQLException;
@@ -15,13 +16,13 @@ public class ModifyReservationOwnerController extends ModifyReservationManagerCo
 
     //TODO any override is needed?
 
+
     //FIXME redundancy
     @Override
     public void setData(Reservation reservation, BorderPane menuPane) throws SQLException, ClassNotFoundException {
-        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
         this.reservation = reservation;
-        this.field = managerOwnerManagementController.getReservationField(this.reservation);
+        this.field = personController.getReservationField(this.reservation);
         this.menuPane = menuPane;
 
         fieldAddress.setText(field.getFacility().getFullAddress());
@@ -37,7 +38,7 @@ public class ModifyReservationOwnerController extends ModifyReservationManagerCo
 
         //fill data with reservation ones
         datePicker.setValue(reservation.getEventDate().toLocalDate());
-        totalPeople = managerOwnerManagementController.getGroupParticipants(reservation.getId());
+        totalPeople = personController.getGroupParticipants(reservation.getId());
 
 
         fieldTotalParticipants.setText(String.valueOf(totalPeople));

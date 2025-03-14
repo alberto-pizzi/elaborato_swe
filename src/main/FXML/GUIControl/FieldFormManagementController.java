@@ -11,7 +11,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.PersonController;
-import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
 import main.java.DomainModel.WorkingHours;
@@ -98,6 +97,8 @@ public abstract class FieldFormManagementController implements Initializable {
     protected Reservation reservation = null;
     protected BorderPane menuPane = null;
 
+    PersonController personController;
+
     
     
     //methods
@@ -105,6 +106,11 @@ public abstract class FieldFormManagementController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        constructController();
+
+    }
+
+    protected void constructController(){
         //TODO add login singleton connection, if needed
 
         this.priceFormat = new DecimalFormat("#.##");
@@ -126,11 +132,6 @@ public abstract class FieldFormManagementController implements Initializable {
 
         //listeners
         formListeners();
-
-    }
-
-    protected void dateTimeListeners(){
-
     }
 
     //TODO add setData, better if it uses inheritance and polymorphism
@@ -150,9 +151,7 @@ public abstract class FieldFormManagementController implements Initializable {
 
                 if (newTime != null && datePicker.getValue() != null) {
 
-                    UserActionsController userActionsController = new UserActionsController();
-
-                    updateEndTimes(LocalTime.parse(newTime),userActionsController.getWHsByFacilityByDay(field.getFacility().getId(), datePicker.getValue().getDayOfWeek()),15);
+                    updateEndTimes(LocalTime.parse(newTime),personController.getWHsByFacilityByDay(field.getFacility().getId(), datePicker.getValue().getDayOfWeek()),15);
 
                     updateTotalPrice(true);
                     updatePricePerPerson(true);
@@ -317,11 +316,9 @@ public abstract class FieldFormManagementController implements Initializable {
     protected List<LocalTime> availableTimes(int minutesInterval, DateTimeFormatter formatter, DayOfWeek dayOfWeek) throws SQLException, ClassNotFoundException {
         List<LocalTime> availableTimes = new ArrayList<>();
 
-        UserActionsController userActionsController = new UserActionsController();
+        ArrayList<WorkingHours> WHs = personController.getWHsByFacilityByDay(field.getFacility().getId(), dayOfWeek);
 
-        ArrayList<WorkingHours> WHs = userActionsController.getWHsByFacilityByDay(field.getFacility().getId(), dayOfWeek);
-
-        ArrayList<Reservation> reservations = userActionsController.getReservationsByField(field.getId());
+        ArrayList<Reservation> reservations = personController.getReservationsByField(field.getId());
 
         for (WorkingHours wh : WHs) {
             //FIXME remove if and add specific DAO query with correct DayOfWeek
@@ -387,9 +384,7 @@ public abstract class FieldFormManagementController implements Initializable {
 
         List<LocalTime> availableTimes = new ArrayList<>();
 
-        UserActionsController userActionsController = new UserActionsController();
-
-        ArrayList<Reservation> reservations = userActionsController.getReservationsByField(field.getId());
+        ArrayList<Reservation> reservations = personController.getReservationsByField(field.getId());
         if (selectedTime != null) {
 
             LocalTime closing = null;

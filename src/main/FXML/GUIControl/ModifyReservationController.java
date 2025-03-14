@@ -48,11 +48,16 @@ public class ModifyReservationController extends FieldFormManagementController i
 
     //methods
 
-    public void setData(Reservation reservation, BorderPane menuPane) throws SQLException, ClassNotFoundException {
-        UserActionsController userActionsController = new UserActionsController();
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        constructController();
 
+        personController = new UserActionsController();
+    }
+
+    public void setData(Reservation reservation, BorderPane menuPane) throws SQLException, ClassNotFoundException {
         this.reservation = reservation;
-        this.field = userActionsController.getReservationField(this.reservation);
+        this.field = personController.getReservationField(this.reservation);
         this.menuPane = menuPane;
 
         fieldAddress.setText(field.getFacility().getFullAddress());
@@ -68,7 +73,7 @@ public class ModifyReservationController extends FieldFormManagementController i
 
         //fill data with reservation ones
         datePicker.setValue(reservation.getEventDate().toLocalDate());
-        totalPeople = userActionsController.getGroupParticipants(reservation.getId());
+        totalPeople = personController.getGroupParticipants(reservation.getId());
 
 
         fieldTotalParticipants.setText(String.valueOf(totalPeople));
@@ -92,8 +97,6 @@ public class ModifyReservationController extends FieldFormManagementController i
     //FIXME how check it reservation?
     protected void reservationChecker() throws SQLException, ClassNotFoundException {
 
-        UserActionsController userActionsController = new UserActionsController();
-
         if( datePicker.getValue() != null) {
             reservation.setEventDate(Date.valueOf(datePicker.getValue()));
         }
@@ -107,7 +110,7 @@ public class ModifyReservationController extends FieldFormManagementController i
         }
 
         if(selectGuestsPaneController.getnGuestsChoice().getValue() != null) {
-            userActionsController.changeOwnGuests(reservation.getId(),selectGuestsPaneController.getnGuestsChoice().getValue());
+            //personController.changeOwnGuests(reservation.getId(),selectGuestsPaneController.getnGuestsChoice().getValue());
         }
 
         //FIXME add other checks
@@ -171,12 +174,10 @@ public class ModifyReservationController extends FieldFormManagementController i
 
             reservationChecker();
 
-            UserActionsController userActionsController = new UserActionsController();
-
             if (selectGuestsPaneController != null)
                 selectGuestsPaneController.applyChanges(); //FIXME is it correct?
 
-            userActionsController.editReservation(reservation);
+            personController.editReservation(reservation);
 
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
@@ -207,9 +208,7 @@ public class ModifyReservationController extends FieldFormManagementController i
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            UserActionsController userActionsController = new UserActionsController();
-
-            userActionsController.deleteReservation(reservation.getId());
+            personController.deleteReservation(reservation.getId());
             System.out.println("Deleted!");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
             Parent view = loader.load();

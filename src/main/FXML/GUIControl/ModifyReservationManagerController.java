@@ -1,38 +1,16 @@
 package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+
 import main.java.BusinessLogic.ManagerOwnerManagementController;
-import main.java.BusinessLogic.UserActionsController;
-import main.java.DomainModel.Field;
-import main.java.DomainModel.Reservation;
-import main.java.DomainModel.User;
-import main.java.DomainModel.WorkingHours;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.text.DecimalFormat;
-import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 //TODO check if base class is correct
@@ -42,10 +20,15 @@ public class ModifyReservationManagerController extends ModifyReservationControl
 
     //methods
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        constructController();
+
+        personController = new ManagerOwnerManagementController();
+    }
+
 
     protected void reservationChecker() throws SQLException, ClassNotFoundException {
-
-        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
         if( datePicker.getValue() != null) {
             reservation.setEventDate(Date.valueOf(datePicker.getValue()));

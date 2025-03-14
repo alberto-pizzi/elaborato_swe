@@ -4,6 +4,7 @@ import main.java.DomainModel.*;
 import main.java.ORM.*;
 
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 
 import static main.java.DomainModel.NotificationType.DELETION;
@@ -48,6 +49,12 @@ public class PersonController<T extends Person> {
         IsPartDao isPartDao = new IsPartDao();
 
         return isPartDao.countOwnGuests(groupDao.getGroupByReservation(idReservation).getId(),userId);
+    }
+
+    public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
+        WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
+
+        return workingHoursDAO.getWHsByFacilityByDay(idFacility,dayOfWeek);
     }
 
     //TODO add group as parameter and its updates
