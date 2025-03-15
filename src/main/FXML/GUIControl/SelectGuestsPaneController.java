@@ -216,9 +216,30 @@ public class SelectGuestsPaneController implements Initializable {
     //this method have to call by external class because it CONFIRMS changes.
     public void applyChanges() throws SQLException, ClassNotFoundException {
 
-        //TODO implementation is needed?
-        System.out.println("Apply Changes (base pane)");
+        sendInvitesToInviteListMembers();
 
+        //change own guests
+        if (group != null) {
+            personController.changeUserGuests(group.getReservation().getId(),personController.getPerson().getId(),(nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0));
+        }
+
+    }
+
+    //FIXME is it correct here? or into businessLogic is better?
+    protected void sendInvitesToInviteListMembers() throws SQLException, ClassNotFoundException {
+        //send invite to invite list members
+
+        if (group != null){
+
+            if (!inviteListDraft.getItems().isEmpty()) {
+                for (String accountUsername : inviteListDraft.getItems()) {
+                    if (accountUsername != null) {
+                        personController.sendInvite(group.getReservation(), PersonController.getUserIdByUsername(accountUsername)); //TODO could be better by username than by id?
+                    }
+                }
+            }
+
+        }
     }
 
     public void updateTotalPricePerPersonDraftLabel(){

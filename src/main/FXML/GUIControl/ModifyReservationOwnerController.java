@@ -1,15 +1,17 @@
 package main.FXML.GUIControl;
 
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 
-import main.java.BusinessLogic.ManagerOwnerManagementController;
-
 import main.java.DomainModel.Reservation;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalTime;
 
 public class ModifyReservationOwnerController extends ModifyReservationManagerController implements Initializable {
 
@@ -21,44 +23,28 @@ public class ModifyReservationOwnerController extends ModifyReservationManagerCo
     @Override
     public void setData(Reservation reservation, BorderPane menuPane) throws SQLException, ClassNotFoundException {
 
-        this.reservation = reservation;
-        this.field = personController.getReservationField(this.reservation);
-        this.menuPane = menuPane;
-
-        fieldAddress.setText(field.getFacility().getFullAddress());
-        fieldNameLabel.setText(field.getFacility().getName());
-        fieldSport.setText(field.getSport().getName());
-
-        resetFields();
-
-        String pathFromRoot = "/main/FXML/img/fields/";
-
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
-        fieldImageView.setImage(image);
-
-        //fill data with reservation ones
-        datePicker.setValue(reservation.getEventDate().toLocalDate());
-        totalPeople = personController.getGroupParticipants(reservation.getId());
-
-
-        fieldTotalParticipants.setText(String.valueOf(totalPeople));
-
-        if (reservation.isMatched()){
-            isMatched.setText("The reservation is matched");
-        }
-        else {
-            isMatched.setText("The reservation is not matched");
-        }
-        isMatched.setAlignment(Pos.CENTER);
-
-
-        startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart().toLocalTime()));
-        endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd().toLocalTime()));
-        updateTotalPrice(false);
-        updatePricePerPerson(false);
+        super.setData(reservation, menuPane);
 
     }
 
+    //TODO optimize it
+    @Override
+    protected void actionsAfterEdit() throws IOException, SQLException, ClassNotFoundException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));
+        Parent view = loader.load();
+        ReservationsOwnerController controller = loader.getController();
+        controller.setData(personController.getReservationField(reservation), menuPane);
+        menuPane.setCenter(view);
+    }
+
+    @Override
+    protected void actionsAfterDelete() throws IOException, SQLException, ClassNotFoundException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));
+        Parent view = loader.load();
+        ReservationsOwnerController controller = loader.getController();
+        controller.setData(personController.getReservationField(reservation), menuPane);
+        menuPane.setCenter(view);
+    }
 
 
 }

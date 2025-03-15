@@ -8,33 +8,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import main.java.BusinessLogic.PersonController;
-import main.java.BusinessLogic.UserActionsController;
-import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
-import main.java.DomainModel.User;
-import main.java.DomainModel.WorkingHours;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.text.DecimalFormat;
-import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 public class ModifyReservationController extends FieldFormManagementController implements Initializable {
 
@@ -81,31 +63,44 @@ public class ModifyReservationController extends FieldFormManagementController i
         isMatched.setAlignment(Pos.CENTER);
 
 
+        if (datePicker.getValue() != null) {
+            updateStartTime(datePicker.getValue().getDayOfWeek());
+            if (startTimeChoice.getValue() != null)
+                updateEndTimes(LocalTime.parse(startTimeChoice.getValue()), personController.getWHsByFacilityByDay(field.getFacility().getId(), datePicker.getValue().getDayOfWeek()), minutesInterval);
+        }
+
+
+
         startTimeChoice.setValue(String.valueOf(reservation.getEventTimeStart().toLocalTime()));
         endTimeChoice.setValue(String.valueOf(reservation.getEventTimeEnd().toLocalTime()));
         updateTotalPrice(false);
         updatePricePerPerson(false);
+
+
 
     }
 
     //FIXME how check it reservation?
     protected void reservationChecker() throws SQLException, ClassNotFoundException {
 
+        //TODO is this implementation right? optimize
+
         if( datePicker.getValue() != null) {
             reservation.setEventDate(Date.valueOf(datePicker.getValue()));
         }
 
-        if((startTimeChoice.getValue() != null) && (!startTimeChoice.getValue().equals(String.valueOf(reservation.getEventTimeStart().toLocalTime())))) {
-            reservation.setEventTimeStart(Time.valueOf(startTimeChoice.getValue()));
+        if(startTimeChoice.getValue() != null) {
+            reservation.setEventTimeStart(Time.valueOf(LocalTime.parse(startTimeChoice.getValue())));
         }
 
-        if((endTimeChoice.getValue() != null)  && (!endTimeChoice.getValue().equals(String.valueOf(reservation.getEventTimeEnd().toLocalTime())))) {
-            reservation.setEventTimeEnd(Time.valueOf(endTimeChoice.getValue()));
+        if(endTimeChoice.getValue() != null)  {
+            reservation.setEventTimeEnd(Time.valueOf(LocalTime.parse(endTimeChoice.getValue())));
         }
 
         if(selectGuestsPaneController.getnGuestsChoice().getValue() != null) {
-            //personController.changeOwnGuests(reservation.getId(),selectGuestsPaneController.getnGuestsChoice().getValue());
+            //managerOwnerManagementController.changeOwnGuests(reservation.getId(),selectGuestsPaneController.getnGuestsChoice().getValue());
         }
+
 
         //FIXME add other checks
 
@@ -114,21 +109,7 @@ public class ModifyReservationController extends FieldFormManagementController i
     @Override
     protected void resetFields() {
         //FIXME
-        System.out.println("ResetFields Override");
-
-
-        endTimeChoice.getItems().clear();
-        startTimeChoice.getItems().clear();
-        selectGuestsPaneController.getnGuestsChoice().getItems().clear(); //FIXME
-
-        updateTotalPeople();
-
-        updateTotalPrice(true);
-        durationBox.setVisible(false);
-
-        selectGuestsPaneController.getnGuestsChoice().getItems().addAll(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15); //FIXME
-
-        updatePricePerPerson(true);
+        super.resetFields();
 
     }
 
@@ -154,31 +135,28 @@ public class ModifyReservationController extends FieldFormManagementController i
     @FXML
     public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
 
-        System.out.println("Delete button clicked: " + reservation.getId());
-
+        reservationChecker(); //TODO activate it when it has right implementation
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Reservation");
+        alert.setTitle("Edit Reservation");
         //FIXME improve date format
-        alert.setHeaderText(reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
-        alert.setContentText("Are you sure you want to delete this reservation?");
+        alert.setHeaderText("New one is: "+ reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
+        alert.setContentText("Are you sure you want to edit this reservation?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            reservationChecker();
 
-            if (selectGuestsPaneController != null)
-                selectGuestsPaneController.applyChanges(); //FIXME is it correct?
+            if (selectGuestsPaneController != null) {
+                selectGuestsPaneController.applyChanges();
 
-            personController.editReservation(reservation);
+                personController.editReservation(reservation);
 
+                actionsAfterEdit(); //TODO it is correct?
+            }
+            else
+                messagesController.showMessage("Error during editing", MessagesController.MessageType.ERROR,5);
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
-            Parent view = loader.load();
-            ReservationsController reservationsController = loader.getController();
-            reservationsController.setPane(menuPane);
-            menuPane.setCenter(view);
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
@@ -186,17 +164,23 @@ public class ModifyReservationController extends FieldFormManagementController i
 
     }
 
+    //TODO override si needed
+    protected void actionsAfterEdit() throws IOException, SQLException, ClassNotFoundException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
+        Parent view = loader.load();
+        ReservationsController reservationsController = loader.getController();
+        reservationsController.setPane(menuPane);
+        menuPane.setCenter(view);
+    }
+
     //TODO is inheritance needed?
     @FXML
     public void handleDeleteButton() throws SQLException, ClassNotFoundException, IOException {
-        //TODO implement
-        System.out.println("Delete button clicked: " + reservation.getId());
-
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Reservation");
         //FIXME improve date format
-        alert.setHeaderText(reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
+        alert.setHeaderText("Reservation is: "+reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
         alert.setContentText("Are you sure you want to delete this reservation?");
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -204,18 +188,23 @@ public class ModifyReservationController extends FieldFormManagementController i
 
             personController.deleteReservation(reservation.getId());
             System.out.println("Deleted!");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
-            Parent view = loader.load();
-            ReservationsController controller = loader.getController();
-            controller.setPane(menuPane);
-            menuPane.setCenter(view);
-            System.out.println("Reservations menu button clicked");
+
+            actionsAfterDelete();
 
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
         }
 
+    }
+
+    @Override
+    protected void actionsAfterDelete() throws IOException, SQLException, ClassNotFoundException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
+        Parent view = loader.load();
+        ReservationsController controller = loader.getController();
+        controller.setPane(menuPane);
+        menuPane.setCenter(view);
     }
 
 

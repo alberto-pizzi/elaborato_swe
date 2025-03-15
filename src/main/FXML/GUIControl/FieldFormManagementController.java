@@ -100,6 +100,8 @@ public abstract class FieldFormManagementController implements Initializable {
 
     protected PersonController personController;
 
+    protected final int minutesInterval = 15;
+
     
     
     //methods
@@ -151,11 +153,10 @@ public abstract class FieldFormManagementController implements Initializable {
 
         startTimeChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldTime, newTime) -> {
             try {
-                endTimeChoice.getItems().clear();
 
                 if (newTime != null && datePicker.getValue() != null) {
 
-                    updateEndTimes(LocalTime.parse(newTime),personController.getWHsByFacilityByDay(field.getFacility().getId(), datePicker.getValue().getDayOfWeek()),15);
+                    updateEndTimes(LocalTime.parse(newTime),personController.getWHsByFacilityByDay(field.getFacility().getId(), datePicker.getValue().getDayOfWeek()),minutesInterval);
 
                     updateTotalPrice(true);
                     updatePricePerPerson(true);
@@ -245,9 +246,15 @@ public abstract class FieldFormManagementController implements Initializable {
             pricePerPersonLabel.setText(this.priceFormat.format(Reservation.pricePerUser(totalPrice,totalPeople)) + " $");
     }
 
+    protected void actionsAfterDelete() throws IOException, SQLException, ClassNotFoundException {
+        //TODO empty implementation (just for abstract class)?
+    }
+
     protected void resetFields(){
         endTimeChoice.getItems().clear();
         startTimeChoice.getItems().clear();
+        startTimeChoice.setValue(null);
+        endTimeChoice.setValue(null);
         selectGuestsPaneController.getnGuestsChoice().getItems().clear();
 
         updateTotalPeople();
@@ -363,13 +370,16 @@ public abstract class FieldFormManagementController implements Initializable {
 
     protected void updateStartTime(DayOfWeek dayOfWeek){
 
-        if (startTimeChoice != null && endTimeChoice != null) {
+        startTimeChoice.getItems().clear();
+        startTimeChoice.setValue(null);
+
+        if (startTimeChoice != null) {
 
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
             List<LocalTime> timeOptions = null; // 30 minuti
             try {
                 //TODO add correct WH day
-                timeOptions = availableTimes(15, timeFormatter, dayOfWeek);
+                timeOptions = availableTimes(minutesInterval, timeFormatter, dayOfWeek);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } catch (ClassNotFoundException e) {
@@ -385,6 +395,9 @@ public abstract class FieldFormManagementController implements Initializable {
 
     //FIXME optimize?
     protected void updateEndTimes(LocalTime selectedTime, ArrayList<WorkingHours> dailyWHs, int minutesInterval) throws SQLException, ClassNotFoundException {
+
+        endTimeChoice.getItems().clear();
+        endTimeChoice.setValue(null);
 
         List<LocalTime> availableTimes = new ArrayList<>();
 

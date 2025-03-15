@@ -114,6 +114,15 @@ public class PersonController<T extends Person> {
 
     }
 
+    //TODO is it correct here?
+    public void changeUserGuests(int idReservation,int userId, int guestNewNumber) throws SQLException, ClassNotFoundException {
+        IsPartDao isPartDao = new IsPartDao();
+        GroupDao groupDao = new GroupDao();
+
+        Group group = groupDao.getGroupByReservation(idReservation);
+        isPartDao.updateGuestsUsers(group.getId(),userId,guestNewNumber);
+    }
+
     //TODO is it correct? Maybe yes
     public static Group getGroupByReservation(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();

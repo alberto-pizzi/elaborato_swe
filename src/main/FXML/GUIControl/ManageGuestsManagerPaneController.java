@@ -168,21 +168,26 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     public void applyChanges() throws SQLException, ClassNotFoundException {
 
         if (group != null) {
-            ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
             //removed
-            for (GroupMember groupMember : groupMembersRemoved) {
-                ManagerOwnerManagementController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+            if (!groupMembersRemoved.isEmpty()) {
+                for (GroupMember groupMember : groupMembersRemoved) {
+                    PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+                }
             }
 
             //added
-            for (GroupMember groupMember : groupMembersAdded) {
-                ManagerOwnerManagementController.addGroupMember(group.getReservation().getId(),groupMember.getUser().getId(),groupMember.getOwnGuests());
+            if (!groupMembersAdded.isEmpty()) {
+                for (GroupMember groupMember : groupMembersAdded) {
+                    PersonController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
+                }
             }
 
             //changed
-            for (GroupMember groupMember : groupMembersChanged) {
-                managerOwnerManagementController.changeUserGuests(group.getReservation().getId(),groupMember.getUser().getId(),groupMember.getOwnGuests());
+            if (!groupMembersChanged.isEmpty()) {
+                for (GroupMember groupMember : groupMembersChanged) {
+                    personController.changeUserGuests(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
+                }
             }
 
         }

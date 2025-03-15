@@ -88,13 +88,6 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         isPartDao.updateGuestsUsers(group.getId(),group.getGroupHead().getId(),guestNewNumber);
     }
 
-    public void changeUserGuests(int idReservation,int userId, int guestNewNumber) throws SQLException, ClassNotFoundException {
-        IsPartDao isPartDao = new IsPartDao();
-        GroupDao groupDao = new GroupDao();
-
-        Group group = groupDao.getGroupByReservation(idReservation);
-        isPartDao.updateGuestsUsers(group.getId(),userId,guestNewNumber);
-    }
 
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();

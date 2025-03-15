@@ -149,10 +149,15 @@ public class BookFieldController extends FieldFormManagementController implement
             personController.addReservation(eventDate,eventStartTime,eventEndTime,field,guests, totalPeople, isMatchingCheckBox.isSelected(), accounts);
             System.out.println("Booking done");
 
-            //TODO is add redirect to home needed?
-            resetFields();
             messagesController.showMessage("Booking done successfully", MessagesController.MessageType.SUCCESS,5);
+            actionsAfterAdd();
         }
+
+    }
+
+    protected void actionsAfterAdd(){
+        //TODO is add redirect to home needed?
+        resetFields();
 
     }
 

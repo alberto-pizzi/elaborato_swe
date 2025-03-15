@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
+import javafx.scene.Parent;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
 
 import java.io.IOException;
@@ -11,9 +12,9 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
-//TODO check if base class is correct
 public class ModifyReservationManagerController extends ModifyReservationController implements Initializable {
 
 
@@ -24,18 +25,21 @@ public class ModifyReservationManagerController extends ModifyReservationControl
         personController = new ManagerOwnerManagementController();
     }
 
+    @Override
     protected void reservationChecker() throws SQLException, ClassNotFoundException {
+
+        //TODO is this implementation right? optimize
 
         if( datePicker.getValue() != null) {
             reservation.setEventDate(Date.valueOf(datePicker.getValue()));
         }
 
-        if((startTimeChoice.getValue() != null) && (!startTimeChoice.getValue().equals(String.valueOf(reservation.getEventTimeStart().toLocalTime())))) {
-            reservation.setEventTimeStart(Time.valueOf(startTimeChoice.getValue()));
+        if(startTimeChoice.getValue() != null) {
+            reservation.setEventTimeStart(Time.valueOf(LocalTime.parse(startTimeChoice.getValue())));
         }
 
-        if((endTimeChoice.getValue() != null)  && (!endTimeChoice.getValue().equals(String.valueOf(reservation.getEventTimeEnd().toLocalTime())))) {
-            reservation.setEventTimeEnd(Time.valueOf(endTimeChoice.getValue()));
+        if(endTimeChoice.getValue() != null)  {
+            reservation.setEventTimeEnd(Time.valueOf(LocalTime.parse(endTimeChoice.getValue())));
         }
 
         if(selectGuestsPaneController.getnGuestsChoice().getValue() != null) {
@@ -56,13 +60,26 @@ public class ModifyReservationManagerController extends ModifyReservationControl
         this.selectGuestsPaneController = loader.getController(); //connect controller
     }
 
+
+    //TODO optimize it
     @Override
-    public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
-        //TODO implement override
-        System.out.println("Confirm button (Manager/Owner) clicked");
+    protected void actionsAfterEdit() throws IOException, SQLException, ClassNotFoundException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsManager.fxml"));
+        Parent view = loader.load();
+        ReservationsManagerController  controller = loader.getController();
+        controller.setData(personController.getReservationField(reservation), menuPane);
+        menuPane.setCenter(view);
     }
 
-    //TODO how we manage deletions?
+    @Override
+    protected void actionsAfterDelete() throws IOException, SQLException, ClassNotFoundException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsManager.fxml"));
+        Parent view = loader.load();
+        ReservationsManagerController  controller = loader.getController();
+        controller.setData(personController.getReservationField(reservation), menuPane);
+        menuPane.setCenter(view);
+    }
+
 
 
 
