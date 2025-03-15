@@ -61,7 +61,7 @@ public class UserProfileController extends ProfileController {
     }
 
     @Override
-    public boolean updatePassword(String newPassword) throws SQLException {
+    public boolean updatePassword(String newPassword) throws SQLException, NoSuchAlgorithmException {
         try {
             UserDAO userDAO = new UserDAO();
             String encodedPassword = PasswordEncoder.hashPassword(newPassword);
@@ -69,7 +69,7 @@ public class UserProfileController extends ProfileController {
             this.user.setPassword(newPassword);
             System.out.println("Password updated");
 
-        } catch (SQLException e) {
+        } catch (SQLException | NoSuchAlgorithmException e) {
             e.printStackTrace();
             return false;
         }

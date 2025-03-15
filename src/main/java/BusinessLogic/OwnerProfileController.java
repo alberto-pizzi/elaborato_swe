@@ -72,14 +72,14 @@ public class OwnerProfileController extends ProfileController {
     }
 
     @Override
-    public boolean updatePassword(String newPassword) throws SQLException {
+    public boolean updatePassword(String newPassword) throws SQLException, NoSuchAlgorithmException {
         try {
             OwnerDAO ownerDAO = new OwnerDAO();
             String encodedPassword = PasswordEncoder.hashPassword(newPassword);
             ownerDAO.updatePassword(owner.getUsername(), encodedPassword);
             this.owner.setPassword(newPassword);
             System.out.println("Password updated");
-        } catch (SQLException e) {
+        } catch (SQLException | NoSuchAlgorithmException e) {
             e.printStackTrace();
             return false;
         }
