@@ -66,7 +66,7 @@ public class UserProfileController extends ProfileController {
             UserDAO userDAO = new UserDAO();
             String encodedPassword = PasswordEncoder.hashPassword(newPassword);
             userDAO.updatePassword(user.getUsername(),encodedPassword);
-            this.user.setPassword(newPassword);
+            this.user.setPassword(encodedPassword);
             System.out.println("Password updated");
 
         } catch (SQLException | NoSuchAlgorithmException e) {

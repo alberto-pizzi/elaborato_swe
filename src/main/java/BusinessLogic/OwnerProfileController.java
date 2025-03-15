@@ -77,7 +77,7 @@ public class OwnerProfileController extends ProfileController {
             OwnerDAO ownerDAO = new OwnerDAO();
             String encodedPassword = PasswordEncoder.hashPassword(newPassword);
             ownerDAO.updatePassword(owner.getUsername(), encodedPassword);
-            this.owner.setPassword(newPassword);
+            this.owner.setPassword(encodedPassword);
             System.out.println("Password updated");
         } catch (SQLException | NoSuchAlgorithmException e) {
             e.printStackTrace();
