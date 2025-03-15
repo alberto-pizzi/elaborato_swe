@@ -167,24 +167,26 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     @Override
     public void applyChanges() throws SQLException, ClassNotFoundException {
 
+        sendInvitesToInviteListMembers();
+
         if (group != null) {
 
             //removed
-            if (!groupMembersRemoved.isEmpty()) {
+            if (groupMembersRemoved != null && !groupMembersRemoved.isEmpty()) {
                 for (GroupMember groupMember : groupMembersRemoved) {
                     PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
                 }
             }
 
             //added
-            if (!groupMembersAdded.isEmpty()) {
+            if (groupMembersAdded != null && !groupMembersAdded.isEmpty()) {
                 for (GroupMember groupMember : groupMembersAdded) {
                     PersonController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
                 }
             }
 
             //changed
-            if (!groupMembersChanged.isEmpty()) {
+            if (groupMembersChanged != null && !groupMembersChanged.isEmpty()) {
                 for (GroupMember groupMember : groupMembersChanged) {
                     personController.changeUserGuests(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
                 }

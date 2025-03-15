@@ -103,11 +103,11 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
         super.applyChanges();
 
-        //TODO is it right here checking groupHead?
        if (group != null) {
 
+           //TODO is it right here checking groupHead?
            if (group.getGroupHead().getUsername().equals(personController.getPerson().getUsername())) {
-               if (!groupMembersRemoved.isEmpty()) {
+               if (groupMembersRemoved != null && !groupMembersRemoved.isEmpty()) {
                    for (GroupMember groupMember : groupMembersRemoved) {
                        PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
                    }
