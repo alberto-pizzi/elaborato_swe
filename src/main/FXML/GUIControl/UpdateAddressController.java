@@ -43,10 +43,10 @@ public class UpdateAddressController implements Initializable {
 
         UserActionsController userActionsController = new UserActionsController();
 
-        provinceInput.setText(userActionsController.getUser().getProvince());
-        cityInput.setText(userActionsController.getUser().getCity());
-        countryInput.setText(userActionsController.getUser().getCountry());
-        zipInput.setText(userActionsController.getUser().getZip());
+        provinceInput.setText(userActionsController.getPerson().getProvince());
+        cityInput.setText(userActionsController.getPerson().getCity());
+        countryInput.setText(userActionsController.getPerson().getCountry());
+        zipInput.setText(userActionsController.getPerson().getZip());
 
         this.messagesController = new MessagesController(messageLabel);
 

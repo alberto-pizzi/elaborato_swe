@@ -6,6 +6,7 @@ import main.java.ORM.ManagesDAO;
 import main.java.ORM.OwnerDAO;
 import main.java.ORM.UserDAO;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -63,7 +64,8 @@ public class UserProfileController extends ProfileController {
     public boolean updatePassword(String newPassword) throws SQLException {
         try {
             UserDAO userDAO = new UserDAO();
-            userDAO.updatePassword(user.getUsername(),newPassword);
+            String encodedPassword = PasswordEncoder.hashPassword(newPassword);
+            userDAO.updatePassword(user.getUsername(),encodedPassword);
             this.user.setPassword(newPassword);
             System.out.println("Password updated");
 

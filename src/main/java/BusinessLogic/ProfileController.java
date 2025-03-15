@@ -2,6 +2,8 @@ package main.java.BusinessLogic;
 
 import main.java.ORM.UserDAO;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public abstract class ProfileController {
@@ -9,7 +11,7 @@ public abstract class ProfileController {
     //methods
     public abstract boolean updateUsername(String newUsername) throws SQLException;
 
-    public abstract boolean updatePassword(String newPassword) throws SQLException;
+    public abstract boolean updatePassword(String newPassword) throws SQLException, NoSuchAlgorithmException;;
 
     public abstract boolean updateEmail(String newEmail) throws SQLException;
 

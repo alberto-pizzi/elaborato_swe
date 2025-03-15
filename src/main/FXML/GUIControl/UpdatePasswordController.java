@@ -9,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import main.java.BusinessLogic.*;
 
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -42,7 +43,7 @@ public class UpdatePasswordController implements Initializable {
     }
 
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
 
         UserProfileController userProfileController = new UserProfileController();
 

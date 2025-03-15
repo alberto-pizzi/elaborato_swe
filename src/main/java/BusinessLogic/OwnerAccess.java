@@ -2,7 +2,9 @@ package main.java.BusinessLogic;
 
 import main.java.DomainModel.Owner;
 import main.java.ORM.OwnerDAO;
+import main.java.ORM.UserDAO;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public class OwnerAccess implements AccessStrategy{
@@ -27,22 +29,28 @@ public class OwnerAccess implements AccessStrategy{
         OwnerDAO dao = new OwnerDAO();
 
         try {
-            dao.addOwner(username,email,password,city,province,zip,country);
+            dao.addOwner(username,email,PasswordEncoder.hashPassword(password),city,province,zip,country);
 
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
         return true;
     }
 
     @Override
-    public boolean checkPassword(String username, String password) throws SQLException {
+    public boolean checkPassword(String username, String notEncodedPassword) throws SQLException {
 
         boolean verified = false;
         OwnerDAO dao = new OwnerDAO();
         try {
-            verified = dao.checkPassword(username,password);
+            verified = PasswordEncoder.verifyPassword(notEncodedPassword,dao.getEncodedPassword(username));
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
 

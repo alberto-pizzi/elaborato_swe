@@ -6,7 +6,6 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="1094.0" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ModifyReservationOwnerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ModifyReservationOwnerController">
    <children>
-      <VBox prefHeight="720.0" prefWidth="1060.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
+      <VBox style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
             <StackPane prefHeight="113.0" prefWidth="1180.0">
                <children>
@@ -37,9 +36,9 @@
                   </VBox>
                </children>
             </StackPane>
-            <HBox prefHeight="610.0" prefWidth="1180.0">
+            <HBox prefHeight="452.0" prefWidth="1180.0">
                <children>
-                  <VBox alignment="CENTER_LEFT" maxWidth="260.0" prefHeight="609.0" prefWidth="218.0">
+                  <VBox alignment="CENTER_LEFT" maxWidth="260.0" prefHeight="200.0" prefWidth="260.0">
                      <children>
                         <ImageView fx:id="fieldImageView" fitHeight="180.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <effect>
@@ -91,14 +90,14 @@
                         <Insets />
                      </HBox.margin>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="609.0" prefWidth="527.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="478.0" prefWidth="624.0">
                      <children>
                         <Label text="When:">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <HBox alignment="CENTER" prefHeight="70.0" prefWidth="586.0" spacing="15.0">
+                        <HBox alignment="CENTER" prefHeight="81.0" prefWidth="624.0" spacing="15.0">
                            <children>
                               <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="309.0" />
                            </children>
@@ -109,7 +108,7 @@
                               <ChoiceBox fx:id="endTimeChoice" prefHeight="26.0" prefWidth="215.0" />
                            </children>
                         </HBox>
-                        <HBox fx:id="durationBox" alignment="CENTER" prefHeight="45.0" prefWidth="586.0" visible="false">
+                        <HBox fx:id="durationBox" alignment="CENTER" prefHeight="58.0" prefWidth="624.0" visible="false">
                            <children>
                               <Label text="Duration:">
                                  <font>
@@ -126,67 +125,36 @@
                               </Label>
                            </children>
                         </HBox>
-                        <Label prefHeight="30.0" prefWidth="240.0" text="Guest of the grouphead:">
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </Label>
-                        <HBox alignment="CENTER" prefHeight="53.0" prefWidth="586.0" spacing="50.0">
+                        <HBox alignment="CENTER" prefHeight="57.0" prefWidth="624.0" spacing="50.0">
                            <children>
-                              <ChoiceBox fx:id="nGuestsChoice" prefHeight="26.0" prefWidth="215.0" />
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <Label prefHeight="30.0" text="Manage Guests:">
+                                       <font>
+                                          <Font name="System Bold" size="20.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Button fx:id="addGuestsButton" mnemonicParsing="false" onAction="#handleAddGuestsButton" styleClass="add-guests-button, shadow" stylesheets="@css/style.css" text="Edit Guests">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="35.0" right="35.0" top="5.0" />
+                                       </padding>
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </VBox>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" layoutX="10.0" layoutY="297.0" prefHeight="49.0" prefWidth="586.0">
                            <children>
                               <Label text="Total partecipants:">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets right="10.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Label fx:id="fieldTotalParticipants" text="2">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
-                           <children>
-                              <Label text="Total Price:">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets right="10.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Label fx:id="fieldTotalPrice" text="100 $">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="10.0" top="50.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <Label fx:id="isMatched" prefHeight="35.0" prefWidth="408.0" textAlignment="CENTER">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Label>
-                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
-                           <children>
-                              <Label text="TotalPrice (per person):" textFill="GREY">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -194,7 +162,7 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="pricePerPersonLabel" text="100 $" textFill="#808080">
+                              <Label fx:id="fieldTotalParticipants" text="2">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -204,29 +172,89 @@
                               </Label>
                            </children>
                         </HBox>
+                        <Label fx:id="isMatched" prefHeight="30.0" prefWidth="466.0" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
+                           <children>
+                              <Label text="Total Price:">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="fieldTotalPrice" text="100 $">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0">
+                           <children>
+                              <Label text="TotalPrice (per person):" textFill="GREY">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="pricePerPersonLabel" text="100 $" textFill="#808080">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <VBox alignment="CENTER" visible="false">
+                           <children>
+                              <Label fx:id="errorLabel" text="errorLabel" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
                         <HBox alignment="BOTTOM_CENTER" prefHeight="49.0" prefWidth="586.0" spacing="20.0">
                            <children>
-                              <Button fx:id="confirmButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#handleConfirmButton" prefHeight="52.0" prefWidth="252.0" style="-fx-background-radius: 40;" stylesheets="@css/style.css" text="Confirm" textFill="WHITE">
+                              <Button fx:id="confirmButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#handleConfirmButton" style="-fx-background-radius: 40;" stylesheets="@css/style.css" text="Confirm" textFill="WHITE">
                                  <HBox.margin>
                                     <Insets top="20.0" />
                                  </HBox.margin>
                                  <padding>
-                                    <Insets bottom="10.0" left="80.0" right="80.0" top="10.0" />
+                                    <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
                                  </padding>
                                  <font>
-                                    <Font name="System Bold" size="22.0" />
+                                    <Font name="System Bold" size="24.0" />
                                  </font>
                                  <styleClass>
                                     <String fx:value="button-owner" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <Button fx:id="deleteButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="127.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="52.0" prefWidth="234.0" stylesheets="@css/style.css" text="Delete" textFill="WHITE">
+                              <Button fx:id="deleteButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="127.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleDeleteButton" stylesheets="@css/style.css" text="Delete" textFill="WHITE">
                                  <padding>
-                                    <Insets bottom="10.0" left="80.0" right="80.0" top="10.0" />
+                                    <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
                                  </padding>
                                  <font>
-                                    <Font name="System Bold" size="22.0" />
+                                    <Font name="System Bold" size="24.0" />
                                  </font>
                                  <styleClass>
                                     <String fx:value="decline-button" />
@@ -237,35 +265,7 @@
                         </HBox>
                      </children>
                      <padding>
-                        <Insets bottom="30.0" top="30.0" />
-                     </padding>
-                  </VBox>
-                  <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="260.0" prefHeight="200.0" prefWidth="260.0">
-                     <children>
-                        <Label text="Other clients:">
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </Label>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                          <content>
-                              <VBox fx:id="clients" prefHeight="365.0" prefWidth="183.0" />
-                          </content>
-                        </ScrollPane>
-                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="586.0" spacing="20.0">
-                           <children>
-                              <Button fx:id="addClient" mnemonicParsing="false" onAction="#handleInviteClientsButton" prefHeight="25.0" prefWidth="51.0" style="-fx-background-radius: 20;" stylesheets="@css/style.css" text="Invite" textFill="WHITE">
-                                 <styleClass>
-                                    <String fx:value="login-button" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#handleDeleteClientsButton" styleClass="decline-button" stylesheets="@css/style.css" text="Delete" textFill="WHITE" />
-                           </children>
-                        </HBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" left="30.0" right="30.0" />
+                        <Insets bottom="5.0" top="10.0" />
                      </padding>
                   </VBox>
                </children>

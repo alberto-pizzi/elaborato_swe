@@ -78,10 +78,10 @@ public class SignUpControllerUser implements Initializable {
         AccessController access = null;
         access = new AccessController(new UserAccess());
         System.out.println("User ");
-
+        //FIXME fix text field texts
         if(!(password == null || username == null || email == null || province == null)) {
 
-            if(password == passwordConfirmed) {
+            if(password.getText().equals(passwordConfirmed.getText())) {
 
                 if(access.checkEmail(email.getText())){
 

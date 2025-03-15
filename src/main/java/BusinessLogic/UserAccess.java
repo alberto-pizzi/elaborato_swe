@@ -3,6 +3,7 @@ package main.java.BusinessLogic;
 import main.java.DomainModel.User;
 import main.java.ORM.UserDAO;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public class UserAccess implements AccessStrategy{
@@ -25,22 +26,28 @@ public class UserAccess implements AccessStrategy{
         UserDAO dao = new UserDAO();
 
         try {
-            dao.addUser(username,email,password,city,province,zip,country);
+            dao.addUser(username,email,PasswordEncoder.hashPassword(password),city,province,zip,country);
 
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
         return true;
     }
 
     @Override
-    public boolean checkPassword(java.lang.String username, java.lang.String password) throws SQLException {
+    public boolean checkPassword(String username, String notEncodedPassword) throws SQLException {
 
         boolean verified = false;
         UserDAO dao = new UserDAO();
         try {
-            verified = dao.checkPassword(username,password);
+            verified = PasswordEncoder.verifyPassword(notEncodedPassword,dao.getEncodedPassword(username));
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
 

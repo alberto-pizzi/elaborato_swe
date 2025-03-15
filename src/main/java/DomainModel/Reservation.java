@@ -2,6 +2,7 @@ package main.java.DomainModel;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DecimalFormat;
 
 public class Reservation {
     private int id;

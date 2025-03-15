@@ -102,7 +102,7 @@ public class FieldDetailController implements Initializable {
     }
 
     @FXML
-    void handleGoToBookButton(ActionEvent event) throws IOException {
+    void handleGoToBookButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
         //FIXME menu disappear
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
@@ -110,6 +110,8 @@ public class FieldDetailController implements Initializable {
 
         BookFieldController bookFieldController = loader.getController();
         bookFieldController.setData(this.field);
+
+        bookFieldController.selectGuestsPaneController.setData(null,false);
 
 
         menuPane.setCenter(view);

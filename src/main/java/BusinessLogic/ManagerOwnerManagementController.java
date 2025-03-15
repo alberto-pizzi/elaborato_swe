@@ -3,22 +3,22 @@ package main.java.BusinessLogic;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 
 import static main.java.DomainModel.NotificationType.*;
 
-public class ManagerOwnerManagementController extends PersonController{
-
-    Person person;
+public class ManagerOwnerManagementController extends PersonController<Person>{
 
     public ManagerOwnerManagementController(Person person) {
-        this.person = person;
+        super(person);
     }
 
     public ManagerOwnerManagementController() {
-        this.person = SessionController.getInstance().getPerson();
+        super(SessionController.getInstance().getPerson());
     }
 
 
@@ -27,20 +27,6 @@ public class ManagerOwnerManagementController extends PersonController{
 
     }
 
-    public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
-
-        ReservationDao reservationDao = new ReservationDao();
-        NotificationController notificationController = new NotificationController();
-        Reservation previousReservation = reservationDao.getReservation(reservation.getId(), false);
-        String notificationMessage = "the reservation is the day " + previousReservation.getReservationDate() + " at " + previousReservation.getEventTimeStart() + " has been modified by " + person.getUsername();
-
-        reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
-        reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
-        reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
-        notificationController.sendNotifications(reservation, MODIFICATION, notificationMessage);
-
-
-    }
 
     public ArrayList<Field> getFieldsByFacility(Facility facility) throws SQLException {
         FieldDao fieldDao = new FieldDao();
@@ -48,11 +34,6 @@ public class ManagerOwnerManagementController extends PersonController{
         return fieldDao.getFieldsByFacility(facility.getId(), false);
     }
 
-    public int getMaxGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
-
-        return groupDao.getGroupByReservation(idReservation).getRequiredParticipants();
-    }
 
     //FIXME input change
     public ArrayList<User> searchInvitablePlayers(Reservation reservation, Boolean searched, String searchText) throws SQLException, ClassNotFoundException {
@@ -93,6 +74,12 @@ public class ManagerOwnerManagementController extends PersonController{
         return isPartDao.countOwnGuests(group.getId(), group.getGroupHead().getId());
     }
 
+    @Override
+    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, ArrayList<String> accounts) throws SQLException, ClassNotFoundException {
+        //TODO implement (MangerOwner method) Force adding.
+        System.out.println("Adding reservation. MangerOwner method.");
+    }
+
     public void changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
@@ -101,28 +88,20 @@ public class ManagerOwnerManagementController extends PersonController{
         isPartDao.updateGuestsUsers(group.getId(),group.getGroupHead().getId(),guestNewNumber);
     }
 
+    public void changeUserGuests(int idReservation,int userId, int guestNewNumber) throws SQLException, ClassNotFoundException {
+        IsPartDao isPartDao = new IsPartDao();
+        GroupDao groupDao = new GroupDao();
+
+        Group group = groupDao.getGroupByReservation(idReservation);
+        isPartDao.updateGuestsUsers(group.getId(),userId,guestNewNumber);
+    }
+
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
         WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
 
         return workingHoursDAO.getWHsByFacility(idFacility);
     }
 
-    //FIXME output type?
-    public void deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
-
-        ReservationDao reservationDao = new ReservationDao();
-
-        NotificationController notificationController = new NotificationController();
-
-        Reservation reservation = reservationDao.getReservation(idReservation, false);
-
-        notificationController.sendNotifications(reservation,DELETION,""); //FIXME check notificationMessage utlity
-
-        //set isDeleted flag to true
-        reservation.setDeleted(true);
-        reservationDao.updateIsDeleted(idReservation,true);
-
-    }
 
     public void reservationAnnouncement(String notificationMessage, Reservation reservation) throws SQLException, ClassNotFoundException {
         NotificationController notificationController = new NotificationController();

@@ -10,15 +10,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
-import main.java.BusinessLogic.OwnerManagementController;
-import main.java.BusinessLogic.UserActionsController;
+import main.java.BusinessLogic.PersonController;
 import main.java.DomainModel.Reservation;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -155,6 +151,8 @@ public class ReservationItemManagerController {
 
         ModifyReservationManagerController modifyReservationManagerController = loader.getController();
         modifyReservationManagerController.setData(this.reservation, reservationsController.getMenuPane());
+
+        modifyReservationManagerController.selectGuestsPaneController.setData(PersonController.getGroupByReservation(this.reservation.getId()),true );
 
         reservationsController.getMenuPane().setCenter(view);
 

@@ -148,13 +148,15 @@ public class ReservationsOwnerController {
 
     //todo da fare
     @FXML
-    void handleNewReservationButton(ActionEvent event) throws IOException {
+    void handleNewReservationButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingFormOwner.fxml"));
         Parent view = loader.load();
 
         BookFieldController bookFieldController = loader.getController();
         bookFieldController.setData(this.field);
+
+        bookFieldController.selectGuestsPaneController.setData(null,false);
 
 
         menuPane.setCenter(view);
