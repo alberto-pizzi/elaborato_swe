@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.AnnouncementManagerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.AnnouncementManagerController">
    <children>
       <VBox style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
@@ -32,7 +32,7 @@
                <children>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="358.0" prefHeight="49.0" prefWidth="586.0" spacing="20.0">
                      <children>
-                        <Label fx:id="errorMessage" prefHeight="48.0" prefWidth="974.0" textAlignment="CENTER" textFill="RED">
+                        <Label fx:id="errorMessage" alignment="CENTER" prefHeight="48.0" prefWidth="974.0" text="Error: text" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -55,7 +55,7 @@
                   </Label>
                   <HBox alignment="BOTTOM_CENTER" prefHeight="49.0" prefWidth="586.0" spacing="20.0">
                      <children>
-                        <Button fx:id="confirmButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#handleConfirmButton" stylesheets="@css/style.css" text="Confirm" textFill="WHITE">
+                        <Button fx:id="confirmButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#handleConfirmButton" stylesheets="@css/style.css" text="Confirm" textFill="WHITE" wrapText="true">
                            <HBox.margin>
                               <Insets top="20.0" />
                            </HBox.margin>
@@ -66,11 +66,11 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                            <styleClass>
-                              <String fx:value="accept-button" />
+                              <String fx:value="manager-button" />
                               <String fx:value="shadow" />
                            </styleClass>
                         </Button>
-                        <Button fx:id="cancelButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="127.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleCancelButton" stylesheets="@css/style.css" text="Cancel" textFill="WHITE">
+                        <Button fx:id="cancelButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" layoutX="127.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleCancelButton" style="-fx-background-radius: 10;" stylesheets="@css/style.css" text="Cancel" textFill="WHITE" wrapText="true">
                            <padding>
                               <Insets bottom="10.0" left="100.0" right="100.0" top="10.0" />
                            </padding>

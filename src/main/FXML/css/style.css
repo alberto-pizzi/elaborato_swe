@@ -170,6 +170,16 @@
     -fx-background-color: #22db4a;
 }
 
+.manager-button{
+    -fx-background-color: #484167;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.manager-button:hover{
+    -fx-background-color: #5f5d8a;
+}
+
 .clickable{
     -fx-cursor: hand;
     -fx-background-color: transparent;

@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import main.java.BusinessLogic.OwnerProfileController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.BusinessLogic.UserProfileController;
 
@@ -43,10 +44,15 @@ public class ProfileMenuController implements Initializable {
     private Label welcomeMessageLabel;
 
     @FXML
+    private Label messageLabel;
+
+    @FXML
     private BorderPane profileMenuPane;
 
     @FXML
     private Button logoutButton;
+
+    private MessagesController messagesController;
 
     //methods
 
@@ -55,9 +61,8 @@ public class ProfileMenuController implements Initializable {
 
         UserActionsController userActionsController = new UserActionsController();
 
-
         welcomeMessageLabel.setText("Hi, " + userActionsController.getPerson().getUsername() + "!");
-
+        messagesController = new MessagesController(messageLabel);
 
         try {
             changeView("updateUsername.fxml");
@@ -79,23 +84,23 @@ public class ProfileMenuController implements Initializable {
 
     @FXML
     void handleDeleteProfileButton(ActionEvent event) throws SQLException, IOException {
-        //TODO implement (add alert)
-
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Reservation");
-        //FIXME improve date format
         alert.setHeaderText("Delete Profile");
         alert.setContentText("Are you sure you want to delete your profile forever?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
-
             UserProfileController userProfileController = new UserProfileController();
-            userProfileController.deleteProfile(userProfileController.getUser().getUsername());
-            System.out.println("Deleted!");
-
-            handleLogoutButton(event);
-
+            //todo controllare allaccio
+            if( userProfileController.deleteProfile(userProfileController.getUser().getUsername())){
+                System.out.println("Deleted!");
+                handleLogoutButton(event);
+            }else{
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
+                //fixme fare parte negativa
+            }
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
         }
@@ -128,5 +133,6 @@ public class ProfileMenuController implements Initializable {
         logInUser.setScene(new Scene(root, 1280, 720));
         logInUser.show();
         logInUser.setResizable(false);
+        System.out.println("Logout done");
     }
 }

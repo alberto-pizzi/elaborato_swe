@@ -14,14 +14,14 @@ public class UserAccess implements AccessStrategy{
         User user = null;
         try {
             user = dao.getUser(username);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return user;
     }
 
     @Override
-    public void register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
+    public boolean register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
 
         UserDAO dao = new UserDAO();
 
@@ -33,6 +33,7 @@ public class UserAccess implements AccessStrategy{
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
 
     @Override
@@ -47,6 +48,35 @@ public class UserAccess implements AccessStrategy{
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+
+        return verified;
+    }
+
+    @Override
+    public boolean checkPersonExistence(String username) throws SQLException{
+
+        UserDAO userDAO = new UserDAO();
+        User user;
+        try {
+            user = userDAO.getUser(username);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return (user != null);
+    }
+
+    @Override
+    public boolean checkEmail(String emailEntered) throws SQLException{
+
+        UserDAO userDAO = new UserDAO();
+        boolean verified = false;
+
+        try {
+            verified = userDAO.checkEmailExistence(emailEntered);
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 

@@ -6,23 +6,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
 
 import java.io.*;
-import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class NewFieldController {
+public class NewFieldController extends MediaManagerController {
 
     @FXML
     private Button confirmButton;
@@ -32,12 +29,6 @@ public class NewFieldController {
 
     @FXML
     private TextArea descriptionInput;
-
-    @FXML
-    private ImageView imageLabel;
-
-    @FXML
-    private Label messageLabel;
 
     @FXML
     private TextField nameInput;
@@ -55,16 +46,12 @@ public class NewFieldController {
     private BorderPane menuPane;
 
     ArrayList<Sport> clickedSports = new ArrayList<>();
+
     ArrayList<Sport> sports = new ArrayList<>();
 
     private ArrayList<Label> clickedSportLabels = new ArrayList<>();
 
-    private String imageName ;
-
     private Boolean newFacility = false;
-
-    FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
-
 
     @FXML
     void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
@@ -96,55 +83,10 @@ public class NewFieldController {
 
     @FXML
     void handleUploadImageButton(ActionEvent event) {
-
-        FileChooser fileChooser = new FileChooser();
-
-        fileChooser.setTitle("Select the image you want to upload");
-        fileChooser.setInitialDirectory(new File("C:\\"));
-        fileChooser.getExtensionFilters().add(ex1);
-        File selectedFile = fileChooser.showOpenDialog(menuPane.getScene().getWindow());
-
-        if (selectedFile != null) {
-            System.out.println("Open File");
-            System.out.println(selectedFile.getPath());
-            File copiedImage = new File( "src/main/FXML/img/fields/"  + selectedFile.getName());
-            imageName = selectedFile.getName();
-
-            try {
-                if (copiedImage.createNewFile()) {
-                    System.out.println("File created: " + copiedImage.getName());
-                } else {
-                    System.out.println("File already exists.");
-                }
-            } catch (IOException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
-            }
-            FileChannel sourceChannel = null;
-            FileChannel destChannel = null;
-            try {
-                sourceChannel = new FileInputStream(selectedFile).getChannel();
-                destChannel = new FileOutputStream(copiedImage).getChannel();
-                destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } finally{
-                try {
-                    assert sourceChannel != null;
-                    sourceChannel.close();
-                    assert destChannel != null;
-                    destChannel.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            String pathFromRoot = "/main/FXML/img/fields/";
-            Image image = new Image(getClass().getResourceAsStream(pathFromRoot + copiedImage.getName()));
-
-            imageLabel.setImage(image);
+        folderName = "fields";
+        if(uploadImage()){
             field.setImage(imageName);
         }
-
     }
 
     @FXML
@@ -152,7 +94,6 @@ public class NewFieldController {
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Field");
-        //FIXME improve date format
         alert.setHeaderText("Confirm field");
         alert.setContentText("Are you sure you want to add this field?");
 
@@ -167,27 +108,32 @@ public class NewFieldController {
                 field.setPrice(price);
                 field.setSport(clickedSports.get(0));
                 field.setDescription(descriptionInput.getText());
-                ownerManagementController.addField(field);
-                FXMLLoader loader;
-                Parent pane;
+                //todo controllare allaccio
+                if(ownerManagementController.addField(field)){
+                    System.out.println("Field created: " + field.getName());
+                    FXMLLoader loader;
+                    Parent pane;
+                    if(newFacility){
+                        loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
+                        pane = loader.load();
 
-                if(newFacility){
-                    loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
-                    pane = loader.load();
+                        AddManagersController addManagersController = loader.getController();
+                        addManagersController.setData(facility, menuPane);
+                    }else{
+                        loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+                        pane = loader.load();
 
-                    AddManagersController addManagersController = loader.getController();
-                    addManagersController.setData(facility, menuPane);
+                        ModifyFacilityController modifyFacilityController = loader.getController();
+                        modifyFacilityController.setData(facility, menuPane);
+                    }
+                    menuPane.setCenter(pane);
                 }else{
-                    loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-                    pane = loader.load();
-
-                    ModifyFacilityController modifyFacilityController = loader.getController();
-                    modifyFacilityController.setData(facility, menuPane);
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
-
-                menuPane.setCenter(pane);
             }else {
-                messageLabel.setText("Please enter all the fields");
+                String message = "Please enter all the fields";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 
         } else if(result.get() == ButtonType.CANCEL){
@@ -198,7 +144,6 @@ public class NewFieldController {
 
     @FXML
     void handleAnotherFieldButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
-//todo controllare
         OwnerManagementController ownerManagementController = new OwnerManagementController();
 
         if(!nameInput.getText().equals("") && !priceInput.getText().equals("") && clickedSportLabels.size() != 0) {
@@ -208,15 +153,22 @@ public class NewFieldController {
             field.setPrice(price);
             field.setSport(clickedSports.get(0));
             field.setDescription(descriptionInput.getText());
-            ownerManagementController.addField(field);
-            nameInput.setText("");
-            priceInput.setText("");
-            descriptionInput.setText("");
-            imageName = "";
-            field = new Field();
-
+            //todo controllare allaccio
+            if(ownerManagementController.addField(field)){
+                String message = "Field created and added";
+                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                nameInput.setText("");
+                priceInput.setText("");
+                descriptionInput.setText("");
+                imageName = "";
+                field = new Field();
+            }else{
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            }
         }else {
-            messageLabel.setText("Please enter all the fields");
+            String message = "Please enter all the fields";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
 
     }
@@ -243,6 +195,7 @@ public class NewFieldController {
 
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
 
+        this.menuPane = menuPane;
         this.facility = facility;
         field.setFacility(facility);
 
@@ -257,8 +210,6 @@ public class NewFieldController {
             });
             sportList.getChildren().add(label);
         }
-
-        this.menuPane = menuPane;
     }
 
     public void continueForm(Field field) {

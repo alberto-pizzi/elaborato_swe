@@ -69,11 +69,9 @@ public class AnnouncementManagerController {
 
     @FXML
     void handleCancelButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
-        //TODO implement
         System.out.println("Cancel button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Cancel announcement");
-        //FIXME improve date format
         alert.setHeaderText("Stop announcement");
         alert.setContentText("Are you sure you want to cancel this announcement?");
 
@@ -100,13 +98,11 @@ public class AnnouncementManagerController {
 
         if(messageText.getText().length() < messageLimit && !messageText.getText().isEmpty()) {
 
-            //TODO implement
             System.out.println("Confirm button clicked: ");
 
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm announcement");
-            //FIXME improve date format
             alert.setHeaderText("Make announcement");
             alert.setContentText("Are you sure you want to make this announcement?");
 

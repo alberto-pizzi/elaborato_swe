@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.OwnerManagementController;
+import main.java.BusinessLogic.OwnerProfileController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
@@ -24,7 +25,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class FacilityItemController {
+public class FacilityItemController implements Initializable {
 
     @FXML
     private Button deleteFacility;
@@ -57,8 +58,15 @@ public class FacilityItemController {
 
     private FacilitiesListController facilitiesListController;
 
+    private MessagesController messagesController;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+    }
+
     public void setFacilitiesListController(FacilitiesListController facilitiesListController) {
         this.facilitiesListController = facilitiesListController;
+        this.messagesController = new MessagesController(facilitiesListController.getMessageLabel());
     }
 
     @FXML
@@ -68,22 +76,23 @@ public class FacilityItemController {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Facility");
-        //FIXME improve date format
         alert.setHeaderText(facility.getName() + " situated in "+ facility.getFullAddress());
         alert.setContentText("Are you sure you want to delete this facility?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
-
-            System.out.println("Delete button clicked: " + facilityNameLabel.getText());
-
             OwnerManagementController ownerManagementController = new OwnerManagementController();
-            ownerManagementController.deleteFacility(facility.getId());
-
-            if (facilitiesListController != null) {
-                facilitiesListController.removeFacilityItemFromGUI(facilityItemPane, facility);
+            //todo controllare allaccio
+            if(ownerManagementController.deleteFacility(facility.getId())){
+                String message = "Deletion Successful";
+                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
+                if (facilitiesListController != null) {
+                    facilitiesListController.removeFacilityItemFromGUI(facilityItemPane, facility);
+                }
+            }else{
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
             }
-
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");

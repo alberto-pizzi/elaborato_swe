@@ -9,6 +9,8 @@ public interface AccessStrategy {
 
     //methods
     Person login(String username) throws SQLException;
-    void register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException;
+    boolean checkPersonExistence(String username) throws SQLException, ClassNotFoundException ;
+    boolean checkEmail(String emailEntered) throws SQLException, ClassNotFoundException;
+    boolean register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException;
     boolean checkPassword(String username, String notEncodedPassword) throws SQLException; //TODO improve polymorphism
 }

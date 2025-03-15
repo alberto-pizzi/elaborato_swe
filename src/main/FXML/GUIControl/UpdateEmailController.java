@@ -6,8 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import main.java.BusinessLogic.UserActionsController;
-import main.java.BusinessLogic.UserProfileController;
+import main.java.BusinessLogic.*;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -47,13 +46,19 @@ public class UpdateEmailController implements Initializable {
         if (!emailInput.getText().isEmpty()) {
 
             UserProfileController userProfileController = new UserProfileController();
+            AccessController accessController = new AccessController(new UserAccess());
 
-            boolean emailExistence = userProfileController.checkEmail(emailInput.getText());
+            boolean emailExistence = accessController.checkEmail(emailInput.getText());
 
             if (!emailExistence) {
-                userProfileController.updateEmail(emailInput.getText());
-                String message = "Email updated! New email is: " + emailInput.getText();
-                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                //todo controllare allaccio
+                if(userProfileController.updateEmail(emailInput.getText())){
+                    String message = "Email updated! New email is: " + emailInput.getText();
+                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                }else{
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                }
             }
             else{
                 String message = "This email already exist. Try again!";

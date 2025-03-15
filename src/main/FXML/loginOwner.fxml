@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: aeaeae;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.LoginControllerOwner">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: aeaeae;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.LoginControllerOwner">
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </bottom>
@@ -60,19 +60,28 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="forgot" mnemonicParsing="false" prefHeight="25.0" prefWidth="286.0" style="-fx-background-color: transparent;" text="Forgot Password" underline="true">
+                        <VBox alignment="CENTER" prefWidth="606.0">
                            <HBox.margin>
                               <Insets top="15.0" />
                            </HBox.margin>
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Button>
+                           <children>
+                              <Label fx:id="messageLabel" alignment="CENTER" minHeight="35.0" prefHeight="35.0" prefWidth="606.0" text="Error: text" textFill="RED" visible="false" wrapText="true">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="forgot" mnemonicParsing="false" prefHeight="25.0" prefWidth="286.0" style="-fx-background-color: transparent;" text="Forgot Password" underline="true" wrapText="true">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="logIn" mnemonicParsing="false" onAction="#handleLogInButton" prefHeight="168.0" prefWidth="480.0" stylesheets="@css/style.css" text="Log In" textFill="WHITE">
+                        <Button fx:id="logIn" mnemonicParsing="false" onAction="#handleLogInButton" prefHeight="168.0" prefWidth="480.0" stylesheets="@css/style.css" text="Log In" textFill="WHITE" wrapText="true">
                            <padding>
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
@@ -91,7 +100,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="SignUp" mnemonicParsing="false" onAction="#handleSignUpButton" prefHeight="25.0" prefWidth="481.0" stylesheets="@css/style.css" text="Sign Up" textFill="WHITE">
+                        <Button fx:id="SignUp" mnemonicParsing="false" onAction="#handleSignUpButton" prefHeight="25.0" prefWidth="481.0" stylesheets="@css/style.css" text="Sign Up" textFill="WHITE" wrapText="true">
                            <padding>
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
@@ -115,7 +124,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
                <children>
-                  <Button fx:id="owner" mnemonicParsing="false" onAction="#isOwner" prefHeight="0.0" prefWidth="132.0" stylesheets="@css/style.css" text="I am a user">
+                  <Button fx:id="owner" mnemonicParsing="false" onAction="#isOwner" prefHeight="0.0" prefWidth="132.0" stylesheets="@css/style.css" text="I am a user" wrapText="true">
                      <padding>
                         <Insets bottom="10.0" top="10.0" />
                      </padding>

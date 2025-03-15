@@ -24,7 +24,7 @@ public class OwnerAccess implements AccessStrategy{
     }
 
     @Override
-    public void register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
+    public boolean register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
 
         OwnerDAO dao = new OwnerDAO();
 
@@ -36,6 +36,7 @@ public class OwnerAccess implements AccessStrategy{
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
 
     @Override
@@ -55,4 +56,34 @@ public class OwnerAccess implements AccessStrategy{
 
         return verified;
     }
+
+    @Override
+    public boolean checkPersonExistence(String username) throws SQLException{
+
+        OwnerDAO ownerDAO = new OwnerDAO();
+        Owner owner1;
+        try {
+            owner1 = ownerDAO.getOwner(username);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return (owner1 != null);
+    }
+
+    @Override
+    public boolean checkEmail(String emailEntered) throws SQLException{
+
+        boolean verified = false;
+        OwnerDAO ownerDAO = new OwnerDAO();
+
+        try {
+            verified = ownerDAO.checkEmailExistence(emailEntered);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return verified;
+    }
+
 }

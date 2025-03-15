@@ -24,7 +24,7 @@
                   </Label>
                </children>
             </StackPane>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleNewFacilityButton" prefHeight="64.0" prefWidth="238.0" stylesheets="@css/style.css" text="New facility" textFill="WHITE">
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleNewFacilityButton" prefHeight="64.0" prefWidth="238.0" stylesheets="@css/style.css" text="New facility" textFill="WHITE" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
@@ -45,9 +45,13 @@
                   </VBox>
                </content>
             </ScrollPane>
+            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="67.0" prefWidth="945.0" text="Error: text" textFill="RED" visible="false" wrapText="true">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutY="563.0" prefHeight="158.0" prefWidth="1060.0" style="-fx-background-color: white;">
+      <VBox alignment="CENTER" layoutY="626.0" prefHeight="95.0" prefWidth="1060.0" style="-fx-background-color: white;">
          <children>
             <HBox alignment="CENTER" prefHeight="24.0" prefWidth="1060.0" spacing="30.0">
                <children>

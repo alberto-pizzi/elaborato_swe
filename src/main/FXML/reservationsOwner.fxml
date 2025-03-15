@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ReservationsOwnerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ReservationsOwnerController">
    <children>
       <VBox prefHeight="590.0" prefWidth="1060.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
@@ -40,7 +40,7 @@
       </VBox>
       <VBox alignment="CENTER" layoutX="-1.0" layoutY="589.0" prefHeight="132.0" prefWidth="1060.0" style="-fx-background-color: white;">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleNewReservationButton" stylesheets="@css/style.css" text="New reservation" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#handleNewReservationButton" stylesheets="@css/style.css" text="New reservation" textFill="WHITE" wrapText="true">
                <styleClass>
                   <String fx:value="button-owner" />
                   <String fx:value="shadow" />

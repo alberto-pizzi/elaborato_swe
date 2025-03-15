@@ -22,7 +22,7 @@
                      <children>
                         <VBox>
                            <children>
-                              <Label prefHeight="70.0" prefWidth="440.0" text="Add managers" textAlignment="CENTER">
+                              <Label prefHeight="70.0" prefWidth="440.0" text="Add managers" textAlignment="CENTER" wrapText="true">
                                  <font>
                                     <Font name="System Bold" size="48.0" />
                                  </font>
@@ -41,7 +41,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </TextField>
-                              <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleSearchButton" prefHeight="41.0" prefWidth="178.0" stylesheets="@css/style.css" text="Search" textFill="WHITE">
+                              <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleSearchButton" prefHeight="41.0" prefWidth="178.0" stylesheets="@css/style.css" text="Search" textFill="WHITE" wrapText="true">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -98,7 +98,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" prefHeight="41.0" prefWidth="178.0" stylesheets="@css/style.css" text="Confirm" textFill="WHITE">
+                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" prefHeight="41.0" prefWidth="178.0" stylesheets="@css/style.css" text="Confirm" textFill="WHITE" wrapText="true">
                      <font>
                         <Font size="18.0" />
                      </font>

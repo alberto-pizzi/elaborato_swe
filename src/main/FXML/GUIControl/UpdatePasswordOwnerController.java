@@ -46,7 +46,6 @@ public class UpdatePasswordOwnerController implements Initializable {
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm modification");
-        //FIXME improve date format
         alert.setHeaderText("Confirm modifcation");
         alert.setContentText("Are you sure you want to modify the password?");
 
@@ -60,10 +59,14 @@ public class UpdatePasswordOwnerController implements Initializable {
 
                 if (!newPasswordInput.getText().isEmpty() && newPasswordInput.getText().equals(confirmPasswordInput.getText())) {
                     if (!newPasswordInput.getText().equals(currentPasswordInput.getText())) {
-                        ownerProfileController.updatePassword(newPasswordInput.getText());
-
-                        String message = "Password changed successfully!";
-                        messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                        //todo controllare allaccio
+                        if(ownerProfileController.updatePassword(newPasswordInput.getText())){
+                            String message = "Password changed successfully!";
+                            messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                        }else{
+                            String message = "An error has occurred";
+                            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                        }
                     }else{
                         String message = "Enter different password from current one.";
                         messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);

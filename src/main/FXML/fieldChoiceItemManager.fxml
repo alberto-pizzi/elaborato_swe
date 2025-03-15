@@ -24,7 +24,7 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label fx:id="fieldNameLabel" prefHeight="44.0" prefWidth="404.0" text="Field Name">
+                        <Label fx:id="fieldNameLabel" prefHeight="44.0" prefWidth="404.0" text="Field Name" wrapText="true">
                            <font>
                               <Font name="System Bold" size="28.0" />
                            </font>
@@ -67,7 +67,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="fieldPriceLabel" prefHeight="44.0" prefWidth="281.0" text="Field price" textFill="#a1a1a1">
+                              <Label fx:id="fieldPriceLabel" prefHeight="44.0" prefWidth="281.0" text="Field price" textFill="#a1a1a1" wrapText="true">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -81,7 +81,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="fieldAddressLabel" prefHeight="44.0" prefWidth="299.0" text="Field adress" textFill="#a1a1a1">
+                              <Label fx:id="fieldAddressLabel" prefHeight="44.0" prefWidth="299.0" text="Field adress" textFill="#a1a1a1" wrapText="true">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -99,7 +99,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="109.0" prefWidth="306.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#handleDetailsFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Details" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#handleDetailsFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Details" textFill="WHITE" wrapText="true">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -107,11 +107,11 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                            <styleClass>
-                              <String fx:value="login-button" />
+                              <String fx:value="manager-button" />
                               <String fx:value="shadow" />
                            </styleClass>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="See reservations" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="See reservations" textFill="WHITE" wrapText="true">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -119,11 +119,11 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                            <styleClass>
-                              <String fx:value="login-button" />
+                              <String fx:value="manager-button" />
                               <String fx:value="shadow" />
                            </styleClass>
                         </Button>
-                        <Button layoutX="10.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleReservationFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Make a reservation" textFill="WHITE">
+                        <Button layoutX="10.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleReservationFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Make a reservation" textFill="WHITE" wrapText="true">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -132,7 +132,7 @@
                            </padding>
                            <styleClass>
                               <String fx:value="shadow" />
-                              <String fx:value="login-button" />
+                              <String fx:value="manager-button" />
                            </styleClass>
                         </Button>
                      </children>

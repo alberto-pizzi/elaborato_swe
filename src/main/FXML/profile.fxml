@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ProfileMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ProfileMenuController">
    <children>
       <BorderPane fx:id="profileMenuPane" prefHeight="570.0" prefWidth="1180.0">
          <left>
@@ -18,7 +18,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="191.0" prefWidth="108.0">
                      <children>
-                        <Label fx:id="welcomeMessageLabel" text="Hi, username!">
+                        <Label fx:id="welcomeMessageLabel" text="Hi, username!" wrapText="true">
                            <font>
                               <Font name="System Bold Italic" size="24.0" />
                            </font>
@@ -27,7 +27,7 @@
                   </VBox>
                   <VBox prefHeight="325.0" prefWidth="264.0">
                      <children>
-                        <Button fx:id="usernameProfileButton" mnemonicParsing="false" onAction="#handleUsernameButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Username">
+                        <Button fx:id="usernameProfileButton" mnemonicParsing="false" onAction="#handleUsernameButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Username" wrapText="true">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -45,7 +45,7 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="emailProfileButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleEmailButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Email">
+                        <Button fx:id="emailProfileButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleEmailButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Email" wrapText="true">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -63,7 +63,7 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="passwordProfileButton" alignment="CENTER" mnemonicParsing="false" onAction="#handlePasswordButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Password">
+                        <Button fx:id="passwordProfileButton" alignment="CENTER" mnemonicParsing="false" onAction="#handlePasswordButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Password" wrapText="true">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -81,7 +81,7 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="addressProfileButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddressButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Address">
+                        <Button fx:id="addressProfileButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddressButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Address" wrapText="true">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -99,7 +99,7 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button id="delete" fx:id="deleteProfileButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleDeleteProfileButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Delete Profile">
+                        <Button id="delete" fx:id="deleteProfileButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleDeleteProfileButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Delete Profile" wrapText="true">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -117,7 +117,11 @@
                               <Insets top="40.0" />
                            </VBox.margin>
                         </Button>
-                        <Button id="delete" fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Logout">
+                        <Label fx:id="messageLabel" alignment="CENTER" minHeight="40.0" prefHeight="40.0" prefWidth="266.0" text="Error: text" textFill="RED" visible="false" wrapText="true">
+                           <font>
+                              <Font size="16.0" />
+                           </font></Label>
+                        <Button id="delete" fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="41.0" prefWidth="267.0" styleClass="profile-menu" stylesheets="@css/style.css" text="Logout" wrapText="true">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -132,7 +136,7 @@
                               <Insets />
                            </opaqueInsets>
                            <VBox.margin>
-                              <Insets bottom="10.0" top="40.0" />
+                              <Insets bottom="10.0" top="20.0" />
                            </VBox.margin>
                         </Button>
                      </children>

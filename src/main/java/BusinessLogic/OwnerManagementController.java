@@ -3,10 +3,8 @@ package main.java.BusinessLogic;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,9 +12,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static main.java.DomainModel.NotificationType.DELETION;
-
-public class OwnerManagementController {
+public class OwnerManagementController extends ManagerOwnerManagementController{
 
     private Owner owner;
 
@@ -130,14 +126,6 @@ public class OwnerManagementController {
         return users;
     }
 
-    public ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
-        ArrayList<User> users = new ArrayList<>();
-        UserDAO userDAO = new UserDAO();
-
-        users.addAll(userDAO.getUsersByProvinceSearch(provinceUser));
-        return users;
-    }
-
     public ArrayList<User> searchManagersByProvince(String provinceUser, int facilityId) throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         ManagesDAO managesDAO = new ManagesDAO();
@@ -160,15 +148,6 @@ public class OwnerManagementController {
             found = false;
         }
         return notManagers;
-    }
-
-    public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
-
-        ArrayList<User> users = new ArrayList<>();
-        UserDAO userDAO = new UserDAO();
-
-        users.addAll(userDAO.getUsersByUsernameSearch(searchUsername));
-        return users;
     }
 
     public ArrayList<User> searchManagersByUsername(String searchUsername, int facilityId) throws SQLException, ClassNotFoundException {
@@ -206,14 +185,25 @@ public class OwnerManagementController {
         managesDAO.detachManager(idUser, idFacility);
     }
 
-    public  void deleteField(int idField) throws SQLException, ClassNotFoundException {
-        FieldDao fieldDao = new FieldDao();
-        fieldDao.deleteField(idField);
+    public boolean deleteField(int idField) throws SQLException{
+        try {
+            FieldDao fieldDao = new FieldDao();
+            fieldDao.deleteField(idField);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
+
     }
 
-    public  void addField(Field field) throws SQLException, ClassNotFoundException {
-        FieldDao fieldDao = new FieldDao();
-        fieldDao.addField(field);
+    public boolean addField(Field field) throws SQLException{
+        try {
+            FieldDao fieldDao = new FieldDao();
+            fieldDao.addField(field);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
     public  void addSport(Sport sport) throws SQLException, ClassNotFoundException {
@@ -226,39 +216,58 @@ public class OwnerManagementController {
         return sportDao.getAllSport();
     }
 
-    public void addFacility(Facility facility) throws SQLException, ClassNotFoundException {
-        FacilityDAO facilityDao = new FacilityDAO();
-        facility.setOwner(owner);
-        facilityDao.addFacility(facility.getName(), facility.getAddress(), facility.getCity(), facility.getProvince(), facility.getZip(), facility.getCountry(), facility.getTelephone(), facility.getImage(), facility.getOwner().getId());
+    public boolean addFacility(Facility facility) throws SQLException {
+        try {
+            FacilityDAO facilityDao = new FacilityDAO();
+            facility.setOwner(owner);
+            facilityDao.addFacility(facility.getName(), facility.getAddress(), facility.getCity(), facility.getProvince(), facility.getZip(), facility.getCountry(), facility.getTelephone(), facility.getImage(), facility.getOwner().getId());
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
-    public void updateFacility(Facility facility) throws SQLException {
-        FacilityDAO facilityDAO = new FacilityDAO();
-        facilityDAO.updateName(facility.getId(), facility.getName());
-        facilityDAO.updateAddress(facility.getId(), facility.getAddress());
-        facilityDAO.updateCity(facility.getId(), facility.getCity());
-        facilityDAO.updateProvince(facility.getId(), facility.getProvince());
-        facilityDAO.updateZip(facility.getId(), facility.getZip());
-        facilityDAO.updateCountry(facility.getId(), facility.getCountry());
-        facilityDAO.updateTelephone(facility.getId(), facility.getTelephone());
-        facilityDAO.updateImage(facility.getId(), facility.getImage());
-        facilityDAO.updateNFields(facility.getId(), facility.getNFields());
-        facilityDAO.updateNManagers(facility.getId(), facility.getNManager());
+    public boolean updateFacility(Facility facility) throws SQLException {
+        try {
+            FacilityDAO facilityDAO = new FacilityDAO();
+            facilityDAO.updateName(facility.getId(), facility.getName());
+            facilityDAO.updateAddress(facility.getId(), facility.getAddress());
+            facilityDAO.updateCity(facility.getId(), facility.getCity());
+            facilityDAO.updateProvince(facility.getId(), facility.getProvince());
+            facilityDAO.updateZip(facility.getId(), facility.getZip());
+            facilityDAO.updateCountry(facility.getId(), facility.getCountry());
+            facilityDAO.updateTelephone(facility.getId(), facility.getTelephone());
+            facilityDAO.updateImage(facility.getId(), facility.getImage());
+            facilityDAO.updateNFields(facility.getId(), facility.getNFields());
+            facilityDAO.updateNManagers(facility.getId(), facility.getNManager());
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
+
     }
 
-    public void deleteFacility(int idFacility) throws SQLException {
-
-        FacilityDAO facilityDAO = new FacilityDAO();
-
-        facilityDAO.deleteFacility(idFacility);
+    public boolean deleteFacility(int idFacility) throws SQLException {
+        try {
+            FacilityDAO facilityDAO = new FacilityDAO();
+            facilityDAO.deleteFacility(idFacility);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
-    public void updateField(Field field) throws SQLException, ClassNotFoundException {
-        FieldDao fieldDao = new FieldDao();
-        fieldDao.updateName(field.getId(), field.getName());
-        fieldDao.updateDescription(field.getId(), field.getDescription());
-        fieldDao.updatePrice(field.getId(), field.getPrice());
-        fieldDao.updateSport(field.getId(), field.getSport().getId());
+    public boolean updateField(Field field) throws SQLException {
+        try {
+            FieldDao fieldDao = new FieldDao();
+            fieldDao.updateName(field.getId(), field.getName());
+            fieldDao.updateDescription(field.getId(), field.getDescription());
+            fieldDao.updatePrice(field.getId(), field.getPrice());
+            fieldDao.updateSport(field.getId(), field.getSport().getId());
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
     public void addWorkingHours(int idFacility, String openingHour, String closingHour, String day) throws SQLException, ParseException {

@@ -100,7 +100,6 @@ public class ReservationItemController {
 
         String buttonFXMLsrc = "";
         //Both have same GUI controller
-        //todo controllare  funzione
         if (userActionsController.editRights(reservation)) {
             buttonFXMLsrc = "/main/FXML/managementButtons.fxml";
         } else {

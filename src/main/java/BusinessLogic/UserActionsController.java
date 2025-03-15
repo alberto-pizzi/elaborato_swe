@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -138,7 +139,7 @@ public class UserActionsController extends PersonController<User>{
 
         Boolean pass = true;
         Group group = groupDao.getGroupByReservation(reservation.getId());
-        //todo Da finire
+
         if(group.getGroupHead().getId() != person.getId()) {
             pass = false;
         }

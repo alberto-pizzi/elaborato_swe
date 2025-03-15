@@ -5,22 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.FileChooser;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class NewFacilityController {
+public class NewFacilityController extends MediaManagerController {
 
     @FXML
     private TextField addressInput;
@@ -33,13 +25,6 @@ public class NewFacilityController {
 
     @FXML
     private TextField countryInput;
-
-    @FXML
-    private ImageView imageLabel;
-
-
-    @FXML
-    private Label messageLabel;
 
     @FXML
     private TextField nameInput;
@@ -55,18 +40,12 @@ public class NewFacilityController {
 
     private Facility facility = new Facility();;
 
-    private BorderPane menuPane;
-
-    private String imageName;
-
-    FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm facility");
-        //FIXME improve date format
         alert.setHeaderText("Confirm facility");
         alert.setContentText("Are you sure you want to add this facility?");
 
@@ -85,17 +64,23 @@ public class NewFacilityController {
                 facility.setCountry(countryInput.getText());
                 facility.setTelephone(phoneInput.getText());
                 facility.setZip(zipInput.getText());
-                ownerManagementController.addFacility(facility);
+                //todo controllare allaccio
+                if(ownerManagementController.addFacility(facility)){
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newWorkingHours.fxml"));
+                    Parent newWorkHours = loader.load();
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newWorkingHours.fxml"));
-                Parent newWorkHours = loader.load();
+                    NewWorkingHoursController newWorkingHoursController = loader.getController();
+                    newWorkingHoursController.setData(facility,this.menuPane);
 
-                NewWorkingHoursController newWorkingHoursController = loader.getController();
-                newWorkingHoursController.setData(facility,this.menuPane);
-
-                menuPane.setCenter(newWorkHours);
+                    menuPane.setCenter(newWorkHours);
+                    System.out.println("Facility created");
+                }else{
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                }
             }else {
-                messageLabel.setText("Please enter all the fields");
+                String message = "Please enter all the fields";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 
         } else if(result.get() == ButtonType.CANCEL){
@@ -103,61 +88,12 @@ public class NewFacilityController {
         }
     }
 
-    public void setData(BorderPane menuPane) throws IOException, SQLException {
-
-        this.menuPane = menuPane;
-    }
-
     @FXML
     void handleUploadImageButton(ActionEvent event) {
-
-        FileChooser fileChooser = new FileChooser();
-
-        fileChooser.setTitle("Select the image you want to upload");
-        fileChooser.setInitialDirectory(new File("C:\\"));
-        fileChooser.getExtensionFilters().add(ex1);
-        File selectedFile = fileChooser.showOpenDialog(menuPane.getScene().getWindow());
-        if (selectedFile != null) {
-            System.out.println("Open File");
-            System.out.println(selectedFile.getPath());
-            File copiedImage = new File( "src/main/FXML/img/facilities/"  + selectedFile.getName());
-            imageName = selectedFile.getName();
-
-            try {
-                if (copiedImage.createNewFile()) {
-                    System.out.println("File created: " + copiedImage.getName());
-                } else {
-                    System.out.println("File already exists.");
-                }
-            } catch (IOException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
-            }
-            FileChannel sourceChannel = null;
-            FileChannel destChannel = null;
-            try {
-                sourceChannel = new FileInputStream(selectedFile).getChannel();
-                destChannel = new FileOutputStream(copiedImage).getChannel();
-                destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } finally{
-                try {
-                    assert sourceChannel != null;
-                    sourceChannel.close();
-                    assert destChannel != null;
-                    destChannel.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            String pathFromRoot = "/main/FXML/img/facilities/";
-            Image image = new Image(getClass().getResourceAsStream(pathFromRoot + copiedImage.getName()));
-
-            imageLabel.setImage(image);
+        folderName = "facilities";
+        if(uploadImage()){
             facility.setImage(imageName);
         }
-
     }
 
 }

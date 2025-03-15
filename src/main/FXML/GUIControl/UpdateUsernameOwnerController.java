@@ -3,13 +3,12 @@ package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import main.java.BusinessLogic.AccessController;
+import main.java.BusinessLogic.OwnerAccess;
 import main.java.BusinessLogic.OwnerProfileController;
+import main.java.BusinessLogic.UserAccess;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -21,12 +20,12 @@ public class UpdateUsernameOwnerController implements Initializable {
     private Button confirmButton;
 
     @FXML
-    private Label errorLabel;
+    private Label messageLabel;
 
     @FXML
     private TextField usernameInput;
 
-
+    private MessagesController messagesController;
 
     //methods
 
@@ -35,7 +34,7 @@ public class UpdateUsernameOwnerController implements Initializable {
 
         OwnerProfileController ownerProfileController = new OwnerProfileController();
         usernameInput.setText(ownerProfileController.getUsername());
-
+        messagesController = new MessagesController(messageLabel);
     }
 
     @FXML
@@ -44,27 +43,32 @@ public class UpdateUsernameOwnerController implements Initializable {
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm modification");
-        //FIXME improve date format
-        alert.setHeaderText("Confirm modifcation");
+        alert.setHeaderText("Confirm modification");
         alert.setContentText("Are you sure you want to modify the username?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
             OwnerProfileController ownerProfileController = new OwnerProfileController();
+            AccessController accessController = new AccessController(new OwnerAccess());
+
             boolean userExists = false;
             if (!usernameInput.getText().isEmpty()) {
 
-                userExists = ownerProfileController.checkPersonExistence(usernameInput.getText());
+                userExists = accessController.checkPersonExistence(usernameInput.getText());
                 if (!userExists) {
-                    errorLabel.setVisible(false);
-                    ownerProfileController.updateUsername(usernameInput.getText());
-                    System.out.println("User updated, new username is: " + usernameInput.getText());
-                    System.out.println("Username confirmed");
+                    //todo controllare allaccio
+                    if(ownerProfileController.updateUsername(usernameInput.getText())){
+                        String message = "User updated, new username is: " + usernameInput.getText();
+                        messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                    }else{
+                        String message = "An error has occurred";
+                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    }
                 }
                 else{
-                    errorLabel.setText("Username already exists");
-                    errorLabel.setVisible(true);
+                    String message = "Username already exists";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
 
             }
