@@ -67,28 +67,32 @@ public class LoginControllerOwner implements Initializable {
         AccessController access = null;
         boolean verified = false;
         Person person = null;
-
-        access = new AccessController(new OwnerAccess());
-        System.out.println("Owner ");
-
-        verified = access.checkPassword(username.getText(), password.getText());
-        if (!verified) {
-            String message = "Wrong password or username, forgot password?";
+        if(password.getText().isEmpty() || username.getText().isEmpty()) {
+            String message = "Please enter a valid username/password";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }else{
-            System.out.println("login done");
-            person = access.login(username.getText());
-            sessionController.setPerson(person);
-            try {
-                pane.getChildren().removeAll();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/menuPaneOwner.fxml"));
-                Parent view = loader.load();
-                pane.getChildren().add(view);
-            } catch (Exception e) {
-                e.printStackTrace();
+
+            access = new AccessController(new OwnerAccess());
+            System.out.println("Owner ");
+
+            verified = access.checkPassword(username.getText(), password.getText());
+            if (!verified) {
+                String message = "Wrong password or username, forgot password?";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            }else{
+                System.out.println("login done");
+                person = access.login(username.getText());
+                sessionController.setPerson(person);
+                try {
+                    pane.getChildren().removeAll();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/menuPaneOwner.fxml"));
+                    Parent view = loader.load();
+                    pane.getChildren().add(view);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
-
     }
 
     @FXML
