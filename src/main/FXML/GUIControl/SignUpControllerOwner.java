@@ -79,7 +79,7 @@ public class SignUpControllerOwner implements Initializable {
         access = new AccessController(new OwnerAccess());
         System.out.println("Owner ");
         //FIXME fix text field texts
-        if(!(password == null || username == null || email == null)) {
+        if(!(password.getText().isEmpty() || username.getText().isEmpty() || email.getText().isEmpty() || province.getText().isEmpty())) {
             if(password.getText().equals(passwordConfirmed.getText())) {
 
                 if(access.checkEmail(email.getText())){
