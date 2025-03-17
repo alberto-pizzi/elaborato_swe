@@ -48,7 +48,7 @@ public class UpdatePasswordController implements Initializable {
         UserProfileController userProfileController = new UserProfileController();
 
         AccessController accessController = new AccessController(new UserAccess());
-        if (!currentPasswordInput.getText().isEmpty() && accessController.checkPassword(userProfileController.getUser().getUsername(), currentPasswordInput.getText())) {
+        if (!currentPasswordInput.getText().isEmpty() && accessController.checkPassword(userProfileController.getPerson().getUsername(), currentPasswordInput.getText())) {
 
             if (!newPasswordInput.getText().isEmpty() && newPasswordInput.getText().equals(confirmPasswordInput.getText())) {
                 if (!newPasswordInput.getText().equals(currentPasswordInput.getText())) {

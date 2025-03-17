@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import main.java.BusinessLogic.OwnerProfileController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.BusinessLogic.UserProfileController;
 
@@ -92,7 +91,7 @@ public class ProfileMenuController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
             UserProfileController userProfileController = new UserProfileController();
-            if( userProfileController.deleteProfile(userProfileController.getUser().getUsername())){
+            if( userProfileController.deleteProfile()){
                 System.out.println("Deleted!");
                 handleLogoutButton(event);
             }else{

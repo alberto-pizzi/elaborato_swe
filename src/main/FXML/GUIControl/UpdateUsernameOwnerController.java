@@ -15,25 +15,16 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class UpdateUsernameOwnerController implements Initializable {
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private Label messageLabel;
-
-    @FXML
-    private TextField usernameInput;
-
-    private MessagesController messagesController;
+public class UpdateUsernameOwnerController extends UpdateUsername {
 
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        OwnerProfileController ownerProfileController = new OwnerProfileController();
-        usernameInput.setText(ownerProfileController.getUsername());
+        super.initialize(location, resources);
+        profileController = new OwnerProfileController();
+        usernameInput.setText(profileController.g());
         messagesController = new MessagesController(messageLabel);
     }
 

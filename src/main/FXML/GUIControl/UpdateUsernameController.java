@@ -16,23 +16,14 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class UpdateUsernameController implements Initializable {
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private Label messageLabel;
-
-    @FXML
-    private TextField usernameInput;
-
-    MessagesController messagesController;
+public class UpdateUsernameController extends UpdateUsername {
 
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        super.initialize(location, resources);
         UserActionsController userActionsController = new UserActionsController();
 
         usernameInput.setText(userActionsController.getPerson().getUsername());

@@ -113,10 +113,15 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
         users.addAll(searchUsersByProvince(provinceUser));
         ArrayList<User> managingAlready= managesDAO.getAllManagersByFacility(facilityId);
+
+        return notManagers(users, managingAlready);
+    }
+
+    protected ArrayList<User> notManagers(ArrayList<User> users, ArrayList<User> managers){
         ArrayList<User> notManagers = new ArrayList<>();
         Boolean found = false;
         for (User user : users) {
-            for (User alreadyIn : managingAlready){
+            for (User alreadyIn : managers){
                 if (user.getId() == alreadyIn.getId()){
                     found = true;
                     break;
@@ -137,21 +142,8 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
         users.addAll(searchUsersByUsername(searchUsername));
         ArrayList<User> managingAlready= managesDAO.getAllManagersByFacility(facilityId);
-        ArrayList<User> notManagers = new ArrayList<>();
-        Boolean found = false;
-        for (User user : users) {
-            for (User alreadyIn : managingAlready){
-                if (user.getId() == alreadyIn.getId()){
-                    found = true;
-                    break;
-                }
-            }
-            if (!found){
-                notManagers.add(user);
-            }
-            found = false;
-        }
-        return notManagers;
+
+        return notManagers(users, managingAlready);
     }
 
     public void attachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {
