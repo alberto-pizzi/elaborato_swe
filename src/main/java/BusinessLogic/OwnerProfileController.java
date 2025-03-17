@@ -6,7 +6,7 @@ import main.java.ORM.OwnerDAO;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
-public class OwnerProfileController extends ProfileController {
+public class OwnerProfileController implements ProfileController {
     //attributes
     private Owner owner;
 

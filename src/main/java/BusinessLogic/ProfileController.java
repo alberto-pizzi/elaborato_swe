@@ -6,30 +6,25 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
-public abstract class ProfileController {
+public interface ProfileController {
 
     //methods
-    public abstract boolean updateUsername(String newUsername) throws SQLException;
+    boolean updateUsername(String newUsername) throws SQLException;
 
-    public abstract boolean updatePassword(String newPassword) throws SQLException, NoSuchAlgorithmException;;
+    boolean updatePassword(String newPassword) throws SQLException, NoSuchAlgorithmException;;
 
-    public abstract boolean updateEmail(String newEmail) throws SQLException;
+    boolean updateEmail(String newEmail) throws SQLException;
 
-    public  abstract boolean deleteProfile(String username) throws SQLException;
+    boolean deleteProfile(String username) throws SQLException;
 
-    public abstract boolean updateCity(String newCity) throws SQLException;
+    boolean updateCity(String newCity) throws SQLException;
 
-    public abstract boolean updateProvince(String newProvince) throws SQLException;
+    boolean updateProvince(String newProvince) throws SQLException;
 
-    public abstract boolean updateZip(String newZip) throws SQLException;
+    boolean updateZip(String newZip) throws SQLException;
 
-    public abstract boolean updateCountry(String newCountry) throws SQLException;
-
-    //TODO check correctness and optimize (for owner and user)
-    public boolean checkPassword(String username, String passwordEntered) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
-        return userDAO.checkPassword(username,passwordEntered);
-    }
+    boolean updateCountry(String newCountry) throws SQLException;
+    
 
 
 }

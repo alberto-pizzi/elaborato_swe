@@ -10,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class UserProfileController extends ProfileController {
+public class UserProfileController implements ProfileController {
     //attributes
     private User user;
 
