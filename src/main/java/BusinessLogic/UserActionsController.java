@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Date;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -58,12 +57,6 @@ public class UserActionsController extends PersonController<User>{
     }
 
     //FIXME input change
-    public ArrayList <User> findOtherPlayers() throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
-        return userDAO.getUsersByProvince(this.person.getProvince());
-    }
-
-    //FIXME input change
     public ArrayList<User> searchInvitablePlayers(Reservation reservation, Boolean searched, String searchText) throws SQLException, ClassNotFoundException {
 
         GroupDao groupDao = new GroupDao();
@@ -97,39 +90,36 @@ public class UserActionsController extends PersonController<User>{
     //TODO should be changed output type into boolean for manage success or error banner by caller?
     //TODO move to PersonController (with its own overrides)
     @Override
-    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, ArrayList<String> accounts) throws SQLException, ClassNotFoundException {
+    public boolean addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();
-
         GroupDao groupDao = new GroupDao();
-
-        //TODO add reservation check
 
         Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field,!isMatched,isMatched);
 
-        int newReservationId = reservationDao.addReservation(reservation);
-        reservation.setId(newReservationId); //WARNING: it's very important
+        if (checkReservationData(reservation)) {
+            int newReservationId = reservationDao.addReservation(reservation);
+            reservation.setId(newReservationId); //WARNING: it's very important
 
-        //group creation
-        Group group = new Group(person,reservation, requiredParticipants);
-        int newGroupId = groupDao.addGroup(group);
-        group.setId(newGroupId); //WARNING: it's very important
-        joinGroup(newGroupId,guests);
+            //group creation
+            Group group = new Group(person, reservation, requiredParticipants);
+            if (checkGroupData(group)) {
+                int newGroupId = groupDao.addGroup(group);
+                group.setId(newGroupId); //WARNING: it's very important
+                joinGroup(newGroupId, guests);
 
-        if (isMatched) {
-            sendInvites(group, findOtherPlayers());
-        }
-
-        UserDAO userDAO = new UserDAO();
-
-        //sends invites to users into inviteList (draft)
-        for (String accountUsername : accounts){
-            if (accountUsername != null) {
-                sendInvite(reservation, userDAO.getUserID(accountUsername)); //TODO could be better by username than by id?
+                if (isMatched) {
+                    sendInvites(group, findOtherPlayers(this.person.getProvince()));
+                }
             }
+            else
+                return false;
+
+            System.out.println("Reservation has been added into DB");
+            return true;
         }
 
-        System.out.println("Reservation has been added into DB");
+        return false;
 
     }
 

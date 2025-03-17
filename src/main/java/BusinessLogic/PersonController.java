@@ -7,12 +7,13 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static main.java.DomainModel.NotificationType.DELETION;
 import static main.java.DomainModel.NotificationType.MODIFICATION;
 
-public class PersonController<T extends Person> {
+public abstract class PersonController<T extends Person> {
 
     protected T person;
 
@@ -59,11 +60,7 @@ public class PersonController<T extends Person> {
         return workingHoursDAO.getWHsByFacilityByDay(idFacility,dayOfWeek);
     }
 
-    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, ArrayList<String> accounts) throws SQLException, ClassNotFoundException {
-        //TODO implement (base method)
-        System.out.println("Adding reservation. Base method.");
-    }
-
+    public abstract boolean addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched) throws SQLException, ClassNotFoundException;
 
         //TODO add group as parameter and its updates
     public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
@@ -103,6 +100,11 @@ public class PersonController<T extends Person> {
 
     }
 
+    public ArrayList <User> findOtherPlayers(String userProvince) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        return userDAO.getUsersByProvince(userProvince);
+    }
+
     //TODO is it useful?
     public static int getMaxAddableGuestsForMatched(Group group, int idReservation, int userId, boolean considerHimself) throws SQLException, ClassNotFoundException {
         int actualGuestsByUser = PersonController.getUserGuests(idReservation,userId);
@@ -122,6 +124,45 @@ public class PersonController<T extends Person> {
         Group group = groupDao.getGroupByReservation(idReservation);
         isPartDao.updateGuestsUsers(group.getId(),userId,guestNewNumber);
     }
+
+    public boolean checkReservationData(Reservation reservation){
+
+        boolean goodToGo = true;
+
+        if (reservation == null || reservation.getField() == null)
+            return false;
+
+        if (reservation.getEventDate() == null || reservation.getEventDate().toLocalDate().isBefore(LocalDate.now()))
+            goodToGo = false;
+
+        if (reservation.getEventTimeEnd() == null || reservation.getEventTimeStart() == null || reservation.getEventTimeEnd().toLocalTime().isBefore(reservation.getEventTimeStart().toLocalTime()))
+            goodToGo = false;
+
+
+        return goodToGo;
+    }
+
+    public boolean checkGroupData(Group group){
+
+        boolean goodToGo = true;
+
+        if (group == null)
+            return false;
+
+        if (group.getReservation() == null) //TODO insert also || group.getReservation().getId() <= 0 ?
+            goodToGo = false;
+
+        if (group.getRequiredParticipants() < 0)
+            goodToGo = false;
+
+        if (group.getReservation().isMatched() && group.getRequiredParticipants() < group.getParticipants())
+            goodToGo = false;
+
+
+
+        return goodToGo;
+    }
+
 
     //TODO is it correct? Maybe yes
     public static Group getGroupByReservation(int idReservation) throws SQLException, ClassNotFoundException {

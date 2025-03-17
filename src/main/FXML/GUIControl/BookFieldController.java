@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.*;
 
 import java.sql.Date;
@@ -144,13 +143,18 @@ public class BookFieldController extends FieldFormManagementController implement
         else{
             System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
 
-            ArrayList<String> accounts = new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems());
             int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
-            personController.addReservation(eventDate,eventStartTime,eventEndTime,field,guests, totalPeople, isMatchingCheckBox.isSelected(), accounts);
-            System.out.println("Booking done");
+            boolean reservationAdded = personController.addReservation(eventDate,eventStartTime,eventEndTime,field,guests, totalPeople, isMatchingCheckBox.isSelected());
 
-            messagesController.showMessage("Booking done successfully", MessagesController.MessageType.SUCCESS,5);
-            actionsAfterAdd();
+            if (reservationAdded) {
+                System.out.println("Booking done");
+
+                messagesController.showMessage("Booking done successfully", MessagesController.MessageType.SUCCESS,5);
+                actionsAfterAdd();
+            }
+            else
+                messagesController.showMessage("Booking failed", MessagesController.MessageType.ERROR,5);
+
         }
 
     }

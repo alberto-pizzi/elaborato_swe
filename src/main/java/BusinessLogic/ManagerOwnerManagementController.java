@@ -75,10 +75,48 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
     }
 
     @Override
-    public void addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, ArrayList<String> accounts) throws SQLException, ClassNotFoundException {
-        //TODO implement (MangerOwner method) Force adding.
-        System.out.println("Adding reservation. MangerOwner method.");
+    public boolean addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched) throws SQLException, ClassNotFoundException {
+
+        /*
+        ReservationDao reservationDao = new ReservationDao();
+        GroupDao groupDao = new GroupDao();
+
+        Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field,!isMatched,isMatched);
+
+        if (checkReservationData(reservation)) {
+            int newReservationId = reservationDao.addReservation(reservation);
+            reservation.setId(newReservationId); //WARNING: it's very important
+
+
+
+            //group creation
+            Group group = new Group(person, reservation, requiredParticipants);
+            if (checkGroupData(group)) {
+                int newGroupId = groupDao.addGroup(group);
+                group.setId(newGroupId); //WARNING: it's very important
+                joinGroup(newGroupId, guests);
+
+                if (isMatched) {
+                    sendInvites(group, findOtherPlayers(field.getFacility().getProvince()));
+                }
+            }
+            else
+                return false;
+
+            System.out.println("Reservation has been added into DB");
+            return true;
+        }
+
+        return false;
+
+         */
+
+        return false;
+
+        //TODO remove comments
+
     }
+
 
     public void changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
