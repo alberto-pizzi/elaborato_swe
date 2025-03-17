@@ -54,32 +54,19 @@ public class UpdateAddressOwnerController implements Initializable {
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException {
-
-        System.out.println("Confirm button clicked: ");
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm modification");
-        alert.setHeaderText("Confirm modifcation");
-        alert.setContentText("Are you sure you want to modify the address?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.get() == ButtonType.OK){
-
-            if (!provinceInput.getText().isEmpty() && !cityInput.getText().isEmpty() && !countryInput.getText().isEmpty() && !zipInput.getText().isEmpty()) {
-                //todo controllare allaccio
-                if(ownerProfileController.updateProvince(provinceInput.getText()) && ownerProfileController.updateCity(cityInput.getText()) && ownerProfileController.updateCountry(countryInput.getText()) && ownerProfileController.updateZip(zipInput.getText())){
-                    String message = "Address edited successfully!";
-                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-                }else{
-                    String message = "An error has occurred";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-                }
-            }else {
-                String message = "Please fill all the fields.";
+        //todo non tutto è not null
+        if (!provinceInput.getText().isEmpty() && !cityInput.getText().isEmpty() && !countryInput.getText().isEmpty() && !zipInput.getText().isEmpty()) {
+            //todo controllare allaccio
+            if(ownerProfileController.updateProvince(provinceInput.getText()) && ownerProfileController.updateCity(cityInput.getText()) && ownerProfileController.updateCountry(countryInput.getText()) && ownerProfileController.updateZip(zipInput.getText())){
+                String message = "Address edited successfully!";
+                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+            }else{
+                String message = "An error has occurred";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
-
-        } else if(result.get() == ButtonType.CANCEL){
-            System.out.println("Cancel!");
+        }else {
+            String message = "Please fill all the fields.";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
 }

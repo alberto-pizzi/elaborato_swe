@@ -40,41 +40,28 @@ public class UpdateUsernameOwnerController implements Initializable {
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        System.out.println("Confirm button clicked: ");
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm modification");
-        alert.setHeaderText("Confirm modification");
-        alert.setContentText("Are you sure you want to modify the username?");
+        OwnerProfileController ownerProfileController = new OwnerProfileController();
+        AccessController accessController = new AccessController(new OwnerAccess());
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.get() == ButtonType.OK){
+        boolean userExists = false;
+        if (!usernameInput.getText().isEmpty()) {
 
-            OwnerProfileController ownerProfileController = new OwnerProfileController();
-            AccessController accessController = new AccessController(new OwnerAccess());
-
-            boolean userExists = false;
-            if (!usernameInput.getText().isEmpty()) {
-
-                userExists = accessController.checkPersonExistence(usernameInput.getText());
-                if (!userExists) {
-                    //todo controllare allaccio
-                    if(ownerProfileController.updateUsername(usernameInput.getText())){
-                        String message = "User updated, new username is: " + usernameInput.getText();
-                        messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-                    }else{
-                        String message = "An error has occurred";
-                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-                    }
-                }
-                else{
-                    String message = "Username already exists";
+            userExists = accessController.checkPersonExistence(usernameInput.getText());
+            if (!userExists) {
+                //todo controllare allaccio
+                if(ownerProfileController.updateUsername(usernameInput.getText())){
+                    String message = "User updated, new username is: " + usernameInput.getText();
+                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                }else{
+                    String message = "An error has occurred";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
-
+            }
+            else{
+                String message = "Username already exists";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 
-        } else if(result.get() == ButtonType.CANCEL){
-            System.out.println("Cancel!");
         }
 
     }

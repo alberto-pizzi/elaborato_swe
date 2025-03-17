@@ -39,41 +39,28 @@ public class UpdateEmailOwnerController implements Initializable {
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        System.out.println("Confirm button clicked: ");
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm modification");
-        alert.setHeaderText("Confirm modifcation");
-        alert.setContentText("Are you sure you want to modify the email?");
+        if (emailInput.getText().isEmpty()) {
+            String message = "Please enter a valid email";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+        } else {
+            OwnerProfileController ownerProfileController = new OwnerProfileController();
+            AccessController accessController = new AccessController(new OwnerAccess());
+            boolean emailExistence = accessController.checkEmail(emailInput.getText());
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.get() == ButtonType.OK){
-
-            if (emailInput.getText().isEmpty()) {
-                String message = "Please enter a valid email";
-                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-            } else {
-                OwnerProfileController ownerProfileController = new OwnerProfileController();
-                AccessController accessController = new AccessController(new OwnerAccess());
-                boolean emailExistence = accessController.checkEmail(emailInput.getText());
-
-                if (!emailExistence) {
-                    //todo controllare allaccio
-                    if(ownerProfileController.updateEmail(emailInput.getText())){
-                        String message = "Email updated successfully";
-                        messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-                    }else{
-                        String message = "An error has occurred";
-                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-                    }
-                } else {
-                    String message = "This email is already in use";
+            if (!emailExistence) {
+                //todo controllare allaccio
+                if(ownerProfileController.updateEmail(emailInput.getText())){
+                    String message = "Email updated successfully";
+                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                }else{
+                    String message = "An error has occurred";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
-
+            } else {
+                String message = "This email is already in use";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 
-        } else if(result.get() == ButtonType.CANCEL){
-            System.out.println("Cancel!");
         }
 
     }

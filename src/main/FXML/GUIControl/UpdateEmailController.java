@@ -65,9 +65,7 @@ public class UpdateEmailController implements Initializable {
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 
-
-        }
-        else{
+        }else{
 
             String message = "Please enter a valid email";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);

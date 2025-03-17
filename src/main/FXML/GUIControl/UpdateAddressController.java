@@ -54,6 +54,7 @@ public class UpdateAddressController implements Initializable {
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException {
+        //todo non tutto è not null
         if (!provinceInput.getText().isEmpty() && !cityInput.getText().isEmpty() && !countryInput.getText().isEmpty() && !zipInput.getText().isEmpty()) {
             UserProfileController userProfileController = new UserProfileController();
             //todo controllare allaccio
