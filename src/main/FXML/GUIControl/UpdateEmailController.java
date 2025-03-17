@@ -51,7 +51,6 @@ public class UpdateEmailController implements Initializable {
             boolean emailExistence = accessController.checkEmail(emailInput.getText());
 
             if (!emailExistence) {
-                //todo controllare allaccio
                 if(userProfileController.updateEmail(emailInput.getText())){
                     String message = "Email updated! New email is: " + emailInput.getText();
                     messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);

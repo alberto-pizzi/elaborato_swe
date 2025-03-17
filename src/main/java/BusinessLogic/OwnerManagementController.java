@@ -35,25 +35,6 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         this.owner = owner;
     }
 
-    public void addFacility(){
-
-    }
-
-    public void deleteFacility(){
-
-    }
-
-    //todo controllare queste funzioni
-    public void editFacility(){}
-
-    public void editField(){}
-
-    public void attachManagerToFacility(){}
-
-    public void detachManagerToFacility(){}
-
-    public void getAllFacilityManagers(){}
-
     public int dailyEarning() throws SQLException {
         ReservationDao reservationDao = new ReservationDao();
         return reservationDao.DailyEarning(Date.valueOf(LocalDate.now()), owner);
@@ -131,7 +112,6 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         ManagesDAO managesDAO = new ManagesDAO();
 
         users.addAll(searchUsersByProvince(provinceUser));
-        //todo controllare con albe
         ArrayList<User> managingAlready= managesDAO.getAllManagersByFacility(facilityId);
         ArrayList<User> notManagers = new ArrayList<>();
         Boolean found = false;
@@ -156,7 +136,6 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         ManagesDAO managesDAO = new ManagesDAO();
 
         users.addAll(searchUsersByUsername(searchUsername));
-        //todo controllare con albe
         ArrayList<User> managingAlready= managesDAO.getAllManagersByFacility(facilityId);
         ArrayList<User> notManagers = new ArrayList<>();
         Boolean found = false;
@@ -227,7 +206,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return true;
     }
 
-    public boolean updateFacility(Facility facility) throws SQLException {
+    public boolean editFacility(Facility facility) throws SQLException {
         try {
             FacilityDAO facilityDAO = new FacilityDAO();
             facilityDAO.updateName(facility.getId(), facility.getName());
@@ -257,7 +236,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return true;
     }
 
-    public boolean updateField(Field field) throws SQLException {
+    public boolean editField(Field field) throws SQLException {
         try {
             FieldDao fieldDao = new FieldDao();
             fieldDao.updateName(field.getId(), field.getName());

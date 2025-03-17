@@ -102,13 +102,12 @@ public class NewFieldController extends MediaManagerController {
 
             OwnerManagementController ownerManagementController = new OwnerManagementController();
 
-            if(!nameInput.getText().equals("") && !priceInput.getText().equals("") && clickedSportLabels.size() != 0) {
+            if(!nameInput.getText().isEmpty() && !priceInput.getText().isEmpty() && !clickedSportLabels.isEmpty()) {
                 field.setName(nameInput.getText());
                 Float price = Float.parseFloat(priceInput.getText().replace("$",""));
                 field.setPrice(price);
                 field.setSport(clickedSports.get(0));
                 field.setDescription(descriptionInput.getText());
-                //todo controllare allaccio
                 if(ownerManagementController.addField(field)){
                     System.out.println("Field created: " + field.getName());
                     FXMLLoader loader;
@@ -153,7 +152,7 @@ public class NewFieldController extends MediaManagerController {
             field.setPrice(price);
             field.setSport(clickedSports.get(0));
             field.setDescription(descriptionInput.getText());
-            //todo controllare allaccio
+
             if(ownerManagementController.addField(field)){
                 String message = "Field created and added";
                 messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);

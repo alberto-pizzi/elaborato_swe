@@ -92,8 +92,7 @@ public class ModifyFieldController extends MediaManagerController {
             field.setName(nameInput.getText());
             field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
             field.setDescription(descriptionInput.getText());
-            //todo controllare allaccio
-            if(ownerManagementController.updateField(field)){
+            if(ownerManagementController.editField(field)){
                 System.out.println("Field updated");
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
                 Parent facilityModifyPane = loader.load();

@@ -35,37 +35,6 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
     }
 
 
-    //FIXME input change
-    public ArrayList<User> searchInvitablePlayers(Reservation reservation, Boolean searched, String searchText) throws SQLException, ClassNotFoundException {
-
-        GroupDao groupDao = new GroupDao();
-        ArrayList<User> players = new ArrayList<>();
-
-        if(searched) {
-            players.addAll(searchUsersByProvince(searchText));
-            players.addAll(searchUsersByUsername(searchText));
-        }else{
-            players.addAll(searchUsersByProvince(groupDao.getGroupByReservation(reservation.getId()).getGroupHead().getProvince()));
-        }
-        //todo controllare con albe
-        ArrayList<User> playingAlready= groupDao.getGroupByReservation(reservation.getId()).getUsers();
-        ArrayList<User> invitablePlayers = new ArrayList<>();
-        Boolean found = false;
-        for (User user : players) {
-            for (User alreadyIn : playingAlready){
-                if (user.getId() == alreadyIn.getId()){
-                    found = true;
-                    break;
-                }
-            }
-            if (!found){
-                invitablePlayers.add(user);
-            }
-            found = false;
-        }
-        return invitablePlayers;
-    }
-
     public int getHeadGuests(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
         IsPartDao isPartDao = new IsPartDao();

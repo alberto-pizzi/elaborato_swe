@@ -93,7 +93,6 @@ public abstract class SignUpController<T extends Person> implements Initializabl
 
                 if(!access.checkPersonExistence(username.getText())){
 
-                    //todo controllare allaccio
                     if(access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText())){
                         System.out.println("register done");
                         try {

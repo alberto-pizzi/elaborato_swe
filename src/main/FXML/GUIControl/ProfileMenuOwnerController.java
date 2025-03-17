@@ -85,14 +85,12 @@ public class ProfileMenuOwnerController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
             OwnerProfileController ownerProfileController = new OwnerProfileController();
-            //todo controllare allaccio
             if(ownerProfileController.deleteProfile(ownerProfileController.getUsername())){
                 System.out.println("Deleted!");
                 handleLogoutButton(event);
             }else{
                 String message = "An error has occurred";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
-                //fixme fare parte negativa
             }
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");

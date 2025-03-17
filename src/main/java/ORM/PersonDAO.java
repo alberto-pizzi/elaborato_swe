@@ -58,10 +58,9 @@ public abstract class PersonDAO {
 
     }
 
-    //TODO cascade delete?
-    public void deleteUser(String username) throws SQLException {
+    public void deletePerson(String username) throws SQLException {
 
-        String querySQL = String.format("DELETE FROM \"User\" WHERE username = '%s'", username);
+        String querySQL = String.format("DELETE FROM \""+ this.target +"\" WHERE username = '%s'", username);
 
         PreparedStatement preparedStatement = null;
 

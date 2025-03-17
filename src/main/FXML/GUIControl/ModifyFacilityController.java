@@ -117,8 +117,8 @@ public class ModifyFacilityController extends MediaManagerController {
                 facility.setCountry(countryInput.getText());
                 facility.setTelephone(phoneInput.getText());
                 facility.setZip(zipInput.getText());
-                //todo controllare allaccio
-                if(ownerManagementController.updateFacility(facility)){
+
+                if(ownerManagementController.editFacility(facility)){
                     System.out.println("Facility updated");
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
                     Parent facilitiesList = loader.load();

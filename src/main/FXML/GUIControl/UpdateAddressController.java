@@ -57,7 +57,7 @@ public class UpdateAddressController implements Initializable {
         //todo non tutto è not null
         if (!provinceInput.getText().isEmpty() && !cityInput.getText().isEmpty() && !countryInput.getText().isEmpty() && !zipInput.getText().isEmpty()) {
             UserProfileController userProfileController = new UserProfileController();
-            //todo controllare allaccio
+
             if (userProfileController.updateProvince(provinceInput.getText()) && userProfileController.updateCity(cityInput.getText()) && userProfileController.updateCountry(countryInput.getText()) && userProfileController.updateZip(zipInput.getText())) {
                 String message = "Address edited successfully!";
                 messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);

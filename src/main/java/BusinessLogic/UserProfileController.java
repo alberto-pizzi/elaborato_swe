@@ -3,7 +3,6 @@ package main.java.BusinessLogic;
 import main.java.DomainModel.User;
 import main.java.DomainModel.Facility;
 import main.java.ORM.ManagesDAO;
-import main.java.ORM.OwnerDAO;
 import main.java.ORM.UserDAO;
 
 import java.security.NoSuchAlgorithmException;
@@ -156,7 +155,7 @@ public class UserProfileController implements ProfileController {
     public boolean deleteProfile(String username) throws SQLException {
         try {
             UserDAO userDAO = new UserDAO();
-            userDAO.deleteUser(username);
+            userDAO.deletePerson(username);
 
             System.out.println("Profile deleted");
 

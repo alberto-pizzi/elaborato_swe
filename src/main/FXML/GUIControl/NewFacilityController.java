@@ -64,7 +64,6 @@ public class NewFacilityController extends MediaManagerController {
                 facility.setCountry(countryInput.getText());
                 facility.setTelephone(phoneInput.getText());
                 facility.setZip(zipInput.getText());
-                //todo controllare allaccio
                 if(ownerManagementController.addFacility(facility)){
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newWorkingHours.fxml"));
                     Parent newWorkHours = loader.load();

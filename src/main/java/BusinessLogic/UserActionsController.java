@@ -56,39 +56,6 @@ public class UserActionsController extends PersonController<User>{
         managesDAO.detachManager(person.getId(), idFacility);
     }
 
-    //FIXME input change
-    public ArrayList<User> searchInvitablePlayers(Reservation reservation, Boolean searched, String searchText) throws SQLException, ClassNotFoundException {
-
-        GroupDao groupDao = new GroupDao();
-        ArrayList<User> players = new ArrayList<>();
-
-        if(searched) {
-            players.addAll(searchUsersByProvince(searchText));
-            players.addAll(searchUsersByUsername(searchText));
-        }else{
-            players.addAll(searchUsersByProvince(this.person.getProvince()));
-        }
-        //todo controllare con albe
-        ArrayList<User> playingAlready= groupDao.getGroupByReservation(reservation.getId()).getUsers();
-        ArrayList<User> invitablePlayers = new ArrayList<>();
-        Boolean found = false;
-        for (User user : players) {
-            for (User alreadyIn : playingAlready){
-                if (user.getId() == alreadyIn.getId()){
-                    found = true;
-                    break;
-                }
-            }
-            if (!found){
-                invitablePlayers.add(user);
-            }
-            found = false;
-        }
-        return invitablePlayers;
-    }
-
-    //TODO should be changed output type into boolean for manage success or error banner by caller?
-    //TODO move to PersonController (with its own overrides)
     @Override
     public boolean addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched) throws SQLException, ClassNotFoundException {
 

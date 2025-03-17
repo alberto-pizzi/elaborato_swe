@@ -166,7 +166,7 @@ public class OwnerProfileController implements ProfileController {
     public boolean deleteProfile(String username) throws SQLException {
         try {
             OwnerDAO ownerDAO = new OwnerDAO();
-            ownerDAO.deleteUser(username);
+            ownerDAO.deletePerson(username);
 
             System.out.println("Profile deleted");
 

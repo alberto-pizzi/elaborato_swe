@@ -48,7 +48,6 @@ public class UpdateUsernameOwnerController implements Initializable {
 
             userExists = accessController.checkPersonExistence(usernameInput.getText());
             if (!userExists) {
-                //todo controllare allaccio
                 if(ownerProfileController.updateUsername(usernameInput.getText())){
                     String message = "User updated, new username is: " + usernameInput.getText();
                     messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);

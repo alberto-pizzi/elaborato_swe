@@ -44,25 +44,6 @@ public class OwnerDAO extends PersonDAO {
         return idAdded;
     }
 
-    //TODO cascade delete e collegare al profilo?
-    public void deleteOwner(String username)throws SQLException {
-
-        String querySQL = String.format("DELETE FROM \"Owner\" WHERE id = '%s'", username);
-
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            preparedStatement.executeUpdate();
-            System.out.println("Owner removed successfully.");
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-        }
-
-    }
-
 
     public Owner getOwner(String ownerUsername) throws SQLException {
         Owner owner = null;

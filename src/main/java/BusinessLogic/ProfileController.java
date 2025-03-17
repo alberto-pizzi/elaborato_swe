@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
+//TODO switch to abstract class for generalization
 public interface ProfileController {
 
     //methods

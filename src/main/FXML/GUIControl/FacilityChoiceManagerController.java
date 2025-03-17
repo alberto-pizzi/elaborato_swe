@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class FacilityChoiceManagerController implements Initializable {
-//todo controllare se si può ridurre codice con classe base per i previous button
     @FXML
     private VBox facilityList;
 
