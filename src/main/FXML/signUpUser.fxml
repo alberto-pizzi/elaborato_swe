@@ -174,7 +174,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="owner" mnemonicParsing="false" onAction="#handleOwnerButton" prefHeight="40.0" prefWidth="114.0" stylesheets="@css/style.css" text="I am an Owner" wrapText="true">
+                              <Button fx:id="owner" mnemonicParsing="false" onAction="#handleSwitchRoleButton" prefHeight="40.0" prefWidth="114.0" stylesheets="@css/style.css" text="I am an Owner" wrapText="true">
                                  <padding>
                                     <Insets bottom="10.0" top="10.0" />
                                  </padding>
