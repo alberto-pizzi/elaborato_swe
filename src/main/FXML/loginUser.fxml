@@ -124,7 +124,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
                <children>
-                  <Button fx:id="owner" mnemonicParsing="false" onAction="#handleOwnerButton" prefHeight="0.0" prefWidth="132.0" stylesheets="@css/style.css" text="I am an Owner" wrapText="true">
+                  <Button fx:id="owner" mnemonicParsing="false" onAction="#handleSwitchRoleButton" prefHeight="0.0" prefWidth="132.0" stylesheets="@css/style.css" text="I am an Owner" wrapText="true">
                      <padding>
                         <Insets bottom="10.0" top="10.0" />
                      </padding>

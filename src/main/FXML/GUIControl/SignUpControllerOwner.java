@@ -49,6 +49,7 @@ public class SignUpControllerOwner extends SignUpController<Owner> implements In
         pane.getChildren().add(view);
     }
 
+    @Override
     protected void switchRole() throws IOException {
         pane.getChildren().removeAll();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/signUpUser.fxml"));

@@ -1,0 +1,119 @@
+package main.FXML.GUIControl;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import main.java.BusinessLogic.AccessController;
+import main.java.BusinessLogic.SessionController;
+import main.java.BusinessLogic.UserAccess;
+import main.java.DomainModel.Person;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+
+public abstract class LoginController implements Initializable {
+    @FXML
+    protected Button logIn;
+
+    @FXML
+    protected Button SignUp;
+
+    @FXML
+    protected Label messageLabel;
+
+    @FXML
+    protected Button owner;
+
+    @FXML
+    protected Button forgot;
+
+    @FXML
+    protected PasswordField password;
+
+    @FXML
+    protected TextField username;
+
+    SessionController sessionController = SessionController.getInstance();
+
+    protected Pane pane;
+
+    protected MessagesController messagesController;
+
+    protected AccessController access = null;
+
+    protected abstract void goToHome() throws IOException;
+
+    protected abstract void goToSignUp() throws IOException;
+
+    protected abstract void switchRole() throws IOException;
+
+    public Pane getScenePane() {
+        return pane;
+    }
+
+    public void setScenePane(Pane scenePane) {
+        this.pane = scenePane;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        messagesController = new MessagesController(messageLabel);
+    }
+
+    @FXML
+    public void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+        try {
+            goToSignUp();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleLogInButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+        AccessController access = null;
+        boolean verified = false;
+        Person person = null;
+
+        if(password.getText().isEmpty() || username.getText().isEmpty()) {
+            String message = "Please enter a valid username/password";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+        }else{
+
+            verified = access.checkPassword(username.getText(), password.getText());
+            if (!verified) {
+                String message = "Wrong password or username, forgot password?";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            }else{
+                System.out.println("login done");
+                person = access.login(username.getText());
+                sessionController.setPerson(person);
+                try {
+
+                    goToHome();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void handleSwitchRoleButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+
+        try {
+            switchRole();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
