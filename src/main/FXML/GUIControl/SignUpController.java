@@ -42,12 +42,7 @@ public abstract class SignUpController extends AccessControllerGui {
 
     //methods
 
-    @FXML
-    public abstract void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException;
-
     protected abstract void goToLogin() throws IOException;
-
-    protected abstract void switchRole() throws IOException;
 
     //fixme da errore fxml perché bottone ha lo stesso nome
     protected void signUp() throws SQLException, ClassNotFoundException {
@@ -87,8 +82,9 @@ public abstract class SignUpController extends AccessControllerGui {
 
     }
 
+    @Override
     @FXML
-    protected void handleLogInButton(ActionEvent event) throws SQLException {
+    public void handleLogInButton(ActionEvent event) throws SQLException {
 
         try {
             goToLogin();
@@ -97,16 +93,5 @@ public abstract class SignUpController extends AccessControllerGui {
         }
 
     }
-
-    public void handleSwitchRoleButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-
-        try {
-            switchRole();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     }

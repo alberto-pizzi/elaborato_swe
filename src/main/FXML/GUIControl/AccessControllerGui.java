@@ -1,5 +1,6 @@
 package main.FXML.GUIControl;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -9,7 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import main.java.BusinessLogic.AccessController;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public abstract class AccessControllerGui implements Initializable {
@@ -38,6 +41,14 @@ public abstract class AccessControllerGui implements Initializable {
 
     protected AccessController access = null;
 
+    protected abstract void switchRole() throws IOException;
+
+    @FXML
+    public abstract void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException;
+
+    @FXML
+    public abstract void handleLogInButton(ActionEvent event) throws SQLException, ClassNotFoundException;
+
     public Pane getScenePane() {
         return pane;
     }
@@ -49,5 +60,14 @@ public abstract class AccessControllerGui implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         messagesController = new MessagesController(messageLabel);
+    }
+
+    public void handleSwitchRoleButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+
+        try {
+            switchRole();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

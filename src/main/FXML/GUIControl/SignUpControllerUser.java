@@ -23,6 +23,7 @@ public class SignUpControllerUser extends SignUpController implements Initializa
         access = new AccessController(new UserAccess());
         System.out.println("User");
     }
+
     @Override
     @FXML
     public void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException {

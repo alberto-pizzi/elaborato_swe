@@ -31,8 +31,7 @@ public abstract class LoginController extends AccessControllerGui {
 
     protected abstract void goToSignUp() throws IOException;
 
-    protected abstract void switchRole() throws IOException;
-
+    @Override
     @FXML
     public void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         try {
@@ -42,6 +41,7 @@ public abstract class LoginController extends AccessControllerGui {
         }
     }
 
+    @Override
     @FXML
     public void handleLogInButton(ActionEvent event) throws SQLException, ClassNotFoundException {
         AccessController access = null;
@@ -72,12 +72,4 @@ public abstract class LoginController extends AccessControllerGui {
         }
     }
 
-    public void handleSwitchRoleButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-
-        try {
-            switchRole();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
