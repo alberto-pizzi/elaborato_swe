@@ -43,10 +43,10 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         return isPartDao.countOwnGuests(group.getId(), group.getGroupHead().getId());
     }
 
+    //TODO check redundancy (with override class)
     @Override
-    public boolean addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched) throws SQLException, ClassNotFoundException {
+    public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException {
 
-        /*
         ReservationDao reservationDao = new ReservationDao();
         GroupDao groupDao = new GroupDao();
 
@@ -56,36 +56,29 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
             int newReservationId = reservationDao.addReservation(reservation);
             reservation.setId(newReservationId); //WARNING: it's very important
 
-
-
             //group creation
-            Group group = new Group(person, reservation, requiredParticipants);
+            Group group = new Group(groupHead, reservation, requiredParticipants);
             if (checkGroupData(group)) {
                 int newGroupId = groupDao.addGroup(group);
                 group.setId(newGroupId); //WARNING: it's very important
-                joinGroup(newGroupId, guests);
 
                 if (isMatched) {
                     sendInvites(group, findOtherPlayers(field.getFacility().getProvince()));
                 }
             }
             else
-                return false;
+                return 0;
 
             System.out.println("Reservation has been added into DB");
-            return true;
+            return newReservationId;
         }
 
-        return false;
+        return 0;
 
-         */
-
-        return false;
 
         //TODO remove comments
 
     }
-
 
     public void changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();

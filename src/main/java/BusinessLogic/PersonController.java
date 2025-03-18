@@ -60,7 +60,7 @@ public abstract class PersonController<T extends Person> {
         return workingHoursDAO.getWHsByFacilityByDay(idFacility,dayOfWeek);
     }
 
-    public abstract boolean addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched) throws SQLException, ClassNotFoundException;
+    public abstract int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException;
 
         //TODO add group as parameter and its updates
     public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
@@ -156,6 +156,9 @@ public abstract class PersonController<T extends Person> {
             goodToGo = false;
 
         if (group.getReservation().isMatched() && group.getRequiredParticipants() < group.getParticipants())
+            goodToGo = false;
+
+        if (group.getGroupHead() == null)
             goodToGo = false;
 
 

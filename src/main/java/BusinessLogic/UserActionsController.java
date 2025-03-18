@@ -29,8 +29,6 @@ public class UserActionsController extends PersonController<User>{
     }
 
 
-
-
     //methods
     //TODO it should be removed? Maybe yes
     public float calculatePricePerPerson(int idField, int nPeople) throws SQLException, ClassNotFoundException {
@@ -56,8 +54,9 @@ public class UserActionsController extends PersonController<User>{
         managesDAO.detachManager(person.getId(), idFacility);
     }
 
+    //TODO is it right to pass null value as groupHead (and not using it), is this case?
     @Override
-    public boolean addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched) throws SQLException, ClassNotFoundException {
+    public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();
         GroupDao groupDao = new GroupDao();
@@ -80,13 +79,13 @@ public class UserActionsController extends PersonController<User>{
                 }
             }
             else
-                return false;
+                return 0;
 
             System.out.println("Reservation has been added into DB");
-            return true;
+            return newReservationId;
         }
 
-        return false;
+        return 0;
 
     }
 

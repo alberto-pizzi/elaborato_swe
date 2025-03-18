@@ -113,6 +113,21 @@ public class SelectGuestsPaneController implements Initializable {
         personController = new UserActionsController();
     }
 
+    public int getMaxPossibleGuestsPerUser() {
+        return maxPossibleGuestsPerUser;
+    }
+
+    public ArrayList<GroupMember> getGroupMembersAdded() {
+        return groupMembersAdded;
+    }
+
+    public ArrayList<GroupMember> getGroupMembersRemoved() {
+        return groupMembersRemoved;
+    }
+
+    public ArrayList<GroupMember> getGroupMembersChanged() {
+        return groupMembersChanged;
+    }
 
     protected void addListeners(){
         guestUsernameField.textProperty().addListener((observable, oldValue, newValue) -> {
