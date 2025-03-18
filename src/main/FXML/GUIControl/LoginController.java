@@ -20,54 +20,18 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public abstract class LoginController implements Initializable {
-    @FXML
-    protected Button logIn;
-
-    @FXML
-    protected Button SignUp;
-
-    @FXML
-    protected Label messageLabel;
-
-    @FXML
-    protected Button owner;
+public abstract class LoginController extends AccessControllerGui {
 
     @FXML
     protected Button forgot;
 
-    @FXML
-    protected PasswordField password;
-
-    @FXML
-    protected TextField username;
-
     SessionController sessionController = SessionController.getInstance();
-
-    protected Pane pane;
-
-    protected MessagesController messagesController;
-
-    protected AccessController access = null;
 
     protected abstract void goToHome() throws IOException;
 
     protected abstract void goToSignUp() throws IOException;
 
     protected abstract void switchRole() throws IOException;
-
-    public Pane getScenePane() {
-        return pane;
-    }
-
-    public void setScenePane(Pane scenePane) {
-        this.pane = scenePane;
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        messagesController = new MessagesController(messageLabel);
-    }
 
     @FXML
     public void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException {

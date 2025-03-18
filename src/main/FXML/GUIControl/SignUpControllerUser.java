@@ -13,7 +13,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class SignUpControllerUser extends SignUpController<User> implements Initializable {
+public class SignUpControllerUser extends SignUpController implements Initializable {
 
 
     @Override
