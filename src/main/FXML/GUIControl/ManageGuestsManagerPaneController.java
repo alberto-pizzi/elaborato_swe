@@ -181,6 +181,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             //added
             if (groupMembersAdded != null && !groupMembersAdded.isEmpty()) {
                 for (GroupMember groupMember : groupMembersAdded) {
+                    //TODO add DomainModel updating
                     PersonController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
                 }
             }
@@ -188,6 +189,8 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             //changed
             if (groupMembersChanged != null && !groupMembersChanged.isEmpty()) {
                 for (GroupMember groupMember : groupMembersChanged) {
+                    //TODO add DomainModel updating
+
                     personController.changeUserGuests(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
                 }
             }

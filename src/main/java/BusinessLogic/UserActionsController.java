@@ -212,6 +212,9 @@ public class UserActionsController extends PersonController<User>{
         boolean memberAdded = group.addMember(person,guestUsers);
 
         if (memberAdded) {
+
+            //TODO add NotificationController constructor
+
             isPartDao.addMembership(idGroup, person.getId(),guestUsers);
             System.out.println("Members added into groups");
 

@@ -263,6 +263,8 @@ public abstract class PersonController<T extends Person> {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
 
+        //TODO add NotificationController constructor
+
         isPartDao.addMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember, ownGuests);
     }
 

@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.DecimalFormat;
 
-public class Reservation {
+public class Reservation extends Subject {
     private int id;
     private Date reservationDate;
     private Time reservationTime;
@@ -111,6 +111,7 @@ public class Reservation {
 
     public void setConfirmed(boolean confirmed) {
         isConfirmed = confirmed;
+        notify();
     }
 
     public boolean isMatched() {

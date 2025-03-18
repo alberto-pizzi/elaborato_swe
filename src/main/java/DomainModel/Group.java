@@ -2,7 +2,7 @@ package main.java.DomainModel;
 
 import java.util.ArrayList;
 
-public class Group extends Subject{
+public class Group{
     private int id;
     //also groupHead is inside users arraylist
     private User groupHead;
@@ -104,14 +104,22 @@ public class Group extends Subject{
         return label;
     }
 
-    public Boolean participantsCheck(int guests){
+    public boolean participantsCheck(int guests){
         if (!reservation.isMatched()) {
             return false;
         }
         return this.participants + guests + 1 > this.requiredParticipants;
     }
 
-    public Boolean canJoin(int guests, int nAccounts, boolean considerHimself){
+    public void confirmationChecker(){
+        if (!reservation.isMatched())
+            reservation.setConfirmed(true);
+        else{
+            reservation.setConfirmed(this.participants == this.requiredParticipants);
+        }
+    }
+
+    public boolean canJoin(int guests, int nAccounts, boolean considerHimself){
         if (!reservation.isMatched()) {
             return true;
         }
@@ -128,6 +136,7 @@ public class Group extends Subject{
             return false;
         }
 
+        //FIXME use username
         if (this.users.contains(user)) {
             System.out.println("User is already in the group!");
             return false;
@@ -135,6 +144,8 @@ public class Group extends Subject{
 
         this.users.add(user);
         this.participants += guests + 1;
+
+        confirmationChecker();
 
         return true;
 

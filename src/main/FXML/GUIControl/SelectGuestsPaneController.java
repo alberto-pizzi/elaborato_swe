@@ -235,6 +235,7 @@ public class SelectGuestsPaneController implements Initializable {
 
         //change own guests
         if (group != null) {
+            //TODO add DomainModel updating
             personController.changeUserGuests(group.getReservation().getId(),personController.getPerson().getId(),(nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0));
         }
 

@@ -6,13 +6,25 @@ import main.java.ORM.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class NotificationController {
+public class NotificationController implements Observer {
 
     private Person person;
+
+    Reservation reservation = null;
 
     public NotificationController() {
         this.person = SessionController.getInstance().getPerson();
     }
+
+    public NotificationController(Reservation reservation) {
+        this.person = SessionController.getInstance().getPerson();
+        this.reservation = reservation;
+
+        attach();
+    }
+
+
+
 
     public void sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) throws SQLException, ClassNotFoundException {
 
@@ -69,4 +81,24 @@ public class NotificationController {
         NotificationDAO notificationDAO = new NotificationDAO();
         return notificationDAO.getNotifications(person);
     }
+
+    public void update() throws SQLException, ClassNotFoundException {
+
+        ReservationDao reservationDao = new ReservationDao();
+
+        if (this.reservation.isConfirmed()) {
+            reservationDao.updateIsConfirmed(reservation.getId(), this.reservation.isConfirmed());
+            sendNotifications(this.reservation, NotificationType.CONFIRMATION, "");
+        }
+    }
+
+    public void attach(){
+        reservation.registerObserver(this);
+    }
+
+    public void detach(){
+        reservation.removeObserver(this);
+    }
+
+
 }
