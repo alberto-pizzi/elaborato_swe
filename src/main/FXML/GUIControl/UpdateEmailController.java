@@ -12,64 +12,16 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class UpdateEmailController implements Initializable {
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private TextField emailInput;
-
-    @FXML
-    private Label messageLabel;
-
-    MessagesController messagesController;
-
-
+public class UpdateEmailController extends UpdateEmail {
 
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
-        UserActionsController userActionsController = new UserActionsController();
-
-
-        emailInput.setText(userActionsController.getPerson().getEmail());
-
-        messagesController = new MessagesController(messageLabel);
-
+        super.initialize(location, resources);
+        profileController = new UserProfileController();
+        access = new AccessController(new UserAccess());
+        emailInput.setText(profileController.getEmail());
     }
 
-    @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-        if (!emailInput.getText().isEmpty()) {
-
-            UserProfileController userProfileController = new UserProfileController();
-            AccessController accessController = new AccessController(new UserAccess());
-
-            boolean emailExistence = accessController.checkEmail(emailInput.getText());
-
-            if (!emailExistence) {
-                if(userProfileController.updateEmail(emailInput.getText())){
-                    String message = "Email updated! New email is: " + emailInput.getText();
-                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-                }else{
-                    String message = "An error has occurred";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-                }
-            }
-            else{
-                String message = "This email already exist. Try again!";
-                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-            }
-
-        }else{
-
-            String message = "Please enter a valid email";
-            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-
-        }
-
-    }
 }

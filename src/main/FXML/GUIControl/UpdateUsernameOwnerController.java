@@ -21,39 +21,10 @@ public class UpdateUsernameOwnerController extends UpdateUsername {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         super.initialize(location, resources);
         profileController = new OwnerProfileController();
-        usernameInput.setText(profileController.g());
-        messagesController = new MessagesController(messageLabel);
-    }
-
-    @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-
-        OwnerProfileController ownerProfileController = new OwnerProfileController();
-        AccessController accessController = new AccessController(new OwnerAccess());
-
-        boolean userExists = false;
-        if (!usernameInput.getText().isEmpty()) {
-
-            userExists = accessController.checkPersonExistence(usernameInput.getText());
-            if (!userExists) {
-                if(ownerProfileController.updateUsername(usernameInput.getText())){
-                    String message = "User updated, new username is: " + usernameInput.getText();
-                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-                }else{
-                    String message = "An error has occurred";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-                }
-            }
-            else{
-                String message = "Username already exists";
-                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-            }
-
-        }
-
+        access = new AccessController(new OwnerAccess());
+        usernameInput.setText(profileController.getUsername());
     }
 
 }

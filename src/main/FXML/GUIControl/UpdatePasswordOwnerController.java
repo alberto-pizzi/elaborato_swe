@@ -12,68 +12,15 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class UpdatePasswordOwnerController implements Initializable {
-
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private PasswordField confirmPasswordInput;
-
-    @FXML
-    private PasswordField currentPasswordInput;
-
-    @FXML
-    private Label messageLabel;
-
-    @FXML
-    private PasswordField newPasswordInput;
-
-    MessagesController messagesController;
+public class UpdatePasswordOwnerController extends UpdatePassword {
 
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        messagesController = new MessagesController(messageLabel);
-
-    }
-
-    @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, NoSuchAlgorithmException {
-
-        OwnerProfileController ownerProfileController = new OwnerProfileController();
-        AccessController accessController = new AccessController(new OwnerAccess());
-
-        if (!currentPasswordInput.getText().isEmpty() && accessController.checkPassword(ownerProfileController.getUsername(), currentPasswordInput.getText())) {
-
-            if (!newPasswordInput.getText().isEmpty() && newPasswordInput.getText().equals(confirmPasswordInput.getText())) {
-                if (!newPasswordInput.getText().equals(currentPasswordInput.getText())) {
-                    if(ownerProfileController.updatePassword(newPasswordInput.getText())){
-                        String message = "Password changed successfully!";
-                        messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-                    }else{
-                        String message = "An error has occurred";
-                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-                    }
-                }else{
-                    String message = "Enter different password from current one.";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-                }
-            }
-            else{
-                String message = "Passwords do not match or are empty!";
-                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-            }
-
-        }
-        else{
-            String message = "Current password is incorrect. Please try again.";
-            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-            currentPasswordInput.clear();
-        }
-
+       super.initialize(location, resources);
+        profileController = new OwnerProfileController();
+        access = new AccessController(new OwnerAccess());
     }
 
 }
