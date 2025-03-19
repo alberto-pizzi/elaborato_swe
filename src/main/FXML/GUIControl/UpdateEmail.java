@@ -3,7 +3,6 @@ package main.FXML.GUIControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-
 import java.sql.SQLException;
 
 public class UpdateEmail extends UpdateProfileController{

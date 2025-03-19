@@ -2,17 +2,8 @@ package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import main.java.BusinessLogic.AccessController;
-import main.java.BusinessLogic.OwnerProfileController;
-import main.java.BusinessLogic.ProfileController;
-
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 public class UpdateUsername extends UpdateProfileController {
 
