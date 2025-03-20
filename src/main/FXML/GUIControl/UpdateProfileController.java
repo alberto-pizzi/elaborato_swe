@@ -11,7 +11,7 @@ import main.java.BusinessLogic.ProfileController;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UpdateProfileController implements Initializable {
+public abstract class UpdateProfileController implements Initializable {
 
     @FXML
     protected Button confirmButton;

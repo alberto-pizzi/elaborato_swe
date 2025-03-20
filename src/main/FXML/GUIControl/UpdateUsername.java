@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import java.sql.SQLException;
 
-public class UpdateUsername extends UpdateProfileController {
+public abstract class UpdateUsername extends UpdateProfileController {
 
     @FXML
     protected TextField usernameInput;

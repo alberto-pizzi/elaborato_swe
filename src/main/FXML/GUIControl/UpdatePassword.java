@@ -6,7 +6,7 @@ import javafx.scene.control.PasswordField;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
-public class UpdatePassword extends UpdateProfileController {
+public abstract class UpdatePassword extends UpdateProfileController {
 
     @FXML
     protected PasswordField confirmPasswordInput;
