@@ -14,57 +14,25 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 
-public class UpdateAddressController implements Initializable {
-
-    @FXML
-    private TextField cityInput;
-
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private TextField countryInput;
-
-    @FXML
-    private Label messageLabel;
-
-    @FXML
-    private TextField provinceInput;
-
-    @FXML
-    private TextField zipInput;
-
-    MessagesController messagesController;
+public class UpdateAddressController extends UpdateAddress {
 
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        UserActionsController userActionsController = new UserActionsController();
-
-        provinceInput.setText(userActionsController.getPerson().getProvince());
-        cityInput.setText(userActionsController.getPerson().getCity());
-        countryInput.setText(userActionsController.getPerson().getCountry());
-        zipInput.setText(userActionsController.getPerson().getZip());
-
-        this.messagesController = new MessagesController(messageLabel);
-
+        super.initialize(location, resources);
+        this.profileController = new UserProfileController();
+        provinceInput.setText(profileController.getPerson().getProvince());
+        cityInput.setText(profileController.getPerson().getCity());
+        countryInput.setText(profileController.getPerson().getCountry());
+        zipInput.setText(profileController.getPerson().getZip());
     }
 
+    @Override
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException {
-        //todo non tutto è not null
-        if (!provinceInput.getText().isEmpty() && !cityInput.getText().isEmpty() && !countryInput.getText().isEmpty() && !zipInput.getText().isEmpty()) {
-            UserProfileController userProfileController = new UserProfileController();
-
-            if (userProfileController.updateProvince(provinceInput.getText()) && userProfileController.updateCity(cityInput.getText()) && userProfileController.updateCountry(countryInput.getText()) && userProfileController.updateZip(zipInput.getText())) {
-                String message = "Address edited successfully!";
-                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
-            } else {
-                String message = "An error has occurred";
-                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
-            }
+    public void handleConfirmButton(ActionEvent event) throws SQLException {
+        if (!provinceInput.getText().isEmpty()) {
+            updateAddress();
         }else {
             String message = "Please fill all the fields.";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);

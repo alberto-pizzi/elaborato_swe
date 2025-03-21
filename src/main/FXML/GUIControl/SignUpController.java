@@ -20,7 +20,8 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 //TODO generalize further
-public abstract class SignUpController<T extends Person> implements Initializable {
+public abstract class SignUpController extends AccessControllerGui {
+
     @FXML
     protected TextField city;
 
@@ -31,61 +32,19 @@ public abstract class SignUpController<T extends Person> implements Initializabl
     protected TextField email;
 
     @FXML
-    protected Button logIn;
-
-    @FXML
-    protected Button owner;
-
-    @FXML
-    protected PasswordField password;
-
-    @FXML
     protected PasswordField passwordConfirmed;
 
     @FXML
     protected TextField province;
 
     @FXML
-    protected Button signUp;
-
-    @FXML
-    protected TextField username;
-
-    @FXML
     protected TextField zip;
-
-    @FXML
-    protected Label messageLabel;
-
-    protected Pane pane;
-
-    protected  MessagesController messagesController;
-
-    protected AccessController access = null;
-
 
     //methods
 
-    public Pane getScenePane() {
-        return pane;
-    }
-
-    public void setScenePane(Pane scenePane) {
-        this.pane = scenePane;
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        messagesController = new MessagesController(messageLabel);
-    }
-
-    @FXML
-    public abstract void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException;
-
     protected abstract void goToLogin() throws IOException;
 
-    protected abstract void switchRole() throws IOException;
-
+    //fixme da errore fxml perché bottone ha lo stesso nome
     protected void signUp() throws SQLException, ClassNotFoundException {
         if(password.getText().equals(passwordConfirmed.getText())) {
 
@@ -123,8 +82,9 @@ public abstract class SignUpController<T extends Person> implements Initializabl
 
     }
 
+    @Override
     @FXML
-    protected void handleLogInButton(ActionEvent event) throws SQLException {
+    public void handleLogInButton(ActionEvent event) throws SQLException {
 
         try {
             goToLogin();
@@ -133,16 +93,5 @@ public abstract class SignUpController<T extends Person> implements Initializabl
         }
 
     }
-
-    public void handleSwitchRoleButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-
-        try {
-            switchRole();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     }

@@ -1,68 +1,23 @@
 package main.FXML.GUIControl;
 
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
 import main.java.BusinessLogic.OwnerProfileController;
-import main.java.BusinessLogic.UserAccess;
 
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class UpdateUsernameOwnerController implements Initializable {
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private Label messageLabel;
-
-    @FXML
-    private TextField usernameInput;
-
-    private MessagesController messagesController;
+public class UpdateUsernameOwnerController extends UpdateUsername {
 
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        OwnerProfileController ownerProfileController = new OwnerProfileController();
-        usernameInput.setText(ownerProfileController.getUsername());
-        messagesController = new MessagesController(messageLabel);
-    }
-
-    @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-
-        OwnerProfileController ownerProfileController = new OwnerProfileController();
-        AccessController accessController = new AccessController(new OwnerAccess());
-
-        boolean userExists = false;
-        if (!usernameInput.getText().isEmpty()) {
-
-            userExists = accessController.checkPersonExistence(usernameInput.getText());
-            if (!userExists) {
-                if(ownerProfileController.updateUsername(usernameInput.getText())){
-                    String message = "User updated, new username is: " + usernameInput.getText();
-                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-                }else{
-                    String message = "An error has occurred";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-                }
-            }
-            else{
-                String message = "Username already exists";
-                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-            }
-
-        }
-
+        super.initialize(location, resources);
+        profileController = new OwnerProfileController();
+        access = new AccessController(new OwnerAccess());
+        usernameInput.setText(profileController.getUsername());
     }
 
 }

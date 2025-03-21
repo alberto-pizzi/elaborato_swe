@@ -85,7 +85,7 @@ public class ProfileMenuOwnerController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
             OwnerProfileController ownerProfileController = new OwnerProfileController();
-            if(ownerProfileController.deleteProfile(ownerProfileController.getUsername())){
+            if(ownerProfileController.deleteProfile()){
                 System.out.println("Deleted!");
                 handleLogoutButton(event);
             }else{

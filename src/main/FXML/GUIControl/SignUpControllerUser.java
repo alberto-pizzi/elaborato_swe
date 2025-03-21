@@ -13,7 +13,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class SignUpControllerUser extends SignUpController<User> implements Initializable {
+public class SignUpControllerUser extends SignUpController implements Initializable {
 
 
     @Override
@@ -23,6 +23,7 @@ public class SignUpControllerUser extends SignUpController<User> implements Init
         access = new AccessController(new UserAccess());
         System.out.println("User");
     }
+
     @Override
     @FXML
     public void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException {
