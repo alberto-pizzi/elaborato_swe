@@ -70,8 +70,8 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
         //fill effective group members
         if (group != null){
-            for (User user : PersonController.getGroupMembers(group.getReservation().getId())){
-                effectiveGroupMembersList.getItems().add(new GroupMember(user, PersonController.getUserGuests(group.getReservation().getId(),user.getId())));
+            for (GroupMember groupMember : PersonController.getGroupMembers(group.getReservation().getId())){
+                effectiveGroupMembersList.getItems().add(groupMember);
             }
 
         }
@@ -174,23 +174,27 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             //removed
             if (groupMembersRemoved != null && !groupMembersRemoved.isEmpty()) {
                 for (GroupMember groupMember : groupMembersRemoved) {
-                    PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+                    if (group.removeMember(groupMember.getUser(),groupMember.getOwnGuests()))
+                        PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+                    else
+                        System.out.println("Error during removing member into group");
                 }
             }
 
             //added
             if (groupMembersAdded != null && !groupMembersAdded.isEmpty()) {
                 for (GroupMember groupMember : groupMembersAdded) {
-                    //TODO add DomainModel updating
-                    PersonController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
+                    if (group.addMember(groupMember.getUser(),groupMember.getOwnGuests()))
+                        PersonController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
+                    else
+                        System.out.println("Error during adding member into group");
                 }
             }
 
             //changed
             if (groupMembersChanged != null && !groupMembersChanged.isEmpty()) {
                 for (GroupMember groupMember : groupMembersChanged) {
-                    //TODO add DomainModel updating
-
+                    group.changeUserGuests(groupMember.getUser().getUsername(),groupMember.getOwnGuests());
                     personController.changeUserGuests(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
                 }
             }

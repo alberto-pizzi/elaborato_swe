@@ -1,5 +1,6 @@
 package main.java.DomainModel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class Subject {
@@ -13,7 +14,7 @@ public abstract class Subject {
     public void removeObserver(Observer observer) {
         observers.remove(observer);
     }
-    public void notifyObserver(){
+    public void notifyObserver() throws SQLException, ClassNotFoundException {
         for (Observer observer : observers) {
             observer.update();
         }

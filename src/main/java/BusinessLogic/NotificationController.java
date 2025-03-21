@@ -55,7 +55,7 @@ public class NotificationController implements Observer {
 
         ArrayList<User> managers = managesDAO.getAllManagersByFacility(facility.getId());
         ArrayList<User> invitableUsers = new ArrayList<>();
-        invitableUsers.addAll(isPartDao.getGroupMembers(groupDAO.getGroupByReservation(reservation.getId()).getId()));
+        invitableUsers.addAll(Group.getUsersByGroupMembers(isPartDao.getGroupMembers(groupDAO.getGroupByReservation(reservation.getId()).getId())));
         invitableUsers.removeAll(managers);
 
         for(User user : managers){
@@ -86,7 +86,7 @@ public class NotificationController implements Observer {
 
         ReservationDao reservationDao = new ReservationDao();
 
-        if (this.reservation.isConfirmed()) {
+        if (this.reservation.isConfirmed() && this.reservation.isMatched()) {
             reservationDao.updateIsConfirmed(reservation.getId(), this.reservation.isConfirmed());
             sendNotifications(this.reservation, NotificationType.CONFIRMATION, "");
         }

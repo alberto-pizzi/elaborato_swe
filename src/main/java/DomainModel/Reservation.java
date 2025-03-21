@@ -1,6 +1,7 @@
 package main.java.DomainModel;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.text.DecimalFormat;
 
@@ -109,9 +110,9 @@ public class Reservation extends Subject {
         return isConfirmed;
     }
 
-    public void setConfirmed(boolean confirmed) {
+    public void setConfirmed(boolean confirmed) throws SQLException, ClassNotFoundException {
         isConfirmed = confirmed;
-        notify();
+        notifyObserver();
     }
 
     public boolean isMatched() {

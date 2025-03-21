@@ -78,9 +78,9 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
         //fill effective group members
         if (group != null){
-            for (User user : PersonController.getGroupMembers(group.getReservation().getId())){
-                if (!user.getUsername().equals(personController.getPerson().getUsername()))
-                    effectiveGroupMembersList.getItems().add(new GroupMember(user,PersonController.getUserGuests(group.getReservation().getId(),user.getId())));
+            for (GroupMember groupMember : PersonController.getGroupMembers(group.getReservation().getId())){
+                if (!groupMember.getUser().getUsername().equals(personController.getPerson().getUsername()))
+                    effectiveGroupMembersList.getItems().add(groupMember);
             }
 
         }

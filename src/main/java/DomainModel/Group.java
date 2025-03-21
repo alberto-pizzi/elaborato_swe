@@ -1,5 +1,6 @@
 package main.java.DomainModel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Group{
@@ -8,17 +9,16 @@ public class Group{
     private User groupHead;
     private Reservation reservation;
     private int guestUsers;
-    private ArrayList<User> users;
+    private ArrayList<GroupMember> groupMembers;
     private int participants;
     private int requiredParticipants;
 
-    //FIXME how guests are managed?
     public Group(int id, User groupHead, Reservation reservation, int requiredParticipants) {
         this.id = id;
         this.groupHead = groupHead;
         this.reservation = reservation;
         this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
-        this.users = new ArrayList<>();
+        this.groupMembers = new ArrayList<>();
         this.participants = 0;
     }
 
@@ -26,7 +26,7 @@ public class Group{
         this.groupHead = groupHead;
         this.reservation = reservation;
         this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
-        this.users = new ArrayList<>();
+        this.groupMembers = new ArrayList<>();
         this.participants = 0;
     }
 
@@ -49,8 +49,8 @@ public class Group{
         return guestUsers;
     }
 
-    public ArrayList<User> getUsers() {
-        return users;
+    public ArrayList<GroupMember> getGroupMembers() {
+        return groupMembers;
     }
 
     public int getRequiredParticipants() {
@@ -79,8 +79,8 @@ public class Group{
         this.guestUsers = guestUsers;
     }
 
-    public void setUsers(ArrayList<User> users) {
-        this.users = users;
+    public void setGroupMembers(ArrayList<GroupMember> groupMembers) {
+        this.groupMembers = groupMembers;
     }
 
     public void setParticipants(int participants) {
@@ -111,7 +111,8 @@ public class Group{
         return this.participants + guests + 1 > this.requiredParticipants;
     }
 
-    public void confirmationChecker(){
+    public void confirmationChecker() throws SQLException, ClassNotFoundException {
+        //FIXME observers will be uptated every time that isConfirmed is true
         if (!reservation.isMatched())
             reservation.setConfirmed(true);
         else{
@@ -126,8 +127,7 @@ public class Group{
         return this.participants + guests + nAccounts + (considerHimself ? 1 : 0)  <= this.requiredParticipants;
     }
 
-    //TODO check groupHead for first joining
-    public boolean addMember(User user, int guests){
+    public boolean addMember(User user, int guests) throws SQLException, ClassNotFoundException {
         if (guests < 0)
             guests = 0;
 
@@ -136,14 +136,15 @@ public class Group{
             return false;
         }
 
-        //FIXME use username
-        if (this.users.contains(user)) {
+
+        if (isUserInsideGroup(user.getUsername())) {
             System.out.println("User is already in the group!");
             return false;
         }
 
-        this.users.add(user);
+        this.groupMembers.add(new GroupMember(user,guests));
         this.participants += guests + 1;
+        assignGroupHead(user); //TODO is it correct?
 
         confirmationChecker();
 
@@ -153,12 +154,13 @@ public class Group{
 
     public boolean removeMember(User user, int guests){
 
-        if (user != null && users.contains(user)) {
-            this.users.remove(user);
+        if (user != null && isUserInsideGroup(user.getUsername())) {
+            removeGroupMemberByUsernameFromArrayList(user.getUsername());
             this.participants -= guests + 1;
 
-            if (user.equals(groupHead))
-                assignNewGroupHead();
+
+            if (user.getUsername().equals(groupHead.getUsername()))
+                successionOfGroupHead();
 
             return true;
         }
@@ -167,15 +169,66 @@ public class Group{
 
     }
 
-    public void assignNewGroupHead(){
-        if (users.isEmpty()) {
+    public void successionOfGroupHead(){
+        if (groupMembers.isEmpty()) {
             groupHead = null;
             return;
         }
 
 
-        groupHead = users.get(0);
+        groupHead = groupMembers.get(0).getUser();
 
+    }
+
+    public void assignGroupHead(User user){
+        if (groupHead == null) {
+            groupHead = user;
+        }
+    }
+
+    private void removeGroupMemberByUsernameFromArrayList(String username){
+        for (GroupMember member : groupMembers) {
+            if (member.getUser().getUsername().equals(username)) {
+                groupMembers.remove(member);
+                return;
+            }
+        }
+    }
+
+    public boolean isUserInsideGroup(String username){
+        for (GroupMember member : groupMembers) {
+            if (member.getUser().getUsername().equals(username))
+                return true;
+        }
+
+        return false;
+    }
+
+    public static ArrayList<User> getUsersByGroupMembers(ArrayList<GroupMember> members){
+        ArrayList<User> users = new ArrayList<>();
+
+        if (!members.isEmpty()) {
+            for (GroupMember member : members) {
+                users.add(member.getUser());
+            }
+        }
+
+        return users;
+    }
+
+    //this method not makes any check on participants
+    public boolean changeUserGuests(String username, int newGuests) throws SQLException, ClassNotFoundException {
+
+        for (GroupMember member : groupMembers) {
+            if (member.getUser().getUsername().equals(username)) {
+                this.participants += newGuests - member.getOwnGuests();
+                member.setOwnGuests(newGuests);
+                confirmationChecker();
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

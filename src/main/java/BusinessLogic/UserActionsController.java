@@ -208,12 +208,13 @@ public class UserActionsController extends PersonController<User>{
         GroupDao groupDao = new GroupDao();
         Group group = groupDao.getGroup(idGroup);
 
+        //observer attach
+        NotificationController notificationController = new NotificationController(group.getReservation());
+
         //this method adds a member from DomainModel
         boolean memberAdded = group.addMember(person,guestUsers);
 
         if (memberAdded) {
-
-            //TODO add NotificationController constructor
 
             isPartDao.addMembership(idGroup, person.getId(),guestUsers);
             System.out.println("Members added into groups");
