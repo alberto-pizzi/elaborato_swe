@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public abstract class Subject {
 
-    protected ArrayList<Observer> observers;
+    protected ArrayList<Observer> observers = new ArrayList<>();
 
     //methods
     public void registerObserver(Observer observer) {

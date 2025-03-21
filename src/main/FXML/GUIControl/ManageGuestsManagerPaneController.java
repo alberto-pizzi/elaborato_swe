@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
+import main.java.BusinessLogic.NotificationController;
 import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.GroupMember;
@@ -184,6 +185,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             //added
             if (groupMembersAdded != null && !groupMembersAdded.isEmpty()) {
                 for (GroupMember groupMember : groupMembersAdded) {
+                    NotificationController notificationController = new NotificationController(group.getReservation());
                     if (group.addMember(groupMember.getUser(),groupMember.getOwnGuests()))
                         PersonController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
                     else
@@ -194,6 +196,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             //changed
             if (groupMembersChanged != null && !groupMembersChanged.isEmpty()) {
                 for (GroupMember groupMember : groupMembersChanged) {
+                    NotificationController notificationController = new NotificationController(group.getReservation());
                     group.changeUserGuests(groupMember.getUser().getUsername(),groupMember.getOwnGuests());
                     personController.changeUserGuests(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
                 }

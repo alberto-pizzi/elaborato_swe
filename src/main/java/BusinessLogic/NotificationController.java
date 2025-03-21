@@ -26,6 +26,7 @@ public class NotificationController implements Observer {
 
 
 
+    //TODO overload is needed?
     public void sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) throws SQLException, ClassNotFoundException {
 
         FacilityDAO facilityDAO = new FacilityDAO();
@@ -86,9 +87,11 @@ public class NotificationController implements Observer {
 
         ReservationDao reservationDao = new ReservationDao();
 
-        if (this.reservation.isConfirmed() && this.reservation.isMatched()) {
+        if (this.reservation.isConfirmed() && this.reservation.isMatched() && !this.reservation.isNotified()) {
             reservationDao.updateIsConfirmed(reservation.getId(), this.reservation.isConfirmed());
             sendNotifications(this.reservation, NotificationType.CONFIRMATION, "");
+            this.reservation.considerNotified();
+            reservationDao.updateIsNotified(reservation.getId(), this.reservation.isNotified());
         }
     }
 

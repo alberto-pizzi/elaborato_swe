@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import main.java.BusinessLogic.NotificationController;
 import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Group;
@@ -236,6 +237,7 @@ public class SelectGuestsPaneController implements Initializable {
         //change own guests
         if (group != null) {
             int newGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
+            NotificationController notificationController = new NotificationController(group.getReservation());
             group.changeUserGuests(personController.getPerson().getUsername(),newGuests);
             personController.changeUserGuests(group.getReservation().getId(),personController.getPerson().getId(),newGuests);
         }

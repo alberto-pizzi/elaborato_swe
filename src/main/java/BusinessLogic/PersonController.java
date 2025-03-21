@@ -264,11 +264,7 @@ public abstract class PersonController<T extends Person> {
     public static void addGroupMember(int idReservation, int idMember, int ownGuests) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
-        ReservationDao reservationDao = new ReservationDao();
 
-        //TODO is observer constructor right here?
-        //observer attach
-        NotificationController notificationController = new NotificationController(reservationDao.getReservation(idReservation,false));
 
         isPartDao.addMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember, ownGuests);
     }
