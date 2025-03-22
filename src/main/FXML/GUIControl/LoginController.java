@@ -44,7 +44,6 @@ public abstract class LoginController extends AccessControllerGui {
     @Override
     @FXML
     public void handleLogInButton(ActionEvent event) throws SQLException, ClassNotFoundException {
-        AccessController access = null;
         boolean verified = false;
         Person person = null;
 
