@@ -54,8 +54,8 @@ public class NewFacilityController extends MediaManagerController {
 
             OwnerManagementController ownerManagementController = new OwnerManagementController();
 
-            if((!nameInput.getText().equals("")) && (!addressInput.getText().equals("")) && (!provinceInput.getText().equals(""))
-                    && (!cityInput.getText().equals("")) && (!countryInput.getText().equals(""))) {
+            if((!nameInput.getText().isEmpty()) && (!addressInput.getText().isEmpty()) && (!provinceInput.getText().isEmpty())
+                    && (!cityInput.getText().isEmpty()) && (!countryInput.getText().isEmpty())) {
 
                 facility.setName(nameInput.getText());
                 facility.setAddress(addressInput.getText());

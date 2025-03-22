@@ -52,9 +52,9 @@ public class NewSportController {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            if (!nameInput.getText().equals("") && !playersInput.getText().equals("")) {
+            if (!nameInput.getText().isEmpty() && !playersInput.getText().isEmpty()) {
                 OwnerManagementController ownerManagementController = new OwnerManagementController();
-                sport.setName(String.valueOf(nameInput.getText()));
+                sport.setName(nameInput.getText());
                 sport.setPlayersRequired(Integer.parseInt(playersInput.getText()));
                 ownerManagementController.addSport(sport);
                 FXMLLoader loader;
