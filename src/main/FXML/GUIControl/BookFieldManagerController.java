@@ -32,28 +32,29 @@ public class BookFieldManagerController extends BookFieldController {
     //this is for add reservation (manager/owner side)
     protected void createReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd) throws SQLException, ClassNotFoundException {
 
-        //FIXME
+        if (selectGuestsPaneController != null) {
+            if (!selectGuestsPaneController.getGroupMembersAdded().isEmpty()) {
 
-        if (!selectGuestsPaneController.getGroupMembersAdded().isEmpty()) {
+                int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
 
-            int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
-            int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), selectGuestsPaneController.getGroupMembersAdded().get(0).getUser());
+                int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), selectGuestsPaneController.getGroupMembersAdded().get(0).getUser());
 
-            selectGuestsPaneController.setGroup(PersonController.getGroupByReservation(reservationIdAdded));
+                if (reservationIdAdded != 0) {
+                    selectGuestsPaneController.setGroup(PersonController.getGroupByReservation(reservationIdAdded));  //WARNING: it's important to be able to apply changes
+                    selectGuestsPaneController.applyChanges();
 
-            selectGuestsPaneController.applyChanges();
+                    System.out.println("Booking done");
 
-            if (reservationIdAdded != 0) {
-                System.out.println("Booking done");
+                    messagesController.showMessage("Booking done successfully", MessagesController.MessageType.SUCCESS, 5);
+                    actionsAfterAdd();
+                } else
+                    messagesController.showMessage("Booking failed.", MessagesController.MessageType.ERROR, 5);
 
-                messagesController.showMessage("Booking done successfully", MessagesController.MessageType.SUCCESS, 5);
-                actionsAfterAdd();
             } else
-                messagesController.showMessage("Booking failed", MessagesController.MessageType.ERROR, 5);
-
+                messagesController.showMessage("Empty group is not allowed.", MessagesController.MessageType.ERROR, 5);
         }
         else
-            messagesController.showMessage("Empty group is not allowed.", MessagesController.MessageType.ERROR, 5);
+            messagesController.showMessage("Booking failed! Popup not loaded.", MessagesController.MessageType.ERROR, 5);
 
 
 

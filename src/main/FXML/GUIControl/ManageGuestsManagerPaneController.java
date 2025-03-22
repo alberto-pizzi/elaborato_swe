@@ -41,7 +41,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
         if (userToBeAdded != null) {
 
-            if (group != null) {
+            if (!isEditMode || group != null) {
                 if (!inviteListDraft.getItems().contains(userToBeAdded) && !isUserIntoEffectiveGroupMembers(userToBeAdded)) {
                     int userId = ManagerOwnerManagementController.getUserIdByUsername(userToBeAdded);
                     int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);

@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import main.java.BusinessLogic.PersonController;
 import main.java.DomainModel.*;
 
 import java.sql.Date;
@@ -164,10 +165,6 @@ public class BookFieldController extends FieldFormManagementController implement
     //this is for add reservation (user side)
     protected void createReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd) throws SQLException, ClassNotFoundException {
 
-        //FIXME
-
-        selectGuestsPaneController.applyChanges();
-
         int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
         int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), null);
 
@@ -176,12 +173,10 @@ public class BookFieldController extends FieldFormManagementController implement
 
             if (selectGuestsPaneController != null) {
 
-
-
-
+                selectGuestsPaneController.setGroup(PersonController.getGroupByReservation(reservationIdAdded)); //WARNING: it's important to be able to apply changes
+                selectGuestsPaneController.applyChanges();
 
                 System.out.println("Booking done");
-
                 messagesController.showMessage("Booking done successfully", MessagesController.MessageType.SUCCESS, 5);
                 actionsAfterAdd();
 
