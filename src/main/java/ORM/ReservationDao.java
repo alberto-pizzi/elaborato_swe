@@ -22,9 +22,9 @@ public class ReservationDao {
     //methods
     public int addReservation(Reservation reservation) throws SQLException {
         String querySQL = String.format("INSERT INTO \"Reservation\" (event_date, event_time_start, " +
-                "event_time_end, id_field, is_confirmed, is_matched, is_deleted) " +
-                "VALUES ( '%tF', '%tT', '%tT', '%d', '%b', '%b', '%b')",  reservation.getEventDate(),
-                reservation.getEventTimeStart(),reservation.getEventTimeEnd(), reservation.getField().getId(), reservation.isConfirmed(), reservation.isMatched(), reservation.isDeleted());
+                "event_time_end, id_field, is_confirmed, is_matched, is_deleted,is_notified) " +
+                "VALUES ( '%tF', '%tT', '%tT', '%d', '%b', '%b', '%b','%b')",  reservation.getEventDate(),
+                reservation.getEventTimeStart(),reservation.getEventTimeEnd(), reservation.getField().getId(), reservation.isConfirmed(), reservation.isMatched(), reservation.isDeleted(),reservation.isNotified());
 
         int idAdded = 0;
 
@@ -102,11 +102,12 @@ public class ReservationDao {
                 boolean isConfirmed = resultSet.getBoolean("is_confirmed");
                 boolean isMatched = resultSet.getBoolean("is_matched");
                 boolean isDeleted = resultSet.getBoolean("is_deleted");
+                boolean isNotified = resultSet.getBoolean("is_notified");
 
                 UserDAO userDAO = new UserDAO();
                 FieldDao fieldDAO = new FieldDao();
 
-                reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, fieldDAO.getField(idField), isConfirmed, isMatched, isDeleted);
+                reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, fieldDAO.getField(idField), isConfirmed, isMatched, isDeleted,isNotified);
 
             }
             else{
@@ -245,6 +246,25 @@ public class ReservationDao {
             preparedStatement = connection.prepareStatement(querySQL);
             preparedStatement.executeUpdate();
             System.out.println("Confirmation updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    public void updateIsNotified(int idReservation, boolean isNotified) throws SQLException {
+
+        String querySQL = String.format("UPDATE \"Reservation\" SET is_notified = '%b' WHERE id = '%d'", isNotified, idReservation);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Notification flag updated successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {

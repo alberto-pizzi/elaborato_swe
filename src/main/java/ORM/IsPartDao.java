@@ -1,7 +1,7 @@
 package main.java.ORM;
 
 import main.java.DomainModel.Group;
-import main.java.DomainModel.Invite;
+import main.java.DomainModel.GroupMember;
 import main.java.DomainModel.User;
 
 import java.sql.*;
@@ -66,8 +66,8 @@ public class IsPartDao {
 
     }
 
-    public ArrayList<User> getGroupMembers(int idGroup) throws SQLException {
-        ArrayList<User> users = new ArrayList<>();
+    public ArrayList<GroupMember> getGroupMembers(int idGroup) throws SQLException {
+        ArrayList<GroupMember> groupMembers = new ArrayList<>();
         UserDAO userDAO = new UserDAO();
 
         String querySQL = String.format("SELECT id_user FROM \"IsPart\" WHERE id_group = '%d'", idGroup);
@@ -79,7 +79,8 @@ public class IsPartDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                users.add(userDAO.getUserByID(resultSet.getInt("id_user")));
+                User user = userDAO.getUserByID(resultSet.getInt("id_user"));
+                groupMembers.add(new GroupMember(user, countOwnGuests(idGroup,user.getId())));
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -90,7 +91,7 @@ public class IsPartDao {
             if (resultSet != null) { resultSet.close(); }
         }
 
-        return users;
+        return groupMembers;
     }
 
     public ArrayList<Group> getAllGroupsByUser(int idUser) throws SQLException {

@@ -6,14 +6,27 @@ import main.java.ORM.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class NotificationController {
+public class NotificationController implements Observer {
 
     private Person person;
+
+    Reservation reservation = null;
 
     public NotificationController() {
         this.person = SessionController.getInstance().getPerson();
     }
 
+    public NotificationController(Reservation reservation) {
+        this.person = SessionController.getInstance().getPerson();
+        this.reservation = reservation;
+
+        attach();
+    }
+
+
+
+
+    //TODO overload is needed?
     public void sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) throws SQLException, ClassNotFoundException {
 
         FacilityDAO facilityDAO = new FacilityDAO();
@@ -43,7 +56,7 @@ public class NotificationController {
 
         ArrayList<User> managers = managesDAO.getAllManagersByFacility(facility.getId());
         ArrayList<User> invitableUsers = new ArrayList<>();
-        invitableUsers.addAll(isPartDao.getGroupMembers(groupDAO.getGroupByReservation(reservation.getId()).getId()));
+        invitableUsers.addAll(Group.getUsersByGroupMembers(isPartDao.getGroupMembers(groupDAO.getGroupByReservation(reservation.getId()).getId())));
         invitableUsers.removeAll(managers);
 
         for(User user : managers){
@@ -69,4 +82,26 @@ public class NotificationController {
         NotificationDAO notificationDAO = new NotificationDAO();
         return notificationDAO.getNotifications(person);
     }
+
+    public void update() throws SQLException, ClassNotFoundException {
+
+        ReservationDao reservationDao = new ReservationDao();
+
+        if (this.reservation.isConfirmed() && this.reservation.isMatched() && !this.reservation.isNotified()) {
+            reservationDao.updateIsConfirmed(reservation.getId(), this.reservation.isConfirmed());
+            sendNotifications(this.reservation, NotificationType.CONFIRMATION, "");
+            this.reservation.considerNotified();
+            reservationDao.updateIsNotified(reservation.getId(), this.reservation.isNotified());
+        }
+    }
+
+    public void attach(){
+        reservation.registerObserver(this);
+    }
+
+    public void detach(){
+        reservation.removeObserver(this);
+    }
+
+
 }

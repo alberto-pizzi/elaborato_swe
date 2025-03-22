@@ -118,7 +118,7 @@ public class GroupDao {
 
                 group = new Group(id, userDAO.getUserByID(groupHead), reservation, requiredParticipants);
                 group.setParticipants(reservationDao.getCountAllParticipants(idReservation));
-                group.setUsers(isPartDao.getGroupMembers(idGroup));
+                group.setGroupMembers(isPartDao.getGroupMembers(idGroup));
             }
             else{
                 System.err.println("No group found with id: " + idGroup);
@@ -161,7 +161,7 @@ public class GroupDao {
 
                 group = new Group(id, userDAO.getUserByID(groupHead), reservation, requiredParticipants);
                 group.setParticipants(reservationDao.getCountAllParticipants(idReservation));
-                group.setUsers(isPartDao.getGroupMembers(id));
+                group.setGroupMembers(isPartDao.getGroupMembers(id));
 
             }
             else{

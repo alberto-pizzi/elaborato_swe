@@ -60,7 +60,7 @@ public abstract class PersonController<T extends Person> {
         return workingHoursDAO.getWHsByFacilityByDay(idFacility,dayOfWeek);
     }
 
-    public abstract boolean addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched) throws SQLException, ClassNotFoundException;
+    public abstract int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException;
 
         //TODO add group as parameter and its updates
     public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
@@ -158,6 +158,9 @@ public abstract class PersonController<T extends Person> {
         if (group.getReservation().isMatched() && group.getRequiredParticipants() < group.getParticipants())
             goodToGo = false;
 
+        if (group.getGroupHead() == null)
+            goodToGo = false;
+
 
 
         return goodToGo;
@@ -170,10 +173,10 @@ public abstract class PersonController<T extends Person> {
         return groupDao.getGroupByReservation(idReservation);
     }
 
-    public static ArrayList<User> getGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
+    public static ArrayList<GroupMember> getGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
 
-        return groupDao.getGroupByReservation(idReservation).getUsers();
+        return groupDao.getGroupByReservation(idReservation).getGroupMembers();
     }
 
     public int getGroupParticipants(int idReservation) throws SQLException, ClassNotFoundException {
@@ -245,10 +248,11 @@ public abstract class PersonController<T extends Person> {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
 
-        ArrayList<User> members = isPartDao.getGroupMembers(groupDao.getGroupByReservation(idReservation).getId());
+        ArrayList<GroupMember> members = isPartDao.getGroupMembers(groupDao.getGroupByReservation(idReservation).getId());
 
-        for (User user : members) {
-            if (user.getUsername().equals(usernameMember))
+
+        for (GroupMember groupMember : members) {
+            if (groupMember.getUser().getUsername().equals(usernameMember))
                 return true;
         }
 
@@ -256,9 +260,11 @@ public abstract class PersonController<T extends Person> {
     }
 
     //TODO changed into static. Is it correct?
+    //TODO can we centralize it?
     public static void addGroupMember(int idReservation, int idMember, int ownGuests) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
+
 
         isPartDao.addMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember, ownGuests);
     }

@@ -1,10 +1,10 @@
 package main.java.DomainModel;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Time;
-import java.text.DecimalFormat;
 
-public class Reservation {
+public class Reservation extends Subject {
     private int id;
     private Date reservationDate;
     private Time reservationTime;
@@ -15,8 +15,9 @@ public class Reservation {
     private boolean isConfirmed;
     private boolean isMatched;
     private boolean isDeleted;
+    private boolean isNotified;
 
-    public Reservation(int reservationId, Date reservationDate, Time reservationTime, Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, boolean isConfirmed, boolean isMatched, boolean isDeleted) {
+    public Reservation(int reservationId, Date reservationDate, Time reservationTime, Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, boolean isConfirmed, boolean isMatched, boolean isDeleted, boolean isNotified) {
         this.id = reservationId;
         this.reservationDate = reservationDate;
         this.reservationTime = reservationTime;
@@ -27,8 +28,11 @@ public class Reservation {
         this.isConfirmed = isConfirmed;
         this.isMatched = isMatched;
         this.isDeleted = isDeleted;
+        this.isNotified = isNotified;
+
     }
 
+    //it used to add a reservation
     public Reservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, boolean isConfirmed, boolean isMatched) {
         this.eventDate = eventDate;
         this.eventTimeStart = eventTimeStart;
@@ -37,6 +41,8 @@ public class Reservation {
         this.isConfirmed = isConfirmed;
         this.isMatched = isMatched;
         this.isDeleted = false;
+        this.isNotified = false; //FIXME is it correct?
+
     }
 
     //getters
@@ -47,6 +53,14 @@ public class Reservation {
 
     public void setEventDate(Date eventDate) {
         this.eventDate = eventDate;
+    }
+
+    public boolean isNotified() {
+        return isNotified;
+    }
+
+    public void considerNotified(){
+        isNotified = true;
     }
 
     public Time getEventTimeStart() {
@@ -109,8 +123,9 @@ public class Reservation {
         return isConfirmed;
     }
 
-    public void setConfirmed(boolean confirmed) {
+    public void setConfirmed(boolean confirmed) throws SQLException, ClassNotFoundException {
         isConfirmed = confirmed;
+        notifyObserver();
     }
 
     public boolean isMatched() {

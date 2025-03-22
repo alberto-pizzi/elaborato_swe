@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 
 public class BookFieldController extends FieldFormManagementController implements Initializable {
 
@@ -143,17 +142,14 @@ public class BookFieldController extends FieldFormManagementController implement
         else{
             System.out.println(eventStartTime.toString() + " " + eventEndTime.toString());
 
-            int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
-            boolean reservationAdded = personController.addReservation(eventDate,eventStartTime,eventEndTime,field,guests, totalPeople, isMatchingCheckBox.isSelected());
+            if (selectGuestsPaneController != null) {
 
-            if (reservationAdded) {
-                System.out.println("Booking done");
+                createReservation(eventDate,eventStartTime,eventEndTime);
 
-                messagesController.showMessage("Booking done successfully", MessagesController.MessageType.SUCCESS,5);
-                actionsAfterAdd();
             }
             else
-                messagesController.showMessage("Booking failed", MessagesController.MessageType.ERROR,5);
+                messagesController.showMessage("Error during adding (popup)", MessagesController.MessageType.ERROR, 5);
+
 
         }
 
@@ -162,6 +158,42 @@ public class BookFieldController extends FieldFormManagementController implement
     protected void actionsAfterAdd(){
         //TODO is add redirect to home needed?
         resetFields();
+
+    }
+
+    //this is for add reservation (user side)
+    protected void createReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd) throws SQLException, ClassNotFoundException {
+
+        //FIXME
+
+        selectGuestsPaneController.applyChanges();
+
+        int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
+        int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), null);
+
+
+        if (reservationIdAdded != 0) {
+
+            if (selectGuestsPaneController != null) {
+
+
+
+
+
+                System.out.println("Booking done");
+
+                messagesController.showMessage("Booking done successfully", MessagesController.MessageType.SUCCESS, 5);
+                actionsAfterAdd();
+
+
+            }
+
+
+
+        } else
+            messagesController.showMessage("Booking failed", MessagesController.MessageType.ERROR, 5);
+
+
 
     }
 

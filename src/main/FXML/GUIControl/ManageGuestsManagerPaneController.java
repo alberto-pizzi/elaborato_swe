@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
+import main.java.BusinessLogic.NotificationController;
 import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.GroupMember;
@@ -70,8 +71,8 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
         //fill effective group members
         if (group != null){
-            for (User user : PersonController.getGroupMembers(group.getReservation().getId())){
-                effectiveGroupMembersList.getItems().add(new GroupMember(user, PersonController.getUserGuests(group.getReservation().getId(),user.getId())));
+            for (GroupMember groupMember : PersonController.getGroupMembers(group.getReservation().getId())){
+                effectiveGroupMembersList.getItems().add(groupMember);
             }
 
         }
@@ -174,20 +175,29 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             //removed
             if (groupMembersRemoved != null && !groupMembersRemoved.isEmpty()) {
                 for (GroupMember groupMember : groupMembersRemoved) {
-                    PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+                    if (group.removeMember(groupMember.getUser(),groupMember.getOwnGuests()))
+                        PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+                    else
+                        System.out.println("Error during removing member into group");
                 }
             }
 
             //added
             if (groupMembersAdded != null && !groupMembersAdded.isEmpty()) {
                 for (GroupMember groupMember : groupMembersAdded) {
-                    PersonController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
+                    NotificationController notificationController = new NotificationController(group.getReservation());
+                    if (group.addMember(groupMember.getUser(),groupMember.getOwnGuests()))
+                        PersonController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
+                    else
+                        System.out.println("Error during adding member into group");
                 }
             }
 
             //changed
             if (groupMembersChanged != null && !groupMembersChanged.isEmpty()) {
                 for (GroupMember groupMember : groupMembersChanged) {
+                    NotificationController notificationController = new NotificationController(group.getReservation());
+                    group.changeUserGuests(groupMember.getUser().getUsername(),groupMember.getOwnGuests());
                     personController.changeUserGuests(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
                 }
             }

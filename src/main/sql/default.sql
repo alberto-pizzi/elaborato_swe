@@ -33,9 +33,9 @@ INSERT INTO "Field" (name, id_sport, description, price, image, id_facility) VAL
 ('Campo di Tennis', 2, 'Campo da tennis in terra rossa', 50.00, 'olympicField.jpg', 2);
 
 -- fill Reservation table
-INSERT INTO "Reservation" (res_date, event_date, res_time, event_time_start, event_time_end, id_field, is_confirmed, is_matched,is_deleted) VALUES
-('2024-09-01', '2024-09-10', '12:00', '18:00', '20:00', 1,  TRUE, FALSE,FALSE),
-('2024-09-01', '2024-09-15', '15:00', '16:00', '18:00', 2,  FALSE, TRUE,FALSE);
+INSERT INTO "Reservation" (res_date, event_date, res_time, event_time_start, event_time_end, id_field, is_confirmed, is_matched,is_deleted,is_notified) VALUES
+('2024-09-01', '2024-09-10', '12:00', '18:00', '20:00', 1,  TRUE, FALSE,FALSE,FALSE),
+('2024-09-01', '2024-09-15', '15:00', '16:00', '18:00', 2,  FALSE, TRUE,FALSE,FALSE);
 
 -- fill Group table
 INSERT INTO "Group" (group_head, participants_required, id_reservation) VALUES
