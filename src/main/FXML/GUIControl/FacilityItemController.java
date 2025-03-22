@@ -25,44 +25,16 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class FacilityItemController implements Initializable {
+public class FacilityItemController extends FacilityItem {
 
     @FXML
     private Button deleteFacility;
-
-    @FXML
-    private AnchorPane facilityItemPane;
-
-    @FXML
-    private Label facilityAddressLabel;
-
-    @FXML
-    private Label facilityNameLabel;
-
-    @FXML
-    private Label facilityPhoneNumberLabel;
-
-    @FXML
-    private ImageView fieldImg;
-
-    @FXML
-    private Label fieldsLabel;
-
-    @FXML
-    private Label managersLabel;
-
     @FXML
     private Button modifyFacility;
-
-    private Facility facility;
 
     private FacilitiesListController facilitiesListController;
 
     private MessagesController messagesController;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    }
 
     public void setFacilitiesListController(FacilitiesListController facilitiesListController) {
         this.facilitiesListController = facilitiesListController;
@@ -71,7 +43,6 @@ public class FacilityItemController implements Initializable {
 
     @FXML
     void handleDeleteFacilityButton(ActionEvent event) throws SQLException {
-
         System.out.println("Delete button clicked" );
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -92,7 +63,6 @@ public class FacilityItemController implements Initializable {
                 String message = "An error has occurred";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
             }
-
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
         }
@@ -100,30 +70,10 @@ public class FacilityItemController implements Initializable {
 
     @FXML
     void handleModifyFacilityButton(ActionEvent event) throws IOException, SQLException {
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
         Parent facilityModifyPane = loader.load();
-
         ModifyFacilityController modifyFacilityController = loader.getController();
         modifyFacilityController.setData(facility,facilitiesListController.getMenuPane());
-
         facilitiesListController.getMenuPane().setCenter(facilityModifyPane);
-
-    }
-
-    public void setData(Facility facility) throws SQLException {
-        this.facility = facility;
-
-        facilityNameLabel.setText(facility.getName());
-        facilityAddressLabel.setText(facility.getAddress());
-        managersLabel.setText(String.format("%d",facility.getNManager()));
-        fieldsLabel.setText(String.format("%d",facility.getNFields()));
-
-        String pathFromRoot = "/main/FXML/img/facilities/";
-
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
-        fieldImg.setImage(image);
-
-        facilityPhoneNumberLabel.setText(facility.getTelephone());
     }
 }

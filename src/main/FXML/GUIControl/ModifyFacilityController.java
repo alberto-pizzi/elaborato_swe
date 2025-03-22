@@ -124,7 +124,7 @@ public class ModifyFacilityController extends MediaManagerController {
                     Parent facilitiesList = loader.load();
 
                     FacilitiesListController facilitiesListController = loader.getController();
-
+                    facilitiesListController.setData(menuPane);
                     menuPane.setCenter(facilitiesList);
                 }else{
                     String message = "An error has occurred";

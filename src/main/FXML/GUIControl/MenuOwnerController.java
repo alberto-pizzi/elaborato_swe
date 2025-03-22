@@ -68,7 +68,7 @@ public class MenuOwnerController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesOwner.fxml"));
         Parent view = loader.load();
         FacilitiesListController controller = loader.getController();
-        controller.setMenuPane(menuPane);
+        controller.setData(menuPane);
         menuPane.setCenter(view);
         System.out.println("Facilities menu button clicked");
     }

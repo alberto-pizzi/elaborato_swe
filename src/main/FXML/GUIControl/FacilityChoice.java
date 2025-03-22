@@ -46,6 +46,10 @@ public abstract class FacilityChoice implements Initializable {
         return menuPane;
     }
 
+    public void setMenuPane(BorderPane menuPane) {
+        this.menuPane = menuPane;
+    }
+
     public AnchorPane getPage() {
         return page;
     }
