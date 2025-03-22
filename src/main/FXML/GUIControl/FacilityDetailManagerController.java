@@ -15,68 +15,16 @@ import main.java.DomainModel.Facility;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class FacilityDetailManagerController {
+public class FacilityDetailManagerController extends FacilityDetail{
 
-    @FXML
-    private Label facilityAddress;
-
-    @FXML
-    private ImageView facilityImageView;
-
-    @FXML
-    private Label facilityNameLabel;
-
-    @FXML
-    private Label facilityFieldsNumber;
-
-    @FXML
-    private Label facilityManagersNumber;
-
-    @FXML
-    private Label facilityTelephone;
-
-    @FXML
-    private Button goToBookButton;
-
-    private Facility facility;
-
-    private BorderPane menuPane;
-
-    
     //methods
 
-    public void setData(Facility facility, BorderPane menuPane) throws IOException {
-
-        this.facility = facility;
-        this.menuPane = menuPane;
-
-        facilityNameLabel.setText(facility.getName());
-        facilityAddress.setText(facility.getFullAddress());
-        facilityTelephone.setText(facility.getTelephone().toString());
-        facilityFieldsNumber.setText(String.valueOf(facility.getNFields()));
-        facilityManagersNumber.setText(String.valueOf(facility.getNManager()));
-        //TODO add "go to book" button
-
-        String pathFromRoot = "/main/FXML/img/facilities/";
-
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
-        facilityImageView.setImage(image);
-
-    }
-
-    @FXML
-    void handleGoToFieldsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
-
+    @Override
+    protected void goToFields() throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldChoiceManager.fxml"));
         Parent facilityFieldsPane = loader.load();
-
         FieldChoiceManagerController fieldChoiceManagerController = loader.getController();
         fieldChoiceManagerController.setData(facility, menuPane);
-
         menuPane.setCenter(facilityFieldsPane);
-
     }
-
-
-
 }
