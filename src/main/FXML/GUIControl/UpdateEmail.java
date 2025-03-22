@@ -16,18 +16,21 @@ public abstract class UpdateEmail extends UpdateProfileController{
         if (!emailInput.getText().isEmpty()) {
 
             boolean emailExistence = access.checkEmail(emailInput.getText());
-
-            if (!emailExistence) {
-                if(profileController.updateEmail(emailInput.getText())){
-                    String message = "Email updated! New email is: " + emailInput.getText();
-                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+            if(!emailInput.getText().equals(profileController.getEmail())){
+                if (!emailExistence) {
+                    if(profileController.updateEmail(emailInput.getText())){
+                        String message = "Email updated! New email is: " + emailInput.getText();
+                        messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                    }else{
+                        String message = "An error has occurred";
+                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    }
                 }else{
-                    String message = "An error has occurred";
+                    String message = "This email already exist. Try again!";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
-            }
-            else{
-                String message = "This email already exist. Try again!";
+            }else{
+                String message = "This is already your email. Try again!";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 
