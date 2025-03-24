@@ -15,44 +15,21 @@ import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
 
 import java.io.*;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class NewFieldController extends MediaManagerController {
-
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private Button uploadButton;
-
-    @FXML
-    private TextArea descriptionInput;
-
-    @FXML
-    private TextField nameInput;
-
-    @FXML
-    private TextField priceInput;
-
-    @FXML
-    private VBox sportList;
-
-    private Facility facility;
-
-    private Field field = new Field();
-
-    private BorderPane menuPane;
-
-    ArrayList<Sport> clickedSports = new ArrayList<>();
-
-    ArrayList<Sport> sports = new ArrayList<>();
-
-    private ArrayList<Label> clickedSportLabels = new ArrayList<>();
+public class NewFieldController extends FieldForm {
 
     private Boolean newFacility = false;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initialize(location, resources);
+        field = new Field();
+    }
     @FXML
     void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
 
@@ -207,7 +184,7 @@ public class NewFieldController extends MediaManagerController {
                 System.out.println(" clicked!");
                 clickSport(sport, label);
             });
-            sportList.getChildren().add(label);
+            sportsList.getChildren().add(label);
         }
     }
 

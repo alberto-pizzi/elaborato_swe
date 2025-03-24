@@ -21,35 +21,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ModifyFieldController extends MediaManagerController {
-
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private Button uploadButton;
-
-    @FXML
-    private TextArea descriptionInput;
-
-    @FXML
-    private VBox sportsList;
-
-    @FXML
-    private TextField nameInput;
-
-    @FXML
-    private TextField priceInput;
-
-    private Field field;
-
-    private Facility facility;
-
-    ArrayList<Sport> clickedSports = new ArrayList<>();
-
-    ArrayList<Sport> sports = new ArrayList<>();
-
-    private ArrayList<Label> clickedSportLabels = new ArrayList<>();
+public class ModifyFieldController extends FieldForm {
 
     @FXML
     void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
