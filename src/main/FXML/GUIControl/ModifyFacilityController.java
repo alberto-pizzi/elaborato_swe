@@ -186,7 +186,7 @@ public class ModifyFacilityController extends MediaManagerController {
     }
 
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
-
+        setData(menuPane);
         this.facility = facility;
 
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
@@ -229,8 +229,6 @@ public class ModifyFacilityController extends MediaManagerController {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
         imageLabel.setImage(image);
-
-        this.menuPane = menuPane;
     }
 
     @FXML
