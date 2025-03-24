@@ -30,32 +30,15 @@ public class NewFieldController extends FieldForm {
         initialize(location, resources);
         field = new Field();
     }
-    @FXML
-    void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
 
+    @Override
+    public void newField() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
-        Parent addManagersPane = loader.load();
-
-        if(!nameInput.getText().equals("")) {
-            field.setName(nameInput.getText());
-        }
-        if(!priceInput.getText().equals("")){
-            Float price = Float.parseFloat(priceInput.getText().replace("$",""));
-            field.setPrice(price);
-        }
-
-        if(clickedSportLabels.size() != 0) {
-            field.setSport(clickedSports.get(0));
-        }
-
-        field.setDescription(descriptionInput.getText());
-
+        Parent newField = loader.load();
         NewSportController newSportController = loader.getController();
-        newSportController.setData(field,this.menuPane);
+        newSportController.setData(field, facility,menuPane);
         newSportController.setNewFacility(newFacility);
-
-        menuPane.setCenter(addManagersPane);
-
+        menuPane.setCenter(newField);
     }
 
     @FXML
@@ -145,26 +128,6 @@ public class NewFieldController extends FieldForm {
         }else {
             String message = "Please enter all the fields";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-        }
-
-    }
-
-    @FXML
-    void clickSport(Sport sport, Label label){
-
-        if(clickedSports.contains(sport)){
-            clickedSports.remove(sport);
-            clickedSportLabels.remove(label);
-            label.setStyle("-fx-background-color: transparent;");
-        }else{
-            for (int i = 0; i < clickedSports.size(); i++){
-                clickedSports.remove(sport);
-                clickedSportLabels.remove(label);
-                label.setStyle("-fx-background-color: transparent;");
-            }
-            clickedSports.add(sport);
-            clickedSportLabels.add(label);
-            label.setStyle("-fx-background-color: lightblue;");
         }
 
     }

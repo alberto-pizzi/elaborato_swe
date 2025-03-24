@@ -1,6 +1,9 @@
 package main.FXML.GUIControl;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -10,6 +13,8 @@ import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class FieldForm extends MediaManagerController{
@@ -42,5 +47,46 @@ public abstract class FieldForm extends MediaManagerController{
 
     protected ArrayList<Label> clickedSportLabels = new ArrayList<>();
 
+    protected abstract void newField() throws IOException, SQLException;
 
+    @FXML
+    void clickSport(Sport sport, Label label){
+
+        if(clickedSports.contains(sport)){
+            clickedSports.remove(sport);
+            clickedSportLabels.remove(label);
+            label.setStyle("-fx-background-color: transparent;");
+        }else{
+            for (int i = 0; i < clickedSports.size(); i++){
+                clickedSports.remove(sport);
+                clickedSportLabels.remove(label);
+                label.setStyle("-fx-background-color: transparent;");
+            }
+            clickedSports.add(sport);
+            clickedSportLabels.add(label);
+            label.setStyle("-fx-background-color: lightblue;");
+        }
+
+    }
+
+    @FXML
+    public void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
+
+        if(!nameInput.getText().isEmpty()) {
+            field.setName(nameInput.getText());
+        }
+        if(!(priceInput.getText().isEmpty() || priceInput.getText().equals("$"))) {
+            field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
+        }
+        if(!descriptionInput.getText().isEmpty()) {
+            field.setDescription(descriptionInput.getText());
+        }
+
+        try {
+            newField();
+        }catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

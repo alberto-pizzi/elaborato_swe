@@ -24,34 +24,20 @@ import java.util.ArrayList;
 public class ModifyFieldController extends FieldForm {
 
     @FXML
-    void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
-        Parent addManagersPane = loader.load();
-
-        if(!nameInput.getText().isEmpty()) {
-            field.setName(nameInput.getText());
-        }
-        if(!(priceInput.getText().isEmpty() || priceInput.getText().equals("$"))) {
-            field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
-        }
-        if(!descriptionInput.getText().isEmpty()) {
-            field.setDescription(descriptionInput.getText());
-        }
-
-        NewSportController newSportController = loader.getController();
-        newSportController.setData(field, facility,this.menuPane);
-
-        menuPane.setCenter(addManagersPane);
-
-    }
-
-    @FXML
     void handleUploadImageButton(ActionEvent event) {
         folderName = "fields";
         if(uploadImage()){
             field.setImage(imageName);
         }
+    }
+
+    @Override
+    public void newField() throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
+        Parent newField = loader.load();
+        NewSportController newSportController = loader.getController();
+        newSportController.setData(field, facility,menuPane);
+        menuPane.setCenter(newField);
     }
 
     @FXML
@@ -84,25 +70,8 @@ public class ModifyFieldController extends FieldForm {
 
     }
 
-    @FXML
-    void clickSport(Sport sport, Label label){
-        if(clickedSports.contains(sport)){
-            clickedSports.remove(sport);
-            clickedSportLabels.remove(label);
-            label.setStyle("-fx-background-color: transparent;");
-        }else{
-            for (int i = 0; i < clickedSports.size(); i++){
-                clickedSports.remove(sport);
-                clickedSportLabels.remove(label);
-                label.setStyle("-fx-background-color: transparent;");
-            }
-            clickedSports.add(sport);
-            clickedSportLabels.add(label);
-            label.setStyle("-fx-background-color: lightblue;");
-        }
-    }
-
     public void setData(Facility facility, Field field, BorderPane menuPane) throws IOException, SQLException {
+        this.menuPane = menuPane;
         this.facility = facility;
         this.field = field;
 
@@ -129,6 +98,5 @@ public class ModifyFieldController extends FieldForm {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         imageLabel.setImage(image);
-        this.menuPane = menuPane;
     }
 }
