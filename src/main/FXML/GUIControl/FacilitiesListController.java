@@ -25,8 +25,6 @@ public class FacilitiesListController extends FacilityChoice {
     @FXML
     private Label messageLabel;
 
-    private BorderPane menuPane;
-
     public Label getMessageLabel() {
         return messageLabel;
     }

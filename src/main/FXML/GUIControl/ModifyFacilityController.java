@@ -186,7 +186,7 @@ public class ModifyFacilityController extends MediaManagerController {
     }
 
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
-        setData(menuPane);
+        this.menuPane = menuPane;
         this.facility = facility;
 
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();

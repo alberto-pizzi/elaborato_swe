@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NewFieldController">
+<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NewFieldController">
    <children>
       <VBox alignment="CENTER" prefHeight="720.0" prefWidth="1060.0">
          <children>
@@ -24,7 +24,7 @@
                         <Font size="16.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
                   <TextField fx:id="nameInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
@@ -41,7 +41,7 @@
                         <Font size="16.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
                   <TextField fx:id="priceInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
@@ -53,7 +53,7 @@
             </VBox>
             <Label text="Description:" wrapText="true">
                <VBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets bottom="5.0" />
                </VBox.margin>
                <font>
                   <Font size="16.0" />
@@ -69,7 +69,7 @@
                               <Font size="16.0" />
                            </font>
                            <VBox.margin>
-                              <Insets bottom="10.0" />
+                              <Insets bottom="5.0" />
                            </VBox.margin>
                         </Label>
                         <ScrollPane prefHeight="200.0" prefWidth="200.0">
@@ -100,10 +100,10 @@
                         <Font size="16.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <ImageView fx:id="imageLabel" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imageLabel" fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" />
                   <Button fx:id="uploadButton" mnemonicParsing="false" onAction="#handleUploadImageButton" stylesheets="@css/style.css" text="Upload image" textFill="WHITE" wrapText="true">
                      <styleClass>
                         <String fx:value="shadow" />

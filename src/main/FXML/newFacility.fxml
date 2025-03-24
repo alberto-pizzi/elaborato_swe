@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NewFacilityController">
+<AnchorPane maxHeight="720.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.NewFacilityController">
    <children>
-      <VBox alignment="CENTER" prefHeight="720.0" prefWidth="1060.0">
+      <VBox alignment="CENTER" maxHeight="720.0" prefHeight="720.0" prefWidth="1060.0">
          <children>
             <VBox alignment="CENTER" prefHeight="72.0" prefWidth="180.0">
                <children>
@@ -22,7 +22,7 @@
                         <Font size="16.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
                   <TextField fx:id="nameInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
@@ -39,7 +39,7 @@
                         <Font size="16.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
                   <TextField fx:id="addressInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
@@ -53,12 +53,12 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="72.0" prefWidth="180.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="Province*:" textAlignment="CENTER">
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="Province:" textAlignment="CENTER">
                            <font>
                               <Font size="16.0" />
                            </font>
                            <VBox.margin>
-                              <Insets bottom="10.0" />
+                              <Insets bottom="5.0" />
                            </VBox.margin>
                         </Label>
                         <TextField fx:id="provinceInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
@@ -75,7 +75,7 @@
                               <Font size="16.0" />
                            </font>
                            <VBox.margin>
-                              <Insets bottom="10.0" />
+                              <Insets bottom="5.0" />
                            </VBox.margin>
                         </Label>
                         <TextField fx:id="zipInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
@@ -92,13 +92,13 @@
             </HBox>
             <Label text="City:">
                <VBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets bottom="5.0" />
                </VBox.margin>
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="cityInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
+            <TextField fx:id="cityInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="382.0" styleClass="text-input" stylesheets="@css/style.css">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
@@ -111,7 +111,7 @@
                   <Font size="16.0" />
                </font>
                <VBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets bottom="5.0" />
                </VBox.margin>
             </Label>
             <TextField fx:id="countryInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
@@ -131,7 +131,7 @@
                               <Font size="16.0" />
                            </font>
                            <VBox.margin>
-                              <Insets bottom="10.0" />
+                              <Insets bottom="5.0" />
                            </VBox.margin>
                         </Label>
                         <TextField fx:id="phoneInput" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="381.0" styleClass="text-input" stylesheets="@css/style.css">
@@ -150,10 +150,10 @@
                         <Font size="16.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <ImageView fx:id="imageLabel" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imageLabel" fitHeight="130.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" />
                   <Button mnemonicParsing="false" onAction="#handleUploadImageButton" stylesheets="@css/style.css" text="Upload image" textFill="WHITE" wrapText="true">
                      <styleClass>
                         <String fx:value="button-owner" />
@@ -163,7 +163,7 @@
             </VBox>
             <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButton" stylesheets="@css/style.css" text="Confrim" textFill="WHITE" wrapText="true">
                <VBox.margin>
-                  <Insets bottom="5.0" top="10.0" />
+                  <Insets top="10.0" />
                </VBox.margin>
                <padding>
                   <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
