@@ -65,6 +65,10 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
                 if (isMatched) {
                     sendInvites(group, findOtherPlayers(field.getFacility().getProvince()));
                 }
+                else{
+                    NotificationController notificationController = new NotificationController();
+                    notificationController.sendNotifications(reservation,NotificationType.CONFIRMATION,"");
+                }
             }
             else
                 return 0;

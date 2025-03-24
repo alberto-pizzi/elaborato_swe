@@ -77,6 +77,14 @@ public class UserActionsController extends PersonController<User>{
                 if (isMatched) {
                     sendInvites(group, findOtherPlayers(this.person.getProvince()));
                 }
+                else{
+                    NotificationController notificationController = new NotificationController();
+                    notificationController.sendNotifications(reservation,NotificationType.CONFIRMATION,"");
+                }
+
+
+
+
             }
             else
                 return 0;
