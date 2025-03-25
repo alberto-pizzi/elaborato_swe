@@ -21,16 +21,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class ModifyFacilityController extends MediaManagerController {
-
-    @FXML
-    private TextField cityInput;
-
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private TextField countryInput;
+public class ModifyFacilityController extends FacilityForm {
 
     @FXML
     private VBox fields;
@@ -38,22 +29,6 @@ public class ModifyFacilityController extends MediaManagerController {
     @FXML
     private VBox managers;
 
-    @FXML
-    private TextField nameInput;
-
-    @FXML
-    private TextField phoneInput;
-
-    @FXML
-    private TextField provinceInput;
-
-    @FXML
-    private TextField zipInput;
-
-    @FXML
-    private TextField addressInput;
-
-    private Facility facility;
 
     ArrayList<User> managersList;
 
@@ -94,51 +69,22 @@ public class ModifyFacilityController extends MediaManagerController {
 
     }
 
-    @FXML
-    void handleConfirmButton(ActionEvent event) throws IOException, SQLException {
+    @Override
+    protected void facilityUpdate(OwnerManagementController ownerManagementController) throws SQLException, IOException {
+        if(ownerManagementController.editFacility(facility)){
+            System.out.println("Facility updated");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
+            Parent facilitiesList = loader.load();
 
-        System.out.println("Confirm button clicked: ");
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm modifications");
-        alert.setHeaderText("Confirm modifications");
-        alert.setContentText("Are you sure you want to modify this facility?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.get() == ButtonType.OK){
-
-            OwnerManagementController ownerManagementController = new OwnerManagementController();
-
-            if((!nameInput.getText().isEmpty()) && (!addressInput.getText().isEmpty()) && (!provinceInput.getText().isEmpty())
-                    && (!cityInput.getText().isEmpty()) && (!countryInput.getText().isEmpty())) {
-                facility.setName(nameInput.getText());
-                facility.setAddress(addressInput.getText());
-                facility.setProvince(provinceInput.getText());
-                facility.setCity(cityInput.getText());
-                facility.setCountry(countryInput.getText());
-                facility.setTelephone(phoneInput.getText());
-                facility.setZip(zipInput.getText());
-
-                if(ownerManagementController.editFacility(facility)){
-                    System.out.println("Facility updated");
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
-                    Parent facilitiesList = loader.load();
-
-                    FacilitiesListController facilitiesListController = loader.getController();
-                    facilitiesListController.setData(menuPane);
-                    menuPane.setCenter(facilitiesList);
-                }else{
-                    String message = "An error has occurred";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-                }
-            }else {
-                String message = "Please check the fields";
-                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-            }
-
-        } else if(result.get() == ButtonType.CANCEL){
-            System.out.println("Cancel!");
+            FacilitiesListController facilitiesListController = loader.getController();
+            facilitiesListController.setData(menuPane);
+            menuPane.setCenter(facilitiesList);
+        }else{
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
+
 
     @FXML
     void handleAddManagersButton(ActionEvent event) throws IOException, SQLException {
@@ -186,7 +132,7 @@ public class ModifyFacilityController extends MediaManagerController {
     }
 
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
-        this.menuPane = menuPane;
+        super.setData(menuPane);
         this.facility = facility;
 
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
@@ -327,14 +273,6 @@ public class ModifyFacilityController extends MediaManagerController {
         modifyFieldController.setData(facility, clickedFields.get(0), this.menuPane);
 
         menuPane.setCenter(modifyFieldPane);
-    }
-
-    @FXML
-    void handleUploadImageButton(ActionEvent event) {
-        folderName = "facilities";
-        if(uploadImage()){
-            facility.setImage(imageName);
-        }
     }
 
 }
