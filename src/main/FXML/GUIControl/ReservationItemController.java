@@ -107,7 +107,6 @@ public class ReservationItemController {
         }
 
         try {
-            //TODO optimize?
             FXMLLoader loader = new FXMLLoader(getClass().getResource(buttonFXMLsrc));
             if (userActionsController.editRights(reservation)) {
                 HBox buttonsBox = loader.load();

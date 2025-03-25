@@ -62,7 +62,7 @@ public abstract class PersonController<T extends Person> {
 
     public abstract int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException;
 
-        //TODO add group as parameter and its updates
+        //TODO edit messages
     public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
 
         ReservationDao reservationDao = new ReservationDao();
@@ -75,11 +75,7 @@ public abstract class PersonController<T extends Person> {
         reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
         reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
 
-        //TODO add other data to be updated
-
         notificationController.sendNotifications(reservation, MODIFICATION, notificationMessage);
-
-
     }
 
     //FIXME output type?
@@ -105,18 +101,6 @@ public abstract class PersonController<T extends Person> {
         return userDAO.getUsersByProvince(userProvince);
     }
 
-    //TODO is it useful?
-    public static int getMaxAddableGuestsForMatched(Group group, int idReservation, int userId, boolean considerHimself) throws SQLException, ClassNotFoundException {
-        int actualGuestsByUser = PersonController.getUserGuests(idReservation,userId);
-
-        if (group == null)
-            return 0;
-
-        return group.getRequiredParticipants() - group.getParticipants() + actualGuestsByUser + (considerHimself ? 1 : 0);
-
-    }
-
-    //TODO is it correct here?
     public void changeUserGuests(int idReservation,int userId, int guestNewNumber) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
@@ -167,7 +151,6 @@ public abstract class PersonController<T extends Person> {
     }
 
 
-    //TODO is it correct? Maybe yes
     public static Group getGroupByReservation(int idReservation) throws SQLException, ClassNotFoundException {
         GroupDao groupDao = new GroupDao();
         return groupDao.getGroupByReservation(idReservation);
@@ -260,7 +243,6 @@ public abstract class PersonController<T extends Person> {
     }
 
     //TODO changed into static. Is it correct?
-    //TODO can we centralize it?
     public static void addGroupMember(int idReservation, int idMember, int ownGuests) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();

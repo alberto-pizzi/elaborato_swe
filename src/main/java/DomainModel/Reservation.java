@@ -41,7 +41,7 @@ public class Reservation extends Subject {
         this.isConfirmed = isConfirmed;
         this.isMatched = isMatched;
         this.isDeleted = false;
-        this.isNotified = false; //FIXME is it correct?
+        this.isNotified = false;
 
     }
 

@@ -112,7 +112,6 @@ public class Group{
     }
 
     public void confirmationChecker() throws SQLException, ClassNotFoundException {
-        //FIXME observers will be uptated every time that isConfirmed is true
         if (!reservation.isMatched())
             reservation.setConfirmed(true);
         else{

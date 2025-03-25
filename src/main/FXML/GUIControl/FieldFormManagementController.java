@@ -93,8 +93,6 @@ public abstract class FieldFormManagementController implements Initializable {
     protected DialogPane selectGuestsDialogPane;
 
     //inheritance
-    //TODO find a smart method to manage these fields
-    //TODO Group is better than Reservation because it has more information
     protected Reservation reservation = null;
     protected BorderPane menuPane = null;
 
@@ -108,8 +106,6 @@ public abstract class FieldFormManagementController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        //TODO add login singleton connection, if needed
 
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
@@ -140,7 +136,6 @@ public abstract class FieldFormManagementController implements Initializable {
         personController = new UserActionsController();
     }
 
-    //TODO add setData, better if it uses inheritance and polymorphism
     protected void formListeners(){
         datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
 
@@ -235,7 +230,7 @@ public abstract class FieldFormManagementController implements Initializable {
 
         if (selectGuestsPaneController != null) {
             selectGuestsPaneController.setTotalPrice(totalPrice);
-            selectGuestsPaneController.updateTotalPricePerPersonDraftLabel(); //TODO is it correct? Maybe yes
+            selectGuestsPaneController.updateTotalPricePerPersonDraftLabel();
         }
     }
 
@@ -244,10 +239,6 @@ public abstract class FieldFormManagementController implements Initializable {
             pricePerPersonLabel.setText("Guests not selected");
         else
             pricePerPersonLabel.setText(this.priceFormat.format(Reservation.pricePerUser(totalPrice,totalPeople)) + " $");
-    }
-
-    protected void actionsAfterDelete() throws IOException, SQLException, ClassNotFoundException {
-        //TODO empty implementation (just for abstract class)?
     }
 
     protected void resetFields(){
@@ -376,9 +367,8 @@ public abstract class FieldFormManagementController implements Initializable {
         if (startTimeChoice != null) {
 
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-            List<LocalTime> timeOptions = null; // 30 minuti
+            List<LocalTime> timeOptions = null; // 30 min
             try {
-                //TODO add correct WH day
                 timeOptions = availableTimes(minutesInterval, timeFormatter, dayOfWeek);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -393,7 +383,6 @@ public abstract class FieldFormManagementController implements Initializable {
     }
 
 
-    //FIXME optimize?
     protected void updateEndTimes(LocalTime selectedTime, ArrayList<WorkingHours> dailyWHs, int minutesInterval) throws SQLException, ClassNotFoundException {
 
         endTimeChoice.getItems().clear();
@@ -472,7 +461,6 @@ public abstract class FieldFormManagementController implements Initializable {
             return null;
     }
 
-    //TODO optimize. Try to print LocalTimes directly
     public Time getEventStartTime(){
         if (startTimeChoice.getValue() != null)
             return Time.valueOf(LocalTime.parse(startTimeChoice.getValue()));

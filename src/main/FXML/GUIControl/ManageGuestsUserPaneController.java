@@ -116,12 +116,11 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
        }
 
-       //TODO to be finished
+
 
    }
 
 
-   //FIXME check
     @Override
     public void updateGuestsChoice() throws SQLException, ClassNotFoundException {
 
@@ -129,7 +128,6 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
         if (group != null && group.getReservation() != null){
 
-            //FIXME choice value is not selected
             int value = PersonController.getUserGuests(group.getReservation().getId(),personController.getPerson().getId());
             nGuestsChoice.setValue(value);
 

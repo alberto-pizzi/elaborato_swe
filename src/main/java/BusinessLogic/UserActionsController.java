@@ -54,7 +54,6 @@ public class UserActionsController extends PersonController<User>{
         managesDAO.detachManager(person.getId(), idFacility);
     }
 
-    //TODO is it right to pass null value as groupHead (and not using it), is this case?
     @Override
     public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException {
 
@@ -126,7 +125,6 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    //TODO changed to boolean (uml)
     public boolean acceptInvite(Invite invite) throws SQLException, ClassNotFoundException {
 
         boolean accepted = false;
@@ -184,7 +182,7 @@ public class UserActionsController extends PersonController<User>{
                 UserDAO userDAO = new UserDAO();
                 for (String accountUsername : accountsList) {
                     if (accountUsername != null) {
-                        sendInvite(invite.getGroup().getReservation(), userDAO.getUserID(accountUsername)); //TODO could be better by username than by id?
+                        sendInvite(invite.getGroup().getReservation(), userDAO.getUserID(accountUsername));
                     }
                 }
 
@@ -238,7 +236,6 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    //TODO change form idGroup to Group?
     public void leaveGroup(int idGroup) throws SQLException, ClassNotFoundException {
 
         IsPartDao isPartDao = new IsPartDao();
@@ -274,7 +271,6 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    //cambiato tipo return
     public ArrayList<Field> searchField(String inputSearched) throws SQLException {
         FieldDao fieldDao = new FieldDao();
         return fieldDao.search(inputSearched);

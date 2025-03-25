@@ -62,20 +62,6 @@ public class FieldItemController {
 
     @FXML
     public void handleSelectFieldButton(ActionEvent event) throws IOException {
-        //TODO check correctness
-        //below there are the previous code
-        /*
-        FXMLLoader fmxLoader;
-        fmxLoader = new FXMLLoader();
-        fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldDetails.fxml"));
-
-        AnchorPane view = fmxLoader.load();
-        FieldDetailController fieldDetailController = fmxLoader.getController();
-        fieldDetailController.setData(field,homeController.getMenuPane());
-        homeController.getPage().getChildren().removeAll(homeController.getPage().getChildren());
-        homeController.getPage().getChildren().add(view);
-
-         */
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetails.fxml"));
         Parent fieldDetailPane = loader.load();

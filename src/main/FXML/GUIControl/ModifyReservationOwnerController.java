@@ -16,9 +16,6 @@ import java.time.LocalTime;
 public class ModifyReservationOwnerController extends ModifyReservationManagerController implements Initializable {
 
 
-    //TODO any override is needed?
-
-
     //FIXME redundancy
     @Override
     public void setData(Reservation reservation, BorderPane menuPane) throws SQLException, ClassNotFoundException {
@@ -27,7 +24,6 @@ public class ModifyReservationOwnerController extends ModifyReservationManagerCo
 
     }
 
-    //TODO optimize it
     @Override
     protected void actionsAfterEdit() throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));

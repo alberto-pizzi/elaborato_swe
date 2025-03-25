@@ -2,6 +2,7 @@ package main.java.DomainModel;
 
 import java.util.ArrayList;
 
+//TODO delete class
 public class Groups {
     private User user;
     private ArrayList<Group> state;
@@ -22,8 +23,6 @@ public class Groups {
     public void setUser(User user) {
         this.user = user;
     }
-
-    //TODO check if setState is correct
 
     public void setState(ArrayList<Group> state) {
         this.state = state;

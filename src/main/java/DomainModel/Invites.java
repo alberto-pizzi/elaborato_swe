@@ -3,11 +3,11 @@ package main.java.DomainModel;
 
 import java.util.ArrayList;
 
+//TODO delete class
 public class Invites {
 
 
     // attributes
-    //TODO state (and its methods)
     private ArrayList<Invite> state;
     private User user;
 

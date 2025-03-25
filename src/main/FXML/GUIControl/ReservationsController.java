@@ -81,7 +81,7 @@ public class ReservationsController implements Initializable {
 
     }
 
-    //TODO template needed?
+    //TODO generics needed?
     public void removeReservationItemFromGUI(AnchorPane reservationItemPane, Reservation reservation) {
         reservations.remove(reservation);
         reservationsVBox.getChildren().remove(reservationItemPane);

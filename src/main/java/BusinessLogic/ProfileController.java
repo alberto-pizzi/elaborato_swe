@@ -10,7 +10,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
-//TODO switch to abstract class for generalization
 public abstract class ProfileController<T extends Person, D extends PersonDAO> {
 
     protected T person;

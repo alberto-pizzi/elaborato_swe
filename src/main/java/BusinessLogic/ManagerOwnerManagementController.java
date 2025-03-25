@@ -80,8 +80,6 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         return 0;
 
 
-        //TODO remove comments
-
     }
 
     public void changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {

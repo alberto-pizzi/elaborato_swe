@@ -101,7 +101,6 @@ public class NotificationDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                //TODO check and test if id (renamed) is correct
                 notifications.add(this.getNotification(person, resultSet.getInt("id")));
             }
         } catch (SQLException e) {

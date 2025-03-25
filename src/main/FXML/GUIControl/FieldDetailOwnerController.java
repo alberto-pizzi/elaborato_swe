@@ -57,7 +57,6 @@ public class FieldDetailOwnerController {
 
         fieldNameLabel.setText(field.getName());
         fieldDescription.setText(field.getDescription());
-        //TODO set facility link
         fieldAddress.setText(field.getFacility().getFullAddress());
         fieldSport.setText(field.getSport().getName());
         fieldPricePerHour.setText("$ " + String.valueOf(field.getPrice()));

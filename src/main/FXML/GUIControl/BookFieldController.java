@@ -17,12 +17,9 @@ import java.time.LocalTime;
 
 public class BookFieldController extends FieldFormManagementController implements Initializable {
 
-
-    //FIXME add inheritance
     @FXML
     protected CheckBox isMatchingCheckBox;
 
-    //FIXME add inheritance
     @FXML
     protected ChoiceBox<Integer> nPlayersToMatchChoice;
 
@@ -102,7 +99,6 @@ public class BookFieldController extends FieldFormManagementController implement
         updatePricePerPerson(false);
     }
 
-    //TODO is it useful?
     public void fillPlayersToMatchChoiceWithProgressiveNumbers(int minNum, int maxNum) {
         nPlayersToMatchChoice.getItems().clear();
         for (int i = minNum; i <= maxNum; i++)
@@ -158,6 +154,7 @@ public class BookFieldController extends FieldFormManagementController implement
 
     protected void actionsAfterAdd(){
         //TODO is add redirect to home needed?
+
         resetFields();
 
     }

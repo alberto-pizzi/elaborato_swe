@@ -25,29 +25,6 @@ public class ModifyReservationManagerController extends ModifyReservationControl
         personController = new ManagerOwnerManagementController();
     }
 
-    @Override
-    protected void reservationChecker() throws SQLException, ClassNotFoundException {
-
-        //TODO is this implementation right? optimize
-
-        if( datePicker.getValue() != null) {
-            reservation.setEventDate(Date.valueOf(datePicker.getValue()));
-        }
-
-        if(startTimeChoice.getValue() != null) {
-            reservation.setEventTimeStart(Time.valueOf(LocalTime.parse(startTimeChoice.getValue())));
-        }
-
-        if(endTimeChoice.getValue() != null)  {
-            reservation.setEventTimeEnd(Time.valueOf(LocalTime.parse(endTimeChoice.getValue())));
-        }
-
-        if(selectGuestsPaneController.getnGuestsChoice().getValue() != null) {
-            //managerOwnerManagementController.changeOwnGuests(reservation.getId(),selectGuestsPaneController.getnGuestsChoice().getValue());
-        }
-
-    }
-
 
     @Override
     protected void loadOwnGuestSelectorPane(){
@@ -61,7 +38,6 @@ public class ModifyReservationManagerController extends ModifyReservationControl
     }
 
 
-    //TODO optimize it
     @Override
     protected void actionsAfterEdit() throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsManager.fxml"));

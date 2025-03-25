@@ -68,7 +68,7 @@ public class SelectGuestsPaneController implements Initializable {
 
     protected int participantsDraft = 0;
 
-    //TODO add into handleConfirm (for push updates)
+    //arrays to be pushed to confirm changes
     protected ArrayList<GroupMember> groupMembersChanged = new ArrayList<>();
     protected ArrayList<GroupMember> groupMembersRemoved = new ArrayList<>();
     protected ArrayList<GroupMember> groupMembersAdded = new ArrayList<>();
@@ -203,7 +203,6 @@ public class SelectGuestsPaneController implements Initializable {
         this.isEditMode = isEditMode;
         updateGuestsChoice();
 
-        //TODO is it correct here?
 
         updateDraftParticipants(true);
         updateAddButtons();
@@ -341,7 +340,7 @@ public class SelectGuestsPaneController implements Initializable {
 
             if (!userToBeAdded.equals(personController.getPerson().getUsername())) {
 
-                if (isGroupMember(userToBeAdded)) //TODO is it correct?
+                if (isGroupMember(userToBeAdded))
                     messagesController.showMessage("Username already into group.", MessagesController.MessageType.ERROR,3);
                 else if (inviteListDraft.getItems().contains(userToBeAdded))
                     messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR,3);
@@ -365,8 +364,9 @@ public class SelectGuestsPaneController implements Initializable {
 
     }
 
-    //TODO is it correct?
+
     protected boolean isGroupMember(String username){
+        //it is always false because of choice
         return false;
     }
 

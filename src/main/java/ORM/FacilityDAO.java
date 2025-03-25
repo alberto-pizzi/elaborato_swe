@@ -52,7 +52,6 @@ public class FacilityDAO {
         return idAdded;
     }
 
-    //TODO cascade delete?
     public void deleteFacility(int idFacility) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"Facility\" WHERE id = '%s'", idFacility);
@@ -94,7 +93,7 @@ public class FacilityDAO {
                 String zip = resultSet.getString("zip");
                 String country = resultSet.getString("country");
                 int nManagers = resultSet.getInt("n_managers");
-                int nFields = resultSet.getInt("n_fields"); //TODO is useful?
+                int nFields = resultSet.getInt("n_fields");
                 String telephone = resultSet.getString("telephone");
                 String image = resultSet.getString("image");
                 int idOwner = resultSet.getInt("id_owner");

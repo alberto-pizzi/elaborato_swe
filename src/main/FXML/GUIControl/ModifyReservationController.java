@@ -80,7 +80,6 @@ public class ModifyReservationController extends FieldFormManagementController i
 
     }
 
-    //FIXME how check it reservation?
     protected void reservationChecker() throws SQLException, ClassNotFoundException {
 
         //TODO is this implementation right? optimize
@@ -97,12 +96,6 @@ public class ModifyReservationController extends FieldFormManagementController i
             reservation.setEventTimeEnd(Time.valueOf(LocalTime.parse(endTimeChoice.getValue())));
         }
 
-        if(selectGuestsPaneController.getnGuestsChoice().getValue() != null) {
-            //managerOwnerManagementController.changeOwnGuests(reservation.getId(),selectGuestsPaneController.getnGuestsChoice().getValue());
-        }
-
-
-        //FIXME add other checks
 
     }
 
@@ -124,7 +117,6 @@ public class ModifyReservationController extends FieldFormManagementController i
         this.selectGuestsPaneController = loader.getController(); //connect controller
     }
 
-    //FIXME call it into right position to fix pricePerPerson
     @Override
     protected void updateTotalPeople(){
         if (selectGuestsPaneController != null)
@@ -135,11 +127,10 @@ public class ModifyReservationController extends FieldFormManagementController i
     @FXML
     public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
 
-        reservationChecker(); //TODO activate it when it has right implementation
+        reservationChecker();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Edit Reservation");
-        //FIXME improve date format
         alert.setHeaderText("New one is: "+ reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
         alert.setContentText("Are you sure you want to edit this reservation?");
 
@@ -164,7 +155,6 @@ public class ModifyReservationController extends FieldFormManagementController i
 
     }
 
-    //TODO override si needed
     protected void actionsAfterEdit() throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
         Parent view = loader.load();
@@ -173,13 +163,11 @@ public class ModifyReservationController extends FieldFormManagementController i
         menuPane.setCenter(view);
     }
 
-    //TODO is inheritance needed?
     @FXML
     public void handleDeleteButton() throws SQLException, ClassNotFoundException, IOException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Reservation");
-        //FIXME improve date format
         alert.setHeaderText("Reservation is: "+reservation.getField().getName() + " at " + reservation.getEventTimeStart() + " of " + reservation.getEventDate());
         alert.setContentText("Are you sure you want to delete this reservation?");
 
@@ -198,7 +186,6 @@ public class ModifyReservationController extends FieldFormManagementController i
 
     }
 
-    @Override
     protected void actionsAfterDelete() throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
         Parent view = loader.load();
