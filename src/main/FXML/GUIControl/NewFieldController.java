@@ -42,14 +42,6 @@ public class NewFieldController extends FieldForm {
     }
 
     @FXML
-    void handleUploadImageButton(ActionEvent event) {
-        folderName = "fields";
-        if(uploadImage()){
-            field.setImage(imageName);
-        }
-    }
-
-    @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -132,15 +124,10 @@ public class NewFieldController extends FieldForm {
 
     }
 
+    @Override
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
 
-        this.menuPane = menuPane;
-        this.facility = facility;
-        field.setFacility(facility);
-
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        sports = ownerManagementController.getSports();
-
+        super.setData(facility, menuPane);
         for (Sport sport : sports) {
             Label label = new Label(sport.getName());
             label.setOnMouseClicked((MouseEvent event) -> {

@@ -8,7 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
@@ -49,6 +51,14 @@ public abstract class FieldForm extends MediaManagerController{
 
     protected abstract void newField() throws IOException, SQLException;
 
+    public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
+        this.menuPane = menuPane;
+        this.facility = facility;
+
+        OwnerManagementController ownerManagementController = new OwnerManagementController();
+        sports = ownerManagementController.getSports();
+
+    }
     @FXML
     void clickSport(Sport sport, Label label){
 
@@ -88,5 +98,13 @@ public abstract class FieldForm extends MediaManagerController{
             e.printStackTrace();
         }
 
+    }
+
+    @FXML
+    public void handleUploadImageButton(ActionEvent event) {
+        folderName = "fields";
+        if(uploadImage()){
+            field.setImage(imageName);
+        }
     }
 }
