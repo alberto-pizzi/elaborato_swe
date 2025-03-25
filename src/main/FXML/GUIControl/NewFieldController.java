@@ -27,7 +27,7 @@ public class NewFieldController extends FieldForm {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initialize(location, resources);
+        super.initialize(location, resources);
         field = new Field();
     }
 
