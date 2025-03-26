@@ -19,86 +19,30 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class FieldDetailOwnerController {
+public class FieldDetailOwnerController extends FieldDetail{
 
-
-    @FXML
-    private Hyperlink facilityLink;
-
-    @FXML
-    private Label fieldAddress;
-
-    @FXML
-    private Label fieldDescription;
-
-    @FXML
-    private ImageView fieldImageView;
-
-    @FXML
-    private Label fieldNameLabel;
-
-    @FXML
-    private Label fieldPricePerHour;
-
-    @FXML
-    private Label fieldSport;
-
-    @FXML
-    private Button goToBookButton;
-
-    private Field field;
-
-    private BorderPane menuPane;
 
     //methods
 
-    public void setData(Field field, BorderPane menuPane) throws IOException {
-        this.field = field;
-
-        fieldNameLabel.setText(field.getName());
-        fieldDescription.setText(field.getDescription());
-        //TODO set facility link
-        fieldAddress.setText(field.getFacility().getFullAddress());
-        fieldSport.setText(field.getSport().getName());
-        fieldPricePerHour.setText("$ " + String.valueOf(field.getPrice()));
-
-        String pathFromRoot = "/main/FXML/img/fields/";
-
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
-        fieldImageView.setImage(image);
-
-        this.menuPane = menuPane;
-
-    }
-
     //todo da fare
+    @Override
     @FXML
-    void handleGoToBookButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
-
+    public void handleGoToBookButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingFormOwner.fxml"));
         Parent view = loader.load();
-
         BookFieldController bookFieldController = loader.getController();
         bookFieldController.setData(this.field);
-
         bookFieldController.selectGuestsPaneController.setData(null,false);
-
-
         menuPane.setCenter(view);
-
     }
 
     @FXML
     void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));
         Parent view = loader.load();
-
         ReservationsOwnerController reservationsOwnerController = loader.getController();
         reservationsOwnerController.setData(field, menuPane);
-
         menuPane.setCenter(view);
-
     }
 
 }
