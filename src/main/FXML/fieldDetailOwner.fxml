@@ -81,7 +81,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Hyperlink fx:id="facilityLink" text="(Facility Link)" wrapText="true">
+                              <Hyperlink fx:id="facilityName" text="(Facility Name)" wrapText="true">
                                  <font>
                                     <Font size="20.0" />
                                  </font>

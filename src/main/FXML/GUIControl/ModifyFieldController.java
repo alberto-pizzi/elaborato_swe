@@ -4,10 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -20,122 +17,64 @@ import main.java.DomainModel.Sport;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
-public class ModifyFieldController extends MediaManagerController {
+public class ModifyFieldController extends FieldForm {
 
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private Button uploadButton;
-
-    @FXML
-    private TextArea descriptionInput;
-
-    @FXML
-    private VBox sportsList;
-
-    @FXML
-    private TextField nameInput;
-
-    @FXML
-    private TextField priceInput;
-
-    private Field field;
-
-    private Facility facility;
-
-    ArrayList<Sport> clickedSports = new ArrayList<>();
-
-    ArrayList<Sport> sports = new ArrayList<>();
-
-    private ArrayList<Label> clickedSportLabels = new ArrayList<>();
-
-    @FXML
-    void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
-
+    @Override
+    public void newField() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
-        Parent addManagersPane = loader.load();
-
-        if(!nameInput.getText().isEmpty()) {
-            field.setName(nameInput.getText());
-        }
-        if(!(priceInput.getText().isEmpty() || priceInput.getText().equals("$"))) {
-            field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
-        }
-        if(!descriptionInput.getText().isEmpty()) {
-            field.setDescription(descriptionInput.getText());
-        }
-
+        Parent newField = loader.load();
         NewSportController newSportController = loader.getController();
-        newSportController.setData(field, facility,this.menuPane);
-
-        menuPane.setCenter(addManagersPane);
-
-    }
-
-    @FXML
-    void handleUploadImageButton(ActionEvent event) {
-        folderName = "fields";
-        if(uploadImage()){
-            field.setImage(imageName);
-        }
+        newSportController.setData(field, facility,menuPane);
+        menuPane.setCenter(newField);
     }
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+        System.out.println("Confirm button clicked: ");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Field");
+        alert.setHeaderText("Confirm field");
+        alert.setContentText("Are you sure you want to modify this field?");
 
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        field.setSport(clickedSports.get(0));
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
 
-        if(!nameInput.getText().isEmpty() || priceInput.getText().isEmpty() || descriptionInput.getText().isEmpty()) {
-            field.setName(nameInput.getText());
-            field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
-            field.setDescription(descriptionInput.getText());
-            if(ownerManagementController.editField(field)){
-                System.out.println("Field updated");
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-                Parent facilityModifyPane = loader.load();
+            OwnerManagementController ownerManagementController = new OwnerManagementController();
 
-                ModifyFacilityController modifyFacilityController = loader.getController();
-                modifyFacilityController.setData(facility, menuPane);
+            if(!nameInput.getText().isEmpty() || priceInput.getText().isEmpty() || descriptionInput.getText().isEmpty()) {
+                field.setName(nameInput.getText());
+                field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
+                field.setSport(clickedSports.get(0));
+                field.setDescription(descriptionInput.getText());
+                if(ownerManagementController.editField(field)){
+                    System.out.println("Field updated");
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+                    Parent facilityModifyPane = loader.load();
 
-                menuPane.setCenter(facilityModifyPane);
+                    ModifyFacilityController modifyFacilityController = loader.getController();
+                    modifyFacilityController.setData(facility, menuPane);
+
+                    menuPane.setCenter(facilityModifyPane);
+                }else{
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                }
             }else{
-                String message = "An error has occurred";
+                String message = "Please fill all fields";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
-        }else{
-            String message = "Please fill all fields";
-            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
         }
 
-    }
-
-    @FXML
-    void clickSport(Sport sport, Label label){
-        if(clickedSports.contains(sport)){
-            clickedSports.remove(sport);
-            clickedSportLabels.remove(label);
-            label.setStyle("-fx-background-color: transparent;");
-        }else{
-            for (int i = 0; i < clickedSports.size(); i++){
-                clickedSports.remove(sport);
-                clickedSportLabels.remove(label);
-                label.setStyle("-fx-background-color: transparent;");
-            }
-            clickedSports.add(sport);
-            clickedSportLabels.add(label);
-            label.setStyle("-fx-background-color: lightblue;");
-        }
     }
 
     public void setData(Facility facility, Field field, BorderPane menuPane) throws IOException, SQLException {
-        this.facility = facility;
+        super.setData(facility, menuPane);
         this.field = field;
-
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        sports = ownerManagementController.getSports();
 
         for (Sport sport : sports) {
             Label label = new Label(sport.getName());
@@ -157,6 +96,5 @@ public class ModifyFieldController extends MediaManagerController {
 
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         imageLabel.setImage(image);
-        this.menuPane = menuPane;
     }
 }

@@ -15,78 +15,30 @@ import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
 
 import java.io.*;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class NewFieldController extends MediaManagerController {
-
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private Button uploadButton;
-
-    @FXML
-    private TextArea descriptionInput;
-
-    @FXML
-    private TextField nameInput;
-
-    @FXML
-    private TextField priceInput;
-
-    @FXML
-    private VBox sportList;
-
-    private Facility facility;
-
-    private Field field = new Field();
-
-    private BorderPane menuPane;
-
-    ArrayList<Sport> clickedSports = new ArrayList<>();
-
-    ArrayList<Sport> sports = new ArrayList<>();
-
-    private ArrayList<Label> clickedSportLabels = new ArrayList<>();
+public class NewFieldController extends FieldForm {
 
     private Boolean newFacility = false;
 
-    @FXML
-    void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
-        Parent addManagersPane = loader.load();
-
-        if(!nameInput.getText().equals("")) {
-            field.setName(nameInput.getText());
-        }
-        if(!priceInput.getText().equals("")){
-            Float price = Float.parseFloat(priceInput.getText().replace("$",""));
-            field.setPrice(price);
-        }
-
-        if(clickedSportLabels.size() != 0) {
-            field.setSport(clickedSports.get(0));
-        }
-
-        field.setDescription(descriptionInput.getText());
-
-        NewSportController newSportController = loader.getController();
-        newSportController.setData(field,this.menuPane);
-        newSportController.setNewFacility(newFacility);
-
-        menuPane.setCenter(addManagersPane);
-
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+        field = new Field();
     }
 
-    @FXML
-    void handleUploadImageButton(ActionEvent event) {
-        folderName = "fields";
-        if(uploadImage()){
-            field.setImage(imageName);
-        }
+    @Override
+    public void newField() throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
+        Parent newField = loader.load();
+        NewSportController newSportController = loader.getController();
+        newSportController.setData(field, facility,menuPane);
+        newSportController.setNewFacility(newFacility);
+        menuPane.setCenter(newField);
     }
 
     @FXML
@@ -172,42 +124,17 @@ public class NewFieldController extends MediaManagerController {
 
     }
 
-    @FXML
-    void clickSport(Sport sport, Label label){
-
-        if(clickedSports.contains(sport)){
-            clickedSports.remove(sport);
-            clickedSportLabels.remove(label);
-            label.setStyle("-fx-background-color: transparent;");
-        }else{
-            for (int i = 0; i < clickedSports.size(); i++){
-                clickedSports.remove(sport);
-                clickedSportLabels.remove(label);
-                label.setStyle("-fx-background-color: transparent;");
-            }
-            clickedSports.add(sport);
-            clickedSportLabels.add(label);
-            label.setStyle("-fx-background-color: lightblue;");
-        }
-
-    }
-
+    @Override
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
 
-        this.menuPane = menuPane;
-        this.facility = facility;
-        field.setFacility(facility);
-
-        OwnerManagementController ownerManagementController = new OwnerManagementController();
-        sports = ownerManagementController.getSports();
-
+        super.setData(facility, menuPane);
         for (Sport sport : sports) {
             Label label = new Label(sport.getName());
             label.setOnMouseClicked((MouseEvent event) -> {
                 System.out.println(" clicked!");
                 clickSport(sport, label);
             });
-            sportList.getChildren().add(label);
+            sportsList.getChildren().add(label);
         }
     }
 
