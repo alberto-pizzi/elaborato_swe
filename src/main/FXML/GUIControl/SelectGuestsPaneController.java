@@ -243,7 +243,6 @@ public class SelectGuestsPaneController implements Initializable {
 
     }
 
-    //FIXME is it correct here? or into businessLogic is better?
     protected void sendInvitesToInviteListMembers() throws SQLException, ClassNotFoundException {
         //send invite to invite list members
 
@@ -252,7 +251,7 @@ public class SelectGuestsPaneController implements Initializable {
             if (!inviteListDraft.getItems().isEmpty()) {
                 for (String accountUsername : inviteListDraft.getItems()) {
                     if (accountUsername != null) {
-                        personController.sendInvite(group.getReservation(), PersonController.getUserIdByUsername(accountUsername)); //TODO could be better by username than by id?
+                        personController.sendInvite(group.getReservation(), PersonController.getUserIdByUsername(accountUsername));
                     }
                 }
             }
@@ -370,7 +369,7 @@ public class SelectGuestsPaneController implements Initializable {
         return false;
     }
 
-    //TODO should it be static?
+    //TODO should it be static? Yes
     public void fillGuestsChoiceWithProgressiveNumbers(int minNum, int maxNum) {
         nGuestsChoice.getItems().clear();
         for (int i = minNum; i <= maxNum; i++)

@@ -115,7 +115,9 @@ public class Group{
         if (!reservation.isMatched())
             reservation.setConfirmed(true);
         else{
-            reservation.setConfirmed(this.participants == this.requiredParticipants);
+            //TODO it should be tested
+            if (this.participants == this.requiredParticipants)
+                reservation.setConfirmed(true);
         }
     }
 
