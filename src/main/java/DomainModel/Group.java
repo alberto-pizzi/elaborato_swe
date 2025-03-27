@@ -143,7 +143,7 @@ public class Group{
 
         this.groupMembers.add(new GroupMember(user,guests));
         this.participants += guests + 1;
-        assignGroupHead(user); //TODO is it correct?
+        assignGroupHead(user);
 
         confirmationChecker();
 

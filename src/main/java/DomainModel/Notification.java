@@ -10,7 +10,6 @@ public class Notification extends Product{
     private String title;
     private String message;
     private NotificationType notificationType;
-    //TODO add "created at" field?
 
 
     public Notification(Person recipient, Reservation reservation, NotificationType notificationType) {
