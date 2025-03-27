@@ -100,8 +100,7 @@ public class HomeController implements Initializable {
 
                 HBox hBox = fmxLoader.load();
                 FieldItemController fieldItemController = fmxLoader.getController();
-                fieldItemController.setYourHomeController(this);
-                fieldItemController.setData(fields.get(i));
+                fieldItemController.setData(fields.get(i), menuPane);
 
                 fieldsList.getChildren().add(hBox);
             } catch (IOException e) {
@@ -130,8 +129,7 @@ public class HomeController implements Initializable {
 
                     HBox hBox = fmxLoader.load();
                     FieldItemController fieldItemController = fmxLoader.getController();
-                    fieldItemController.setYourHomeController(this);
-                    fieldItemController.setData(fields.get(i));
+                    fieldItemController.setData(fields.get(i), menuPane);
 
                     fieldsList.getChildren().add(hBox);
                 } catch (IOException | SQLException e) {
@@ -162,8 +160,7 @@ public class HomeController implements Initializable {
 
                         HBox hBox = fmxLoader.load();
                         FieldItemController fieldItemController = fmxLoader.getController();
-                        fieldItemController.setYourHomeController(this);
-                        fieldItemController.setData(fields.get(i));
+                        fieldItemController.setData(fields.get(i), menuPane);
 
                         fieldsList.getChildren().add(hBox);
                     } catch (IOException | SQLException e) {
@@ -201,8 +198,7 @@ public class HomeController implements Initializable {
 
                     HBox hBox = fmxLoader.load();
                     FieldItemController fieldItemController = fmxLoader.getController();
-                    fieldItemController.setYourHomeController(this);
-                    fieldItemController.setData(fields.get(i));
+                    fieldItemController.setData(fields.get(i), menuPane);
 
                     fieldsList.getChildren().add(hBox);
                 } catch (IOException | SQLException e) {

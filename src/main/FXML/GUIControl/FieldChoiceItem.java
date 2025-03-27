@@ -12,29 +12,9 @@ import main.java.DomainModel.Field;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public abstract class FieldChoiceItem {
+public abstract class FieldChoiceItem extends FieldItem{
 
-    @FXML
-    protected Label fieldNameLabel;
 
-    @FXML
-    protected Label fieldAddressLabel;
-
-    @FXML
-    protected Label fieldPriceLabel;
-
-    @FXML
-    protected ImageView fieldImg;
-
-    @FXML
-    protected Label sportLabel;
-
-    protected Field field;
-
-    protected BorderPane menuPane;
-
-    @FXML
-    public abstract void handleDetailsFieldButton(ActionEvent event) throws IOException;
 
     @FXML
     public abstract void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException;
@@ -42,6 +22,8 @@ public abstract class FieldChoiceItem {
     @FXML
     public abstract void handleReservationFieldButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException;
 
+
+    //todo ereditare
     public void setData(Field field, BorderPane menuPane) throws SQLException {
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
