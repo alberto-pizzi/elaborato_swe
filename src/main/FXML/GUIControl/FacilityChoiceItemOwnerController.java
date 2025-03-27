@@ -21,8 +21,8 @@ public class FacilityChoiceItemOwnerController extends FacilityChoiceItem{
     public void facilityFields() throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldChoiceOwner.fxml"));
         Parent facilityFieldsPane = loader.load();
-        FieldChoiceController fieldChoiceController = loader.getController();
-        fieldChoiceController.setData(facility,menuPane);
+        FieldChoiceOwnerController fieldChoiceOwnerController = loader.getController();
+        fieldChoiceOwnerController.setData(facility,menuPane);
         menuPane.setCenter(facilityFieldsPane);
     }
 }

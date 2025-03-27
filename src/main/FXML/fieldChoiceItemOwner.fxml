@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="facilityItemPane" maxHeight="151.0" prefHeight="151.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldChoiceItemController">
+<AnchorPane fx:id="facilityItemPane" maxHeight="151.0" prefHeight="151.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldChoiceItemOwnerController">
    <children>
       <HBox prefHeight="151.0" prefWidth="1000.0" style="-fx-background-color: white; -fx-border-color: black;">
          <children>
