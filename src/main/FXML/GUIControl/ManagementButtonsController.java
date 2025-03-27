@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
@@ -33,8 +34,13 @@ public class ManagementButtonsController {
     }
 
     @FXML
-    public void handleGoToGroupsButtonAction(){
-        //TODO implement
+    public void handleGoToGroupsButtonAction() throws IOException {
+
+        AnchorPane view = FXMLLoader.load(getClass().getResource("/main/FXML/groups.fxml"));
+        reservationItemController.getReservationsController().getMenuPane().setCenter(view);
+
+        //TODO try to illuminate group button? Maybe is not possible
+
         System.out.println("GoToGroups button clicked: " + reservationItemController.getReservation().getId());
 
     }
