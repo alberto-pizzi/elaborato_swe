@@ -67,7 +67,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
                 }
                 else{
                     NotificationController notificationController = new NotificationController();
-                    notificationController.sendNotifications(reservation,NotificationType.CONFIRMATION,"");
+                    notificationController.sendConfirmNotification(reservation);
                 }
             }
             else
@@ -100,7 +100,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
     public void reservationAnnouncement(String notificationMessage, Reservation reservation) throws SQLException, ClassNotFoundException {
         NotificationController notificationController = new NotificationController();
-        notificationController.sendNotifications(reservation,ANNOUNCEMENT,notificationMessage);
+        notificationController.sendAnnouncement(reservation,notificationMessage);
     }
 
     //todo usare

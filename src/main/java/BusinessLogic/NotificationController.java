@@ -23,11 +23,24 @@ public class NotificationController implements Observer {
         attach();
     }
 
+    //helpers of sendNotifications
+    public void sendConfirmNotification(Reservation reservation) throws SQLException, ClassNotFoundException {
+        sendNotifications(reservation,NotificationType.CONFIRMATION,"");
+    }
 
+    public void sendModificationNotification(Reservation reservation) throws SQLException, ClassNotFoundException {
+        sendNotifications(reservation,NotificationType.MODIFICATION,"");
+    }
 
+    public void sendDeletionNotification(Reservation reservation) throws SQLException, ClassNotFoundException {
+        sendNotifications(reservation,NotificationType.DELETION,"");
+    }
 
-    //TODO overload is needed?
-    public void sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) throws SQLException, ClassNotFoundException {
+    public void sendAnnouncement(Reservation reservation, String message) throws SQLException, ClassNotFoundException {
+        sendNotifications(reservation,NotificationType.ANNOUNCEMENT,message);
+    }
+
+    protected void sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) throws SQLException, ClassNotFoundException {
 
         FacilityDAO facilityDAO = new FacilityDAO();
         OwnerDAO ownerDAO = new OwnerDAO();
@@ -89,7 +102,7 @@ public class NotificationController implements Observer {
 
         if (this.reservation.isConfirmed() && this.reservation.isMatched() && !this.reservation.isNotified()) {
             reservationDao.updateIsConfirmed(reservation.getId(), this.reservation.isConfirmed());
-            sendNotifications(this.reservation, NotificationType.CONFIRMATION, "");
+            sendConfirmNotification(this.reservation);
             this.reservation.considerNotified();
             reservationDao.updateIsNotified(reservation.getId(), this.reservation.isNotified());
         }

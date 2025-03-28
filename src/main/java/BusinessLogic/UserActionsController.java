@@ -78,7 +78,7 @@ public class UserActionsController extends PersonController<User>{
                 }
                 else{
                     NotificationController notificationController = new NotificationController();
-                    notificationController.sendNotifications(reservation,NotificationType.CONFIRMATION,"");
+                    notificationController.sendConfirmNotification(reservation);
                 }
 
 

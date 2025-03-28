@@ -75,7 +75,7 @@ public abstract class PersonController<T extends Person> {
         reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
         reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
 
-        notificationController.sendNotifications(reservation, MODIFICATION, notificationMessage);
+        notificationController.sendModificationNotification(reservation);
     }
 
     //FIXME output type?
@@ -87,7 +87,7 @@ public abstract class PersonController<T extends Person> {
 
         Reservation reservation = reservationDao.getReservation(idReservation, false);
 
-        notificationController.sendNotifications(reservation,DELETION,""); //FIXME check notificationMessage utlity
+        notificationController.sendDeletionNotification(reservation);
 
         //set isDeleted flag to true
         reservation.setDeleted(true);
