@@ -100,7 +100,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                 updateGuestsLabel(newSelection, true);
 
                 if (searchList.getSelectionModel().getSelectedItem() != null) {
-                    fillGuestsChoiceWithProgressiveNumbers(0,calculateMaxAddableGuestsForMatched(0,true));
+                    fillGuestsChoiceWithProgressiveNumbers(0,calculateMaxAddableGuestsForMatched(0,true),nGuestsChoice);
                     nGuestsChoice.setValue(0);
                 }
 
@@ -217,7 +217,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
             if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null) {
                 int guestsSelected = effectiveGroupMembersList.getSelectionModel().getSelectedItem().getOwnGuests();
-                fillGuestsChoiceWithProgressiveNumbers(0, calculateMaxAddableGuestsForMatched(guestsSelected,false));
+                fillGuestsChoiceWithProgressiveNumbers(0, calculateMaxAddableGuestsForMatched(guestsSelected,false),nGuestsChoice);
                 nGuestsChoice.setValue(effectiveGroupMembersList.getSelectionModel().getSelectedItem().getOwnGuests());
             }
             else{
@@ -240,6 +240,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null) {
 
                 effectiveGroupMembersList.getSelectionModel().getSelectedItem().setOwnGuests((nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0));
+                effectiveGroupMembersList.refresh();
                 addOrReplaceMemberIntoDraftArray(groupMembersChanged, effectiveGroupMembersList.getSelectionModel().getSelectedItem());
 
                 updateDraftParticipants(true);

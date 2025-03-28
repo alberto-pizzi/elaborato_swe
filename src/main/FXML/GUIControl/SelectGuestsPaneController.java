@@ -369,14 +369,12 @@ public class SelectGuestsPaneController implements Initializable {
         return false;
     }
 
-    //TODO should it be static? Yes
-    public void fillGuestsChoiceWithProgressiveNumbers(int minNum, int maxNum) {
-        nGuestsChoice.getItems().clear();
+    public static void fillGuestsChoiceWithProgressiveNumbers(int minNum, int maxNum, ChoiceBox<Integer> choiceBox) {
+        choiceBox.getItems().clear();
         for (int i = minNum; i <= maxNum; i++)
-            nGuestsChoice.getItems().add(i);
+            choiceBox.getItems().add(i);
 
     }
-
 
     public void updateGuestsChoice() throws SQLException, ClassNotFoundException {
         if (nGuestsChoice.getValue() == null)
@@ -399,7 +397,7 @@ public class SelectGuestsPaneController implements Initializable {
             maxValue = maxPossibleGuestsPerUser;
 
         if (group != null)
-            fillGuestsChoiceWithProgressiveNumbers(minValue, maxValue);
+            fillGuestsChoiceWithProgressiveNumbers(minValue, maxValue,nGuestsChoice);
 
     }
 
