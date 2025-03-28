@@ -33,7 +33,7 @@ public class FieldDetailManagerController extends FieldDetail{
     }
 
     @FXML
-    void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    public void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsManager.fxml"));
         Parent view = loader.load();
         ReservationsManagerController reservationsManagerController = loader.getController();

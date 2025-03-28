@@ -5,75 +5,35 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class FieldItemController {
-
-    @FXML
-    private Label fieldNameLabel;
-
-    @FXML
-    private Label fieldAddressLabel;
-
-    @FXML
-    private Label fieldPriceLabel;
-
-    @FXML
-    private ImageView fieldImg;
+public class FieldItemController extends FieldItem{
 
     @FXML
     private Button selectField;
 
-    @FXML
-    private Label sportLabel;
-
-    private Field field;
-    private HomeController homeController;
-
-    public void setYourHomeController(HomeController homeController) {
-        this.homeController = homeController;
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        personController = new UserActionsController();
     }
 
-    public void setData(Field field) throws SQLException {
-        UserActionsController userActionsController = new UserActionsController();
-        this.field = field;
-
-
-
-        fieldNameLabel.setText(field.getName());
-        fieldAddressLabel.setText(userActionsController.getFieldAddress(field.getId()));
-        fieldPriceLabel.setText(String.format("%.2f",field.getPrice()) + "$");
-
-        String pathFromRoot = "/main/FXML/img/fields/";
-
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
-        fieldImg.setImage(image);
-
-        sportLabel.setText(field.getSport().getName());
-
-    }
-
+    @Override
     @FXML
-    public void handleSelectFieldButton(ActionEvent event) throws IOException {
-
+    public void handleDetailsFieldButton(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetails.fxml"));
         Parent fieldDetailPane = loader.load();
-
         FieldDetailController fieldDetailController = loader.getController();
-        fieldDetailController.setData(field,homeController.getMenuPane());
-
-        homeController.getMenuPane().setCenter(fieldDetailPane);
-
-        //TODO homeController.getPage().... needed? (check above)
-
-
+        fieldDetailController.setData(field,menuPane);
+        menuPane.setCenter(fieldDetailPane);
     }
 
 }

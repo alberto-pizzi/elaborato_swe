@@ -312,11 +312,6 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    public String getFieldAddress(int fieldId) throws SQLException {
-        FieldDao fieldDao = new FieldDao();
-        return fieldDao.getFieldAddress(fieldId);
-    }
-
     public void changeOwnGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
         IsPartDao isPartDao = new IsPartDao();
         GroupDao groupDao = new GroupDao();
