@@ -7,33 +7,23 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Field;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class FieldItemController extends FieldItem{
 
     @FXML
     private Button selectField;
 
-    public void setData(Field field, BorderPane menuPane) throws SQLException {
-        UserActionsController userActionsController = new UserActionsController();
-        this.field = field;
-        this.menuPane = menuPane;
-
-        fieldNameLabel.setText(field.getName());
-        fieldAddressLabel.setText(userActionsController.getFieldAddress(field.getId()));
-        fieldPriceLabel.setText(String.format("%.2f",field.getPrice()) + "$");
-
-        String pathFromRoot = "/main/FXML/img/fields/";
-
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
-        fieldImg.setImage(image);
-
-        sportLabel.setText(field.getSport().getName());
-
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        personController = new UserActionsController();
     }
 
     @Override

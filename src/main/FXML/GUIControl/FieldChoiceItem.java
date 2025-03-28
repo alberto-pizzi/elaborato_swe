@@ -2,6 +2,7 @@ package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,9 +11,11 @@ import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.DomainModel.Field;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public abstract class FieldChoiceItem extends FieldItem{
+public abstract class FieldChoiceItem extends FieldItem  implements Initializable {
 
 
 
@@ -22,24 +25,8 @@ public abstract class FieldChoiceItem extends FieldItem{
     @FXML
     public abstract void handleReservationFieldButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException;
 
-
-    //todo ereditare
-    public void setData(Field field, BorderPane menuPane) throws SQLException {
-        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-
-        this.field = field;
-        this.menuPane = menuPane;
-
-        fieldNameLabel.setText(field.getName());
-        fieldAddressLabel.setText(managerOwnerManagementController.getFieldAddress(field.getId()));
-        fieldPriceLabel.setText(String.format("%.2f",field.getPrice()) + "$");
-
-        String pathFromRoot = "/main/FXML/img/fields/";
-
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
-        fieldImg.setImage(image);
-
-        sportLabel.setText(field.getSport().getName());
-
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        personController = new ManagerOwnerManagementController();
     }
 }
