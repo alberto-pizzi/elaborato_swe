@@ -9,11 +9,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class InviteTest {
-
-    private Invite newInvite() {
-        return new Invite();
-    }
+public class InviteSenderTest {
 
     private User createUser(){
         //id in not relevant for these test
@@ -25,6 +21,11 @@ public class InviteTest {
         return new User(2,"hello2@gmail.com","user2","hello123","London","London","00000","UK");
     }
 
+    private User createThirdUser(){
+        //id in not relevant for these test
+        return new User(3,"hello3@gmail.com","user3","hello123","London","London","00000","UK");
+    }
+
     private Owner createOwner(){
         return new Owner(1,"hello@gmail.com","owner1","hello123","London","London","00000","UK");
     }
@@ -34,10 +35,6 @@ public class InviteTest {
                 1, "Sport Center", "Via Roma 1", "Milano", "MI",
                 "20100", "Italia", 3, "333333333",
                 "", createOwner());
-    }
-
-    private Sport createSport(){
-        return new Sport(1, "Football", 22);
     }
 
     private Reservation createReservation(boolean isMatched){
@@ -65,59 +62,22 @@ public class InviteTest {
                 50.0f, "", createFacility()
         );
     }
+
+    private Sport createSport(){
+        return new Sport(1, "Football", 22);
+    }
+
     private Group createGroup(Reservation reservation, int requiredParticipants){
         return new Group(createUser(),reservation,requiredParticipants);
     }
 
-
-    private Invite newInviteWithParam() {
-        return new Invite(1, createGroup(createReservation(false), 1));
-    }
-
     @Test
-    void getId() {
-        Invite invite = newInviteWithParam();
-        int id = invite.getId();
-        assertEquals(1,id);
+    public void factoryMethod() {
+        Group group = createGroup(createReservation(false), 1);
+        InviteSender inviteSender = new InviteSender(group);
+        Invite invite = inviteSender.factoryMethod();
+        assertNotNull(invite);
+        assertEquals(group.getId(), invite.getGroup().getId());
+        assertNotEquals("random user", invite.getGroup().getGroupHead().getUsername());
     }
-
-    @Test
-    void setId() {
-        Invite invite = newInviteWithParam();
-        invite.setId(2);
-        int id = invite.getId();
-        assertEquals(2,id);
-    }
-
-    @Test
-    void getUser() {
-        Invite invite = newInviteWithParam();
-        User user = invite.getUser();
-        assertEquals("user1",user.getUsername());
-    }
-
-    @Test
-    void setUser() {
-        Invite invite = newInviteWithParam();
-        invite.setUser(createSecondUser());
-        User user = invite.getUser();
-        assertEquals("user2",user.getUsername());
-    }
-
-    @Test
-    void getGroup() {
-        Invite invite = newInviteWithParam();
-        Group group = invite.getGroup();
-        assertEquals("user1",group.getGroupHead().getUsername());
-    }
-
-    @Test
-    void setGroup() {
-        Invite invite = newInviteWithParam();
-        Group group = invite.getGroup();
-        group.setGroupHead(createSecondUser());
-        invite.setGroup(group);
-        assertEquals("user2",group.getGroupHead().getUsername());
-    }
-
 }
