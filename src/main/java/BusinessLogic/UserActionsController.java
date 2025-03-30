@@ -60,7 +60,7 @@ public class UserActionsController extends PersonController<User>{
         ReservationDao reservationDao = new ReservationDao();
         GroupDao groupDao = new GroupDao();
 
-        Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field,!isMatched,isMatched);
+        Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field, isMatched);
 
         if (checkReservationData(reservation)) {
             int newReservationId = reservationDao.addReservation(reservation);

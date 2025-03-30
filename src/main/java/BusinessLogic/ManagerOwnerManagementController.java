@@ -9,8 +9,6 @@ import java.sql.Time;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 
-import static main.java.DomainModel.NotificationType.*;
-
 public class ManagerOwnerManagementController extends PersonController<Person>{
 
     public ManagerOwnerManagementController(Person person) {
@@ -50,7 +48,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         ReservationDao reservationDao = new ReservationDao();
         GroupDao groupDao = new GroupDao();
 
-        Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field,!isMatched,isMatched);
+        Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field, isMatched);
 
         if (checkReservationData(reservation)) {
             int newReservationId = reservationDao.addReservation(reservation);

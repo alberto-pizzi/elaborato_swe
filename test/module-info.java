@@ -4,6 +4,7 @@ module elaboratoSWEWindowsTest {
 
     requires org.junit.jupiter;
     requires org.junit.platform.suite;
+    requires java.sql;
 
     opens tests.DomainModelTest to junit;
     opens tests to junit;

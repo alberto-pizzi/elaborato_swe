@@ -13,6 +13,7 @@ public class Group{
     private int participants;
     private int requiredParticipants;
 
+    //read only
     public Group(int id, User groupHead, Reservation reservation, int requiredParticipants) {
         this.id = id;
         this.groupHead = groupHead;
@@ -22,6 +23,7 @@ public class Group{
         this.participants = 0;
     }
 
+    //write only
     public Group(User groupHead, Reservation reservation, int requiredParticipants) {
         this.groupHead = groupHead;
         this.reservation = reservation;

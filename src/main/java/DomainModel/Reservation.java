@@ -33,12 +33,12 @@ public class Reservation extends Subject {
     }
 
     //it used to add a reservation
-    public Reservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, boolean isConfirmed, boolean isMatched) {
+    public Reservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, boolean isMatched) {
         this.eventDate = eventDate;
         this.eventTimeStart = eventTimeStart;
         this.eventTimeEnd = eventTimeEnd;
         this.field = field;
-        this.isConfirmed = isConfirmed;
+        this.isConfirmed = !isMatched;
         this.isMatched = isMatched;
         this.isDeleted = false;
         this.isNotified = false;
