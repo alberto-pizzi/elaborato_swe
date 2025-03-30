@@ -8,5 +8,9 @@ module elaboratoSWEWindows {
     exports main.FXML.GUIControl to javafx.fxml;
     opens main.FXML.GUIControl to javafx.fxml;
 
+    //these exportations are to make tests
+    exports main.java.DomainModel;
+    exports main.java.BusinessLogic;
+    exports main.java.ORM;
 
 }
