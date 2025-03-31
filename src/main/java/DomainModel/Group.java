@@ -19,6 +19,7 @@ public class Group{
         this.groupHead = groupHead;
         this.reservation = reservation;
         this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
+        //FIXME manage groupHead into counters
         this.groupMembers = new ArrayList<>();
         this.participants = 0;
     }
@@ -28,6 +29,7 @@ public class Group{
         this.groupHead = groupHead;
         this.reservation = reservation;
         this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
+        //FIXME manage groupHead into counters
         this.groupMembers = new ArrayList<>();
         this.participants = 0;
     }

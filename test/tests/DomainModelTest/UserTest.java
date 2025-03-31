@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UserTest {
+public class UserTest extends GeneralTest{
     @Test
     public void test() {
         int x = 5;
