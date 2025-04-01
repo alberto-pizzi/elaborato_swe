@@ -1,8 +1,8 @@
 package tests.ORMTest;
 
-import main.java.DomainModel.User;
+import main.java.DomainModel.Owner;
+import main.java.ORM.OwnerDAO;
 import main.java.ORM.UserDAO;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,22 +10,25 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.sql.SQLException;
 
-public class UserDAOTest extends PersonDAOTest{
+public class OwnerDAOTest extends PersonDAOTest{
 
     private static boolean shouldSkip = false;
-    private User user = null;
+
+    private Owner owner;
 
     @BeforeEach
     public void setup(){
-        personDAO = new UserDAO();
-        user = createUser();
+        personDAO = new OwnerDAO();
+        owner = createOwner();
 
         //FIXME fix add test
+
         try {
-            personDAO.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry());
+            personDAO.addUser(owner.getUsername(), owner.getEmail(), owner.getPassword(), owner.getCity(), owner.getProvince(), owner.getZip(), owner.getCountry());
         } catch (SQLException e) {
             shouldSkip = true;
         }
+
 
         Assumptions.assumeTrue(shouldSkip);
 
@@ -35,17 +38,13 @@ public class UserDAOTest extends PersonDAOTest{
     public void teardown() throws SQLException {
 
         try {
-            personDAO.deletePerson(user.getUsername());
+            personDAO.deletePerson(owner.getUsername());
         } catch (SQLException e) {
             shouldSkip = true;
         }
 
-        user = null;
+        owner = null;
         personDAO = null;
     }
-
-
-
-
 
 }
