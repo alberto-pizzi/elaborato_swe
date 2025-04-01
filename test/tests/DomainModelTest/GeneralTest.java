@@ -10,17 +10,14 @@ public abstract class GeneralTest {
 
 
     protected User createUser(){
-        //id in not relevant for these test
         return new User(1,"hello@gmail.com","user1","hello123","London","London","00000","UK");
     }
 
     protected User createSecondUser(){
-        //id in not relevant for these test
         return new User(2,"hello2@gmail.com","user2","hello123","London","London","00000","UK");
     }
 
     protected User createThirdUser(){
-        //id in not relevant for these test
         return new User(3,"hello3@gmail.com","user3","hello123","London","London","00000","UK");
     }
 
