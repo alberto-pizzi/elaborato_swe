@@ -7,9 +7,9 @@ module elaboratoSWEWindowsTest {
     requires org.junit.platform.engine;
     requires java.sql;
 
-
+    opens tests.ORMTest;
+    opens tests.DomainModelTest;
     opens tests to junit;
-
     exports tests.DomainModelTest;
     exports tests.ORMTest;
     exports tests;

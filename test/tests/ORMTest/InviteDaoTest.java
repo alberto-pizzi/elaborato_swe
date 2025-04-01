@@ -16,11 +16,11 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InviteDaoTest extends GeneralTest {
+class InviteDaoTest extends GeneralDAOTest {
 
     private InviteDao inviteDao;
     private Invite invite;
-    private Boolean exists;
+    private Boolean exists = false;
     private User user;
     private Group group;
 
@@ -45,7 +45,7 @@ class InviteDaoTest extends GeneralTest {
     }
 
     @After
-    public void cleanUp() throws Exception {
+    public void teardown() throws Exception {
         inviteDao.deleteInvite(invite.getId());
         ArrayList<Invite> invites = inviteDao.getInvitesByUser(user.getId());
         for (Invite invite2 : invites) {
