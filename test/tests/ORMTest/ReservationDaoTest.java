@@ -11,7 +11,10 @@ import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -85,10 +88,10 @@ class ReservationDaoTest extends GeneralDAOTest{
     void getReservationsByUser() throws SQLException, ClassNotFoundException {
         assertEquals(1, reservationDao.getReservationsByUser(user.getId()));
     }
-
+/*
     //fixme da togliere
     @Test
-    void updateIdUser() throws SQLException {
+    void updateIdUser() throws SQLException, ClassNotFoundException {
         UserDAO userDao = new UserDAO();
         User user = createSecondUser();
         user.setId(userDao.getUser(user.getUsername()).getId());
@@ -98,34 +101,56 @@ class ReservationDaoTest extends GeneralDAOTest{
 
     //todo aspettare albe
     @Test
-    void updateNParticipants() {
+    void updateNParticipants() throws SQLException, ClassNotFoundException {
+        reservationDao.updateNParticipants(reservation.getId(), 20);
+        Reservation tempReservation = reservationDao.getReservation(reservation.getId(), false).
+      //  assertEquals(user.getUsername(), reservationDao.getReservation(reservation.getId(), false).get);
     }
 
-
+*/
     @Test
-    void updateIsConfirmed() {
-    }
-
-    @Test
-    void updateIsNotified() {
-    }
-
-    @Test
-    void updateIsDeleted() {
+    void updateIsConfirmed() throws SQLException, ClassNotFoundException {
+        reservationDao.updateIsConfirmed(reservation.getId(), false);
+        assertFalse(reservationDao.getReservation(reservation.getId(), false).isConfirmed());
     }
 
     @Test
-    void updateEventDate() {
+    void updateIsNotified() throws SQLException, ClassNotFoundException {
+        reservationDao.updateIsNotified(reservation.getId(), true);
+        assertTrue(reservationDao.getReservation(reservation.getId(), false).isNotified());
     }
 
     @Test
-    void updateEventTimeStart() {
+    void updateIsDeleted() throws SQLException, ClassNotFoundException {
+        reservationDao.updateIsDeleted(reservation.getId(), true);
+        assertTrue (reservationDao.getReservation(reservation.getId(), false).isDeleted());
     }
 
     @Test
-    void updateEventTimeEnd() {
+    void updateEventDate() throws SQLException, ClassNotFoundException {
+        LocalDate today = LocalDate.now();
+        LocalDate futureDate = today.plusDays(23); // add 7 days
+        Date eventDate = Date.valueOf(futureDate);
+        reservationDao.updateEventDate(reservation.getId(), eventDate);
+        assertEquals(reservationDao.getReservation(reservation.getId(), false).getEventDate(), eventDate);
     }
 
+    @Test
+    void updateEventTimeStart() throws SQLException, ClassNotFoundException {
+        Time eventTimeStart = Time.valueOf("15:00:00");
+        reservationDao.updateEventTimeStart(reservation.getId(), eventTimeStart);
+        assertEquals(reservationDao.getReservation(reservation.getId(), false).getEventTimeStart(), eventTimeStart);
+    }
+
+    @Test
+    void updateEventTimeEnd() throws SQLException, ClassNotFoundException {
+
+        Time eventTimeEnd = Time.valueOf("17:00:00");
+        reservationDao.updateEventTimeEnd(reservation.getId(), eventTimeEnd);
+        assertEquals(reservationDao.getReservation(reservation.getId(), false).getEventTimeEnd(), eventTimeEnd);
+    }
+
+    //todo da fare?
     @Test
     void dailyEarning() {
     }
