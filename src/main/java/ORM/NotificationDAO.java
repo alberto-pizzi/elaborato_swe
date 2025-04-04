@@ -133,7 +133,10 @@ public class NotificationDAO {
     }
 
 
-    public void addNotification(Notification notification) throws SQLException {
+    //TODO test it
+    public int addNotification(Notification notification) throws SQLException {
+        int idAdded = 0;
+
         try {
             connection.setAutoCommit(false);
 
@@ -147,7 +150,7 @@ public class NotificationDAO {
             }
 
             // 0 if not announcement
-            createNotification(notification, messageId);
+            idAdded = createNotification(notification, messageId);
 
             //commit transaction
             connection.commit();
@@ -158,6 +161,8 @@ public class NotificationDAO {
         } finally {
             connection.setAutoCommit(true);  // restore auto commit
         }
+
+        return idAdded;
     }
 
     private int createMessage(Notification notification) throws SQLException {
@@ -179,12 +184,14 @@ public class NotificationDAO {
         }
     }
 
-    private void createNotification(Notification notification, int messageId) throws SQLException {
+    private int createNotification(Notification notification, int messageId) throws SQLException {
         String notificationQuery = "INSERT INTO \"" + notificationTableName(notification.getRecipient()) +
                 "\" (" + notificationIdName(notification.getRecipient()) + ", notification_type, id_message, id_reservation) " +
                 "VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement pstmtNotification = connection.prepareStatement(notificationQuery)) {
+        int idAdded = 0;
+
+        try (PreparedStatement pstmtNotification = connection.prepareStatement(notificationQuery, Statement.RETURN_GENERATED_KEYS)) {
             pstmtNotification.setInt(1, notification.getRecipient().getId());
             pstmtNotification.setString(2, notification.getNotificationType().getStringValue());
 
@@ -196,10 +203,18 @@ public class NotificationDAO {
 
             pstmtNotification.setInt(4, notification.getReservation().getId());
             pstmtNotification.executeUpdate();
+
+            ResultSet resultSet = pstmtNotification.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
         } catch (SQLException e) {
             System.err.println("Error while adding notification: " + e.getMessage());
             throw e;
         }
+
+        return idAdded;
     }
 
 

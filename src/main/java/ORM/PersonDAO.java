@@ -36,24 +36,35 @@ public abstract class PersonDAO {
 
 
     //methods
-    public void addUser(String username, String email, String password, String city, String province, String zip, String country) throws SQLException {
+    public int addUser(String username, String email, String password, String city, String province, String zip, String country) throws SQLException {
 
         //TODO check not mandatory parameters
 
         String querySQL = String.format("INSERT INTO \"User\" (email, username, city, province, zip, country, password) " +
                 "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", email, username, city, province, zip, country, password);
 
+        int idAdded = 0;
+
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement = connection.prepareStatement(querySQL, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
+
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
             System.out.println("User added successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
             if (preparedStatement != null) { preparedStatement.close(); }
         }
+
+        return idAdded;
 
     }
 
