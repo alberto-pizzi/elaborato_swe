@@ -1,6 +1,7 @@
 package tests.ORMTest;
 
 import main.java.DomainModel.*;
+import main.java.ORM.*;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.sql.SQLException;
@@ -12,29 +13,63 @@ import java.time.LocalDate;
 public abstract class GeneralDAOTest {
 
 
-    public abstract void setup() throws SQLException;
+    public abstract void setup() throws SQLException, Exception;
 
-    public abstract void teardown() throws SQLException;
+    public abstract void teardown() throws SQLException, Exception;
 
     protected User createUser() throws SQLException {
         //pay attention to userId
-        return new User(0,"hello@gmail.com","user1","hello123","London","London","00000","UK");
+        UserDAO userDAO = new UserDAO();
+        User user = new User(0,"hello@gmail.com","user1","hello123","London","London","00000","UK");
+        user.setId(userDAO.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry()));
+        return user;
+    }
+    protected User createSecondUser() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        User user = new User(2,"hello2@gmail.com","user2","hello123","London","London","00000","UK");
+        user.setId(userDAO.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry()));
+        return user;
+    }
+
+    protected User createThirdUser() throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        User user = new User(3,"hello3@gmail.com","user3","hello123","London","London","00000","UK");
+        user.setId(userDAO.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry()));
+        return user;
     }
 
     protected Owner createOwner() throws SQLException {
         //pay attention to ownerId
-        return new Owner(0,"hello@gmail.com","owner1","hello123","London","London","00000","UK");
+        OwnerDAO ownerDAO = new OwnerDAO();
+        Owner owner = new Owner(0,"hello@gmail.com","owner1","hello123","London","London","00000","UK");
+        owner.setId(ownerDAO.addUser(owner.getUsername(), owner.getEmail(), owner.getPassword(), owner.getCity(), owner.getProvince(), owner.getZip(), owner.getCountry()));
+        return owner;
     }
 
     //TODO add overloaded methods for dependencies
-    protected Facility createFacility(){
-        return new Facility(
+    protected Facility createFacility() throws SQLException {
+        FacilityDAO facilityDAO = new FacilityDAO();
+        Facility facility = new  Facility(
                 1, "Sport Center", "Via Roma 1", "Milano", "MI",
                 "20100", "Italia", 3, "333333333",
                 "", createOwner());
+        facility.setId(facilityDAO.addFacility(facility.getName(), facility.getAddress(), facility.getCity(), facility.getProvince(), facility.getZip(), facility.getCountry(), facility.getTelephone(), facility.getImage(), facility.getOwner().getId()));
+        return facility;
     }
 
-    protected Reservation createReservation(boolean isMatched){
+    //TODO add overloaded methods for dependencies
+    protected Facility createFacility(Owner owner) throws SQLException {
+        FacilityDAO facilityDAO = new FacilityDAO();
+        Facility facility = new  Facility(
+                1, "Sport Center", "Via Roma 1", "Milano", "MI",
+                "20100", "Italia", 3, "333333333",
+                "", owner);
+        facility.setId(facilityDAO.addFacility(facility.getName(), facility.getAddress(), facility.getCity(), facility.getProvince(), facility.getZip(), facility.getCountry(), facility.getTelephone(), facility.getImage(), facility.getOwner().getId()));
+        return facility;
+    }
+
+    protected Reservation createReservation(boolean isMatched) throws SQLException {
+        ReservationDao reservationDao = new ReservationDao();
         LocalDate today = LocalDate.now();
         LocalDate futureDate = today.plusDays(7); // add 7 days
         Date eventDate = Date.valueOf(futureDate);
@@ -48,24 +83,82 @@ public abstract class GeneralDAOTest {
 
         Field field = createField();
 
-
+        Reservation reservation = new Reservation(eventDate, eventTimeStart, eventTimeEnd, field, isMatched);
+        reservation.setId(reservationDao.addReservation(reservation));
         // create reservation
-        return new Reservation(eventDate, eventTimeStart, eventTimeEnd, field, isMatched);
+        return reservation;
     }
 
-    protected Field createField(){
-        return new Field(
+    protected Reservation createReservation(Facility facility, Field field, boolean isMatched) throws SQLException {
+        ReservationDao reservationDao = new ReservationDao();
+        LocalDate today = LocalDate.now();
+        LocalDate futureDate = today.plusDays(7); // add 7 days
+        Date eventDate = Date.valueOf(futureDate);
+
+        Time eventTimeStart = Time.valueOf("15:00:00");
+        Time eventTimeEnd = Time.valueOf("17:00:00");
+
+        Reservation reservation = new Reservation(eventDate, eventTimeStart, eventTimeEnd, field, isMatched);
+        reservation.setId(reservationDao.addReservation(reservation));
+        // create reservation
+        return reservation;
+    }
+
+    protected Field createField() throws SQLException {
+        FieldDao fieldDao = new FieldDao();
+        Field field = new Field(
                 1, "Campo A", createSport(), "Campo in erba sintetica",
                 50.0f, "", createFacility()
         );
+        field.setId(fieldDao.addField(field));
+        return field;
     }
 
-    protected Sport createSport(){
-        return new Sport(1, "Football", 22);
+    protected Field createField(Facility facility, Sport sport) throws SQLException {
+        FieldDao fieldDao = new FieldDao();
+        Field field = new Field(
+                1, "Campo A", sport, "Campo in erba sintetica",
+                50.0f, "", facility
+        );
+        field.setId(fieldDao.addField(field));
+        return field;
     }
 
-    protected Group createGroup(Reservation reservation, int requiredParticipants){
-        return new Group(createUser(),reservation,requiredParticipants);
+    protected Sport createSport() throws SQLException {
+        SportDao sportDao = new SportDao();
+        Sport sport = new Sport(0, "Football", 22);
+        sport.setId(sportDao.addSport(sport.getName(),sport.getPlayersRequired()));
+        return sport;
+    }
+
+    protected Invite createInvite() throws SQLException {
+        InviteDao inviteDao = new InviteDao();
+        Invite invite = new Invite(0, createGroup(false, 0));
+        invite.setUser(createUser());
+        invite.setId(inviteDao.addInvite(invite));
+        return invite;
+    }
+
+    protected Invite createInvite(User user, Group group) throws SQLException {
+        InviteDao inviteDao = new InviteDao();
+        Invite invite = new Invite(0, group);
+        invite.setUser(user);
+        invite.setId(inviteDao.addInvite(invite));
+        return invite;
+    }
+
+    protected Group createGroup(Boolean isMatched, int requiredParticipants) throws SQLException {
+        GroupDao groupDao = new GroupDao();
+        Group group = new Group(createUser(),createReservation(isMatched),requiredParticipants);
+        group.setId(groupDao.addGroup(group));
+        return group;
+    }
+
+    protected Group createGroup(User user, Reservation reservation, int requiredParticipants) throws SQLException {
+        GroupDao groupDao = new GroupDao();
+        Group group = new Group(user,reservation,requiredParticipants);
+        group.setId(groupDao.addGroup(group));
+        return group;
     }
 
 

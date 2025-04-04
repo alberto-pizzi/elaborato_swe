@@ -25,7 +25,7 @@ class InviteDaoTest extends GeneralDAOTest {
     private Group group;
 
     @Before
-    public void setUp() throws Exception {
+    public void setup() throws Exception {
 
         inviteDao = new InviteDao();
         invite = new Invite();

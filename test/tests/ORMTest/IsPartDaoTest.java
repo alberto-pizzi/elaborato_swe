@@ -15,14 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IsPartDaoTest extends GeneralDAOTest{
 
-    private IsPartDao isPartDao;
     private Boolean exists = false;
     private Group group;
     private User user;
 
     @Before
-    public void setUp() throws Exception {
-        isPartDao = new IsPartDao();
+    public void setup() throws Exception {
+
         group = createGroup(createReservation(false), 0);
         user = createUser();
     }

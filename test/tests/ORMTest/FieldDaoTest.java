@@ -23,7 +23,7 @@ class FieldDaoTest extends GeneralDAOTest{
     private Facility facility;
 
     @Before
-    public void setUp() throws Exception {
+    public void setup() throws Exception {
         fieldDao = new FieldDao();
         field = createField();
         user = createUser();

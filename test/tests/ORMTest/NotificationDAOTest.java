@@ -20,7 +20,7 @@ class NotificationDAOTest extends GeneralDAOTest{
     private Notification notification;
 
     @Before
-    public void setUp() throws Exception {
+    public void setup() throws Exception {
         notificationDAO = new NotificationDAO();
         //todo create notification
         notification = new Notification();

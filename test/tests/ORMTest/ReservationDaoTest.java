@@ -27,7 +27,7 @@ class ReservationDaoTest extends GeneralDAOTest{
     private User user;
 
     @Before
-    public void setUp() throws Exception {
+    public void setup() throws Exception {
         UserDAO userDao = new UserDAO();
         user = createUser();
         userDao.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry());

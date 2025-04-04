@@ -23,7 +23,7 @@ class SportDaoTest extends GeneralDAOTest{
     private Sport sport;
 
     @Before
-    public void setUp() throws Exception {
+    public void setup() throws Exception {
        sportDao = new SportDao();
        sport = createSport();
     }

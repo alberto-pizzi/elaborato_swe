@@ -22,7 +22,7 @@ class GroupDaoTest extends GeneralDAOTest{
     private Group group;
 
     @Before
-    public void setUp() throws Exception {
+    public void setup() throws Exception {
         groupDao = new GroupDao();
         group = createGroup(createReservation(false), 0);
     }
