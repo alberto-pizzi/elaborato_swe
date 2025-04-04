@@ -41,9 +41,12 @@ public class OwnerDAOTest extends PersonDAOTest{
         Owner owner = super.createOwner(); //TODO is super good? Or new object is better?
 
         if (ownerDAO != null){
-            //FIXME addUser should return int (id)
-            ownerDAO.addOwner(owner.getUsername(), owner.getEmail(), owner.getPassword(), owner.getCity(), owner.getProvince(), owner.getZip(), owner.getCountry());
-            //TODO add setId
+            int ownerId = ownerDAO.addOwner(owner.getUsername(), owner.getEmail(), owner.getPassword(), owner.getCity(), owner.getProvince(), owner.getZip(), owner.getCountry());
+
+            if (ownerId != 0)
+                owner.setId(ownerId);
+            else
+                return null;
         }
         else
             return null;

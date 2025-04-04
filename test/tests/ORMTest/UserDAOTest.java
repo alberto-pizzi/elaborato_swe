@@ -36,9 +36,12 @@ public class UserDAOTest extends PersonDAOTest{
         User user = super.createUser(); //TODO is super good? Or new object is better?
 
         if (personDAO != null){
-            //FIXME addUser should return int (id)
-            personDAO.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry());
-            //TODO add setId
+            int idUser = personDAO.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry());
+
+            if (idUser != 0)
+                user.setId(idUser);
+            else
+                return null;
         }
         else
             return null;
