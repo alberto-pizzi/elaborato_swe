@@ -10,10 +10,6 @@ public abstract class PersonDAOTest extends GeneralDAOTest {
 
     protected PersonDAO personDAO;
 
-    public abstract void setup();
-
-    public abstract void teardown() throws SQLException;
-
 
 
 }

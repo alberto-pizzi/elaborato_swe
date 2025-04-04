@@ -3,6 +3,8 @@ package tests.ORMTest;
 import main.java.DomainModel.*;
 import org.junit.jupiter.api.BeforeAll;
 
+import java.sql.SQLException;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -10,25 +12,21 @@ import java.time.LocalDate;
 public abstract class GeneralDAOTest {
 
 
-    protected User createUser(){
-        //id in not relevant for these test
-        return new User(1,"hello@gmail.com","user1","hello123","London","London","00000","UK");
+    public abstract void setup() throws SQLException;
+
+    public abstract void teardown() throws SQLException;
+
+    protected User createUser() throws SQLException {
+        //pay attention to userId
+        return new User(0,"hello@gmail.com","user1","hello123","London","London","00000","UK");
     }
 
-    protected User createSecondUser(){
-        //id in not relevant for these test
-        return new User(2,"hello2@gmail.com","user2","hello123","London","London","00000","UK");
+    protected Owner createOwner() throws SQLException {
+        //pay attention to ownerId
+        return new Owner(0,"hello@gmail.com","owner1","hello123","London","London","00000","UK");
     }
 
-    protected User createThirdUser(){
-        //id in not relevant for these test
-        return new User(3,"hello3@gmail.com","user3","hello123","London","London","00000","UK");
-    }
-
-    protected Owner createOwner(){
-        return new Owner(1,"hello@gmail.com","owner1","hello123","London","London","00000","UK");
-    }
-
+    //TODO add overloaded methods for dependencies
     protected Facility createFacility(){
         return new Facility(
                 1, "Sport Center", "Via Roma 1", "Milano", "MI",

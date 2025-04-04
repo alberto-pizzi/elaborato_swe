@@ -21,22 +21,32 @@ public class WorkingHoursDAO {
 
     //methods
 
-    public void addWHToFacility(int idFacility, DayOfWeek dayOfWeek, Time openingHours, Time closingHours) throws SQLException {
+    public int addWHToFacility(int idFacility, DayOfWeek dayOfWeek, Time openingHours, Time closingHours) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"WH\" (day_of_week, opening, closing, id_facility) " +
                 "VALUES ('%s', '%tT', '%tT', '%d')", dayOfWeek.name(), openingHours, closingHours, idFacility);
 
+        int idAdded = 0;
+
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement = connection.prepareStatement(querySQL, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
             System.out.println("Facility's WH added successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
             if (preparedStatement != null) { preparedStatement.close(); }
         }
+
+        return idAdded;
 
     }
 
