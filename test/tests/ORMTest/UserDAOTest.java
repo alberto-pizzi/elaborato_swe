@@ -15,30 +15,46 @@ public class UserDAOTest extends PersonDAOTest{
     private static boolean shouldSkip = false;
     private User user = null;
 
+    @Override
     @BeforeEach
-    public void setup(){
+    public void setup() throws SQLException {
         personDAO = new UserDAO();
+
         user = createUser();
 
-        //FIXME fix add test
-        try {
-            personDAO.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry());
-        } catch (SQLException e) {
+        if (personDAO.getUser(user.getUsername()) == null)
             shouldSkip = true;
-        }
+
 
         Assumptions.assumeTrue(shouldSkip);
 
     }
 
+    @Override
+    protected User createUser() throws SQLException {
+        //pay attention to userId
+        User user = super.createUser(); //TODO is super good? Or new object is better?
+
+        if (personDAO != null){
+            //FIXME addUser should return int (id)
+            personDAO.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry());
+            //TODO add setId
+        }
+        else
+            return null;
+
+        return user;
+    }
+
+    @Override
     @AfterEach
     public void teardown() throws SQLException {
 
-        try {
-            personDAO.deletePerson(user.getUsername());
-        } catch (SQLException e) {
+        personDAO.deletePerson(user.getUsername());
+
+        if (personDAO.getUser(user.getUsername()) != null)
             shouldSkip = true;
-        }
+
 
         user = null;
         personDAO = null;
