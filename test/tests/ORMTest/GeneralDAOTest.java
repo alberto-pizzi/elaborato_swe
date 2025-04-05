@@ -161,7 +161,29 @@ public abstract class GeneralDAOTest {
         return group;
     }
 
+    protected Notification createNotification() throws SQLException {
+        NotificationDAO notificationDAO = new NotificationDAO();
+        Notification notification = new Notification(createUser(), createReservation(false), NotificationType.CONFIRMATION);
+        notification.setId(notificationDAO.addNotification(notification));
+        return notification;
+    }
 
+    protected Notification createNotification(User user, Reservation reservation, NotificationType notificationType) throws SQLException {
+        NotificationDAO notificationDAO = new NotificationDAO();
+        Notification notification = new Notification(user, reservation, notificationType);
+        notification.setId(notificationDAO.addNotification(notification));
+        return notification;
+    }
+
+    protected void  createIsPart() throws SQLException {
+        IsPartDao isPartDao = new IsPartDao();
+        isPartDao.addMembership(createGroup(false, 0).getId(), createUser().getId(), 1);
+    }
+
+    protected void  createIsPart(Group group, User user, int guests) throws SQLException {
+        IsPartDao isPartDao = new IsPartDao();
+        isPartDao.addMembership(group.getId(), user.getId(), guests);
+    }
 
 
 
