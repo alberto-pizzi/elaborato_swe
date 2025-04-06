@@ -41,8 +41,8 @@ public abstract class GeneralDAOTest {
     protected Owner createOwner() throws SQLException {
         //pay attention to ownerId
         OwnerDAO ownerDAO = new OwnerDAO();
-        Owner owner = new Owner(0,"hello@gmail.com","owner1","hello123","London","London","00000","UK");
-        owner.setId(ownerDAO.addUser(owner.getUsername(), owner.getEmail(), owner.getPassword(), owner.getCity(), owner.getProvince(), owner.getZip(), owner.getCountry()));
+        Owner owner = new Owner(0,"iamowner@gmail.com","ownerTest1","hello123","London","London","00000","UK");
+        owner.setId(ownerDAO.addOwner(owner.getUsername(), owner.getEmail(), owner.getPassword(), owner.getCity(), owner.getProvince(), owner.getZip(), owner.getCountry()));
         return owner;
     }
 
