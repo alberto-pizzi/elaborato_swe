@@ -35,7 +35,7 @@ class SportDaoTest extends GeneralDAOTest{
             shouldSkip = true;
 
 
-        Assumptions.assumeTrue(shouldSkip);
+        Assumptions.assumeFalse(shouldSkip);
     }
 
     @Override
@@ -47,7 +47,7 @@ class SportDaoTest extends GeneralDAOTest{
             shouldSkip = true;
 
 
-        Assumptions.assumeTrue(shouldSkip);
+        Assumptions.assumeFalse(shouldSkip);
     }
 
     @Test

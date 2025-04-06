@@ -31,7 +31,7 @@ class IsPartDaoTest extends GeneralDAOTest{
             shouldSkip = true;
 
 
-        Assumptions.assumeTrue(shouldSkip);
+        Assumptions.assumeFalse(shouldSkip);
 
     }
 
@@ -60,7 +60,7 @@ class IsPartDaoTest extends GeneralDAOTest{
             shouldSkip = true;
 
 
-        Assumptions.assumeTrue(shouldSkip);
+        Assumptions.assumeFalse(shouldSkip);
 
     }
 

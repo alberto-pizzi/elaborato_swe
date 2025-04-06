@@ -33,7 +33,7 @@ class InviteDaoTest extends GeneralDAOTest {
             shouldSkip = true;
 
 
-        Assumptions.assumeTrue(shouldSkip);
+        Assumptions.assumeFalse(shouldSkip);
 
     }
 
@@ -65,7 +65,7 @@ class InviteDaoTest extends GeneralDAOTest {
             shouldSkip = true;
 
 
-        Assumptions.assumeTrue(shouldSkip);
+        Assumptions.assumeFalse(shouldSkip);
     }
 
     @Test
