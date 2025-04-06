@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public abstract class GeneralDAOTest {
@@ -184,6 +185,18 @@ public abstract class GeneralDAOTest {
         IsPartDao isPartDao = new IsPartDao();
         isPartDao.addMembership(group.getId(), user.getId(), guests);
     }
+
+    protected WorkingHours createWH(Facility facility, DayOfWeek dayOfWeek) throws SQLException {
+        WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
+
+        WorkingHours workingHours = new WorkingHours(0, dayOfWeek,Time.valueOf("8:00:00"),Time.valueOf("22:00:00"));
+        workingHours.setId(workingHoursDAO.addWHToFacility(facility.getId(),workingHours.getDayOfWeek(),workingHours.getOpeningHours(),workingHours.getClosingHours()));
+        return workingHours;
+    }
+
+
+
+    //TODO createWH overload
 
 
 

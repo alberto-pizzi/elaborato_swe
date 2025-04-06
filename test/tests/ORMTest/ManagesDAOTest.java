@@ -5,6 +5,7 @@ import main.java.DomainModel.Facility;
 import main.java.DomainModel.User;
 import main.java.ORM.FacilityDAO;
 import main.java.ORM.ManagesDAO;
+import main.java.ORM.OwnerDAO;
 import main.java.ORM.UserDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
@@ -22,6 +23,7 @@ public class ManagesDAOTest extends GeneralDAOTest {
     private ManagesDAO managesDAO;
     private FacilityDAO facilityDAO;
     private UserDAO userDAO;
+    private OwnerDAO ownerDAO;
     private User user = null;
     private Facility facility = null;
 
@@ -33,6 +35,7 @@ public class ManagesDAOTest extends GeneralDAOTest {
         managesDAO = new ManagesDAO();
         facilityDAO = new FacilityDAO();
         userDAO = new UserDAO();
+        ownerDAO = new OwnerDAO();
 
         user = createUser();
         facility = createFacility();
@@ -59,6 +62,9 @@ public class ManagesDAOTest extends GeneralDAOTest {
             shouldSkip = true;
 
         userDAO.deletePerson(user.getUsername());
+        facilityDAO.deleteFacility(facility.getId());
+        ownerDAO.deletePerson(facility.getOwner().getUsername());
+
 
         if (userDAO.getUser(user.getUsername()) != null || facilityDAO.getFacility(facility.getId(),false) != null)
             shouldSkip = true;
@@ -66,6 +72,7 @@ public class ManagesDAOTest extends GeneralDAOTest {
         user = null;
         facility = null;
         userDAO = null;
+        ownerDAO = null;
         managesDAO = null;
         facilityDAO = null;
     }
