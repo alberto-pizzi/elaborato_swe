@@ -21,6 +21,7 @@ public class ManagesDAO {
 
     //methods
 
+    //TODO is transaction needed?
     public int attachManager(int idManager, int idFacility) throws SQLException {
 
 
@@ -86,6 +87,7 @@ public class ManagesDAO {
         return idAdded;
     }
 
+    //TODO is transaction needed?
     public void detachManager(int idManager, int idFacility) throws SQLException {
 
 

@@ -1,0 +1,111 @@
+package tests.ORMTest;
+
+
+import main.java.DomainModel.Facility;
+import main.java.DomainModel.User;
+import main.java.ORM.FacilityDAO;
+import main.java.ORM.ManagesDAO;
+import main.java.ORM.UserDAO;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+//TODO test each test
+public class ManagesDAOTest extends GeneralDAOTest {
+
+    private static boolean shouldSkip = false;
+    private ManagesDAO managesDAO;
+    private FacilityDAO facilityDAO;
+    private UserDAO userDAO;
+    private User user = null;
+    private Facility facility = null;
+
+
+    @Override
+    @BeforeEach
+    public void setup() throws SQLException, Exception {
+
+        managesDAO = new ManagesDAO();
+        facilityDAO = new FacilityDAO();
+        userDAO = new UserDAO();
+
+        user = createUser();
+        facility = createFacility();
+
+        if (userDAO.getUser(user.getUsername()) == null || facilityDAO.getFacility(facility.getId(),false) == null)
+            shouldSkip = true;
+
+        managesDAO.attachManager(user.getId(),facility.getId());
+
+        if (managesDAO.getAllFacilitiesByManager(user.getId()).isEmpty())
+            shouldSkip = true;
+
+        Assumptions.assumeFalse(shouldSkip);
+
+    }
+
+    @Override
+    @AfterEach
+    public void teardown() throws SQLException, Exception {
+
+        managesDAO.detachManager(user.getId(),facility.getId());
+
+        if (!managesDAO.getAllFacilitiesByManager(user.getId()).isEmpty())
+            shouldSkip = true;
+
+        userDAO.deletePerson(user.getUsername());
+
+        if (userDAO.getUser(user.getUsername()) != null || facilityDAO.getFacility(facility.getId(),false) != null)
+            shouldSkip = true;
+
+        user = null;
+        facility = null;
+        userDAO = null;
+        managesDAO = null;
+        facilityDAO = null;
+    }
+
+    @Test
+    public void attachManagerTest() throws SQLException {
+
+        assertEquals(managesDAO.getAllFacilitiesByManager(user.getId()).size(),1);
+        assertEquals(managesDAO.getAllManagersByFacility(facility.getId()).size(),1);
+
+    }
+
+    @Test
+    public void detachManagerTest() throws SQLException {
+
+        managesDAO.detachManager(user.getId(),facility.getId());
+
+        assertTrue(managesDAO.getAllFacilitiesByManager(user.getId()).isEmpty());
+        assertTrue(managesDAO.getAllManagersByFacility(facility.getId()).isEmpty());
+
+    }
+
+    @Test
+    public void getAllFacilitiesByManagerTest() throws SQLException {
+        //TODO implement
+    }
+
+    //FIXME is any fix needed?
+    @Test
+    public void getAllManagersByFacilityTest() throws SQLException {
+
+        User user2 = createSecondUser();
+        managesDAO.attachManager(user2.getId(),facility.getId());
+
+        assertEquals(managesDAO.getAllManagersByFacility(facility.getId()).size(),2);
+
+        managesDAO.detachManager(user2.getId(),facility.getId());
+
+        assertEquals(managesDAO.getAllManagersByFacility(facility.getId()).size(),1);
+
+    }
+
+}
