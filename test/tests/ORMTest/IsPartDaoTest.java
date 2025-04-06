@@ -1,12 +1,12 @@
 package tests.ORMTest;
 
-import main.java.DomainModel.Group;
-import main.java.DomainModel.Notification;
-import main.java.DomainModel.User;
-import main.java.ORM.IsPartDao;
-import main.java.ORM.NotificationDAO;
+import main.java.DomainModel.*;
+import main.java.ORM.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -15,19 +15,53 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IsPartDaoTest extends GeneralDAOTest{
 
-    private Boolean exists = false;
+    private Boolean shouldSkip = false;
     private Group group;
     private User user;
+    IsPartDao isPartDao = new IsPartDao();
 
-    @Before
+    @Override
+    @BeforeEach
     public void setup() throws Exception {
+        group = createGroup(false, 1);
+        user = group.getGroupHead();
+        createIsPart(group, user, 1);
 
-        group = createGroup(createReservation(false), 0);
-        user = createUser();
+        if (isPartDao.getAllGroupsByUser(user.getId()).isEmpty())
+            shouldSkip = true;
+
+
+        Assumptions.assumeTrue(shouldSkip);
+
     }
 
-    @After
+    @Override
+    @AfterEach
     public void teardown() throws Exception {
+        ReservationDao reservationDao = new ReservationDao();
+        FieldDao fieldDao = new FieldDao();
+        OwnerDAO ownerDao = new OwnerDAO();
+        GroupDao groupDao = new GroupDao();
+        FacilityDAO facilityDao = new FacilityDAO();
+        UserDAO userDao = new UserDAO();
+
+        Facility facility;
+
+
+        isPartDao.removeMembership(group.getId(), user.getId());
+        userDao.deletePerson(user.getUsername());
+        groupDao.deleteGroup(group.getId());
+        reservationDao.deleteReservation(group.getReservation().getId());
+        facility = group.getReservation().getField().getFacility();
+        fieldDao.deleteField(group.getReservation().getField().getId());
+        facilityDao.deleteFacility(facility.getId());
+        ownerDao.deletePerson(facility.getOwner().getUsername());
+        if (!isPartDao.getAllGroupsByUser(user.getId()).isEmpty())
+            shouldSkip = true;
+
+
+        Assumptions.assumeTrue(shouldSkip);
+
     }
 
     @Test
@@ -56,7 +90,7 @@ class IsPartDaoTest extends GeneralDAOTest{
 
     @Test
     void countOwnGuests() throws SQLException {
-        assertEquals(0, isPartDao.countOwnGuests(group.getId(), user.getId()));
+        assertEquals(1, isPartDao.countOwnGuests(group.getId(), user.getId()));
     }
 
     @Test
@@ -71,7 +105,7 @@ class IsPartDaoTest extends GeneralDAOTest{
         assertEquals(number, isPartDao.countOwnGuests(group.getId(), user.getId()));
     }
 
-    //todo da fare
+    //todo parlare con albe
     @Test
     void groupHeadSuccessorId() {
     }

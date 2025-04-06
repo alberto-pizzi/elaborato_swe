@@ -10,6 +10,9 @@ import main.java.ORM.SportDao;
 import main.java.ORM.UserDAO;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -18,18 +21,33 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SportDaoTest extends GeneralDAOTest{
 
-    private SportDao sportDao;
-    private Boolean exists = false;
+    private SportDao sportDao = new SportDao();
+    private Boolean shouldSkip = false;
     private Sport sport;
 
-    @Before
+    @Override
+    @BeforeEach
     public void setup() throws Exception {
-       sportDao = new SportDao();
-       sport = createSport();
+
+        sport = createSport();
+
+        if (sportDao.getSport(sport.getId()) == null)
+            shouldSkip = true;
+
+
+        Assumptions.assumeTrue(shouldSkip);
     }
 
-    @After
+    @Override
+    @AfterEach
     public void teardown() throws Exception {
+        sportDao.deleteSport(sport.getId());
+
+        if (!(sportDao.getSport(sport.getId()) == null))
+            shouldSkip = true;
+
+
+        Assumptions.assumeTrue(shouldSkip);
     }
 
     @Test

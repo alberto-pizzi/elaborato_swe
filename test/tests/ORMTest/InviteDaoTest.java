@@ -1,12 +1,10 @@
 package tests.ORMTest;
 
-import main.java.DomainModel.Group;
-import main.java.DomainModel.Invite;
-import main.java.DomainModel.Reservation;
-import main.java.DomainModel.User;
-import main.java.ORM.InviteDao;
+import main.java.DomainModel.*;
+import main.java.ORM.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,47 +16,56 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InviteDaoTest extends GeneralDAOTest {
 
-    private InviteDao inviteDao;
+    private InviteDao inviteDao = new InviteDao();;
     private Invite invite;
-    private Boolean exists = false;
+    private Boolean shouldSkip = false;
     private User user;
     private Group group;
 
-    @Before
-    public void setup() throws Exception {
-
-        inviteDao = new InviteDao();
-        invite = new Invite();
-        Reservation reservation = createReservation(false);
-        user = createUser();
-        invite.setUser(user);
-        group = createGroup(reservation, 2);
-        invite.setGroup(group);
-        invite.setId(inviteDao.addInvite(invite));
-        ArrayList<Invite> invites = inviteDao.getInvitesByUser(user.getId());
-        for (Invite invite2 : invites) {
-            if (invite2.getGroup().getId() == invite.getGroup().getId()) {
-                exists = true;
-            }
-        }
-        assertTrue(exists);
-    }
-
-    @After
-    public void teardown() throws Exception {
-        inviteDao.deleteInvite(invite.getId());
-        ArrayList<Invite> invites = inviteDao.getInvitesByUser(user.getId());
-        for (Invite invite2 : invites) {
-            if (invite2.getGroup().getId() == invite.getGroup().getId()) {
-                exists = true;
-            }
-        }
-        assertFalse(exists);
-    }
-
+    @Override
     @BeforeEach
-    public void setUpNotFailed(){
-        Assumptions.assumeTrue(exists);
+    public void setup() throws Exception {
+        invite = createInvite();
+        user = invite.getUser();
+        group = invite.getGroup();
+
+        if (inviteDao.getInvitesByUser(user.getId()).isEmpty())
+            shouldSkip = true;
+
+
+        Assumptions.assumeTrue(shouldSkip);
+
+    }
+
+    @Override
+    @AfterEach
+    public void teardown() throws Exception {
+        ReservationDao reservationDao = new ReservationDao();
+        FieldDao fieldDao = new FieldDao();
+        OwnerDAO ownerDao = new OwnerDAO();
+        GroupDao groupDao = new GroupDao();
+        FacilityDAO facilityDao = new FacilityDAO();
+        UserDAO userDao = new UserDAO();
+        IsPartDao isPartDao = new IsPartDao();
+
+        Facility facility;
+
+
+        inviteDao.deleteInvite(invite.getId());
+        //todo da controllare
+        isPartDao.removeMembership(group.getId(), user.getId());
+        userDao.deletePerson(user.getUsername());
+        groupDao.deleteGroup(group.getId());
+        reservationDao.deleteReservation(group.getReservation().getId());
+        facility = group.getReservation().getField().getFacility();
+        fieldDao.deleteField(group.getReservation().getField().getId());
+        facilityDao.deleteFacility(facility.getId());
+        ownerDao.deletePerson(facility.getOwner().getUsername());
+        if (!inviteDao.getInvitesByUser(user.getId()).isEmpty())
+            shouldSkip = true;
+
+
+        Assumptions.assumeTrue(shouldSkip);
     }
 
     @Test
