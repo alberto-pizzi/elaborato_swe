@@ -19,6 +19,7 @@ class GroupDaoTest extends GeneralDAOTest{
     private Boolean shouldSkip = false;
     private Group group;
     private User user;
+    private User secondUser;
     private Reservation reservation;
 
 
@@ -27,6 +28,7 @@ class GroupDaoTest extends GeneralDAOTest{
     public void setup() throws Exception {
         group = createGroup(false, 1);
         user = group.getGroupHead();
+        secondUser = createThirdUser();
         reservation = group.getReservation();
 
         if (groupDao.getGroup(group.getId()) == null)
@@ -45,14 +47,17 @@ class GroupDaoTest extends GeneralDAOTest{
         OwnerDAO ownerDao = new OwnerDAO();
         FacilityDAO facilityDao = new FacilityDAO();
         UserDAO userDao = new UserDAO();
+        SportDao sportDao = new SportDao();
 
         Facility facility;
 
         groupDao.deleteGroup(group.getId());
         userDao.deletePerson(user.getUsername());
+        userDao.deletePerson(secondUser.getUsername());
         reservationDao.deleteReservation(group.getReservation().getId());
         facility = group.getReservation().getField().getFacility();
         fieldDao.deleteField(group.getReservation().getField().getId());
+        sportDao.deleteSport(group.getReservation().getField().getId());
         facilityDao.deleteFacility(facility.getId());
         ownerDao.deletePerson(facility.getOwner().getUsername());
         if (!(groupDao.getGroup(group.getId()) == null))
@@ -70,12 +75,10 @@ class GroupDaoTest extends GeneralDAOTest{
     void deleteGroup() {
     }
 
-    //todo cancellare da database
     @Test
     void updateGroupHead() throws SQLException, ClassNotFoundException {
-        User user = createThirdUser();
-        groupDao.updateGroupHead(group.getId(), user.getId());
-        assertEquals(groupDao.getGroup(group.getId()).getGroupHead().getUsername(), user.getUsername());
+        groupDao.updateGroupHead(group.getId(), secondUser.getId());
+        assertEquals(groupDao.getGroup(group.getId()).getGroupHead().getUsername(), secondUser.getUsername());
     }
 
     @Test

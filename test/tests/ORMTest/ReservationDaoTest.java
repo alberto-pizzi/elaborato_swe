@@ -48,6 +48,7 @@ class ReservationDaoTest extends GeneralDAOTest{
         OwnerDAO ownerDao = new OwnerDAO();
         FacilityDAO facilityDao = new FacilityDAO();
         UserDAO userDao = new UserDAO();
+        SportDao sportDao = new SportDao();
 
         Facility facility;
 
@@ -56,6 +57,7 @@ class ReservationDaoTest extends GeneralDAOTest{
         reservationDao.deleteReservation(group.getReservation().getId());
         facility = group.getReservation().getField().getFacility();
         fieldDao.deleteField(group.getReservation().getField().getId());
+        sportDao.deleteSport(group.getReservation().getField().getSport().getId());
         facilityDao.deleteFacility(facility.getId());
         ownerDao.deletePerson(facility.getOwner().getUsername());
         if (!(reservationDao.getReservation(reservation.getId(), false) == null))
@@ -134,14 +136,14 @@ class ReservationDaoTest extends GeneralDAOTest{
 
     @Test
     void updateEventTimeStart() throws SQLException, ClassNotFoundException {
-        Time eventTimeStart = Time.valueOf("15:00:00");
+        Time eventTimeStart = Time.valueOf("8:00:00");
         reservationDao.updateEventTimeStart(reservation.getId(), eventTimeStart);
         assertEquals(reservationDao.getReservation(reservation.getId(), false).getEventTimeStart(), eventTimeStart);
     }
 
     @Test
     void updateEventTimeEnd() throws SQLException, ClassNotFoundException {
-        Time eventTimeEnd = Time.valueOf("17:00:00");
+        Time eventTimeEnd = Time.valueOf("9:00:00");
         reservationDao.updateEventTimeEnd(reservation.getId(), eventTimeEnd);
         assertEquals(reservationDao.getReservation(reservation.getId(), false).getEventTimeEnd(), eventTimeEnd);
     }

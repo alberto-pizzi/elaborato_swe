@@ -44,6 +44,7 @@ class IsPartDaoTest extends GeneralDAOTest{
         GroupDao groupDao = new GroupDao();
         FacilityDAO facilityDao = new FacilityDAO();
         UserDAO userDao = new UserDAO();
+        SportDao sportDao = new SportDao();
 
         Facility facility;
 
@@ -54,6 +55,7 @@ class IsPartDaoTest extends GeneralDAOTest{
         reservationDao.deleteReservation(group.getReservation().getId());
         facility = group.getReservation().getField().getFacility();
         fieldDao.deleteField(group.getReservation().getField().getId());
+        sportDao.deleteSport(group.getReservation().getField().getSport().getId());
         facilityDao.deleteFacility(facility.getId());
         ownerDao.deletePerson(facility.getOwner().getUsername());
         if (!isPartDao.getAllGroupsByUser(user.getId()).isEmpty())

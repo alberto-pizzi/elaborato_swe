@@ -47,18 +47,19 @@ class InviteDaoTest extends GeneralDAOTest {
         FacilityDAO facilityDao = new FacilityDAO();
         UserDAO userDao = new UserDAO();
         IsPartDao isPartDao = new IsPartDao();
+        SportDao sportDao = new SportDao();
 
         Facility facility;
 
 
         inviteDao.deleteInvite(invite.getId());
-        //todo da controllare
         isPartDao.removeMembership(group.getId(), user.getId());
         groupDao.deleteGroup(group.getId());
         userDao.deletePerson(user.getUsername());
         reservationDao.deleteReservation(group.getReservation().getId());
         facility = group.getReservation().getField().getFacility();
         fieldDao.deleteField(group.getReservation().getField().getId());
+        sportDao.deleteSport(group.getReservation().getField().getSport().getId());
         facilityDao.deleteFacility(facility.getId());
         ownerDao.deletePerson(facility.getOwner().getUsername());
         if (!inviteDao.getInvitesByUser(user.getId()).isEmpty())

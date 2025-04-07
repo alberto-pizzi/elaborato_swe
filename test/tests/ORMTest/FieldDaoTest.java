@@ -1,13 +1,12 @@
 package tests.ORMTest;
 
-import main.java.DomainModel.Facility;
-import main.java.DomainModel.Field;
-import main.java.DomainModel.Group;
-import main.java.DomainModel.User;
-import main.java.ORM.FieldDao;
-import main.java.ORM.IsPartDao;
+import main.java.DomainModel.*;
+import main.java.ORM.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -16,22 +15,50 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FieldDaoTest extends GeneralDAOTest{
 
-    private FieldDao fieldDao;
-    private Boolean exists = false;
+    private FieldDao fieldDao= new FieldDao();;
+    private Boolean shouldSkip = false;
     private Field field;
-    private User user;
     private Facility facility;
+    private Sport sport;
+    private Reservation reservation;
 
-    @Before
+
+    @Override
+    @BeforeEach
     public void setup() throws Exception {
-        fieldDao = new FieldDao();
         field = createField();
-        user = createUser();
-        facility = createFacility();
+        reservation = createReservation(field, false);
+        String name = "Padel new sport";
+        sport = createSport(name);
+        facility = field.getFacility();
+        if (fieldDao.getField(field.getId()) == null)
+            shouldSkip = true;
+
+
+        Assumptions.assumeFalse(shouldSkip);
     }
 
-    @After
+    @Override
+    @AfterEach
     public void teardown() throws Exception {
+        OwnerDAO ownerDao = new OwnerDAO();
+        FacilityDAO facilityDao = new FacilityDAO();
+        ReservationDao reservationDao = new ReservationDao();
+        SportDao sportDao = new SportDao();
+        Facility facility;
+
+        reservationDao.deleteReservation(reservation.getId());
+        facility = field.getFacility();
+        fieldDao.deleteField(field.getId());
+        sportDao.deleteSport(sport.getId());
+        sportDao.deleteSport(field.getSport().getId());
+        facilityDao.deleteFacility(facility.getId());
+        ownerDao.deletePerson(facility.getOwner().getUsername());
+        if (!(fieldDao.getField(field.getId()) == null))
+            shouldSkip = true;
+
+
+        Assumptions.assumeFalse(shouldSkip);
     }
 
     @Test
@@ -49,14 +76,14 @@ class FieldDaoTest extends GeneralDAOTest{
 
     @Test
     void updateName() throws SQLException, ClassNotFoundException {
-        String name = "Padel new";
+        String name = "Name new";
         fieldDao.updateName(field.getId(), name);
         assertEquals(name, fieldDao.getField(field.getId()).getName());
     }
 
     @Test
     void updateDescription() throws SQLException, ClassNotFoundException {
-        String description = "Padel new";
+        String description = "Description new";
         fieldDao.updateDescription(field.getId(), description);
         assertEquals(description, fieldDao.getField(field.getId()).getDescription());
     }
@@ -68,18 +95,18 @@ class FieldDaoTest extends GeneralDAOTest{
         assertEquals(price, fieldDao.getField(field.getId()).getPrice());
     }
 
-    //todo come fare
     @Test
-    void updateImage() {
+    void updateImage() throws SQLException, ClassNotFoundException {
+        String image = "Image new";
+        fieldDao.updateImage(field.getId(), image);
+        assertEquals(image, fieldDao.getField(field.getId()).getImage());
     }
 
-    //todo da fare
     @Test
     void updateSport() throws SQLException, ClassNotFoundException {
-        String name = "Padel new";
-        fieldDao.updateName(field.getId(), name);
-        field.setName(name);
-        assertEquals(name, fieldDao.getField(field.getId()).getName());
+
+        fieldDao.updateSport(field.getId(), sport.getId());
+        assertEquals(sport.getName(), fieldDao.getField(field.getId()).getSport().getName());
     }
 
     @Test
@@ -107,14 +134,14 @@ class FieldDaoTest extends GeneralDAOTest{
         assertFalse(fieldDao.getFieldsBySport(field.getSport().getName()).isEmpty());
     }
 
-    //todo da fare
+    //todo da fare chiedere ad albe?
     @Test
     void fieldComparator() {
     }
 
-    //todo da fare
     @Test
-    void search() {
+    void search() throws SQLException {
+        assertFalse(fieldDao.search("Campo").isEmpty());
     }
 
     @Test
@@ -122,10 +149,9 @@ class FieldDaoTest extends GeneralDAOTest{
         assertFalse(fieldDao.getFieldsByOwner(facility.getOwner()).isEmpty());
     }
 
-    //todo da fare
     @Test
-    void reservedFields() {
-
+    void reservedFields() throws SQLException {
+        assertEquals(1, fieldDao.reservedFields(reservation.getEventDate(), facility.getOwner()));
     }
 
     @Test

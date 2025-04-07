@@ -42,6 +42,7 @@ class NotificationDAOTest extends GeneralDAOTest{
         OwnerDAO ownerDao = new OwnerDAO();
         FacilityDAO facilityDao = new FacilityDAO();
         UserDAO userDao = new UserDAO();
+        SportDao sportDao = new SportDao();
 
         Facility facility;
 
@@ -50,6 +51,7 @@ class NotificationDAOTest extends GeneralDAOTest{
         reservationDao.deleteReservation(notification.getReservation().getId());
         facility = notification.getReservation().getField().getFacility();
         fieldDao.deleteField(notification.getReservation().getField().getId());
+        sportDao.deleteSport(notification.getReservation().getField().getSport().getId());
         facilityDao.deleteFacility(facility.getId());
         ownerDao.deletePerson(facility.getOwner().getUsername());
 
