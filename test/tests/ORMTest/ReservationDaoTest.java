@@ -1,12 +1,10 @@
 package tests.ORMTest;
 
 import main.java.DomainModel.*;
-import main.java.ORM.FieldDao;
-import main.java.ORM.InviteDao;
-import main.java.ORM.ReservationDao;
-import main.java.ORM.UserDAO;
+import main.java.ORM.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,53 +21,53 @@ class ReservationDaoTest extends GeneralDAOTest{
 
     private ReservationDao reservationDao;
     private Reservation reservation;
-    private Boolean exists = false;
+    private Boolean shouldSkip = false;
     private User user;
+    private Group group;
 
-    @Before
-    public void setup() throws Exception {
-        UserDAO userDao = new UserDAO();
-        user = createUser();
-        userDao.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry());
-        User user2 = createSecondUser();
-        userDao.addUser(user2.getUsername(), user2.getEmail(), user2.getPassword(), user2.getCity(), user2.getProvince(), user2.getZip(), user2.getCountry());
-        user.setId(userDao.getUser(user.getUsername()).getId());
-        FieldDao fieldDao = new FieldDao();
-        Field field = createField();
-        int id = fieldDao.addField(field);
-        field.setId(id);
-        reservationDao = new ReservationDao();
-        reservation = createReservation(false);
-        reservation.setField(field);
-        reservation.setId(reservationDao.addReservation(reservation));
-
-        exists = reservationDao.getReservation(reservation.getId(), false) != null;
-
-        assertTrue(exists);
-    }
-
-    @After
-    public void teardown() throws Exception {
-        int id = reservation.getField().getId();
-        reservationDao.deleteReservation(reservation.getId());
-        FieldDao fieldDao = new FieldDao();
-        fieldDao.deleteField(id);
-        exists = reservationDao.getReservation(reservation.getId(), false) != null;
-        UserDAO userDao = new UserDAO();
-        userDao.deletePerson(user.getUsername());
-        user.setUsername(userDao.getUser(user.getUsername()).getUsername());
-        userDao.deletePerson(user.getUsername());
-        assertFalse(exists);
-    }
-
+    @Override
     @BeforeEach
-    public void setUpNotFailed(){
-        Assumptions.assumeTrue(exists);
+    public void setup() throws Exception {
+
+        group= createGroup(false, 5);
+        reservation = group.getReservation();
+        user = group.getGroupHead();
+
+        if (reservationDao.getReservation(reservation.getId(), false) == null)
+            shouldSkip = true;
+
+
+        Assumptions.assumeFalse(shouldSkip);
     }
 
-    //fixme da fare
+    @Override
+    @AfterEach
+    public void teardown() throws Exception {
+        GroupDao groupDao = new GroupDao();
+        FieldDao fieldDao = new FieldDao();
+        OwnerDAO ownerDao = new OwnerDAO();
+        FacilityDAO facilityDao = new FacilityDAO();
+        UserDAO userDao = new UserDAO();
+
+        Facility facility;
+
+        groupDao.deleteGroup(group.getId());
+        userDao.deletePerson(user.getUsername());
+        reservationDao.deleteReservation(group.getReservation().getId());
+        facility = group.getReservation().getField().getFacility();
+        fieldDao.deleteField(group.getReservation().getField().getId());
+        facilityDao.deleteFacility(facility.getId());
+        ownerDao.deletePerson(facility.getOwner().getUsername());
+        if (!(reservationDao.getReservation(reservation.getId(), false) == null))
+            shouldSkip = true;
+
+
+        Assumptions.assumeFalse(shouldSkip);
+    }
+
     @Test
-    void getCountAllParticipants() {
+    void getCountAllParticipants() throws SQLException {
+        assertEquals(1, reservationDao.getCountAllParticipants(reservation.getId()));
     }
 
     @Test
@@ -79,16 +77,15 @@ class ReservationDaoTest extends GeneralDAOTest{
 
     @Test
     void getReservationsByField() throws SQLException, ClassNotFoundException {
-        assertNotNull(reservationDao.getReservationsByField(reservation.getField().getId()));
+        assertFalse(reservationDao.getReservationsByField(reservation.getField().getId()).isEmpty());
     }
 
-
-    //fixme da fare è sbagliata
     @Test
     void getReservationsByUser() throws SQLException, ClassNotFoundException {
-        assertEquals(1, reservationDao.getReservationsByUser(user.getId()));
+        assertEquals(1, reservationDao.getReservationsByUser(user.getId()).size());
     }
 /*
+    //todo aspettare albe
     //fixme da togliere
     @Test
     void updateIdUser() throws SQLException, ClassNotFoundException {
@@ -98,7 +95,7 @@ class ReservationDaoTest extends GeneralDAOTest{
         reservationDao.updateIdUser(reservation.getId(), user.getId());
         assertEquals(user.getUsername(), reservationDao.getReservation(reservation.getId(), false).get);
     }
-
+     //fixme da togliere
     //todo aspettare albe
     @Test
     void updateNParticipants() throws SQLException, ClassNotFoundException {
@@ -123,7 +120,7 @@ class ReservationDaoTest extends GeneralDAOTest{
     @Test
     void updateIsDeleted() throws SQLException, ClassNotFoundException {
         reservationDao.updateIsDeleted(reservation.getId(), true);
-        assertTrue (reservationDao.getReservation(reservation.getId(), false).isDeleted());
+        assertTrue (reservationDao.getReservation(reservation.getId(), true).isDeleted());
     }
 
     @Test
@@ -144,18 +141,18 @@ class ReservationDaoTest extends GeneralDAOTest{
 
     @Test
     void updateEventTimeEnd() throws SQLException, ClassNotFoundException {
-
         Time eventTimeEnd = Time.valueOf("17:00:00");
         reservationDao.updateEventTimeEnd(reservation.getId(), eventTimeEnd);
         assertEquals(reservationDao.getReservation(reservation.getId(), false).getEventTimeEnd(), eventTimeEnd);
     }
 
-    //todo da fare?
     @Test
-    void dailyEarning() {
+    void dailyEarning() throws SQLException {
+        assertEquals(reservation.getField().getPrice()*2, reservationDao.dailyEarning(reservation.getEventDate(),reservation.getField().getFacility().getOwner()));
     }
 
     @Test
-    void dailyReservations() {
+    void dailyReservations() throws SQLException {
+        assertEquals(1, reservationDao.dailyReservations(reservation.getEventDate(),reservation.getField().getFacility().getOwner()));
     }
 }

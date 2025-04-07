@@ -351,7 +351,7 @@ public class ReservationDao {
     }
 
     //todo aggiungere a uml. Check if deleted reservation are useless or useful. Now is set to FALSE
-    public int DailyEarning(Date date, Owner owner) throws SQLException {
+    public int dailyEarning(Date date, Owner owner) throws SQLException {
 
         int earning = 0;
         String querySQL =  String.format("SELECT SUM(price) AS earnings FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".is_deleted = FALSE AND \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d'", date, owner.getId());
