@@ -37,7 +37,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     public int dailyEarning() throws SQLException {
         ReservationDao reservationDao = new ReservationDao();
-        return reservationDao.DailyEarning(Date.valueOf(LocalDate.now()), owner);
+        return reservationDao.dailyEarning(Date.valueOf(LocalDate.now()), owner);
     }
 
     public int monthlyEarnings() throws SQLException {
@@ -45,7 +45,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         LocalDate today = LocalDate.now();
         int earnings = 0;
         for (int i = 0; i < 30; i++){
-            earnings += reservationDao.DailyEarning(Date.valueOf(today), owner);
+            earnings += reservationDao.dailyEarning(Date.valueOf(today), owner);
             today = today.minusDays(1);
         }
         return earnings;
@@ -56,7 +56,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         LocalDate today = LocalDate.now();
         ArrayList <Integer> earnings = new ArrayList<>();
         for (int i = 0; i < 7; i++){
-            earnings.add(reservationDao.DailyEarning(Date.valueOf(today), owner));
+            earnings.add(reservationDao.dailyEarning(Date.valueOf(today), owner));
             today = today.minusDays(1);
         }
         return earnings;

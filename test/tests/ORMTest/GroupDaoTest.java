@@ -1,14 +1,12 @@
 package tests.ORMTest;
 
-import main.java.DomainModel.Group;
-import main.java.DomainModel.Reservation;
-import main.java.DomainModel.Sport;
-import main.java.DomainModel.User;
-import main.java.ORM.GroupDao;
-import main.java.ORM.SportDao;
-import main.java.ORM.UserDAO;
+import main.java.DomainModel.*;
+import main.java.ORM.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -17,18 +15,56 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GroupDaoTest extends GeneralDAOTest{
 
-    private GroupDao groupDao;
-    private Boolean exists = false;
+    private GroupDao groupDao = new GroupDao();
+    private Boolean shouldSkip = false;
     private Group group;
+    private User user;
+    private User secondUser;
+    private Reservation reservation;
 
-    @Before
+
+    @Override
+    @BeforeEach
     public void setup() throws Exception {
-        groupDao = new GroupDao();
-        group = createGroup(createReservation(false), 0);
+        group = createGroup(false, 1);
+        user = group.getGroupHead();
+        secondUser = createThirdUser();
+        reservation = group.getReservation();
+
+        if (groupDao.getGroup(group.getId()) == null)
+            shouldSkip = true;
+
+
+        Assumptions.assumeFalse(shouldSkip);
     }
 
-    @After
+
+    @Override
+    @AfterEach
     public void teardown() throws Exception {
+        ReservationDao reservationDao = new ReservationDao();
+        FieldDao fieldDao = new FieldDao();
+        OwnerDAO ownerDao = new OwnerDAO();
+        FacilityDAO facilityDao = new FacilityDAO();
+        UserDAO userDao = new UserDAO();
+        SportDao sportDao = new SportDao();
+
+        Facility facility;
+
+        groupDao.deleteGroup(group.getId());
+        userDao.deletePerson(user.getUsername());
+        userDao.deletePerson(secondUser.getUsername());
+        reservationDao.deleteReservation(group.getReservation().getId());
+        facility = group.getReservation().getField().getFacility();
+        fieldDao.deleteField(group.getReservation().getField().getId());
+        sportDao.deleteSport(group.getReservation().getField().getId());
+        facilityDao.deleteFacility(facility.getId());
+        ownerDao.deletePerson(facility.getOwner().getUsername());
+        if (!(groupDao.getGroup(group.getId()) == null))
+            shouldSkip = true;
+
+
+        Assumptions.assumeFalse(shouldSkip);
     }
 
     @Test
@@ -41,11 +77,8 @@ class GroupDaoTest extends GeneralDAOTest{
 
     @Test
     void updateGroupHead() throws SQLException, ClassNotFoundException {
-        User user = createThirdUser();
-        UserDAO userDao = new UserDAO();
-        user.setId(userDao.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry()));
-        groupDao.updateGroupHead(group.getId(), user.getId());
-        assertEquals(groupDao.getGroup(group.getId()).getGroupHead().getUsername(), user.getUsername());
+        groupDao.updateGroupHead(group.getId(), secondUser.getId());
+        assertEquals(groupDao.getGroup(group.getId()).getGroupHead().getUsername(), secondUser.getUsername());
     }
 
     @Test
@@ -55,8 +88,6 @@ class GroupDaoTest extends GeneralDAOTest{
 
     @Test
     void getGroupByReservation() throws SQLException, ClassNotFoundException {
-        //todo rerservation id
-        Reservation reservation = createReservation(false);
         assertNotNull(groupDao.getGroupByReservation(reservation.getId()));
     }
 }

@@ -2,7 +2,6 @@ package tests.ORMTest;
 
 import main.java.DomainModel.*;
 import main.java.ORM.*;
-import org.junit.jupiter.api.BeforeAll;
 
 import java.sql.SQLException;
 
@@ -90,7 +89,7 @@ public abstract class GeneralDAOTest {
         return reservation;
     }
 
-    protected Reservation createReservation(Facility facility, Field field, boolean isMatched) throws SQLException {
+    protected Reservation createReservation(Field field, boolean isMatched) throws SQLException {
         ReservationDao reservationDao = new ReservationDao();
         LocalDate today = LocalDate.now();
         LocalDate futureDate = today.plusDays(7); // add 7 days
@@ -132,6 +131,13 @@ public abstract class GeneralDAOTest {
         return sport;
     }
 
+    protected Sport createSport(String sportName) throws SQLException {
+        SportDao sportDao = new SportDao();
+        Sport sport = new Sport(0, sportName, 22);
+        sport.setId(sportDao.addSport(sport.getName(),sport.getPlayersRequired()));
+        return sport;
+    }
+
     protected Invite createInvite() throws SQLException {
         InviteDao inviteDao = new InviteDao();
         Invite invite = new Invite(0, createGroup(false, 0));
@@ -155,6 +161,7 @@ public abstract class GeneralDAOTest {
         return group;
     }
 
+    //todo parlare con albe perché non aggiunge ispart ba database qindi grouphead non fa  parte gruppo?
     protected Group createGroup(User user, Reservation reservation, int requiredParticipants) throws SQLException {
         GroupDao groupDao = new GroupDao();
         Group group = new Group(user,reservation,requiredParticipants);
