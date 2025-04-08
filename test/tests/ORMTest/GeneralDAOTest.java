@@ -26,14 +26,14 @@ public abstract class GeneralDAOTest {
     }
     protected User createSecondUser() throws SQLException {
         UserDAO userDAO = new UserDAO();
-        User user = new User(2,"hello2@gmail.com","user2","hello123","London","London","00000","UK");
+        User user = new User(0,"hello2@gmail.com","user2","hello123","London","London","00000","UK");
         user.setId(userDAO.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry()));
         return user;
     }
 
     protected User createThirdUser() throws SQLException {
         UserDAO userDAO = new UserDAO();
-        User user = new User(3,"hello3@gmail.com","user3","hello123","London","London","00000","UK");
+        User user = new User(0,"hello3@gmail.com","user3","hello123","London","London","00000","UK");
         user.setId(userDAO.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry()));
         return user;
     }
@@ -50,7 +50,7 @@ public abstract class GeneralDAOTest {
     protected Facility createFacility() throws SQLException {
         FacilityDAO facilityDAO = new FacilityDAO();
         Facility facility = new  Facility(
-                1, "Sport Center", "Via Roma 1", "Milano", "MI",
+                0, "Sport Center", "Via Roma 1", "Milano", "MI",
                 "20100", "Italia", 3, "333333333",
                 "", createOwner());
         facility.setId(facilityDAO.addFacility(facility.getName(), facility.getAddress(), facility.getCity(), facility.getProvince(), facility.getZip(), facility.getCountry(), facility.getTelephone(), facility.getImage(), facility.getOwner().getId()));
@@ -61,7 +61,7 @@ public abstract class GeneralDAOTest {
     protected Facility createFacility(Owner owner) throws SQLException {
         FacilityDAO facilityDAO = new FacilityDAO();
         Facility facility = new  Facility(
-                1, "Sport Center", "Via Roma 1", "Milano", "MI",
+                0, "Sport Center", "Via Roma 1", "Milano", "MI",
                 "20100", "Italia", 3, "333333333",
                 "", owner);
         facility.setId(facilityDAO.addFacility(facility.getName(), facility.getAddress(), facility.getCity(), facility.getProvince(), facility.getZip(), facility.getCountry(), facility.getTelephone(), facility.getImage(), facility.getOwner().getId()));
@@ -107,7 +107,7 @@ public abstract class GeneralDAOTest {
     protected Field createField() throws SQLException {
         FieldDao fieldDao = new FieldDao();
         Field field = new Field(
-                1, "Campo A", createSport(), "Campo in erba sintetica",
+                0, "Campo A", createSport(), "Campo in erba sintetica",
                 50.0f, "", createFacility()
         );
         field.setId(fieldDao.addField(field));
@@ -117,7 +117,7 @@ public abstract class GeneralDAOTest {
     protected Field createField(Facility facility, Sport sport) throws SQLException {
         FieldDao fieldDao = new FieldDao();
         Field field = new Field(
-                1, "Campo A", sport, "Campo in erba sintetica",
+                0, "Campo A", sport, "Campo in erba sintetica",
                 50.0f, "", facility
         );
         field.setId(fieldDao.addField(field));
