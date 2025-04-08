@@ -196,45 +196,6 @@ public class ReservationDao {
         return reservations;
     }
 
-    //TODO fix query with or remove method
-    public void updateIdUser(int idReservation, int newUser) throws SQLException {
-
-        String querySQL = String.format("UPDATE \"Reservation\" SET id_user = '%d' WHERE id = '%d'", newUser, idReservation);
-
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            preparedStatement.executeUpdate();
-            System.out.println("User updated successfully.");
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-        }
-    }
-
-    //TODO fix query with or remove method
-    public void updateNParticipants(int idReservation, int newNumber) throws SQLException {
-
-        String querySQL = String.format("UPDATE \"Reservation\" SET n_participants = '%d' WHERE id = '%d'", newNumber, idReservation);
-
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            preparedStatement.executeUpdate();
-            System.out.println("Participants updated successfully.");
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-        }
-    }
 
     public void updateIsConfirmed(int idReservation, boolean isConfirmed) throws SQLException {
 

@@ -86,27 +86,8 @@ class ReservationDaoTest extends GeneralDAOTest{
     void getReservationsByUser() throws SQLException, ClassNotFoundException {
         assertEquals(1, reservationDao.getReservationsByUser(user.getId()).size());
     }
-/*
-    //todo aspettare albe
-    //fixme da togliere
-    @Test
-    void updateIdUser() throws SQLException, ClassNotFoundException {
-        UserDAO userDao = new UserDAO();
-        User user = createSecondUser();
-        user.setId(userDao.getUser(user.getUsername()).getId());
-        reservationDao.updateIdUser(reservation.getId(), user.getId());
-        assertEquals(user.getUsername(), reservationDao.getReservation(reservation.getId(), false).get);
-    }
-     //fixme da togliere
-    //todo aspettare albe
-    @Test
-    void updateNParticipants() throws SQLException, ClassNotFoundException {
-        reservationDao.updateNParticipants(reservation.getId(), 20);
-        Reservation tempReservation = reservationDao.getReservation(reservation.getId(), false).
-      //  assertEquals(user.getUsername(), reservationDao.getReservation(reservation.getId(), false).get);
-    }
 
-*/
+
     @Test
     void updateIsConfirmed() throws SQLException, ClassNotFoundException {
         reservationDao.updateIsConfirmed(reservation.getId(), false);
