@@ -22,11 +22,8 @@ public class UserDAOTest extends PersonDAOTest{
 
         user = createUser();
 
-        if (personDAO.getUser(user.getUsername()) == null)
+        if (user.getId() == 0)
             shouldSkip = true;
-
-
-        Assumptions.assumeFalse(shouldSkip);
 
     }
 
@@ -34,40 +31,21 @@ public class UserDAOTest extends PersonDAOTest{
     @AfterEach
     public void teardown() throws SQLException {
 
-        personDAO.deletePerson(user.getUsername());
-
-        if (personDAO.getUser(user.getUsername()) != null)
-            shouldSkip = true;
-
+        if (user != null && user.getId() != 0)
+            personDAO.deletePerson(user.getUsername());
 
         user = null;
         personDAO = null;
+
+        shouldSkip = false;
     }
-
-    @Override
-    protected User createUser() throws SQLException {
-        //pay attention to userId
-        User user = new User(0,"hello@gmail.com","user1","hello123","London","London","00000","UK");
-
-        if (personDAO != null){
-            int idUser = personDAO.addUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry());
-
-            if (idUser != 0)
-                user.setId(idUser);
-            else
-                return null;
-        }
-        else
-            return null;
-
-        return user;
-    }
-
 
 
     //TODO is it correct?
     @Test
     public void getUserTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         User user = personDAO.getUser(this.user.getUsername());
 
         if (user == null)
@@ -79,7 +57,7 @@ public class UserDAOTest extends PersonDAOTest{
 
     @Test
     public void updateEmailTest() throws SQLException {
-
+        Assumptions.assumeFalse(shouldSkip);
 
         String newEmail = "newmail@gmail.com";
 
@@ -92,6 +70,7 @@ public class UserDAOTest extends PersonDAOTest{
 
     @Test
     public void updateUsernameTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
 
         String newUsername = "newUser";
 
@@ -107,6 +86,7 @@ public class UserDAOTest extends PersonDAOTest{
 
     @Test
     public void updateProvinceTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
 
         String newProvince = "newProvince";
 
@@ -119,6 +99,7 @@ public class UserDAOTest extends PersonDAOTest{
 
     @Test
     public void updateCountryTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
 
         String newCountry = "newCountry";
 
@@ -131,6 +112,7 @@ public class UserDAOTest extends PersonDAOTest{
 
     @Test
     public void updateCityTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
 
         String newCity = "newCity";
 
@@ -143,6 +125,7 @@ public class UserDAOTest extends PersonDAOTest{
 
     @Test
     public void updateZipTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
 
         String newZip = "12345";
 
@@ -155,6 +138,7 @@ public class UserDAOTest extends PersonDAOTest{
 
     @Test
     public void updatePasswordTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
 
         //TODO is cryptography needed?
         String newPassword = "newPassword";
@@ -169,6 +153,7 @@ public class UserDAOTest extends PersonDAOTest{
 
     @Test
     public void checkEmailExistenceTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
 
         assertTrue(personDAO.checkEmailExistence(user.getEmail()));
 
@@ -180,11 +165,15 @@ public class UserDAOTest extends PersonDAOTest{
 
     @Test
     public void getUsersByProvinceTest() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertFalse(personDAO.getUsersByProvince(user.getProvince()).isEmpty());
     }
 
     @Test
     public void getUserByIDTest() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertNotNull(personDAO.getUserByID(user.getId()));
 
         assertNull(personDAO.getUserByID(user.getId()+20));
@@ -193,6 +182,8 @@ public class UserDAOTest extends PersonDAOTest{
 
     @Test
     public void getEncodedPasswordTest() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertFalse(personDAO.getEncodedPassword(user.getUsername()).isEmpty());
     }
 
