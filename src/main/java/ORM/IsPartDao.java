@@ -223,6 +223,7 @@ public class IsPartDao {
         }
     }
 
+    //TODO to be decided if useful?
     public User groupHeadSuccessorId(int idGroup, int idLeavingUser) throws SQLException, ClassNotFoundException {
 
         int id = 0;

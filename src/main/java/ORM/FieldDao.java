@@ -390,7 +390,7 @@ public class FieldDao {
         return fields;
     }
 
-    public void fieldComparator (ArrayList<Field> fields, ArrayList<Field> newFields) throws SQLException {
+    public static void fieldComparator (ArrayList<Field> fields, ArrayList<Field> newFields) throws SQLException {
         ArrayList<Field> tempFields = new ArrayList<>();
         boolean found = false;
         if(fields.isEmpty()) {

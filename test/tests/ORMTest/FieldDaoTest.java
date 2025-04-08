@@ -134,11 +134,6 @@ class FieldDaoTest extends GeneralDAOTest{
         assertFalse(fieldDao.getFieldsBySport(field.getSport().getName()).isEmpty());
     }
 
-    //todo da fare chiedere ad albe?
-    @Test
-    void fieldComparator() {
-    }
-
     @Test
     void search() throws SQLException {
         assertFalse(fieldDao.search("Campo").isEmpty());
