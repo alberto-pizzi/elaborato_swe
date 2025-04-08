@@ -37,6 +37,7 @@ public class UserDAOTest extends PersonDAOTest{
         user = null;
         personDAO = null;
 
+        //it is important to reset each test
         shouldSkip = false;
     }
 
