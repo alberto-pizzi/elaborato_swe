@@ -33,11 +33,8 @@ class ReservationDaoTest extends GeneralDAOTest{
         reservation = group.getReservation();
         user = group.getGroupHead();
 
-        if (reservationDao.getReservation(reservation.getId(), false) == null)
+        if (reservation.getId() == 0)
             shouldSkip = true;
-
-
-        Assumptions.assumeFalse(shouldSkip);
     }
 
     @Override
@@ -53,61 +50,76 @@ class ReservationDaoTest extends GeneralDAOTest{
         Facility facility;
 
         groupDao.deleteGroup(group.getId());
-        userDao.deletePerson(user.getUsername());
+        if (user != null && user.getId() != 0)
+            userDao.deletePerson(user.getUsername());
         reservationDao.deleteReservation(group.getReservation().getId());
         facility = group.getReservation().getField().getFacility();
         fieldDao.deleteField(group.getReservation().getField().getId());
         sportDao.deleteSport(group.getReservation().getField().getSport().getId());
         facilityDao.deleteFacility(facility.getId());
-        ownerDao.deletePerson(facility.getOwner().getUsername());
-        if (!(reservationDao.getReservation(reservation.getId(), false) == null))
-            shouldSkip = true;
+        if (facility.getOwner() != null && facility.getOwner().getId() != 0)
+            ownerDao.deletePerson(facility.getOwner().getUsername());
 
-
-        Assumptions.assumeFalse(shouldSkip);
+        shouldSkip = false;
     }
 
     @Test
     void getCountAllParticipants() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertEquals(1, reservationDao.getCountAllParticipants(reservation.getId()));
     }
 
     @Test
     void getReservation() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertNotNull(reservationDao.getReservation(reservation.getId(), false));
     }
 
     @Test
     void getReservationsByField() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertFalse(reservationDao.getReservationsByField(reservation.getField().getId()).isEmpty());
     }
 
     @Test
     void getReservationsByUser() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertEquals(1, reservationDao.getReservationsByUser(user.getId()).size());
     }
 
 
     @Test
     void updateIsConfirmed() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         reservationDao.updateIsConfirmed(reservation.getId(), false);
         assertFalse(reservationDao.getReservation(reservation.getId(), false).isConfirmed());
     }
 
     @Test
     void updateIsNotified() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         reservationDao.updateIsNotified(reservation.getId(), true);
         assertTrue(reservationDao.getReservation(reservation.getId(), false).isNotified());
     }
 
     @Test
     void updateIsDeleted() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         reservationDao.updateIsDeleted(reservation.getId(), true);
         assertTrue (reservationDao.getReservation(reservation.getId(), true).isDeleted());
     }
 
     @Test
     void updateEventDate() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         LocalDate today = LocalDate.now();
         LocalDate futureDate = today.plusDays(23); // add 7 days
         Date eventDate = Date.valueOf(futureDate);
@@ -117,6 +129,8 @@ class ReservationDaoTest extends GeneralDAOTest{
 
     @Test
     void updateEventTimeStart() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         Time eventTimeStart = Time.valueOf("8:00:00");
         reservationDao.updateEventTimeStart(reservation.getId(), eventTimeStart);
         assertEquals(reservationDao.getReservation(reservation.getId(), false).getEventTimeStart(), eventTimeStart);
@@ -124,6 +138,8 @@ class ReservationDaoTest extends GeneralDAOTest{
 
     @Test
     void updateEventTimeEnd() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         Time eventTimeEnd = Time.valueOf("9:00:00");
         reservationDao.updateEventTimeEnd(reservation.getId(), eventTimeEnd);
         assertEquals(reservationDao.getReservation(reservation.getId(), false).getEventTimeEnd(), eventTimeEnd);
@@ -131,11 +147,15 @@ class ReservationDaoTest extends GeneralDAOTest{
 
     @Test
     void dailyEarning() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertEquals(reservation.getField().getPrice()*2, reservationDao.dailyEarning(reservation.getEventDate(),reservation.getField().getFacility().getOwner()));
     }
 
     @Test
     void dailyReservations() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertEquals(1, reservationDao.dailyReservations(reservation.getEventDate(),reservation.getField().getFacility().getOwner()));
     }
 }
