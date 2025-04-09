@@ -31,11 +31,8 @@ class SportDaoTest extends GeneralDAOTest{
 
         sport = createSport();
 
-        if (sportDao.getSport(sport.getId()) == null)
+        if (sport.getId() == 0)
             shouldSkip = true;
-
-
-        Assumptions.assumeFalse(shouldSkip);
     }
 
     @Override
@@ -43,11 +40,7 @@ class SportDaoTest extends GeneralDAOTest{
     public void teardown() throws Exception {
         sportDao.deleteSport(sport.getId());
 
-        if (!(sportDao.getSport(sport.getId()) == null))
-            shouldSkip = true;
-
-
-        Assumptions.assumeFalse(shouldSkip);
+        shouldSkip = false;
     }
 
     @Test
@@ -60,21 +53,29 @@ class SportDaoTest extends GeneralDAOTest{
 
     @Test
     void getSport() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertNotNull(sportDao.getSport(sport.getId()));
     }
 
     @Test
     void getAllSport() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertFalse(sportDao.getAllSport().isEmpty());
     }
 
     @Test
     void getSportPlayers() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertEquals(sport.getPlayersRequired(), sportDao.getSportPlayers(sport.getId()));
     }
 
     @Test
     void updateSportPlayers() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         int number = 30;
         sportDao.updateSportPlayers(sport.getId(), number);
         assertEquals(number, sportDao.getSportPlayers(sport.getId()));
@@ -82,6 +83,8 @@ class SportDaoTest extends GeneralDAOTest{
 
     @Test
     void updateSportName() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         String name = "Padel";
         sportDao.updateSportName(sport.getId(), name);
         assertEquals(name, sportDao.getSport(sport.getId()).getName());

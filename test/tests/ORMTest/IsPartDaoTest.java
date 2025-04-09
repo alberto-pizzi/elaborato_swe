@@ -27,12 +27,8 @@ class IsPartDaoTest extends GeneralDAOTest{
         user = group.getGroupHead();
         createIsPart(group, user, 1);
 
-        if (isPartDao.getAllGroupsByUser(user.getId()).isEmpty())
+        if (isPartDao.getAllGroupsByUser(user.getId()).isEmpty() || user.getId() == 0)
             shouldSkip = true;
-
-
-        Assumptions.assumeFalse(shouldSkip);
-
     }
 
     @Override
@@ -51,18 +47,17 @@ class IsPartDaoTest extends GeneralDAOTest{
 
         isPartDao.removeMembership(group.getId(), user.getId());
         groupDao.deleteGroup(group.getId());
-        userDao.deletePerson(user.getUsername());
+        if (user != null && user.getId() != 0)
+            userDao.deletePerson(user.getUsername());
         reservationDao.deleteReservation(group.getReservation().getId());
         facility = group.getReservation().getField().getFacility();
         fieldDao.deleteField(group.getReservation().getField().getId());
         sportDao.deleteSport(group.getReservation().getField().getSport().getId());
         facilityDao.deleteFacility(facility.getId());
-        ownerDao.deletePerson(facility.getOwner().getUsername());
-        if (!isPartDao.getAllGroupsByUser(user.getId()).isEmpty())
-            shouldSkip = true;
+            if (facility.getOwner() != null && facility.getOwner().getId() != 0)
+            ownerDao.deletePerson(facility.getOwner().getUsername());
 
-
-        Assumptions.assumeFalse(shouldSkip);
+        shouldSkip = false;
 
     }
 
@@ -76,32 +71,43 @@ class IsPartDaoTest extends GeneralDAOTest{
 
     @Test
     void getGroupMembers() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertFalse(isPartDao.getGroupMembers(group.getId()).isEmpty());
     }
 
     @Test
     void getAllGroupsByUser() throws SQLException {
-        assertFalse(isPartDao.getAllGroupsByUser(user.getId()).isEmpty());
+        Assumptions.assumeFalse(shouldSkip);
 
+        assertFalse(isPartDao.getAllGroupsByUser(user.getId()).isEmpty());
     }
 
     @Test
     void countGroupGuests() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertEquals(group.getGuestUsers(), isPartDao.countGroupGuests(group.getId()));
     }
 
     @Test
     void countOwnGuests() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertEquals(1, isPartDao.countOwnGuests(group.getId(), user.getId()));
     }
 
     @Test
     void countGroupMembers() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertEquals(group.getGroupMembers().size(), isPartDao.countGroupMembers(group.getId()));
     }
 
     @Test
     void updateGuestsUsers() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         int number = 20;
         isPartDao.updateGuestsUsers(group.getId(), user.getId(), number);
         assertEquals(number, isPartDao.countOwnGuests(group.getId(), user.getId()));

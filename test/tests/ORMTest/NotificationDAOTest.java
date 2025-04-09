@@ -26,11 +26,8 @@ class NotificationDAOTest extends GeneralDAOTest{
         notification = createNotification();
         user = (User) notification.getRecipient();
 
-        if (notificationDAO.getNotification(user, notification.getId()) == null)
+        if (notification.getId() == 0)
             shouldSkip = true;
-
-
-        Assumptions.assumeFalse(shouldSkip);
     }
 
 
@@ -47,28 +44,30 @@ class NotificationDAOTest extends GeneralDAOTest{
         Facility facility;
 
         notificationDAO.deleteNotification(user, notification.getId());
-        userDao.deletePerson(user.getUsername());
+        if (user != null && user.getId() != 0)
+            userDao.deletePerson(user.getUsername());
         reservationDao.deleteReservation(notification.getReservation().getId());
         facility = notification.getReservation().getField().getFacility();
         fieldDao.deleteField(notification.getReservation().getField().getId());
         sportDao.deleteSport(notification.getReservation().getField().getSport().getId());
         facilityDao.deleteFacility(facility.getId());
-        ownerDao.deletePerson(facility.getOwner().getUsername());
+        if (facility.getOwner() != null && facility.getOwner().getId() != 0)
+            ownerDao.deletePerson(facility.getOwner().getUsername());
 
-        if (!(notificationDAO.getNotification(user, notification.getId()) == null))
-            shouldSkip = true;
-
-
-        Assumptions.assumeFalse(shouldSkip);
+        shouldSkip = false;
     }
 
     @Test
     void getNotification() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertNotNull(notificationDAO.getNotification(user, notification.getId()));
     }
 
     @Test
     void getNotifications() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertFalse(notificationDAO.getNotifications(user).isEmpty());
     }
 

@@ -31,11 +31,9 @@ class GroupDaoTest extends GeneralDAOTest{
         secondUser = createThirdUser();
         reservation = group.getReservation();
 
-        if (groupDao.getGroup(group.getId()) == null)
+        if (group.getId() == 0)
             shouldSkip = true;
 
-
-        Assumptions.assumeFalse(shouldSkip);
     }
 
 
@@ -52,19 +50,19 @@ class GroupDaoTest extends GeneralDAOTest{
         Facility facility;
 
         groupDao.deleteGroup(group.getId());
-        userDao.deletePerson(user.getUsername());
-        userDao.deletePerson(secondUser.getUsername());
+        if (user != null && user.getId() != 0)
+            userDao.deletePerson(user.getUsername());
+        if (secondUser != null && secondUser.getId() != 0)
+            userDao.deletePerson(secondUser.getUsername());
         reservationDao.deleteReservation(group.getReservation().getId());
         facility = group.getReservation().getField().getFacility();
         fieldDao.deleteField(group.getReservation().getField().getId());
         sportDao.deleteSport(group.getReservation().getField().getId());
         facilityDao.deleteFacility(facility.getId());
-        ownerDao.deletePerson(facility.getOwner().getUsername());
-        if (!(groupDao.getGroup(group.getId()) == null))
-            shouldSkip = true;
+        if (facility.getOwner() != null && facility.getOwner().getId() != 0)
+            ownerDao.deletePerson(facility.getOwner().getUsername());
 
-
-        Assumptions.assumeFalse(shouldSkip);
+        shouldSkip = false;
     }
 
     @Test
@@ -77,17 +75,23 @@ class GroupDaoTest extends GeneralDAOTest{
 
     @Test
     void updateGroupHead() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         groupDao.updateGroupHead(group.getId(), secondUser.getId());
         assertEquals(groupDao.getGroup(group.getId()).getGroupHead().getUsername(), secondUser.getUsername());
     }
 
     @Test
     void getGroup() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertNotNull(groupDao.getGroup(group.getId()));
     }
 
     @Test
     void getGroupByReservation() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertNotNull(groupDao.getGroupByReservation(reservation.getId()));
     }
 }

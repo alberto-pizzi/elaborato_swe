@@ -29,11 +29,8 @@ class InviteDaoTest extends GeneralDAOTest {
         user = invite.getUser();
         group = invite.getGroup();
 
-        if (inviteDao.getInvitesByUser(user.getId()).isEmpty())
+        if (invite.getId() == 0)
             shouldSkip = true;
-
-
-        Assumptions.assumeFalse(shouldSkip);
 
     }
 
@@ -55,28 +52,31 @@ class InviteDaoTest extends GeneralDAOTest {
         inviteDao.deleteInvite(invite.getId());
         isPartDao.removeMembership(group.getId(), user.getId());
         groupDao.deleteGroup(group.getId());
-        userDao.deletePerson(user.getUsername());
+        if (user != null && user.getId() != 0)
+            userDao.deletePerson(user.getUsername());
         reservationDao.deleteReservation(group.getReservation().getId());
         facility = group.getReservation().getField().getFacility();
         fieldDao.deleteField(group.getReservation().getField().getId());
         sportDao.deleteSport(group.getReservation().getField().getSport().getId());
         facilityDao.deleteFacility(facility.getId());
-        ownerDao.deletePerson(facility.getOwner().getUsername());
-        if (!inviteDao.getInvitesByUser(user.getId()).isEmpty())
-            shouldSkip = true;
+        if (facility.getOwner() != null && facility.getOwner().getId() != 0)
+            ownerDao.deletePerson(facility.getOwner().getUsername());
 
-
-        Assumptions.assumeFalse(shouldSkip);
+        shouldSkip = false;
     }
 
     @Test
     void getInvitesByUser() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         ArrayList<Invite> invites = inviteDao.getInvitesByUser(user.getId());
         assertEquals(1, invites.size());
     }
 
     @Test
     void checkInvite() throws SQLException, ClassNotFoundException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertTrue(inviteDao.checkInvite(user.getId(), group.getId()));
     }
 
