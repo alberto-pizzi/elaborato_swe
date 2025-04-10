@@ -26,7 +26,7 @@ public class FacilityDAO {
 
     public int addFacility(String name, String address, String city, String province, String zip, String country, String telephone, String image, int idOwner) throws SQLException {
 
-        String querySQL = String.format("INSERT INTO \"Facility\" (name, address, city, province, zip, country, n_managers, n_fields, telephone, image, WH_Mon, WH_Tue, WH_Wed, WH_Thu, WH_Fri, WH_Sat, WH_Sun, id_owner) " +
+        String querySQL = String.format("INSERT INTO \"Facility\" (name, address, city, province, zip, country, n_managers, n_fields, telephone, image, id_owner) " +
                 "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%d')", name, address, city, province, zip, country, 0,0,telephone,image,idOwner);
 
 
