@@ -77,10 +77,6 @@ public abstract class GeneralDAOTest {
         Time eventTimeStart = Time.valueOf("15:00:00");
         Time eventTimeEnd = Time.valueOf("17:00:00");
 
-
-        Facility facility = createFacility();
-
-
         Field field = createField();
 
         Reservation reservation = new Reservation(eventDate, eventTimeStart, eventTimeEnd, field, isMatched);
