@@ -78,7 +78,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
         //fill effective group members
         if (group != null){
-            for (GroupMember groupMember : PersonController.getGroupMembers(group.getReservation().getId())){
+            for (GroupMember groupMember : personController.getGroupMembers(group.getReservation().getId())){
                 if (!groupMember.getUser().getUsername().equals(personController.getPerson().getUsername()))
                     effectiveGroupMembersList.getItems().add(groupMember);
             }
@@ -109,7 +109,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
            if (group.getGroupHead().getUsername().equals(personController.getPerson().getUsername())) {
                if (groupMembersRemoved != null && !groupMembersRemoved.isEmpty()) {
                    for (GroupMember groupMember : groupMembersRemoved) {
-                       PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+                       personController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
                    }
                }
            }
@@ -128,7 +128,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
         if (group != null && group.getReservation() != null){
 
-            int value = PersonController.getUserGuests(group.getReservation().getId(),personController.getPerson().getId());
+            int value = personController.getUserGuests(group.getReservation().getId(),personController.getPerson().getId());
             nGuestsChoice.setValue(value);
 
 

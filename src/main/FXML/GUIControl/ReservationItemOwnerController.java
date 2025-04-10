@@ -155,7 +155,7 @@ public class ReservationItemOwnerController {
         ModifyReservationOwnerController modifyReservationOwnerController = loader.getController();
         modifyReservationOwnerController.setData(this.reservation, reservationsController.getMenuPane());
 
-        modifyReservationOwnerController.selectGuestsPaneController.setData(PersonController.getGroupByReservation(this.reservation.getId()),true );
+        modifyReservationOwnerController.selectGuestsPaneController.setData(getReservationsController().getPersonController().getGroupByReservation(this.reservation.getId()),true );
 
         reservationsController.getMenuPane().setCenter(view);
 

@@ -110,6 +110,9 @@ public abstract class FieldFormManagementController implements Initializable {
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
 
+        //assign right person controller by type of person
+        assignPersonController();
+
         this.messagesController = new MessagesController(errorLabel);
 
         //load guests selector
@@ -127,8 +130,7 @@ public abstract class FieldFormManagementController implements Initializable {
         //listeners
         formListeners();
 
-        //assign right person controller by type of person
-        assignPersonController();
+
 
     }
 

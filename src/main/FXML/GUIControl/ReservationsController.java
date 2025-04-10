@@ -14,6 +14,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 
@@ -31,6 +32,8 @@ public class ReservationsController implements Initializable {
 
     BorderPane menuPane;
 
+    private PersonController personController;
+
     void setPane(BorderPane pane) {
         this.menuPane = pane;
     }
@@ -39,10 +42,19 @@ public class ReservationsController implements Initializable {
         return this.menuPane;
     }
 
+    public PersonController getPersonController() {
+        return personController;
+    }
+
+    public void setPersonController(PersonController personController) {
+        this.personController = personController;
+    }
+
     //methods
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        personController =new UserActionsController();
 
         UserActionsController userActionsController = new UserActionsController();
 

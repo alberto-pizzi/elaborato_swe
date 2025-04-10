@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
+import main.java.BusinessLogic.PersonController;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Reservation;
 
@@ -45,6 +46,9 @@ public class ReservationsOwnerController {
 
     private Field field;
 
+    private PersonController personController;
+
+
     public BorderPane getMenuPane() {
         return menuPane;
     }
@@ -53,7 +57,17 @@ public class ReservationsOwnerController {
         return page;
     }
 
+    public PersonController getPersonController() {
+        return personController;
+    }
+
+    public void setPersonController(PersonController personController) {
+        this.personController = personController;
+    }
+
     public void setData(Field field, BorderPane menuPane) throws SQLException, ClassNotFoundException {
+        //FIXME optimize
+        personController = new ManagerOwnerManagementController();
 
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         this.reservations = managerOwnerManagementController.getReservationsByField(field.getId());

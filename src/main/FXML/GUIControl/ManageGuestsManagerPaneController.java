@@ -43,10 +43,10 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
             if (!isEditMode || group != null) {
                 if (!inviteListDraft.getItems().contains(userToBeAdded) && !isUserIntoEffectiveGroupMembers(userToBeAdded)) {
-                    int userId = ManagerOwnerManagementController.getUserIdByUsername(userToBeAdded);
+                    int userId = personController.getUserIdByUsername(userToBeAdded);
                     int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
 
-                    addGroupMemberIntoDraft(new GroupMember(ManagerOwnerManagementController.getUserByID(userId), ownGuests));
+                    addGroupMemberIntoDraft(new GroupMember(personController.getUserByID(userId), ownGuests));
 
                     updateDraftParticipants(true);
                     updateAddButtons();
@@ -71,7 +71,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
         //fill effective group members
         if (group != null){
-            for (GroupMember groupMember : PersonController.getGroupMembers(group.getReservation().getId())){
+            for (GroupMember groupMember : personController.getGroupMembers(group.getReservation().getId())){
                 effectiveGroupMembersList.getItems().add(groupMember);
             }
 
@@ -176,7 +176,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             if (groupMembersRemoved != null && !groupMembersRemoved.isEmpty()) {
                 for (GroupMember groupMember : groupMembersRemoved) {
                     if (group.removeMember(groupMember.getUser(),groupMember.getOwnGuests()))
-                        PersonController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+                        personController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
                     else
                         System.out.println("Error during removing member into group");
                 }
@@ -187,7 +187,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                 for (GroupMember groupMember : groupMembersAdded) {
                     NotificationController notificationController = new NotificationController(group.getReservation());
                     if (group.addMember(groupMember.getUser(),groupMember.getOwnGuests()))
-                        PersonController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
+                        personController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
                     else
                         System.out.println("Error during adding member into group");
                 }

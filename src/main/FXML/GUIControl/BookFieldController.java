@@ -170,7 +170,7 @@ public class BookFieldController extends FieldFormManagementController implement
 
             if (selectGuestsPaneController != null) {
 
-                selectGuestsPaneController.setGroup(PersonController.getGroupByReservation(reservationIdAdded)); //WARNING: it's important to be able to apply changes
+                selectGuestsPaneController.setGroup(personController.getGroupByReservation(reservationIdAdded)); //WARNING: it's important to be able to apply changes
                 selectGuestsPaneController.applyChanges();
 
                 System.out.println("Booking done");

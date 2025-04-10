@@ -86,6 +86,8 @@ public class SelectGuestsPaneController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.messagesController = new MessagesController(messageLabel);
 
+        assignPersonController();
+
         try {
             updateGuestsChoice();
         } catch (SQLException e) {
@@ -106,7 +108,7 @@ public class SelectGuestsPaneController implements Initializable {
         this.priceFormat = new DecimalFormat("#.##");
         this.priceFormat.setRoundingMode(java.math.RoundingMode.CEILING);
 
-        assignPersonController();
+
 
     }
 
@@ -137,7 +139,7 @@ public class SelectGuestsPaneController implements Initializable {
 
             ArrayList<String> usernames = new ArrayList<>();
             try {
-                ArrayList<User> users = PersonController.searchUsersByUsername(newValue);
+                ArrayList<User> users = personController.searchUsersByUsername(newValue);
                 for (User user : users){
                     usernames.add(user.getUsername());
                 }
@@ -251,7 +253,7 @@ public class SelectGuestsPaneController implements Initializable {
             if (!inviteListDraft.getItems().isEmpty()) {
                 for (String accountUsername : inviteListDraft.getItems()) {
                     if (accountUsername != null) {
-                        personController.sendInvite(group.getReservation(), PersonController.getUserIdByUsername(accountUsername));
+                        personController.sendInvite(group.getReservation(), personController.getUserIdByUsername(accountUsername));
                     }
                 }
             }

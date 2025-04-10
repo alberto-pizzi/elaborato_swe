@@ -17,8 +17,37 @@ public abstract class PersonController<T extends Person> {
 
     protected T person;
 
+    protected UserDAO userDAO;
+    protected GroupDao groupDao;
+    protected IsPartDao isPartDao;
+    protected WorkingHoursDAO workingHoursDAO;
+    protected ReservationDao reservationDao;
+    protected InviteDao inviteDao;
+    protected FieldDao fieldDao;
+
+
     public PersonController(T person) {
         this.person = person;
+
+        this.userDAO = new UserDAO();
+        this.groupDao = new GroupDao();
+        this.isPartDao = new IsPartDao();
+        this.workingHoursDAO = new WorkingHoursDAO();
+        this.reservationDao = new ReservationDao();
+        this.inviteDao = new InviteDao();
+        this.fieldDao = new FieldDao();
+    }
+
+    public PersonController(T person, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao) {
+        this.person = person;
+
+        this.userDAO = userDAO;
+        this.groupDao = groupDao;
+        this.isPartDao = isPartDao;
+        this.workingHoursDAO = workingHoursDAO;
+        this.reservationDao = reservationDao;
+        this.inviteDao = inviteDao;
+        this.fieldDao = fieldDao;
     }
 
     public T getPerson() {
@@ -29,34 +58,27 @@ public abstract class PersonController<T extends Person> {
         this.person = person;
     }
 
-    public static ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
+    public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
 
         ArrayList<User> users = new ArrayList<>();
-        UserDAO userDAO = new UserDAO();
-
+        
         users.addAll(userDAO.getUsersByUsernameSearch(searchUsername));
         return users;
     }
 
-    public static ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
+    public ArrayList<User> searchUsersByProvince(String provinceUser) throws SQLException, ClassNotFoundException {
 
         ArrayList<User> users = new ArrayList<>();
-        UserDAO userDAO = new UserDAO();
-
+        
         users.addAll(userDAO.getUsersByProvinceSearch(provinceUser));
         return users;
     }
 
-    public static int getUserGuests(int idReservation, int userId) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
-        IsPartDao isPartDao = new IsPartDao();
-
+    public int getUserGuests(int idReservation, int userId) throws SQLException, ClassNotFoundException {
         return isPartDao.countOwnGuests(groupDao.getGroupByReservation(idReservation).getId(),userId);
     }
 
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
-        WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
-
         return workingHoursDAO.getWHsByFacilityByDay(idFacility,dayOfWeek);
     }
 
@@ -65,7 +87,7 @@ public abstract class PersonController<T extends Person> {
         //TODO edit messages
     public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
 
-        ReservationDao reservationDao = new ReservationDao();
+        
         NotificationController notificationController = new NotificationController();
         Reservation previousReservation = reservationDao.getReservation(reservation.getId(), false);
         String notificationTitle = "Una prenotazione è stata modificata";
@@ -81,8 +103,6 @@ public abstract class PersonController<T extends Person> {
     //FIXME output type?
     public void deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
 
-        ReservationDao reservationDao = new ReservationDao();
-
         NotificationController notificationController = new NotificationController();
 
         Reservation reservation = reservationDao.getReservation(idReservation, false);
@@ -97,14 +117,12 @@ public abstract class PersonController<T extends Person> {
     }
 
     public ArrayList <User> findOtherPlayers(String userProvince) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
+        
         return userDAO.getUsersByProvince(userProvince);
     }
 
     public void changeUserGuests(int idReservation,int userId, int guestNewNumber) throws SQLException, ClassNotFoundException {
-        IsPartDao isPartDao = new IsPartDao();
-        GroupDao groupDao = new GroupDao();
-
+        
         Group group = groupDao.getGroupByReservation(idReservation);
         isPartDao.updateGuestsUsers(group.getId(),userId,guestNewNumber);
     }
@@ -145,39 +163,30 @@ public abstract class PersonController<T extends Person> {
         if (group.getGroupHead() == null)
             goodToGo = false;
 
-
-
+        
         return goodToGo;
     }
 
 
-    public static Group getGroupByReservation(int idReservation) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
+    public Group getGroupByReservation(int idReservation) throws SQLException, ClassNotFoundException {
         return groupDao.getGroupByReservation(idReservation);
     }
 
-    public static ArrayList<GroupMember> getGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
-
+    public ArrayList<GroupMember> getGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
+        
         return groupDao.getGroupByReservation(idReservation).getGroupMembers();
     }
 
     public int getGroupParticipants(int idReservation) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
-
         return groupDao.getGroupByReservation(idReservation).getParticipants();
     }
 
     public void sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
-
-        GroupDao groupDao = new GroupDao();
-
+        
         Group group = groupDao.getGroupByReservation(reservation.getId());
 
         InviteSender inviteSender = new InviteSender(group);
-
-        InviteDao inviteDao = new InviteDao();
-        UserDAO userDAO = new UserDAO();
+        
         User user = userDAO.getUserByID(idUser);
         if(inviteDao.checkInvite(idUser,group.getId())){
             System.out.println("Invite already exists");
@@ -196,9 +205,7 @@ public abstract class PersonController<T extends Person> {
     public void sendInvites(Group group, ArrayList<User> receivers) throws SQLException, ClassNotFoundException {
 
         InviteSender inviteSender = new InviteSender(group);
-
-
-        InviteDao inviteDao = new InviteDao();
+        
         Invite invite;
 
         for (User user : receivers) {
@@ -219,17 +226,15 @@ public abstract class PersonController<T extends Person> {
     }
 
 
-    //TODO changed into static. Is it correct?
-    public static void removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
-        IsPartDao isPartDao = new IsPartDao();
-        GroupDao groupDao = new GroupDao();
+    public void removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
+        
 
         isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
     }
 
-    public static boolean isGroupMember(int idReservation, String usernameMember) throws SQLException, ClassNotFoundException {
-        IsPartDao isPartDao = new IsPartDao();
-        GroupDao groupDao = new GroupDao();
+    public boolean isGroupMember(int idReservation, String usernameMember) throws SQLException, ClassNotFoundException {
+        
+        
 
         ArrayList<GroupMember> members = isPartDao.getGroupMembers(groupDao.getGroupByReservation(idReservation).getId());
 
@@ -242,53 +247,47 @@ public abstract class PersonController<T extends Person> {
         return false;
     }
 
-    //TODO changed into static. Is it correct?
-    public static void addGroupMember(int idReservation, int idMember, int ownGuests) throws SQLException, ClassNotFoundException {
-        IsPartDao isPartDao = new IsPartDao();
-        GroupDao groupDao = new GroupDao();
-
-
+    public void addGroupMember(int idReservation, int idMember, int ownGuests) throws SQLException, ClassNotFoundException {
+        
         isPartDao.addMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember, ownGuests);
     }
 
     public int getMaxGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
+        
 
         return groupDao.getGroupByReservation(idReservation).getRequiredParticipants();
     }
 
 
     public ArrayList<Reservation> getReservationsByField(int idField) throws SQLException, ClassNotFoundException {
-        ReservationDao reservationDao = new ReservationDao();
+        
         return reservationDao.getReservationsByField(idField);
     }
 
     public Boolean isFull(Reservation reservation, int guests) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
+        
         Group group = groupDao.getGroupByReservation(reservation.getId());
 
         return  group.participantsCheck(guests);
     }
 
     public Field getReservationField(Reservation reservation) throws SQLException, ClassNotFoundException {
-        FieldDao fieldDao = new FieldDao();
         return fieldDao.getField(reservation.getField().getId());
     }
 
     public String getFieldAddress(int fieldId) throws SQLException {
-        FieldDao fieldDao = new FieldDao();
         return fieldDao.getFieldAddress(fieldId);
     }
 
     //TODO changed into static. Is it correct?
-    public static int getUserIdByUsername(String username) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
+    public int getUserIdByUsername(String username) throws SQLException, ClassNotFoundException {
+        
         return userDAO.getUserID(username);
     }
 
     //TODO changed into static. Is it correct?
-    public static User getUserByID(int id) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
+    public User getUserByID(int id) throws SQLException, ClassNotFoundException {
+        
         return userDAO.getUserByID(id);
     }
 

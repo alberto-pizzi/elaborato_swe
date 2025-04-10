@@ -53,7 +53,8 @@ public class ManagementButtonsController {
         ModifyReservationController modifyReservationController = loader.getController();
         modifyReservationController.setData(reservationItemController.getReservation(), reservationItemController.getReservationsController().getMenuPane());
 
-        modifyReservationController.selectGuestsPaneController.setData(PersonController.getGroupByReservation(reservationItemController.getReservation().getId()),true );
+        //FIXME remove static
+        modifyReservationController.selectGuestsPaneController.setData(reservationItemController.getReservationsController().getPersonController().getGroupByReservation(reservationItemController.getReservation().getId()),true );
 
         reservationItemController.getReservationsController().getMenuPane().setCenter(view);
         System.out.println("Edit button clicked: " + reservationItemController.getReservation().getId());
