@@ -17,7 +17,7 @@ public class OwnerDAO extends PersonDAO {
 
     public int addOwner(String username, String email, String password, String city, String province, String zip, String country) throws SQLException {
 
-        String querySQL = String.format("INSERT INTO \"Owner\" (email, username, city, province, zip, country, password)) " +
+        String querySQL = String.format("INSERT INTO \"Owner\" (email, username, city, province, zip, country, password) " +
                 "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s',)", email, username, city, province, zip, country, password);
 
         int idAdded = 0;
