@@ -7,10 +7,20 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public class UserAccess implements AccessStrategy{
+
+    private UserDAO dao;
+
+    public UserAccess(){
+        dao = new UserDAO();
+    }
+
+    public UserAccess(UserDAO userDAO){
+        this.dao = userDAO;
+    }
+
     @Override
     public User login(String username) throws SQLException {
 
-        UserDAO dao = new UserDAO();
         User user = null;
         try {
             user = dao.getUser(username);
@@ -22,8 +32,6 @@ public class UserAccess implements AccessStrategy{
 
     @Override
     public boolean register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
-
-        UserDAO dao = new UserDAO();
 
         try {
             dao.addUser(username,email,PasswordEncoder.hashPassword(password),city,province,zip,country);
@@ -40,7 +48,6 @@ public class UserAccess implements AccessStrategy{
     public boolean checkPassword(String username, String notEncodedPassword) throws SQLException {
 
         boolean verified = false;
-        UserDAO dao = new UserDAO();
         try {
             verified = PasswordEncoder.verifyPassword(notEncodedPassword,dao.getEncodedPassword(username));
         } catch (SQLException e) {
@@ -57,10 +64,9 @@ public class UserAccess implements AccessStrategy{
     @Override
     public boolean checkPersonExistence(String username) throws SQLException{
 
-        UserDAO userDAO = new UserDAO();
         User user;
         try {
-            user = userDAO.getUser(username);
+            user = dao.getUser(username);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -71,11 +77,10 @@ public class UserAccess implements AccessStrategy{
     @Override
     public boolean checkEmail(String emailEntered) throws SQLException{
 
-        UserDAO userDAO = new UserDAO();
         boolean verified = false;
 
         try {
-            verified = userDAO.checkEmailExistence(emailEntered);
+            verified = dao.checkEmailExistence(emailEntered);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

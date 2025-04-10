@@ -9,10 +9,19 @@ import java.sql.SQLException;
 
 public class OwnerAccess implements AccessStrategy{
 
+    private OwnerDAO dao;
+
+    public OwnerAccess(){
+        dao = new OwnerDAO();
+    }
+
+    public OwnerAccess(OwnerDAO ownerDAO) {
+        this.dao = ownerDAO;
+    }
+
     @Override
     public Owner login(String username) throws SQLException {
 
-        OwnerDAO dao = new OwnerDAO();
         Owner owner = null;
         try {
             owner = dao.getOwner(username);
@@ -25,8 +34,6 @@ public class OwnerAccess implements AccessStrategy{
 
     @Override
     public boolean register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
-
-        OwnerDAO dao = new OwnerDAO();
 
         try {
             dao.addOwner(username,email,PasswordEncoder.hashPassword(password),city,province,zip,country);
@@ -43,7 +50,6 @@ public class OwnerAccess implements AccessStrategy{
     public boolean checkPassword(String username, String notEncodedPassword) throws SQLException {
 
         boolean verified = false;
-        OwnerDAO dao = new OwnerDAO();
         try {
             verified = PasswordEncoder.verifyPassword(notEncodedPassword,dao.getEncodedPassword(username));
         } catch (SQLException e) {
@@ -60,10 +66,9 @@ public class OwnerAccess implements AccessStrategy{
     @Override
     public boolean checkPersonExistence(String username) throws SQLException{
 
-        OwnerDAO ownerDAO = new OwnerDAO();
         Owner owner1;
         try {
-            owner1 = ownerDAO.getOwner(username);
+            owner1 = dao.getOwner(username);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -75,10 +80,9 @@ public class OwnerAccess implements AccessStrategy{
     public boolean checkEmail(String emailEntered) throws SQLException{
 
         boolean verified = false;
-        OwnerDAO ownerDAO = new OwnerDAO();
 
         try {
-            verified = ownerDAO.checkEmailExistence(emailEntered);
+            verified = dao.checkEmailExistence(emailEntered);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
