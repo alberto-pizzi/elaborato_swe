@@ -136,8 +136,9 @@ public abstract class GeneralDAOTest {
 
     protected Invite createInvite() throws SQLException {
         InviteDao inviteDao = new InviteDao();
-        Invite invite = new Invite(0, createGroup(false, 0));
-        invite.setUser(createUser());
+        Group group = createGroup(false, 0);
+        Invite invite = new Invite(0, group);
+        invite.setUser(group.getGroupHead());
         invite.setId(inviteDao.addInvite(invite));
         return invite;
     }
