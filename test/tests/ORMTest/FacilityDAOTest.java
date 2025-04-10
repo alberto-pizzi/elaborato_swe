@@ -32,10 +32,9 @@ public class FacilityDAOTest extends GeneralDAOTest {
         ownerDAO = new OwnerDAO();
         facility = createFacility(createOwner());
 
-        if (facilityDAO.getFacility(facility.getId(),false) == null)
+        if (facility.getId() == 0)
             shouldSkip = true;
 
-        Assumptions.assumeFalse(shouldSkip);
 
     }
 
@@ -43,21 +42,25 @@ public class FacilityDAOTest extends GeneralDAOTest {
     @AfterEach
     public void teardown() throws SQLException, Exception {
 
-
         facilityDAO.deleteFacility(facility.getId());
-        ownerDAO.deletePerson(facility.getOwner().getUsername());
 
-        if (facilityDAO.getFacility(facility.getId(),false) != null)
-            shouldSkip = true;
+        if (facility.getOwner() != null && facility.getOwner().getId() != 0)
+            ownerDAO.deletePerson(facility.getOwner().getUsername());
+
 
         facility = null;
         facilityDAO = null;
         ownerDAO = null;
+
+        //it is important to reset each test
+        shouldSkip = false;
     }
 
 
     @Test
     public void updateNameTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
+
         String newName = "newNameFacility";
 
         facilityDAO.updateName(facility.getId(), newName);
@@ -68,6 +71,8 @@ public class FacilityDAOTest extends GeneralDAOTest {
 
     @Test
     public void updateAddressTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
+
         String newAddress = "newFacilityAddress";
 
         facilityDAO.updateAddress(facility.getId(), newAddress);
@@ -78,6 +83,8 @@ public class FacilityDAOTest extends GeneralDAOTest {
 
     @Test
     public void updateCityTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
+
         String newCity = "newFacilityCity";
 
         facilityDAO.updateCity(facility.getId(), newCity);
@@ -88,6 +95,8 @@ public class FacilityDAOTest extends GeneralDAOTest {
 
     @Test
     public void updateCountryTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
+
         String newCountry = "newFacilityCountry";
 
         facilityDAO.updateCountry(facility.getId(), newCountry);
@@ -98,6 +107,8 @@ public class FacilityDAOTest extends GeneralDAOTest {
 
     @Test
     public void updateImageTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
+
         String newImageName = "newFacilityImage.png";
 
         facilityDAO.updateImage(facility.getId(), newImageName);
@@ -108,6 +119,7 @@ public class FacilityDAOTest extends GeneralDAOTest {
 
     @Test
     public void updateNFieldsTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
 
         //FIXME fix field dependencies
         /*
@@ -128,6 +140,8 @@ public class FacilityDAOTest extends GeneralDAOTest {
 
     @Test
     public void updateNManagersTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
+
         int newName = facility.getNManager() + 10;
 
         facilityDAO.updateNManagers(facility.getId(), newName);
@@ -138,6 +152,8 @@ public class FacilityDAOTest extends GeneralDAOTest {
 
     @Test
     public void updateProvinceTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
+
         String newProvince = "newFacilityProvince";
 
         facilityDAO.updateProvince(facility.getId(), newProvince);
@@ -148,6 +164,8 @@ public class FacilityDAOTest extends GeneralDAOTest {
 
     @Test
     public void updateTelephoneTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
+
         String newNumber = "12345678";
 
         facilityDAO.updateTelephone(facility.getId(), newNumber);
@@ -158,6 +176,8 @@ public class FacilityDAOTest extends GeneralDAOTest {
 
     @Test
     public void updateZipTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
+
         String newZip = "12345";
 
         facilityDAO.updateZip(facility.getId(), newZip);
@@ -168,11 +188,15 @@ public class FacilityDAOTest extends GeneralDAOTest {
 
     @Test
     public void getFacilitiesByProvinceTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
+
         assertFalse(facilityDAO.getFacilitiesByProvince(facility.getProvince()).isEmpty());
     }
 
     @Test
     public void getFacilitiesByOwnerTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
+
         assertFalse(facilityDAO.getFacilitiesByOwner(facility.getOwner().getId()).isEmpty());
 
     }

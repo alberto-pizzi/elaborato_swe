@@ -27,47 +27,28 @@ public class OwnerDAOTest extends PersonDAOTest{
 
         owner = createOwner();
 
-        if (ownerDAO.getOwner(owner.getUsername()) == null)
+        if (owner.getId() == 0)
             shouldSkip = true;
 
 
-        Assumptions.assumeTrue(shouldSkip);
-
-    }
-
-    @Override
-    protected Owner createOwner() throws SQLException {
-        //pay attention to userId
-        Owner owner = super.createOwner(); //TODO is super good? Or new object is better?
-
-        if (ownerDAO != null){
-            int ownerId = ownerDAO.addOwner(owner.getUsername(), owner.getEmail(), owner.getPassword(), owner.getCity(), owner.getProvince(), owner.getZip(), owner.getCountry());
-
-            if (ownerId != 0)
-                owner.setId(ownerId);
-            else
-                return null;
-        }
-        else
-            return null;
-
-        return owner;
     }
 
     @Override
     @AfterEach
     public void teardown() throws SQLException {
 
-        ownerDAO.deletePerson(owner.getUsername());
-
-        if (ownerDAO.getUser(owner.getUsername()) != null)
-            shouldSkip = true;
-
+        if (owner != null && owner.getId() != 0)
+            ownerDAO.deletePerson(owner.getUsername());
 
         owner = null;
         personDAO = null;
         ownerDAO = null;
+
+        //it is important to reset each test
+        shouldSkip = false;
     }
+
+    //TODO finish to implement (remember assumptions)
 
 
 }

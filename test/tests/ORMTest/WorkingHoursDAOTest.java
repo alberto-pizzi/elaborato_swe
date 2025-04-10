@@ -34,15 +34,14 @@ public class WorkingHoursDAOTest extends GeneralDAOTest{
 
         facility = createFacility(createOwner());
 
-        if (facilityDAO.getFacility(facility.getId(),false) == null)
+        if (facility.getId() == 0)
             shouldSkip = true;
 
         workingHours = createWH(facility, DayOfWeek.MONDAY);
 
-        if (workingHoursDAO.getWH(workingHours.getId()) == null)
+        if (workingHours.getId() == 0)
             shouldSkip = true;
 
-        Assumptions.assumeFalse(shouldSkip);
     }
 
     @Override
@@ -51,39 +50,41 @@ public class WorkingHoursDAOTest extends GeneralDAOTest{
 
         workingHoursDAO.removeWHFromFacility(workingHours.getId());
 
-        if (workingHoursDAO.getWH(workingHours.getId()) != null)
-            shouldSkip = true;
-
         facilityDAO.deleteFacility(facility.getId());
 
-        if (facilityDAO.getFacility(facility.getId(),false) != null)
-            shouldSkip = true;
+        if (facility.getOwner() != null && facility.getOwner().getId() != 0)
+            ownerDAO.deletePerson(facility.getOwner().getUsername());
 
-        ownerDAO.deletePerson(facility.getOwner().getUsername());
-
-        if (ownerDAO.getOwner(facility.getOwner().getUsername()) != null)
-            shouldSkip = true;
 
         workingHours = null;
         facility = null;
         workingHoursDAO = null;
         facilityDAO = null;
         ownerDAO = null;
+
+        //it is important to reset each test
+        shouldSkip = false;
     }
 
     //TODO should these tests be improved?
     @Test
     public void getWHTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertNotNull(workingHoursDAO.getWH(workingHours.getId()));
     }
 
     @Test
     public void getWHsByFacilityTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertEquals(workingHoursDAO.getWHsByFacility(facility.getId()).size(),1);
     }
 
     @Test
     public void getWHsByFacilityByDayTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
         assertEquals(workingHoursDAO.getWHsByFacilityByDay(facility.getId(),DayOfWeek.MONDAY).size(),1);
     }
 

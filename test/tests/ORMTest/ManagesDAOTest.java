@@ -40,15 +40,13 @@ public class ManagesDAOTest extends GeneralDAOTest {
         user = createUser();
         facility = createFacility();
 
-        if (userDAO.getUser(user.getUsername()) == null || facilityDAO.getFacility(facility.getId(),false) == null)
+        if (user.getId() == 0 || facility.getId() == 0)
             shouldSkip = true;
 
         managesDAO.attachManager(user.getId(),facility.getId());
 
         if (managesDAO.getAllFacilitiesByManager(user.getId()).isEmpty())
             shouldSkip = true;
-
-        Assumptions.assumeFalse(shouldSkip);
 
     }
 
@@ -63,11 +61,9 @@ public class ManagesDAOTest extends GeneralDAOTest {
 
         userDAO.deletePerson(user.getUsername());
         facilityDAO.deleteFacility(facility.getId());
-        ownerDAO.deletePerson(facility.getOwner().getUsername());
 
-
-        if (userDAO.getUser(user.getUsername()) != null || facilityDAO.getFacility(facility.getId(),false) != null)
-            shouldSkip = true;
+        if (facility.getOwner() != null && facility.getOwner().getId() != 0)
+            ownerDAO.deletePerson(facility.getOwner().getUsername());
 
         user = null;
         facility = null;
@@ -75,10 +71,14 @@ public class ManagesDAOTest extends GeneralDAOTest {
         ownerDAO = null;
         managesDAO = null;
         facilityDAO = null;
+
+        //it is important to reset each test
+        shouldSkip = false;
     }
 
     @Test
     public void attachManagerTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
 
         assertEquals(managesDAO.getAllFacilitiesByManager(user.getId()).size(),1);
         assertEquals(managesDAO.getAllManagersByFacility(facility.getId()).size(),1);
@@ -87,6 +87,7 @@ public class ManagesDAOTest extends GeneralDAOTest {
 
     @Test
     public void detachManagerTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
 
         managesDAO.detachManager(user.getId(),facility.getId());
 
@@ -103,6 +104,7 @@ public class ManagesDAOTest extends GeneralDAOTest {
     //FIXME is any fix needed?
     @Test
     public void getAllManagersByFacilityTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
 
         User user2 = createSecondUser();
         managesDAO.attachManager(user2.getId(),facility.getId());
