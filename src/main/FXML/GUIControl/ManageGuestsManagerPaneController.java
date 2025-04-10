@@ -12,6 +12,7 @@ import main.java.DomainModel.GroupMember;
 import main.java.DomainModel.User;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneController {
 
@@ -71,8 +72,11 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
         //fill effective group members
         if (group != null){
-            for (GroupMember groupMember : personController.getGroupMembers(group.getReservation().getId())){
-                effectiveGroupMembersList.getItems().add(groupMember);
+
+            ArrayList<GroupMember> members = personController.getGroupMembers(group.getReservation().getId());
+
+            for (GroupMember member : members) {
+                effectiveGroupMembersList.getItems().add(member);
             }
 
         }

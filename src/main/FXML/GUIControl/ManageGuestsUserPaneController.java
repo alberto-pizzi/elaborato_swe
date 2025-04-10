@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import main.java.BusinessLogic.PersonController;
+import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Group;
 import main.java.DomainModel.GroupMember;
 import main.java.DomainModel.User;
@@ -78,7 +79,9 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
         //fill effective group members
         if (group != null){
-            for (GroupMember groupMember : personController.getGroupMembers(group.getReservation().getId())){
+
+            ArrayList<GroupMember> members = personController.getGroupMembers(group.getReservation().getId());
+            for (GroupMember groupMember : members){
                 if (!groupMember.getUser().getUsername().equals(personController.getPerson().getUsername()))
                     effectiveGroupMembersList.getItems().add(groupMember);
             }
