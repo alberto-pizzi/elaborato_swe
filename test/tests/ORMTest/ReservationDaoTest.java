@@ -32,6 +32,7 @@ class ReservationDaoTest extends GeneralDAOTest{
         group= createGroup(false, 5);
         reservation = group.getReservation();
         user = group.getGroupHead();
+        createIsPart(group, user, 1);
 
         if (reservation.getId() == 0)
             shouldSkip = true;
@@ -46,9 +47,11 @@ class ReservationDaoTest extends GeneralDAOTest{
         FacilityDAO facilityDao = new FacilityDAO();
         UserDAO userDao = new UserDAO();
         SportDao sportDao = new SportDao();
+        IsPartDao isPartDao = new IsPartDao();
 
         Facility facility;
 
+        isPartDao.removeMembership(group.getId(), user.getId());
         groupDao.deleteGroup(group.getId());
         if (user != null && user.getId() != 0)
             userDao.deletePerson(user.getUsername());

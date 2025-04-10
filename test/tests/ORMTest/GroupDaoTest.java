@@ -28,6 +28,7 @@ class GroupDaoTest extends GeneralDAOTest{
     public void setup() throws Exception {
         group = createGroup(false, 1);
         user = group.getGroupHead();
+        createIsPart(group, user, 1);
         secondUser = createThirdUser();
         reservation = group.getReservation();
 
@@ -46,9 +47,11 @@ class GroupDaoTest extends GeneralDAOTest{
         FacilityDAO facilityDao = new FacilityDAO();
         UserDAO userDao = new UserDAO();
         SportDao sportDao = new SportDao();
+        IsPartDao isPartDao = new IsPartDao();
 
         Facility facility;
 
+        isPartDao.removeMembership(group.getId(), user.getId());
         groupDao.deleteGroup(group.getId());
         if (user != null && user.getId() != 0)
             userDao.deletePerson(user.getUsername());

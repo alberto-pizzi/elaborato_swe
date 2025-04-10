@@ -28,6 +28,7 @@ class InviteDaoTest extends GeneralDAOTest {
         invite = createInvite();
         user = invite.getUser();
         group = invite.getGroup();
+        createIsPart(group, group.getGroupHead(), 1);
 
         if (invite.getId() == 0)
             shouldSkip = true;
@@ -46,11 +47,12 @@ class InviteDaoTest extends GeneralDAOTest {
         IsPartDao isPartDao = new IsPartDao();
         SportDao sportDao = new SportDao();
 
+
         Facility facility;
 
 
         inviteDao.deleteInvite(invite.getId());
-        isPartDao.removeMembership(group.getId(), user.getId());
+        isPartDao.removeMembership(group.getId(), group.getGroupHead().getId());
         groupDao.deleteGroup(group.getId());
         if (user != null && user.getId() != 0)
             userDao.deletePerson(user.getUsername());
