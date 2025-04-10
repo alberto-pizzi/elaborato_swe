@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-//AccessController +  OwnerAccess + UserAccess
+//AccessController + UserAccess
 public class AccessUserTest extends GeneralBSTest{
 
     private AccessController accessController;
