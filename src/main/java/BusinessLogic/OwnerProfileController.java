@@ -13,4 +13,8 @@ public class OwnerProfileController extends ProfileController<Owner, OwnerDAO> {
         super((Owner) SessionController.getInstance().getPerson(), new OwnerDAO());
     }
 
+    public OwnerProfileController(Owner owner, OwnerDAO ownerDAO) {
+        super(owner,ownerDAO);
+    }
+
 }
