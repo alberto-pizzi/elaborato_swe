@@ -1,7 +1,7 @@
 package tests.BusinessLogicTest;
 
 import main.java.BusinessLogic.UserActionsController;
-import main.java.DomainModel.User;
+import main.java.DomainModel.*;
 import main.java.ORM.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,10 +66,18 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
 
     @Test
-    public void joinGroupTest() throws SQLException {
+    public void joinGroupTest() throws SQLException, ClassNotFoundException {
+
+        /*
+        Group group = createGroup(true, 5);
 
         //TODO implement
-        //when(groupDaoMock.getGroup(anyInt())).thenReturn());
+        when(groupDaoMock.getGroup(anyInt())).thenReturn(group);
+
+        //FIXME into joinGroup there's NotificationController's constructor. It is incorrect for mockito.
+
+
+         */
 
 
     }
