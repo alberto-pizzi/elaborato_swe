@@ -70,6 +70,11 @@ public class UserDAOTest extends PersonDAOTest{
     }
 
     @Test
+    public void deletePersonTest() throws SQLException {
+        //TODO implement with mockito
+    }
+
+    @Test
     public void updateUsernameTest() throws SQLException {
         Assumptions.assumeFalse(shouldSkip);
 

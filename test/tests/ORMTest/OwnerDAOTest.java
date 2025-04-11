@@ -4,10 +4,7 @@ import main.java.DomainModel.Owner;
 import main.java.DomainModel.User;
 import main.java.ORM.OwnerDAO;
 import main.java.ORM.UserDAO;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assumptions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;
 
@@ -49,6 +46,11 @@ public class OwnerDAOTest extends PersonDAOTest{
     }
 
     //TODO finish to implement (remember assumptions)
+
+    @Test
+    public void deleteOwnerTest() throws SQLException {
+        //TODO implement with mockito
+    }
 
 
 }
