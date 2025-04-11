@@ -21,161 +21,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReservationsManagerController {
+public class ReservationsManagerController extends Reservations{
 
-    @FXML
-    private VBox reservationsList;
+    @Override
+    protected void reservationItem(int i) throws IOException, SQLException, ClassNotFoundException {
+        FXMLLoader fmxLoader;
+        fmxLoader = new FXMLLoader();
+        fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemManager.fxml"));
 
-    @FXML
-    private Button previous;
+        AnchorPane anchorPane = fmxLoader.load();
+        ReservationItemManagerController reservationItemManagerController = fmxLoader.getController();
+        reservationItemManagerController.setReservationsController(this);
+        reservationItemManagerController.setData(reservations.get(i));
 
-    @FXML
-    private Button next;
-
-    @FXML
-    private Label pageNumber;
-
-    @FXML
-    private AnchorPane page;
-
-    private List<Reservation> reservations = new ArrayList<>();
-
-    int currentPage = 1;
-
-    int itemsPerPage = 3;
-
-    private BorderPane menuPane;
-
-    private Field field;
-
-    private PersonController personController;
-
-
-    public BorderPane getMenuPane() {
-        return menuPane;
+        reservationsList.getChildren().add(anchorPane);
     }
 
-    public AnchorPane getPage() {
-        return page;
-    }
-
-    public PersonController getPersonController() {
-        return personController;
-    }
-
-    public void setPersonController(PersonController personController) {
-        this.personController = personController;
-    }
-
-    public void setData(Field field, BorderPane menuPane) throws SQLException, ClassNotFoundException {
-        //FIXME optimize
-        personController = new ManagerOwnerManagementController();
-
-        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-        this.reservations = managerOwnerManagementController.getReservationsByField(field.getId());
-        this.menuPane = menuPane;
-        this.field = field;
-        for(int i=0; i < itemsPerPage && i < reservations.size(); i++){
-            try {
-                FXMLLoader fmxLoader;
-                fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemManager.fxml"));
-
-                AnchorPane anchorPane = fmxLoader.load();
-                ReservationItemManagerController reservationItemManagerController = fmxLoader.getController();
-                reservationItemManagerController.setReservationsController(this);
-                reservationItemManagerController.setData(reservations.get(i));
-
-                reservationsList.getChildren().add(anchorPane);
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
-        String page = String.valueOf(currentPage);
-        pageNumber.setText(page);
-
-    }
-
+    @Override
     @FXML
-    private void handleNextButton(ActionEvent event){
-
-        if(reservations.size()>itemsPerPage* currentPage) {
-            reservationsList.getChildren().clear();
-
-            for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < reservations.size(); i++) {
-                try {
-                    FXMLLoader fmxLoader;
-                    fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemManager.fxml"));
-
-                    AnchorPane anchorPane = fmxLoader.load();
-                    ReservationItemManagerController reservationItemManagerController = fmxLoader.getController();
-                    reservationItemManagerController.setReservationsController(this);
-                    reservationItemManagerController.setData(reservations.get(i));
-
-                    reservationsList.getChildren().add(anchorPane);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
-                }
-            }
-            currentPage++;
-            pageNumber.setText(String.valueOf(currentPage));
-        }
-
-    }
-
-    public void removeReservationItemFromGUI(AnchorPane reservationItemPane, Reservation reservation) {
-        reservations.remove(reservation);
-        reservationsList.getChildren().remove(reservationItemPane);
-    }
-
-    @FXML
-    private void handlePreviousButton(ActionEvent event){
-
-        if(currentPage > 1){
-            reservationsList.getChildren().clear();
-
-            for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
-
-                try {
-                    FXMLLoader fmxLoader;
-                    fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemManager.fxml"));
-
-                    AnchorPane anchorPane = fmxLoader.load();
-                    ReservationItemManagerController reservationItemManagerController = fmxLoader.getController();
-                    reservationItemManagerController.setReservationsController(this);
-                    reservationItemManagerController.setData(reservations.get(i));
-
-                    reservationsList.getChildren().add(anchorPane);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
-                }
-
-            }
-            currentPage--;
-            pageNumber.setText(String.valueOf(currentPage));
-        }
-    }
-
-    //todo da fare
-    @FXML
-    void handleNewReservationButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
-
+    public void handleNewReservationButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingFormManager.fxml"));
         Parent view = loader.load();
-
         BookFieldController bookFieldController = loader.getController();
         bookFieldController.setData(this.field);
-
         bookFieldController.selectGuestsPaneController.setData(null,false);
-
-
         menuPane.setCenter(view);
-
     }
 
 }
