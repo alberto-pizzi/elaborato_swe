@@ -3,11 +3,12 @@ package tests.BusinessLogicTest;
 import main.java.DomainModel.Owner;
 import main.java.DomainModel.User;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public abstract class GeneralBSTest {
 
-    public abstract void setup() throws SQLException;
+    public abstract void setup() throws SQLException, ClassNotFoundException, NoSuchAlgorithmException;
 
     public abstract void teardown();
 
