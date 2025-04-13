@@ -3,7 +3,10 @@ package tests.BusinessLogicTest;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
 import main.java.BusinessLogic.OwnerManagementController;
+import main.java.DomainModel.Facility;
+import main.java.DomainModel.Field;
 import main.java.DomainModel.Owner;
+import main.java.DomainModel.User;
 import main.java.ORM.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,9 +14,13 @@ import org.junit.jupiter.api.Test;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class OwnerManagementControllerTest extends GeneralBSTest{
 
@@ -51,67 +58,113 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     }
 
     @Test
-    void dailyEarning() {
+    void dailyEarning() throws SQLException {
+        when(when(reservationDao.dailyEarning(any(), any())).thenReturn(1));
+        assertEquals(1, ownerManagementController.dailyEarning());
     }
 
     @Test
-    void monthlyEarnings() {
+    void monthlyEarnings() throws SQLException {
+        when(when(reservationDao.dailyEarning(any(), any())).thenReturn(1));
+        assertEquals(30, ownerManagementController.dailyEarning());
     }
 
     @Test
-    void dailyEarnings() {
+    void dailyEarnings() throws SQLException {
+        when(when(reservationDao.dailyEarning(any(), any())).thenReturn(1));
+        assertEquals(7, ownerManagementController.dailyEarning());
     }
 
     @Test
-    void monthlyReservations() {
+    void monthlyReservations() throws SQLException {
+        when(when(reservationDao.dailyReservations(any(), any())).thenReturn(1));
+        assertEquals(30, ownerManagementController.monthlyReservations());
     }
 
     @Test
-    void reservedFields() {
+    void reservedFields() throws SQLException {
+        when(when(fieldDao.reservedFields(any(), any())).thenReturn(1));
+        assertEquals(1, ownerManagementController.reservedFields());
     }
 
     @Test
-    void notReservedFields() {
+    void notReservedFields() throws SQLException {
+        ArrayList <Field>  fields = new ArrayList<>();
+        fields.add(createField());
+        fields.add(createField());
+        when(when(fieldDao.getFieldsByOwner(any())).thenReturn(fields));
+        when(when(fieldDao.reservedFields(any(), any())).thenReturn(1));
+        assertEquals(1, ownerManagementController.notReservedFields());
     }
 
     @Test
-    void getOwnFacilities() {
+    void getOwnFacilities() throws SQLException {
+        ArrayList<Facility> facilities = new ArrayList<>();
+        facilities.add(createFacility());
+        when(when(facilityDAO.getFacilitiesByOwner(any())).thenReturn(facilities));
+        assertEquals(1, ownerManagementController.getOwnFacilities().size());
     }
 
     @Test
-    void getManagersByFacility() {
+    void getManagersByFacility() throws SQLException {
+        ArrayList<User> users = new ArrayList<>();
+        users.add(createUser());
+        when(when(managesDAO.getAllManagersByFacility(any())).thenReturn(users));
+        assertEquals(1, ownerManagementController.getManagersByFacility(createFacility()).size());
     }
 
     @Test
-    void getUsersByProvince() {
+    void getUsersByProvince() throws SQLException, ClassNotFoundException {
+        ArrayList<User> users = new ArrayList<>();
+        users.add(createUser());
+        when(when(managesDAO.getAllManagersByFacility(any())).thenReturn(users));
+        when(when(userDAO.getUsersByProvince(any())).thenReturn(users));
+        assertEquals(0, ownerManagementController.getUsersByProvince(createFacility().getId()).size());
     }
 
     @Test
-    void searchManagersByProvince() {
+    void searchManagersByProvince() throws SQLException, ClassNotFoundException {
+        ArrayList<User> users = new ArrayList<>();
+        users.add(createUser());
+        when(when(managesDAO.getAllManagersByFacility(any())).thenReturn(users));
+        when(when(userDAO.getUsersByProvinceSearch(any())).thenReturn(users));
+        assertEquals(0, ownerManagementController.searchManagersByProvince(createFacility().getProvince(), createFacility().getId()).size());
     }
 
     @Test
-    void notManagers() {
+    void searchManagersByUsername() throws SQLException, ClassNotFoundException {
+        ArrayList<User> users = new ArrayList<>();
+        users.add(createUser());
+        when(when(managesDAO.getAllManagersByFacility(any())).thenReturn(users));
+        when(when(userDAO.getUsersByUsernameSearch(any())).thenReturn(users));
+        assertEquals(0, ownerManagementController.searchManagersByUsername(createUser().getProvince(), createFacility().getId()).size());
+    }
+
+    //todo come fare assert su void
+    @Test
+    void attachManager() throws SQLException, ClassNotFoundException {
+        when(when(managesDAO.attachManager(any(), any())).thenReturn(null));
+        ownerManagementController.attachManager(createUser().getId(),createFacility().getId());
+    }
+
+    //fixme
+    @Test
+    void detachManager() throws SQLException, ClassNotFoundException {
+        when(managesDAO.detachManager(any(), any()));
+        ownerManagementController.attachManager(createUser().getId(),createFacility().getId());
+
     }
 
     @Test
-    void searchManagersByUsername() {
+    void deleteField() throws SQLException {
+        when(when(fieldDao.deleteField(any(), any());).thenReturn(null));
+        assertTrue(ownerManagementController.deleteField(createField().getId()));
     }
 
     @Test
-    void attachManager() {
-    }
-
-    @Test
-    void detachManager() {
-    }
-
-    @Test
-    void deleteField() {
-    }
-
-    @Test
-    void addField() {
+    void addField() throws SQLException {
+        when(fieldDao.addField(any())).thenReturn(1);
+        assertTrue(ownerManagementController.addField(createField()));
     }
 
     @Test

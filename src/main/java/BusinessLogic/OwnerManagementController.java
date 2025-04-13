@@ -118,17 +118,14 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return managesDAO.getAllManagersByFacility(facility.getId());
     }
 
+    //fixme remove doesn't check id
     public ArrayList<User> getUsersByProvince(int facilityId) throws SQLException, ClassNotFoundException {
-        ArrayList<User> users = new ArrayList<>();
-
-        users.addAll(userDAO.getUsersByProvince(owner.getProvince()));
-        users.remove(managesDAO.getAllManagersByFacility(facilityId));
-        return users;
+        ArrayList<User> users = new ArrayList<>(userDAO.getUsersByProvince(owner.getProvince()));
+        return notManagers(users, managesDAO.getAllManagersByFacility(facilityId));
     }
 
     public ArrayList<User> searchManagersByProvince(String provinceUser, int facilityId) throws SQLException, ClassNotFoundException {
-        ArrayList<User> users = new ArrayList<>();
-        users.addAll(searchUsersByProvince(provinceUser));
+        ArrayList<User> users = new ArrayList<>(searchUsersByProvince(provinceUser));
         ArrayList<User> managingAlready= managesDAO.getAllManagersByFacility(facilityId);
         return notManagers(users, managingAlready);
     }
@@ -152,11 +149,8 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     }
 
     public ArrayList<User> searchManagersByUsername(String searchUsername, int facilityId) throws SQLException, ClassNotFoundException {
-        ArrayList<User> users = new ArrayList<>();
-
-        users.addAll(searchUsersByUsername(searchUsername));
+        ArrayList<User> users = new ArrayList<>(searchUsersByUsername(searchUsername));
         ArrayList<User> managingAlready= managesDAO.getAllManagersByFacility(facilityId);
-
         return notManagers(users, managingAlready);
     }
 
