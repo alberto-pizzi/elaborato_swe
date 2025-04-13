@@ -70,15 +70,18 @@ public class UserActionsController extends PersonController<User>{
             if (checkGroupData(group)) {
                 int newGroupId = groupDao.addGroup(group);
                 group.setId(newGroupId); //WARNING: it's very important
-                joinGroup(newGroupId, guests);
 
-                if (isMatched) {
-                    sendInvites(group, findOtherPlayers(this.person.getProvince()));
+                if (joinGroup(newGroupId, guests)) {
+
+                    if (isMatched) {
+                        sendInvites(group, findOtherPlayers(this.person.getProvince()));
+                    } else {
+                        NotificationController notificationController = new NotificationController();
+                        notificationController.sendConfirmNotification(reservation);
+                    }
                 }
-                else{
-                    NotificationController notificationController = new NotificationController();
-                    notificationController.sendConfirmNotification(reservation);
-                }
+                else
+                    return 0;
                 
 
             }
@@ -172,7 +175,8 @@ public class UserActionsController extends PersonController<User>{
                 int guests = selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0;
 
                 //himself join into group
-                joinGroup(invite.getGroup().getId(), guests);
+                if (!joinGroup(invite.getGroup().getId(), guests))
+                    return false;
 
                 //send invites to other (his) players
                 ArrayList<String> accountsList = new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems());
@@ -194,7 +198,8 @@ public class UserActionsController extends PersonController<User>{
 
         } else {
             //guests are 0 because in not matched booking are not allowed guests
-            joinGroup(invite.getGroup().getId(), 0);
+            if (!joinGroup(invite.getGroup().getId(), 0))
+                return false;
             accepted = true;
 
             //delete this invite
@@ -204,7 +209,7 @@ public class UserActionsController extends PersonController<User>{
         return accepted;
     }
 
-    public void joinGroup(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException {
+    public boolean joinGroup(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException {
 
         
         
@@ -220,13 +225,12 @@ public class UserActionsController extends PersonController<User>{
 
             isPartDao.addMembership(idGroup, person.getId(),guestUsers);
             System.out.println("Members added into groups");
+            return true;
 
         }
-        else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Join Group Failed");
-            alert.setHeaderText("Group selected is full or you are already in");
-        }
+        else
+            return false;
+
 
 
 
