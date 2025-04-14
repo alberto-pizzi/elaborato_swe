@@ -174,11 +174,14 @@ public class ModifyReservationController extends FieldFormManagementController i
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            personController.deleteReservation(reservation.getId());
-            System.out.println("Deleted!");
 
-            actionsAfterDelete();
+            if (personController.deleteReservation(reservation.getId())) {
+                System.out.println("Deleted!");
 
+                actionsAfterDelete();
+            }
+            else
+                messagesController.showMessage("Error during deleting", MessagesController.MessageType.ERROR,5);
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");

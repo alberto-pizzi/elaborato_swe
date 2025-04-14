@@ -10,9 +10,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static main.java.DomainModel.NotificationType.DELETION;
-import static main.java.DomainModel.NotificationType.MODIFICATION;
-
 public abstract class PersonController<T extends Person> {
 
     protected T person;
@@ -101,17 +98,31 @@ public abstract class PersonController<T extends Person> {
     }
 
     //FIXME output type?
-    public void deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
+    public boolean deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
+
+
+        Reservation reservation = null;
+
+        try{
+            reservation = reservationDao.getReservation(idReservation, false);
+        } catch (SQLException | ClassNotFoundException e) {
+            return false;
+        }
+
+
+        try{
+            reservationDao.updateIsDeleted(idReservation,true);
+        } catch (SQLException e) {
+            return false;
+        }
 
         NotificationController notificationController = new NotificationController();
-
-        Reservation reservation = reservationDao.getReservation(idReservation, false);
-
         notificationController.sendDeletionNotification(reservation);
 
         //set isDeleted flag to true
         reservation.setDeleted(true);
-        reservationDao.updateIsDeleted(idReservation,true);
+
+        return true;
 
 
     }
