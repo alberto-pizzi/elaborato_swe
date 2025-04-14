@@ -75,7 +75,7 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
     @Test
     void changeHeadGuests() throws SQLException, ClassNotFoundException {
         when(groupDao.getGroupByReservation(any())).thenReturn(createGroup(false, 3));
-        doNothing().when(isPartDao.updateGuestsUsers(any(), any(), any()));
+        doNothing().when(isPartDao).updateGuestsUsers(any(), any(), any());
         assertTrue(managerOwnerManagementController.changeHeadGuests(createReservation(false).getId(), 1));
     }
 

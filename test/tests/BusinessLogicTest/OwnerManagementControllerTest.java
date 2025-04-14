@@ -11,14 +11,15 @@ import org.junit.jupiter.api.Test;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class OwnerManagementControllerTest extends GeneralBSTest{
 
@@ -55,31 +56,31 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
     @Test
     void dailyEarning() throws SQLException {
-        when(when(reservationDao.dailyEarning(any(), any())).thenReturn(1));
+        when(reservationDao.dailyEarning(any(), any())).thenReturn(1);
         assertEquals(1, ownerManagementController.dailyEarning());
     }
 
     @Test
     void monthlyEarnings() throws SQLException {
-        when(when(reservationDao.dailyEarning(any(), any())).thenReturn(1));
+        when(reservationDao.dailyEarning(any(), any())).thenReturn(1);
         assertEquals(30, ownerManagementController.dailyEarning());
     }
 
     @Test
     void dailyEarnings() throws SQLException {
-        when(when(reservationDao.dailyEarning(any(), any())).thenReturn(1));
+        when(reservationDao.dailyEarning(any(), any())).thenReturn(1);
         assertEquals(7, ownerManagementController.dailyEarning());
     }
 
     @Test
     void monthlyReservations() throws SQLException {
-        when(when(reservationDao.dailyReservations(any(), any())).thenReturn(1));
+        when(reservationDao.dailyReservations(any(), any())).thenReturn(1);
         assertEquals(30, ownerManagementController.monthlyReservations());
     }
 
     @Test
     void reservedFields() throws SQLException {
-        when(when(fieldDao.reservedFields(any(), any())).thenReturn(1));
+        when(fieldDao.reservedFields(any(), any())).thenReturn(1);
         assertEquals(1, ownerManagementController.reservedFields());
     }
 
@@ -88,8 +89,8 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         ArrayList <Field>  fields = new ArrayList<>();
         fields.add(createField());
         fields.add(createField());
-        when(when(fieldDao.getFieldsByOwner(any())).thenReturn(fields));
-        when(when(fieldDao.reservedFields(any(), any())).thenReturn(1));
+        when(fieldDao.getFieldsByOwner(any())).thenReturn(fields);
+        when(fieldDao.reservedFields(any(), any())).thenReturn(1);
         assertEquals(1, ownerManagementController.notReservedFields());
     }
 
@@ -97,7 +98,7 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void getOwnFacilities() throws SQLException {
         ArrayList<Facility> facilities = new ArrayList<>();
         facilities.add(createFacility());
-        when(when(facilityDAO.getFacilitiesByOwner(any())).thenReturn(facilities));
+        when(facilityDAO.getFacilitiesByOwner(any())).thenReturn(facilities);
         assertEquals(1, ownerManagementController.getOwnFacilities().size());
     }
 
@@ -105,7 +106,7 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void getManagersByFacility() throws SQLException {
         ArrayList<User> users = new ArrayList<>();
         users.add(createUser());
-        when(when(managesDAO.getAllManagersByFacility(any())).thenReturn(users));
+        when(managesDAO.getAllManagersByFacility(any())).thenReturn(users);
         assertEquals(1, ownerManagementController.getManagersByFacility(createFacility()).size());
     }
 
@@ -113,8 +114,8 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void getUsersByProvince() throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         users.add(createUser());
-        when(when(managesDAO.getAllManagersByFacility(any())).thenReturn(users));
-        when(when(userDAO.getUsersByProvince(any())).thenReturn(users));
+        when(managesDAO.getAllManagersByFacility(any())).thenReturn(users);
+        when(userDAO.getUsersByProvince(any())).thenReturn(users);
         assertEquals(0, ownerManagementController.getUsersByProvince(createFacility().getId()).size());
     }
 
@@ -122,8 +123,8 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void searchManagersByProvince() throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         users.add(createUser());
-        when(when(managesDAO.getAllManagersByFacility(any())).thenReturn(users));
-        when(when(userDAO.getUsersByProvinceSearch(any())).thenReturn(users));
+        when(managesDAO.getAllManagersByFacility(any())).thenReturn(users);
+        when(userDAO.getUsersByProvinceSearch(any())).thenReturn(users);
         assertEquals(0, ownerManagementController.searchManagersByProvince(createFacility().getProvince(), createFacility().getId()).size());
     }
 
@@ -136,24 +137,21 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         assertEquals(0, ownerManagementController.searchManagersByUsername(createUser().getProvince(), createFacility().getId()).size());
     }
 
-    //todo come fare assert su void
     @Test
     void attachManager() throws SQLException, ClassNotFoundException {
-        when(when(managesDAO.attachManager(any(), any())).thenReturn(null));
-        ownerManagementController.attachManager(createUser().getId(),createFacility().getId());
+        when(managesDAO.attachManager(any(), any())).thenReturn(null);
+        assertTrue(ownerManagementController.attachManager(createUser().getId(),createFacility().getId()));
     }
 
-    //fixme togliere
     @Test
     void detachManager() throws SQLException, ClassNotFoundException {
-        when(managesDAO.detachManager(any(), any()));
-        ownerManagementController.attachManager(createUser().getId(),createFacility().getId());
-
+        doNothing().when(managesDAO).detachManager(any(), any());
+        assertTrue(ownerManagementController.attachManager(createUser().getId(),createFacility().getId()));
     }
 
     @Test
     void deleteField() throws SQLException {
-        when(when(fieldDao.deleteField(any(), any());).thenReturn(null));
+        doNothing().when(fieldDao).deleteField(any());
         assertTrue(ownerManagementController.deleteField(createField().getId()));
     }
 
@@ -186,57 +184,59 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
     @Test
     void editFacility() throws SQLException {
-        when(facilityDAO.updateName(any(), any())).thenReturn(1);
-        when(facilityDAO.updateAddress(any(), any())).thenReturn(1);
-        when(facilityDAO.updateCity(any(), any())).thenReturn(1);
-        when(facilityDAO.updateCountry(any(), any())).thenReturn(1);
-        when(facilityDAO.updateProvince(any(), any())).thenReturn(1);
-        when(facilityDAO.updateZip(any(), any())).thenReturn(1);
-        when(facilityDAO.updateTelephone(any(), any())).thenReturn(1);
-        when(facilityDAO.updateImage(any(), any())).thenReturn(1);
-        when(facilityDAO.updateNFields(any(), any())).thenReturn(1);
-        when(facilityDAO.updateNManagers(any(), any())).thenReturn(1);
+        doNothing().when(facilityDAO).updateName(any(), any());
+        doNothing().when(facilityDAO).updateAddress(any(), any());
+        doNothing().when(facilityDAO).updateCity(any(), any());
+        doNothing().when(facilityDAO).updateCountry(any(), any());
+        doNothing().when(facilityDAO).updateProvince(any(), any());
+        doNothing().when(facilityDAO).updateZip(any(), any());
+        doNothing().when(facilityDAO).updateTelephone(any(), any());
+        doNothing().when(facilityDAO).updateImage(any(), any());
+        doNothing().when(facilityDAO).updateNFields(any(), any());
+        doNothing().when(facilityDAO).updateNManagers(any(), any());
         assertTrue(ownerManagementController.editFacility(createFacility()));
     }
 
     @Test
     void deleteFacility() throws SQLException {
-        when(facilityDAO.deleteFacility(any()));
+        doNothing().when(facilityDAO).deleteFacility(any());
         assertTrue(ownerManagementController.deleteFacility(createFacility().getId()));
 
     }
 
     @Test
     void editField() throws SQLException {
-        when(fieldDao.updateName(any(), any()));
-        when(fieldDao.updateDescription(any(), any()));
-        when(fieldDao.updatePrice(any(), any()));
-        when(fieldDao.updateSport(any(), any()));
+        doNothing().when(fieldDao).updateName(any(), any());
+        doNothing().when(fieldDao).updateDescription(any(), any());
+        doNothing().when(fieldDao).updatePrice(any(), any());
+        doNothing().when(fieldDao).updateSport(any(), any());
         assertTrue(ownerManagementController.editField(createField()));
     }
 
-    //fixme danno void
     @Test
-    void addWorkingHours() throws SQLException {
+    void addWorkingHours() throws SQLException, ParseException {
         when(workingHoursDAO.addWHToFacility(any(), any(), any(), any())).thenReturn(1);
+        Facility facility= createFacility();
+        assertTrue(ownerManagementController.addWorkingHours(facility.getId(), "8:00:00", "22:00:00", "monday"));
     }
 
     @Test
     void editWorkingHours() throws SQLException {
-        when(workingHoursDAO.updateWH(any(), any(), any())).thenReturn(1);
-
+        doNothing().when(workingHoursDAO).updateWH(any(), any(), any());
+        assertTrue(ownerManagementController.editWorkingHours(createWH(createFacility(), DayOfWeek.MONDAY)));
     }
 
     @Test
     void deleteWorkingHours() throws SQLException {
-        when(workingHoursDAO.removeAllWHsByFacility(any())).thenReturn(1);
+        doNothing().when(workingHoursDAO).removeAllWHsByFacility(any());
+        assertTrue(ownerManagementController.deleteWorkingHours(createFacility()));
 
     }
 
     @Test
     void deleteWorkingHoursByDay() throws SQLException {
-        when(workingHoursDAO.removeWHFromFacilityByDay(any(), any())).thenReturn(1);
-
+        doNothing().when(workingHoursDAO).removeWHFromFacilityByDay(any(), any());
+        assertTrue(ownerManagementController.deleteWorkingHoursByDay(createFacility(), "monday"));
     }
 
     @Test
