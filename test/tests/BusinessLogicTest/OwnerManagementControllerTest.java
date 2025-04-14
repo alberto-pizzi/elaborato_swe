@@ -34,8 +34,6 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     private SportDao sportDao;
     private WorkingHoursDAO workingHoursDAO;
 
-
-
     @Override
     @BeforeEach
     public void setup() throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
