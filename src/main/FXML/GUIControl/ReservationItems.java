@@ -49,14 +49,13 @@ public class ReservationItems {
         return reservation;
     }
 
-    public AnchorPane getReservationItemPane() {
-        return reservationItemPane;
-    }
-
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
 
+    public AnchorPane getReservationItemPane() {
+        return reservationItemPane;
+    }
 
     public void setData(Reservation reservation) throws SQLException, ClassNotFoundException {
         this.reservation = reservation;

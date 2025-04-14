@@ -13,15 +13,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class OwnerManagementController extends ManagerOwnerManagementController{
-
+//todo usare costruttore super
     private Owner owner;
-    private ReservationDao reservationDao;
-    private FieldDao fieldDao;
-    private FacilityDAO facilityDAO;
     private ManagesDAO managesDAO;
-    private UserDAO userDAO;
+    private FacilityDAO facilityDAO;
     private SportDao sportDao;
-    private WorkingHoursDAO workingHoursDAO;
+
     //constructor
     public OwnerManagementController(Owner owner) {
         reservationDao = new ReservationDao();
@@ -118,7 +115,6 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return managesDAO.getAllManagersByFacility(facility.getId());
     }
 
-    //fixme remove doesn't check id
     public ArrayList<User> getUsersByProvince(int facilityId) throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>(userDAO.getUsersByProvince(owner.getProvince()));
         return notManagers(users, managesDAO.getAllManagersByFacility(facilityId));
@@ -154,12 +150,22 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return notManagers(users, managingAlready);
     }
 
-    public void attachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {
-        managesDAO.attachManager(idUser, idFacility);
+    public boolean attachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {
+        try {
+            managesDAO.attachManager(idUser, idFacility);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
-    public  void detachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {
-        managesDAO.detachManager(idUser, idFacility);
+    public boolean detachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {
+        try {
+            managesDAO.detachManager(idUser, idFacility);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
     public boolean deleteField(int idField) throws SQLException{
@@ -181,8 +187,13 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return true;
     }
 
-    public  void addSport(Sport sport) throws SQLException, ClassNotFoundException {
-        sportDao.addSport(sport.getName(), sport.getPlayersRequired());
+    public boolean addSport(Sport sport) throws SQLException, ClassNotFoundException {
+        try {
+            sportDao.addSport(sport.getName(), sport.getPlayersRequired());
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
     public ArrayList<Sport> getSports() throws SQLException {
@@ -239,21 +250,41 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return true;
     }
 
-    public void addWorkingHours(int idFacility, String openingHour, String closingHour, String day) throws SQLException, ParseException {
-        DateFormat formatter = new SimpleDateFormat("HH:mm");
-        workingHoursDAO.addWHToFacility(idFacility, DayOfWeek.valueOf(day), new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
+    public boolean addWorkingHours(int idFacility, String openingHour, String closingHour, String day) throws SQLException, ParseException {
+        try {
+            DateFormat formatter = new SimpleDateFormat("HH:mm");
+            workingHoursDAO.addWHToFacility(idFacility, DayOfWeek.valueOf(day), new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
-    public void editWorkingHours(WorkingHours workingHours) throws SQLException {
-        workingHoursDAO.updateWH(workingHours.getId(), workingHours.getOpeningHours(), workingHours.getClosingHours());
+    public boolean editWorkingHours(WorkingHours workingHours) throws SQLException {
+        try {
+            workingHoursDAO.updateWH(workingHours.getId(), workingHours.getOpeningHours(), workingHours.getClosingHours());
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
-    public  void deleteWorkingHours(Facility facility) throws SQLException{
-        workingHoursDAO.removeAllWHsByFacility(facility.getId());
+    public boolean deleteWorkingHours(Facility facility) throws SQLException{
+        try {
+            workingHoursDAO.removeAllWHsByFacility(facility.getId());
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
-    public  void deleteWorkingHoursByDay(Facility facility, String day) throws SQLException{
-        workingHoursDAO.removeWHFromFacilityByDay(facility.getId(), DayOfWeek.valueOf(day));
+    public boolean deleteWorkingHoursByDay(Facility facility, String day) throws SQLException{
+        try {
+            workingHoursDAO.removeWHFromFacilityByDay(facility.getId(), DayOfWeek.valueOf(day));
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
     public ArrayList<WorkingHours> getWorkingHours(int idFacility) throws SQLException {
