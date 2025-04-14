@@ -242,7 +242,7 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     @Test
     void getWorkingHours() throws SQLException {
         ArrayList<WorkingHours> workingHours = new ArrayList<>();
-        workingHours.add(createWH(createFacility(), DayOfWeek.MONDAY))
+        workingHours.add(createWH(createFacility(), DayOfWeek.MONDAY));
         when(workingHoursDAO.getWHsByFacility(any())).thenReturn(workingHours);
         assertEquals(1, ownerManagementController.getWorkingHours(createFacility().getId()).size());
     }
