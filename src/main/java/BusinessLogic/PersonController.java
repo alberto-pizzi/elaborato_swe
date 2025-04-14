@@ -82,22 +82,32 @@ public abstract class PersonController<T extends Person> {
     public abstract int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException;
 
         //TODO edit messages
-    public void editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
+    public boolean editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
 
-        
         NotificationController notificationController = new NotificationController();
-        Reservation previousReservation = reservationDao.getReservation(reservation.getId(), false);
-        String notificationTitle = "Una prenotazione è stata modificata";
-        String notificationMessage = "La prenotazione il giorno " + previousReservation.getReservationDate() + " alle " + previousReservation.getEventTimeStart() + " è stata modificata da " + person.getUsername();
+        Reservation previousReservation = null;
 
-        reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
-        reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
-        reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
+        try{
+            previousReservation = reservationDao.getReservation(reservation.getId(), false);
+        } catch (SQLException | ClassNotFoundException e) {
+            return false;
+        }
+        String notificationTitle = "Reservation has been changed.";
+        String notificationMessage = "Reservation is the day " + previousReservation.getReservationDate() + " at " + previousReservation.getEventTimeStart() + " has been changed by " + person.getUsername();
+
+        try {
+            reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
+            reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
+            reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
+        } catch (SQLException e) {
+            return false;
+        }
 
         notificationController.sendModificationNotification(reservation);
+
+        return true;
     }
 
-    //FIXME output type?
     public boolean deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
 
 

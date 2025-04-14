@@ -139,11 +139,14 @@ public class ModifyReservationController extends FieldFormManagementController i
 
 
             if (selectGuestsPaneController != null) {
-                selectGuestsPaneController.applyChanges();
 
-                personController.editReservation(reservation);
+                if (personController.editReservation(reservation)){
+                    selectGuestsPaneController.applyChanges();
+                    actionsAfterEdit(); //TODO it is correct?
+                }
+                else
+                    messagesController.showMessage("Edit failed.", MessagesController.MessageType.ERROR,5);
 
-                actionsAfterEdit(); //TODO it is correct?
             }
             else
                 messagesController.showMessage("Error during editing", MessagesController.MessageType.ERROR,5);
