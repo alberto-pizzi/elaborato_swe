@@ -16,6 +16,8 @@ public abstract class ReservationItemsManagerOwner extends ReservationItems{
     @FXML
     protected Button editButton;
 
+    protected Reservations reservationsController;
+
     public Reservations getReservationsController() {
         return reservationsController;
     }
@@ -23,8 +25,6 @@ public abstract class ReservationItemsManagerOwner extends ReservationItems{
     public void setReservationsController(Reservations reservationsController) {
         this.reservationsController = reservationsController;
     }
-
-    protected Reservations reservationsController;
 
     public  abstract void handleAnnouncementButton() throws SQLException, ClassNotFoundException, IOException;
 

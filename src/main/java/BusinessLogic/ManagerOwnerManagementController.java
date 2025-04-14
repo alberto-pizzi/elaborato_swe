@@ -19,24 +19,19 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         super(SessionController.getInstance().getPerson());
     }
 
-
-    //methods
-    public void createReservation() {
-
+    public ManagerOwnerManagementController( Person person, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao) {
+        super(person, userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao,fieldDao);
     }
 
 
-    public ArrayList<Field> getFieldsByFacility(Facility facility) throws SQLException {
-        FieldDao fieldDao = new FieldDao();
+    //methods
 
+    public ArrayList<Field> getFieldsByFacility(Facility facility) throws SQLException {
         return fieldDao.getFieldsByFacility(facility.getId(), false);
     }
 
 
     public int getHeadGuests(int idReservation) throws SQLException, ClassNotFoundException {
-        GroupDao groupDao = new GroupDao();
-        IsPartDao isPartDao = new IsPartDao();
-
         Group group = groupDao.getGroupByReservation(idReservation);
         return isPartDao.countOwnGuests(group.getId(), group.getGroupHead().getId());
     }
@@ -44,10 +39,6 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
     //TODO check redundancy (with override class)
     @Override
     public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException {
-
-        ReservationDao reservationDao = new ReservationDao();
-        GroupDao groupDao = new GroupDao();
-
         Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field, isMatched);
 
         if (checkReservationData(reservation)) {
@@ -80,28 +71,33 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
     }
 
-    public void changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
-        IsPartDao isPartDao = new IsPartDao();
-        GroupDao groupDao = new GroupDao();
-
-        Group group = groupDao.getGroupByReservation(idReservation);
-        isPartDao.updateGuestsUsers(group.getId(),group.getGroupHead().getId(),guestNewNumber);
+    public boolean changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
+        try {
+            Group group = groupDao.getGroupByReservation(idReservation);
+            isPartDao.updateGuestsUsers(group.getId(),group.getGroupHead().getId(),guestNewNumber);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
 
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
-        WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
-
         return workingHoursDAO.getWHsByFacility(idFacility);
     }
 
 
-    public void reservationAnnouncement(String notificationMessage, Reservation reservation) throws SQLException, ClassNotFoundException {
-        NotificationController notificationController = new NotificationController();
-        notificationController.sendAnnouncement(reservation,notificationMessage);
+    public boolean reservationAnnouncement(String notificationMessage, Reservation reservation) throws SQLException, ClassNotFoundException {
+        try {
+            NotificationController notificationController = new NotificationController();
+            notificationController.sendAnnouncement(reservation,notificationMessage);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
-    //todo usare
+    //todo da togliere?
     public void fieldAnnouncement(String notificationMessage, Field field) throws SQLException, ClassNotFoundException {
         ArrayList<Reservation> reservations = new ArrayList<>(this.getReservationsByField(field.getId()));
         for(Reservation reservation : reservations) {
