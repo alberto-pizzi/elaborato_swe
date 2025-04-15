@@ -13,65 +13,44 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class OwnerManagementController extends ManagerOwnerManagementController{
-//todo usare costruttore super
-    private Owner owner;
+
     private ManagesDAO managesDAO;
     private FacilityDAO facilityDAO;
     private SportDao sportDao;
 
     //constructor
     public OwnerManagementController(Owner owner) {
-        reservationDao = new ReservationDao();
-        fieldDao = new FieldDao();
+        super(owner);
         facilityDAO = new FacilityDAO();
         managesDAO = new ManagesDAO();
-        userDAO = new UserDAO();
         sportDao = new SportDao();
-        workingHoursDAO = new WorkingHoursDAO();
-        this.owner = owner;
     }
 
     public OwnerManagementController() {
-        reservationDao = new ReservationDao();
-        fieldDao = new FieldDao();
+        super((Owner) SessionController.getInstance().getPerson());
         facilityDAO = new FacilityDAO();
         managesDAO = new ManagesDAO();
-        userDAO = new UserDAO();
         sportDao = new SportDao();
-        workingHoursDAO = new WorkingHoursDAO();
-        this.owner = (Owner) SessionController.getInstance().getPerson();
     }
 
-    public OwnerManagementController(Owner owner, ReservationDao reservationDao, FieldDao fieldDao, FacilityDAO facilityDAO, ManagesDAO managesDAO, UserDAO userDAO,SportDao sportDao, WorkingHoursDAO workingHoursDAO) {
-        this.owner = owner;
-        this.reservationDao = reservationDao;
-        this.fieldDao = fieldDao;
+    public OwnerManagementController(Owner owner, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao, FacilityDAO facilityDAO, ManagesDAO managesDAO,SportDao sportDao) {
+        super(owner,  userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao,fieldDao);
         this.facilityDAO = facilityDAO;
         this.managesDAO = managesDAO;
-        this.userDAO = userDAO;
         this.sportDao = sportDao;
-        this.workingHoursDAO = workingHoursDAO;
     }
+
 
     //methods
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
-
     public int dailyEarning() throws SQLException {
-        return reservationDao.dailyEarning(Date.valueOf(LocalDate.now()), owner);
+        return reservationDao.dailyEarning(Date.valueOf(LocalDate.now()), (Owner) person);
     }
 
     public int monthlyEarnings() throws SQLException {
         LocalDate today = LocalDate.now();
         int earnings = 0;
         for (int i = 0; i < 30; i++){
-            earnings += reservationDao.dailyEarning(Date.valueOf(today), owner);
+            earnings += reservationDao.dailyEarning(Date.valueOf(today), (Owner) person);
             today = today.minusDays(1);
         }
         return earnings;
@@ -81,7 +60,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         LocalDate today = LocalDate.now();
         ArrayList <Integer> earnings = new ArrayList<>();
         for (int i = 0; i < 7; i++){
-            earnings.add(reservationDao.dailyEarning(Date.valueOf(today), owner));
+            earnings.add(reservationDao.dailyEarning(Date.valueOf(today), (Owner) person));
             today = today.minusDays(1);
         }
         return earnings;
@@ -91,7 +70,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         LocalDate today = LocalDate.now();
         int number = 0;
         for (int i = 0; i < 30; i++){
-            number += reservationDao.dailyReservations(Date.valueOf(today), owner);
+            number += reservationDao.dailyReservations(Date.valueOf(today), (Owner) person);
             today = today.minusDays(1);
         }
         return number;
@@ -99,16 +78,16 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     public int reservedFields() throws SQLException {
         LocalDate today = LocalDate.now();
-        return fieldDao.reservedFields(Date.valueOf(today), owner);
+        return fieldDao.reservedFields(Date.valueOf(today), (Owner) person);
     }
 
     public int notReservedFields() throws SQLException {
         LocalDate today = LocalDate.now();
-        return (fieldDao.getFieldsByOwner(owner).size()-fieldDao.reservedFields(Date.valueOf(today), owner));
+        return (fieldDao.getFieldsByOwner((Owner) person).size()-fieldDao.reservedFields(Date.valueOf(today), (Owner) person));
     }
 
     public ArrayList<Facility> getOwnFacilities() throws SQLException {
-        return facilityDAO.getFacilitiesByOwner(this.owner.getId());
+        return facilityDAO.getFacilitiesByOwner(this.person.getId());
     }
 
     public ArrayList<User> getManagersByFacility(Facility facility) throws SQLException {
@@ -116,7 +95,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     }
 
     public ArrayList<User> getUsersByProvince(int facilityId) throws SQLException, ClassNotFoundException {
-        ArrayList<User> users = new ArrayList<>(userDAO.getUsersByProvince(owner.getProvince()));
+        ArrayList<User> users = new ArrayList<>(userDAO.getUsersByProvince(person.getProvince()));
         return notManagers(users, managesDAO.getAllManagersByFacility(facilityId));
     }
 
@@ -202,7 +181,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     public boolean addFacility(Facility facility) throws SQLException {
         try {
-            facility.setOwner(owner);
+            facility.setOwner((Owner) person);
             facilityDAO.addFacility(facility.getName(), facility.getAddress(), facility.getCity(), facility.getProvince(), facility.getZip(), facility.getCountry(), facility.getTelephone(), facility.getImage(), facility.getOwner().getId());
         }catch (SQLException e){
             return false;

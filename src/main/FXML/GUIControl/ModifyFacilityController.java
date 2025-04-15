@@ -269,6 +269,7 @@ public class ModifyFacilityController extends FacilityForm {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
         Parent modifyFieldPane = loader.load();
 
+        //todo
         ModifyFieldController modifyFieldController = loader.getController();
         modifyFieldController.setData(facility, clickedFields.get(0), this.menuPane);
 
