@@ -79,9 +79,12 @@ public class ManagementButtonsController {
             if (reservationItemController != null) {
                 UserActionsController userActionsController = new UserActionsController();
 
-                userActionsController.deleteReservation(reservationItemController.getReservation().getId());
-                reservationItemController.getReservationsController().removeReservationItemFromGUI(reservationItemController.getReservationItemPane(),reservationItemController.getReservation());
-                System.out.println("Deleted!");
+                if (userActionsController.deleteReservation(reservationItemController.getReservation().getId())) {
+                    reservationItemController.getReservationsController().removeReservationItemFromGUI(reservationItemController.getReservationItemPane(), reservationItemController.getReservation());
+                    System.out.println("Deleted!");
+                }
+                else
+                    System.out.println("Error during deletion");
             }
 
         } else if(result.get() == ButtonType.CANCEL){

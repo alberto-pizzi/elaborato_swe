@@ -139,11 +139,14 @@ public class ModifyReservationController extends FieldFormManagementController i
 
 
             if (selectGuestsPaneController != null) {
-                selectGuestsPaneController.applyChanges();
 
-                personController.editReservation(reservation);
+                if (personController.editReservation(reservation)){
+                    selectGuestsPaneController.applyChanges();
+                    actionsAfterEdit(); //TODO it is correct?
+                }
+                else
+                    messagesController.showMessage("Edit failed.", MessagesController.MessageType.ERROR,5);
 
-                actionsAfterEdit(); //TODO it is correct?
             }
             else
                 messagesController.showMessage("Error during editing", MessagesController.MessageType.ERROR,5);
@@ -174,11 +177,14 @@ public class ModifyReservationController extends FieldFormManagementController i
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.OK){
 
-            personController.deleteReservation(reservation.getId());
-            System.out.println("Deleted!");
 
-            actionsAfterDelete();
+            if (personController.deleteReservation(reservation.getId())) {
+                System.out.println("Deleted!");
 
+                actionsAfterDelete();
+            }
+            else
+                messagesController.showMessage("Error during deleting", MessagesController.MessageType.ERROR,5);
 
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
