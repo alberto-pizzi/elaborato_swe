@@ -32,6 +32,10 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     private UserDAO userDAO;
     private SportDao sportDao;
     private WorkingHoursDAO workingHoursDAO;
+    private User user = null;
+    private GroupDao groupDao;
+    private IsPartDao isPartDao;
+    private InviteDao inviteDao;
 
     @Override
     @BeforeEach
@@ -44,7 +48,10 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         userDAO = mock(UserDAO.class);
         sportDao = mock(SportDao.class);
         workingHoursDAO = mock(WorkingHoursDAO.class);
-        ownerManagementController = new OwnerManagementController(owner, reservationDao, fieldDao, facilityDAO, managesDAO, userDAO, sportDao, workingHoursDAO);
+        groupDao = mock(GroupDao.class);
+        isPartDao = mock(IsPartDao.class);
+        inviteDao = mock(InviteDao.class);
+        ownerManagementController = new OwnerManagementController(owner, userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao, fieldDao, facilityDAO, managesDAO, sportDao);
     }
 
     @Override
