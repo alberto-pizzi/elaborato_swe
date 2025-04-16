@@ -10,10 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -63,13 +65,13 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
     @Test
     void dailyEarning() throws SQLException {
-        when(reservationDao.dailyEarning(any(), any())).thenReturn(1);
+        when(reservationDao.dailyEarning(any(Date.class), any(Owner.class))).thenReturn(1);
         assertEquals(1, ownerManagementController.dailyEarning());
     }
 
     @Test
     void monthlyEarnings() throws SQLException {
-        when(reservationDao.dailyEarning(any(), any())).thenReturn(1);
+        when(reservationDao.dailyEarning(any(Date.class), any(Owner.class))).thenReturn(1);
         assertEquals(30, ownerManagementController.dailyEarning());
     }
 
@@ -81,13 +83,13 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
     @Test
     void monthlyReservations() throws SQLException {
-        when(reservationDao.dailyReservations(any(), any())).thenReturn(1);
+        when(reservationDao.dailyReservations(any(Date.class), any(Owner.class))).thenReturn(1);
         assertEquals(30, ownerManagementController.monthlyReservations());
     }
 
     @Test
     void reservedFields() throws SQLException {
-        when(fieldDao.reservedFields(any(), any())).thenReturn(1);
+        when(fieldDao.reservedFields(any(Date.class), any(Owner.class))).thenReturn(1);
         assertEquals(1, ownerManagementController.reservedFields());
     }
 
@@ -96,8 +98,8 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         ArrayList <Field>  fields = new ArrayList<>();
         fields.add(createField());
         fields.add(createField());
-        when(fieldDao.getFieldsByOwner(any())).thenReturn(fields);
-        when(fieldDao.reservedFields(any(), any())).thenReturn(1);
+        when(fieldDao.getFieldsByOwner(any(Owner.class))).thenReturn(fields);
+        when(fieldDao.reservedFields(any(Date.class), any(Owner.class))).thenReturn(1);
         assertEquals(1, ownerManagementController.notReservedFields());
     }
 
@@ -105,7 +107,7 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void getOwnFacilities() throws SQLException {
         ArrayList<Facility> facilities = new ArrayList<>();
         facilities.add(createFacility());
-        when(facilityDAO.getFacilitiesByOwner(any())).thenReturn(facilities);
+        when(facilityDAO.getFacilitiesByOwner(anyInt())).thenReturn(facilities);
         assertEquals(1, ownerManagementController.getOwnFacilities().size());
     }
 
@@ -113,7 +115,7 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void getManagersByFacility() throws SQLException {
         ArrayList<User> users = new ArrayList<>();
         users.add(createUser());
-        when(managesDAO.getAllManagersByFacility(any())).thenReturn(users);
+        when(managesDAO.getAllManagersByFacility(anyInt())).thenReturn(users);
         assertEquals(1, ownerManagementController.getManagersByFacility(createFacility()).size());
     }
 
@@ -121,8 +123,8 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void getUsersByProvince() throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         users.add(createUser());
-        when(managesDAO.getAllManagersByFacility(any())).thenReturn(users);
-        when(userDAO.getUsersByProvince(any())).thenReturn(users);
+        when(managesDAO.getAllManagersByFacility(anyInt())).thenReturn(users);
+        when(userDAO.getUsersByProvince(anyString())).thenReturn(users);
         assertEquals(0, ownerManagementController.getUsersByProvince(createFacility().getId()).size());
     }
 
@@ -130,8 +132,8 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void searchManagersByProvince() throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         users.add(createUser());
-        when(managesDAO.getAllManagersByFacility(any())).thenReturn(users);
-        when(userDAO.getUsersByProvinceSearch(any())).thenReturn(users);
+        when(managesDAO.getAllManagersByFacility(anyInt())).thenReturn(users);
+        when(userDAO.getUsersByProvinceSearch(anyString())).thenReturn(users);
         assertEquals(0, ownerManagementController.searchManagersByProvince(createFacility().getProvince(), createFacility().getId()).size());
     }
 
@@ -139,39 +141,39 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void searchManagersByUsername() throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         users.add(createUser());
-        when(when(managesDAO.getAllManagersByFacility(any())).thenReturn(users));
-        when(when(userDAO.getUsersByUsernameSearch(any())).thenReturn(users));
+        when(when(managesDAO.getAllManagersByFacility(anyInt())).thenReturn(users));
+        when(when(userDAO.getUsersByUsernameSearch(anyString())).thenReturn(users));
         assertEquals(0, ownerManagementController.searchManagersByUsername(createUser().getProvince(), createFacility().getId()).size());
     }
 
     @Test
     void attachManager() throws SQLException, ClassNotFoundException {
-        when(managesDAO.attachManager(any(), any())).thenReturn(null);
+        when(managesDAO.attachManager(anyInt(), anyInt())).thenReturn(1);
         assertTrue(ownerManagementController.attachManager(createUser().getId(),createFacility().getId()));
     }
 
     @Test
     void detachManager() throws SQLException, ClassNotFoundException {
-        doNothing().when(managesDAO).detachManager(any(), any());
+        doNothing().when(managesDAO).detachManager(anyInt(), anyInt());
         assertTrue(ownerManagementController.attachManager(createUser().getId(),createFacility().getId()));
     }
 
     @Test
     void deleteField() throws SQLException {
-        doNothing().when(fieldDao).deleteField(any());
+        doNothing().when(fieldDao).deleteField(anyInt());
         assertTrue(ownerManagementController.deleteField(createField().getId()));
     }
 
     @Test
     void addField() throws SQLException {
-        when(fieldDao.addField(any())).thenReturn(1);
+        when(fieldDao.addField(any(Field.class))).thenReturn(1);
         assertTrue(ownerManagementController.addField(createField()));
     }
 
     //fixme
     @Test
     void addSport() throws SQLException {
-        when(sportDao.addSport(any(), any())).thenReturn(1);
+        when(sportDao.addSport(anyString(), anyInt())).thenReturn(1);
         assertTrue(ownerManagementController.addField(createField()));
     }
 
@@ -183,6 +185,7 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         assertEquals(1, ownerManagementController.getSports().size());
     }
 
+    //fixme any
     @Test
     void addFacility() throws SQLException {
         when(facilityDAO.addFacility(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
