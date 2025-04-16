@@ -49,12 +49,21 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
         user = null;
         managerOwnerManagementController = null;
     }
+
     @Test
     void getFieldsByFacility() throws SQLException {
         ArrayList<Field> fields = new ArrayList<Field>();
         fields.add(createField());
         when(fieldDao.getFieldsByFacility(createFacility().getId(), false)).thenReturn(fields);
         assertEquals(1, managerOwnerManagementController.getFieldsByFacility(createFacility()).size());
+    }
+
+    @Test
+    void getFieldsByFacilityFailed() throws SQLException {
+        ArrayList<Field> fields = new ArrayList<Field>();
+        fields.add(createField());
+        when(fieldDao.getFieldsByFacility(createFacility().getId(), false)).thenThrow(SQLException.class);
+        assertEquals(0, managerOwnerManagementController.getFieldsByFacility(createFacility()).size());
     }
 
     @Test
@@ -78,6 +87,13 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
         when(groupDao.getGroupByReservation(any())).thenReturn(createGroup(false, 3));
         doNothing().when(isPartDao).updateGuestsUsers(any(), any(), any());
         assertTrue(managerOwnerManagementController.changeHeadGuests(createReservation(false).getId(), 1));
+    }
+
+    @Test
+    void changeHeadGuestsFailed() throws SQLException, ClassNotFoundException {
+        when(groupDao.getGroupByReservation(any())).thenReturn(createGroup(false, 3));
+        doThrow(SQLException.class).when(isPartDao).updateGuestsUsers(any(), any(), any());
+        assertFalse(managerOwnerManagementController.changeHeadGuests(createReservation(false).getId(), 1));
     }
 
     @Test
