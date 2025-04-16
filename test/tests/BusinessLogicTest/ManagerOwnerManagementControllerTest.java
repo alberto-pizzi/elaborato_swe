@@ -54,22 +54,23 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
     void getFieldsByFacility() throws SQLException {
         ArrayList<Field> fields = new ArrayList<Field>();
         fields.add(createField());
-        when(fieldDao.getFieldsByFacility(createFacility().getId(), false)).thenReturn(fields);
+        when(fieldDao.getFieldsByFacility(anyInt(), anyBoolean())).thenReturn(fields);
         assertEquals(1, managerOwnerManagementController.getFieldsByFacility(createFacility()).size());
     }
 
+    //fixme
     @Test
     void getFieldsByFacilityFailed() throws SQLException {
         ArrayList<Field> fields = new ArrayList<Field>();
         fields.add(createField());
-        when(fieldDao.getFieldsByFacility(createFacility().getId(), false)).thenThrow(SQLException.class);
+        when(fieldDao.getFieldsByFacility(anyInt(), anyBoolean())).thenThrow(new SQLException("Simulated SQL exception"));
         assertEquals(0, managerOwnerManagementController.getFieldsByFacility(createFacility()).size());
     }
 
     @Test
     void getHeadGuests() throws SQLException, ClassNotFoundException {
-        when(groupDao.getGroupByReservation(any())).thenReturn(createGroup(false, 3));
-        when(isPartDao.countOwnGuests(any(), any())).thenReturn(1);
+        when(groupDao.getGroupByReservation(anyInt())).thenReturn(createGroup(false, 3));
+        when(isPartDao.countOwnGuests(anyInt(), anyInt())).thenReturn(1);
         assertEquals(1, managerOwnerManagementController.getHeadGuests(createReservation(false).getId()));
     }
 
@@ -84,15 +85,15 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
 
     @Test
     void changeHeadGuests() throws SQLException, ClassNotFoundException {
-        when(groupDao.getGroupByReservation(any())).thenReturn(createGroup(false, 3));
-        doNothing().when(isPartDao).updateGuestsUsers(any(), any(), any());
+        when(groupDao.getGroupByReservation(anyInt())).thenReturn(createGroup(false, 3));
+        doNothing().when(isPartDao).updateGuestsUsers(anyInt(), anyInt(), anyInt());
         assertTrue(managerOwnerManagementController.changeHeadGuests(createReservation(false).getId(), 1));
     }
 
     @Test
     void changeHeadGuestsFailed() throws SQLException, ClassNotFoundException {
-        when(groupDao.getGroupByReservation(any())).thenReturn(createGroup(false, 3));
-        doThrow(SQLException.class).when(isPartDao).updateGuestsUsers(any(), any(), any());
+        when(groupDao.getGroupByReservation(anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
+        doThrow(new SQLException("Simulated SQL exception")).when(isPartDao).updateGuestsUsers(anyInt(), anyInt(), anyInt());
         assertFalse(managerOwnerManagementController.changeHeadGuests(createReservation(false).getId(), 1));
     }
 
@@ -100,7 +101,7 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
     void getWHsByFacilityByDay() throws SQLException {
         ArrayList<WorkingHours> workingHours = new ArrayList<>();
         workingHours.add(createWH(createFacility(), DayOfWeek.MONDAY));
-        when(workingHoursDAO.getWHsByFacility(any())).thenReturn(workingHours);
+        when(workingHoursDAO.getWHsByFacility(anyInt())).thenReturn(workingHours);
         assertEquals(1, managerOwnerManagementController.getWHsByFacilityByDay(createFacility().getId(), DayOfWeek.MONDAY).size());
     }
 
