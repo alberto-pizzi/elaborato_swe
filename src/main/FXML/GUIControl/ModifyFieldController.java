@@ -46,7 +46,8 @@ public class ModifyFieldController extends FieldForm {
             if(!nameInput.getText().isEmpty() || priceInput.getText().isEmpty() || descriptionInput.getText().isEmpty()) {
                 field.setName(nameInput.getText());
                 field.setPrice(Float.parseFloat(priceInput.getText().replace("$","")));
-                field.setSport(clickedSports.get(0));
+                if(!clickedSports.isEmpty())
+                    field.setSport(clickedSports.getFirst());
                 field.setDescription(descriptionInput.getText());
                 if(ownerManagementController.editField(field)){
                     System.out.println("Field updated");

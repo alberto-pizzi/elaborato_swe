@@ -58,7 +58,8 @@ public class NewFieldController extends FieldForm {
                 field.setName(nameInput.getText());
                 Float price = Float.parseFloat(priceInput.getText().replace("$",""));
                 field.setPrice(price);
-                field.setSport(clickedSports.get(0));
+                if(!clickedSportLabels.isEmpty())
+                    field.setSport(clickedSports.getFirst());
                 field.setDescription(descriptionInput.getText());
                 if(ownerManagementController.addField(field)){
                     System.out.println("Field created: " + field.getName());
@@ -102,7 +103,8 @@ public class NewFieldController extends FieldForm {
             field.setName(nameInput.getText());
             Float price = Float.parseFloat(priceInput.getText().replace("$",""));
             field.setPrice(price);
-            field.setSport(clickedSports.get(0));
+            if(!clickedSportLabels.isEmpty())
+                field.setSport(clickedSports.getFirst());
             field.setDescription(descriptionInput.getText());
 
             if(ownerManagementController.addField(field)){

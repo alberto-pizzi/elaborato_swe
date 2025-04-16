@@ -264,16 +264,16 @@ public class ModifyFacilityController extends FacilityForm {
     @FXML
     void handleModifyFieldButton(ActionEvent event) throws IOException, SQLException {
 
-        fieldChecker();
-        
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
-        Parent modifyFieldPane = loader.load();
+        if(!clickedFields.isEmpty()){
+            fieldChecker();
 
-        //todo
-        ModifyFieldController modifyFieldController = loader.getController();
-        modifyFieldController.setData(facility, clickedFields.get(0), this.menuPane);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
+            Parent modifyFieldPane = loader.load();
 
-        menuPane.setCenter(modifyFieldPane);
+            ModifyFieldController modifyFieldController = loader.getController();
+            modifyFieldController.setData(facility, clickedFields.getFirst(), this.menuPane);
+
+            menuPane.setCenter(modifyFieldPane);}
     }
 
 }
