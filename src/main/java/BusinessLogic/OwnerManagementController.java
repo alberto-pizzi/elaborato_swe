@@ -49,9 +49,14 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     public int monthlyEarnings() throws SQLException {
         LocalDate today = LocalDate.now();
         int earnings = 0;
-        for (int i = 0; i < 30; i++){
-            earnings += reservationDao.dailyEarning(Date.valueOf(today), (Owner) person);
-            today = today.minusDays(1);
+
+        try {
+            for (int i = 0; i < 30; i++){
+                earnings += reservationDao.dailyEarning(Date.valueOf(today), (Owner) person);
+                today = today.minusDays(1);
+            }
+        }catch (SQLException e){
+            return -1;
         }
         return earnings;
     }
@@ -59,9 +64,13 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     public ArrayList <Integer> dailyEarnings() throws SQLException {
         LocalDate today = LocalDate.now();
         ArrayList <Integer> earnings = new ArrayList<>();
-        for (int i = 0; i < 7; i++){
-            earnings.add(reservationDao.dailyEarning(Date.valueOf(today), (Owner) person));
-            today = today.minusDays(1);
+        try {
+            for (int i = 0; i < 7; i++){
+                earnings.add(reservationDao.dailyEarning(Date.valueOf(today), (Owner) person));
+                today = today.minusDays(1);
+            }
+        }catch (SQLException e){
+            return null;
         }
         return earnings;
     }
@@ -69,40 +78,82 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     public int monthlyReservations() throws SQLException {
         LocalDate today = LocalDate.now();
         int number = 0;
-        for (int i = 0; i < 30; i++){
-            number += reservationDao.dailyReservations(Date.valueOf(today), (Owner) person);
-            today = today.minusDays(1);
+        try {
+            for (int i = 0; i < 30; i++){
+                number += reservationDao.dailyReservations(Date.valueOf(today), (Owner) person);
+                today = today.minusDays(1);
+            }
+        }catch (SQLException e){
+            return -1;
         }
         return number;
     }
 
     public int reservedFields() throws SQLException {
         LocalDate today = LocalDate.now();
-        return fieldDao.reservedFields(Date.valueOf(today), (Owner) person);
+        int number = 0;
+        try {
+            number = fieldDao.reservedFields(Date.valueOf(today), (Owner) person);
+        }catch (SQLException e){
+            return -1;
+        }
+        return number;
     }
 
     public int notReservedFields() throws SQLException {
         LocalDate today = LocalDate.now();
-        return (fieldDao.getFieldsByOwner((Owner) person).size()-fieldDao.reservedFields(Date.valueOf(today), (Owner) person));
+        int number = 0;
+        try {
+            number = fieldDao.getFieldsByOwner((Owner) person).size()-fieldDao.reservedFields(Date.valueOf(today), (Owner) person);
+        }catch (SQLException e){
+            return -1;
+        }
+        return number;
     }
 
     public ArrayList<Facility> getOwnFacilities() throws SQLException {
-        return facilityDAO.getFacilitiesByOwner(this.person.getId());
+        ArrayList <Facility> facilities;
+        try {
+            facilities = facilityDAO.getFacilitiesByOwner(this.person.getId());
+        }catch (SQLException e){
+            return null;
+        }
+        return facilities;
     }
 
     public ArrayList<User> getManagersByFacility(Facility facility) throws SQLException {
-        return managesDAO.getAllManagersByFacility(facility.getId());
+        ArrayList <User> managers;
+        try {
+            managers = managesDAO.getAllManagersByFacility(facility.getId());
+        }catch (SQLException e){
+            return null;
+        }
+        return managers;
     }
 
     public ArrayList<User> getUsersByProvince(int facilityId) throws SQLException, ClassNotFoundException {
-        ArrayList<User> users = new ArrayList<>(userDAO.getUsersByProvince(person.getProvince()));
-        return notManagers(users, managesDAO.getAllManagersByFacility(facilityId));
+        ArrayList<User> users;
+        try {
+            users = new ArrayList<>(userDAO.getUsersByProvince(person.getProvince()));
+            users = notManagers(users, managesDAO.getAllManagersByFacility(facilityId));
+        }catch (SQLException e){
+            return null;
+        }
+        return users;
     }
 
     public ArrayList<User> searchManagersByProvince(String provinceUser, int facilityId) throws SQLException, ClassNotFoundException {
-        ArrayList<User> users = new ArrayList<>(searchUsersByProvince(provinceUser));
-        ArrayList<User> managingAlready= managesDAO.getAllManagersByFacility(facilityId);
-        return notManagers(users, managingAlready);
+        ArrayList<User> users;
+        ArrayList<User> managingAlready;
+        try {
+            users = new ArrayList<>(searchUsersByProvince(provinceUser));
+            managingAlready= managesDAO.getAllManagersByFacility(facilityId);
+            users = notManagers(users, managingAlready);
+        }catch (SQLException e){
+            return null;
+        }
+        return users;
+
     }
 
     protected ArrayList<User> notManagers(ArrayList<User> users, ArrayList<User> managers){
