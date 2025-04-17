@@ -170,7 +170,6 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         assertTrue(ownerManagementController.addField(createField()));
     }
 
-    //fixme
     @Test
     void addSport() throws SQLException {
         when(sportDao.addSport(anyString(), anyInt())).thenReturn(1);
@@ -185,67 +184,66 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         assertEquals(1, ownerManagementController.getSports().size());
     }
 
-    //fixme any
     @Test
     void addFacility() throws SQLException {
-        when(facilityDAO.addFacility(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(1);
+        when(facilityDAO.addFacility(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyInt())).thenReturn(1);
         assertEquals(1, ownerManagementController.addFacility(createFacility()));
     }
 
     @Test
     void editFacility() throws SQLException {
-        doNothing().when(facilityDAO).updateName(any(), any());
-        doNothing().when(facilityDAO).updateAddress(any(), any());
-        doNothing().when(facilityDAO).updateCity(any(), any());
-        doNothing().when(facilityDAO).updateCountry(any(), any());
-        doNothing().when(facilityDAO).updateProvince(any(), any());
-        doNothing().when(facilityDAO).updateZip(any(), any());
-        doNothing().when(facilityDAO).updateTelephone(any(), any());
-        doNothing().when(facilityDAO).updateImage(any(), any());
-        doNothing().when(facilityDAO).updateNFields(any(), any());
-        doNothing().when(facilityDAO).updateNManagers(any(), any());
+        doNothing().when(facilityDAO).updateName(anyInt(), anyString());
+        doNothing().when(facilityDAO).updateAddress(anyInt(), anyString());
+        doNothing().when(facilityDAO).updateCity(anyInt(), anyString());
+        doNothing().when(facilityDAO).updateCountry(anyInt(), anyString());
+        doNothing().when(facilityDAO).updateProvince(anyInt(), anyString());
+        doNothing().when(facilityDAO).updateZip(anyInt(), anyString());
+        doNothing().when(facilityDAO).updateTelephone(anyInt(), anyString());
+        doNothing().when(facilityDAO).updateImage(anyInt(), anyString());
+        doNothing().when(facilityDAO).updateNFields(anyInt(), anyInt());
+        doNothing().when(facilityDAO).updateNManagers(anyInt(), anyInt());
         assertTrue(ownerManagementController.editFacility(createFacility()));
     }
 
     @Test
     void deleteFacility() throws SQLException {
-        doNothing().when(facilityDAO).deleteFacility(any());
+        doNothing().when(facilityDAO).deleteFacility(anyInt());
         assertTrue(ownerManagementController.deleteFacility(createFacility().getId()));
 
     }
 
     @Test
     void editField() throws SQLException {
-        doNothing().when(fieldDao).updateName(any(), any());
-        doNothing().when(fieldDao).updateDescription(any(), any());
-        doNothing().when(fieldDao).updatePrice(any(), any());
-        doNothing().when(fieldDao).updateSport(any(), any());
+        doNothing().when(fieldDao).updateName(anyInt(), anyString());
+        doNothing().when(fieldDao).updateDescription(anyInt(), anyString());
+        doNothing().when(fieldDao).updatePrice(anyInt(), anyInt());
+        doNothing().when(fieldDao).updateSport(anyInt(), anyInt());
         assertTrue(ownerManagementController.editField(createField()));
     }
 
     @Test
     void addWorkingHours() throws SQLException, ParseException {
-        when(workingHoursDAO.addWHToFacility(any(), any(), any(), any())).thenReturn(1);
+        when(workingHoursDAO.addWHToFacility(anyInt(), any(DayOfWeek.class), any(Time.class), any(Time.class))).thenReturn(1);
         Facility facility= createFacility();
         assertTrue(ownerManagementController.addWorkingHours(facility.getId(), "8:00:00", "22:00:00", "monday"));
     }
 
     @Test
     void editWorkingHours() throws SQLException {
-        doNothing().when(workingHoursDAO).updateWH(any(), any(), any());
+        doNothing().when(workingHoursDAO).updateWH(anyInt(), any(Time.class), any(Time.class));
         assertTrue(ownerManagementController.editWorkingHours(createWH(createFacility(), DayOfWeek.MONDAY)));
     }
 
     @Test
     void deleteWorkingHours() throws SQLException {
-        doNothing().when(workingHoursDAO).removeAllWHsByFacility(any());
+        doNothing().when(workingHoursDAO).removeAllWHsByFacility(anyInt());
         assertTrue(ownerManagementController.deleteWorkingHours(createFacility()));
 
     }
 
     @Test
     void deleteWorkingHoursByDay() throws SQLException {
-        doNothing().when(workingHoursDAO).removeWHFromFacilityByDay(any(), any());
+        doNothing().when(workingHoursDAO).removeWHFromFacilityByDay(anyInt(), any(DayOfWeek.class));
         assertTrue(ownerManagementController.deleteWorkingHoursByDay(createFacility(), "monday"));
     }
 
@@ -253,7 +251,7 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void getWorkingHours() throws SQLException {
         ArrayList<WorkingHours> workingHours = new ArrayList<>();
         workingHours.add(createWH(createFacility(), DayOfWeek.MONDAY));
-        when(workingHoursDAO.getWHsByFacility(any())).thenReturn(workingHours);
+        when(workingHoursDAO.getWHsByFacility(anyInt())).thenReturn(workingHours);
         assertEquals(1, ownerManagementController.getWorkingHours(createFacility().getId()).size());
     }
 }
