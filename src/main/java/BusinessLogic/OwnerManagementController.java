@@ -153,7 +153,6 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
             return null;
         }
         return users;
-
     }
 
     protected ArrayList<User> notManagers(ArrayList<User> users, ArrayList<User> managers){
@@ -175,9 +174,16 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     }
 
     public ArrayList<User> searchManagersByUsername(String searchUsername, int facilityId) throws SQLException, ClassNotFoundException {
-        ArrayList<User> users = new ArrayList<>(searchUsersByUsername(searchUsername));
-        ArrayList<User> managingAlready= managesDAO.getAllManagersByFacility(facilityId);
-        return notManagers(users, managingAlready);
+        ArrayList<User> users;
+        ArrayList<User> managingAlready;
+        try {
+            users = new ArrayList<>(searchUsersByUsername(searchUsername));
+            managingAlready= managesDAO.getAllManagersByFacility(facilityId);
+            users = notManagers(users, managingAlready);
+        }catch (SQLException e){
+            return null;
+        }
+        return users;
     }
 
     public boolean attachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {

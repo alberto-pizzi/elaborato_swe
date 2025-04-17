@@ -187,41 +187,73 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void searchManagersByUsername() throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
         users.add(createUser());
-        when(when(managesDAO.getAllManagersByFacility(anyInt())).thenReturn(users));
-        when(when(userDAO.getUsersByUsernameSearch(anyString())).thenReturn(users));
+        when(managesDAO.getAllManagersByFacility(anyInt())).thenReturn(users);
+
+        //No exception
+        when(userDAO.getUsersByUsernameSearch(anyString())).thenReturn(users);
         assertEquals(0, ownerManagementController.searchManagersByUsername(createUser().getProvince(), createFacility().getId()).size());
+
+        //With exception
+        when(userDAO.getUsersByUsernameSearch(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
+        assertNull(ownerManagementController.searchManagersByUsername(createFacility().getProvince(), createFacility().getId()));
     }
 
     @Test
     void attachManager() throws SQLException, ClassNotFoundException {
+        //No exception
         when(managesDAO.attachManager(anyInt(), anyInt())).thenReturn(1);
         assertTrue(ownerManagementController.attachManager(createUser().getId(),createFacility().getId()));
+
+        //With exception
+        when(managesDAO.attachManager(anyInt(), anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
+        assertFalse(ownerManagementController.attachManager(createUser().getId(),createFacility().getId()));
     }
 
     @Test
     void detachManager() throws SQLException, ClassNotFoundException {
+        //No exception
         doNothing().when(managesDAO).detachManager(anyInt(), anyInt());
         assertTrue(ownerManagementController.attachManager(createUser().getId(),createFacility().getId()));
+
+        //With exception
+        doThrow(new SQLException("Simulated SQL exception")).when(managesDAO).detachManager(anyInt(), anyInt());
+        assertFalse(ownerManagementController.attachManager(createUser().getId(),createFacility().getId()));
     }
 
     @Test
     void deleteField() throws SQLException {
+        //No exception
         doNothing().when(fieldDao).deleteField(anyInt());
         assertTrue(ownerManagementController.deleteField(createField().getId()));
+
+        //With exception
+        doThrow(new SQLException("Simulated SQL exception")).when(fieldDao).deleteField(anyInt());
+        assertFalse(ownerManagementController.deleteField(createField().getId()));
     }
 
     @Test
     void addField() throws SQLException {
+        //No exception
         when(fieldDao.addField(any(Field.class))).thenReturn(1);
         assertTrue(ownerManagementController.addField(createField()));
+
+        //With exception
+        when(fieldDao.addField(any(Field.class))).thenThrow(new SQLException("Simulated SQL exception"));
+        assertFalse(ownerManagementController.addField(createField()));
     }
 
     @Test
-    void addSport() throws SQLException {
+    void addSport() throws SQLException, ClassNotFoundException {
+        //No exception
         when(sportDao.addSport(anyString(), anyInt())).thenReturn(1);
-        assertTrue(ownerManagementController.addField(createField()));
+        assertTrue(ownerManagementController.addSport(createSport()));
+
+        //With exception
+        when(sportDao.addSport(anyString(), anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
+        assertFalse(ownerManagementController.addSport(createSport()));
     }
 
+    //fixme
     @Test
     void getSports() throws SQLException {
         ArrayList<Sport> sports = new ArrayList<>();
@@ -232,8 +264,13 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
     @Test
     void addFacility() throws SQLException {
+        //No exception
         when(facilityDAO.addFacility(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyInt())).thenReturn(1);
-        assertEquals(1, ownerManagementController.addFacility(createFacility()));
+        assertTrue(ownerManagementController.addFacility(createFacility()));
+
+        //With exception
+        when(facilityDAO.addFacility(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
+        assertFalse(ownerManagementController.addFacility(createFacility()));
     }
 
     @Test
@@ -247,15 +284,25 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         doNothing().when(facilityDAO).updateTelephone(anyInt(), anyString());
         doNothing().when(facilityDAO).updateImage(anyInt(), anyString());
         doNothing().when(facilityDAO).updateNFields(anyInt(), anyInt());
+
+        //No exception
         doNothing().when(facilityDAO).updateNManagers(anyInt(), anyInt());
         assertTrue(ownerManagementController.editFacility(createFacility()));
+
+        //With exception
+        doThrow(new SQLException("Simulated SQL exception")).when(facilityDAO).updateNManagers(anyInt(), anyInt());
+        assertFalse(ownerManagementController.editFacility(createFacility()));
     }
 
     @Test
     void deleteFacility() throws SQLException {
+        //No exception
         doNothing().when(facilityDAO).deleteFacility(anyInt());
         assertTrue(ownerManagementController.deleteFacility(createFacility().getId()));
 
+        //With exception
+        doThrow(new SQLException("Simulated SQL exception")).when(facilityDAO).deleteFacility(anyInt());
+        assertFalse(ownerManagementController.deleteFacility(createFacility().getId()));
     }
 
     @Test
@@ -263,36 +310,64 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         doNothing().when(fieldDao).updateName(anyInt(), anyString());
         doNothing().when(fieldDao).updateDescription(anyInt(), anyString());
         doNothing().when(fieldDao).updatePrice(anyInt(), anyInt());
+
+        //No exception
         doNothing().when(fieldDao).updateSport(anyInt(), anyInt());
         assertTrue(ownerManagementController.editField(createField()));
+
+        //With exception
+        doThrow(new SQLException("Simulated SQL exception")).when(fieldDao).updateSport(anyInt(), anyInt());
+        assertFalse(ownerManagementController.editField(createField()));
     }
 
     @Test
     void addWorkingHours() throws SQLException, ParseException {
-        when(workingHoursDAO.addWHToFacility(anyInt(), any(DayOfWeek.class), any(Time.class), any(Time.class))).thenReturn(1);
         Facility facility= createFacility();
+
+        //No exception
+        when(workingHoursDAO.addWHToFacility(anyInt(), any(DayOfWeek.class), any(Time.class), any(Time.class))).thenReturn(1);
         assertTrue(ownerManagementController.addWorkingHours(facility.getId(), "8:00:00", "22:00:00", "monday"));
+
+        //With exception
+        when(workingHoursDAO.addWHToFacility(anyInt(), any(DayOfWeek.class), any(Time.class), any(Time.class))).thenThrow(new SQLException("Simulated SQL exception"));
+        assertFalse(ownerManagementController.addWorkingHours(facility.getId(), "8:00:00", "22:00:00", "monday"));
     }
 
     @Test
     void editWorkingHours() throws SQLException {
+        //No exception
         doNothing().when(workingHoursDAO).updateWH(anyInt(), any(Time.class), any(Time.class));
         assertTrue(ownerManagementController.editWorkingHours(createWH(createFacility(), DayOfWeek.MONDAY)));
+
+        //With exception
+        doThrow(new SQLException("Simulated SQL exception")).when(workingHoursDAO).updateWH(anyInt(), any(Time.class), any(Time.class));
+        assertFalse(ownerManagementController.editWorkingHours(createWH(createFacility(), DayOfWeek.MONDAY)));
     }
 
     @Test
     void deleteWorkingHours() throws SQLException {
+        //No exception
         doNothing().when(workingHoursDAO).removeAllWHsByFacility(anyInt());
         assertTrue(ownerManagementController.deleteWorkingHours(createFacility()));
 
+        //With exception
+        doThrow(new SQLException("Simulated SQL exception")).when(workingHoursDAO).removeAllWHsByFacility(anyInt());
+        assertFalse(ownerManagementController.deleteWorkingHours(createFacility()));
     }
 
+    //fixme day
     @Test
     void deleteWorkingHoursByDay() throws SQLException {
+        //No exception
         doNothing().when(workingHoursDAO).removeWHFromFacilityByDay(anyInt(), any(DayOfWeek.class));
-        assertTrue(ownerManagementController.deleteWorkingHoursByDay(createFacility(), "monday"));
+        assertTrue(ownerManagementController.deleteWorkingHoursByDay(createFacility(), "Monday"));
+
+        //With exception
+        doThrow(new SQLException("Simulated SQL exception")).when(workingHoursDAO).removeWHFromFacilityByDay(anyInt(), any(DayOfWeek.class));
+        assertFalse(ownerManagementController.deleteWorkingHoursByDay(createFacility(), "Monday"));
     }
 
+    //fixme
     @Test
     void getWorkingHours() throws SQLException {
         ArrayList<WorkingHours> workingHours = new ArrayList<>();
