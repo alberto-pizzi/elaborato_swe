@@ -181,7 +181,7 @@ public class Group{
         }
 
 
-        groupHead = groupMembers.getFirst().getUser();
+        groupHead = groupMembers.get(0).getUser();
 
     }
 

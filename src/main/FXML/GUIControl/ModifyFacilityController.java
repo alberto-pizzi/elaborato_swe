@@ -271,7 +271,7 @@ public class ModifyFacilityController extends FacilityForm {
             Parent modifyFieldPane = loader.load();
 
             ModifyFieldController modifyFieldController = loader.getController();
-            modifyFieldController.setData(facility, clickedFields.getFirst(), this.menuPane);
+            modifyFieldController.setData(facility, clickedFields.get(0), this.menuPane);
 
             menuPane.setCenter(modifyFieldPane);}
     }

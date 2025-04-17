@@ -27,13 +27,28 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
     //methods
 
     public ArrayList<Field> getFieldsByFacility(Facility facility) throws SQLException {
-        return fieldDao.getFieldsByFacility(facility.getId(), false);
+        ArrayList<Field> fields;
+
+        try {
+            fields = fieldDao.getFieldsByFacility(facility.getId(), false);
+        }catch (SQLException e){
+            return null;
+        }
+        return fields;
     }
 
 
     public int getHeadGuests(int idReservation) throws SQLException, ClassNotFoundException {
-        Group group = groupDao.getGroupByReservation(idReservation);
-        return isPartDao.countOwnGuests(group.getId(), group.getGroupHead().getId());
+        int count;
+
+        try {
+            Group group = groupDao.getGroupByReservation(idReservation);
+            count = isPartDao.countOwnGuests(group.getId(), group.getGroupHead().getId());
+        }catch (SQLException e){
+            return -1;
+        }
+
+        return count;
     }
 
     //TODO check redundancy (with override class)
@@ -67,8 +82,6 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         }
 
         return 0;
-
-
     }
 
     public boolean changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
@@ -83,7 +96,14 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
 
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
-        return workingHoursDAO.getWHsByFacility(idFacility);
+        ArrayList<WorkingHours> workingHours;
+
+        try {
+            workingHours = workingHoursDAO.getWHsByFacility(idFacility);
+        }catch (SQLException e){
+            return null;
+        }
+        return workingHours;
     }
 
 
