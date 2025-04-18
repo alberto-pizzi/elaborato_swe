@@ -116,13 +116,4 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         }
         return true;
     }
-
-    //todo da togliere?
-    public void fieldAnnouncement(String notificationMessage, Field field) throws SQLException, ClassNotFoundException {
-        ArrayList<Reservation> reservations = new ArrayList<>(this.getReservationsByField(field.getId()));
-        for(Reservation reservation : reservations) {
-            this.reservationAnnouncement(notificationMessage, reservation);
-        }
-    }
-
 }

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -90,7 +91,7 @@ public class NewWorkingHoursController implements Initializable {
 
     private BorderPane menuPane;
 
-    void checkHours(String day, ArrayList<Node> hours, GridPane pane) throws SQLException, ParseException {
+    void checkHours(DayOfWeek day, ArrayList<Node> hours, GridPane pane) throws SQLException, ParseException {
 
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         Boolean opened = false;
@@ -125,31 +126,31 @@ public class NewWorkingHoursController implements Initializable {
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException, ParseException {
 
         if (!closedMonday.isSelected()) {
-            checkHours("MONDAY", clickedMon, monday);
+            checkHours(DayOfWeek.MONDAY, clickedMon, monday);
         }
 
         if (!closedTuesday.isSelected()) {
-            checkHours("TUESDAY", clickedTue, tuesday);
+            checkHours(DayOfWeek.TUESDAY, clickedTue, tuesday);
         }
 
         if (!closedWednesday.isSelected()) {
-            checkHours("WEDNESDAY", clickedWed, wednesday);
+            checkHours(DayOfWeek.WEDNESDAY, clickedWed, wednesday);
         }
 
         if (!closedThursday.isSelected()) {
-            checkHours("THURSDAY", clickedThu, thursday);
+            checkHours(DayOfWeek.THURSDAY, clickedThu, thursday);
         }
 
         if (!closedFriday.isSelected()) {
-            checkHours("FRIDAY", clickedFri, friday);
+            checkHours(DayOfWeek.FRIDAY, clickedFri, friday);
         }
 
         if (!closedSaturday.isSelected()) {
-            checkHours("SATURDAY", clickedSat, saturday);
+            checkHours(DayOfWeek.SATURDAY, clickedSat, saturday);
         }
 
         if (!closedSunday.isSelected()) {
-            checkHours("SUNDAY", clickedSun, sunday);
+            checkHours(DayOfWeek.SUNDAY, clickedSun, sunday);
         }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));

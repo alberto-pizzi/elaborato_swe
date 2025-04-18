@@ -286,10 +286,10 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return true;
     }
 
-    public boolean addWorkingHours(int idFacility, String openingHour, String closingHour, String day) throws SQLException, ParseException {
+    public boolean addWorkingHours(int idFacility, String openingHour, String closingHour, DayOfWeek day) throws SQLException, ParseException {
         try {
             DateFormat formatter = new SimpleDateFormat("HH:mm");
-            workingHoursDAO.addWHToFacility(idFacility, DayOfWeek.valueOf(day), new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
+            workingHoursDAO.addWHToFacility(idFacility, day, new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
         }catch (SQLException e){
             return false;
         }
@@ -314,9 +314,9 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return true;
     }
 
-    public boolean deleteWorkingHoursByDay(Facility facility, String day) throws SQLException{
+    public boolean deleteWorkingHoursByDay(Facility facility, DayOfWeek day) throws SQLException{
         try {
-            workingHoursDAO.removeWHFromFacilityByDay(facility.getId(), DayOfWeek.valueOf(day));
+            workingHoursDAO.removeWHFromFacilityByDay(facility.getId(), day);
         }catch (SQLException e){
             return false;
         }

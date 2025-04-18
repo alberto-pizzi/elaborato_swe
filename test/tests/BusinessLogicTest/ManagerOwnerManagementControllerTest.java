@@ -117,8 +117,4 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
     void reservationAnnouncement() {
 
     }
-    //todo da togliere
-    @Test
-    void fieldAnnouncement() {
-    }
 }
