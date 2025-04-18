@@ -12,14 +12,41 @@ public class NotificationController implements Observer {
 
     Reservation reservation = null;
 
+    private FacilityDAO facilityDAO;
+    private OwnerDAO ownerDAO;
+    private NotificationDAO notificationDAO;
+    private IsPartDao isPartDao;
+    private ManagesDAO managesDAO;
+    private GroupDao groupDAO;
+    private ReservationDao reservationDao;
+
+    //TODO usages to be improved...
     public NotificationController() {
         this.person = SessionController.getInstance().getPerson();
+
+        facilityDAO = new FacilityDAO();
+        ownerDAO = new OwnerDAO();
+        notificationDAO = new NotificationDAO();
+        isPartDao = new IsPartDao();
+        managesDAO = new ManagesDAO();
+        groupDAO = new GroupDao();
+        reservationDao = new ReservationDao();
     }
 
-    public NotificationController(Reservation reservation) {
-        this.person = SessionController.getInstance().getPerson();
-        this.reservation = reservation;
+    public NotificationController(Person person, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO, IsPartDao isPartDao,ManagesDAO managesDAO, GroupDao groupDAO, ReservationDao reservationDao) {
+        this.person = person;
 
+        this.facilityDAO = facilityDAO;
+        this.ownerDAO = ownerDAO;
+        this.notificationDAO = notificationDAO;
+        this.isPartDao = isPartDao;
+        this.managesDAO = managesDAO;
+        this.groupDAO = groupDAO;
+        this.reservationDao = reservationDao;
+    }
+
+    public void connectObserverToReservation(Reservation reservation) {
+        this.reservation = reservation;
         attach();
     }
 
@@ -41,13 +68,6 @@ public class NotificationController implements Observer {
     }
 
     protected void sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) throws SQLException, ClassNotFoundException {
-
-        FacilityDAO facilityDAO = new FacilityDAO();
-        OwnerDAO ownerDAO = new OwnerDAO();
-        NotificationDAO notificationDAO = new NotificationDAO();
-        IsPartDao isPartDao = new IsPartDao();
-        ManagesDAO managesDAO = new ManagesDAO();
-        GroupDao groupDAO = new GroupDao();
 
         Owner owner;
         Facility facility;
@@ -87,18 +107,17 @@ public class NotificationController implements Observer {
     }
 
     public void deleteNotifications(Notification notification) throws SQLException {
-        NotificationDAO notificationDAO = new NotificationDAO();
+
         notificationDAO.deleteNotification(notification.getRecipient(),notification.getId());
     }
 
     public ArrayList<Notification> getOwnNotifications() throws SQLException {
-        NotificationDAO notificationDAO = new NotificationDAO();
         return notificationDAO.getNotifications(person);
     }
 
     public void update() throws SQLException, ClassNotFoundException {
 
-        ReservationDao reservationDao = new ReservationDao();
+
 
         if (this.reservation.isConfirmed() && this.reservation.isMatched() && !this.reservation.isNotified()) {
             reservationDao.updateIsConfirmed(reservation.getId(), this.reservation.isConfirmed());

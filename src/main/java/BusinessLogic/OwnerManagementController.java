@@ -33,8 +33,8 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         sportDao = new SportDao();
     }
 
-    public OwnerManagementController(Owner owner, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao, FacilityDAO facilityDAO, ManagesDAO managesDAO,SportDao sportDao) {
-        super(owner,  userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao,fieldDao);
+    public OwnerManagementController(Owner owner, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao, FacilityDAO facilityDAO, ManagesDAO managesDAO, SportDao sportDao, OwnerDAO ownerDAO, NotificationDAO notificationDAO) {
+        super(owner,  userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao,fieldDao,facilityDAO,ownerDAO,notificationDAO,managesDAO);
         this.facilityDAO = facilityDAO;
         this.managesDAO = managesDAO;
         this.sportDao = sportDao;

@@ -1,7 +1,5 @@
 package tests.BusinessLogicTest;
 
-import main.java.BusinessLogic.AccessController;
-import main.java.BusinessLogic.OwnerAccess;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
@@ -15,7 +13,6 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,6 +35,8 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     private GroupDao groupDao;
     private IsPartDao isPartDao;
     private InviteDao inviteDao;
+    private OwnerDAO ownerDAO;
+    private NotificationDAO notificationDAO;
 
     @Override
     @BeforeEach
@@ -53,7 +52,9 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         groupDao = mock(GroupDao.class);
         isPartDao = mock(IsPartDao.class);
         inviteDao = mock(InviteDao.class);
-        ownerManagementController = new OwnerManagementController(owner, userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao, fieldDao, facilityDAO, managesDAO, sportDao);
+        ownerDAO = mock(OwnerDAO.class);
+        notificationDAO = mock(NotificationDAO.class);
+        ownerManagementController = new OwnerManagementController(owner, userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao, fieldDao, facilityDAO, managesDAO, sportDao,ownerDAO,notificationDAO);
     }
 
     @Override
