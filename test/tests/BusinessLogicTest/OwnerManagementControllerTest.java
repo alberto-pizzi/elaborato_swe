@@ -355,7 +355,6 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         assertFalse(ownerManagementController.deleteWorkingHours(createFacility()));
     }
 
-    //fixme day
     @Test
     void deleteWorkingHoursByDay() throws SQLException {
         //No exception
