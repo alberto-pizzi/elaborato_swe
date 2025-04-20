@@ -73,8 +73,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
                     else{
                         notificationController.sendConfirmNotification(reservation);
                     }
-                }
-                else
+                }else
                     return 0;
 
                 System.out.println("Reservation has been added into DB");
