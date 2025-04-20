@@ -9,6 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
+import scala.util.Using;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -89,13 +90,27 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
         assertEquals(-1, managerOwnerManagementController.getHeadGuests(createReservation(false).getId()));
     }
 
-    //fixme più dao dentro e business logic
     @Test
     void addReservation() throws SQLException, ClassNotFoundException {
-        /*when(reservationDao.addReservation(createReservation(false))).thenReturn(1);
         Reservation reservation = createReservation(false);
-        assertEquals(1, managerOwnerManagementController.addReservation(reservation.getEventDate(), reservation.getEventTimeStart(), reservation.getEventTimeEnd(), reservation.getField(), 1, 2, false, createUser()));
-    */
+        when(reservationDao.addReservation(reservation)).thenReturn(1);
+        when(groupDao.addGroup(createGroup(false, 3))).thenReturn(1);
+        when(inviteDao.checkInvite(anyInt(), anyInt())).thenReturn(true);
+        when(inviteDao.addInvite(createInvite())).thenReturn(1);
+        when(notificationDAO.addNotification(any(Notification.class))).thenReturn(1);
+        when(groupDao.getGroupByReservation(anyInt())).thenReturn(createGroup(false, 3));
+        when(isPartDao.getGroupMembers(anyInt())).thenReturn(new ArrayList<>());
+        when(managesDAO.getAllManagersByFacility(anyInt())).thenReturn(new ArrayList<User>());
+        when(ownerDAO.getOwnerByID(anyInt())).thenReturn(createOwner());
+
+        //No exception
+        when(facilityDAO.getFacility(createFacility().getId(), false)).thenReturn(createFacility());
+        assertEquals(0, managerOwnerManagementController.addReservation(reservation.getEventDate(), reservation.getEventTimeStart(), reservation.getEventTimeEnd(), reservation.getField(), 1, 2, false, createUser()));
+
+        //No exception
+        when(facilityDAO.getFacility(createFacility().getId(), false)).thenThrow(new SQLException("Simulated SQL exception"));
+        assertEquals(-1, managerOwnerManagementController.addReservation(reservation.getEventDate(), reservation.getEventTimeStart(), reservation.getEventTimeEnd(), reservation.getField(), 1, 2, false, createUser()));
+
     }
 
     @Test
@@ -124,36 +139,25 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
         assertNull(managerOwnerManagementController.getWHsByFacilityByDay(createFacility().getId(), DayOfWeek.MONDAY));
     }
 
-    //todo chiama altra business logic
     @Test
-    void reservationAnnouncement() throws SQLException {
+    void reservationAnnouncement() throws SQLException, ClassNotFoundException {
 
-
-
-        /*
         Reservation reservation = createReservation(false);
 
         String notificationMessage = "Try";
 
-        try (MockedConstruction<NotificationController> mocked =
-                     mockConstruction(NotificationController.class, (mock, context) -> {
-                         when(mock).thenReturn(new NotificationController(user,facilityDAO,ownerDAO,notificationDAO,isPartDao,managesDAO,groupDao,reservationDao));
+        when(notificationDAO.addNotification(any(Notification.class))).thenReturn(1);
+        when(groupDao.getGroupByReservation(anyInt())).thenReturn(createGroup(false, 3));
+        when(isPartDao.getGroupMembers(anyInt())).thenReturn(new ArrayList<>());
+        when(managesDAO.getAllManagersByFacility(anyInt())).thenReturn(new ArrayList<User>());
+        when(ownerDAO.getOwnerByID(anyInt())).thenReturn(createOwner());
 
-                     })) {
+        //No exception
+        when(facilityDAO.getFacility(createFacility().getId(), false)).thenReturn(createFacility());
+        assertTrue(managerOwnerManagementController.reservationAnnouncement(notificationMessage, reservation));
 
-
-            NotificationController createdMock = mocked.constructed().get(0);
-            doNothing().when(createdMock).sendAnnouncement(reservation,notificationMessage);
-
-            boolean outputReturned = managerOwnerManagementController.reservationAnnouncement(notificationMessage,reservation);
-            assertTrue(outputReturned);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-         */
-
-        //TODO write test (comments should be removed)
-
+        //With exception
+        when(facilityDAO.getFacility(createFacility().getId(), false)).thenThrow(new SQLException("Simulated SQL exception"));
+        assertFalse(managerOwnerManagementController.reservationAnnouncement(notificationMessage, reservation));
     }
 }

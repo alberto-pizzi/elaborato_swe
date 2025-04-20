@@ -56,29 +56,32 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
     public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException {
         Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field, isMatched);
 
-        if (checkReservationData(reservation)) {
-            int newReservationId = reservationDao.addReservation(reservation);
-            reservation.setId(newReservationId); //WARNING: it's very important
+        try {
+            if (checkReservationData(reservation)) {
+                int newReservationId = reservationDao.addReservation(reservation);
+                reservation.setId(newReservationId); //WARNING: it's very important
 
-            //group creation
-            Group group = new Group(groupHead, reservation, requiredParticipants);
-            if (checkGroupData(group)) {
-                int newGroupId = groupDao.addGroup(group);
-                group.setId(newGroupId); //WARNING: it's very important
+                //group creation
+                Group group = new Group(groupHead, reservation, requiredParticipants);
+                if (checkGroupData(group)) {
+                    int newGroupId = groupDao.addGroup(group);
+                    group.setId(newGroupId); //WARNING: it's very important
 
-                if (isMatched) {
-                    sendInvites(group, findOtherPlayers(field.getFacility().getProvince()));
+                    if (isMatched) {
+                        sendInvites(group, findOtherPlayers(field.getFacility().getProvince()));
+                    }
+                    else{
+                        notificationController.sendConfirmNotification(reservation);
+                    }
                 }
-                else{
-                    NotificationController notificationController = new NotificationController();
-                    notificationController.sendConfirmNotification(reservation);
-                }
+                else
+                    return 0;
+
+                System.out.println("Reservation has been added into DB");
+                return newReservationId;
             }
-            else
-                return 0;
-
-            System.out.println("Reservation has been added into DB");
-            return newReservationId;
+        }catch (SQLException e){
+            return -1;
         }
 
         return 0;
@@ -109,7 +112,6 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
     public boolean reservationAnnouncement(String notificationMessage, Reservation reservation) throws SQLException, ClassNotFoundException {
         try {
-            NotificationController notificationController = new NotificationController();
             notificationController.sendAnnouncement(reservation,notificationMessage);
         }catch (SQLException e){
             return false;

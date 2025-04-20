@@ -9,6 +9,7 @@ module elaboratoSWEWindowsTest {
 
     requires java.base;
     requires org.mockito;
+    requires scala.library;
 
     opens tests.ORMTest;
     opens tests.DomainModelTest;

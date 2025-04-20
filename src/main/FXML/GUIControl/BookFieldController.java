@@ -166,7 +166,7 @@ public class BookFieldController extends FieldFormManagementController implement
         int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), null);
 
 
-        if (reservationIdAdded != 0) {
+        if (reservationIdAdded != 0 && reservationIdAdded != -1) {
 
             if (selectGuestsPaneController != null) {
 

@@ -39,7 +39,7 @@ public class BookFieldManagerController extends BookFieldController {
 
                 int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), selectGuestsPaneController.getGroupMembersAdded().get(0).getUser());
 
-                if (reservationIdAdded != 0) {
+                if (reservationIdAdded != 0 && reservationIdAdded != -1) {
                     selectGuestsPaneController.setGroup(personController.getGroupByReservation(reservationIdAdded));  //WARNING: it's important to be able to apply changes
                     selectGuestsPaneController.applyChanges();
 
