@@ -31,10 +31,11 @@ public class UserActionsController extends PersonController<User>{
         managesDAO = new ManagesDAO();
     }
 
-    public UserActionsController(User user,  UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao,ManagesDAO managesDAO){
-        super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao);
+    public UserActionsController(User user, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao, ManagesDAO managesDAO, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO){
+        super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,facilityDAO,ownerDAO,notificationDAO,managesDAO);
         
         this.managesDAO = managesDAO;
+
     }
 
     //methods
@@ -216,7 +217,7 @@ public class UserActionsController extends PersonController<User>{
         Group group = groupDao.getGroup(idGroup);
 
         //observer attach
-        NotificationController notificationController = new NotificationController(group.getReservation());
+        notificationController.connectObserverToReservation(group.getReservation());
 
         //this method adds a member from DomainModel
         boolean memberAdded = group.addMember(person,guestUsers);

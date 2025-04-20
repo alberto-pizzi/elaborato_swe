@@ -22,6 +22,8 @@ public abstract class PersonController<T extends Person> {
     protected InviteDao inviteDao;
     protected FieldDao fieldDao;
 
+    protected NotificationController notificationController;
+
 
     public PersonController(T person) {
         this.person = person;
@@ -33,9 +35,11 @@ public abstract class PersonController<T extends Person> {
         this.reservationDao = new ReservationDao();
         this.inviteDao = new InviteDao();
         this.fieldDao = new FieldDao();
+
+        notificationController = new NotificationController();
     }
 
-    public PersonController(T person, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao) {
+    public PersonController(T person, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO, ManagesDAO managesDAO) {
         this.person = person;
 
         this.userDAO = userDAO;
@@ -45,6 +49,10 @@ public abstract class PersonController<T extends Person> {
         this.reservationDao = reservationDao;
         this.inviteDao = inviteDao;
         this.fieldDao = fieldDao;
+
+        //TODO to be checked!!!
+        notificationController = new NotificationController(person,facilityDAO,ownerDAO,notificationDAO,isPartDao,managesDAO,groupDao,reservationDao);
+
     }
 
     public T getPerson() {

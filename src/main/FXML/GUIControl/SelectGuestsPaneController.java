@@ -238,7 +238,11 @@ public class SelectGuestsPaneController implements Initializable {
         //change own guests
         if (group != null) {
             int newGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
-            NotificationController notificationController = new NotificationController(group.getReservation());
+
+            //FIXME check
+            NotificationController notificationController = new NotificationController();
+            notificationController.connectObserverToReservation(group.getReservation());
+
             group.changeUserGuests(personController.getPerson().getUsername(),newGuests);
             personController.changeUserGuests(group.getReservation().getId(),personController.getPerson().getId(),newGuests);
         }

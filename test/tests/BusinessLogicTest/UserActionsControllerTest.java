@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UserActionsControllerTest extends GeneralBSTest {
@@ -27,6 +26,9 @@ public class UserActionsControllerTest extends GeneralBSTest {
     private InviteDao inviteDaoMock = null;
     private FieldDao fieldDaoMock = null;
     private ManagesDAO managesDAOMock = null;
+    private FacilityDAO facilityDAOMock = null;
+    private OwnerDAO ownerDAOMock = null;
+    private NotificationDAO notificationDAOMock = null;
 
     @Override
     @BeforeEach
@@ -43,7 +45,11 @@ public class UserActionsControllerTest extends GeneralBSTest {
         fieldDaoMock = mock(FieldDao.class);
         managesDAOMock = mock(ManagesDAO.class);
 
-        userActionsController = new UserActionsController(user,userDAOMock,groupDaoMock,isPartDaoMock,workingHoursDAOMock,reservationDaoMock,inviteDaoMock,fieldDaoMock,managesDAOMock);
+        facilityDAOMock = mock(FacilityDAO.class);
+        ownerDAOMock = mock(OwnerDAO.class);
+        notificationDAOMock = mock(NotificationDAO.class);
+
+        userActionsController = new UserActionsController(user,userDAOMock,groupDaoMock,isPartDaoMock,workingHoursDAOMock,reservationDaoMock,inviteDaoMock,fieldDaoMock,managesDAOMock,facilityDAOMock,ownerDAOMock,notificationDAOMock);
     }
 
     @Override
@@ -78,6 +84,8 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
 
          */
+
+
 
 
     }

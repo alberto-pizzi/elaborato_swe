@@ -1,12 +1,14 @@
 package tests.BusinessLogicTest;
 
 import main.java.BusinessLogic.ManagerOwnerManagementController;
+import main.java.BusinessLogic.NotificationController;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedConstruction;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -28,6 +30,10 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
     private GroupDao groupDao;
     private IsPartDao isPartDao;
     private InviteDao inviteDao;
+    private ManagesDAO managesDAO;
+    private FacilityDAO facilityDAO;
+    private OwnerDAO ownerDAO;
+    private NotificationDAO notificationDAO;
 
     @Override
     @BeforeEach
@@ -40,7 +46,13 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
         groupDao = mock(GroupDao.class);
         isPartDao = mock(IsPartDao.class);
         inviteDao = mock(InviteDao.class);
-        managerOwnerManagementController = new ManagerOwnerManagementController(user, userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao, fieldDao);
+
+        managesDAO = mock(ManagesDAO.class);
+        facilityDAO = mock(FacilityDAO.class);
+        ownerDAO = mock(OwnerDAO.class);
+        notificationDAO = mock(NotificationDAO.class);
+
+        managerOwnerManagementController = new ManagerOwnerManagementController(user, userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao, fieldDao,facilityDAO,ownerDAO,notificationDAO,managesDAO);
     }
 
     @Override
@@ -114,7 +126,34 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
 
     //todo chiama altra business logic
     @Test
-    void reservationAnnouncement() {
+    void reservationAnnouncement() throws SQLException {
+
+
+
+        /*
+        Reservation reservation = createReservation(false);
+
+        String notificationMessage = "Try";
+
+        try (MockedConstruction<NotificationController> mocked =
+                     mockConstruction(NotificationController.class, (mock, context) -> {
+                         when(mock).thenReturn(new NotificationController(user,facilityDAO,ownerDAO,notificationDAO,isPartDao,managesDAO,groupDao,reservationDao));
+
+                     })) {
+
+
+            NotificationController createdMock = mocked.constructed().get(0);
+            doNothing().when(createdMock).sendAnnouncement(reservation,notificationMessage);
+
+            boolean outputReturned = managerOwnerManagementController.reservationAnnouncement(notificationMessage,reservation);
+            assertTrue(outputReturned);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+         */
+
+        //TODO write test (comments should be removed)
 
     }
 }
