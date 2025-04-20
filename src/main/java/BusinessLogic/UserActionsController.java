@@ -49,10 +49,12 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
+    //TODO to be deleted
     public void attachMember(int idFacility) throws SQLException {
         managesDAO.attachManager(person.getId(), idFacility);
     }
 
+    //TODO to be deleted
     public void detachMember(int idFacility) throws SQLException {
         managesDAO.detachManager(person.getId(), idFacility);
     }

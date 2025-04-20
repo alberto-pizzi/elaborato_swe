@@ -11,6 +11,8 @@ import java.sql.SQLException;
 
 import static org.mockito.Mockito.*;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class UserActionsControllerTest extends GeneralBSTest {
 
@@ -74,19 +76,43 @@ public class UserActionsControllerTest extends GeneralBSTest {
     @Test
     public void joinGroupTest() throws SQLException, ClassNotFoundException {
 
-        /*
-        Group group = createGroup(true, 5);
+        int guests = 2;
+        int requiredParticipants = 5;
+        Group group = createGroup(true, requiredParticipants);
 
-        //TODO implement
         when(groupDaoMock.getGroup(anyInt())).thenReturn(group);
+        when(isPartDaoMock.addMembership(anyInt(), eq(user.getId()), eq(guests))).thenReturn(1);
 
-        //FIXME into joinGroup there's NotificationController's constructor. It is incorrect for mockito.
+        assertTrue(userActionsController.joinGroup(group.getId(),guests));
+        assertFalse(userActionsController.joinGroup(group.getId(),requiredParticipants+2));
+
+    }
+
+    @Test
+    public void acceptInviteTest() throws SQLException{
+
+    }
+
+    @Test
+    public void addReservationTest() throws SQLException{
+
+    }
+
+    //person controller tests:
 
 
-         */
+    @Test
+    public void checkGroupDataTest() throws SQLException{
 
+    }
 
+    @Test
+    public void sendInviteTest() throws SQLException{
 
+    }
+
+    @Test
+    public void sendInvitesTest() throws SQLException{
 
     }
 }
