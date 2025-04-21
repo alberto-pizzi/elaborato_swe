@@ -144,7 +144,9 @@ public class SportDao {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
-            count = resultSet.getInt("players_required");
+            if (resultSet.next()) {
+                count = resultSet.getInt("players_required");
+            }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {

@@ -87,7 +87,7 @@ class IsPartDaoTest extends GeneralDAOTest{
     void countGroupGuests() throws SQLException {
         Assumptions.assumeFalse(shouldSkip);
 
-        assertEquals(group.getGuestUsers(), isPartDao.countGroupGuests(group.getId()));
+        assertEquals(1, isPartDao.countGroupGuests(group.getId()));
     }
 
     @Test
@@ -101,7 +101,7 @@ class IsPartDaoTest extends GeneralDAOTest{
     void countGroupMembers() throws SQLException {
         Assumptions.assumeFalse(shouldSkip);
 
-        assertEquals(group.getGroupMembers().size(), isPartDao.countGroupMembers(group.getId()));
+        assertEquals(1, isPartDao.countGroupMembers(group.getId()));
     }
 
     @Test

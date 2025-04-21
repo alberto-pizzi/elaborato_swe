@@ -81,11 +81,14 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         assertEquals(-1, ownerManagementController.monthlyEarnings());
     }
 
-    //fixme
     @Test
     void dailyEarnings() throws SQLException {
+        ArrayList <Integer> earnings = new ArrayList<>();
+        for(int i=0 ;i<7 ; i++)
+            earnings.add(1);
+
         when(reservationDao.dailyEarning(any(), any())).thenReturn(1);
-        assertEquals(7, ownerManagementController.dailyEarnings());
+        assertEquals(earnings, ownerManagementController.dailyEarnings());
     }
 
     @Test
@@ -214,11 +217,11 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void detachManager() throws SQLException, ClassNotFoundException {
         //No exception
         doNothing().when(managesDAO).detachManager(anyInt(), anyInt());
-        assertTrue(ownerManagementController.attachManager(createUser().getId(),createFacility().getId()));
+        assertTrue(ownerManagementController.detachManager(createUser().getId(),createFacility().getId()));
 
         //With exception
         doThrow(new SQLException("Simulated SQL exception")).when(managesDAO).detachManager(anyInt(), anyInt());
-        assertFalse(ownerManagementController.attachManager(createUser().getId(),createFacility().getId()));
+        assertFalse(ownerManagementController.detachManager(createUser().getId(),createFacility().getId()));
     }
 
     @Test
@@ -254,7 +257,6 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         assertFalse(ownerManagementController.addSport(createSport()));
     }
 
-    //fixme
     @Test
     void getSports() throws SQLException {
         ArrayList<Sport> sports = new ArrayList<>();
@@ -367,12 +369,17 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         assertFalse(ownerManagementController.deleteWorkingHoursByDay(createFacility(), DayOfWeek.MONDAY));
     }
 
-    //fixme
     @Test
     void getWorkingHours() throws SQLException {
         ArrayList<WorkingHours> workingHours = new ArrayList<>();
         workingHours.add(createWH(createFacility(), DayOfWeek.MONDAY));
+
+        //No exception
         when(workingHoursDAO.getWHsByFacility(anyInt())).thenReturn(workingHours);
-        assertEquals(1, ownerManagementController.getWorkingHours(createFacility().getId()).size());
+        assertEquals(workingHours, ownerManagementController.getWorkingHours(createFacility().getId()));
+
+        //With exception
+        when(workingHoursDAO.getWHsByFacility(anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
+        assertNull(ownerManagementController.getWorkingHours(createFacility().getId()));
     }
 }

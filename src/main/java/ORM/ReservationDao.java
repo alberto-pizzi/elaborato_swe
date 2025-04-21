@@ -312,6 +312,7 @@ public class ReservationDao {
     }
 
     //todo aggiungere a uml. Check if deleted reservation are useless or useful. Now is set to FALSE
+    //fixme non moltiplica per durata prenotazione
     public int dailyEarning(Date date, Owner owner) throws SQLException {
 
         int earning = 0;

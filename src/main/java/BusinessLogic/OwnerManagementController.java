@@ -134,7 +134,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     public ArrayList<User> getUsersByProvince(int facilityId) throws SQLException, ClassNotFoundException {
         ArrayList<User> users;
         try {
-            users = new ArrayList<>(userDAO.getUsersByProvince(person.getProvince()));
+            users = userDAO.getUsersByProvince(person.getProvince());
             users = notManagers(users, managesDAO.getAllManagersByFacility(facilityId));
         }catch (SQLException e){
             return null;
@@ -146,7 +146,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         ArrayList<User> users;
         ArrayList<User> managingAlready;
         try {
-            users = new ArrayList<>(searchUsersByProvince(provinceUser));
+            users = searchUsersByProvince(provinceUser);
             managingAlready= managesDAO.getAllManagersByFacility(facilityId);
             users = notManagers(users, managingAlready);
         }catch (SQLException e){
@@ -177,7 +177,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         ArrayList<User> users;
         ArrayList<User> managingAlready;
         try {
-            users = new ArrayList<>(searchUsersByUsername(searchUsername));
+            users = searchUsersByUsername(searchUsername);
             managingAlready= managesDAO.getAllManagersByFacility(facilityId);
             users = notManagers(users, managingAlready);
         }catch (SQLException e){
@@ -324,7 +324,13 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     }
 
     public ArrayList<WorkingHours> getWorkingHours(int idFacility) throws SQLException {
-        return workingHoursDAO.getWHsByFacility(idFacility);
+        ArrayList<WorkingHours> workingHours;
+        try {
+            workingHours = workingHoursDAO.getWHsByFacility(idFacility);
+        }catch (SQLException e){
+            return null;
+        }
+        return workingHours;
     }
 
 
