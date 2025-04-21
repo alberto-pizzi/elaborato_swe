@@ -4,7 +4,9 @@ import main.java.DomainModel.Owner;
 import main.java.DomainModel.Reservation;
 
 import java.sql.*;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
+import static java.time.temporal.ChronoUnit.HOURS;
 
 public class ReservationDao {
 
@@ -310,9 +312,8 @@ public class ReservationDao {
             }
         }
     }
-
-    //todo aggiungere a uml. Check if deleted reservation are useless or useful. Now is set to FALSE
-    //fixme non moltiplica per durata prenotazione
+/*
+    //todo controllare se va bene quello nuovo
     public int dailyEarning(Date date, Owner owner) throws SQLException {
 
         int earning = 0;
@@ -332,6 +333,38 @@ public class ReservationDao {
         } finally {
             if (preparedStatement != null) { preparedStatement.close(); }
             if (resultSet != null) { resultSet.close(); }
+        }
+
+        return earning;
+    }
+*/
+    //todo Check if deleted reservation are useless or useful. Now is set to FALSE
+    public int dailyEarning(Date date, Owner owner) throws SQLException {
+
+        int earning = 0;
+
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        String querySQL = String.format("SELECT \"Reservation\".id FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".is_deleted = FALSE AND \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d'", date, owner.getId());
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                reservations.add(this.getReservation(resultSet.getInt("id"), false));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        for(Reservation reservation : reservations) {
+            earning += (int) (reservation.getField().getPrice()*(HOURS.between(reservation.getEventTimeStart().toLocalTime(), reservation.getEventTimeEnd().toLocalTime())));
         }
 
         return earning;
