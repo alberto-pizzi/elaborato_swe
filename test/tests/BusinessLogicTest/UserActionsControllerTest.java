@@ -96,6 +96,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
     @Test
     public void addReservationTest() throws SQLException{
 
+
     }
 
     //person controller tests:
@@ -104,10 +105,64 @@ public class UserActionsControllerTest extends GeneralBSTest {
     @Test
     public void checkGroupDataTest() throws SQLException{
 
+        Group group = null;
+        assertFalse(userActionsController.checkGroupData(group));
+
+        group = createGroup(true, 5);
+
+        assertTrue(userActionsController.checkGroupData(group));
+
+        int oldParticipants = group.getParticipants();
+        group.setParticipants(6);
+        assertFalse(userActionsController.checkGroupData(group));
+        group.setParticipants(oldParticipants);
+
+        assertTrue(userActionsController.checkGroupData(group));
+
+        group.setGroupHead(null);
+        assertFalse(userActionsController.checkGroupData(group));
+
+        group = createGroup(false, 5);
+        //group.setParticipants(6);
+        assertTrue(userActionsController.checkGroupData(group));
+
+
     }
 
     @Test
-    public void sendInviteTest() throws SQLException{
+    public void checkReservationDataTest() throws SQLException{
+
+        Reservation reservation = null;
+        assertFalse(userActionsController.checkReservationData(reservation));
+
+        reservation = createReservation(true);
+        assertTrue(userActionsController.checkReservationData(reservation));
+
+        reservation.setField(null);
+        assertFalse(userActionsController.checkReservationData(reservation));
+
+        //TODO other additions needed?
+
+
+
+    }
+
+    @Test
+    public void sendInviteTest() throws SQLException, ClassNotFoundException {
+
+        /*
+        Group group = createGroup(true, 10);
+        User user = createSecondUser();
+
+        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        when(userDAOMock.getUserByID(anyInt())).thenReturn(user);
+        when(inviteDaoMock.addInvite(any())).thenReturn(1);
+
+
+         */
+
+        //TODO test to be finished
+
 
     }
 

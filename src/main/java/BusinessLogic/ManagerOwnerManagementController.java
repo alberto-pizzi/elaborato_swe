@@ -70,7 +70,6 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
                     sendInvites(group, findOtherPlayers(field.getFacility().getProvince()));
                 }
                 else{
-                    NotificationController notificationController = new NotificationController();
                     notificationController.sendConfirmNotification(reservation);
                 }
             }
@@ -109,7 +108,6 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
     public boolean reservationAnnouncement(String notificationMessage, Reservation reservation) throws SQLException, ClassNotFoundException {
         try {
-            NotificationController notificationController = new NotificationController();
             notificationController.sendAnnouncement(reservation,notificationMessage);
         }catch (SQLException e){
             return false;
