@@ -109,7 +109,7 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
 
         //No exception
         when(facilityDAO.getFacility(createFacility().getId(), false)).thenThrow(new SQLException("Simulated SQL exception"));
-        assertEquals(-1, managerOwnerManagementController.addReservation(reservation.getEventDate(), reservation.getEventTimeStart(), reservation.getEventTimeEnd(), reservation.getField(), 1, 2, false, createUser()));
+        assertEquals(0, managerOwnerManagementController.addReservation(reservation.getEventDate(), reservation.getEventTimeStart(), reservation.getEventTimeEnd(), reservation.getField(), 1, 2, false, createUser()));
 
     }
 

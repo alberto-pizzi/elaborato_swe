@@ -79,9 +79,8 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
                 System.out.println("Reservation has been added into DB");
                 return newReservationId;
             }
-            //todo controllare -1
         }catch (SQLException e){
-            return -1;
+            return 0;
         }
 
         return 0;
