@@ -2,22 +2,11 @@ package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import main.java.BusinessLogic.AccessController;
-import main.java.BusinessLogic.PersonController;
-import main.java.DomainModel.Person;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 public abstract class SignUpController extends AccessControllerGui {
 
@@ -43,8 +32,7 @@ public abstract class SignUpController extends AccessControllerGui {
 
     protected abstract void goToLogin() throws IOException;
 
-    //fixme da errore fxml perché bottone ha lo stesso nome
-    protected void signUp() throws SQLException, ClassNotFoundException {
+    protected void signUpHelper() throws SQLException, ClassNotFoundException {
         if(password.getText().equals(passwordConfirmed.getText())) {
 
             if(!access.checkEmail(email.getText())){
