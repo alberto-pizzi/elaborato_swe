@@ -24,7 +24,6 @@ public class FieldDetailOwnerController extends FieldDetail{
 
     //methods
 
-    //todo da fare
     @Override
     @FXML
     public void handleGoToBookButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
