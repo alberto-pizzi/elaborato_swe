@@ -150,10 +150,16 @@ public abstract class PersonController<T extends Person> {
         return userDAO.getUsersByProvince(userProvince);
     }
 
-    public void changeUserGuests(int idReservation,int userId, int guestNewNumber) throws SQLException, ClassNotFoundException {
-        
-        Group group = groupDao.getGroupByReservation(idReservation);
-        isPartDao.updateGuestsUsers(group.getId(),userId,guestNewNumber);
+    public boolean changeUserGuests(int idReservation, int userId, int guestNewNumber) throws SQLException, ClassNotFoundException {
+
+        try {
+            Group group = groupDao.getGroupByReservation(idReservation);
+            isPartDao.updateGuestsUsers(group.getId(), userId, guestNewNumber);
+        } catch (SQLException | ClassNotFoundException e) {
+            return false;
+        }
+
+        return true;
     }
 
     public boolean checkReservationData(Reservation reservation){
@@ -210,27 +216,37 @@ public abstract class PersonController<T extends Person> {
         return groupDao.getGroupByReservation(idReservation).getParticipants();
     }
 
-    public void sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
+    //TODO add alerts to manage callers
+    public boolean sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
         
-        Group group = groupDao.getGroupByReservation(reservation.getId());
+        Group group = null;
 
-        InviteSender inviteSender = new InviteSender(group);
-        
-        User user = userDAO.getUserByID(idUser);
-        if(inviteDao.checkInvite(idUser,group.getId())){
-            System.out.println("Invite already exists");
-        }else if (user != null){
-            Invite invite;
+        try {
+            group = groupDao.getGroupByReservation(reservation.getId());
 
-            invite = inviteSender.factoryMethod();
-            invite.setUser(user);
-            inviteDao.addInvite(invite);
+            InviteSender inviteSender = new InviteSender(group);
 
-            System.out.println("Invite has been sent");
+            User user = userDAO.getUserByID(idUser);
+            if (inviteDao.checkInvite(idUser, group.getId())) {
+                //TODO is any return needed?
+                System.out.println("Invite already exists");
+            } else if (user != null) {
+                Invite invite;
+
+                invite = inviteSender.factoryMethod();
+                invite.setUser(user);
+                inviteDao.addInvite(invite);
+
+                System.out.println("Invite has been sent");
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            return false;
         }
 
+        return true;
     }
 
+    //TODO how we manage sendInvites as boolean output?
     public void sendInvites(Group group, ArrayList<User> receivers) throws SQLException, ClassNotFoundException {
 
         InviteSender inviteSender = new InviteSender(group);
@@ -254,11 +270,15 @@ public abstract class PersonController<T extends Person> {
 
     }
 
-
-    public void removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
-        
-
-        isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
+    //TODO add alerts to manage callers
+    public boolean removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
+        try {
+            isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
+        }
+        catch (SQLException | ClassNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 
     public boolean isGroupMember(int idReservation, String usernameMember) throws SQLException, ClassNotFoundException {
@@ -276,9 +296,15 @@ public abstract class PersonController<T extends Person> {
         return false;
     }
 
-    public void addGroupMember(int idReservation, int idMember, int ownGuests) throws SQLException, ClassNotFoundException {
-        
-        isPartDao.addMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember, ownGuests);
+    public boolean addGroupMember(int idReservation, int idMember, int ownGuests) throws SQLException, ClassNotFoundException {
+
+        try {
+            isPartDao.addMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember, ownGuests);
+        } catch (SQLException e) {
+            return false;
+        }
+
+        return true;
     }
 
     public int getMaxGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {

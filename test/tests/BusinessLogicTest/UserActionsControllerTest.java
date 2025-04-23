@@ -90,11 +90,13 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
     @Test
     public void acceptInviteTest() throws SQLException{
+        //TODO implement
 
     }
 
     @Test
     public void addReservationTest() throws SQLException{
+        //TODO implement
 
 
     }
@@ -168,6 +170,6 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
     @Test
     public void sendInvitesTest() throws SQLException{
-
+        //TODO implement
     }
 }

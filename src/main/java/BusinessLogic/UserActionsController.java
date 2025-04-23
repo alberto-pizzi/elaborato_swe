@@ -49,15 +49,6 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    //TODO to be deleted
-    public void attachMember(int idFacility) throws SQLException {
-        managesDAO.attachManager(person.getId(), idFacility);
-    }
-
-    //TODO to be deleted
-    public void detachMember(int idFacility) throws SQLException {
-        managesDAO.detachManager(person.getId(), idFacility);
-    }
 
     @Override
     public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException {
@@ -119,12 +110,16 @@ public class UserActionsController extends PersonController<User>{
         return pass;
     }
 
+    //TODO add alerts to manage callers
+    public boolean declineInvite(int idInvite) throws SQLException {
 
-    public void declineInvite(int idInvite) throws SQLException {
-        
+        try {
+            inviteDao.deleteInvite(idInvite);
+        } catch (SQLException e) {
+            return false;
+        }
 
-        inviteDao.deleteInvite(idInvite);
-
+        return true;
     }
 
     public boolean acceptInvite(Invite invite) throws SQLException, ClassNotFoundException {
@@ -238,27 +233,44 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    public void leaveGroup(int idGroup) throws SQLException, ClassNotFoundException {
+    //TODO add alerts to manage callers
+    public boolean leaveGroup(int idGroup) throws SQLException, ClassNotFoundException {
 
-        
-        
-        Group group = groupDao.getGroup(idGroup);
-        int ownGuests = isPartDao.countOwnGuests(idGroup, person.getId());
+        Group group = null;
+        int ownGuests = 0;
+
+        try {
+            group = groupDao.getGroup(idGroup);
+            ownGuests = isPartDao.countOwnGuests(idGroup, person.getId());
+        }
+        catch (SQLException | ClassNotFoundException e) {
+            return false;
+        }
 
         //this method removes a member from DomainModel
         boolean memberRemoved = group.removeMember(person,ownGuests);
 
         if (memberRemoved){
-            isPartDao.removeMembership(idGroup, person.getId());
+            //TODO test this try-catch (maybe it is ok)
+            try {
+                isPartDao.removeMembership(idGroup, person.getId());
 
-            if (group.getParticipants() <= 0)
-                groupDao.deleteGroup(idGroup);
-            else
-                groupDao.updateGroupHead(idGroup,group.getGroupHead().getId());
+                if (group.getParticipants() <= 0)
+                    groupDao.deleteGroup(idGroup);
+                else
+                    groupDao.updateGroupHead(idGroup, group.getGroupHead().getId());
+
+            }
+            catch (SQLException e) {
+                return false;
+            }
         }
-        else
+        else {
             System.out.println("Error during removing");
+            return false;
+        }
 
+        return true;
     }
 
 
