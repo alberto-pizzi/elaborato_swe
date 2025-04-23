@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.OwnerAccess;
-import main.java.DomainModel.Owner;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,7 +29,7 @@ public class SignUpControllerOwner extends SignUpController implements Initializ
     public void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException {
 
         if(!(password.getText().isEmpty() || username.getText().isEmpty() || email.getText().isEmpty())) {
-            signUp();
+            signUpHelper();
         }else{
             String message = "Fields missing";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);

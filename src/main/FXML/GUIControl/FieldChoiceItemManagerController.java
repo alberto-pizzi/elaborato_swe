@@ -27,7 +27,6 @@ public class FieldChoiceItemManagerController extends FieldChoiceItem{
     }
 
     @Override
-    //todo da fare
     @FXML
     public void handleReservationFieldButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingFormManager.fxml"));

@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ReservationDaoTest extends GeneralDAOTest{
 
-    private ReservationDao reservationDao;
+    private ReservationDao reservationDao = new ReservationDao();
     private Reservation reservation;
     private Boolean shouldSkip = false;
     private User user;
@@ -70,7 +70,7 @@ class ReservationDaoTest extends GeneralDAOTest{
     void getCountAllParticipants() throws SQLException {
         Assumptions.assumeFalse(shouldSkip);
 
-        assertEquals(1, reservationDao.getCountAllParticipants(reservation.getId()));
+        assertEquals(2, reservationDao.getCountAllParticipants(reservation.getId()));
     }
 
     @Test

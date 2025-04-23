@@ -42,7 +42,6 @@ public abstract class FacilityForm extends MediaManagerController{
 
     protected abstract void facilityUpdate(OwnerManagementController ownerManagementController) throws SQLException, IOException;
 
-    //Todo controllare con albe, in alcuni metodi ci sono try and catch in altri no
     @FXML
     public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
         System.out.println("Confirm button clicked: ");
