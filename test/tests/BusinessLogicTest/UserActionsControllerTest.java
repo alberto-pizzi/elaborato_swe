@@ -98,7 +98,6 @@ public class UserActionsControllerTest extends GeneralBSTest {
     public void addReservationTest() throws SQLException{
         //TODO implement
 
-
     }
 
     //person controller tests:
@@ -152,18 +151,21 @@ public class UserActionsControllerTest extends GeneralBSTest {
     @Test
     public void sendInviteTest() throws SQLException, ClassNotFoundException {
 
-        /*
         Group group = createGroup(true, 10);
         User user = createSecondUser();
 
         when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
         when(userDAOMock.getUserByID(anyInt())).thenReturn(user);
         when(inviteDaoMock.addInvite(any())).thenReturn(1);
+        when(inviteDaoMock.checkInvite(anyInt(),anyInt())).thenReturn(false);
 
+        assertTrue(userActionsController.sendInvite(group.getReservation(),user.getId()));
 
-         */
+        doThrow(new SQLException("Simulated SQL exception")).when(inviteDaoMock).addInvite(any());
+        assertFalse(userActionsController.sendInvite(group.getReservation(),user.getId()));
 
-        //TODO test to be finished
+        when(userDAOMock.getUserByID(anyInt())).thenReturn(null);
+        assertFalse(userActionsController.sendInvite(group.getReservation(),user.getId()));
 
 
     }

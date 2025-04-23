@@ -239,6 +239,8 @@ public abstract class PersonController<T extends Person> {
 
                 System.out.println("Invite has been sent");
             }
+            else
+                return false;
         } catch (SQLException | ClassNotFoundException e) {
             return false;
         }
