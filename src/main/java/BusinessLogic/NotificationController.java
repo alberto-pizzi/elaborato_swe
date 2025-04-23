@@ -106,9 +106,16 @@ public class NotificationController implements Observer {
 
     }
 
-    public void deleteNotifications(Notification notification) throws SQLException {
+    //TODO add alerts to manage callers
+    public boolean deleteNotifications(Notification notification) throws SQLException {
 
-        notificationDAO.deleteNotification(notification.getRecipient(),notification.getId());
+        try{
+            notificationDAO.deleteNotification(notification.getRecipient(),notification.getId());
+        }
+        catch(SQLException e){
+            return false;
+        }
+        return true;
     }
 
     public ArrayList<Notification> getOwnNotifications() throws SQLException {
