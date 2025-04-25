@@ -248,7 +248,7 @@ public abstract class PersonController<T extends Person> {
         return true;
     }
 
-    //TODO how we manage sendInvites as boolean output?
+    //TODO change to int
     public void sendInvites(Group group, ArrayList<User> receivers) throws SQLException, ClassNotFoundException {
 
         InviteSender inviteSender = new InviteSender(group);

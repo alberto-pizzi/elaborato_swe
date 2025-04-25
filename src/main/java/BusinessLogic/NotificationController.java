@@ -67,6 +67,7 @@ public class NotificationController implements Observer {
         sendNotifications(reservation,NotificationType.ANNOUNCEMENT,message);
     }
 
+    //FIXME change to int (also helpers)
     protected void sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) throws SQLException, ClassNotFoundException {
 
         Owner owner;

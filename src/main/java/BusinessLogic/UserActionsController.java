@@ -122,6 +122,7 @@ public class UserActionsController extends PersonController<User>{
         return true;
     }
 
+    //FIXME separate GUI logic
     public boolean acceptInvite(Invite invite) throws SQLException, ClassNotFoundException {
 
         boolean accepted = false;
