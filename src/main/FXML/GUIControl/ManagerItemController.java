@@ -62,9 +62,14 @@ public class ManagerItemController {
         if(result.get() == ButtonType.OK){
 
             OwnerManagementController ownerManagementController = new OwnerManagementController();
-            ownerManagementController.attachManager(user.getId(), facility.getId());
-            if (addManagersController != null) {
-                addManagersController.removeUserItemFromGUI(userItemBox,user);
+            if(ownerManagementController.attachManager(user.getId(), facility.getId())){
+                if (addManagersController != null) {
+                    addManagersController.removeUserItemFromGUI(userItemBox,user);
+                }
+            }else{
+                if (addManagersController != null) {
+                    //todo aggiungere messaggio di errore
+                }
             }
 
         } else if(result.get() == ButtonType.CANCEL){

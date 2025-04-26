@@ -57,8 +57,8 @@ public abstract class FieldForm extends MediaManagerController{
 
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         sports = ownerManagementController.getSports();
-
     }
+
     @FXML
     void clickSport(Sport sport, Label label){
 

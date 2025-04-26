@@ -67,8 +67,6 @@ public abstract class FieldFormManagementController implements Initializable {
     @FXML
     protected Label fieldTotalPrice;
 
-
-
     @FXML
     protected VBox otherPlayersSelectorBox;
 

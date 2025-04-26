@@ -44,6 +44,7 @@ public abstract class MediaManagerController implements Initializable {
         this.menuPane = menuPane;
     }
 
+    //todo controllare con albe
     protected Boolean uploadImage() {
         FileChooser fileChooser = new FileChooser();
 

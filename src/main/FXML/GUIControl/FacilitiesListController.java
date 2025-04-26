@@ -31,7 +31,6 @@ public class FacilitiesListController extends FacilityChoice {
 
     @Override
     protected List<Facility> getData() throws SQLException, ClassNotFoundException {
-        List<Facility> facilities = new ArrayList<>();
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         return ownerManagementController.getOwnFacilities();
     }

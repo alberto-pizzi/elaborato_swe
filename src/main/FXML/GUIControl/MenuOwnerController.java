@@ -45,6 +45,7 @@ public class MenuOwnerController implements Initializable {
         OwnerProfileController ownerProfileController = new OwnerProfileController();
         email.setText(ownerProfileController.getEmail());
         username.setText(ownerProfileController.getUsername());
+        //fixme corretto try?
         try {
             changeView("homeOwner.fxml");
         } catch (IOException e) {
