@@ -55,11 +55,15 @@ public class NotificationItemController {
 
 
         NotificationController notificationController = new NotificationController();
-        notificationController.deleteNotifications(notification);
-
-        if (notificationsController != null) {
-            notificationsController.removeNotificationItemFromGUI(notificationItemPane,notification);
+        if(notificationController.deleteNotifications(notification)){
+            if (notificationsController != null) {
+                notificationsController.removeNotificationItemFromGUI(notificationItemPane,notification);
+            }
+        }else{
+            //todo aggiungere messaggio di errore
         }
+
+
     }
 
     @FXML

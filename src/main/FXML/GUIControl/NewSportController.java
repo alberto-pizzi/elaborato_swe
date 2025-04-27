@@ -29,6 +29,8 @@ public class NewSportController {
     @FXML
     private TextField playersInput;
 
+    private MessagesController messagesController;
+
     private final Sport sport = new Sport();
 
     private Field field = new Field();
@@ -43,6 +45,7 @@ public class NewSportController {
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+        messagesController = new MessagesController(messageLabel);
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm sport");
@@ -56,27 +59,34 @@ public class NewSportController {
                 OwnerManagementController ownerManagementController = new OwnerManagementController();
                 sport.setName(nameInput.getText());
                 sport.setPlayersRequired(Integer.parseInt(playersInput.getText()));
-                ownerManagementController.addSport(sport);
-                FXMLLoader loader;
-                Parent fieldPane;
+                if(ownerManagementController.addSport(sport)){
 
-                if(newField) {
-                    loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
-                    fieldPane = loader.load();
-                    NewFieldController newFieldController = loader.getController();
-                    newFieldController.setData(facility, menuPane);
-                    newFieldController.continueForm(field);
-                    newFieldController.setNewFacility(newFacility);
-                }else {
-                    loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
-                    fieldPane = loader.load();
-                    ModifyFieldController modifyFieldController = loader.getController();
-                    modifyFieldController.setData(facility, field, menuPane);
+                    FXMLLoader loader;
+                    Parent fieldPane;
+
+                    if(newField) {
+                        loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
+                        fieldPane = loader.load();
+                        NewFieldController newFieldController = loader.getController();
+                        newFieldController.setData(facility, menuPane);
+                        newFieldController.continueForm(field);
+                        newFieldController.setNewFacility(newFacility);
+                    }else {
+                        loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
+                        fieldPane = loader.load();
+                        ModifyFieldController modifyFieldController = loader.getController();
+                        modifyFieldController.setData(facility, field, menuPane);
+                    }
+
+                    menuPane.setCenter(fieldPane);
+                }else{
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
 
-                menuPane.setCenter(fieldPane);
             } else {
-                messageLabel.setText("Please enter all the fields");
+                String message = "Please enter all the fields";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 
         } else if(result.get() == ButtonType.CANCEL){
