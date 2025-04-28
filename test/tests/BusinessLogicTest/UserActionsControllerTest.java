@@ -81,7 +81,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
         Group group = createGroup(true, requiredParticipants);
 
         when(groupDaoMock.getGroup(anyInt())).thenReturn(group);
-        when(isPartDaoMock.addMembership(anyInt(), eq(user.getId()), eq(guests))).thenReturn(1);
+        doNothing().when(isPartDaoMock).addMembership(anyInt(), eq(user.getId()), eq(guests));
 
         assertTrue(userActionsController.joinGroup(group.getId(),guests));
         assertFalse(userActionsController.joinGroup(group.getId(),requiredParticipants+2));

@@ -22,7 +22,7 @@ public class ManagesDAO {
     //methods
 
     //TODO is transaction needed?
-    public int attachManager(int idManager, int idFacility) throws SQLException {
+    public void attachManager(int idManager, int idFacility) throws SQLException {
 
 
         String insertQuerySQL = String.format("INSERT INTO \"Manages\" (id_facility, id_user) " +
@@ -30,14 +30,13 @@ public class ManagesDAO {
 
         String updateSQL = String.format("UPDATE \"Facility\" SET n_managers = n_managers + 1 WHERE id = '%d'", idFacility);
 
-        int idAdded = 0;
 
         PreparedStatement preparedStatementForInsert = null;
         PreparedStatement preparedStatementForUpdate = null;
 
         try {
             //first query
-            preparedStatementForInsert = connection.prepareStatement(insertQuerySQL, Statement.RETURN_GENERATED_KEYS);
+            preparedStatementForInsert = connection.prepareStatement(insertQuerySQL);
             int facilityRowsAffectedForInsert = preparedStatementForInsert.executeUpdate();
 
             if (facilityRowsAffectedForInsert == 0){
@@ -54,10 +53,6 @@ public class ManagesDAO {
 
             connection.commit();
 
-            ResultSet resultSet = preparedStatementForInsert.getGeneratedKeys();
-            if (resultSet.next()) {
-                idAdded = resultSet.getInt(1);
-            }
 
             System.out.println("New manager attached successfully.");
         } catch (SQLException e) {
@@ -84,7 +79,7 @@ public class ManagesDAO {
                 e.printStackTrace();
             }
         }
-        return idAdded;
+
     }
 
     //TODO is transaction needed?

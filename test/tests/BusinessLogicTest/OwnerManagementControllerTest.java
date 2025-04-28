@@ -205,11 +205,11 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     @Test
     void attachManager() throws SQLException, ClassNotFoundException {
         //No exception
-        when(managesDAO.attachManager(anyInt(), anyInt())).thenReturn(1);
+        doNothing().when(managesDAO).attachManager(anyInt(), anyInt());
         assertTrue(ownerManagementController.attachManager(createUser().getId(),createFacility().getId()));
 
         //With exception
-        when(managesDAO.attachManager(anyInt(), anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
+        doThrow(new SQLException("Simulated SQL exception")).when(managesDAO).attachManager(anyInt(), anyInt());
         assertFalse(ownerManagementController.attachManager(createUser().getId(),createFacility().getId()));
     }
 
