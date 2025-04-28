@@ -122,87 +122,34 @@ public class UserActionsController extends PersonController<User>{
         return true;
     }
 
-    //FIXME separate GUI logic
-    public boolean acceptInvite(Invite invite) throws SQLException, ClassNotFoundException {
+    public boolean acceptInvite(Invite invite, ArrayList<String> accountsList, int guests) throws SQLException, ClassNotFoundException {
 
         boolean accepted = false;
 
         if (invite.getGroup().getReservation().isMatched()) {
 
-            DialogPane selectGuestsDialogPane;
-            SelectGuestsPaneController selectGuestsPaneController;
+            //himself join into group
+            if (!joinGroup(invite.getGroup().getId(), guests))
+                return false;
 
-            //load guests selector
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/selectGuestsPane.fxml"));
-            try {
-                selectGuestsDialogPane = loader.load();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            selectGuestsPaneController = loader.getController(); //connect controller
-
-            selectGuestsPaneController.setData(invite.getGroup(), false);
-
-
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.setTitle("Who do you want to add?");
-            dialog.setDialogPane(selectGuestsDialogPane);
-
-            Button okButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
-            okButton.setText("Send Invite");
-
-
-            okButton.addEventFilter(ActionEvent.ACTION, event -> {
-
-                int guests = selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0;
-                int accounts = selectGuestsPaneController.getInviteListDraft().getItems().size();
-
-                boolean canJoin = invite.getGroup().canJoin(guests, accounts, true);
-
-                if (!canJoin) {
-                    event.consume(); // prevents dialog closing
-                    selectGuestsPaneController.getMessagesController().showMessage("Too much guests for this group.", MessagesController.MessageType.ERROR, 3);
+            //send invites to other (his) players
+            for (String accountUsername : accountsList) {
+                if (accountUsername != null) {
+                    sendInvite(invite.getGroup().getReservation(), userDAO.getUserID(accountUsername));
                 }
-
-            });
-
-            Optional<ButtonType> result = dialog.showAndWait();
-
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-
-                int guests = selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0;
-
-                //himself join into group
-                if (!joinGroup(invite.getGroup().getId(), guests))
-                    return false;
-
-                //send invites to other (his) players
-                ArrayList<String> accountsList = new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems());
-                
-                for (String accountUsername : accountsList) {
-                    if (accountUsername != null) {
-                        sendInvite(invite.getGroup().getReservation(), userDAO.getUserID(accountUsername));
-                    }
-                }
-
-                accepted = true;
-
-                //delete this invite
-                
-                inviteDao.deleteInvite(invite.getId());
-
             }
 
+            //delete this invite
 
         } else {
             //guests are 0 because in not matched booking are not allowed guests
             if (!joinGroup(invite.getGroup().getId(), 0))
                 return false;
-            accepted = true;
 
             //delete this invite
-            inviteDao.deleteInvite(invite.getId());
         }
+        accepted = true;
+        inviteDao.deleteInvite(invite.getId());
 
         return accepted;
     }

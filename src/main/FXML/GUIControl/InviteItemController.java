@@ -1,10 +1,9 @@
 package main.FXML.GUIControl;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Invite;
@@ -12,6 +11,8 @@ import main.java.DomainModel.Invite;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class InviteItemController {
@@ -48,6 +49,9 @@ public class InviteItemController {
 
     private Invite invite;
     private YourInvitesController yourInvitesController;
+
+    private SelectGuestsPaneController selectGuestsPaneController = null;
+
 
     //getters
 
@@ -92,10 +96,32 @@ public class InviteItemController {
     @FXML
     public void handleAcceptInviteButton() throws SQLException, ClassNotFoundException {
         UserActionsController userActionsController = new UserActionsController();
-        boolean accepted = userActionsController.acceptInvite(invite);
+        boolean accepted = false;
         System.out.println("Accept button clicked: " + invite.getId());
+
+
+        if (invite.getGroup().getReservation().isMatched()){
+
+            Optional<ButtonType> result = loadOwnGuestSelectorPane(invite);
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                int guests = selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0;
+                ArrayList<String> accountsList = new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems());
+                accepted = userActionsController.acceptInvite(invite,accountsList,guests);
+            }
+
+        }
+        else {
+            //not matched case
+            //guests are 0 because in not matched booking are not allowed guests
+            accepted = userActionsController.acceptInvite(invite, null, 0);
+        }
+
         if (accepted)
             yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
+
+        //TODO message error needed?
+
 
     }
 
@@ -106,6 +132,48 @@ public class InviteItemController {
         userActionsController.declineInvite(invite.getId());
         System.out.println("Decline button clicked: " + invite.getId());
         yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
+    }
+
+    //TODO check it
+    private Optional<ButtonType> loadOwnGuestSelectorPane(Invite invite) throws SQLException, ClassNotFoundException {
+        DialogPane selectGuestsDialogPane;
+
+        //load guests selector
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/selectGuestsPane.fxml"));
+        try {
+            selectGuestsDialogPane = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        selectGuestsPaneController = loader.getController(); //connect controller
+
+        selectGuestsPaneController.setData(invite.getGroup(), false);
+
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Who do you want to add?");
+        dialog.setDialogPane(selectGuestsDialogPane);
+
+        Button okButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setText("Accept Invite");
+
+
+        okButton.addEventFilter(ActionEvent.ACTION, event -> {
+
+            int guests = selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0;
+            int accounts = selectGuestsPaneController.getInviteListDraft().getItems().size();
+
+            boolean canJoin = invite.getGroup().canJoin(guests, accounts, true);
+
+            if (!canJoin) {
+                event.consume(); // prevents dialog closing
+                selectGuestsPaneController.getMessagesController().showMessage("Too much guests for this group.", MessagesController.MessageType.ERROR, 3);
+            }
+
+        });
+
+        return dialog.showAndWait();
+
     }
 
 }
