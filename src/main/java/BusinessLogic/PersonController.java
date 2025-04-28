@@ -248,27 +248,24 @@ public abstract class PersonController<T extends Person> {
         return true;
     }
 
-    //TODO change to int
-    public void sendInvites(Group group, ArrayList<User> receivers) throws SQLException, ClassNotFoundException {
+    //TODO callers to be managed
+    public int sendInvites(Group group, ArrayList<User> receivers) throws SQLException, ClassNotFoundException {
 
-        InviteSender inviteSender = new InviteSender(group);
-        
-        Invite invite;
+        int count = 0;
 
         for (User user : receivers) {
-            if(inviteDao.checkInvite(user.getId(),group.getId())){
-                System.out.println("Invite already exists");
-            }else if(user != null){
+            if (sendInvite(group.getReservation(), user.getId()))
+                count++;
 
-                invite = inviteSender.factoryMethod();
-                invite.setUser(user);
-                inviteDao.addInvite(invite);
-
-                System.out.println("Invite has been sent");
-            }
         }
 
+        if (count == 0 && !receivers.isEmpty())
+            return -1;
+
         System.out.println("Invites have been sent");
+        return count;
+
+
 
     }
 
