@@ -45,6 +45,9 @@ public class AddManagersController implements Initializable {
     private Label currentSearch;
 
     @FXML
+    private Label messageLabel;
+
+    @FXML
     private Button searchButton;
 
     int currentPage = 1;
@@ -57,11 +60,17 @@ public class AddManagersController implements Initializable {
 
     private ArrayList<User> users = new ArrayList<>();
 
+    private MessagesController messagesController;
+
+    public MessagesController getMessagesController(){
+        return messagesController;
+    }
 
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
 
         this.facility = facility;
         this.menuPane = menuPane;
+        messagesController = new MessagesController(messageLabel);
         try {
             users.addAll(getData());
             currentSearch.setText("Users in " + facility.getProvince() + " province");

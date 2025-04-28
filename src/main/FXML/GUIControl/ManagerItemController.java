@@ -35,12 +35,17 @@ public class ManagerItemController {
     private HBox userItemBox;
 
     private User user;
+
     private Facility facility;
+
     private AddManagersController addManagersController;
+
+    private MessagesController messagesController;
 
     public void setData(User user, AddManagersController addManagersController, Facility facility) throws SQLException {
 
         this.addManagersController = addManagersController;
+        this.messagesController = addManagersController.getMessagesController();
         this.user = user;
         this.facility = facility;
 
@@ -68,7 +73,8 @@ public class ManagerItemController {
                 }
             }else{
                 if (addManagersController != null) {
-                    //todo aggiungere messaggio di errore
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
 
