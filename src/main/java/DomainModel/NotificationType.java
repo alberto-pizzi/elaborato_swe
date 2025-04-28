@@ -1,5 +1,6 @@
 package main.java.DomainModel;
 
+//todo aggiungere uml
 public enum NotificationType {
     //UNKNOWN is default as error tag
     UNKNOWN("UNKNOWN"),
