@@ -101,7 +101,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                 updateGuestsLabel(newSelection, true);
 
                 if (searchList.getSelectionModel().getSelectedItem() != null) {
-                    fillGuestsChoiceWithProgressiveNumbers(0,calculateMaxAddableGuestsForMatched(0,true),nGuestsChoice);
+                    fillGuestsChoiceWithProgressiveNumbers(0, calculateMaxAddableGuests(0,true),nGuestsChoice);
                     nGuestsChoice.setValue(0);
                 }
 
@@ -226,7 +226,8 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
             if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null) {
                 int guestsSelected = effectiveGroupMembersList.getSelectionModel().getSelectedItem().getOwnGuests();
-                fillGuestsChoiceWithProgressiveNumbers(0, calculateMaxAddableGuestsForMatched(guestsSelected,false),nGuestsChoice);
+                //TODO 15 as maxPossibleGuestsPerUser is good (only for manager and owner edit mode)?
+                fillGuestsChoiceWithProgressiveNumbers(0, calculateMaxAddableGuests(guestsSelected,false),nGuestsChoice);
                 nGuestsChoice.setValue(effectiveGroupMembersList.getSelectionModel().getSelectedItem().getOwnGuests());
             }
             else{

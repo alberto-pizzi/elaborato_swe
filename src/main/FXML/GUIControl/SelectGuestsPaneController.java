@@ -394,7 +394,7 @@ public class SelectGuestsPaneController implements Initializable {
             if (group.getReservation().isMatched()) {
                 //maxValue is  addReservation and acceptInvite (so adding)
                 int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
-                maxValue = calculateMaxAddableGuestsForMatched(ownGuests,false);
+                maxValue = calculateMaxAddableGuests(ownGuests,false);
 
             }else
                 maxValue = maxPossibleGuestsPerUser;
@@ -407,13 +407,15 @@ public class SelectGuestsPaneController implements Initializable {
 
     }
 
-    //TODO is here right position?
-    public int calculateMaxAddableGuestsForMatched(int guestsSelected, boolean considerHimself){
+    public int calculateMaxAddableGuests(int guestsSelected, boolean considerHimself){
 
         if (group == null)
             return 0;
 
-        return group.getRequiredParticipants() - participantsDraft + guestsSelected - (considerHimself ? 1 : 0);
+        if (group.getReservation().isMatched())
+            return group.getRequiredParticipants() - participantsDraft + guestsSelected - (considerHimself ? 1 : 0);
+        else
+            return maxPossibleGuestsPerUser;
 
     }
 
