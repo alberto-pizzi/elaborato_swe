@@ -22,6 +22,11 @@
                            </font>
                         </Label>
                         <Label alignment="BOTTOM_CENTER" text="Here are your invitations based on your province" />
+                        <Label fx:id="messageLabel" text="MessageLabel" visible="false">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
                      </children>
                   </VBox>
                </children>

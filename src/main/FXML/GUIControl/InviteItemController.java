@@ -119,8 +119,8 @@ public class InviteItemController {
 
         if (accepted)
             yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
-
-        //TODO message error needed?
+        else
+            yourInvitesController.getMessagesController().showMessage("Error during accept invite", MessagesController.MessageType.ERROR,5);
 
 
     }
@@ -129,9 +129,12 @@ public class InviteItemController {
     public void handleDeclineInviteButton() throws SQLException {
 
         UserActionsController userActionsController = new UserActionsController();
-        userActionsController.declineInvite(invite.getId());
         System.out.println("Decline button clicked: " + invite.getId());
-        yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
+        if (userActionsController.declineInvite(invite.getId()))
+            yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
+        else
+            yourInvitesController.getMessagesController().showMessage("Error during decline invite", MessagesController.MessageType.ERROR,5);
+
     }
 
 

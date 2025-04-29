@@ -64,7 +64,8 @@ public class NotificationItem {
                 notifications.removeNotificationItemFromGUI(notificationItemPane,notification);
             }
         }else{
-            //todo aggiungere messaggio di errore
+            notifications.getMessagesController().showMessage("Error during delete notification", MessagesController.MessageType.ERROR,5);
+
         }
 
 

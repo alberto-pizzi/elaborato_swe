@@ -3,6 +3,7 @@ package main.FXML.GUIControl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -22,6 +23,11 @@ public abstract class Notifications implements Initializable {
     @FXML
     protected ScrollPane scroll;
 
+    @FXML
+    protected Label messageLabel;
+
+    protected MessagesController messagesController = null;
+
     protected ArrayList<Notification> notifications = new ArrayList<Notification>();
 
     protected abstract void notificationItem(int i) throws IOException;
@@ -31,6 +37,8 @@ public abstract class Notifications implements Initializable {
 
 
         NotificationController notificationController = new NotificationController();
+
+        messagesController = new MessagesController(messageLabel);
 
 
         try {
@@ -60,5 +68,9 @@ public abstract class Notifications implements Initializable {
     public void removeNotificationItemFromGUI(AnchorPane notificationItemPane, Notification notification) {
         notifications.remove(notification);
         notificationsVBox.getChildren().remove(notificationItemPane);
+    }
+
+    public MessagesController getMessagesController() {
+        return messagesController;
     }
 }

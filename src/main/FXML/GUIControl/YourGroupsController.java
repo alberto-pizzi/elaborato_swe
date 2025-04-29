@@ -1,6 +1,7 @@
 package main.FXML.GUIControl;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import main.java.DomainModel.Group;
 
@@ -25,6 +26,11 @@ public class YourGroupsController implements Initializable {
     @FXML
     private ScrollPane scroll;
 
+    @FXML
+    private Label messageLabel;
+
+    private MessagesController messagesController = null;
+
     private ArrayList<Group> groups = new ArrayList<Group>();
 
 
@@ -33,6 +39,8 @@ public class YourGroupsController implements Initializable {
 
 
         UserActionsController userActionsController = new UserActionsController();
+
+        messagesController = new MessagesController(messageLabel);
 
 
         try {
@@ -71,6 +79,10 @@ public class YourGroupsController implements Initializable {
     public void removeGroupItemFromGUI(AnchorPane groupItemPane, Group group) {
         groups.remove(group);
         groupsVBox.getChildren().remove(groupItemPane);
+    }
+
+    public MessagesController getMessagesController() {
+        return messagesController;
     }
 
 }
