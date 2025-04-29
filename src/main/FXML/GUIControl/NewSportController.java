@@ -44,7 +44,7 @@ public class NewSportController {
     private Boolean newFacility = false;
 
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+    void handleConfirmButton(ActionEvent event){
         messagesController = new MessagesController(messageLabel);
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -64,21 +64,25 @@ public class NewSportController {
                     FXMLLoader loader;
                     Parent fieldPane;
 
-                    if(newField) {
-                        loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
-                        fieldPane = loader.load();
-                        NewFieldController newFieldController = loader.getController();
-                        newFieldController.setData(facility, menuPane);
-                        newFieldController.continueForm(field);
-                        newFieldController.setNewFacility(newFacility);
-                    }else {
-                        loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
-                        fieldPane = loader.load();
-                        ModifyFieldController modifyFieldController = loader.getController();
-                        modifyFieldController.setData(facility, field, menuPane);
+                    try{
+                        if(newField) {
+                            loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
+                            fieldPane = loader.load();
+                            NewFieldController newFieldController = loader.getController();
+                            newFieldController.setData(facility, menuPane);
+                            newFieldController.continueForm(field);
+                            newFieldController.setNewFacility(newFacility);
+                        }else {
+                            loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
+                            fieldPane = loader.load();
+                            ModifyFieldController modifyFieldController = loader.getController();
+                            modifyFieldController.setData(facility, field, menuPane);
+                        }
+                        menuPane.setCenter(fieldPane);
+                    }catch (SQLException | IOException e){
+                        String message = "An error has occurred";
+                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                     }
-
-                    menuPane.setCenter(fieldPane);
                 }else{
                     String message = "An error has occurred";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
@@ -95,14 +99,12 @@ public class NewSportController {
     }
 
     public void setData(Field field, Facility facility, BorderPane menuPane) throws IOException, SQLException {
-
         this.field = field;
         this.facility = facility;
         this.menuPane = menuPane;
     }
 
     public void setData(Field field, BorderPane menuPane) throws IOException, SQLException {
-
         this.field = field;
         this.menuPane = menuPane;
         newField = true;

@@ -89,12 +89,11 @@ public abstract class AnnouncementController implements Initializable {
     }
 
     @FXML
-    public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+    public void handleConfirmButton(ActionEvent event) {
 
         if(messageText.getText().length() < messageLimit && !messageText.getText().isEmpty()) {
 
             System.out.println("Confirm button clicked: ");
-
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm announcement");
@@ -102,15 +101,23 @@ public abstract class AnnouncementController implements Initializable {
             alert.setContentText("Are you sure you want to make this announcement?");
 
             Optional<ButtonType> result = alert.showAndWait();
+
             if(result.get() == ButtonType.OK){
 
-                reservationField = managerOwnerManagementController.getReservationField(reservation);
-                if(managerOwnerManagementController.reservationAnnouncement(messageText.getText(), reservation)){
-                    System.out.println("Sent!");
-                    changeView();
-                }else{
-                    messagesController.showMessage("An error has occurred, announcement not sent", MessagesController.MessageType.ERROR,5);
-                    errorMessage.setAlignment(Pos.CENTER);
+                try{
+
+                    reservationField = managerOwnerManagementController.getReservationField(reservation);
+                    if(managerOwnerManagementController.reservationAnnouncement(messageText.getText(), reservation)){
+                        System.out.println("Sent!");
+                        changeView();
+                    }else{
+                        messagesController.showMessage("An error has occurred, announcement not sent", MessagesController.MessageType.ERROR,5);
+                        errorMessage.setAlignment(Pos.CENTER);
+                    }
+
+                }catch(SQLException | ClassNotFoundException | IOException e){
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                 }
 
             } else if(result.get() == ButtonType.CANCEL){
@@ -123,7 +130,6 @@ public abstract class AnnouncementController implements Initializable {
             messagesController.showMessage("Too many characters in the message.The maximum is " + messageLimit, MessagesController.MessageType.ERROR,5);
             errorMessage.setAlignment(Pos.CENTER);
         }
-
-
     }
+
 }

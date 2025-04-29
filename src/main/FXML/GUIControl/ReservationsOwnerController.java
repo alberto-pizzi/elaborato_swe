@@ -26,24 +26,26 @@ public class ReservationsOwnerController extends Reservations{
         FXMLLoader fmxLoader;
         fmxLoader = new FXMLLoader();
         fmxLoader.setLocation(getClass().getResource("/main/FXML/reservationItemOwner.fxml"));
-
         AnchorPane anchorPane = fmxLoader.load();
         ReservationItemOwnerController reservationItemOwnerController = fmxLoader.getController();
         reservationItemOwnerController.setReservationsController(this);
         reservationItemOwnerController.setData(reservations.get(i));
-
         reservationsList.getChildren().add(anchorPane);
     }
 
     @Override
     @FXML
-    public void handleNewReservationButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingFormOwner.fxml"));
-        Parent view = loader.load();
-        BookFieldController bookFieldController = loader.getController();
-        bookFieldController.setData(this.field);
-        bookFieldController.selectGuestsPaneController.setData(null,false);
-        menuPane.setCenter(view);
+    public void handleNewReservationButton(ActionEvent event){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingFormOwner.fxml"));
+            Parent view = loader.load();
+            BookFieldController bookFieldController = loader.getController();
+            bookFieldController.setData(this.field);
+            bookFieldController.selectGuestsPaneController.setData(null,false);
+            menuPane.setCenter(view);
+        }catch(IOException | SQLException | ClassNotFoundException e ){
+            e.printStackTrace();
+        }
     }
 
 }

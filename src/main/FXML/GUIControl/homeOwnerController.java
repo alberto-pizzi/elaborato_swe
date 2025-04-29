@@ -57,12 +57,13 @@ public class homeOwnerController implements Initializable {
 
     //methods
 
+    //todo controllare funzioni business logic
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         PieChart.Data[] data = new PieChart.Data[2];
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         ArrayList<Integer> pieValues = new ArrayList<>();
-        ArrayList<Integer> barValues = new ArrayList<>();
+        ArrayList<Integer> barValues;
         ObservableList<BarChart.Series<String, Integer>> chartData = FXCollections.observableArrayList();
         try {
             dailyMoney.setText(String.valueOf(ownerManagementController.dailyEarning())+"$");
@@ -70,8 +71,7 @@ public class homeOwnerController implements Initializable {
             reservationsNumber.setText(String.valueOf(ownerManagementController.monthlyReservations()));
             pieValues.add(ownerManagementController.notReservedFields());
             pieValues.add(ownerManagementController.reservedFields());
-            barValues.addAll(ownerManagementController.dailyEarnings());
-
+            barValues = new ArrayList<>(ownerManagementController.dailyEarnings());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -90,9 +90,6 @@ public class homeOwnerController implements Initializable {
         }
 
         barChart.setData(chartData);
-
-
-
     }
 
 

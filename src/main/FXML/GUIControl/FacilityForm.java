@@ -43,7 +43,7 @@ public abstract class FacilityForm extends MediaManagerController{
     protected abstract void facilityUpdate(OwnerManagementController ownerManagementController) throws SQLException, IOException;
 
     @FXML
-    public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+    public void handleConfirmButton(ActionEvent event){
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm facility");
@@ -65,7 +65,12 @@ public abstract class FacilityForm extends MediaManagerController{
                 facility.setCountry(countryInput.getText());
                 facility.setTelephone(phoneInput.getText());
                 facility.setZip(zipInput.getText());
-                facilityUpdate(ownerManagementController);
+                try {
+                    facilityUpdate(ownerManagementController);
+                } catch (SQLException | IOException e) {
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                }
             }else {
                 String message = "Please enter all the fields";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);

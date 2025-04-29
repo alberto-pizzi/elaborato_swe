@@ -186,7 +186,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return users;
     }
 
-    public boolean attachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {
+    public boolean attachManager(int idUser, int idFacility){
         try {
             managesDAO.attachManager(idUser, idFacility);
         }catch (SQLException e){
@@ -195,7 +195,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return true;
     }
 
-    public boolean detachManager(int idUser, int idFacility) throws SQLException, ClassNotFoundException {
+    public boolean detachManager(int idUser, int idFacility){
         try {
             managesDAO.detachManager(idUser, idFacility);
         }catch (SQLException e){
@@ -214,7 +214,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     }
 
-    public boolean addField(Field field) throws SQLException{
+    public boolean addField(Field field){
         try {
             fieldDao.addField(field);
         }catch (SQLException e){
@@ -223,7 +223,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return true;
     }
 
-    public boolean addSport(Sport sport) throws SQLException, ClassNotFoundException {
+    public boolean addSport(Sport sport){
         try {
             sportDao.addSport(sport.getName(), sport.getPlayersRequired());
         }catch (SQLException e){
@@ -274,7 +274,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return true;
     }
 
-    public boolean editField(Field field) throws SQLException {
+    public boolean editField(Field field){
         try {
             fieldDao.updateName(field.getId(), field.getName());
             fieldDao.updateDescription(field.getId(), field.getDescription());

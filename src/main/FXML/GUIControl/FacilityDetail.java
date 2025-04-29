@@ -42,22 +42,17 @@ public abstract class FacilityDetail {
     abstract protected void goToFields() throws IOException, SQLException, ClassNotFoundException;
 
     public void setData(Facility facility, BorderPane menuPane) throws IOException {
-
         this.facility = facility;
         this.menuPane = menuPane;
-
         facilityNameLabel.setText(facility.getName());
         facilityAddress.setText(facility.getFullAddress());
         facilityTelephone.setText(facility.getTelephone().toString());
         facilityFieldsNumber.setText(String.valueOf(facility.getNFields()));
         facilityManagersNumber.setText(String.valueOf(facility.getNManager()));
         //TODO add "go to book" button
-
         String pathFromRoot = "/main/FXML/img/facilities/";
-
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
         facilityImageView.setImage(image);
-
     }
 
     @FXML
@@ -65,7 +60,7 @@ public abstract class FacilityDetail {
         try {
             goToFields();
         } catch (IOException | SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }
