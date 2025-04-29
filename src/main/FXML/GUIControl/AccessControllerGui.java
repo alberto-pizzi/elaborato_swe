@@ -44,10 +44,10 @@ public abstract class AccessControllerGui implements Initializable {
     protected abstract void switchRole() throws IOException;
 
     @FXML
-    public abstract void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException;
+    public abstract void handleSignUpButton(ActionEvent event);
 
     @FXML
-    public abstract void handleLogInButton(ActionEvent event) throws SQLException, ClassNotFoundException;
+    public abstract void handleLogInButton(ActionEvent event);
 
     public Pane getScenePane() {
         return pane;
@@ -62,7 +62,8 @@ public abstract class AccessControllerGui implements Initializable {
         messagesController = new MessagesController(messageLabel);
     }
 
-    public void handleSwitchRoleButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    @FXML
+    public void handleSwitchRoleButton(ActionEvent event) {
 
         try {
             switchRole();

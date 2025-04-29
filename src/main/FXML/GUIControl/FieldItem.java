@@ -36,7 +36,7 @@ public abstract class FieldItem implements Initializable {
 
     protected BorderPane menuPane;
 
-    PersonController personController;
+    protected PersonController personController;
 
     @FXML
     public abstract void handleDetailsFieldButton(ActionEvent event) throws IOException;

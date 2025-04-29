@@ -33,7 +33,7 @@ public abstract class LoginController extends AccessControllerGui {
 
     @Override
     @FXML
-    public void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleSignUpButton(ActionEvent event){
         try {
             goToSignUp();
         } catch (Exception e) {
@@ -43,7 +43,7 @@ public abstract class LoginController extends AccessControllerGui {
 
     @Override
     @FXML
-    public void handleLogInButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleLogInButton(ActionEvent event){
         boolean verified = false;
         Person person = null;
 
@@ -51,6 +51,7 @@ public abstract class LoginController extends AccessControllerGui {
             String message = "Please enter a valid username/password";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }else{
+
             try{
                 verified = access.checkPassword(username.getText(), password.getText());
                 if (!verified) {
@@ -69,6 +70,7 @@ public abstract class LoginController extends AccessControllerGui {
             }
 
         }
+
     }
 
 }

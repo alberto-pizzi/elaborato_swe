@@ -71,14 +71,14 @@ public abstract class SignUpController extends AccessControllerGui {
 
     @Override
     @FXML
-    public void handleLogInButton(ActionEvent event) throws SQLException {
+    public void handleLogInButton(ActionEvent event){
 
         try {
             goToLogin();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    }
+
+}

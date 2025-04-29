@@ -19,6 +19,7 @@ import java.util.ResourceBundle;
 
 public abstract class MediaManagerController implements Initializable {
 
+    //todo aggiungere png
     protected FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
     @FXML
@@ -44,8 +45,7 @@ public abstract class MediaManagerController implements Initializable {
         this.menuPane = menuPane;
     }
 
-    //todo controllare con albe
-    protected Boolean uploadImage() {
+    protected boolean uploadImage() {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.setTitle("Select the image you want to upload");

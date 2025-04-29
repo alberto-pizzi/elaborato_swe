@@ -11,7 +11,7 @@ import main.java.DomainModel.Reservation;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
-public class ReservationItems {
+public abstract class ReservationItems {
 
     @FXML
     protected AnchorPane reservationItemPane;

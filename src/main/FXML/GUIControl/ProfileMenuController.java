@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 
 public class ProfileMenuController implements Initializable {
 
+    //todo ereditarietà
     @FXML
     private Button addressProfileButton;
 

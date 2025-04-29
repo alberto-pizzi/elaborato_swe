@@ -19,17 +19,21 @@ public class SignUpControllerOwner extends SignUpController implements Initializ
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-
         access = new AccessController(new OwnerAccess());
         System.out.println("Owner");
     }
 
     @Override
     @FXML
-    public void handleSignUpButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleSignUpButton(ActionEvent event) {
 
         if(!(password.getText().isEmpty() || username.getText().isEmpty() || email.getText().isEmpty())) {
-            signUpHelper();
+            try{
+                signUpHelper();
+            }catch(SQLException | ClassNotFoundException e){
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
+            }
         }else{
             String message = "Fields missing";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
@@ -40,21 +44,21 @@ public class SignUpControllerOwner extends SignUpController implements Initializ
     @Override
     protected void goToLogin() throws IOException {
         logIn.getScene().getWindow().setHeight(720);
-        pane.getChildren().removeAll();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/loginOwner.fxml"));
         Parent view = loader.load();
         LoginControllerOwner controller = loader.getController();
         controller.setScenePane(pane);
+        pane.getChildren().removeAll();
         pane.getChildren().add(view);
     }
 
     @Override
     protected void switchRole() throws IOException {
-        pane.getChildren().removeAll();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/signUpUser.fxml"));
         Parent view = loader.load();
         SignUpControllerUser controller = loader.getController();
         controller.setScenePane(pane);
+        pane.getChildren().removeAll();
         pane.getChildren().add(view);
     }
 

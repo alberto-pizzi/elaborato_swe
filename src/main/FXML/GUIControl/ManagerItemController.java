@@ -39,7 +39,7 @@ public class ManagerItemController {
     private Facility facility;
 
     private AddManagersController addManagersController;
-
+//todo chiamare dalla principale
     private MessagesController messagesController;
 
     public void setData(User user, AddManagersController addManagersController, Facility facility) throws SQLException {

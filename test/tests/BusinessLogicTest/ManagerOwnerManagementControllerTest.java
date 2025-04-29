@@ -145,7 +145,7 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
         Reservation reservation = createReservation(false);
 
         String notificationMessage = "Try";
-
+        //todo mockare proprio
         when(notificationDAO.addNotification(any(Notification.class))).thenReturn(1);
         when(groupDao.getGroupByReservation(anyInt())).thenReturn(createGroup(false, 3));
         when(isPartDao.getGroupMembers(anyInt())).thenReturn(new ArrayList<>());

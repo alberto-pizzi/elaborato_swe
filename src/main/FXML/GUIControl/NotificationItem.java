@@ -64,7 +64,7 @@ public class NotificationItem {
                 notifications.removeNotificationItemFromGUI(notificationItemPane,notification);
             }
         }else{
-            //todo aggiungere messaggio di errore
+            //todo add message error
         }
 
 
