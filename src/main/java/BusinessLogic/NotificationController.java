@@ -50,28 +50,30 @@ public class NotificationController implements Observer {
         attach();
     }
 
+    //TODO check callers
     //helpers of sendNotifications
-    public void sendConfirmNotification(Reservation reservation) throws SQLException, ClassNotFoundException {
-        sendNotifications(reservation,NotificationType.CONFIRMATION,"");
+    public int sendConfirmNotification(Reservation reservation) throws SQLException, ClassNotFoundException {
+        return sendNotifications(reservation,NotificationType.CONFIRMATION,"");
     }
 
-    public void sendModificationNotification(Reservation reservation) throws SQLException, ClassNotFoundException {
-        sendNotifications(reservation,NotificationType.MODIFICATION,"");
+    public int sendModificationNotification(Reservation reservation) throws SQLException, ClassNotFoundException {
+        return sendNotifications(reservation,NotificationType.MODIFICATION,"");
     }
 
-    public void sendDeletionNotification(Reservation reservation) throws SQLException, ClassNotFoundException {
-        sendNotifications(reservation,NotificationType.DELETION,"");
+    public int sendDeletionNotification(Reservation reservation) throws SQLException, ClassNotFoundException {
+        return sendNotifications(reservation,NotificationType.DELETION,"");
     }
 
-    public void sendAnnouncement(Reservation reservation, String message) throws SQLException, ClassNotFoundException {
-        sendNotifications(reservation,NotificationType.ANNOUNCEMENT,message);
+    public int sendAnnouncement(Reservation reservation, String message) throws SQLException, ClassNotFoundException {
+        return sendNotifications(reservation,NotificationType.ANNOUNCEMENT,message);
     }
 
-    //FIXME change to int (also helpers)
-    protected void sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) throws SQLException, ClassNotFoundException {
+    protected int sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) throws SQLException, ClassNotFoundException {
 
         Owner owner;
         Facility facility;
+
+        int count = 0;
 
         if(notificationType != NotificationType.ANNOUNCEMENT){
             notificationMessage = null;
@@ -84,9 +86,14 @@ public class NotificationController implements Observer {
         facility = facilityDAO.getFacility(reservation.getField().getFacility().getId(), false);
         owner = ownerDAO.getOwnerByID(facility.getOwner().getId());
 
-        tmpNotification = notificationSender.factoryMethod();
-        tmpNotification.setRecipient(owner);
-        notificationDAO.addNotification(tmpNotification);
+        try {
+            tmpNotification = notificationSender.factoryMethod();
+            tmpNotification.setRecipient(owner);
+            notificationDAO.addNotification(tmpNotification);
+            count++;
+        } catch (SQLException e) {
+
+        }
 
         ArrayList<User> managers = managesDAO.getAllManagersByFacility(facility.getId());
         ArrayList<User> invitableUsers = new ArrayList<>();
@@ -94,16 +101,35 @@ public class NotificationController implements Observer {
         invitableUsers.removeAll(managers);
 
         for(User user : managers){
-          tmpNotification = notificationSender.factoryMethod();
-          tmpNotification.setRecipient(user);
-          notificationDAO.addNotification(tmpNotification);
+            try {
+                tmpNotification = notificationSender.factoryMethod();
+                tmpNotification.setRecipient(user);
+                notificationDAO.addNotification(tmpNotification);
+                count++;
+            }
+            catch (SQLException e) {
+
+            }
         }
 
         for (User user:invitableUsers){
-            tmpNotification = notificationSender.factoryMethod();
-            tmpNotification.setRecipient(user);
-            notificationDAO.addNotification(tmpNotification);
+            try {
+                tmpNotification = notificationSender.factoryMethod();
+                tmpNotification.setRecipient(user);
+                notificationDAO.addNotification(tmpNotification);
+                count++;
+            }
+            catch (SQLException e) {
+
+            }
         }
+
+        //TODO check if condition
+        if (count == 0 && owner != null && !managers.isEmpty() && !invitableUsers.isEmpty()){
+            return -1;
+        }
+
+        return count;
 
     }
 
