@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.mockito.Mockito.*;
 
@@ -89,8 +90,36 @@ public class UserActionsControllerTest extends GeneralBSTest {
     }
 
     @Test
-    public void acceptInviteTest() throws SQLException{
-        //TODO implement
+    public void acceptInviteTest() throws SQLException, ClassNotFoundException {
+
+        int guests = 1;
+        int requiredParticipants = 5;
+        Group group = createGroup(true, requiredParticipants);
+        User user = createSecondUser();
+        Invite invite = createInvite(createUser(),group);
+
+        //sendInvite DAOs
+        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        when(userDAOMock.getUserByID(anyInt())).thenReturn(user);
+        when(inviteDaoMock.addInvite(any())).thenReturn(1);
+        when(inviteDaoMock.checkInvite(anyInt(),anyInt())).thenReturn(false);
+
+        //joinGroup DAOs
+        when(groupDaoMock.getGroup(anyInt())).thenReturn(group);
+        doNothing().when(isPartDaoMock).addMembership(anyInt(), eq(user.getId()), eq(guests));
+
+
+        when(userDAOMock.getUserID(anyString())).thenReturn(user.getId());
+        doNothing().when(inviteDaoMock).deleteInvite(anyInt());
+
+
+        int oldParticipants = group.getParticipants();
+
+        assertTrue(userActionsController.acceptInvite(invite,new ArrayList<String>(),guests));
+        assertEquals(oldParticipants+2,group.getParticipants());
+
+        group.setParticipants(group.getRequiredParticipants());
+        assertFalse(userActionsController.acceptInvite(invite,new ArrayList<String>(),0));
 
     }
 
@@ -98,6 +127,47 @@ public class UserActionsControllerTest extends GeneralBSTest {
     public void addReservationTest() throws SQLException{
         //TODO implement
 
+    }
+
+    @Test
+    public void declineInviteTest() throws SQLException{
+
+        doNothing().when(inviteDaoMock).deleteInvite(anyInt());
+        assertTrue(userActionsController.declineInvite(2));
+
+        doThrow(new SQLException("Simulated SQL exception")).when(inviteDaoMock).deleteInvite(anyInt());
+        assertFalse(userActionsController.declineInvite(2));
+
+    }
+
+    @Test
+    public void leaveGroupTest() throws SQLException, ClassNotFoundException {
+
+        Group group = createGroup(true, 5);
+
+        int ownGuests = 1;
+
+        group.addMember(userActionsController.getPerson(),ownGuests);
+
+        when(groupDaoMock.getGroup(anyInt())).thenReturn(group);
+        when(isPartDaoMock.countOwnGuests(anyInt(), anyInt())).thenReturn(ownGuests);
+
+        doNothing().when(isPartDaoMock).removeMembership(anyInt(),anyInt());
+        doNothing().when(groupDaoMock).deleteGroup(anyInt());
+        doNothing().when(groupDaoMock).updateGroupHead(anyInt(),anyInt());
+
+        int oldParticipants = group.getParticipants();
+
+        assertTrue(userActionsController.leaveGroup(group.getId()));
+        assertEquals(oldParticipants-ownGuests-1,group.getParticipants());
+
+        assertFalse(userActionsController.leaveGroup(group.getId()));
+
+    }
+
+    @Test
+    public void editRightsTest() throws SQLException{
+        //TODO implement
     }
 
     //person controller tests:
@@ -166,6 +236,55 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         when(userDAOMock.getUserByID(anyInt())).thenReturn(null);
         assertFalse(userActionsController.sendInvite(group.getReservation(),user.getId()));
+
+
+    }
+
+    @Test
+    public void addGroupMemberTest() throws SQLException, ClassNotFoundException {
+
+        Group group = createGroup(true, 5);
+
+        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        doNothing().when(isPartDaoMock).addMembership(anyInt(),anyInt(),anyInt());
+
+        assertTrue(userActionsController.addGroupMember(1,1,1));
+
+        doThrow(new SQLException("Simulated SQL exception")).when(isPartDaoMock).addMembership(anyInt(),anyInt(),anyInt());
+        assertFalse(userActionsController.addGroupMember(1,1,1));
+
+    }
+
+    @Test
+    public void removeGroupMemberTest() throws SQLException, ClassNotFoundException {
+
+        Group group = createGroup(true, 5);
+
+        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        doNothing().when(isPartDaoMock).removeMembership(anyInt(),anyInt());
+
+        assertTrue(userActionsController.removeGroupMember(1,1));
+
+        doThrow(new SQLException("Simulated SQL exception")).when(isPartDaoMock).removeMembership(anyInt(),anyInt());
+        assertFalse(userActionsController.removeGroupMember(1,1));
+
+    }
+
+    @Test
+    public void deleteReservationTest() throws SQLException, ClassNotFoundException {
+
+        /*
+        Reservation reservation = createReservation(true);
+
+        assertFalse(reservation.isDeleted());
+
+        when(reservationDaoMock.getReservation(anyInt(),anyBoolean())).thenReturn(reservation);
+
+        doNothing().when(reservationDaoMock).updateIsDeleted(anyInt(),anyBoolean());
+
+         */
+
+        //TODO to be finished
 
 
     }
