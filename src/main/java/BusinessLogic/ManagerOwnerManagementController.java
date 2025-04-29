@@ -68,7 +68,10 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
                     group.setId(newGroupId); //WARNING: it's very important
 
                     if (isMatched) {
-                        sendInvites(group, findOtherPlayers(field.getFacility().getProvince()));
+                        int invitesSent = sendInvites(group, findOtherPlayers(field.getFacility().getProvince()));
+                        if (invitesSent == -1)
+                            return -1;
+
                     }
                     else{
                         notificationController.sendConfirmNotification(reservation);

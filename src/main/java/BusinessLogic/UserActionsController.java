@@ -67,8 +67,12 @@ public class UserActionsController extends PersonController<User>{
 
                 if (joinGroup(newGroupId, guests)) {
 
+                    //TODO check -1 correctness
                     if (isMatched) {
-                        sendInvites(group, findOtherPlayers(this.person.getProvince()));
+                        int invitesSent = sendInvites(group, findOtherPlayers(this.person.getProvince()));
+                        if (invitesSent == -1)
+                            return -1;
+
                     } else {
                         notificationController.sendConfirmNotification(reservation);
                     }

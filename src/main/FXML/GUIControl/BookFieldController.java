@@ -165,8 +165,9 @@ public class BookFieldController extends FieldFormManagementController implement
         int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
         int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), null);
 
+        //TODO how we manage sendInvites failure
 
-        if (reservationIdAdded != 0) {
+        if (reservationIdAdded > 0) {
 
             if (selectGuestsPaneController != null) {
 
