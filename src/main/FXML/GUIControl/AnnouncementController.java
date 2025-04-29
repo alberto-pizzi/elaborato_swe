@@ -78,9 +78,14 @@ public abstract class AnnouncementController implements Initializable {
 
     @FXML
     public void handleCancelButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
-        reservationField = managerOwnerManagementController.getReservationField(reservation);
-        System.out.println("Cancelled!");
-        changeView();
+        try {
+            reservationField = managerOwnerManagementController.getReservationField(reservation);
+            System.out.println("Cancelled!");
+            changeView();
+        } catch (SQLException e) {
+            messagesController.showMessage("An error has occurred", MessagesController.MessageType.ERROR,5);
+            errorMessage.setAlignment(Pos.CENTER);
+        }
     }
 
     @FXML
@@ -100,9 +105,13 @@ public abstract class AnnouncementController implements Initializable {
             if(result.get() == ButtonType.OK){
 
                 reservationField = managerOwnerManagementController.getReservationField(reservation);
-                managerOwnerManagementController.reservationAnnouncement(messageText.getText(), reservation);
-                System.out.println("Sent!");
-                changeView();
+                if(managerOwnerManagementController.reservationAnnouncement(messageText.getText(), reservation)){
+                    System.out.println("Sent!");
+                    changeView();
+                }else{
+                    messagesController.showMessage("An error has occurred, announcement not sent", MessagesController.MessageType.ERROR,5);
+                    errorMessage.setAlignment(Pos.CENTER);
+                }
 
             } else if(result.get() == ButtonType.CANCEL){
                 System.out.println("Cancel!");

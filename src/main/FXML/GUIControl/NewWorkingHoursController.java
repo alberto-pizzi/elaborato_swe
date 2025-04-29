@@ -89,11 +89,13 @@ public class NewWorkingHoursController implements Initializable {
 
     private Facility facility;
 
+    private MessagesController messagesController;
+
     private BorderPane menuPane;
 
-    void checkHours(DayOfWeek day, ArrayList<Node> hours, GridPane pane) throws SQLException, ParseException {
-
+    boolean checkHours(DayOfWeek day, ArrayList<Node> hours, GridPane pane) throws SQLException, ParseException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
+        boolean success = true;
         Boolean opened = false;
         String openingHours = "";
         String closingHours = "";
@@ -108,13 +110,14 @@ public class NewWorkingHoursController implements Initializable {
                 opened = false;
                 tmpLabel = (Label) node;
                 closingHours = tmpLabel.getText();
-                ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
+                success = ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
             }
         }
         if (opened){
             closingHours = "24:00";
-            ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
+            success = ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
         }
+        return success;
     }
 
     void setData(Facility facility, BorderPane menuPane){
@@ -124,43 +127,49 @@ public class NewWorkingHoursController implements Initializable {
 
     @FXML
     void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException, ParseException {
+        boolean success = false;
 
         if (!closedMonday.isSelected()) {
-            checkHours(DayOfWeek.MONDAY, clickedMon, monday);
+            success = checkHours(DayOfWeek.MONDAY, clickedMon, monday);
         }
 
         if (!closedTuesday.isSelected()) {
-            checkHours(DayOfWeek.TUESDAY, clickedTue, tuesday);
+            success = checkHours(DayOfWeek.TUESDAY, clickedTue, tuesday);
         }
 
         if (!closedWednesday.isSelected()) {
-            checkHours(DayOfWeek.WEDNESDAY, clickedWed, wednesday);
+            success = checkHours(DayOfWeek.WEDNESDAY, clickedWed, wednesday);
         }
 
         if (!closedThursday.isSelected()) {
-            checkHours(DayOfWeek.THURSDAY, clickedThu, thursday);
+            success = checkHours(DayOfWeek.THURSDAY, clickedThu, thursday);
         }
 
         if (!closedFriday.isSelected()) {
-            checkHours(DayOfWeek.FRIDAY, clickedFri, friday);
+            success = checkHours(DayOfWeek.FRIDAY, clickedFri, friday);
         }
 
         if (!closedSaturday.isSelected()) {
-            checkHours(DayOfWeek.SATURDAY, clickedSat, saturday);
+            success = checkHours(DayOfWeek.SATURDAY, clickedSat, saturday);
         }
 
         if (!closedSunday.isSelected()) {
-            checkHours(DayOfWeek.SUNDAY, clickedSun, sunday);
+            success = checkHours(DayOfWeek.SUNDAY, clickedSun, sunday);
         }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
-        Parent newField = loader.load();
+        if(success){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
+            Parent newField = loader.load();
 
-        NewFieldController newFieldController = loader.getController();
-        newFieldController.setData(facility, menuPane);
-        newFieldController.setNewFacility(true);
+            NewFieldController newFieldController = loader.getController();
+            newFieldController.setData(facility, menuPane);
+            newFieldController.setNewFacility(true);
 
-        menuPane.setCenter(newField);
+            menuPane.setCenter(newField);
+        }else{
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+        }
 
     }
 
@@ -177,6 +186,8 @@ public class NewWorkingHoursController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        messagesController = new MessagesController(messageLabel);
 
         for(Node node : monday.getChildren()){
             node.setOnMouseClicked((MouseEvent event) -> {

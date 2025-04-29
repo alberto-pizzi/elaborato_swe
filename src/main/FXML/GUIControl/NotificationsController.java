@@ -16,59 +16,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class NotificationsController implements Initializable {
-
-    @FXML
-    private VBox notificationsVBox;
-
-    @FXML
-    private ScrollPane scroll;
-
-    private ArrayList<Notification> notifications = new ArrayList<Notification>();
-
+public class NotificationsController extends Notifications {
 
     @Override
-    public void initialize(URL location, ResourceBundle resources){
+    protected void notificationItem(int i) throws IOException {
 
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/main/FXML/notificationItem.fxml"));
 
-        NotificationController notificationController = new NotificationController();
+        AnchorPane notificationItem = fxmlLoader.load();
 
+        NotificationItemController notificationItemController = fxmlLoader.getController();
+        notificationItemController.setNotificationsController(this);
+        notificationItemController.setData(notifications.get(i));
 
-        try {
-            notifications.addAll(notificationController.getOwnNotifications());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        try{
-
-            System.out.println(notifications.size());
-
-            for (int i = 0; i < notifications.size(); i++) {
-
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/main/FXML/notificationItem.fxml"));
-
-                AnchorPane notificationItem = fxmlLoader.load();
-
-                NotificationItemController notificationItemController = fxmlLoader.getController();
-                notificationItemController.setNotificationsController(this);
-                notificationItemController.setData(notifications.get(i));
-
-                notificationsVBox.getChildren().add(notificationItem);
-            }
-
-
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
-
+        notificationsVBox.getChildren().add(notificationItem);
     }
 
-    public void removeNotificationItemFromGUI(AnchorPane notificationItemPane, Notification notification) {
-        notifications.remove(notification);
-        notificationsVBox.getChildren().remove(notificationItemPane);
-    }
 }

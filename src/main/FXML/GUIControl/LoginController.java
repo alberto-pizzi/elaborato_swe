@@ -51,23 +51,23 @@ public abstract class LoginController extends AccessControllerGui {
             String message = "Please enter a valid username/password";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }else{
-
-            verified = access.checkPassword(username.getText(), password.getText());
-            if (!verified) {
-                String message = "Wrong password or username, forgot password?";
-                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-            }else{
-                System.out.println("login done");
-                person = access.login(username.getText());
-                sessionController.setPerson(person);
-                try {
-
+            try{
+                verified = access.checkPassword(username.getText(), password.getText());
+                if (!verified) {
+                    String message = "Wrong password or username, forgot password?";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                }else{
+                    System.out.println("login done");
+                    person = access.login(username.getText());
+                    sessionController.setPerson(person);
                     goToHome();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+            }catch (Exception e) {
+                e.printStackTrace();
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
+
         }
     }
 

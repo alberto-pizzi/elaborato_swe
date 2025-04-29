@@ -36,9 +36,7 @@ public class UserAccess implements AccessStrategy{
         try {
             dao.addUser(username,email,PasswordEncoder.hashPassword(password),city,province,zip,country);
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (SQLException | NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
         return true;
@@ -50,11 +48,7 @@ public class UserAccess implements AccessStrategy{
         boolean verified = false;
         try {
             verified = PasswordEncoder.verifyPassword(notEncodedPassword,dao.getEncodedPassword(username));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (SQLException | NoSuchAlgorithmException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 

@@ -81,6 +81,9 @@ public abstract class FacilityForm extends MediaManagerController{
         folderName = "facilities";
         if(uploadImage()){
             facility.setImage(imageName);
+        }else{
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
         }
     }
 }

@@ -35,12 +35,17 @@ public class ManagerItemController {
     private HBox userItemBox;
 
     private User user;
+
     private Facility facility;
+
     private AddManagersController addManagersController;
+
+    private MessagesController messagesController;
 
     public void setData(User user, AddManagersController addManagersController, Facility facility) throws SQLException {
 
         this.addManagersController = addManagersController;
+        this.messagesController = addManagersController.getMessagesController();
         this.user = user;
         this.facility = facility;
 
@@ -62,9 +67,15 @@ public class ManagerItemController {
         if(result.get() == ButtonType.OK){
 
             OwnerManagementController ownerManagementController = new OwnerManagementController();
-            ownerManagementController.attachManager(user.getId(), facility.getId());
-            if (addManagersController != null) {
-                addManagersController.removeUserItemFromGUI(userItemBox,user);
+            if(ownerManagementController.attachManager(user.getId(), facility.getId())){
+                if (addManagersController != null) {
+                    addManagersController.removeUserItemFromGUI(userItemBox,user);
+                }
+            }else{
+                if (addManagersController != null) {
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                }
             }
 
         } else if(result.get() == ButtonType.CANCEL){

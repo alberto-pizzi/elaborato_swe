@@ -79,6 +79,11 @@
             </ScrollPane>
             <VBox alignment="CENTER">
                <children>
+                  <Label fx:id="messageLabel" alignment="CENTER" prefHeight="19.0" prefWidth="921.0" text="Error: text" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
                      <children>
                         <Button fx:id="previous" mnemonicParsing="false" onAction="#handlePreviousButton" styleClass="clickable" stylesheets="@css/style.css" text="Previous" underline="true">

@@ -11,62 +11,6 @@ import main.java.DomainModel.Notification;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
-public class NotificationItemController {
-
-    @FXML
-    private Button deleteNotificationButton;
-
-    @FXML
-    private Label notificationMessageLabel;
-
-    @FXML
-    private Button gotoButton;
-
-    @FXML
-    private Label notificationTitleLabel;
-
-    @FXML
-    private AnchorPane notificationItemPane;
-
-    private Notification notification;
-
-    private NotificationsController notificationsController;
-
-    public void setNotificationsController(NotificationsController notificationsController) {
-        this.notificationsController = notificationsController;
-    }
-
-    public void setData(Notification tmpNotification) {
-        this.notification = tmpNotification;
-
-        //FIXME better position for message builder?
-        notification.buildMessage();
-
-        notificationTitleLabel.setText(notification.getTitle());
-        notificationMessageLabel.setText(notification.getMessage());
-
-    }
-
-    @FXML
-    void handleDeleteNotificationButton(ActionEvent event) throws SQLException {
-
-        System.out.println("Deleting button clicked: " + notificationTitleLabel.getText());
-        System.out.println("Deleting button clicked ID: " + notification.getId());
-
-
-        NotificationController notificationController = new NotificationController();
-        notificationController.deleteNotifications(notification);
-
-        if (notificationsController != null) {
-            notificationsController.removeNotificationItemFromGUI(notificationItemPane,notification);
-        }
-    }
-
-    @FXML
-    void handleGotoButton(ActionEvent event) {
-
-        //TODO implement
-    }
-
+public class NotificationItemController extends NotificationItem{
 
 }

@@ -58,10 +58,8 @@ public abstract class FieldChoice {
         for(int i=0; i < itemsPerPage && i < fields.size(); i++){
             try {
                 setFields(i);
-            } catch (IOException e) {
+            } catch (IOException | SQLException e) {
                 e.printStackTrace();
-                throw new RuntimeException(e);
-            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }

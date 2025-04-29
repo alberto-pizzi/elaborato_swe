@@ -222,9 +222,13 @@ public class ModifyFacilityController extends FacilityForm {
             OwnerManagementController ownerManagementController = new OwnerManagementController();
             managers.getChildren().removeAll(clickedManagerLabels);
             for (User user : clickedManagers) {
-                ownerManagementController.detachManager(user.getId(), facility.getId());
-                managersList.remove(user);
-                facility.setNManager(facility.getNManager()-1);
+                if(ownerManagementController.detachManager(user.getId(), facility.getId())){
+                    managersList.remove(user);
+                    facility.setNManager(facility.getNManager()-1);
+                }else{
+                    String message = "An error has occurred, one or more managers have not been deleted";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                }
             }
 
         } else if(result.get() == ButtonType.CANCEL){

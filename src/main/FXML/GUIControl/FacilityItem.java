@@ -42,7 +42,6 @@ public abstract class FacilityItem {
 
     public void setData(Facility facility) throws SQLException {
         this.facility = facility;
-
         facilityNameLabel.setText(facility.getName());
         facilityAddressLabel.setText(facility.getAddress());
         managersLabel.setText(String.format("%d",facility.getNManager()));
