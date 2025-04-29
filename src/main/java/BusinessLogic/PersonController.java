@@ -80,7 +80,15 @@ public abstract class PersonController<T extends Person> {
     }
 
     public int getUserGuests(int idReservation, int userId) throws SQLException, ClassNotFoundException {
-        return isPartDao.countOwnGuests(groupDao.getGroupByReservation(idReservation).getId(),userId);
+        int ownGuests = -1;
+        try{
+            ownGuests = isPartDao.countOwnGuests(groupDao.getGroupByReservation(idReservation).getId(),userId);
+        }
+        catch (SQLException | ClassNotFoundException e){
+            return -1;
+        }
+
+        return ownGuests;
     }
 
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
@@ -212,7 +220,15 @@ public abstract class PersonController<T extends Person> {
     }
 
     public int getGroupParticipants(int idReservation) throws SQLException, ClassNotFoundException {
-        return groupDao.getGroupByReservation(idReservation).getParticipants();
+        int groupParticipants = -1;
+        try {
+            groupParticipants = groupDao.getGroupByReservation(idReservation).getParticipants();
+        }
+        catch (SQLException | ClassNotFoundException e) {
+            return -1;
+        }
+
+        return groupParticipants;
     }
 
     //TODO add alerts to manage callers
