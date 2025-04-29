@@ -134,7 +134,7 @@ public class InviteItemController {
         yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
     }
 
-    //TODO check it
+
     private Optional<ButtonType> loadOwnGuestSelectorPane(Invite invite) throws SQLException, ClassNotFoundException {
         DialogPane selectGuestsDialogPane;
 
