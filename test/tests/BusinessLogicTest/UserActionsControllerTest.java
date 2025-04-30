@@ -57,7 +57,6 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         notificationControllerMock = mock(NotificationController.class);
 
-        //userActionsController = new UserActionsController(user,userDAOMock,groupDaoMock,isPartDaoMock,workingHoursDAOMock,reservationDaoMock,inviteDaoMock,fieldDaoMock,managesDAOMock,facilityDAOMock,ownerDAOMock,notificationDAOMock);
         userActionsController = new UserActionsController(user,userDAOMock,groupDaoMock,isPartDaoMock,workingHoursDAOMock,reservationDaoMock,inviteDaoMock,fieldDaoMock,managesDAOMock,notificationControllerMock);
 
     }
@@ -133,8 +132,11 @@ public class UserActionsControllerTest extends GeneralBSTest {
     }
 
     @Test
-    public void addReservationTest() throws SQLException{
+    public void addReservationTest() throws SQLException, ClassNotFoundException {
         //TODO implement
+
+        when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
+
 
     }
 
@@ -282,18 +284,17 @@ public class UserActionsControllerTest extends GeneralBSTest {
     @Test
     public void deleteReservationTest() throws SQLException, ClassNotFoundException {
 
-        /*
+
         Reservation reservation = createReservation(true);
 
         assertFalse(reservation.isDeleted());
 
         when(reservationDaoMock.getReservation(anyInt(),anyBoolean())).thenReturn(reservation);
-
         doNothing().when(reservationDaoMock).updateIsDeleted(anyInt(),anyBoolean());
+        when(notificationControllerMock.sendDeletionNotification(any())).thenReturn(1);
 
-         */
-
-        //TODO to be finished
+        assertTrue(userActionsController.deleteReservation(reservation.getId()));
+        assertTrue(reservation.isDeleted());
 
 
     }

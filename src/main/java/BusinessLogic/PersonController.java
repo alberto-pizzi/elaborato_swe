@@ -157,7 +157,8 @@ public abstract class PersonController<T extends Person> {
             return false;
         }
 
-        notificationController.sendDeletionNotification(reservation);
+        int notificationsSent = notificationController.sendDeletionNotification(reservation);
+
 
         //set isDeleted flag to true
         reservation.setDeleted(true);
