@@ -181,6 +181,78 @@ public class UserActionsControllerTest extends GeneralBSTest {
         //TODO implement
     }
 
+
+    @Test
+    public void searchFiledTest() throws SQLException{
+        Field field = createField();
+
+        ArrayList<Field> fields = new ArrayList<>();
+        fields.add(createField());
+
+        when(fieldDaoMock.search(anyString())).thenReturn(fields);
+        assertEquals(fields, userActionsController.searchField(field.getName()));
+
+    }
+
+    @Test
+    public void getOwnInvitesTest() throws SQLException, ClassNotFoundException {
+
+        Field field = createField();
+
+        ArrayList<Invite> invites = new ArrayList<>();
+        invites.add(createInvite());
+
+        when(inviteDaoMock.getInvitesByUser(anyInt())).thenReturn(invites);
+        assertEquals(invites, userActionsController.getOwnInvites());
+        //TODO check
+        assertEquals(userActionsController.getPerson().getUsername(),invites.get(0).getUser().getUsername());
+
+    }
+
+    @Test
+    public void getNearbyFieldsTest() throws SQLException{
+
+        Field field = createField();
+
+        ArrayList<Field> fields = new ArrayList<>();
+        fields.add(createField());
+
+        userActionsController.getPerson().setProvince(field.getFacility().getProvince());
+
+        when(fieldDaoMock.getFieldsByProvince(anyString())).thenReturn(fields);
+        assertEquals(fields, userActionsController.getNearbyFields());
+
+        assertEquals(userActionsController.getPerson().getProvince(),field.getFacility().getProvince());
+
+    }
+
+    @Test
+    public void getOwnGroupsTest() throws SQLException{
+
+        Group group = createGroup(true,10);
+
+        ArrayList<Group> groups = new ArrayList<>();
+        groups.add(group);
+
+        when(isPartDaoMock.getAllGroupsByUser(anyInt())).thenReturn(groups);
+        assertEquals(groups, userActionsController.getOwnGroups());
+
+    }
+
+    @Test
+    public void getOwnReservationsTest() throws SQLException, ClassNotFoundException {
+
+        Reservation reservation = createReservation(true);
+
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        reservations.add(reservation);
+
+        when(reservationDaoMock.getReservationsByUser(anyInt())).thenReturn(reservations);
+        assertEquals(reservations, userActionsController.getOwnReservations());
+
+    }
+
+
     //person controller tests:
 
 
