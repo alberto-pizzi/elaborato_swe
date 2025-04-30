@@ -26,7 +26,7 @@ public abstract class ReservationItemsManagerOwner extends ReservationItems{
         this.reservationsController = reservationsController;
     }
 
-    public  abstract void handleAnnouncementButton();
+    public  abstract void handleAnnouncementButton() throws SQLException, ClassNotFoundException, IOException;
 
     public  abstract void handleEditButton() throws IOException, SQLException, ClassNotFoundException;
 
