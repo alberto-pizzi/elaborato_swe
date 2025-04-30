@@ -253,31 +253,21 @@ public class UserActionsController extends PersonController<User>{
 
 
     public ArrayList<Invite> getOwnInvites() throws SQLException, ClassNotFoundException {
-        
-
         return inviteDao.getInvitesByUser(person.getId());
 
     }
 
     public ArrayList<Field> getNearbyFields() throws SQLException {
-        
-
         return fieldDao.getFieldsByProvince(person.getProvince());
 
     }
 
     public ArrayList<Group> getOwnGroups() throws SQLException {
-
-        
-
         return isPartDao.getAllGroupsByUser(this.person.getId());
 
     }
 
     public ArrayList<Reservation> getOwnReservations() throws SQLException, ClassNotFoundException {
-
-        
-
         //TODO should getReservation be improved with isConfirmed supporting? (into ReservationDao)
         return reservationDao.getReservationsByUser(this.person.getId());
 
