@@ -290,7 +290,24 @@ public class UserActionsControllerTest extends GeneralBSTest {
     }
 
     @Test
-    public void sendInvitesTest() throws SQLException{
-        //TODO implement
+    public void sendInvitesTest() throws SQLException, ClassNotFoundException {
+
+        Group group = createGroup(true, 10);
+        User user = createSecondUser();
+
+        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        when(userDAOMock.getUserByID(anyInt())).thenReturn(user);
+        when(inviteDaoMock.addInvite(any())).thenReturn(1);
+        when(inviteDaoMock.checkInvite(anyInt(),anyInt())).thenReturn(false);
+
+        ArrayList<User> receivers = new ArrayList<>();
+
+        assertEquals(0,userActionsController.sendInvites(group,receivers));
+
+        receivers.add(createThirdUser());
+        assertEquals(1,userActionsController.sendInvites(group,receivers));
+        doThrow(new SQLException("Simulated SQL exception")).when(inviteDaoMock).addInvite(any());
+        assertEquals(-1,userActionsController.sendInvites(group,receivers));
+
     }
 }
