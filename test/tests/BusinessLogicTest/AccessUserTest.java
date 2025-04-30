@@ -45,7 +45,7 @@ public class AccessUserTest extends GeneralBSTest{
         assertEquals(user.getEmail(),accessController.login(user.getUsername()).getEmail());
 
         //With exception
-        when(userDAOMock.getUser(anyString())).thenThrow(new SQLException());
+        when(userDAOMock.getUser(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
         assertThrows(SQLException.class,() -> {
             accessController.login(user.getUsername());
         });
@@ -58,7 +58,7 @@ public class AccessUserTest extends GeneralBSTest{
         assertTrue(accessController.checkPassword(user.getUsername(), user.getPassword()));
 
         //With exception
-        when(userDAOMock.getEncodedPassword(anyString())).thenThrow(new SQLException());
+        when(userDAOMock.getEncodedPassword(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
         assertThrows(SQLException.class,() -> {
             accessController.checkPassword(user.getUsername(), user.getPassword());
         });
@@ -71,7 +71,7 @@ public class AccessUserTest extends GeneralBSTest{
         assertTrue(accessController.checkPersonExistence(user.getUsername()));
 
         //With exception
-        when(userDAOMock.getUser(anyString())).thenThrow(new SQLException());
+        when(userDAOMock.getUser(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
         assertThrows(SQLException.class,() -> {
             accessController.checkPersonExistence(user.getUsername());
         });
@@ -84,7 +84,7 @@ public class AccessUserTest extends GeneralBSTest{
         assertTrue(accessController.checkEmail(user.getEmail()));
 
         //With exception
-        when(userDAOMock.checkEmailExistence(anyString())).thenThrow(new SQLException());
+        when(userDAOMock.checkEmailExistence(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
         assertThrows(SQLException.class,() -> {
             accessController.checkEmail(user.getEmail());
         });
@@ -97,7 +97,7 @@ public class AccessUserTest extends GeneralBSTest{
         assertTrue(accessController.register(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry()));
 
         //With exception
-        when(userDAOMock.addUser(any(),any(), any(), any(), any(), any(), any())).thenThrow(new SQLException());
+        when(userDAOMock.addUser(any(),any(), any(), any(), any(), any(), any())).thenThrow(new SQLException("Simulated SQL exception"));
         assertFalse(accessController.register(user.getUsername(), user.getEmail(), user.getPassword(), user.getCity(), user.getProvince(), user.getZip(), user.getCountry()));
     }
 

@@ -47,7 +47,7 @@ public class AccessOwnerTest extends GeneralBSTest {
         assertEquals(owner.getEmail(),accessController.login(owner.getUsername()).getEmail());
 
         //With exception
-        when(ownerDAOMock.getOwner(anyString())).thenThrow(new SQLException());
+        when(ownerDAOMock.getOwner(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
         assertThrows(SQLException.class,() -> {
             accessController.login(owner.getUsername());
         });
@@ -60,7 +60,7 @@ public class AccessOwnerTest extends GeneralBSTest {
         assertTrue(accessController.checkPassword(owner.getUsername(), owner.getPassword()));
 
         //With exception
-        when(ownerDAOMock.getEncodedPassword(anyString())).thenThrow(new SQLException());
+        when(ownerDAOMock.getEncodedPassword(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
         assertThrows(SQLException.class,() -> {
             accessController.checkPassword(owner.getUsername(), owner.getPassword());
         });
@@ -73,7 +73,7 @@ public class AccessOwnerTest extends GeneralBSTest {
         assertTrue(accessController.checkPersonExistence(owner.getUsername()));
 
         //With exception
-        when(ownerDAOMock.getOwner(anyString())).thenThrow(new SQLException());
+        when(ownerDAOMock.getOwner(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
         assertThrows(SQLException.class,() -> {
             accessController.checkPersonExistence(owner.getUsername());
         });
@@ -86,7 +86,7 @@ public class AccessOwnerTest extends GeneralBSTest {
         assertTrue(accessController.checkEmail(owner.getEmail()));
 
         //With exception
-        when(ownerDAOMock.checkEmailExistence(anyString())).thenThrow(new SQLException());
+        when(ownerDAOMock.checkEmailExistence(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
         assertThrows(SQLException.class,() -> {
             accessController.checkEmail(owner.getEmail());
         });
@@ -99,7 +99,7 @@ public class AccessOwnerTest extends GeneralBSTest {
         assertTrue(accessController.register(owner.getUsername(), owner.getEmail(), owner.getPassword(), owner.getCity(), owner.getProvince(), owner.getZip(), owner.getCountry()));
 
         //With exception
-        when(ownerDAOMock.addOwner(any(),any(), any(), any(), any(), any(), any())).thenThrow(new SQLException());
+        when(ownerDAOMock.addOwner(any(),any(), any(), any(), any(), any(), any())).thenThrow(new SQLException("Simulated SQL exception"));
         assertFalse(accessController.register(owner.getUsername(), owner.getEmail(), owner.getPassword(), owner.getCity(), owner.getProvince(), owner.getZip(), owner.getCountry()));
     }
 }
