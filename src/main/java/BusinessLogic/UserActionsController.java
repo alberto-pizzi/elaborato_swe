@@ -38,6 +38,15 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
+    public UserActionsController(User user, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao, ManagesDAO managesDAO, NotificationController notificationController){
+        super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,notificationController);
+
+        this.managesDAO = managesDAO;
+
+    }
+
+
+
     //methods
     //TODO it should be removed? Maybe yes
     public float calculatePricePerPerson(int idField, int nPeople) throws SQLException, ClassNotFoundException {

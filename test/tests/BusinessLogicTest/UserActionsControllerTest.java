@@ -1,5 +1,6 @@
 package tests.BusinessLogicTest;
 
+import main.java.BusinessLogic.NotificationController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
@@ -33,6 +34,8 @@ public class UserActionsControllerTest extends GeneralBSTest {
     private OwnerDAO ownerDAOMock = null;
     private NotificationDAO notificationDAOMock = null;
 
+    private NotificationController notificationControllerMock = null;
+
     @Override
     @BeforeEach
     public void setup() throws SQLException {
@@ -52,7 +55,11 @@ public class UserActionsControllerTest extends GeneralBSTest {
         ownerDAOMock = mock(OwnerDAO.class);
         notificationDAOMock = mock(NotificationDAO.class);
 
-        userActionsController = new UserActionsController(user,userDAOMock,groupDaoMock,isPartDaoMock,workingHoursDAOMock,reservationDaoMock,inviteDaoMock,fieldDaoMock,managesDAOMock,facilityDAOMock,ownerDAOMock,notificationDAOMock);
+        notificationControllerMock = mock(NotificationController.class);
+
+        //userActionsController = new UserActionsController(user,userDAOMock,groupDaoMock,isPartDaoMock,workingHoursDAOMock,reservationDaoMock,inviteDaoMock,fieldDaoMock,managesDAOMock,facilityDAOMock,ownerDAOMock,notificationDAOMock);
+        userActionsController = new UserActionsController(user,userDAOMock,groupDaoMock,isPartDaoMock,workingHoursDAOMock,reservationDaoMock,inviteDaoMock,fieldDaoMock,managesDAOMock,notificationControllerMock);
+
     }
 
     @Override
@@ -68,6 +75,8 @@ public class UserActionsControllerTest extends GeneralBSTest {
         inviteDaoMock = null;
         fieldDaoMock = null;
         managesDAOMock = null;
+
+        notificationControllerMock = null;
 
         user = null;
         userActionsController = null;

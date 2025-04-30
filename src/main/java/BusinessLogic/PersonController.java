@@ -55,6 +55,21 @@ public abstract class PersonController<T extends Person> {
 
     }
 
+    public PersonController(T person, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao, NotificationController notificationController) {
+        this.person = person;
+
+        this.userDAO = userDAO;
+        this.groupDao = groupDao;
+        this.isPartDao = isPartDao;
+        this.workingHoursDAO = workingHoursDAO;
+        this.reservationDao = reservationDao;
+        this.inviteDao = inviteDao;
+        this.fieldDao = fieldDao;
+
+        this.notificationController = notificationController;
+
+    }
+
     public T getPerson() {
         return person;
     }
