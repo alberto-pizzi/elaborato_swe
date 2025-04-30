@@ -364,13 +364,11 @@ public abstract class PersonController<T extends Person> {
         return fieldDao.getFieldAddress(fieldId);
     }
 
-    //TODO changed into static. Is it correct?
     public int getUserIdByUsername(String username) throws SQLException, ClassNotFoundException {
         
         return userDAO.getUserID(username);
     }
 
-    //TODO changed into static. Is it correct?
     public User getUserByID(int id) throws SQLException, ClassNotFoundException {
         
         return userDAO.getUserByID(id);

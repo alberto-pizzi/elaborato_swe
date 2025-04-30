@@ -320,4 +320,90 @@ public class UserActionsControllerTest extends GeneralBSTest {
         assertEquals(-1,userActionsController.sendInvites(group,receivers));
 
     }
+
+    @Test
+    public void getReservationFieldTest() throws SQLException, ClassNotFoundException {
+
+        Field field = createField();
+
+        when(fieldDaoMock.getField(anyInt())).thenReturn(field);
+        assertEquals(field, userActionsController.getReservationField(createReservation(true)));
+
+    }
+
+    @Test
+    public void getFieldAddressTest() throws SQLException {
+
+        Field field = createField();
+
+        when(fieldDaoMock.getFieldAddress(anyInt())).thenReturn(field.getFacility().getFullAddress());
+        assertEquals(field.getFacility().getFullAddress(), userActionsController.getFieldAddress(field.getId()));
+
+    }
+
+    @Test
+    public void getUserIdByUsernameTest() throws SQLException, ClassNotFoundException {
+
+        User user = createUser();
+
+        when(userDAOMock.getUserID(anyString())).thenReturn(user.getId());
+        assertEquals(user.getId(), userActionsController.getUserIdByUsername(user.getUsername()));
+
+    }
+
+    @Test
+    public void getUserByIDTest() throws SQLException, ClassNotFoundException {
+        User user = createUser();
+
+        when(userDAOMock.getUserByID(anyInt())).thenReturn(user);
+        assertEquals(user, userActionsController.getUserByID(user.getId()));
+
+    }
+
+    @Test
+    public void getGroupByReservationTest() throws SQLException, ClassNotFoundException {
+
+        Group group = createGroup(true, 10);
+
+        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        assertEquals(group, userActionsController.getGroupByReservation(group.getReservation().getId()));
+
+    }
+
+    @Test
+    public void getReservationsByFieldTest() throws SQLException, ClassNotFoundException {
+        Field field = createField();
+
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        reservations.add(createReservation(true));
+
+        when(reservationDaoMock.getReservationsByField(anyInt())).thenReturn(reservations);
+        assertEquals(reservations, userActionsController.getReservationsByField(field.getId()));
+
+    }
+
+    @Test
+    public void getGroupMembersTest() throws SQLException, ClassNotFoundException {
+        Group group = createGroup(true, 10);
+
+        group.getGroupMembers().add(new GroupMember(createSecondUser(),2));
+
+        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        assertEquals(group.getGroupMembers(), userActionsController.getGroupMembers(group.getReservation().getId()));
+
+    }
+
+    @Test
+    public void findOtherPlayersTest() throws SQLException, ClassNotFoundException {
+        Group group = createGroup(true, 10);
+
+        group.getGroupMembers().add(new GroupMember(createSecondUser(),2));
+
+        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        assertEquals(group.getGroupMembers(), userActionsController.getGroupMembers(group.getReservation().getId()));
+
+        //TODO implement
+    }
+
+
 }
