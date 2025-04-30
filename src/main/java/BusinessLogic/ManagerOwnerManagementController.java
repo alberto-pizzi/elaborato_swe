@@ -28,16 +28,12 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
     public ArrayList<Field> getFieldsByFacility(Facility facility) throws SQLException {
         ArrayList<Field> fields;
-
-        try {
-            fields = fieldDao.getFieldsByFacility(facility.getId(), false);
-        }catch (SQLException e){
-            return null;
-        }
+        fields = fieldDao.getFieldsByFacility(facility.getId(), false);
         return fields;
     }
 
 
+    //todo mai usata
     public int getHeadGuests(int idReservation) throws SQLException, ClassNotFoundException {
         int count;
 
@@ -53,7 +49,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
     //TODO check redundancy (with override class)
     @Override
-    public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException {
+    public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) {
         Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field, isMatched);
 
         try {
@@ -79,13 +75,13 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
                 System.out.println("Reservation has been added into DB");
                 return newReservationId;
             }
-        }catch (SQLException e){
+            return 0;
+        }catch (SQLException | ClassNotFoundException e){
             return 0;
         }
-
-        return 0;
     }
 
+    //todo mai usata
     public boolean changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
         try {
             Group group = groupDao.getGroupByReservation(idReservation);
@@ -99,20 +95,15 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
         ArrayList<WorkingHours> workingHours;
-
-        try {
-            workingHours = workingHoursDAO.getWHsByFacility(idFacility);
-        }catch (SQLException e){
-            return null;
-        }
+        workingHours = workingHoursDAO.getWHsByFacility(idFacility);
         return workingHours;
     }
 
 
-    public boolean reservationAnnouncement(String notificationMessage, Reservation reservation) throws SQLException, ClassNotFoundException {
+    public boolean reservationAnnouncement(String notificationMessage, Reservation reservation) {
         try {
             notificationController.sendAnnouncement(reservation,notificationMessage);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             return false;
         }
         return true;
