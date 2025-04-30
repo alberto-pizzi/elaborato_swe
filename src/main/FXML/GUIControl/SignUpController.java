@@ -32,23 +32,18 @@ public abstract class SignUpController extends AccessControllerGui {
 
     protected abstract void goToLogin() throws IOException;
 
-    protected void signUpHelper() throws SQLException, ClassNotFoundException {
+    protected void signUpHelper() throws SQLException, ClassNotFoundException, IOException {
         if(password.getText().equals(passwordConfirmed.getText())) {
 
             if(!access.checkEmail(email.getText())){
 
                 if(!access.checkPersonExistence(username.getText())){
 
-                    if(access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText())){
-                        System.out.println("register done");
-                        try {
-                            goToLogin();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
+                    if(access.register(username.getText(), email.getText(), password.getText(), city.getText(), province.getText(), zip.getText(), country.getText())) {
+                        goToLogin();
+                        System.out.println("Sign up done");
                     }else{
-                        String message = "An error has occurred";
+                        String message = "An error has occurred with the registration";
                         messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                     }
 
@@ -77,6 +72,8 @@ public abstract class SignUpController extends AccessControllerGui {
             goToLogin();
         } catch (Exception e) {
             e.printStackTrace();
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
 

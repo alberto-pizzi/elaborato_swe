@@ -36,8 +36,10 @@ public abstract class LoginController extends AccessControllerGui {
     public void handleSignUpButton(ActionEvent event){
         try {
             goToSignUp();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
 

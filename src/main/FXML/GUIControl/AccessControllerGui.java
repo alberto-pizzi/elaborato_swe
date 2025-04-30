@@ -67,8 +67,10 @@ public abstract class AccessControllerGui implements Initializable {
 
         try {
             switchRole();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
 }

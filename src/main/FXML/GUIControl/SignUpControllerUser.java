@@ -30,9 +30,10 @@ public class SignUpControllerUser extends SignUpController implements Initializa
 
             try{
                 signUpHelper();
-            }catch(SQLException | ClassNotFoundException e){
+            }catch(SQLException | ClassNotFoundException | IOException e){
+                e.printStackTrace();
                 String message = "An error has occurred";
-                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
         }else{
             String message = "Fields missing";
