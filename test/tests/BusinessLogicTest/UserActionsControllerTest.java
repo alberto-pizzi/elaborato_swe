@@ -9,7 +9,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.sql.Date;
 
 import static org.mockito.Mockito.*;
 
@@ -89,12 +94,16 @@ public class UserActionsControllerTest extends GeneralBSTest {
         int requiredParticipants = 5;
         Group group = createGroup(true, requiredParticipants);
 
-        when(groupDaoMock.getGroup(anyInt())).thenReturn(group);
-        doNothing().when(isPartDaoMock).addMembership(anyInt(), eq(user.getId()), eq(guests));
+        joinGroupMockHelper(group,guests);
 
         assertTrue(userActionsController.joinGroup(group.getId(),guests));
         assertFalse(userActionsController.joinGroup(group.getId(),requiredParticipants+2));
 
+    }
+
+    private void joinGroupMockHelper(Group group,int guests) throws SQLException, ClassNotFoundException {
+        when(groupDaoMock.getGroup(anyInt())).thenReturn(group);
+        doNothing().when(isPartDaoMock).addMembership(anyInt(), eq(user.getId()), eq(guests));
     }
 
     @Test
@@ -133,10 +142,42 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
     @Test
     public void addReservationTest() throws SQLException, ClassNotFoundException {
-        //TODO implement
 
+        int requiredParticipants = 10;
+        boolean isMatched = true;
+        Group group = createGroup(isMatched, requiredParticipants);
+        Field field = createField();
+        User groupHead = createUser(); //FIXME
+        User user = createSecondUser();
+        int guests = 2;
+
+        LocalDate tomorrowLocal = LocalDate.now().plusDays(1);
+        Date tomorrow = Date.valueOf(tomorrowLocal);
+
+        LocalTime now = LocalTime.now();
+        LocalTime newTime = now.plusHours(1);
+        Time eventTimeStart = Time.valueOf(now);
+        Time eventTimeEnd = Time.valueOf(newTime);
+
+        joinGroupMockHelper(group,guests);
+        findOtherPlayersMockHelper(group);
+        sendInviteMockHelper(group, user);
         when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
+        when(groupDaoMock.addGroup(any())).thenReturn(3);
+        int reservationId = 3;
+        when(reservationDaoMock.addReservation(any())).thenReturn(reservationId);
 
+        assertEquals(reservationId,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead));
+
+        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,null));
+
+        Date yesterday = Date.valueOf(LocalDate.now().minusDays(1));
+        assertEquals(0,userActionsController.addReservation(yesterday,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead));
+
+        guests = 10;
+        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead));
+
+        //TODO is other tests needed?
 
     }
 
@@ -307,10 +348,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
         Group group = createGroup(true, 10);
         User user = createSecondUser();
 
-        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
-        when(userDAOMock.getUserByID(anyInt())).thenReturn(user);
-        when(inviteDaoMock.addInvite(any())).thenReturn(1);
-        when(inviteDaoMock.checkInvite(anyInt(),anyInt())).thenReturn(false);
+        sendInviteMockHelper(group,user);
 
         assertTrue(userActionsController.sendInvite(group.getReservation(),user.getId()));
 
@@ -377,10 +415,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
         Group group = createGroup(true, 10);
         User user = createSecondUser();
 
-        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
-        when(userDAOMock.getUserByID(anyInt())).thenReturn(user);
-        when(inviteDaoMock.addInvite(any())).thenReturn(1);
-        when(inviteDaoMock.checkInvite(anyInt(),anyInt())).thenReturn(false);
+        sendInviteMockHelper(group,user);
 
         ArrayList<User> receivers = new ArrayList<>();
 
@@ -390,6 +425,14 @@ public class UserActionsControllerTest extends GeneralBSTest {
         assertEquals(1,userActionsController.sendInvites(group,receivers));
         doThrow(new SQLException("Simulated SQL exception")).when(inviteDaoMock).addInvite(any());
         assertEquals(-1,userActionsController.sendInvites(group,receivers));
+
+    }
+
+    private void sendInviteMockHelper(Group group, User user) throws SQLException, ClassNotFoundException {
+        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        when(userDAOMock.getUserByID(anyInt())).thenReturn(user);
+        when(inviteDaoMock.addInvite(any())).thenReturn(1);
+        when(inviteDaoMock.checkInvite(anyInt(),anyInt())).thenReturn(false);
 
     }
 
@@ -471,10 +514,14 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         group.getGroupMembers().add(new GroupMember(createSecondUser(),2));
 
-        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        findOtherPlayersMockHelper(group);
         assertEquals(group.getGroupMembers(), userActionsController.getGroupMembers(group.getReservation().getId()));
 
         //TODO implement
+    }
+
+    private void findOtherPlayersMockHelper(Group group) throws SQLException, ClassNotFoundException {
+        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
     }
 
 

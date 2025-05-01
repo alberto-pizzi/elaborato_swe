@@ -106,7 +106,7 @@ public class UserActionsController extends PersonController<User>{
     public boolean editRights(Reservation reservation) throws SQLException, ClassNotFoundException {
         
 
-        Boolean pass = true;
+        boolean pass = true;
         Group group = groupDao.getGroupByReservation(reservation.getId());
 
         if(group.getGroupHead().getId() != person.getId()) {
