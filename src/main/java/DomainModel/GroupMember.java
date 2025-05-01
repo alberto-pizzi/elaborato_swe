@@ -35,6 +35,11 @@ public final class GroupMember {
     }
 
     public static void removeFromArrayByUsername(String username, ArrayList<GroupMember> groupMembers) {
+
+        if (username.isEmpty() || groupMembers.isEmpty())
+            return;
+
+
         for (GroupMember member : groupMembers) {
             if (member.getUser().getUsername().equals(username)) {
                 groupMembers.remove(member);
@@ -44,6 +49,10 @@ public final class GroupMember {
     }
 
     public static boolean isUsernameInsideGroupMembers(String username, ArrayList<GroupMember> groupMembers) {
+
+        if (username.isEmpty() || groupMembers.isEmpty())
+            return false;
+
         for (GroupMember member : groupMembers) {
             if (member.getUser().getUsername().equals(username))
                 return true;
