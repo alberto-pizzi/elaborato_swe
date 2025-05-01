@@ -193,21 +193,11 @@ public class Group{
     }
 
     private void removeGroupMemberByUsernameFromArrayList(String username){
-        for (GroupMember member : groupMembers) {
-            if (member.getUser().getUsername().equals(username)) {
-                groupMembers.remove(member);
-                return;
-            }
-        }
+        GroupMember.removeFromArrayByUsername(username,groupMembers);
     }
 
     public boolean isUserInsideGroup(String username){
-        for (GroupMember member : groupMembers) {
-            if (member.getUser().getUsername().equals(username))
-                return true;
-        }
-
-        return false;
+        return GroupMember.isUsernameInsideGroupMembers(username,groupMembers);
     }
 
     public static ArrayList<User> getUsersByGroupMembers(ArrayList<GroupMember> members){
