@@ -84,6 +84,9 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
             addOrReplaceMemberIntoDraftArray(groupMembersAdded, groupMember);
 
+            GroupMember.removeFromArrayByUsername(groupMember.getUser().getUsername(),groupMembersChanged);
+            GroupMember.removeFromArrayByUsername(groupMember.getUser().getUsername(),groupMembersRemoved);
+
             effectiveGroupMembersList.getItems().add(groupMember);
         }
         else
@@ -215,7 +218,6 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
         else
             System.out.println("Group is null during applyChanges");
 
-
     }
 
 
@@ -252,6 +254,10 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                 effectiveGroupMembersList.getSelectionModel().getSelectedItem().setOwnGuests((nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0));
                 effectiveGroupMembersList.refresh();
                 addOrReplaceMemberIntoDraftArray(groupMembersChanged, effectiveGroupMembersList.getSelectionModel().getSelectedItem());
+
+                GroupMember.removeFromArrayByUsername(effectiveGroupMembersList.getSelectionModel().getSelectedItem().getUser().getUsername(),groupMembersAdded);
+                GroupMember.removeFromArrayByUsername(effectiveGroupMembersList.getSelectionModel().getSelectedItem().getUser().getUsername(),groupMembersRemoved);
+
 
                 updateDraftParticipants(true);
                 updateAddButtons();
