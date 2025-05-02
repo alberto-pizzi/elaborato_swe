@@ -92,7 +92,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         int guests = 2;
         int requiredParticipants = 5;
-        Group group = createGroup(true, requiredParticipants);
+        Group group = createGroup(createSecondUser(),createReservation(true),requiredParticipants);
 
         joinGroupMockHelper(group,guests);
 
@@ -111,7 +111,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         int guests = 1;
         int requiredParticipants = 5;
-        Group group = createGroup(true, requiredParticipants);
+        Group group = createGroup(createThirdUser(),createReservation(true), requiredParticipants);
         User user = createSecondUser();
         Invite invite = createInvite(createUser(),group);
 

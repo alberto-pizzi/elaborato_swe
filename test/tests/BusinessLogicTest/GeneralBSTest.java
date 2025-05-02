@@ -112,11 +112,11 @@ public abstract class GeneralBSTest {
     }
 
     protected Group createGroup(Boolean isMatched, int requiredParticipants) throws SQLException {
-        return new Group(createUser(),createReservation(isMatched),requiredParticipants);
+        return new Group(createUser(),createReservation(isMatched),requiredParticipants,0);
     }
 
     protected Group createGroup(User user, Reservation reservation, int requiredParticipants) throws SQLException {
-        return new Group(user,reservation,requiredParticipants);
+        return new Group(user,reservation,requiredParticipants,0);
     }
 
     protected Notification createNotification() throws SQLException {

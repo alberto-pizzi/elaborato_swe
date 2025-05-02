@@ -102,7 +102,36 @@ public abstract class PersonController<T extends Person> {
         return workingHoursDAO.getWHsByFacilityByDay(idFacility,dayOfWeek);
     }
 
-    public abstract int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException;
+    public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) {
+        Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field, isMatched);
+
+        try {
+            if (checkReservationData(reservation)) {
+                int newReservationId = reservationDao.addReservation(reservation);
+                reservation.setId(newReservationId); //WARNING: it's very important
+
+                //group creation
+                Group group = new Group(groupHead, reservation, requiredParticipants,guests);
+                if (checkGroupData(group)) {
+                    int newGroupId = groupDao.addGroup(group);
+                    group.setId(newGroupId); //WARNING: it's very important
+
+                    if (isMatched) {
+                        sendInvites(group, findOtherPlayers(getProvinceForMatching(field)));
+                    }
+                    else{
+                        notificationController.sendConfirmNotification(reservation);
+                    }
+                }else
+                    return 0;
+
+                return newReservationId;
+            }
+            return 0;
+        }catch (SQLException | ClassNotFoundException e){
+            return 0;
+        }
+    }
 
         //TODO edit messages
     public boolean editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
@@ -160,10 +189,12 @@ public abstract class PersonController<T extends Person> {
 
     }
 
-    public ArrayList <User> findOtherPlayers(String userProvince) throws SQLException, ClassNotFoundException {
+    protected ArrayList <User> findOtherPlayers(String userProvince) throws SQLException, ClassNotFoundException {
         
         return userDAO.getUsersByProvince(userProvince);
     }
+
+    protected abstract String getProvinceForMatching(Field field);
 
     public boolean changeUserGuests(int idReservation, int userId, int guestNewNumber) throws SQLException, ClassNotFoundException {
 

@@ -51,42 +51,9 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         return count;
     }
 
-    //TODO check redundancy (with override class)
     @Override
-    public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException {
-        Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field, isMatched);
-
-        try {
-            if (checkReservationData(reservation)) {
-                int newReservationId = reservationDao.addReservation(reservation);
-                reservation.setId(newReservationId); //WARNING: it's very important
-
-                //group creation
-                Group group = new Group(groupHead, reservation, requiredParticipants);
-                if (checkGroupData(group)) {
-                    int newGroupId = groupDao.addGroup(group);
-                    group.setId(newGroupId); //WARNING: it's very important
-
-                    if (isMatched) {
-                        int invitesSent = sendInvites(group, findOtherPlayers(field.getFacility().getProvince()));
-                        if (invitesSent == -1)
-                            return -1;
-
-                    }
-                    else{
-                        notificationController.sendConfirmNotification(reservation);
-                    }
-                }else
-                    return 0;
-
-                System.out.println("Reservation has been added into DB");
-                return newReservationId;
-            }
-        }catch (SQLException e){
-            return 0;
-        }
-
-        return 0;
+    protected String getProvinceForMatching(Field field){
+        return field.getFacility().getProvince();
     }
 
     public boolean changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {

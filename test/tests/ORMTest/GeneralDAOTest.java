@@ -153,7 +153,7 @@ public abstract class GeneralDAOTest {
 
     protected Group createGroup(Boolean isMatched, int requiredParticipants) throws SQLException {
         GroupDao groupDao = new GroupDao();
-        Group group = new Group(createUser(),createReservation(isMatched),requiredParticipants);
+        Group group = new Group(createUser(),createReservation(isMatched),requiredParticipants,0);
         group.setId(groupDao.addGroup(group));
         return group;
     }
@@ -161,7 +161,7 @@ public abstract class GeneralDAOTest {
     //todo parlare con albe perché non aggiunge ispart ba database qindi grouphead non fa  parte gruppo?
     protected Group createGroup(User user, Reservation reservation, int requiredParticipants) throws SQLException {
         GroupDao groupDao = new GroupDao();
-        Group group = new Group(user,reservation,requiredParticipants);
+        Group group = new Group(user,reservation,requiredParticipants,0);
         group.setId(groupDao.addGroup(group));
         return group;
     }
