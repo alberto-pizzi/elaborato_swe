@@ -77,12 +77,12 @@ public abstract class AnnouncementController implements Initializable {
     }
 
     @FXML
-    public void handleCancelButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+    public void handleCancelButton(ActionEvent event){
         try {
             reservationField = managerOwnerManagementController.getReservationField(reservation);
             System.out.println("Cancelled!");
             changeView();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException | IOException e) {
             messagesController.showMessage("An error has occurred", MessagesController.MessageType.ERROR,5);
             errorMessage.setAlignment(Pos.CENTER);
         }

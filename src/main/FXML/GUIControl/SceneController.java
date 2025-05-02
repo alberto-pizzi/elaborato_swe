@@ -22,7 +22,8 @@ public class SceneController implements Initializable {
         try {
             goToLogin();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            //todo non serve stoppare tutto?
+            e.printStackTrace();
         }
     }
 

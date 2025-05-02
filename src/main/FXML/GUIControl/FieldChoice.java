@@ -59,8 +59,8 @@ public abstract class FieldChoice {
             try {
                 setFields(i);
             } catch (IOException | SQLException e) {
+                //todo messaggi di errore
                 e.printStackTrace();
-                throw new RuntimeException(e);
             }
         }
         String page = String.valueOf(currentPage);
@@ -77,8 +77,8 @@ public abstract class FieldChoice {
                 try {
                     setFields(i);
                 } catch (IOException | SQLException e) {
+                    //todo messaggi di errore
                     e.printStackTrace();
-                    throw new RuntimeException(e);
                 }
             }
             currentPage++;
@@ -91,6 +91,7 @@ public abstract class FieldChoice {
     public void handlePreviousButton(ActionEvent event){
 
         if(currentPage > 1){
+
             fieldsList.getChildren().clear();
 
             for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
@@ -98,8 +99,8 @@ public abstract class FieldChoice {
                 try {
                     setFields(i);
                 } catch (IOException | SQLException e) {
+                    //todo messaggi di errore
                     e.printStackTrace();
-                    throw new RuntimeException(e);
                 }
             }
             currentPage--;

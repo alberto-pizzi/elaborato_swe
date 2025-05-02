@@ -46,7 +46,7 @@ public abstract class FacilityDetail {
         this.menuPane = menuPane;
         facilityNameLabel.setText(facility.getName());
         facilityAddress.setText(facility.getFullAddress());
-        facilityTelephone.setText(facility.getTelephone().toString());
+        facilityTelephone.setText(facility.getTelephone());
         facilityFieldsNumber.setText(String.valueOf(facility.getNFields()));
         facilityManagersNumber.setText(String.valueOf(facility.getNManager()));
         //TODO add "go to book" button
@@ -56,10 +56,11 @@ public abstract class FacilityDetail {
     }
 
     @FXML
-    public void handleGoToFieldsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    public void handleGoToFieldsButton(ActionEvent event){
         try {
             goToFields();
         } catch (IOException | SQLException | ClassNotFoundException e) {
+            //fixme aggiungere messaggi di errore
             e.printStackTrace();
         }
     }
