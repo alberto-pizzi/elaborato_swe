@@ -29,7 +29,13 @@ public class UpdateAddressOwnerController extends UpdateAddress {
 
     @Override
     @FXML
-    public void handleConfirmButton(ActionEvent event) throws SQLException {
+    public void handleConfirmButton(ActionEvent event){
+        try {
             updateAddress();
+        } catch (SQLException e) {
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
+        }
     }
+
 }

@@ -30,9 +30,14 @@ public class UpdateAddressController extends UpdateAddress {
 
     @Override
     @FXML
-    public void handleConfirmButton(ActionEvent event) throws SQLException {
+    public void handleConfirmButton(ActionEvent event){
         if (!provinceInput.getText().isEmpty()) {
-            updateAddress();
+            try{
+                updateAddress();
+            } catch (SQLException e) {
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
+            }
         }else {
             String message = "Please fill all the fields.";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
