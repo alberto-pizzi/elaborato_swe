@@ -47,6 +47,7 @@ public class ReservationsManagerController extends Reservations{
             menuPane.setCenter(view);
         }catch(IOException | SQLException | ClassNotFoundException e ){
             e.printStackTrace();
+            //todo aggiungere errore
         }
 
     }
