@@ -11,25 +11,30 @@ public abstract class UpdateUsername extends UpdateProfileController {
     protected TextField usernameInput;
 
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void handleConfirmButton(ActionEvent event){
 
         if (!usernameInput.getText().isEmpty()) {
 
             if (!usernameInput.getText().equals(profileController.getUsername())) {
 
-                boolean userExists = access.checkPersonExistence(usernameInput.getText());
-                if (!userExists) {
-                    if(profileController.updateUsername(usernameInput.getText())){
-                        String message = "User updated, new username is: " + usernameInput.getText();
-                        messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
-                    }else{
-                        String message = "An error has occurred";
+                try{
+                    boolean userExists = access.checkPersonExistence(usernameInput.getText());
+                    if (!userExists) {
+                        if(profileController.updateUsername(usernameInput.getText())){
+                            String message = "User updated, new username is: " + usernameInput.getText();
+                            messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                        }else{
+                            String message = "An error has occurred";
+                            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                        }
+                    }
+                    else{
+                        String message = "Username already exists";
                         messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                     }
-                }
-                else{
-                    String message = "Username already exists";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                }catch (SQLException | ClassNotFoundException e){
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                 }
             }else{
                 String message = "This is already your username. Try again!";
