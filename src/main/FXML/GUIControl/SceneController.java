@@ -20,11 +20,10 @@ public class SceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-
             goToLogin();
-
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            //todo non serve stoppare tutto?
+            e.printStackTrace();
         }
     }
 

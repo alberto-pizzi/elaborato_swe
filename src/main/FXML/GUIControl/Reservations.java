@@ -67,25 +67,19 @@ public abstract class Reservations {
 
     public  abstract void handleNewReservationButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException;
 
-    public void setData(Field field, BorderPane menuPane) throws SQLException, ClassNotFoundException {
+    public void setData(Field field, BorderPane menuPane) throws SQLException, ClassNotFoundException, IOException {
         personController = new ManagerOwnerManagementController();
-
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         this.reservations = managerOwnerManagementController.getReservationsByField(field.getId());
         this.menuPane = menuPane;
         this.field = field;
         for(int i=0; i < itemsPerPage && i < reservations.size(); i++){
-            try {
                 reservationItem(i);
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
         }
         String page = String.valueOf(currentPage);
         pageNumber.setText(page);
-
     }
+
 
     @FXML
     private void handleNextButton(ActionEvent event){
@@ -98,7 +92,6 @@ public abstract class Reservations {
                     reservationItem(i);
                 } catch (IOException | SQLException | ClassNotFoundException e) {
                     e.printStackTrace();
-                    throw new RuntimeException(e);
                 }
             }
             currentPage++;
@@ -119,7 +112,6 @@ public abstract class Reservations {
                     reservationItem(i);
                 } catch (IOException | SQLException | ClassNotFoundException e) {
                     e.printStackTrace();
-                    throw new RuntimeException(e);
                 }
 
             }

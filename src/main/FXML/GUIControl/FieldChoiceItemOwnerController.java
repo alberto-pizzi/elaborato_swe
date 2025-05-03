@@ -12,34 +12,53 @@ public class FieldChoiceItemOwnerController extends FieldChoiceItem{
 
     @Override
     @FXML
-    public void handleDetailsFieldButton(ActionEvent event) throws IOException {
+    public void handleDetailsFieldButton(ActionEvent event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetailOwner.fxml"));
-        Parent fieldDetailPane = loader.load();
-        FieldDetailOwnerController fieldDetailOwnerController = loader.getController();
-        fieldDetailOwnerController.setData(field,menuPane);
-        menuPane.setCenter(fieldDetailPane);
+        Parent fieldDetailPane = null;
+        try {
+            fieldDetailPane = loader.load();
+            FieldDetailOwnerController fieldDetailOwnerController = loader.getController();
+            fieldDetailOwnerController.setData(field,menuPane);
+            menuPane.setCenter(fieldDetailPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+            //todo aggiungere errore
+        }
+
     }
 
     @Override
     @FXML
-    public void handleReservationFieldButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    public void handleReservationFieldButton(ActionEvent event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingFormOwner.fxml"));
-        Parent view = loader.load();
-        BookFieldController bookFieldController = loader.getController();
-        bookFieldController.setData(this.field);
-        bookFieldController.selectGuestsPaneController.setData(null,false);
-        menuPane.setCenter(view);
-
+        Parent view = null;
+        try {
+            view = loader.load();
+            BookFieldController bookFieldController = loader.getController();
+            bookFieldController.setData(this.field);
+            bookFieldController.selectGuestsPaneController.setData(null,false);
+            menuPane.setCenter(view);
+        } catch (IOException | SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            //todo aggiungere errore
+        }
     }
 
     @Override
     @FXML
-    public void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    public void handleSeeReservationsButton(ActionEvent event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));
-        Parent view = loader.load();
-        ReservationsOwnerController reservationsOwnerController = loader.getController();
-        reservationsOwnerController.setData(field, menuPane);
-        menuPane.setCenter(view);
+        Parent view = null;
+        try {
+            view = loader.load();
+            ReservationsOwnerController reservationsOwnerController = loader.getController();
+            reservationsOwnerController.setData(field, menuPane);
+            menuPane.setCenter(view);
+        } catch (IOException | SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            //todo aggiungere errore
+        }
+
     }
 
 }

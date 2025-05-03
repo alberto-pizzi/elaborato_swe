@@ -19,6 +19,7 @@ import java.util.ResourceBundle;
 
 public abstract class MediaManagerController implements Initializable {
 
+    //todo aggiungere png
     protected FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg");
 
     @FXML
@@ -44,8 +45,7 @@ public abstract class MediaManagerController implements Initializable {
         this.menuPane = menuPane;
     }
 
-    //todo controllare con albe
-    protected Boolean uploadImage() {
+    protected boolean uploadImage() {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.setTitle("Select the image you want to upload");
@@ -67,10 +67,9 @@ public abstract class MediaManagerController implements Initializable {
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                 }
             } catch (IOException e) {
-                String message = "An error has occurred";
-                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
-                e.printStackTrace();
+                return false;
             }
+
             FileChannel sourceChannel = null;
             FileChannel destChannel = null;
             try {
@@ -78,7 +77,7 @@ public abstract class MediaManagerController implements Initializable {
                 destChannel = new FileOutputStream(copiedImage).getChannel();
                 destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                return false;
             } finally {
                 try {
                     assert sourceChannel != null;
@@ -86,7 +85,8 @@ public abstract class MediaManagerController implements Initializable {
                     assert destChannel != null;
                     destChannel.close();
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    String message = "An error has occurred with files closing";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                 }
             }
             String pathFromRoot = "/main/FXML/img/"+folderName+"/";

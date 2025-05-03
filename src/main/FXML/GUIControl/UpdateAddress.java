@@ -22,7 +22,7 @@ public abstract class UpdateAddress extends UpdateProfileController{
     protected TextField zipInput;
 
     @FXML
-    abstract public void handleConfirmButton(ActionEvent event) throws SQLException;
+    abstract public void handleConfirmButton(ActionEvent event);
 
     protected void updateAddress() throws SQLException{
         if (profileController.updateProvince(provinceInput.getText()) && profileController.updateCity(cityInput.getText()) && profileController.updateCountry(countryInput.getText()) && profileController.updateZip(zipInput.getText())) {

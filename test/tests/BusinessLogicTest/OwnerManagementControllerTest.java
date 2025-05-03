@@ -66,8 +66,15 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
     @Test
     void dailyEarning() throws SQLException {
+        //No exception
         when(reservationDao.dailyEarning(any(Date.class), any(Owner.class))).thenReturn(1);
         assertEquals(1, ownerManagementController.dailyEarning());
+
+        //With exception
+        when(reservationDao.dailyEarning(any(Date.class), any(Owner.class))).thenThrow(new SQLException("Simulated SQL exception"));
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.dailyEarning();
+        });
     }
 
     @Test
@@ -78,7 +85,9 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
         //With exception
         when(reservationDao.dailyEarning(any(Date.class), any(Owner.class))).thenThrow(new SQLException("Simulated SQL exception"));
-        assertEquals(-1, ownerManagementController.monthlyEarnings());
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.monthlyEarnings();
+        });
     }
 
     @Test
@@ -87,8 +96,15 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         for(int i=0 ;i<7 ; i++)
             earnings.add(1);
 
+        //No exception
         when(reservationDao.dailyEarning(any(), any())).thenReturn(1);
         assertEquals(earnings, ownerManagementController.dailyEarnings());
+
+        //With exception
+        when(reservationDao.dailyEarning(any(Date.class), any(Owner.class))).thenThrow(new SQLException("Simulated SQL exception"));
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.dailyEarnings();
+        });
     }
 
     @Test
@@ -99,7 +115,9 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
         //With exception
         when(reservationDao.dailyReservations(any(Date.class), any(Owner.class))).thenThrow(new SQLException("Simulated SQL exception"));
-        assertEquals(-1, ownerManagementController.monthlyReservations());
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.monthlyReservations();
+        });
     }
 
     @Test
@@ -110,7 +128,9 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
         //With exception
         when(fieldDao.reservedFields(any(Date.class), any(Owner.class))).thenThrow(new SQLException("Simulated SQL exception"));
-        assertEquals(-1, ownerManagementController.reservedFields());
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.reservedFields();
+        });
     }
 
     @Test
@@ -126,7 +146,9 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
         //With exception
         when(fieldDao.reservedFields(any(Date.class), any(Owner.class))).thenThrow(new SQLException("Simulated SQL exception"));
-        assertEquals(-1, ownerManagementController.notReservedFields());
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.notReservedFields();
+        });
     }
 
     @Test
@@ -140,7 +162,9 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
         //With exception
         when(facilityDAO.getFacilitiesByOwner(anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
-        assertNull(ownerManagementController.getOwnFacilities());
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.getOwnFacilities();
+        });
     }
 
     @Test
@@ -154,9 +178,12 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
         //With exception
         when(managesDAO.getAllManagersByFacility(anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
-        assertNull(ownerManagementController.getManagersByFacility(createFacility()));
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.getManagersByFacility(createFacility());
+        });
     }
 
+    //todo mai usata
     @Test
     void getUsersByProvince() throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();
@@ -184,7 +211,9 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
         //With exception
         when(userDAO.getUsersByProvinceSearch(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
-        assertNull(ownerManagementController.searchManagersByProvince(createFacility().getProvince(), createFacility().getId()));
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.searchManagersByProvince(createFacility().getProvince(), createFacility().getId());
+        });
     }
 
     @Test
@@ -199,7 +228,9 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
         //With exception
         when(userDAO.getUsersByUsernameSearch(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
-        assertNull(ownerManagementController.searchManagersByUsername(createFacility().getProvince(), createFacility().getId()));
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.searchManagersByUsername(createFacility().getProvince(), createFacility().getId());
+        });
     }
 
     @Test
@@ -261,8 +292,17 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     void getSports() throws SQLException {
         ArrayList<Sport> sports = new ArrayList<>();
         sports.add(createSport());
+
+        //No exception
         when(sportDao.getAllSport()).thenReturn(sports);
         assertEquals(1, ownerManagementController.getSports().size());
+
+        //With exception
+        when(sportDao.getAllSport()).thenThrow(new SQLException("Simulated SQL exception"));
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.getSports();
+        });
+
     }
 
     @Test
@@ -333,9 +373,12 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
         //With exception
         when(workingHoursDAO.addWHToFacility(anyInt(), any(DayOfWeek.class), any(Time.class), any(Time.class))).thenThrow(new SQLException("Simulated SQL exception"));
-        assertFalse(ownerManagementController.addWorkingHours(facility.getId(), "8:00:00", "22:00:00", DayOfWeek.MONDAY));
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.addWorkingHours(facility.getId(), "8:00:00", "22:00:00", DayOfWeek.MONDAY);
+        });
     }
 
+    //todo mai usata
     @Test
     void editWorkingHours() throws SQLException {
         //No exception
@@ -347,6 +390,7 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         assertFalse(ownerManagementController.editWorkingHours(createWH(createFacility(), DayOfWeek.MONDAY)));
     }
 
+    //todo mai usata
     @Test
     void deleteWorkingHours() throws SQLException {
         //No exception
@@ -366,7 +410,9 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
         //With exception
         doThrow(new SQLException("Simulated SQL exception")).when(workingHoursDAO).removeWHFromFacilityByDay(anyInt(), any(DayOfWeek.class));
-        assertFalse(ownerManagementController.deleteWorkingHoursByDay(createFacility(), DayOfWeek.MONDAY));
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.deleteWorkingHoursByDay(createFacility(), DayOfWeek.MONDAY);
+        });
     }
 
     @Test
@@ -380,6 +426,8 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
         //With exception
         when(workingHoursDAO.getWHsByFacility(anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
-        assertNull(ownerManagementController.getWorkingHours(createFacility().getId()));
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.getWorkingHours(createFacility().getId());
+        });
     }
 }

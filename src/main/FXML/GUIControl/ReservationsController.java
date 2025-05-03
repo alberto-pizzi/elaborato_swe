@@ -53,12 +53,8 @@ public class ReservationsController implements Initializable {
     //methods
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         personController =new UserActionsController();
-
         UserActionsController userActionsController = new UserActionsController();
-
-
         try {
             reservations.addAll(userActionsController.getOwnReservations());
         } catch (SQLException | ClassNotFoundException e) {
@@ -66,30 +62,19 @@ public class ReservationsController implements Initializable {
         }
 
         try{
-
             System.out.println("Reservations size: " + reservations.size());
-
             for (int i = 0; i < reservations.size(); i++) {
-
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/main/FXML/reservationItem.fxml"));
-
                 AnchorPane reservationItem = fxmlLoader.load();
-
                 ReservationItemController groupItemController = fxmlLoader.getController();
                 groupItemController.setReservationsController(this);
                 groupItemController.setData(reservations.get(i));
-
                 reservationsVBox.getChildren().add(reservationItem);
             }
-
-
-        } catch (IOException e){
-            e.printStackTrace();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
 
     }
 
@@ -99,4 +84,4 @@ public class ReservationsController implements Initializable {
         reservationsVBox.getChildren().remove(reservationItemPane);
     }
 
-    }
+}

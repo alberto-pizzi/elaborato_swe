@@ -44,6 +44,7 @@ public abstract class ReservationItemsManagerOwner extends ReservationItems{
             if (reservationsController != null) {
                 ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
 
+                //todo cambiare delete reservation
                 if (managerOwnerManagementController.deleteReservation(reservation.getId())) {
                     reservationsController.removeReservationItemFromGUI(this.getReservationItemPane(),reservation);
                     System.out.println("Deleted!");
@@ -55,6 +56,6 @@ public abstract class ReservationItemsManagerOwner extends ReservationItems{
         } else if(result.get() == ButtonType.CANCEL){
             System.out.println("Cancel!");
         }
-
     }
+
 }

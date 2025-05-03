@@ -15,4 +15,5 @@ public class UpdatePasswordController extends UpdatePassword {
         profileController = new UserProfileController();
         access = new AccessController(new UserAccess());
     }
+
 }

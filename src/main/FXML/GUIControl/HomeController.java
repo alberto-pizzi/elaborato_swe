@@ -97,16 +97,12 @@ public class HomeController implements Initializable {
                 FXMLLoader fmxLoader;
                 fmxLoader = new FXMLLoader();
                 fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
-
                 HBox hBox = fmxLoader.load();
                 FieldItemController fieldItemController = fmxLoader.getController();
                 fieldItemController.setData(fields.get(i), menuPane);
-
                 fieldsList.getChildren().add(hBox);
-            } catch (IOException e) {
+            } catch (IOException | SQLException e) {
                 e.printStackTrace();
-                throw new RuntimeException(e);
-            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -126,15 +122,12 @@ public class HomeController implements Initializable {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
                     fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
-
                     HBox hBox = fmxLoader.load();
                     FieldItemController fieldItemController = fmxLoader.getController();
                     fieldItemController.setData(fields.get(i), menuPane);
-
                     fieldsList.getChildren().add(hBox);
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
-                    throw new RuntimeException(e);
                 }
             }
             currentPage++;
@@ -157,18 +150,13 @@ public class HomeController implements Initializable {
                         FXMLLoader fmxLoader;
                         fmxLoader = new FXMLLoader();
                         fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
-
                         HBox hBox = fmxLoader.load();
                         FieldItemController fieldItemController = fmxLoader.getController();
                         fieldItemController.setData(fields.get(i), menuPane);
-
                         fieldsList.getChildren().add(hBox);
                     } catch (IOException | SQLException e) {
                         e.printStackTrace();
-                        throw new RuntimeException(e);
                     }
-
-
                 }
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));
@@ -188,22 +176,21 @@ public class HomeController implements Initializable {
                 fields.addAll(userActionsController.searchField(search.getText()));
                 currentSearch.setText("Results for " + "'" + search.getText() + "'");
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                String message = "An error has occurred";
+                //todo aggiungere errore
+                //messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
             }
             for(int i=0; i < itemsPerPage && i < fields.size(); i++){
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
                     fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
-
                     HBox hBox = fmxLoader.load();
                     FieldItemController fieldItemController = fmxLoader.getController();
                     fieldItemController.setData(fields.get(i), menuPane);
-
                     fieldsList.getChildren().add(hBox);
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
-                    throw new RuntimeException(e);
                 }
             }
         }

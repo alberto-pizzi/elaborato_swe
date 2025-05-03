@@ -18,37 +18,36 @@ public class LoginControllerUser  extends LoginController{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         super.initialize(url, resourceBundle);
-
         access = new AccessController(new UserAccess());
         System.out.println("User");
     }
 
     @Override
     protected void goToHome() throws IOException {
-        pane.getChildren().removeAll();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/menuPane.fxml"));
         Parent view = loader.load();
+        pane.getChildren().removeAll();
         pane.getChildren().add(view);
     }
 
     @Override
     protected void goToSignUp() throws IOException {
         logIn.getScene().getWindow().setHeight(850);
-        pane.getChildren().removeAll();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/signUpUser.fxml"));
         Parent view = loader.load();
         SignUpControllerUser controller = loader.getController();
         controller.setScenePane(pane);
+        pane.getChildren().removeAll();
         pane.getChildren().add(view);
     }
 
     @Override
     protected void switchRole() throws IOException {
-        pane.getChildren().removeAll();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/loginOwner.fxml"));
         Parent view = loader.load();
         LoginControllerOwner controller = loader.getController();
         controller.setScenePane(pane);
+        pane.getChildren().removeAll();
         pane.getChildren().add(view);
     }
 

@@ -20,10 +20,10 @@ public abstract class FieldChoiceItem extends FieldItem  implements Initializabl
 
 
     @FXML
-    public abstract void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException;
+    public abstract void handleSeeReservationsButton(ActionEvent event);
 
     @FXML
-    public abstract void handleReservationFieldButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException;
+    public abstract void handleReservationFieldButton(ActionEvent event);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

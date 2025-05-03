@@ -54,7 +54,6 @@ public abstract class FieldForm extends MediaManagerController{
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
         this.menuPane = menuPane;
         this.facility = facility;
-
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         sports = ownerManagementController.getSports();
     }
@@ -80,7 +79,7 @@ public abstract class FieldForm extends MediaManagerController{
     }
 
     @FXML
-    public void handleNewSportButton(ActionEvent event) throws IOException, SQLException {
+    public void handleNewSportButton(ActionEvent event){
 
         if(!nameInput.getText().isEmpty()) {
             field.setName(nameInput.getText());
@@ -105,6 +104,9 @@ public abstract class FieldForm extends MediaManagerController{
         folderName = "fields";
         if(uploadImage()){
             field.setImage(imageName);
+        }else{
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
 }

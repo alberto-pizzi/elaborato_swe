@@ -40,15 +40,10 @@ public class ManagerItemController {
 
     private AddManagersController addManagersController;
 
-    private MessagesController messagesController;
-
     public void setData(User user, AddManagersController addManagersController, Facility facility) throws SQLException {
-
         this.addManagersController = addManagersController;
-        this.messagesController = addManagersController.getMessagesController();
         this.user = user;
         this.facility = facility;
-
         userCityLabel.setText(user.getCity());
         usernameLabel.setText(user.getUsername());
         provinceLabel.setText(user.getProvince());
@@ -56,7 +51,7 @@ public class ManagerItemController {
     }
 
     @FXML
-    void handleAddManagerButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleAddManagerButton(ActionEvent event){
         System.out.println("Add button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Add manager");
@@ -74,7 +69,7 @@ public class ManagerItemController {
             }else{
                 if (addManagersController != null) {
                     String message = "An error has occurred";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    addManagersController.getMessagesController().showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
 

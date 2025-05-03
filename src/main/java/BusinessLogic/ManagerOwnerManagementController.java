@@ -28,16 +28,12 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
     public ArrayList<Field> getFieldsByFacility(Facility facility) throws SQLException {
         ArrayList<Field> fields;
-
-        try {
-            fields = fieldDao.getFieldsByFacility(facility.getId(), false);
-        }catch (SQLException e){
-            return null;
-        }
+        fields = fieldDao.getFieldsByFacility(facility.getId(), false);
         return fields;
     }
 
 
+    //todo mai usata
     public int getHeadGuests(int idReservation) throws SQLException, ClassNotFoundException {
         int count;
 
@@ -56,6 +52,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         return field.getFacility().getProvince();
     }
 
+    //todo mai usata
     public boolean changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
         try {
             Group group = groupDao.getGroupByReservation(idReservation);
@@ -69,20 +66,15 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
         ArrayList<WorkingHours> workingHours;
-
-        try {
-            workingHours = workingHoursDAO.getWHsByFacility(idFacility);
-        }catch (SQLException e){
-            return null;
-        }
+        workingHours = workingHoursDAO.getWHsByFacility(idFacility);
         return workingHours;
     }
 
 
-    public boolean reservationAnnouncement(String notificationMessage, Reservation reservation) throws SQLException, ClassNotFoundException {
+    public boolean reservationAnnouncement(String notificationMessage, Reservation reservation) {
         try {
             notificationController.sendAnnouncement(reservation,notificationMessage);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             return false;
         }
         return true;

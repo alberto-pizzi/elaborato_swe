@@ -18,34 +18,40 @@ public abstract class UpdatePassword extends UpdateProfileController {
     protected PasswordField newPasswordInput;
 
     @FXML
-    public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
+    public void handleConfirmButton(ActionEvent event){
 
-        if (!currentPasswordInput.getText().isEmpty() && access.checkPassword(profileController.getUsername(), currentPasswordInput.getText())) {
+        try{
 
-            if (!newPasswordInput.getText().isEmpty() && newPasswordInput.getText().equals(confirmPasswordInput.getText())) {
-                if (!newPasswordInput.getText().equals(currentPasswordInput.getText())) {
-                    if(profileController.updatePassword(newPasswordInput.getText())){
-                        String message = "Password changed successfully!";
-                        messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+            if (!currentPasswordInput.getText().isEmpty() && access.checkPassword(profileController.getUsername(), currentPasswordInput.getText())) {
+
+                if (!newPasswordInput.getText().isEmpty() && newPasswordInput.getText().equals(confirmPasswordInput.getText())) {
+                    if (!newPasswordInput.getText().equals(currentPasswordInput.getText())) {
+                        if(profileController.updatePassword(newPasswordInput.getText())){
+                            String message = "Password changed successfully!";
+                            messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                        }else{
+                            String message = "An error has occurred";
+                            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                        }
                     }else{
-                        String message = "An error has occurred";
+                        String message = "Enter different password from current one.";
                         messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                     }
-                }else{
-                    String message = "Enter different password from current one.";
+                }
+                else{
+                    String message = "Passwords do not match or are empty!";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
-            }
-            else{
-                String message = "Passwords do not match or are empty!";
+
+            } else{
+                String message = "Current password is incorrect. Please try again.";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                currentPasswordInput.clear();
             }
 
-        }
-        else{
-            String message = "Current password is incorrect. Please try again.";
+        }catch (SQLException | NoSuchAlgorithmException | ClassNotFoundException e){
+            String message = "An error has occurred";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-            currentPasswordInput.clear();
         }
 
     }

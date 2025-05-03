@@ -75,7 +75,6 @@ public class ModifyFacilityController extends FacilityForm {
             System.out.println("Facility updated");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
             Parent facilitiesList = loader.load();
-
             FacilitiesListController facilitiesListController = loader.getController();
             facilitiesListController.setData(menuPane);
             menuPane.setCenter(facilitiesList);
@@ -87,17 +86,19 @@ public class ModifyFacilityController extends FacilityForm {
 
 
     @FXML
-    void handleAddManagersButton(ActionEvent event) throws IOException, SQLException {
+    void handleAddManagersButton(ActionEvent event) {
 
-        fieldChecker();
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
-        Parent addManagersPane = loader.load();
-
-        AddManagersController addManagersController = loader.getController();
-        addManagersController.setData(facility,this.menuPane);
-
-        menuPane.setCenter(addManagersPane);
+        try{
+            fieldChecker();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
+            Parent addManagersPane = loader.load();
+            AddManagersController addManagersController = loader.getController();
+            addManagersController.setData(facility,this.menuPane);
+            menuPane.setCenter(addManagersPane);
+        }catch (SQLException | ClassNotFoundException | IOException e) {
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
+        }
     }
 
     @FXML

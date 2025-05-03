@@ -66,31 +66,21 @@ public class AddManagersController implements Initializable {
         return messagesController;
     }
 
-    public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
-
+    public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException, ClassNotFoundException {
         this.facility = facility;
         this.menuPane = menuPane;
         messagesController = new MessagesController(messageLabel);
-        try {
-            users.addAll(getData());
-            currentSearch.setText("Users in " + facility.getProvince() + " province");
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        users.addAll(getData());
+        currentSearch.setText("Users in " + facility.getProvince() + " province");
         for(int i=0; i < itemsPerPage && i < users.size(); i++){
             FXMLLoader fmxLoader;
             fmxLoader = new FXMLLoader();
             fmxLoader.setLocation(getClass().getResource("/main/FXML/managerItem.fxml"));
-
             HBox hBox = null;
-            try {
-                hBox = fmxLoader.load();
-                ManagerItemController managerItemController = fmxLoader.getController();
-                managerItemController.setData(users.get(i), this, facility);
-                usersList.getChildren().add(hBox);
-            } catch (IOException | SQLException e) {
-                throw new RuntimeException(e);
-            }
+            hBox = fmxLoader.load();
+            ManagerItemController managerItemController = fmxLoader.getController();
+            managerItemController.setData(users.get(i), this, facility);
+            usersList.getChildren().add(hBox);
         }
 
     }
@@ -135,7 +125,8 @@ public class AddManagersController implements Initializable {
                     managerItemController.setData(users.get(i), this, facility);
                     usersList.getChildren().add(hBox);
                 } catch (IOException | SQLException e) {
-                    throw new RuntimeException(e);
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
             currentPage++;
@@ -165,7 +156,8 @@ public class AddManagersController implements Initializable {
                     managerItemController.setData(users.get(i), this, facility);
                     usersList.getChildren().add(hBox);
                 } catch (IOException | SQLException e) {
-                    throw new RuntimeException(e);
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
             currentPage--;
@@ -173,9 +165,11 @@ public class AddManagersController implements Initializable {
         }
     }
 
+    //todo ritoccare come si fa controllo ricerca
     @FXML
     private void handleSearchButton(ActionEvent event){
 
+        boolean searchSuccesful = false;
         if(!search.getText().isEmpty()){
             usersList.getChildren().clear();
             currentPage = 1;
@@ -186,38 +180,43 @@ public class AddManagersController implements Initializable {
                 users.clear();
                 users.addAll(ownerManagementController.searchManagersByProvince(search.getText(), facility.getId()));
                 users.addAll(ownerManagementController.searchManagersByUsername(search.getText(), facility.getId()));
+                searchSuccesful = true;
             } catch (SQLException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                String message = "A fatal error has occurred, try again";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
+
             for(int i=0; i < itemsPerPage && i < users.size(); i++){
                 try {
                     FXMLLoader fmxLoader;
                     fmxLoader = new FXMLLoader();
                     fmxLoader.setLocation(getClass().getResource("/main/FXML/managerItem.fxml"));
-
                     HBox hBox = fmxLoader.load();
                     ManagerItemController managerItemController = fmxLoader.getController();
-
                     managerItemController.setData(users.get(i), this, facility);
-
                     usersList.getChildren().add(hBox);
                 } catch (IOException | SQLException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
+                    String message = "An error has occurred";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
+
         }
         System.out.println("search.getText()");
     }
 
-    public void handleConfirmButton(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-        Parent facilityModifyPane = loader.load();
-
-        ModifyFacilityController modifyFacilityController = loader.getController();
-        modifyFacilityController.setData(facility, menuPane);
-
-        menuPane.setCenter(facilityModifyPane);
+    @FXML
+    public void handleConfirmButton(ActionEvent event){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+            Parent facilityModifyPane = loader.load();
+            ModifyFacilityController modifyFacilityController = loader.getController();
+            modifyFacilityController.setData(facility, menuPane);
+            menuPane.setCenter(facilityModifyPane);
+        }catch (IOException | SQLException e){
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+        }
     }
 
     public void removeUserItemFromGUI(HBox userItemBox, User user) {

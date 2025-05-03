@@ -11,7 +11,7 @@ import main.java.DomainModel.Reservation;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
-public class ReservationItems {
+public abstract class ReservationItems {
 
     @FXML
     protected AnchorPane reservationItemPane;
@@ -59,10 +59,8 @@ public class ReservationItems {
 
     public void setData(Reservation reservation) throws SQLException, ClassNotFoundException {
         this.reservation = reservation;
-
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
-
         bookingDate.setText(dateFormatter.format(reservation.getReservationDate()) + " at " + timeFormatter.format(reservation.getReservationTime()));
         eventDate.setText(dateFormatter.format(reservation.getEventDate()));
         eventTimeStart.setText(timeFormatter.format(reservation.getEventTimeStart()));
@@ -70,11 +68,8 @@ public class ReservationItems {
         fieldNameLabel.setText(reservation.getField().getName());
         fieldSport.setText(reservation.getField().getSport().getName());
         matching.setText(reservation.isMatched() ? "Yes" : "No");
-
         String pathFromRoot = "/main/FXML/img/fields/";
-
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + reservation.getField().getImage()));
         fieldImageView.setImage(image);
-
     }
 }

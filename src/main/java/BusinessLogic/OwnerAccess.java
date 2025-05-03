@@ -21,66 +21,39 @@ public class OwnerAccess implements AccessStrategy{
 
     @Override
     public Owner login(String username) throws SQLException {
-
         Owner owner = null;
-        try {
-            owner = dao.getOwner(username);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+        owner = dao.getOwner(username);
         return owner;
     }
 
     @Override
-    public boolean register(String username, String email, String password, String city, String province, String zip, String country) throws SQLException{
-
+    public boolean register(String username, String email, String password, String city, String province, String zip, String country){
         try {
             dao.addOwner(username,email,PasswordEncoder.hashPassword(password),city,province,zip,country);
-
         } catch (SQLException | NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            return false;
         }
         return true;
     }
 
     @Override
-    public boolean checkPassword(String username, String notEncodedPassword) throws SQLException {
-
-        boolean verified = false;
-        try {
-            verified = PasswordEncoder.verifyPassword(notEncodedPassword,dao.getEncodedPassword(username));
-        } catch (SQLException | ClassNotFoundException | NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-
+    public boolean checkPassword(String username, String notEncodedPassword) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
+        boolean verified;
+        verified = PasswordEncoder.verifyPassword(notEncodedPassword,dao.getEncodedPassword(username));
         return verified;
     }
 
     @Override
     public boolean checkPersonExistence(String username) throws SQLException{
-
         Owner owner1;
-        try {
-            owner1 = dao.getOwner(username);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+        owner1 = dao.getOwner(username);
         return (owner1 != null);
     }
 
     @Override
     public boolean checkEmail(String emailEntered) throws SQLException{
-
-        boolean verified = false;
-
-        try {
-            verified = dao.checkEmailExistence(emailEntered);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+        boolean verified;
+        verified = dao.checkEmailExistence(emailEntered);
         return verified;
     }
 

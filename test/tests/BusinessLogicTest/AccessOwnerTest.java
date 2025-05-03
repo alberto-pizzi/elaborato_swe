@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -43,31 +42,64 @@ public class AccessOwnerTest extends GeneralBSTest {
 
     @Test
     public void login() throws SQLException {
+        //No exception
         when(ownerDAOMock.getOwner(anyString())).thenReturn(owner);
         assertEquals(owner.getEmail(),accessController.login(owner.getUsername()).getEmail());
+
+        //With exception
+        when(ownerDAOMock.getOwner(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
+        assertThrows(SQLException.class,() -> {
+            accessController.login(owner.getUsername());
+        });
     }
 
     @Test
     public void checkPassword() throws SQLException, NoSuchAlgorithmException, ClassNotFoundException {
+        //No exception
         when(ownerDAOMock.getEncodedPassword(anyString())).thenReturn(PasswordEncoder.hashPassword(owner.getPassword()));
         assertTrue(accessController.checkPassword(owner.getUsername(), owner.getPassword()));
+
+        //With exception
+        when(ownerDAOMock.getEncodedPassword(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
+        assertThrows(SQLException.class,() -> {
+            accessController.checkPassword(owner.getUsername(), owner.getPassword());
+        });
     }
 
     @Test
     public void checkPersonExistence() throws SQLException, ClassNotFoundException {
+        //No exception
         when(ownerDAOMock.getOwner(anyString())).thenReturn(owner);
         assertTrue(accessController.checkPersonExistence(owner.getUsername()));
+
+        //With exception
+        when(ownerDAOMock.getOwner(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
+        assertThrows(SQLException.class,() -> {
+            accessController.checkPersonExistence(owner.getUsername());
+        });
     }
 
     @Test
     public void checkEmail() throws SQLException, ClassNotFoundException {
+        //No exception
         when(ownerDAOMock.checkEmailExistence(anyString())).thenReturn(true);
         assertTrue(accessController.checkEmail(owner.getEmail()));
+
+        //With exception
+        when(ownerDAOMock.checkEmailExistence(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
+        assertThrows(SQLException.class,() -> {
+            accessController.checkEmail(owner.getEmail());
+        });
     }
 
     @Test
     public void register() throws SQLException {
+        //No exception
         when(ownerDAOMock.addOwner(any(),any(), any(), any(), any(), any(), any())).thenReturn(1);
         assertTrue(accessController.register(owner.getUsername(), owner.getEmail(), owner.getPassword(), owner.getCity(), owner.getProvince(), owner.getZip(), owner.getCountry()));
+
+        //With exception
+        when(ownerDAOMock.addOwner(any(),any(), any(), any(), any(), any(), any())).thenThrow(new SQLException("Simulated SQL exception"));
+        assertFalse(accessController.register(owner.getUsername(), owner.getEmail(), owner.getPassword(), owner.getCity(), owner.getProvince(), owner.getZip(), owner.getCountry()));
     }
 }
