@@ -190,9 +190,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             if (groupMembersAdded != null && !groupMembersAdded.isEmpty()) {
                 for (GroupMember groupMember : groupMembersAdded) {
 
-                    //FIXME check
-                    NotificationController notificationController = new NotificationController();
-                    notificationController.connectObserverToReservation(group.getReservation());
+                    personController.getNotificationController().connectObserverToReservation(group.getReservation());
 
                     if (group.addMember(groupMember.getUser(),groupMember.getOwnGuests()))
                         personController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
@@ -205,9 +203,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             if (groupMembersChanged != null && !groupMembersChanged.isEmpty()) {
                 for (GroupMember groupMember : groupMembersChanged) {
 
-                    //FIXME check
-                    NotificationController notificationController = new NotificationController();
-                    notificationController.connectObserverToReservation(group.getReservation());
+                    personController.getNotificationController().connectObserverToReservation(group.getReservation());
 
                     group.changeUserGuests(groupMember.getUser().getUsername(),groupMember.getOwnGuests());
                     personController.changeUserGuests(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());

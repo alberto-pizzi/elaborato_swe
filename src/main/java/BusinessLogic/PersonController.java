@@ -78,6 +78,10 @@ public abstract class PersonController<T extends Person> {
         this.person = person;
     }
 
+    public NotificationController getNotificationController() {
+        return notificationController;
+    }
+
     public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
 
         ArrayList<User> users = new ArrayList<>();
@@ -136,7 +140,6 @@ public abstract class PersonController<T extends Person> {
         //TODO edit messages
     public boolean editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
 
-        NotificationController notificationController = new NotificationController();
         Reservation previousReservation = null;
 
         try{

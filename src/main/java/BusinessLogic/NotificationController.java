@@ -20,7 +20,6 @@ public class NotificationController implements Observer {
     private GroupDao groupDAO;
     private ReservationDao reservationDao;
 
-    //TODO usages to be improved...
     public NotificationController() {
         this.person = SessionController.getInstance().getPerson();
 
