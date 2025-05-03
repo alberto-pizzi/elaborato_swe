@@ -73,12 +73,16 @@ class NotificationDAOTest extends GeneralDAOTest{
 
     @Test
     void deleteNotification() {
+        Assumptions.assumeFalse(shouldSkip);
+
         //TODO implement
 
     }
 
     @Test
-    void addNotification() {
-        //TODO implement
+    void addNotification() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+
+        assertNotEquals(0,notificationDAO.addNotification(notification));
     }
 }
