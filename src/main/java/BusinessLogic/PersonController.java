@@ -50,7 +50,6 @@ public abstract class PersonController<T extends Person> {
         this.inviteDao = inviteDao;
         this.fieldDao = fieldDao;
 
-        //TODO to be checked!!!
         notificationController = new NotificationController(person,facilityDAO,ownerDAO,notificationDAO,isPartDao,managesDAO,groupDao,reservationDao);
 
     }
@@ -137,7 +136,6 @@ public abstract class PersonController<T extends Person> {
         }
     }
 
-        //TODO edit messages
     public boolean editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
 
         Reservation previousReservation = null;
@@ -265,7 +263,6 @@ public abstract class PersonController<T extends Person> {
         return groupDao.getGroupByReservation(idReservation).getParticipants();
     }
 
-    //TODO add alerts to manage callers
     public boolean sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
         
         Group group = null;
@@ -277,7 +274,6 @@ public abstract class PersonController<T extends Person> {
 
             User user = userDAO.getUserByID(idUser);
             if (inviteDao.checkInvite(idUser, group.getId())) {
-                //TODO is any return needed?
                 System.out.println("Invite already exists");
             } else if (user != null) {
                 Invite invite;

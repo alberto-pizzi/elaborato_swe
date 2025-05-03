@@ -41,7 +41,6 @@ public abstract class GeneralBSTest {
                 "", createOwner());
     }
 
-    //TODO add overloaded methods for dependencies
     protected Facility createFacility(Owner owner) throws SQLException {
         return new  Facility(
                 0, "Sport Center", "Via Roma 1", "Milano", "MI",

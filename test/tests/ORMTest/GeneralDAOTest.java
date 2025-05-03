@@ -46,7 +46,6 @@ public abstract class GeneralDAOTest {
         return owner;
     }
 
-    //TODO add overloaded methods for dependencies
     protected Facility createFacility() throws SQLException {
         FacilityDAO facilityDAO = new FacilityDAO();
         Facility facility = new  Facility(
@@ -57,7 +56,6 @@ public abstract class GeneralDAOTest {
         return facility;
     }
 
-    //TODO add overloaded methods for dependencies
     protected Facility createFacility(Owner owner) throws SQLException {
         FacilityDAO facilityDAO = new FacilityDAO();
         Facility facility = new  Facility(
@@ -197,10 +195,6 @@ public abstract class GeneralDAOTest {
         workingHours.setId(workingHoursDAO.addWHToFacility(facility.getId(),workingHours.getDayOfWeek(),workingHours.getOpeningHours(),workingHours.getClosingHours()));
         return workingHours;
     }
-
-
-
-    //TODO createWH overload
 
 
 

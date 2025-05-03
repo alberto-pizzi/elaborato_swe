@@ -46,16 +46,6 @@ public class UserActionsController extends PersonController<User>{
     }
 
     //methods
-    //TODO it should be removed? Maybe yes
-    public float calculatePricePerPerson(int idField, int nPeople) throws SQLException, ClassNotFoundException {
-
-        
-        Field field = fieldDao.getField(idField);
-
-        return field.getPrice() / nPeople;
-
-    }
-
     @Override
     protected String getProvinceForMatching(Field field){
         return this.person.getProvince();
@@ -81,7 +71,6 @@ public class UserActionsController extends PersonController<User>{
         return pass;
     }
 
-    //TODO add alerts to manage callers
     public boolean declineInvite(int idInvite) throws SQLException {
 
         try {
@@ -152,7 +141,6 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    //TODO add alerts to manage callers
     public boolean leaveGroup(int idGroup) throws SQLException, ClassNotFoundException {
 
         Group group = null;
@@ -170,7 +158,6 @@ public class UserActionsController extends PersonController<User>{
         boolean memberRemoved = group.removeMember(person,ownGuests);
 
         if (memberRemoved){
-            //TODO test this try-catch (maybe it is ok)
             try {
                 isPartDao.removeMembership(idGroup, person.getId());
 
@@ -228,10 +215,6 @@ public class UserActionsController extends PersonController<User>{
     public ArrayList<Reservation> getOwnReservations() throws SQLException, ClassNotFoundException {
         //TODO should getReservation be improved with isConfirmed supporting? (into ReservationDao)
         return reservationDao.getReservationsByUser(this.person.getId());
-
-        //TODO how implement getOwnReservations method without User file inside DB?
-
-
 
     }
 

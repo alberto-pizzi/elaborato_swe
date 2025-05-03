@@ -225,7 +225,6 @@ public class IsPartDao {
 
         UserDAO userDAO = new UserDAO();
 
-        //TODO optimize query, if possible
         String querySQL = String.format("SELECT * FROM \"IsPart\" WHERE id_user <> '%d' AND " +
                 "created_at = (SELECT MIN(created_at) FROM \"IsPart\")", idLeavingUser);
 

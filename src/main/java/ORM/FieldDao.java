@@ -221,7 +221,6 @@ public class FieldDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                //FIXME possible infinite loop
                 Field field = this.getField(resultSet.getInt("id"));
                 if (loadFacility) {
                     Facility facility = new FacilityDAO().getFacility(idFacility, false);
@@ -253,7 +252,6 @@ public class FieldDao {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                //FIXME possible infinite loop
                 Field field = this.getField(resultSet.getInt("id"));
                 if (loadFacility) {
                     Facility facility = new FacilityDAO().getFacility(field.getFacility().getId(), false);

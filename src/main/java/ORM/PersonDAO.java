@@ -38,7 +38,6 @@ public abstract class PersonDAO {
     //methods
     public int addUser(String username, String email, String password, String city, String province, String zip, String country) throws SQLException {
 
-        //TODO check not mandatory parameters
 
         String querySQL = String.format("INSERT INTO \"User\" (email, username, city, province, zip, country, password) " +
                 "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", email, username, city, province, zip, country, password);

@@ -132,7 +132,6 @@ public class NotificationController implements Observer {
 
     }
 
-    //TODO add alerts to manage callers
     public boolean deleteNotifications(Notification notification) throws SQLException {
 
         try{
