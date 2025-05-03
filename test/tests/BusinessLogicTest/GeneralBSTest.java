@@ -22,6 +22,10 @@ public abstract class GeneralBSTest {
         return new User(1,"hello@gmail.com","user1","hello123","London","London","00000","UK");
     }
 
+    protected User createUser(int userNumber){
+        return new User(userNumber,"hello"+userNumber+"@gmail.com","user"+userNumber,"hello123","London","London","00000","UK");
+    }
+
     protected User createSecondUser(){
         return new User(2,"hello2@gmail.com","user2","hello123","London","London","00000","UK");
     }
