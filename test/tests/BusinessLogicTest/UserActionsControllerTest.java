@@ -218,8 +218,20 @@ public class UserActionsControllerTest extends GeneralBSTest {
     }
 
     @Test
-    public void editRightsTest() throws SQLException{
-        //TODO implement
+    public void editRightsTest() throws SQLException, ClassNotFoundException {
+
+        Group group = createGroup(true, 5);
+
+        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+
+        assertFalse(userActionsController.editRights(group.getReservation()));
+
+        group.getReservation().setMatched(false);
+        assertTrue(userActionsController.editRights(group.getReservation()));
+
+        group.setGroupHead(createUser(3));
+        assertFalse(userActionsController.editRights(group.getReservation()));
+        
     }
 
 
