@@ -75,7 +75,6 @@ public abstract class FieldForm extends MediaManagerController{
             clickedSportLabels.add(label);
             label.setStyle("-fx-background-color: lightblue;");
         }
-
     }
 
     @FXML
@@ -94,7 +93,8 @@ public abstract class FieldForm extends MediaManagerController{
         try {
             newField();
         }catch (SQLException | IOException e) {
-            e.printStackTrace();
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
 
     }
