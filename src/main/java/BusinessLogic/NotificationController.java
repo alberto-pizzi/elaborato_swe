@@ -51,23 +51,24 @@ public class NotificationController implements Observer {
 
     //TODO check callers
     //helpers of sendNotifications
-    public int sendConfirmNotification(Reservation reservation) throws SQLException, ClassNotFoundException {
+    public int sendConfirmNotification(Reservation reservation) {
         return sendNotifications(reservation,NotificationType.CONFIRMATION,"");
     }
 
-    public int sendModificationNotification(Reservation reservation) throws SQLException, ClassNotFoundException {
+    public int sendModificationNotification(Reservation reservation) {
         return sendNotifications(reservation,NotificationType.MODIFICATION,"");
     }
 
-    public int sendDeletionNotification(Reservation reservation) throws SQLException, ClassNotFoundException {
+    public int sendDeletionNotification(Reservation reservation) {
         return sendNotifications(reservation,NotificationType.DELETION,"");
     }
 
-    public int sendAnnouncement(Reservation reservation, String message) throws SQLException, ClassNotFoundException {
+    public int sendAnnouncement(Reservation reservation, String message) {
         return sendNotifications(reservation,NotificationType.ANNOUNCEMENT,message);
     }
 
-    protected int sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) throws SQLException, ClassNotFoundException {
+    //TODO check try-catch logics
+    protected int sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) {
 
         Owner owner;
         Facility facility;
@@ -82,8 +83,12 @@ public class NotificationController implements Observer {
         NotificationSender notificationSender = new NotificationSender(reservation, notificationType, notificationMessage);
         Notification tmpNotification;
 
-        facility = facilityDAO.getFacility(reservation.getField().getFacility().getId(), false);
-        owner = ownerDAO.getOwnerByID(facility.getOwner().getId());
+        try {
+            facility = facilityDAO.getFacility(reservation.getField().getFacility().getId(), false);
+            owner = ownerDAO.getOwnerByID(facility.getOwner().getId());
+        } catch (SQLException e) {
+            return -1;
+        }
 
         try {
             tmpNotification = notificationSender.factoryMethod();
@@ -94,10 +99,15 @@ public class NotificationController implements Observer {
 
         }
 
-        ArrayList<User> managers = managesDAO.getAllManagersByFacility(facility.getId());
+        ArrayList<User> managers = new ArrayList<>();
         ArrayList<User> invitableUsers = new ArrayList<>();
-        invitableUsers.addAll(Group.getUsersByGroupMembers(isPartDao.getGroupMembers(groupDAO.getGroupByReservation(reservation.getId()).getId())));
-        invitableUsers.removeAll(managers);
+        try {
+            managers = managesDAO.getAllManagersByFacility(facility.getId());
+            invitableUsers.addAll(Group.getUsersByGroupMembers(isPartDao.getGroupMembers(groupDAO.getGroupByReservation(reservation.getId()).getId())));
+            invitableUsers.removeAll(managers);
+        } catch (SQLException | ClassNotFoundException e) {
+
+        }
 
         for(User user : managers){
             try {
@@ -132,7 +142,7 @@ public class NotificationController implements Observer {
 
     }
 
-    public boolean deleteNotifications(Notification notification) throws SQLException {
+    public boolean deleteNotifications(Notification notification) {
 
         try{
             notificationDAO.deleteNotification(notification.getRecipient(),notification.getId());
@@ -147,6 +157,7 @@ public class NotificationController implements Observer {
         return notificationDAO.getNotifications(person);
     }
 
+    //TODO throw or try-catch
     public void update() throws SQLException, ClassNotFoundException {
 
 

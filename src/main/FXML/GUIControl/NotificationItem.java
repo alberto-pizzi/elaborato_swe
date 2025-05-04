@@ -53,7 +53,7 @@ public class NotificationItem {
     }
 
     @FXML
-    public void handleDeleteNotificationButton(ActionEvent event) throws SQLException {
+    public void handleDeleteNotificationButton(ActionEvent event) {
 
         System.out.println("Deleting button clicked: " + notificationTitleLabel.getText());
         System.out.println("Deleting button clicked ID: " + notification.getId());

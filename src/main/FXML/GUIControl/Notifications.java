@@ -26,11 +26,13 @@ public abstract class Notifications implements Initializable {
     @FXML
     protected Label messageLabel;
 
+    protected int notificationItemNotVisible = 0;
+
     protected MessagesController messagesController = null;
 
     protected ArrayList<Notification> notifications = new ArrayList<Notification>();
 
-    protected abstract void notificationItem(int i) throws IOException;
+    protected abstract void notificationItem(int i);
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -44,23 +46,20 @@ public abstract class Notifications implements Initializable {
         try {
             notifications.addAll(notificationController.getOwnNotifications());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            messagesController.showMessage("Error during get own notifications", MessagesController.MessageType.ERROR,5);
         }
 
-
-        try{
 
             System.out.println(notifications.size());
 
             for (int i = 0; i < notifications.size(); i++) {
-
                 notificationItem(i);
             }
 
+            //TODO check this logic
+            if (notificationItemNotVisible > 0)
+                messagesController.showMessage(notificationItemNotVisible + " notifications are not loaded", MessagesController.MessageType.ERROR,5);
 
-        } catch (IOException e){
-            e.printStackTrace();
-        }
 
 
     }
