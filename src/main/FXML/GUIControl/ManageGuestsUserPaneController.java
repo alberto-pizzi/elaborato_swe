@@ -178,6 +178,9 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
             addOrReplaceMemberIntoDraftArray(groupMembersRemoved, groupMember);
 
+            GroupMember.removeFromArrayByUsername(groupMember.getUser().getUsername(),groupMembersAdded);
+            GroupMember.removeFromArrayByUsername(groupMember.getUser().getUsername(),groupMembersChanged);
+
             effectiveGroupMembersList.getItems().remove(groupMember);
         }
         else

@@ -63,7 +63,7 @@ public abstract class GeneralTest {
     }
 
     protected Group createGroup(Reservation reservation, int requiredParticipants){
-        return new Group(createUser(),reservation,requiredParticipants);
+        return new Group(createUser(),reservation,requiredParticipants,0);
     }
     
 }

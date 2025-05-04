@@ -38,62 +38,23 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
+    public UserActionsController(User user, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao, ManagesDAO managesDAO, NotificationController notificationController){
+        super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,notificationController);
+
+        this.managesDAO = managesDAO;
+
+    }
+
     //methods
-    //TODO it should be removed? Maybe yes
-    public float calculatePricePerPerson(int idField, int nPeople) throws SQLException, ClassNotFoundException {
-
-        
-        Field field = fieldDao.getField(idField);
-
-        return field.getPrice() / nPeople;
-
-    }
-
-
     @Override
-    public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException {
-        
-        Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field, isMatched);
-
-        if (checkReservationData(reservation)) {
-            int newReservationId = reservationDao.addReservation(reservation);
-            reservation.setId(newReservationId); //WARNING: it's very important
-
-            //group creation
-            Group group = new Group(person, reservation, requiredParticipants);
-            if (checkGroupData(group)) {
-                int newGroupId = groupDao.addGroup(group);
-                group.setId(newGroupId); //WARNING: it's very important
-
-                if (joinGroup(newGroupId, guests)) {
-
-                    if (isMatched) {
-                        sendInvites(group, findOtherPlayers(this.person.getProvince()));
-                    } else {
-                        notificationController.sendConfirmNotification(reservation);
-                    }
-                }
-                else
-                    return 0;
-                
-
-            }
-            else
-                return 0;
-
-            System.out.println("Reservation has been added into DB");
-            return newReservationId;
-        }
-
-        return 0;
-
+    protected String getProvinceForMatching(Field field){
+        return this.person.getProvince();
     }
-
 
     public boolean editRights(Reservation reservation) throws SQLException, ClassNotFoundException {
         
 
-        Boolean pass = true;
+        boolean pass = true;
         Group group = groupDao.getGroupByReservation(reservation.getId());
 
         if(group.getGroupHead().getId() != person.getId()) {
@@ -110,7 +71,6 @@ public class UserActionsController extends PersonController<User>{
         return pass;
     }
 
-    //TODO add alerts to manage callers
     public boolean declineInvite(int idInvite) throws SQLException {
 
         try {
@@ -181,7 +141,6 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    //TODO add alerts to manage callers
     public boolean leaveGroup(int idGroup) throws SQLException, ClassNotFoundException {
 
         Group group = null;
@@ -199,7 +158,6 @@ public class UserActionsController extends PersonController<User>{
         boolean memberRemoved = group.removeMember(person,ownGuests);
 
         if (memberRemoved){
-            //TODO test this try-catch (maybe it is ok)
             try {
                 isPartDao.removeMembership(idGroup, person.getId());
 
@@ -240,37 +198,23 @@ public class UserActionsController extends PersonController<User>{
 
 
     public ArrayList<Invite> getOwnInvites() throws SQLException, ClassNotFoundException {
-        
-
         return inviteDao.getInvitesByUser(person.getId());
 
     }
 
     public ArrayList<Field> getNearbyFields() throws SQLException {
-        
-
         return fieldDao.getFieldsByProvince(person.getProvince());
 
     }
 
     public ArrayList<Group> getOwnGroups() throws SQLException {
-
-        
-
         return isPartDao.getAllGroupsByUser(this.person.getId());
 
     }
 
     public ArrayList<Reservation> getOwnReservations() throws SQLException, ClassNotFoundException {
-
-        
-
         //TODO should getReservation be improved with isConfirmed supporting? (into ReservationDao)
         return reservationDao.getReservationsByUser(this.person.getId());
-
-        //TODO how implement getOwnReservations method without User file inside DB?
-
-
 
     }
 

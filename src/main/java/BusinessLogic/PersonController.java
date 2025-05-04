@@ -50,8 +50,22 @@ public abstract class PersonController<T extends Person> {
         this.inviteDao = inviteDao;
         this.fieldDao = fieldDao;
 
-        //TODO to be checked!!!
         notificationController = new NotificationController(person,facilityDAO,ownerDAO,notificationDAO,isPartDao,managesDAO,groupDao,reservationDao);
+
+    }
+
+    public PersonController(T person, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao, NotificationController notificationController) {
+        this.person = person;
+
+        this.userDAO = userDAO;
+        this.groupDao = groupDao;
+        this.isPartDao = isPartDao;
+        this.workingHoursDAO = workingHoursDAO;
+        this.reservationDao = reservationDao;
+        this.inviteDao = inviteDao;
+        this.fieldDao = fieldDao;
+
+        this.notificationController = notificationController;
 
     }
 
@@ -61,6 +75,10 @@ public abstract class PersonController<T extends Person> {
 
     public void setPerson(T person) {
         this.person = person;
+    }
+
+    public NotificationController getNotificationController() {
+        return notificationController;
     }
 
     public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
@@ -87,12 +105,39 @@ public abstract class PersonController<T extends Person> {
         return workingHoursDAO.getWHsByFacilityByDay(idFacility,dayOfWeek);
     }
 
-    public abstract int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) throws SQLException, ClassNotFoundException;
+    public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) {
+        Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field, isMatched);
 
-        //TODO edit messages
+        try {
+            if (checkReservationData(reservation)) {
+                int newReservationId = reservationDao.addReservation(reservation);
+                reservation.setId(newReservationId); //WARNING: it's very important
+
+                //group creation
+                Group group = new Group(groupHead, reservation, requiredParticipants,guests);
+                if (checkGroupData(group)) {
+                    int newGroupId = groupDao.addGroup(group);
+                    group.setId(newGroupId); //WARNING: it's very important
+
+                    if (isMatched) {
+                        sendInvites(group, findOtherPlayers(getProvinceForMatching(field)));
+                    }
+                    else{
+                        notificationController.sendConfirmNotification(reservation);
+                    }
+                }else
+                    return 0;
+
+                return newReservationId;
+            }
+            return 0;
+        }catch (SQLException | ClassNotFoundException e){
+            return 0;
+        }
+    }
+
     public boolean editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
 
-        NotificationController notificationController = new NotificationController();
         Reservation previousReservation = null;
 
         try{
@@ -134,8 +179,8 @@ public abstract class PersonController<T extends Person> {
             return false;
         }
 
-        NotificationController notificationController = new NotificationController();
-        notificationController.sendDeletionNotification(reservation);
+        int notificationsSent = notificationController.sendDeletionNotification(reservation);
+
 
         //set isDeleted flag to true
         reservation.setDeleted(true);
@@ -145,10 +190,12 @@ public abstract class PersonController<T extends Person> {
 
     }
 
-    public ArrayList <User> findOtherPlayers(String userProvince) throws SQLException, ClassNotFoundException {
+    protected ArrayList <User> findOtherPlayers(String userProvince) throws SQLException, ClassNotFoundException {
         
         return userDAO.getUsersByProvince(userProvince);
     }
+
+    protected abstract String getProvinceForMatching(Field field);
 
     public boolean changeUserGuests(int idReservation, int userId, int guestNewNumber) throws SQLException, ClassNotFoundException {
 
@@ -216,7 +263,6 @@ public abstract class PersonController<T extends Person> {
         return groupDao.getGroupByReservation(idReservation).getParticipants();
     }
 
-    //TODO add alerts to manage callers
     public boolean sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
         
         Group group = null;
@@ -228,7 +274,6 @@ public abstract class PersonController<T extends Person> {
 
             User user = userDAO.getUserByID(idUser);
             if (inviteDao.checkInvite(idUser, group.getId())) {
-                //TODO is any return needed?
                 System.out.println("Invite already exists");
             } else if (user != null) {
                 Invite invite;
@@ -333,13 +378,11 @@ public abstract class PersonController<T extends Person> {
         return fieldDao.getFieldAddress(fieldId);
     }
 
-    //TODO changed into static. Is it correct?
     public int getUserIdByUsername(String username) throws SQLException, ClassNotFoundException {
         
         return userDAO.getUserID(username);
     }
 
-    //TODO changed into static. Is it correct?
     public User getUserByID(int id) throws SQLException, ClassNotFoundException {
         
         return userDAO.getUserByID(id);

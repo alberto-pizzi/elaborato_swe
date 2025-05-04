@@ -133,7 +133,6 @@ public class NotificationDAO {
     }
 
 
-    //TODO test it
     public int addNotification(Notification notification) throws SQLException {
         int idAdded = 0;
 

@@ -73,11 +73,13 @@ public class GroupItemController {
         System.out.println("Leave button clicked: " + fieldNameLabel.getText());
 
         UserActionsController userActionsController = new UserActionsController();
-        userActionsController.leaveGroup(group.getId());
+        if(userActionsController.leaveGroup(group.getId()))
+            yourGroupsController.removeGroupItemFromGUI(groupItemPane, group);
+        else
+            yourGroupsController.getMessagesController().showMessage("Error during leave group", MessagesController.MessageType.ERROR,5);
 
-        if (yourGroupsController != null) {
-            yourGroupsController.removeGroupItemFromGUI(groupItemPane,group);
-        }
+
+
     }
 
 

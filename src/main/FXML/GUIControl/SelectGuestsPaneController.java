@@ -240,8 +240,7 @@ public class SelectGuestsPaneController implements Initializable {
             int newGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
 
             //FIXME check
-            NotificationController notificationController = new NotificationController();
-            notificationController.connectObserverToReservation(group.getReservation());
+            personController.getNotificationController().connectObserverToReservation(group.getReservation());
 
             group.changeUserGuests(personController.getPerson().getUsername(),newGuests);
             personController.changeUserGuests(group.getReservation().getId(),personController.getPerson().getId(),newGuests);

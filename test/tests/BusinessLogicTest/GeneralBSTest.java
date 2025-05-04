@@ -22,8 +22,16 @@ public abstract class GeneralBSTest {
         return new User(1,"hello@gmail.com","user1","hello123","London","London","00000","UK");
     }
 
+    protected User createUser(int userNumber){
+        return new User(userNumber,"hello"+userNumber+"@gmail.com","user"+userNumber,"hello123","London","London","00000","UK");
+    }
+
     protected User createSecondUser(){
         return new User(2,"hello2@gmail.com","user2","hello123","London","London","00000","UK");
+    }
+
+    protected User createThirdUser(){
+        return new User(3,"hello3@gmail.com","user3","hello123","London","London","00000","UK");
     }
 
     protected Owner createOwner(){
@@ -37,7 +45,6 @@ public abstract class GeneralBSTest {
                 "", createOwner());
     }
 
-    //TODO add overloaded methods for dependencies
     protected Facility createFacility(Owner owner) throws SQLException {
         return new  Facility(
                 0, "Sport Center", "Via Roma 1", "Milano", "MI",
@@ -108,11 +115,11 @@ public abstract class GeneralBSTest {
     }
 
     protected Group createGroup(Boolean isMatched, int requiredParticipants) throws SQLException {
-        return new Group(createUser(),createReservation(isMatched),requiredParticipants);
+        return new Group(createUser(),createReservation(isMatched),requiredParticipants,0);
     }
 
     protected Group createGroup(User user, Reservation reservation, int requiredParticipants) throws SQLException {
-        return new Group(user,reservation,requiredParticipants);
+        return new Group(user,reservation,requiredParticipants,0);
     }
 
     protected Notification createNotification() throws SQLException {

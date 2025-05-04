@@ -3,6 +3,7 @@ package main.FXML.GUIControl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -22,6 +23,11 @@ public class YourInvitesController implements Initializable {
     @FXML
     private ScrollPane scroll;
 
+    @FXML
+    private Label messageLabel;
+
+    private MessagesController messagesController = null;
+
     private ArrayList<Invite> invites = new ArrayList<Invite>();
 
     //methods
@@ -30,6 +36,8 @@ public class YourInvitesController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         UserActionsController userActionsController = new UserActionsController();
+
+        messagesController = new MessagesController(messageLabel);
 
         try {
             invites.addAll(userActionsController.getOwnInvites());
@@ -67,4 +75,7 @@ public class YourInvitesController implements Initializable {
         invitesVBox.getChildren().remove(inviteItemPane);
     }
 
+    public MessagesController getMessagesController() {
+        return messagesController;
+    }
 }

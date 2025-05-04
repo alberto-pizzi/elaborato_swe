@@ -15,24 +15,31 @@ public class Group{
     private int requiredParticipants;
 
     //read only
-    public Group(int id, User groupHead, Reservation reservation, int requiredParticipants) {
+    public Group(int id, User groupHead, Reservation reservation, int requiredParticipants, ArrayList<GroupMember> groupMembers, int participants) {
         this.id = id;
         this.groupHead = groupHead;
         this.reservation = reservation;
         this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
-        //FIXME manage groupHead into counters
-        this.groupMembers = new ArrayList<>();
-        this.participants = 0;
+        this.groupMembers = groupMembers;
+        this.participants = participants;
     }
 
     //write only
-    public Group(User groupHead, Reservation reservation, int requiredParticipants) {
+    public Group(User groupHead, Reservation reservation, int requiredParticipants,int guests) {
         this.groupHead = groupHead;
         this.reservation = reservation;
         this.requiredParticipants = reservation.isMatched() ? requiredParticipants : 0;
-        //FIXME manage groupHead into counters
         this.groupMembers = new ArrayList<>();
-        this.participants = 0;
+
+        if (guests < 0)
+            guests = 0;
+
+        if (groupHead != null) {
+            groupMembers.add(new GroupMember(groupHead,guests));
+            this.participants = guests + 1;
+        }
+        else
+            this.participants = 0;
     }
 
 
@@ -193,21 +200,11 @@ public class Group{
     }
 
     private void removeGroupMemberByUsernameFromArrayList(String username){
-        for (GroupMember member : groupMembers) {
-            if (member.getUser().getUsername().equals(username)) {
-                groupMembers.remove(member);
-                return;
-            }
-        }
+        GroupMember.removeFromArrayByUsername(username,groupMembers);
     }
 
     public boolean isUserInsideGroup(String username){
-        for (GroupMember member : groupMembers) {
-            if (member.getUser().getUsername().equals(username))
-                return true;
-        }
-
-        return false;
+        return GroupMember.isUsernameInsideGroupMembers(username,groupMembers);
     }
 
     public static ArrayList<User> getUsersByGroupMembers(ArrayList<GroupMember> members){

@@ -84,6 +84,9 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
             addOrReplaceMemberIntoDraftArray(groupMembersAdded, groupMember);
 
+            GroupMember.removeFromArrayByUsername(groupMember.getUser().getUsername(),groupMembersChanged);
+            GroupMember.removeFromArrayByUsername(groupMember.getUser().getUsername(),groupMembersRemoved);
+
             effectiveGroupMembersList.getItems().add(groupMember);
         }
         else
@@ -187,9 +190,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             if (groupMembersAdded != null && !groupMembersAdded.isEmpty()) {
                 for (GroupMember groupMember : groupMembersAdded) {
 
-                    //FIXME check
-                    NotificationController notificationController = new NotificationController();
-                    notificationController.connectObserverToReservation(group.getReservation());
+                    personController.getNotificationController().connectObserverToReservation(group.getReservation());
 
                     if (group.addMember(groupMember.getUser(),groupMember.getOwnGuests()))
                         personController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
@@ -202,9 +203,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             if (groupMembersChanged != null && !groupMembersChanged.isEmpty()) {
                 for (GroupMember groupMember : groupMembersChanged) {
 
-                    //FIXME check
-                    NotificationController notificationController = new NotificationController();
-                    notificationController.connectObserverToReservation(group.getReservation());
+                    personController.getNotificationController().connectObserverToReservation(group.getReservation());
 
                     group.changeUserGuests(groupMember.getUser().getUsername(),groupMember.getOwnGuests());
                     personController.changeUserGuests(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
@@ -214,7 +213,6 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
         }
         else
             System.out.println("Group is null during applyChanges");
-
 
     }
 
@@ -252,6 +250,10 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                 effectiveGroupMembersList.getSelectionModel().getSelectedItem().setOwnGuests((nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0));
                 effectiveGroupMembersList.refresh();
                 addOrReplaceMemberIntoDraftArray(groupMembersChanged, effectiveGroupMembersList.getSelectionModel().getSelectedItem());
+
+                GroupMember.removeFromArrayByUsername(effectiveGroupMembersList.getSelectionModel().getSelectedItem().getUser().getUsername(),groupMembersAdded);
+                GroupMember.removeFromArrayByUsername(effectiveGroupMembersList.getSelectionModel().getSelectedItem().getUser().getUsername(),groupMembersRemoved);
+
 
                 updateDraftParticipants(true);
                 updateAddButtons();
