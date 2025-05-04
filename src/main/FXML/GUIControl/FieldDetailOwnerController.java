@@ -26,22 +26,30 @@ public class FieldDetailOwnerController extends FieldDetail{
 
     @Override
     @FXML
-    public void handleGoToBookButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingFormOwner.fxml"));
-        Parent view = loader.load();
-        BookFieldController bookFieldController = loader.getController();
-        bookFieldController.setData(this.field);
-        bookFieldController.selectGuestsPaneController.setData(null,false);
-        menuPane.setCenter(view);
+    public void handleGoToBookButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingFormOwner.fxml"));
+            Parent view = loader.load();
+            BookFieldController bookFieldController = loader.getController();
+            bookFieldController.setData(this.field);
+            bookFieldController.selectGuestsPaneController.setData(null, false);
+            menuPane.setCenter(view);
+        } catch (SQLException | ClassNotFoundException | IOException e){
+            //TODO add error
+        }
     }
 
     @FXML
-    public void handleSeeReservationsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));
-        Parent view = loader.load();
-        ReservationsOwnerController reservationsOwnerController = loader.getController();
-        reservationsOwnerController.setData(field, menuPane);
-        menuPane.setCenter(view);
+    public void handleSeeReservationsButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsOwner.fxml"));
+            Parent view = loader.load();
+            ReservationsOwnerController reservationsOwnerController = loader.getController();
+            reservationsOwnerController.setData(field, menuPane);
+            menuPane.setCenter(view);
+        } catch (SQLException | ClassNotFoundException | IOException e){
+            //TODO add error
+        }
     }
 
 }

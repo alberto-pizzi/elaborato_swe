@@ -33,14 +33,18 @@ public class FieldDetailController extends FieldDetail {
 
     @Override
     @FXML
-    public void handleGoToBookButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    public void handleGoToBookButton(ActionEvent event) {
         //FIXME menu disappear
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
-        Parent view = loader.load();
-        BookFieldController bookFieldController = loader.getController();
-        bookFieldController.setData(this.field);
-        bookFieldController.selectGuestsPaneController.setData(null,false);
-        menuPane.setCenter(view);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
+            Parent view = loader.load();
+            BookFieldController bookFieldController = loader.getController();
+            bookFieldController.setData(this.field);
+            bookFieldController.selectGuestsPaneController.setData(null, false);
+            menuPane.setCenter(view);
+        } catch (SQLException | ClassNotFoundException | IOException e){
+            //TODO add error
+        }
 
     }
 

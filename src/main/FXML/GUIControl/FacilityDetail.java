@@ -39,7 +39,7 @@ public abstract class FacilityDetail {
 
     protected BorderPane menuPane;
 
-    abstract protected void goToFields() throws IOException, SQLException, ClassNotFoundException;
+    protected abstract void goToFields() throws IOException, SQLException, ClassNotFoundException;
 
     public void setData(Facility facility, BorderPane menuPane) throws IOException {
         this.facility = facility;

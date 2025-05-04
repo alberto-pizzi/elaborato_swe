@@ -44,7 +44,7 @@ public abstract class FieldDetail {
     protected BorderPane menuPane;
 
     @FXML
-    public abstract void handleGoToBookButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException;
+    public abstract void handleGoToBookButton(ActionEvent event);
 
     public void setData(Field field, BorderPane menuPane) throws IOException {
         this.field = field;
