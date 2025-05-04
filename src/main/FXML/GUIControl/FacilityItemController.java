@@ -32,17 +32,8 @@ public class FacilityItemController extends FacilityItem {
     @FXML
     private Button modifyFacility;
 
-    private FacilitiesListController facilitiesListController;
-
-    private MessagesController messagesController;
-
-    public void setFacilitiesListController(FacilitiesListController facilitiesListController) {
-        this.facilitiesListController = facilitiesListController;
-        this.messagesController = new MessagesController(facilitiesListController.getMessageLabel());
-    }
-
     @FXML
-    void handleDeleteFacilityButton(ActionEvent event) throws SQLException {
+    void handleDeleteFacilityButton(ActionEvent event) {
         System.out.println("Delete button clicked" );
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -56,7 +47,8 @@ public class FacilityItemController extends FacilityItem {
             if(ownerManagementController.deleteFacility(facility.getId())){
                 String message = "Deletion Successful";
                 messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
-                if (facilitiesListController != null) {
+                if (facilityChoice != null) {
+                    FacilitiesListController facilitiesListController = (FacilitiesListController) facilityChoice;
                     facilitiesListController.removeFacilityItemFromGUI(facilityItemPane, facility);
                 }
             }else{
@@ -69,11 +61,17 @@ public class FacilityItemController extends FacilityItem {
     }
 
     @FXML
-    void handleModifyFacilityButton(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-        Parent facilityModifyPane = loader.load();
-        ModifyFacilityController modifyFacilityController = loader.getController();
-        modifyFacilityController.setData(facility,facilitiesListController.getMenuPane());
-        facilitiesListController.getMenuPane().setCenter(facilityModifyPane);
+    void handleModifyFacilityButton(ActionEvent event) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+            Parent facilityModifyPane = loader.load();
+            ModifyFacilityController modifyFacilityController = loader.getController();
+            modifyFacilityController.setData(facility,facilityChoice.getMenuPane());
+            facilityChoice.getMenuPane().setCenter(facilityModifyPane);
+        } catch (SQLException | IOException e ) {
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
+        }
+
     }
 }

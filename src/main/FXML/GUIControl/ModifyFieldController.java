@@ -31,7 +31,7 @@ public class ModifyFieldController extends FieldForm {
     }
 
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+    void handleConfirmButton(ActionEvent event) {
         System.out.println("Confirm button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Field");
@@ -49,19 +49,25 @@ public class ModifyFieldController extends FieldForm {
                 if(!clickedSports.isEmpty())
                     field.setSport(clickedSports.get(0));
                 field.setDescription(descriptionInput.getText());
-                if(ownerManagementController.editField(field)){
-                    System.out.println("Field updated");
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-                    Parent facilityModifyPane = loader.load();
+                try {
+                    if(ownerManagementController.editField(field)){
+                        System.out.println("Field updated");
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+                        Parent facilityModifyPane = loader.load();
 
-                    ModifyFacilityController modifyFacilityController = loader.getController();
-                    modifyFacilityController.setData(facility, menuPane);
+                        ModifyFacilityController modifyFacilityController = loader.getController();
+                        modifyFacilityController.setData(facility, menuPane);
 
-                    menuPane.setCenter(facilityModifyPane);
-                }else{
+                        menuPane.setCenter(facilityModifyPane);
+                    }else{
+                        String message = "An error has occurred, the filed hasn't been modified";
+                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    }
+                }catch (IOException | SQLException e){
                     String message = "An error has occurred";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
+
             }else{
                 String message = "Please fill all fields";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
@@ -92,9 +98,7 @@ public class ModifyFieldController extends FieldForm {
         nameInput.setText(field.getName());
         priceInput.setText(field.getPrice() + "$");
         descriptionInput.setText(field.getDescription());
-
         String pathFromRoot = "/main/FXML/img/fields/";
-
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         imageLabel.setImage(image);
     }

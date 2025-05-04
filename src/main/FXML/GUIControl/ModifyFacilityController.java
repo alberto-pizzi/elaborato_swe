@@ -29,7 +29,6 @@ public class ModifyFacilityController extends FacilityForm {
     @FXML
     private VBox managers;
 
-
     ArrayList<User> managersList;
 
     ArrayList<Field> fieldsList;
@@ -79,7 +78,7 @@ public class ModifyFacilityController extends FacilityForm {
             facilitiesListController.setData(menuPane);
             menuPane.setCenter(facilitiesList);
         }else{
-            String message = "An error has occurred";
+            String message = "An error has occurred, the facility hasn't been updated";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
@@ -179,7 +178,7 @@ public class ModifyFacilityController extends FacilityForm {
     }
 
     @FXML
-    void handleDeleteFieldsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void handleDeleteFieldsButton(ActionEvent event) {
 
         System.out.println("Delete button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -209,7 +208,7 @@ public class ModifyFacilityController extends FacilityForm {
     }
 
     @FXML
-    void handleDeleteManagersButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void handleDeleteManagersButton(ActionEvent event) {
 
         System.out.println("Delete button clicked: ");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -239,46 +238,54 @@ public class ModifyFacilityController extends FacilityForm {
     }
 
     @FXML
-    void handleAddFieldButton(ActionEvent event) throws IOException, SQLException {
+    void handleAddFieldButton(ActionEvent event) {
 
-        fieldChecker();
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
-        Parent addFieldPane = loader.load();
-
-        NewFieldController newFieldController = loader.getController();
-        newFieldController.setData(facility,this.menuPane);
-
-        menuPane.setCenter(addFieldPane);
+        try{
+            fieldChecker();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
+            Parent addFieldPane = loader.load();
+            NewFieldController newFieldController = loader.getController();
+            newFieldController.setData(facility,this.menuPane);
+            menuPane.setCenter(addFieldPane);
+        }catch(SQLException | IOException e){
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+        }
     }
 
     @FXML
-    void handleChangeWorkingHoursButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException, ParseException {
+    void handleChangeWorkingHoursButton(ActionEvent event) {
 
-        fieldChecker();
+        try{
+            fieldChecker();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyWorkingHours.fxml"));
+            Parent editWorkHours = loader.load();
+            ModifyWorkingHoursController modifyWorkingHoursController = loader.getController();
+            modifyWorkingHoursController.setData(facility,this.menuPane);
+            menuPane.setCenter(editWorkHours);
+        }catch(SQLException | IOException | ClassNotFoundException | ParseException e){
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+        }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyWorkingHours.fxml"));
-        Parent editWorkHours = loader.load();
-
-        ModifyWorkingHoursController modifyWorkingHoursController = loader.getController();
-        modifyWorkingHoursController.setData(facility,this.menuPane);
-
-        menuPane.setCenter(editWorkHours);
     }
 
     @FXML
-    void handleModifyFieldButton(ActionEvent event) throws IOException, SQLException {
+    void handleModifyFieldButton(ActionEvent event) {
 
         if(!clickedFields.isEmpty()){
-            fieldChecker();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
-            Parent modifyFieldPane = loader.load();
-
-            ModifyFieldController modifyFieldController = loader.getController();
-            modifyFieldController.setData(facility, clickedFields.get(0), this.menuPane);
-
-            menuPane.setCenter(modifyFieldPane);}
+            try{
+                fieldChecker();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyField.fxml"));
+                Parent modifyFieldPane = loader.load();
+                ModifyFieldController modifyFieldController = loader.getController();
+                modifyFieldController.setData(facility, clickedFields.get(0), this.menuPane);
+                menuPane.setCenter(modifyFieldPane);
+            }catch(SQLException | IOException e){
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            }
+        }
     }
 
 }

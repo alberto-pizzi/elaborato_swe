@@ -2,7 +2,6 @@ package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -41,7 +40,7 @@ public abstract class FieldChoice {
 
     protected BorderPane menuPane;
 
-    protected abstract void setFields(int i) throws IOException, SQLException;
+    protected abstract void displayFields(int index) throws IOException, SQLException;
     public BorderPane getMenuPane() {
         return menuPane;
     }
@@ -57,7 +56,7 @@ public abstract class FieldChoice {
         this.menuPane = menuPane;
         for(int i=0; i < itemsPerPage && i < fields.size(); i++){
             try {
-                setFields(i);
+                displayFields(i);
             } catch (IOException | SQLException e) {
                 //todo messaggi di errore
                 e.printStackTrace();
@@ -75,7 +74,7 @@ public abstract class FieldChoice {
 
             for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < fields.size(); i++) {
                 try {
-                    setFields(i);
+                    displayFields(i);
                 } catch (IOException | SQLException e) {
                     //todo messaggi di errore
                     e.printStackTrace();
@@ -97,7 +96,7 @@ public abstract class FieldChoice {
             for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
 
                 try {
-                    setFields(i);
+                    displayFields(i);
                 } catch (IOException | SQLException e) {
                     //todo messaggi di errore
                     e.printStackTrace();

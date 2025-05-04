@@ -2,7 +2,6 @@ package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,6 +31,9 @@ public abstract class FacilityChoice implements Initializable {
     @FXML
     protected Button previous;
 
+    @FXML
+    protected Label messageLabel;
+
     protected AnchorPane page;
 
     protected List<Facility> facilities = new ArrayList<>();
@@ -42,6 +44,8 @@ public abstract class FacilityChoice implements Initializable {
 
     protected BorderPane menuPane;
 
+    protected MessagesController messagesController;
+
     public BorderPane getMenuPane() {
         return menuPane;
     }
@@ -50,20 +54,23 @@ public abstract class FacilityChoice implements Initializable {
         this.menuPane = menuPane;
     }
 
+    public MessagesController getMessagesController() {
+        return messagesController;
+    }
+
     public AnchorPane getPage() {
         return page;
     }
 
-    abstract protected List<Facility> getData() throws SQLException, ClassNotFoundException;
+    abstract protected List<Facility> getData() throws SQLException;
 
-    abstract protected void setFacilities(int i) throws IOException, SQLException;
+    abstract protected void displayFacilities(int index) throws IOException, SQLException;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         try {
             facilities.addAll(getData());
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -71,17 +78,10 @@ public abstract class FacilityChoice implements Initializable {
         pageNumber.setText(page);
     }
 
-    public void setData(BorderPane menuPane) {
+    public void setData(BorderPane menuPane) throws SQLException, IOException {
         this.menuPane = menuPane;
         for(int i=0; i < itemsPerPage && i < facilities.size(); i++){
-            try {
-                setFacilities(i);
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+                displayFacilities(i);
         }
     }
 
@@ -93,10 +93,10 @@ public abstract class FacilityChoice implements Initializable {
 
             for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < facilities.size(); i++) {
                 try {
-                    setFacilities(i);
+                    displayFacilities(i);
                 } catch (IOException | SQLException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
+                    String message = "An error has occurred, one or more facilities may not show in the page";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
             currentPage++;
@@ -113,10 +113,11 @@ public abstract class FacilityChoice implements Initializable {
 
             for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
                 try {
-                    setFacilities(i);
+                    displayFacilities(i);
                 } catch (IOException | SQLException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
+                    String message = "An error has occurred, one or more facilities may not show in the page";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+
                 }
             }
             currentPage--;

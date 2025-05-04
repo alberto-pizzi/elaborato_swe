@@ -30,13 +30,11 @@ public class NewFacilityController extends FacilityForm implements Initializable
             System.out.println("Facility created");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newWorkingHours.fxml"));
             Parent newWorkHours = loader.load();
-
             NewWorkingHoursController newWorkingHoursController = loader.getController();
             newWorkingHoursController.setData(facility,this.menuPane);
-
             menuPane.setCenter(newWorkHours);
         }else{
-            String message = "An error has occurred";
+            String message = "An error has occurred, the facility hasn't been created";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }

@@ -65,7 +65,7 @@ public abstract class Reservations {
 
     protected  abstract void reservationItem(int i) throws IOException, SQLException, ClassNotFoundException;
 
-    public  abstract void handleNewReservationButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException;
+    public  abstract void handleNewReservationButton(ActionEvent event);
 
     public void setData(Field field, BorderPane menuPane) throws SQLException, ClassNotFoundException, IOException {
         personController = new ManagerOwnerManagementController();
@@ -92,6 +92,7 @@ public abstract class Reservations {
                     reservationItem(i);
                 } catch (IOException | SQLException | ClassNotFoundException e) {
                     e.printStackTrace();
+                    //todo aggiungere messaggi di errore
                 }
             }
             currentPage++;
@@ -112,6 +113,7 @@ public abstract class Reservations {
                     reservationItem(i);
                 } catch (IOException | SQLException | ClassNotFoundException e) {
                     e.printStackTrace();
+                    //todo aggiungere messaggi di errore
                 }
 
             }

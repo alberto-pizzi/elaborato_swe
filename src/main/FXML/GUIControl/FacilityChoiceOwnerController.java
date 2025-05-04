@@ -11,19 +11,19 @@ import java.util.List;
 
 public class FacilityChoiceOwnerController extends FacilityChoice {
 
-    protected List<Facility> getData() throws SQLException, ClassNotFoundException {
+    protected List<Facility> getData() throws SQLException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         return ownerManagementController.getOwnFacilities();
     }
 
     @Override
-    protected void setFacilities(int i) throws IOException, SQLException {
+    protected void displayFacilities(int index) throws IOException, SQLException {
         FXMLLoader fmxLoader;
         fmxLoader = new FXMLLoader();
         fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityChoiceItemOwner.fxml"));
         AnchorPane anchorPane = fmxLoader.load();
         FacilityChoiceItemOwnerController facilityChoiceItemOwnerController = fmxLoader.getController();
-        facilityChoiceItemOwnerController.setData(facilities.get(i), menuPane);
+        facilityChoiceItemOwnerController.setData(facilities.get(index), this);
         facilityList.getChildren().add(anchorPane);
     }
 
