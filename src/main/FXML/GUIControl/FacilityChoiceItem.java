@@ -11,32 +11,27 @@ import java.sql.SQLException;
 
 public abstract class FacilityChoiceItem extends FacilityItem{
 
-    protected BorderPane menuPane;
-
     abstract protected void facilityDetails() throws IOException;
 
     abstract protected void facilityFields() throws IOException, SQLException, ClassNotFoundException;
 
-    public void setData(Facility facility, BorderPane menuPane) throws SQLException {
-        super.setData(facility);
-        this.menuPane = menuPane;
-    }
-
     @FXML
-    public void handleDetailsFacilityButton(ActionEvent event) throws IOException, SQLException {
+    public void handleDetailsFacilityButton(ActionEvent event){
         try {
             facilityDetails();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            String message = "An error has occurred";
+            facilityChoice.getMessagesController().showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
 
     @FXML
-    public void handleFacilityFieldsButton(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+    public void handleFacilityFieldsButton(ActionEvent event){
         try {
             facilityFields();
         } catch (IOException | ClassNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
+            String message = "An error has occurred";
+            facilityChoice.getMessagesController().showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
 }

@@ -84,6 +84,16 @@ public class HomeController implements Initializable {
         }
     };
 
+    private void displayFields(int index) throws SQLException, IOException {
+        FXMLLoader fmxLoader;
+        fmxLoader = new FXMLLoader();
+        fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+        HBox hBox = fmxLoader.load();
+        FieldItemController fieldItemController = fmxLoader.getController();
+        fieldItemController.setData(fields.get(index), menuPane);
+        fieldsList.getChildren().add(hBox);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -94,15 +104,8 @@ public class HomeController implements Initializable {
         }
         for(int i=0; i < itemsPerPage && i < fields.size(); i++){
             try {
-                FXMLLoader fmxLoader;
-                fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
-                HBox hBox = fmxLoader.load();
-                FieldItemController fieldItemController = fmxLoader.getController();
-                fieldItemController.setData(fields.get(i), menuPane);
-                fieldsList.getChildren().add(hBox);
+                displayFields(i);
             } catch (IOException | SQLException e) {
-                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         }
@@ -119,14 +122,9 @@ public class HomeController implements Initializable {
 
             for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < fields.size(); i++) {
                 try {
-                    FXMLLoader fmxLoader;
-                    fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
-                    HBox hBox = fmxLoader.load();
-                    FieldItemController fieldItemController = fmxLoader.getController();
-                    fieldItemController.setData(fields.get(i), menuPane);
-                    fieldsList.getChildren().add(hBox);
+                    displayFields(i);
                 } catch (IOException | SQLException e) {
+                    //todo messaggio di errore
                     e.printStackTrace();
                 }
             }
@@ -147,14 +145,9 @@ public class HomeController implements Initializable {
                 for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
 
                     try {
-                        FXMLLoader fmxLoader;
-                        fmxLoader = new FXMLLoader();
-                        fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
-                        HBox hBox = fmxLoader.load();
-                        FieldItemController fieldItemController = fmxLoader.getController();
-                        fieldItemController.setData(fields.get(i), menuPane);
-                        fieldsList.getChildren().add(hBox);
+                        displayFields(i);
                     } catch (IOException | SQLException e) {
+                        //todo messaggio di errore
                         e.printStackTrace();
                     }
                 }
@@ -176,23 +169,20 @@ public class HomeController implements Initializable {
                 fields.addAll(userActionsController.searchField(search.getText()));
                 currentSearch.setText("Results for " + "'" + search.getText() + "'");
             } catch (SQLException e) {
-                String message = "An error has occurred";
+                String message = "An error has occurred during the search";
                 //todo aggiungere errore
                 //messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
             }
             for(int i=0; i < itemsPerPage && i < fields.size(); i++){
                 try {
-                    FXMLLoader fmxLoader;
-                    fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
-                    HBox hBox = fmxLoader.load();
-                    FieldItemController fieldItemController = fmxLoader.getController();
-                    fieldItemController.setData(fields.get(i), menuPane);
-                    fieldsList.getChildren().add(hBox);
+                    displayFields(i);
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
+                    //"An error has occurred, one or more users may not show in the page"
+                    //todo messaggio di errore
                 }
             }
         }
     }
+
 }

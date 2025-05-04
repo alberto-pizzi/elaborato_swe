@@ -57,7 +57,6 @@ public class homeOwnerController implements Initializable {
 
     //methods
 
-    //todo controllare funzioni business logic
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         PieChart.Data[] data = new PieChart.Data[2];

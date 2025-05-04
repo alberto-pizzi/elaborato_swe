@@ -93,10 +93,9 @@ public class NewWorkingHoursController implements Initializable {
 
     private BorderPane menuPane;
 
-    boolean checkHours(DayOfWeek day, ArrayList<Node> hours, GridPane pane) throws SQLException, ParseException {
+    void checkHours(DayOfWeek day, ArrayList<Node> hours, GridPane pane) throws SQLException, ParseException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
-        boolean success = true;
-        Boolean opened = false;
+        boolean opened = false;
         String openingHours = "";
         String closingHours = "";
         Label tmpLabel;
@@ -110,14 +109,13 @@ public class NewWorkingHoursController implements Initializable {
                 opened = false;
                 tmpLabel = (Label) node;
                 closingHours = tmpLabel.getText();
-                success = ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
+                ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
             }
         }
         if (opened){
             closingHours = "24:00";
-            success = ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
+            ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
         }
-        return success;
     }
 
     void setData(Facility facility, BorderPane menuPane){
@@ -126,48 +124,53 @@ public class NewWorkingHoursController implements Initializable {
     }
 
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException, ParseException {
-        boolean success = false;
+    void handleConfirmButton(ActionEvent event){
 
-        if (!closedMonday.isSelected()) {
-            success = checkHours(DayOfWeek.MONDAY, clickedMon, monday);
-        }
+        try{
+            if (!closedMonday.isSelected()) {
+                checkHours(DayOfWeek.MONDAY, clickedMon, monday);
+            }
 
-        if (!closedTuesday.isSelected()) {
-            success = checkHours(DayOfWeek.TUESDAY, clickedTue, tuesday);
-        }
+            if (!closedTuesday.isSelected()) {
+                checkHours(DayOfWeek.TUESDAY, clickedTue, tuesday);
+            }
 
-        if (!closedWednesday.isSelected()) {
-            success = checkHours(DayOfWeek.WEDNESDAY, clickedWed, wednesday);
-        }
+            if (!closedWednesday.isSelected()) {
+                checkHours(DayOfWeek.WEDNESDAY, clickedWed, wednesday);
+            }
 
-        if (!closedThursday.isSelected()) {
-            success = checkHours(DayOfWeek.THURSDAY, clickedThu, thursday);
-        }
+            if (!closedThursday.isSelected()) {
+                checkHours(DayOfWeek.THURSDAY, clickedThu, thursday);
+            }
 
-        if (!closedFriday.isSelected()) {
-            success = checkHours(DayOfWeek.FRIDAY, clickedFri, friday);
-        }
+            if (!closedFriday.isSelected()) {
+                checkHours(DayOfWeek.FRIDAY, clickedFri, friday);
+            }
 
-        if (!closedSaturday.isSelected()) {
-            success = checkHours(DayOfWeek.SATURDAY, clickedSat, saturday);
-        }
+            if (!closedSaturday.isSelected()) {
+                checkHours(DayOfWeek.SATURDAY, clickedSat, saturday);
+            }
 
-        if (!closedSunday.isSelected()) {
-            success = checkHours(DayOfWeek.SUNDAY, clickedSun, sunday);
-        }
+            if (!closedSunday.isSelected()) {
+                checkHours(DayOfWeek.SUNDAY, clickedSun, sunday);
+            }
 
-        if(success){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
-            Parent newField = loader.load();
+            try{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
+                Parent newField = loader.load();
 
-            NewFieldController newFieldController = loader.getController();
-            newFieldController.setData(facility, menuPane);
-            newFieldController.setNewFacility(true);
+                NewFieldController newFieldController = loader.getController();
+                newFieldController.setData(facility, menuPane);
+                newFieldController.setNewFacility(true);
 
-            menuPane.setCenter(newField);
-        }else{
-            String message = "An error has occurred";
+                menuPane.setCenter(newField);
+            }catch(IOException e){
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            }
+
+        }catch (SQLException | ParseException e){
+            String message = "An error has occurred during the creation";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
 

@@ -40,8 +40,16 @@ public abstract class FacilityItem {
 
     protected Facility facility;
 
-    public void setData(Facility facility) throws SQLException {
+    protected MessagesController messagesController;
+
+    protected FacilityChoice facilityChoice;
+
+    protected BorderPane menuPane;
+
+    public void setData(Facility facility, FacilityChoice facilityChoice) throws SQLException {
         this.facility = facility;
+        this.facilityChoice = facilityChoice;
+        this.menuPane = facilityChoice.getMenuPane();
         facilityNameLabel.setText(facility.getName());
         facilityAddressLabel.setText(facility.getAddress());
         managersLabel.setText(String.format("%d",facility.getNManager()));

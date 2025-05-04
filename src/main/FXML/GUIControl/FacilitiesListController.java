@@ -3,57 +3,48 @@ package main.FXML.GUIControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class FacilitiesListController extends FacilityChoice {
 
-    @FXML
-    private Label messageLabel;
-
-    public Label getMessageLabel() {
-        return messageLabel;
-    }
-
     @Override
-    protected List<Facility> getData() throws SQLException, ClassNotFoundException {
+    protected List<Facility> getData() throws SQLException {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         return ownerManagementController.getOwnFacilities();
     }
 
     @Override
-    protected void setFacilities(int i) throws IOException, SQLException {
+    protected void displayFacilities(int index) throws IOException, SQLException {
         FXMLLoader fmxLoader;
         fmxLoader = new FXMLLoader();
         fmxLoader.setLocation(getClass().getResource("/main/FXML/facilityItem.fxml"));
         AnchorPane anchorPane = fmxLoader.load();
         FacilityItemController facilityItemController = fmxLoader.getController();
-        facilityItemController.setFacilitiesListController(this);
-        facilityItemController.setData(facilities.get(i));
+        facilityItemController.setData(facilities.get(index), this);
         facilityList.getChildren().add(anchorPane);
     }
 
     @FXML
-    public void handleNewFacilityButton(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newFacility.fxml"));
-        Parent facilityNewPane = loader.load();
-        NewFacilityController newFacilityController = loader.getController();
-        newFacilityController.setData(menuPane);
-        menuPane.setCenter(facilityNewPane);
+    public void handleNewFacilityButton(ActionEvent event) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newFacility.fxml"));
+            Parent facilityNewPane = loader.load();
+            NewFacilityController newFacilityController = loader.getController();
+            newFacilityController.setData(menuPane);
+            menuPane.setCenter(facilityNewPane);
+        }catch (IOException | SQLException e){
+            //todo aggiungere message label a tutte facilityChoice
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+        }
+
     }
 
     public void removeFacilityItemFromGUI(AnchorPane facilityItemPane, Facility facility) {

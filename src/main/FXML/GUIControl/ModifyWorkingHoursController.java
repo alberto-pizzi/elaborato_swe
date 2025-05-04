@@ -114,11 +114,10 @@ public class ModifyWorkingHoursController implements Initializable {
 
     private MessagesController messagesController;
 
-    boolean checkHours(DayOfWeek day, ArrayList<Node> hours, GridPane pane) throws SQLException, ParseException {
+    void checkHours(DayOfWeek day, ArrayList<Node> hours, GridPane pane) throws SQLException, ParseException {
 
         OwnerManagementController ownerManagementController = new OwnerManagementController();
-        Boolean opened = false;
-        boolean success = true;
+        boolean opened = false;
         String openingHours = "";
         String closingHours = "";
         Label tmpLabel;
@@ -132,14 +131,13 @@ public class ModifyWorkingHoursController implements Initializable {
                 opened = false;
                 tmpLabel = (Label) node;
                 closingHours = tmpLabel.getText();
-                success = ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
+                ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
             }
         }
         if (opened){
             closingHours = "24:00";
-            success = ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
+            ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
         }
-        return success;
     }
 
     void checkInitHours(DayOfWeek day, ArrayList<Node> hours, GridPane pane, WorkingHours hour) throws ParseException {
@@ -187,74 +185,74 @@ public class ModifyWorkingHoursController implements Initializable {
     }
 
     @FXML
-    void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException, ParseException {
+    void handleConfirmButton(ActionEvent event) {
 
         OwnerManagementController ownerManagementController = new OwnerManagementController();
 
-        boolean success = true;
+        try{
+            if (!closedMonday.isSelected() && mondayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.MONDAY);
+                checkHours(DayOfWeek.MONDAY, clickedMon, monday);
+            }else if (closedMonday.isSelected()){
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.MONDAY);
+            }
 
-        if (!closedMonday.isSelected() && mondayChanged) {
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.MONDAY);
-            success = checkHours(DayOfWeek.MONDAY, clickedMon, monday);
-        }else if (closedMonday.isSelected()){
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.MONDAY);
-        }
+            if (!closedTuesday.isSelected() && tuesdayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.TUESDAY);
+                checkHours(DayOfWeek.TUESDAY, clickedTue, tuesday);
+            } else if (closedTuesday.isSelected()){
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.TUESDAY);
+            }
 
-        if (!closedTuesday.isSelected() && tuesdayChanged) {
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.TUESDAY);
-            success = checkHours(DayOfWeek.TUESDAY, clickedTue, tuesday);
-        } else if (closedTuesday.isSelected()){
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.TUESDAY);
-        }
+            if (!closedWednesday.isSelected() && wednesdayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.WEDNESDAY);
+                checkHours(DayOfWeek.WEDNESDAY, clickedWed, wednesday);
+            } else if (closedWednesday.isSelected()){
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.WEDNESDAY);
+            }
 
-        if (!closedWednesday.isSelected() && wednesdayChanged) {
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.WEDNESDAY);
-            success = checkHours(DayOfWeek.WEDNESDAY, clickedWed, wednesday);
-        } else if (closedWednesday.isSelected()){
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.WEDNESDAY);
-        }
+            if (!closedThursday.isSelected() && thursdayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.THURSDAY);
+                checkHours(DayOfWeek.THURSDAY, clickedThu, thursday);
+            } else if (closedThursday.isSelected()){
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.THURSDAY);
+            }
 
-        if (!closedThursday.isSelected() && thursdayChanged) {
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.THURSDAY);
-            success = checkHours(DayOfWeek.THURSDAY, clickedThu, thursday);
-        } else if (closedThursday.isSelected()){
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.THURSDAY);
-        }
+            if (!closedFriday.isSelected() && fridayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.FRIDAY);
+                checkHours(DayOfWeek.FRIDAY, clickedFri, friday);
+            } else if (closedFriday.isSelected()){
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.FRIDAY);
+            }
 
-        if (!closedFriday.isSelected() && fridayChanged) {
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.FRIDAY);
-            success = checkHours(DayOfWeek.FRIDAY, clickedFri, friday);
-        } else if (closedFriday.isSelected()){
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.FRIDAY);
-        }
+            if (!closedSaturday.isSelected() && saturdayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SATURDAY);
+                checkHours(DayOfWeek.SATURDAY, clickedSat, saturday);
+            } else if (closedSaturday.isSelected()){
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SATURDAY);
+            }
 
-        if (!closedSaturday.isSelected() && saturdayChanged) {
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SATURDAY);
-            success = checkHours(DayOfWeek.SATURDAY, clickedSat, saturday);
-        } else if (closedSaturday.isSelected()){
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SATURDAY);
-        }
+            if (!closedSunday.isSelected() && sundayChanged) {
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SUNDAY);
+                checkHours(DayOfWeek.SUNDAY, clickedSun, sunday);
+            } else if (closedSunday.isSelected()){
+                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SUNDAY);
+            }
 
-        if (!closedSunday.isSelected() && sundayChanged) {
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SUNDAY);
-            success = checkHours(DayOfWeek.SUNDAY, clickedSun, sunday);
-        } else if (closedSunday.isSelected()){
-            success = ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SUNDAY);
-        }
-
-        if(success){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
-            Parent modifyFacility = loader.load();
-
-            ModifyFacilityController modifyFacilityController = loader.getController();
-            modifyFacilityController.setData(facility,this.menuPane);
-
-            menuPane.setCenter(modifyFacility);
-        }else{
-            String message = "An error has occurred";
+            try{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyFacility.fxml"));
+                Parent modifyFacility = loader.load();
+                ModifyFacilityController modifyFacilityController = loader.getController();
+                modifyFacilityController.setData(facility,this.menuPane);
+                menuPane.setCenter(modifyFacility);
+            }catch (IOException | SQLException e){
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            }
+        }catch(SQLException | ParseException e){
+            String message = "An error has occurred during the modification";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
-
 
     }
 

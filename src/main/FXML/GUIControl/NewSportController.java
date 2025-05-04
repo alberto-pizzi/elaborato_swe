@@ -43,6 +43,14 @@ public class NewSportController {
 
     private Boolean newFacility = false;
 
+    public Boolean getNewFacility() {
+        return newFacility;
+    }
+
+    public void setNewFacility(Boolean newFacility) {
+        this.newFacility = newFacility;
+    }
+
     @FXML
     void handleConfirmButton(ActionEvent event){
         messagesController = new MessagesController(messageLabel);
@@ -84,7 +92,7 @@ public class NewSportController {
                         messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                     }
                 }else{
-                    String message = "An error has occurred";
+                    String message = "An error has occurred, the sport hasn't been created";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
 
@@ -110,11 +118,4 @@ public class NewSportController {
         newField = true;
     }
 
-    public Boolean getNewFacility() {
-        return newFacility;
-    }
-
-    public void setNewFacility(Boolean newFacility) {
-        this.newFacility = newFacility;
-    }
 }

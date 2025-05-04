@@ -66,6 +66,17 @@ public class AddManagersController implements Initializable {
         return messagesController;
     }
 
+    private void displayUsers(int index) throws IOException, SQLException {
+        FXMLLoader fmxLoader;
+        fmxLoader = new FXMLLoader();
+        fmxLoader.setLocation(getClass().getResource("/main/FXML/managerItem.fxml"));
+        HBox hBox = null;
+        hBox = fmxLoader.load();
+        ManagerItemController managerItemController = fmxLoader.getController();
+        managerItemController.setData(users.get(index), this, facility);
+        usersList.getChildren().add(hBox);
+    }
+
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException, ClassNotFoundException {
         this.facility = facility;
         this.menuPane = menuPane;
@@ -73,14 +84,7 @@ public class AddManagersController implements Initializable {
         users.addAll(getData());
         currentSearch.setText("Users in " + facility.getProvince() + " province");
         for(int i=0; i < itemsPerPage && i < users.size(); i++){
-            FXMLLoader fmxLoader;
-            fmxLoader = new FXMLLoader();
-            fmxLoader.setLocation(getClass().getResource("/main/FXML/managerItem.fxml"));
-            HBox hBox = null;
-            hBox = fmxLoader.load();
-            ManagerItemController managerItemController = fmxLoader.getController();
-            managerItemController.setData(users.get(i), this, facility);
-            usersList.getChildren().add(hBox);
+            displayUsers(i);
         }
 
     }
@@ -114,18 +118,10 @@ public class AddManagersController implements Initializable {
             usersList.getChildren().clear();
 
             for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < users.size(); i++) {
-                FXMLLoader fmxLoader;
-                fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/managerItem.fxml"));
-
-                HBox hBox = null;
                 try {
-                    hBox = fmxLoader.load();
-                    ManagerItemController managerItemController = fmxLoader.getController();
-                    managerItemController.setData(users.get(i), this, facility);
-                    usersList.getChildren().add(hBox);
+                    displayUsers(i);
                 } catch (IOException | SQLException e) {
-                    String message = "An error has occurred";
+                    String message = "An error has occurred, one or more users may not show in the page";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
@@ -144,19 +140,10 @@ public class AddManagersController implements Initializable {
             usersList.getChildren().clear();
 
             for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
-
-                FXMLLoader fmxLoader;
-                fmxLoader = new FXMLLoader();
-                fmxLoader.setLocation(getClass().getResource("/main/FXML/managerItem.fxml"));
-
-                HBox hBox = null;
                 try {
-                    hBox = fmxLoader.load();
-                    ManagerItemController managerItemController = fmxLoader.getController();
-                    managerItemController.setData(users.get(i), this, facility);
-                    usersList.getChildren().add(hBox);
+                    displayUsers(i);
                 } catch (IOException | SQLException e) {
-                    String message = "An error has occurred";
+                    String message = "An error has occurred, one or more users may not show in the page";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
@@ -165,7 +152,6 @@ public class AddManagersController implements Initializable {
         }
     }
 
-    //todo ritoccare come si fa controllo ricerca
     @FXML
     private void handleSearchButton(ActionEvent event){
 
@@ -188,15 +174,9 @@ public class AddManagersController implements Initializable {
 
             for(int i=0; i < itemsPerPage && i < users.size(); i++){
                 try {
-                    FXMLLoader fmxLoader;
-                    fmxLoader = new FXMLLoader();
-                    fmxLoader.setLocation(getClass().getResource("/main/FXML/managerItem.fxml"));
-                    HBox hBox = fmxLoader.load();
-                    ManagerItemController managerItemController = fmxLoader.getController();
-                    managerItemController.setData(users.get(i), this, facility);
-                    usersList.getChildren().add(hBox);
+                    displayUsers(i);
                 } catch (IOException | SQLException e) {
-                    String message = "An error has occurred";
+                    String message = "An error has occurred, one or more users may not show in the page";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
