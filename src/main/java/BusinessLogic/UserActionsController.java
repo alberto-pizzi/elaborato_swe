@@ -71,7 +71,7 @@ public class UserActionsController extends PersonController<User>{
         return pass;
     }
 
-    public boolean declineInvite(int idInvite) throws SQLException {
+    public boolean declineInvite(int idInvite) {
 
         try {
             inviteDao.deleteInvite(idInvite);
@@ -82,34 +82,51 @@ public class UserActionsController extends PersonController<User>{
         return true;
     }
 
-    public boolean acceptInvite(Invite invite, ArrayList<String> accountsList, int guests) throws SQLException, ClassNotFoundException {
+    //TODO check try-catch logics !!!!!!
+    public boolean acceptInvite(Invite invite, ArrayList<String> accountsList, int guests)  {
 
         boolean accepted = false;
 
         if (invite.getGroup().getReservation().isMatched()) {
 
-            //himself join into group
-            if (!joinGroup(invite.getGroup().getId(), guests))
+            try {
+                //himself join into group
+                if (!joinGroup(invite.getGroup().getId(), guests))
+                    return false;
+            } catch (SQLException | ClassNotFoundException e) {
                 return false;
+            }
 
-            //send invites to other (his) players
-            for (String accountUsername : accountsList) {
-                if (accountUsername != null) {
-                    sendInvite(invite.getGroup().getReservation(), userDAO.getUserID(accountUsername));
+            try {
+                //send invites to other (his) players
+                for (String accountUsername : accountsList) {
+                    if (accountUsername != null) {
+                        sendInvite(invite.getGroup().getReservation(), userDAO.getUserID(accountUsername));
+                    }
                 }
+            }catch (SQLException | ClassNotFoundException e) {
+                System.out.println("Something goes wrong during sendInvite or getting userID");
             }
 
             //delete this invite
 
         } else {
             //guests are 0 because in not matched booking are not allowed guests
-            if (!joinGroup(invite.getGroup().getId(), 0))
+            try {
+                if (!joinGroup(invite.getGroup().getId(), 0))
+                    return false;
+            } catch (SQLException | ClassNotFoundException e) {
                 return false;
-
-            //delete this invite
+            }
         }
         accepted = true;
-        inviteDao.deleteInvite(invite.getId());
+
+        try {
+            //delete this invite
+            inviteDao.deleteInvite(invite.getId());
+        } catch (SQLException e) {
+            System.out.println("Error during delete invite from database");
+        }
 
         return accepted;
     }

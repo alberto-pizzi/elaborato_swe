@@ -42,7 +42,7 @@ public class YourInvitesController implements Initializable {
         try {
             invites.addAll(userActionsController.getOwnInvites());
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            messagesController.showMessage("Error during get own invites", MessagesController.MessageType.ERROR,5);
         }
 
         try{
@@ -65,7 +65,7 @@ public class YourInvitesController implements Initializable {
 
 
         } catch (IOException e){
-            e.printStackTrace();
+            messagesController.showMessage("Error during load few invite item", MessagesController.MessageType.ERROR,5);
         }
 
     }

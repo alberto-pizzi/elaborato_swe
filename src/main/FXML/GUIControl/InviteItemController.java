@@ -94,27 +94,31 @@ public class InviteItemController {
     }
 
     @FXML
-    public void handleAcceptInviteButton() throws SQLException, ClassNotFoundException {
+    public void handleAcceptInviteButton() {
         UserActionsController userActionsController = new UserActionsController();
         boolean accepted = false;
         System.out.println("Accept button clicked: " + invite.getId());
 
 
-        if (invite.getGroup().getReservation().isMatched()){
+        //TODO check this try-catch
+        try {
+            if (invite.getGroup().getReservation().isMatched()) {
 
-            Optional<ButtonType> result = loadOwnGuestSelectorPane(invite);
+                Optional<ButtonType> result = loadOwnGuestSelectorPane(invite);
 
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                int guests = selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0;
-                ArrayList<String> accountsList = new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems());
-                accepted = userActionsController.acceptInvite(invite,accountsList,guests);
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    int guests = selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0;
+                    ArrayList<String> accountsList = new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems());
+                    accepted = userActionsController.acceptInvite(invite, accountsList, guests);
+                }
+
+            } else {
+                //not matched case
+                //guests are 0 because in not matched booking are not allowed guests
+                accepted = userActionsController.acceptInvite(invite, null, 0);
             }
-
-        }
-        else {
-            //not matched case
-            //guests are 0 because in not matched booking are not allowed guests
-            accepted = userActionsController.acceptInvite(invite, null, 0);
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Error during loadOwnGuestSelectorPane");
         }
 
         if (accepted)
@@ -126,7 +130,7 @@ public class InviteItemController {
     }
 
     @FXML
-    public void handleDeclineInviteButton() throws SQLException {
+    public void handleDeclineInviteButton() {
 
         UserActionsController userActionsController = new UserActionsController();
         System.out.println("Decline button clicked: " + invite.getId());
