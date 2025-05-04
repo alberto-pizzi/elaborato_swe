@@ -108,7 +108,7 @@ public class BookFieldController extends FieldFormManagementController implement
 
 
     @FXML
-    public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleConfirmButton(ActionEvent event) {
         Date eventDate = getDateFromDatePicker();
 
         LocalTime nowLocalTime = LocalTime.now();
@@ -141,7 +141,12 @@ public class BookFieldController extends FieldFormManagementController implement
 
             if (selectGuestsPaneController != null) {
 
-                createReservation(eventDate,eventStartTime,eventEndTime);
+                try {
+                    createReservation(eventDate, eventStartTime, eventEndTime);
+                } catch (SQLException | ClassNotFoundException e) {
+                    messagesController.showMessage("Error during create reservation", MessagesController.MessageType.ERROR, 5);
+
+                }
 
             }
             else
@@ -159,6 +164,7 @@ public class BookFieldController extends FieldFormManagementController implement
 
     }
 
+    //TODO is throw correct?
     //this is for add reservation (user side)
     protected void createReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd) throws SQLException, ClassNotFoundException {
 
@@ -179,10 +185,7 @@ public class BookFieldController extends FieldFormManagementController implement
                 messagesController.showMessage("Booking done successfully", MessagesController.MessageType.SUCCESS, 5);
                 actionsAfterAdd();
 
-
             }
-
-
 
         } else
             messagesController.showMessage("Booking failed", MessagesController.MessageType.ERROR, 5);

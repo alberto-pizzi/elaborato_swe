@@ -113,13 +113,12 @@ public abstract class FieldFormManagementController implements Initializable {
 
         this.messagesController = new MessagesController(errorLabel);
 
+        //TODO try-catch or throw?
         //load guests selector
         try {
             loadOwnGuestSelectorPane();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException | ClassNotFoundException e) {
+            messagesController.showMessage("Error during load own guest selector pane", MessagesController.MessageType.ERROR,5);
         }
 
         //init all
@@ -158,9 +157,7 @@ public abstract class FieldFormManagementController implements Initializable {
                 }
 
             } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                messagesController.showMessage("Error during get facility WHs", MessagesController.MessageType.ERROR,5);
             }
         });
 
@@ -370,73 +367,80 @@ public abstract class FieldFormManagementController implements Initializable {
             List<LocalTime> timeOptions = null; // 30 min
             try {
                 timeOptions = availableTimes(minutesInterval, timeFormatter, dayOfWeek);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+
+                for (LocalTime time : timeOptions) {
+                    startTimeChoice.getItems().add(String.valueOf(time));
+                }
+            } catch (SQLException | ClassNotFoundException e) {
+                messagesController.showMessage("Error during load available times", MessagesController.MessageType.ERROR,5);
             }
 
-            for (LocalTime time : timeOptions) {
-                startTimeChoice.getItems().add(String.valueOf(time));
-            }
+
         }
     }
 
 
-    protected void updateEndTimes(LocalTime selectedTime, ArrayList<WorkingHours> dailyWHs, int minutesInterval) throws SQLException, ClassNotFoundException {
+    protected void updateEndTimes(LocalTime selectedTime, ArrayList<WorkingHours> dailyWHs, int minutesInterval) {
 
         endTimeChoice.getItems().clear();
         endTimeChoice.setValue(null);
 
         List<LocalTime> availableTimes = new ArrayList<>();
 
-        ArrayList<Reservation> reservations = personController.getReservationsByField(field.getId());
-        if (selectedTime != null) {
+        try {
+            ArrayList<Reservation> reservations = personController.getReservationsByField(field.getId());
+            if (selectedTime != null) {
 
-            LocalTime closing = null;
+                LocalTime closing = null;
 
-            //search own WH (on same day)
-            for (WorkingHours wh : dailyWHs) {
-                if (wh.isWithinRange(selectedTime)){
-                    closing = wh.getClosingHours().toLocalTime();
-                    break;
-                }
-
-            }
-
-            LocalTime current = selectedTime;
-
-            if (closing != null) {
-                while (current.isBefore(closing)) {
-                    boolean isAvailable = true;
-
-                    for (Reservation reservation : reservations) {
-                        if (reservation != null) {
-                            LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
-                            LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
-
-                            if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
-                                isAvailable = false;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!current.equals(selectedTime)) {
-                        endTimeChoice.getItems().add(current.toString());
-                    }
-
-                    if (isAvailable) {
-                        availableTimes.add(current);
-                    } else {
+                //search own WH (on same day)
+                for (WorkingHours wh : dailyWHs) {
+                    if (wh.isWithinRange(selectedTime)) {
+                        closing = wh.getClosingHours().toLocalTime();
                         break;
                     }
 
-                    current = current.plusMinutes(minutesInterval);
+                }
 
+                LocalTime current = selectedTime;
+
+                if (closing != null) {
+                    while (current.isBefore(closing)) {
+                        boolean isAvailable = true;
+
+                        for (Reservation reservation : reservations) {
+                            if (reservation != null) {
+                                LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
+                                LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
+
+                                if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
+                                    isAvailable = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!current.equals(selectedTime)) {
+                            endTimeChoice.getItems().add(current.toString());
+                        }
+
+                        if (isAvailable) {
+                            availableTimes.add(current);
+                        } else {
+                            break;
+                        }
+
+                        current = current.plusMinutes(minutesInterval);
+
+                    }
                 }
             }
+        } catch (SQLException | ClassNotFoundException e) {
+            messagesController.showMessage("Error during load available times", MessagesController.MessageType.ERROR,5);
         }
+
+
+
     }
 
 
