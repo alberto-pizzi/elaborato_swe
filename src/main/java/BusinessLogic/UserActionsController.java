@@ -141,7 +141,7 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    public boolean leaveGroup(int idGroup) throws SQLException, ClassNotFoundException {
+    public boolean leaveGroup(int idGroup) {
 
         Group group = null;
         int ownGuests = 0;

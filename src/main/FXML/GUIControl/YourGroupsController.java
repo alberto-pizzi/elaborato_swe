@@ -46,7 +46,7 @@ public class YourGroupsController implements Initializable {
         try {
             groups.addAll(userActionsController.getOwnGroups());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            messagesController.showMessage("Error during get own groups", MessagesController.MessageType.ERROR,5);
         }
 
 
@@ -54,6 +54,7 @@ public class YourGroupsController implements Initializable {
 
             System.out.println(groups.size());
 
+            //TODO is this try-catch correct despite there is a loop?
             for (int i = 0; i < groups.size(); i++) {
 
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -70,7 +71,7 @@ public class YourGroupsController implements Initializable {
 
 
         } catch (IOException e){
-            e.printStackTrace();
+            messagesController.showMessage("Error during load few group item", MessagesController.MessageType.ERROR,5);
         }
 
 

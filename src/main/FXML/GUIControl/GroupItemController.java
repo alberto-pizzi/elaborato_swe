@@ -69,7 +69,7 @@ public class GroupItemController {
 
 
     @FXML
-    public void handleLeaveButtonAction() throws SQLException, ClassNotFoundException {
+    public void handleLeaveButtonAction() {
         System.out.println("Leave button clicked: " + fieldNameLabel.getText());
 
         UserActionsController userActionsController = new UserActionsController();
