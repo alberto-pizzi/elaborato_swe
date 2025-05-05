@@ -75,38 +75,52 @@ public class MenuController implements Initializable {
                     managerButtonController.setData(this);
 
                 } catch (Exception e) {
+                    //TODO is this catch good?
+
                     e.printStackTrace();
                 }
 
             }
 
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
+            //TODO is this catch good?
             throw new RuntimeException(e);
         }
 
     }
 
-    public void goToHome () throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/home.fxml"));
-        Parent view = loader.load();
-        HomeController controller = loader.getController();
-        controller.setMenuPane(menuPane);
-        menuPane.setCenter(view);
+    public void goToHome () {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/home.fxml"));
+            Parent view = loader.load();
+            HomeController controller = loader.getController();
+            controller.setMenuPane(menuPane);
+            menuPane.setCenter(view);
+        } catch (IOException e) {
+            //TODO is this catch good?
+            System.out.println("Error during open home.fxml");
+
+        }
     }
 
-    public void changeView (String newViewFXMLFileName) throws IOException {
-        AnchorPane view = FXMLLoader.load(getClass().getResource("/main/FXML/" + newViewFXMLFileName));
-        menuPane.setCenter(view);
+    public void changeView (String newViewFXMLFileName) {
+        try {
+            AnchorPane view = FXMLLoader.load(getClass().getResource("/main/FXML/" + newViewFXMLFileName));
+            menuPane.setCenter(view);
+        } catch (IOException e) {
+            //TODO is this catch good?
+            System.out.println("Error during open " + newViewFXMLFileName);
+        }
     }
 
     @FXML
-    public void handleGroupsButtonAction (ActionEvent event) throws IOException {
+    public void handleGroupsButtonAction (ActionEvent event) {
         changeView("groups.fxml");
         System.out.println("Groups menu button clicked");
     }
 
     @FXML
-    public void handleHomeButtonAction (ActionEvent event) throws IOException {
+    public void handleHomeButtonAction (ActionEvent event) {
 
         goToHome();
         System.out.println("Home menu button clicked");
@@ -114,31 +128,36 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    public void handleInvitesButtonAction (ActionEvent event) throws IOException {
+    public void handleInvitesButtonAction (ActionEvent event) {
         changeView("invites.fxml");
         System.out.println("Invites menu button clicked");
     }
 
     @FXML
-    public void handleProfileButtonAction (ActionEvent event) throws IOException {
+    public void handleProfileButtonAction (ActionEvent event) {
         changeView("profile.fxml");
         System.out.println("Profile menu button clicked");
 
     }
 
     @FXML
-    public void handleReservationsButtonAction (ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
-        Parent view = loader.load();
-        ReservationsController controller = loader.getController();
-        controller.setPane(menuPane);
-        menuPane.setCenter(view);
-        System.out.println("Reservations menu button clicked");
+    public void handleReservationsButtonAction (ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
+            Parent view = loader.load();
+            ReservationsController controller = loader.getController();
+            controller.setPane(menuPane);
+            menuPane.setCenter(view);
+            System.out.println("Reservations menu button clicked");
+        } catch (IOException e) {
+            //TODO is this catch good?
+            System.out.println("Error during open reservations.fxml");
+        }
 
     }
 
     @FXML
-    void handleNotificationButtonAction (ActionEvent event) throws IOException {
+    void handleNotificationButtonAction (ActionEvent event) {
         changeView("notifications.fxml");
         System.out.println("Notifications menu button clicked");
 

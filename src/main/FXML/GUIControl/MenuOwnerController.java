@@ -13,6 +13,7 @@ import main.java.BusinessLogic.OwnerProfileController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class MenuOwnerController implements Initializable {
@@ -46,52 +47,64 @@ public class MenuOwnerController implements Initializable {
         email.setText(ownerProfileController.getEmail());
         username.setText(ownerProfileController.getUsername());
         //fixme corretto try?
+        changeView("homeOwner.fxml");
+
+    }
+
+    public void changeView(String newViewFXMLFileName) {
         try {
-            changeView("homeOwner.fxml");
+            AnchorPane view = FXMLLoader.load(getClass().getResource("/main/FXML/" + newViewFXMLFileName));
+            menuPane.setCenter(view);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            //TODO is this catch good?
+            System.out.println("Error during open " + newViewFXMLFileName);
         }
     }
 
-    public void changeView(String newViewFXMLFileName) throws IOException {
-        AnchorPane view = FXMLLoader.load(getClass().getResource("/main/FXML/" + newViewFXMLFileName));
-        menuPane.setCenter(view);
-    }
-
     @FXML
-    void handleDashboardButton(ActionEvent event) throws IOException {
+    void handleDashboardButton(ActionEvent event) {
         changeView("homeOwner.fxml");
         System.out.println("Dashboard menu button clicked");
     }
 
     @FXML
-    void handleFacilitiesButton(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesOwner.fxml"));
-        Parent view = loader.load();
-        FacilitiesListController controller = loader.getController();
-        controller.setData(menuPane);
-        menuPane.setCenter(view);
-        System.out.println("Facilities menu button clicked");
+    void handleFacilitiesButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesOwner.fxml"));
+            Parent view = loader.load();
+            FacilitiesListController controller = loader.getController();
+            controller.setData(menuPane);
+            menuPane.setCenter(view);
+            System.out.println("Facilities menu button clicked");
+        } catch (SQLException | IOException e){
+            //TODO is this catch good?
+            System.out.println("Error during open facilitiesOwner.fxml" );
+        }
     }
 
     @FXML
-    void handleProfileButton(ActionEvent event) throws IOException {
+    void handleProfileButton(ActionEvent event) {
         changeView("profileOwner.fxml");
         System.out.println("Profile menu button clicked");
     }
 
     @FXML
-    void handleReservationsButton(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceOwner.fxml"));
-        Parent view = loader.load();
-        FacilityChoiceOwnerController controller = loader.getController();
-        controller.setData(menuPane);
-        menuPane.setCenter(view);
-        System.out.println("Reservations menu button clicked");
+    void handleReservationsButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceOwner.fxml"));
+            Parent view = loader.load();
+            FacilityChoiceOwnerController controller = loader.getController();
+            controller.setData(menuPane);
+            menuPane.setCenter(view);
+            System.out.println("Reservations menu button clicked");
+        } catch (SQLException | IOException e){
+            //TODO is this catch good?
+            System.out.println("Error during open facilityChoiceOwner.fxml" );
+        }
     }
 
     @FXML
-    void handleNotificationButton(ActionEvent event) throws IOException {
+    void handleNotificationButton(ActionEvent event) {
         changeView("notificationsOwner.fxml");
         System.out.println("Notifications menu button clicked");
     }
