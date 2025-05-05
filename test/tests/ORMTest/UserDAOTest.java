@@ -70,8 +70,7 @@ public class UserDAOTest extends PersonDAOTest{
     }
 
     @Test
-    public void deletePersonTest() throws SQLException {
-        //TODO implement with mockito
+    public void deletePersonTest() {
     }
 
     @Test
@@ -194,8 +193,8 @@ public class UserDAOTest extends PersonDAOTest{
     }
 
     @Test
-    public void addUserTest() throws SQLException {
-        //TODO should be implement?
+    public void addUserTest() {
+
     }
 
 
