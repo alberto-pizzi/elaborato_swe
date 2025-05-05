@@ -2,7 +2,6 @@ package main.FXML.GUIControl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -33,6 +32,9 @@ public abstract class Reservations {
     protected Label pageNumber;
 
     @FXML
+    protected Label messageLabel;
+
+    @FXML
     protected AnchorPane page;
 
     protected List<Reservation> reservations = new ArrayList<>();
@@ -46,6 +48,8 @@ public abstract class Reservations {
     protected Field field;
 
     protected PersonController personController;
+
+    protected MessagesController messagesController;
 
     public BorderPane getMenuPane() {
         return menuPane;
@@ -63,18 +67,19 @@ public abstract class Reservations {
         this.personController = personController;
     }
 
-    protected  abstract void reservationItem(int i) throws IOException, SQLException, ClassNotFoundException;
+    protected  abstract void displayReservations(int index) throws IOException, SQLException, ClassNotFoundException;
 
     public  abstract void handleNewReservationButton(ActionEvent event);
 
     public void setData(Field field, BorderPane menuPane) throws SQLException, ClassNotFoundException, IOException {
         personController = new ManagerOwnerManagementController();
+        messagesController = new MessagesController(messageLabel);
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         this.reservations = managerOwnerManagementController.getReservationsByField(field.getId());
         this.menuPane = menuPane;
         this.field = field;
         for(int i=0; i < itemsPerPage && i < reservations.size(); i++){
-                reservationItem(i);
+                displayReservations(i);
         }
         String page = String.valueOf(currentPage);
         pageNumber.setText(page);
@@ -89,10 +94,10 @@ public abstract class Reservations {
 
             for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < reservations.size(); i++) {
                 try {
-                    reservationItem(i);
+                    displayReservations(i);
                 } catch (IOException | SQLException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                    //todo aggiungere messaggi di errore
+                    String message = "An error has occurred, one or more reservations may not show in the page";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
             currentPage++;
@@ -110,10 +115,10 @@ public abstract class Reservations {
             for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
 
                 try {
-                    reservationItem(i);
+                    displayReservations(i);
                 } catch (IOException | SQLException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                    //todo aggiungere messaggi di errore
+                    String message = "An error has occurred, one or more reservations may not show in the page";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
 
             }

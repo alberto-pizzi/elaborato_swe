@@ -38,15 +38,18 @@ public abstract class FieldItem implements Initializable {
 
     protected PersonController personController;
 
+    protected MessagesController messagesController;
+
     @FXML
     public abstract void handleDetailsFieldButton(ActionEvent event) throws IOException;
 
     @Override
     public abstract void initialize(URL location, ResourceBundle resources);
 
-    public void setData(Field field, BorderPane menuPane) throws SQLException {
+    public void setData(Field field, BorderPane menuPane, MessagesController messagesController) throws SQLException {
         this.field = field;
         this.menuPane = menuPane;
+        this.messagesController = messagesController;
         fieldNameLabel.setText(field.getName());
         fieldAddressLabel.setText(personController.getFieldAddress(field.getId()));
         fieldPriceLabel.setText(String.format("%.2f",field.getPrice()) + "$");

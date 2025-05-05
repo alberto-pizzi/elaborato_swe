@@ -35,15 +35,21 @@ public abstract class FacilityDetail {
     @FXML
     protected Button goToBookButton;
 
+    @FXML
+    protected Label messageLabel;
+
     protected Facility facility;
 
     protected BorderPane menuPane;
 
-    protected abstract void goToFields() throws IOException, SQLException, ClassNotFoundException;
+    protected MessagesController messagesController;
+
+    abstract protected void goToFields() throws IOException, SQLException, ClassNotFoundException;
 
     public void setData(Facility facility, BorderPane menuPane) throws IOException {
         this.facility = facility;
         this.menuPane = menuPane;
+        messagesController = new MessagesController(messageLabel);
         facilityNameLabel.setText(facility.getName());
         facilityAddress.setText(facility.getFullAddress());
         facilityTelephone.setText(facility.getTelephone());
@@ -60,8 +66,8 @@ public abstract class FacilityDetail {
         try {
             goToFields();
         } catch (IOException | SQLException | ClassNotFoundException e) {
-            //fixme aggiungere messaggi di errore
-            e.printStackTrace();
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
 }

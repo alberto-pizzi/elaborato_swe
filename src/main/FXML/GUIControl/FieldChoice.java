@@ -32,6 +32,9 @@ public abstract class FieldChoice {
     @FXML
     protected AnchorPane page;
 
+    @FXML
+    protected Label messageLabel;
+
     protected List<Field> fields = new ArrayList<>();
 
     protected int currentPage = 1;
@@ -39,6 +42,10 @@ public abstract class FieldChoice {
     protected int itemsPerPage = 3;
 
     protected BorderPane menuPane;
+
+    protected MessagesController messagesController;
+
+    public MessagesController getMessagesController() {return messagesController;}
 
     protected abstract void displayFields(int index) throws IOException, SQLException;
     public BorderPane getMenuPane() {
@@ -52,14 +59,15 @@ public abstract class FieldChoice {
     public void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException {
 
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+        messagesController = new MessagesController(messageLabel);
         this.fields = managerOwnerManagementController.getFieldsByFacility(facility);
         this.menuPane = menuPane;
         for(int i=0; i < itemsPerPage && i < fields.size(); i++){
             try {
                 displayFields(i);
             } catch (IOException | SQLException e) {
-                //todo messaggi di errore
-                e.printStackTrace();
+                String message = "An error has occurred, one or more fields may not show in the page";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
         }
         String page = String.valueOf(currentPage);
@@ -76,8 +84,8 @@ public abstract class FieldChoice {
                 try {
                     displayFields(i);
                 } catch (IOException | SQLException e) {
-                    //todo messaggi di errore
-                    e.printStackTrace();
+                    String message = "An error has occurred, one or more fields may not show in the page";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
             currentPage++;
@@ -98,8 +106,8 @@ public abstract class FieldChoice {
                 try {
                     displayFields(i);
                 } catch (IOException | SQLException e) {
-                    //todo messaggi di errore
-                    e.printStackTrace();
+                    String message = "An error has occurred, one or more fields may not show in the page";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
             currentPage--;

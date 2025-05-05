@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldChoiceManagerController">
    <children>
-      <VBox prefWidth="1180.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
+      <VBox prefHeight="515.0" prefWidth="1180.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
             <StackPane prefHeight="40.0" prefWidth="1180.0">
                <children>
@@ -35,11 +35,16 @@
                   </VBox>
                </content>
             </ScrollPane>
+            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="26.0" prefWidth="1180.0" text="Error: text" textFill="RED" visible="false" wrapText="true">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="-1.0" layoutY="466.0" prefHeight="106.0" prefWidth="1180.0" style="-fx-background-color: white;">
+      <VBox alignment="CENTER" layoutX="-1.0" layoutY="502.0" prefHeight="70.0" prefWidth="1180.0" style="-fx-background-color: white;">
          <children>
-            <HBox alignment="CENTER" prefHeight="82.0" prefWidth="1180.0" spacing="30.0">
+            <HBox alignment="CENTER" prefHeight="74.0" prefWidth="1180.0" spacing="30.0">
                <children>
                   <Button fx:id="previous" mnemonicParsing="false" onAction="#handlePreviousButton" styleClass="clickable" stylesheets="@css/style.css" text="Previous" underline="true">
                      <font>

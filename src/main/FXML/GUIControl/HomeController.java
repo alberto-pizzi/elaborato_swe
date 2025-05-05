@@ -50,6 +50,9 @@ public class HomeController implements Initializable {
     @FXML
     private AnchorPane page;
 
+    @FXML
+    private Label messageLabel;
+
     private List<Field> fields = new ArrayList<>();
 
     int currentPage = 1;
@@ -57,6 +60,8 @@ public class HomeController implements Initializable {
     int itemsPerPage = 3;
 
     private BorderPane menuPane;
+
+    private MessagesController messagesController;
 
     public BorderPane getMenuPane() {
         return menuPane;
@@ -69,6 +74,7 @@ public class HomeController implements Initializable {
     public AnchorPane getPage() {
         return page;
     }
+
 
     private List<Field> getData() throws SQLException, ClassNotFoundException {
         UserActionsController userActionsController = new UserActionsController();
@@ -90,7 +96,7 @@ public class HomeController implements Initializable {
         fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
         HBox hBox = fmxLoader.load();
         FieldItemController fieldItemController = fmxLoader.getController();
-        fieldItemController.setData(fields.get(index), menuPane);
+        fieldItemController.setData(fields.get(index), menuPane, messagesController);
         fieldsList.getChildren().add(hBox);
     }
 
@@ -109,6 +115,7 @@ public class HomeController implements Initializable {
                 throw new RuntimeException(e);
             }
         }
+        messagesController = new MessagesController(messageLabel);
         search.setOnKeyPressed(handler);
         String page = String.valueOf(currentPage);
         pageNumber.setText(page);
@@ -124,8 +131,8 @@ public class HomeController implements Initializable {
                 try {
                     displayFields(i);
                 } catch (IOException | SQLException e) {
-                    //todo messaggio di errore
-                    e.printStackTrace();
+                    String message = "An error has occurred, one or more fields may not show in the page";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
             currentPage++;
@@ -147,8 +154,8 @@ public class HomeController implements Initializable {
                     try {
                         displayFields(i);
                     } catch (IOException | SQLException e) {
-                        //todo messaggio di errore
-                        e.printStackTrace();
+                        String message = "An error has occurred, one or more fields may not show in the page";
+                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                     }
                 }
             currentPage--;
@@ -170,16 +177,15 @@ public class HomeController implements Initializable {
                 currentSearch.setText("Results for " + "'" + search.getText() + "'");
             } catch (SQLException e) {
                 String message = "An error has occurred during the search";
-                //todo aggiungere errore
-                //messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
             for(int i=0; i < itemsPerPage && i < fields.size(); i++){
                 try {
                     displayFields(i);
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
-                    //"An error has occurred, one or more users may not show in the page"
-                    //todo messaggio di errore
+                    String message = "An error has occurred, one or more users may not show in the page";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }
             }
         }

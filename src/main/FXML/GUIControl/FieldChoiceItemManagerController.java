@@ -29,8 +29,8 @@ public class FieldChoiceItemManagerController extends FieldChoiceItem{
             fieldDetailManagerController.setData(field,menuPane);
             menuPane.setCenter(fieldDetailPane);
         } catch (IOException e) {
-            e.printStackTrace();
-            //todo messaggi di errore
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
 
@@ -46,8 +46,8 @@ public class FieldChoiceItemManagerController extends FieldChoiceItem{
             bookFieldController.selectGuestsPaneController.setData(null,false);
             menuPane.setCenter(view);
         } catch (IOException | SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            //todo aggiungere messaggi di errore
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
 
@@ -62,8 +62,8 @@ public class FieldChoiceItemManagerController extends FieldChoiceItem{
             reservationsManagerController.setData(field, menuPane);
             menuPane.setCenter(view);
         } catch (IOException | SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            //todo aggiungere messaggi di errore
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }
     }
 

@@ -28,12 +28,18 @@ public class FieldItemController extends FieldItem{
 
     @Override
     @FXML
-    public void handleDetailsFieldButton(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetails.fxml"));
-        Parent fieldDetailPane = loader.load();
-        FieldDetailController fieldDetailController = loader.getController();
-        fieldDetailController.setData(field,menuPane);
-        menuPane.setCenter(fieldDetailPane);
+    public void handleDetailsFieldButton(ActionEvent event){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetails.fxml"));
+            Parent fieldDetailPane = loader.load();
+            FieldDetailController fieldDetailController = loader.getController();
+            fieldDetailController.setData(field,menuPane);
+            menuPane.setCenter(fieldDetailPane);
+        } catch (IOException e) {
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+        }
+
     }
 
 }

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.HomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.HomeController">
    <children>
       <VBox prefHeight="519.0" prefWidth="1180.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
@@ -69,6 +69,11 @@
                   </VBox>
                </content>
             </ScrollPane>
+            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="26.0" prefWidth="1180.0" text="Error: text" textFill="RED" visible="false" wrapText="true">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
                   <Button fx:id="previous" mnemonicParsing="false" onAction="#handlePreviousButton" style="-fx-background-color: transparent;" text="Previous" underline="true">

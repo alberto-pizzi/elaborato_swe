@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ReservationsManagerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ReservationsManagerController">
    <children>
-      <VBox prefWidth="1180.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
+      <VBox prefHeight="483.0" prefWidth="1180.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
             <StackPane prefHeight="40.0" prefWidth="1180.0">
                <children>
@@ -36,9 +36,17 @@
                   </VBox>
                </content>
             </ScrollPane>
+            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="26.0" prefWidth="1179.0" text="Error: text" textFill="RED" visible="false" wrapText="true">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="-1.0" layoutY="466.0" prefHeight="106.0" prefWidth="1180.0" style="-fx-background-color: white;">
+      <VBox alignment="CENTER" layoutX="-1.0" layoutY="482.0" prefHeight="90.0" prefWidth="1180.0" style="-fx-background-color: white;">
          <children>
             <Button mnemonicParsing="false" onAction="#handleNewReservationButton" stylesheets="@css/style.css" text="New reservation" textFill="WHITE" wrapText="true">
                <styleClass>
