@@ -27,23 +27,34 @@ public class ReservationItemManagerController extends ReservationItemsManagerOwn
 
     @Override
     @FXML
-    public void handleAnnouncementButton() throws SQLException, ClassNotFoundException, IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/announcementManager.fxml"));
-        Parent view = loader.load();
-        AnnouncementManagerController announcementManagerController = loader.getController();
-        announcementManagerController.setData( reservationsController.getMenuPane(), this.reservation);
-        reservationsController.getMenuPane().setCenter(view);
+    public void handleAnnouncementButton() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/announcementManager.fxml"));
+            Parent view = loader.load();
+            AnnouncementManagerController announcementManagerController = loader.getController();
+            announcementManagerController.setData(reservationsController.getMenuPane(), this.reservation);
+            reservationsController.getMenuPane().setCenter(view);
+        } catch (IOException e) {
+            //TODO check this catch
+            System.out.println("Error while loading announcementManager.fxml");
+        }
     }
 
     @Override
     @FXML
-    public void handleEditButton() throws IOException, SQLException, ClassNotFoundException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservationManager.fxml"));
-        Parent view = loader.load();
-        ModifyReservationManagerController modifyReservationManagerController = loader.getController();
-        modifyReservationManagerController.setData(this.reservation, reservationsController.getMenuPane());
-        modifyReservationManagerController.selectGuestsPaneController.setData(getReservationsController().getPersonController().getGroupByReservation(this.reservation.getId()),true );
-        reservationsController.getMenuPane().setCenter(view);
+    public void handleEditButton() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservationManager.fxml"));
+            Parent view = loader.load();
+            ModifyReservationManagerController modifyReservationManagerController = loader.getController();
+            modifyReservationManagerController.setData(this.reservation, reservationsController.getMenuPane());
+            modifyReservationManagerController.selectGuestsPaneController.setData(getReservationsController().getPersonController().getGroupByReservation(this.reservation.getId()), true);
+            reservationsController.getMenuPane().setCenter(view);
+        }
+        catch (IOException | SQLException | ClassNotFoundException e) {
+            //TODO check this catch
+            System.out.println("Error while loading modifyReservationManager.fxml or while getting data from DB.");
+        }
     }
 
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -28,22 +29,32 @@ public class ReservationsController implements Initializable {
     @FXML
     private ScrollPane scroll;
 
+    @FXML
+    private Label messageLabel;
+
+    private MessagesController messagesController = null;
+
     private ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 
     BorderPane menuPane;
 
     private PersonController personController;
 
+
     void setPane(BorderPane pane) {
         this.menuPane = pane;
     }
 
-    BorderPane getMenuPane() {
+    public BorderPane getMenuPane() {
         return this.menuPane;
     }
 
     public PersonController getPersonController() {
         return personController;
+    }
+
+    public MessagesController getMessagesController() {
+        return messagesController;
     }
 
     public void setPersonController(PersonController personController) {
@@ -55,10 +66,12 @@ public class ReservationsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         personController =new UserActionsController();
         UserActionsController userActionsController = new UserActionsController();
+
+        messagesController = new MessagesController(messageLabel);
         try {
             reservations.addAll(userActionsController.getOwnReservations());
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            messagesController.showMessage("Error while loading own reservation from DB.", MessagesController.MessageType.ERROR,5);
         }
 
         try{
@@ -73,12 +86,13 @@ public class ReservationsController implements Initializable {
                 reservationsVBox.getChildren().add(reservationItem);
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            //TODO could be improved
+            messagesController.showMessage("Error while loading few reservation item.", MessagesController.MessageType.ERROR,5);
+
         }
 
     }
 
-    //TODO generics needed?
     public void removeReservationItemFromGUI(AnchorPane reservationItemPane, Reservation reservation) {
         reservations.remove(reservation);
         reservationsVBox.getChildren().remove(reservationItemPane);

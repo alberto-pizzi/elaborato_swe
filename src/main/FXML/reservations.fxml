@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ReservationsController">
    <children>
       <VBox style="-fx-background-color: #fff; -fx-background-radius: 10;">
@@ -17,11 +16,12 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="0.0" prefWidth="1180.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="70.0" prefWidth="1085.0" text="Your Reservations" textAlignment="CENTER">
+                        <Label alignment="CENTER" prefHeight="60.0" prefWidth="1085.0" text="Your Reservations" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="48.0" />
                            </font>
                         </Label>
+                        <Label fx:id="messageLabel" text="Message label" visible="false" />
                      </children>
                   </VBox>
                </children>

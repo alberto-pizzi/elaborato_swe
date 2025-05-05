@@ -34,36 +34,41 @@ public class ManagementButtonsController {
     }
 
     @FXML
-    public void handleGoToGroupsButtonAction() throws IOException {
+    public void handleGoToGroupsButtonAction() {
 
-        AnchorPane view = FXMLLoader.load(getClass().getResource("/main/FXML/groups.fxml"));
-        reservationItemController.getReservationsController().getMenuPane().setCenter(view);
+        try {
+            AnchorPane view = FXMLLoader.load(getClass().getResource("/main/FXML/groups.fxml"));
+            reservationItemController.getReservationsController().getMenuPane().setCenter(view);
 
-        //TODO try to illuminate group button? Maybe is not possible
-
-        System.out.println("GoToGroups button clicked: " + reservationItemController.getReservation().getId());
-
-    }
-
-    @FXML
-    public void handleEditButtonAction() throws IOException, SQLException, ClassNotFoundException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
-        Parent view = loader.load();
-
-        ModifyReservationController modifyReservationController = loader.getController();
-        modifyReservationController.setData(reservationItemController.getReservation(), reservationItemController.getReservationsController().getMenuPane());
-
-        //FIXME remove static
-        modifyReservationController.selectGuestsPaneController.setData(reservationItemController.getReservationsController().getPersonController().getGroupByReservation(reservationItemController.getReservation().getId()),true );
-
-        reservationItemController.getReservationsController().getMenuPane().setCenter(view);
-        System.out.println("Edit button clicked: " + reservationItemController.getReservation().getId());
+            System.out.println("GoToGroups button clicked: " + reservationItemController.getReservation().getId());
+        } catch (IOException e) {
+            reservationItemController.getReservationsController().getMessagesController().showMessage("Error while loading groups page.", MessagesController.MessageType.ERROR,5);
+        }
 
     }
 
     @FXML
-    public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException {
-        //TODO implement
+    public void handleEditButtonAction()  {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/modifyReservation.fxml"));
+            Parent view = loader.load();
+
+            ModifyReservationController modifyReservationController = loader.getController();
+            modifyReservationController.setData(reservationItemController.getReservation(), reservationItemController.getReservationsController().getMenuPane());
+
+            modifyReservationController.selectGuestsPaneController.setData(reservationItemController.getReservationsController().getPersonController().getGroupByReservation(reservationItemController.getReservation().getId()), true);
+
+            reservationItemController.getReservationsController().getMenuPane().setCenter(view);
+            System.out.println("Edit button clicked: " + reservationItemController.getReservation().getId());
+        } catch (SQLException | ClassNotFoundException | IOException e){
+            reservationItemController.getReservationsController().getMessagesController().showMessage("Error while getting from DB.", MessagesController.MessageType.ERROR,5);
+        }
+
+    }
+
+    @FXML
+    public void handleDeleteButtonAction() {
         System.out.println("Delete button clicked: " + reservationItemController.getReservation().getId());
 
 
@@ -83,8 +88,11 @@ public class ManagementButtonsController {
                     reservationItemController.getReservationsController().removeReservationItemFromGUI(reservationItemController.getReservationItemPane(), reservationItemController.getReservation());
                     System.out.println("Deleted!");
                 }
-                else
+                else {
                     System.out.println("Error during deletion");
+                    reservationItemController.getReservationsController().getMessagesController().showMessage("Error during deletion.", MessagesController.MessageType.ERROR,5);
+
+                }
             }
 
         } else if(result.get() == ButtonType.CANCEL){

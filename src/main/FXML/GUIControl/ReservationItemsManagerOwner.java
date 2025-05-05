@@ -26,12 +26,12 @@ public abstract class ReservationItemsManagerOwner extends ReservationItems{
         this.reservationsController = reservationsController;
     }
 
-    public  abstract void handleAnnouncementButton() throws SQLException, ClassNotFoundException, IOException;
+    public  abstract void handleAnnouncementButton();
 
-    public  abstract void handleEditButton() throws IOException, SQLException, ClassNotFoundException;
+    public  abstract void handleEditButton();
 
     @FXML
-    public void handleDeleteButtonAction() throws SQLException, ClassNotFoundException {
+    public void handleDeleteButtonAction() {
         System.out.println("Delete button clicked: " + reservation.getId());
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Reservation");

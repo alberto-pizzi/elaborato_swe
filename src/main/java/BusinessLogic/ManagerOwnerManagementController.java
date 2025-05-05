@@ -72,11 +72,6 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
 
     public boolean reservationAnnouncement(String notificationMessage, Reservation reservation) {
-        try {
-            notificationController.sendAnnouncement(reservation,notificationMessage);
-        }catch (SQLException | ClassNotFoundException e){
-            return false;
-        }
-        return true;
+        return notificationController.sendAnnouncement(reservation, notificationMessage) >= 0;
     }
 }
