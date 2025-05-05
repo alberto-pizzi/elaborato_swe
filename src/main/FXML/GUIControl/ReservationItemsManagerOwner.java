@@ -48,10 +48,10 @@ public abstract class ReservationItemsManagerOwner extends ReservationItems{
                 if (managerOwnerManagementController.deleteReservation(reservation.getId())) {
                     reservationsController.removeReservationItemFromGUI(this.getReservationItemPane(),reservation);
                     String message = "Deletion completed";
-                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                    reservationsController.getMessagesController().showMessage(message, MessagesController.MessageType.SUCCESS,5);
                 }else {
                     String message = "An error has occurred during deletion";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
+                    reservationsController.getMessagesController().showMessage(message, MessagesController.MessageType.ERROR, 5);
                 }
             }
 

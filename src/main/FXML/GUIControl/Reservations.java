@@ -85,6 +85,9 @@ public abstract class Reservations {
         pageNumber.setText(page);
     }
 
+    public MessagesController getMessagesController() {
+        return messagesController;
+    }
 
     @FXML
     private void handleNextButton(ActionEvent event){
