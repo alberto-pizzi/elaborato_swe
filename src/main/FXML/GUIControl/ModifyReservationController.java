@@ -80,7 +80,7 @@ public class ModifyReservationController extends FieldFormManagementController i
 
     }
 
-    protected void reservationChecker() throws SQLException, ClassNotFoundException {
+    protected void reservationChecker() {
 
         //TODO is this implementation right? optimize
 
@@ -125,7 +125,7 @@ public class ModifyReservationController extends FieldFormManagementController i
 
 
     @FXML
-    public void handleConfirmButton(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+    public void handleConfirmButton(ActionEvent event) {
 
         reservationChecker();
 
@@ -141,8 +141,21 @@ public class ModifyReservationController extends FieldFormManagementController i
             if (selectGuestsPaneController != null) {
 
                 if (personController.editReservation(reservation)){
-                    selectGuestsPaneController.applyChanges();
-                    actionsAfterEdit(); //TODO it is correct?
+
+                    //TODO is this try-catch correct? IMPORTANT!
+                    try {
+                        selectGuestsPaneController.applyChanges();
+                    } catch (SQLException | ClassNotFoundException e) {
+                        messagesController.showMessage("Error during apply changes", MessagesController.MessageType.ERROR,5);
+                    }
+
+                    //TODO is this try-catch correct?
+                    try {
+                        actionsAfterEdit();
+                    } catch (SQLException | ClassNotFoundException | IOException e) {
+                        messagesController.showMessage("Error during actions after edit", MessagesController.MessageType.ERROR,5);
+
+                    }
                 }
                 else
                     messagesController.showMessage("Edit failed.", MessagesController.MessageType.ERROR,5);
@@ -167,7 +180,7 @@ public class ModifyReservationController extends FieldFormManagementController i
     }
 
     @FXML
-    public void handleDeleteButton() throws SQLException, ClassNotFoundException, IOException {
+    public void handleDeleteButton() {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Reservation");
@@ -181,7 +194,13 @@ public class ModifyReservationController extends FieldFormManagementController i
             if (personController.deleteReservation(reservation.getId())) {
                 System.out.println("Deleted!");
 
-                actionsAfterDelete();
+                //TODO is this try-catch correct?
+                try {
+                    actionsAfterDelete();
+                } catch (SQLException | ClassNotFoundException | IOException e) {
+                    messagesController.showMessage("Error during actions after deletion", MessagesController.MessageType.ERROR,5);
+
+                }
             }
             else
                 messagesController.showMessage("Error during deleting", MessagesController.MessageType.ERROR,5);

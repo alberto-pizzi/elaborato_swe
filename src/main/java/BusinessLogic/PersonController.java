@@ -136,7 +136,7 @@ public abstract class PersonController<T extends Person> {
         }
     }
 
-    public boolean editReservation(Reservation reservation) throws SQLException, ClassNotFoundException {
+    public boolean editReservation(Reservation reservation) {
 
         Reservation previousReservation = null;
 
@@ -148,6 +148,7 @@ public abstract class PersonController<T extends Person> {
         String notificationTitle = "Reservation has been changed.";
         String notificationMessage = "Reservation is the day " + previousReservation.getReservationDate() + " at " + previousReservation.getEventTimeStart() + " has been changed by " + person.getUsername();
 
+        //TODO is this try-catch correct?
         try {
             reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
             reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
@@ -161,7 +162,7 @@ public abstract class PersonController<T extends Person> {
         return true;
     }
 
-    public boolean deleteReservation(int idReservation) throws SQLException, ClassNotFoundException {
+    public boolean deleteReservation(int idReservation) {
 
 
         Reservation reservation = null;
