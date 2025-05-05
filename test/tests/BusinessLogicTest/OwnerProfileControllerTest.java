@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-//TODO implement tests
+//TODO should be deleted because it has the same UserProfileController tests
 public class OwnerProfileControllerTest extends GeneralBSTest {
 
     @Override
