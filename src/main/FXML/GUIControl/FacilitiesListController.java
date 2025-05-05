@@ -40,7 +40,6 @@ public class FacilitiesListController extends FacilityChoice {
             newFacilityController.setData(menuPane);
             menuPane.setCenter(facilityNewPane);
         }catch (IOException | SQLException e){
-            //todo aggiungere message label a tutte facilityChoice
             String message = "An error has occurred";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }

@@ -15,7 +15,7 @@ public class FieldChoiceOwnerController extends FieldChoice{
         fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldChoiceItemOwner.fxml"));
         AnchorPane anchorPane = fmxLoader.load();
         FieldChoiceItemOwnerController fieldChoiceItemOwnerController = fmxLoader.getController();
-        fieldChoiceItemOwnerController.setData(fields.get(index), menuPane);
+        fieldChoiceItemOwnerController.setData(fields.get(index), menuPane, messagesController);
         fieldsList.getChildren().add(anchorPane);
     }
 

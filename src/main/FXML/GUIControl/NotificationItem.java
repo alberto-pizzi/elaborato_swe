@@ -31,7 +31,6 @@ public class NotificationItem {
 
     protected Notifications notifications;
 
-    //todo testare
     public void setNotificationsController(Notifications notificationsController) {
         this.notifications = notificationsController;
     }

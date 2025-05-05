@@ -74,6 +74,7 @@ public abstract class FacilityChoice implements Initializable {
             throw new RuntimeException(e);
         }
 
+        messagesController = new MessagesController(messageLabel);
         String page = String.valueOf(currentPage);
         pageNumber.setText(page);
     }

@@ -35,6 +35,11 @@
                   </VBox>
                </content>
             </ScrollPane>
+            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="26.0" prefWidth="1058.0" text="Error: text" textFill="RED" visible="false" wrapText="true">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
          </children>
       </VBox>
       <VBox alignment="CENTER" layoutY="606.0" style="-fx-background-color: white;">

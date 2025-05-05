@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class ManagerButtonController {
 
@@ -17,7 +18,7 @@ public class ManagerButtonController {
     }
 
     @FXML
-    public void handleManagerOperationsButtonAction(ActionEvent event) throws IOException {
+    public void handleManagerOperationsButtonAction(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilityChoiceManager.fxml"));
         Parent view = loader.load();
         FacilityChoiceManagerController controller = loader.getController();
