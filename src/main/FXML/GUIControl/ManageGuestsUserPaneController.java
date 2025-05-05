@@ -190,7 +190,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
 
     @FXML
-    public void handleRemoveGroupMemberButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleRemoveGroupMemberButton(ActionEvent event) {
         System.out.println("REMOVE GROUP MEMBER BUTTON");
 
         GroupMember groupMember = effectiveGroupMembersList.getSelectionModel().getSelectedItem();
@@ -211,7 +211,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     }
 
     @FXML
-    public void handleRemoveAllMembersButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleRemoveAllMembersButton(ActionEvent event) {
         System.out.println("REMOVE ALL MEMBERS BUTTON");
 
         //TODO add Alert

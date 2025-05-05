@@ -32,7 +32,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     }
 
     @FXML
-    public void handleForceAddButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleForceAddButton(ActionEvent event) {
         System.out.println("FORCE ADD BUTTON");
 
         String userToBeAdded = searchList.getSelectionModel().getSelectedItem();
@@ -41,14 +41,22 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
             if (!isEditMode || group != null) {
                 if (!inviteListDraft.getItems().contains(userToBeAdded) && !isUserIntoEffectiveGroupMembers(userToBeAdded)) {
-                    int userId = personController.getUserIdByUsername(userToBeAdded);
-                    int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
+                    try {
+                        int userId = personController.getUserIdByUsername(userToBeAdded);
+                        int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
 
-                    addGroupMemberIntoDraft(new GroupMember(personController.getUserByID(userId), ownGuests));
+                        addGroupMemberIntoDraft(new GroupMember(personController.getUserByID(userId), ownGuests));
 
-                    updateDraftParticipants(true);
-                    updateAddButtons();
-                    updateIndicatorLabels();
+
+                        updateDraftParticipants(true);
+                        updateAddButtons();
+                        updateIndicatorLabels();
+                    } catch (SQLException | ClassNotFoundException e) {
+                        messagesController.showMessage("Error while getting user from DB.", MessagesController.MessageType.ERROR, 3);
+
+                    }
+
+
                 } else
                     messagesController.showMessage("Username already selected.", MessagesController.MessageType.ERROR, 3);
             }
@@ -115,12 +123,12 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
         effectiveGroupMembersList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 updateGuestsLabel(newSelection.getUser().getUsername(), false);
+
+                //TODO check this try-catch
                 try {
                     updateGuestsChoice();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                } catch (SQLException | ClassNotFoundException e) {
+                    messagesController.showMessage("Error during update guest choice", MessagesController.MessageType.ERROR,5);
                 }
             }
         });
@@ -156,13 +164,13 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     }
 
     @Override
-    public void updateAddButtons() throws SQLException, ClassNotFoundException {
+    public void updateAddButtons() {
         super.updateAddButtons();
         forceAddButton.setDisable(!canOthersBeAdded());
     }
 
     @Override
-    public boolean canOthersBeAdded() throws SQLException, ClassNotFoundException {
+    public boolean canOthersBeAdded() {
         if (!isAssignGuests)
             return false;
         else
@@ -241,7 +249,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
     }
 
     @FXML
-    public void handleSaveGuestsButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleSaveGuestsButton(ActionEvent event) {
 
         if (!isAssignGuests) {
 

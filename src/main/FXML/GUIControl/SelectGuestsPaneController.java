@@ -88,12 +88,11 @@ public class SelectGuestsPaneController implements Initializable {
 
         assignPersonController();
 
+        //TODO check this try-catch
         try {
             updateGuestsChoice();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException | ClassNotFoundException e) {
+            messagesController.showMessage("Error during update guest choice", MessagesController.MessageType.ERROR,5);
         }
 
         searchList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -138,15 +137,16 @@ public class SelectGuestsPaneController implements Initializable {
             searchList.getItems().clear();
 
             ArrayList<String> usernames = new ArrayList<>();
+
+            //TODO check this try-catch
             try {
                 ArrayList<User> users = personController.searchUsersByUsername(newValue);
                 for (User user : users){
                     usernames.add(user.getUsername());
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+            } catch (SQLException | ClassNotFoundException e) {
+                messagesController.showMessage("Error during search user", MessagesController.MessageType.ERROR,5);
+
             }
 
 
@@ -157,12 +157,11 @@ public class SelectGuestsPaneController implements Initializable {
             int newSize = inviteListDraft.getItems().size();
             while (change.next()) {
                 if (change.wasAdded() || change.wasRemoved()) {
+                    //TODO check this try-catch
                     try {
                         updateGuestsChoice();
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ClassNotFoundException e) {
-                        throw new RuntimeException(e);
+                    } catch (SQLException | ClassNotFoundException e) {
+                        messagesController.showMessage("Error during update guest choice", MessagesController.MessageType.ERROR,5);
                     }
                 }
             }
@@ -185,14 +184,8 @@ public class SelectGuestsPaneController implements Initializable {
 
                 updateDraftParticipants(true);
                 updateIndicatorLabels();
+                updateAddButtons();
 
-                try {
-                    updateAddButtons();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
             }
             else
                 System.out.println("Null Value"); //FIXME
@@ -247,6 +240,7 @@ public class SelectGuestsPaneController implements Initializable {
 
     }
 
+    //TODO how we manage these throws?
     protected void sendInvitesToInviteListMembers() throws SQLException, ClassNotFoundException {
         //send invite to invite list members
 
@@ -335,7 +329,7 @@ public class SelectGuestsPaneController implements Initializable {
     }
 
     @FXML
-    public void handleAddButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleAddButton(ActionEvent event) {
 
         String userToBeAdded = searchList.getSelectionModel().getSelectedItem();
 
@@ -417,7 +411,7 @@ public class SelectGuestsPaneController implements Initializable {
 
     }
 
-    public boolean canOthersBeAdded() throws SQLException, ClassNotFoundException {
+    public boolean canOthersBeAdded() {
         //if group is null, then it is an ADDING because group wouldn't exist
 
         if (group != null){
@@ -430,7 +424,7 @@ public class SelectGuestsPaneController implements Initializable {
         return true;
     }
 
-    public void updateAddButtons() throws SQLException, ClassNotFoundException {
+    public void updateAddButtons() {
         addButton.setDisable(!canOthersBeAdded());
     }
 
@@ -443,7 +437,7 @@ public class SelectGuestsPaneController implements Initializable {
     }
 
     @FXML
-    public void handleRemoveAllButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleRemoveAllButton(ActionEvent event) {
         inviteListDraft.getItems().clear();
 
         updateDraftParticipants(true);
@@ -453,7 +447,7 @@ public class SelectGuestsPaneController implements Initializable {
     }
 
     @FXML
-    public void handleRemoveButton(ActionEvent event) throws SQLException, ClassNotFoundException {
+    public void handleRemoveButton(ActionEvent event) {
         inviteListDraft.getItems().removeAll(inviteListDraft.getSelectionModel().getSelectedItem());
 
         updateDraftParticipants(true);
