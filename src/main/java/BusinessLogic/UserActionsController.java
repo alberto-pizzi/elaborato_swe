@@ -64,7 +64,7 @@ public class UserActionsController extends PersonController<User>{
             pass = false;
         }
 
-        if(reservation.getEventTimeStart().toLocalTime().getHour() - LocalTime.now().getHour() < 2 && reservation.getReservationDate().toLocalDate().equals(LocalDate.now())){
+        if(reservation.getEventTimeStart().toLocalTime().getHour() - LocalTime.now().getHour() < 2 && reservation.getEventDate().toLocalDate().equals(LocalDate.now())){
             pass = false;
         }
 
