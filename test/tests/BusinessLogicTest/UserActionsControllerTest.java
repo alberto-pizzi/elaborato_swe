@@ -1,6 +1,7 @@
 package tests.BusinessLogicTest;
 
 import main.java.BusinessLogic.NotificationController;
+import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
@@ -13,7 +14,6 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.sql.Date;
 
 import static org.mockito.Mockito.*;
@@ -475,6 +475,30 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         when(userDAOMock.getUserID(anyString())).thenReturn(user.getId());
         assertEquals(user.getId(), userActionsController.getUserIdByUsername(user.getUsername()));
+
+    }
+
+    @Test
+    public void filterUpcomingReservationsTest() throws SQLException {
+
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        Reservation reservation = createReservation(true);
+        Reservation reservation2 = createReservation(true);
+
+        Date yesterday = Date.valueOf(LocalDate.now().minusDays(1));
+        Date tomorrow = Date.valueOf(LocalDate.now().plusDays(1));
+
+        reservation.setEventDate(yesterday);
+        reservation2.setEventDate(tomorrow);
+
+        assertEquals(0, PersonController.filterUpcomingReservations(reservations).size());
+
+        reservations.add(reservation);
+        reservations.add(reservation2);
+
+        assertEquals(2,reservations.size());
+        assertEquals(1, PersonController.filterUpcomingReservations(reservations).size());
+
 
     }
 

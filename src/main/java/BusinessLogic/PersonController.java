@@ -388,5 +388,19 @@ public abstract class PersonController<T extends Person> {
         return userDAO.getUserByID(id);
     }
 
+    public static ArrayList<Reservation> filterUpcomingReservations(ArrayList<Reservation> allReservations) {
+        ArrayList<Reservation> upcomingReservations = new ArrayList<>();
+
+        Date today = Date.valueOf(LocalDate.now());
+
+        for (Reservation reservation : allReservations) {
+            if (reservation.getEventDate().compareTo(today) >= 0) {
+                upcomingReservations.add(reservation);
+            }
+        }
+
+        return upcomingReservations;
+    }
+
 
 }
