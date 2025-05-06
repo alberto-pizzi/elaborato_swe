@@ -25,7 +25,7 @@ public class Main extends Application {
             stage.show();
             stage.setResizable(false);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 
