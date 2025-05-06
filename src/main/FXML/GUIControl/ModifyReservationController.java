@@ -142,7 +142,7 @@ public class ModifyReservationController extends FieldFormManagementController i
 
                 if (personController.editReservation(reservation)){
 
-                    //TODO is this try-catch correct? IMPORTANT!
+                    //TODO is this try-catch correct? IMPORTANT! change it
                     try {
                         selectGuestsPaneController.applyChanges();
                     } catch (SQLException | ClassNotFoundException e) {

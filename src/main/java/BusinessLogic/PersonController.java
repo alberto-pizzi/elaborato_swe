@@ -148,7 +148,6 @@ public abstract class PersonController<T extends Person> {
         String notificationTitle = "Reservation has been changed.";
         String notificationMessage = "Reservation is the day " + previousReservation.getReservationDate() + " at " + previousReservation.getEventTimeStart() + " has been changed by " + person.getUsername();
 
-        //TODO is this try-catch correct?
         try {
             reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
             reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
