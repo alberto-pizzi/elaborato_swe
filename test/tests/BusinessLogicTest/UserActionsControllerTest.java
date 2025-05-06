@@ -484,21 +484,28 @@ public class UserActionsControllerTest extends GeneralBSTest {
         ArrayList<Reservation> reservations = new ArrayList<>();
         Reservation reservation = createReservation(true);
         Reservation reservation2 = createReservation(true);
+        Reservation reservation3 = createReservation(true);
 
+        Date today = Date.valueOf(LocalDate.now());
         Date yesterday = Date.valueOf(LocalDate.now().minusDays(1));
         Date tomorrow = Date.valueOf(LocalDate.now().plusDays(1));
+        Time oneHourBefore = Time.valueOf(LocalTime.now().minusHours(1));
+        Time thirtyMinLater = Time.valueOf(oneHourBefore.toLocalTime().plusMinutes(30));
 
         reservation.setEventDate(yesterday);
         reservation2.setEventDate(tomorrow);
+        reservation3.setEventDate(today);
+        reservation3.setEventTimeStart(oneHourBefore);
+        reservation3.setEventTimeEnd(thirtyMinLater);
 
         assertEquals(0, PersonController.filterUpcomingReservations(reservations).size());
 
         reservations.add(reservation);
         reservations.add(reservation2);
+        reservations.add(reservation3);
 
-        assertEquals(2,reservations.size());
+        assertEquals(3,reservations.size());
         assertEquals(1, PersonController.filterUpcomingReservations(reservations).size());
-
 
     }
 

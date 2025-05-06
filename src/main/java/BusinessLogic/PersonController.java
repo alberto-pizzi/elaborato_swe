@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public abstract class PersonController<T extends Person> {
@@ -392,10 +393,16 @@ public abstract class PersonController<T extends Person> {
         ArrayList<Reservation> upcomingReservations = new ArrayList<>();
 
         Date today = Date.valueOf(LocalDate.now());
+        Time now = Time.valueOf(LocalTime.now());
 
         for (Reservation reservation : allReservations) {
-            if (reservation.getEventDate().compareTo(today) >= 0) {
+            if (reservation.getEventDate().compareTo(today) > 0) {
                 upcomingReservations.add(reservation);
+            }
+            else if (reservation.getEventDate().compareTo(today) == 0) {
+                if (reservation.getEventTimeStart().compareTo(now) >= 0)
+                    upcomingReservations.add(reservation);
+
             }
         }
 
