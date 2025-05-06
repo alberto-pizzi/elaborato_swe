@@ -57,7 +57,7 @@ public class UserActionsController extends PersonController<User>{
         boolean pass = true;
         Group group = groupDao.getGroupByReservation(reservation.getId());
 
-        if(group.getGroupHead().getId() != person.getId()) {
+        if(!group.getGroupHead().getUsername().equals(person.getUsername())) {
             pass = false;
         }
         if(reservation.isMatched()){
