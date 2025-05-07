@@ -9,6 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -164,6 +165,14 @@ public class UserActionsControllerTest extends GeneralBSTest {
         joinGroupMockHelper(group,guests);
         findOtherPlayersMockHelper(group);
         sendInviteMockHelper(group, user);
+
+        //create fake connection for DAOs transactions
+        Connection fakeConnection = mock(Connection.class);
+        when(reservationDaoMock.getConnection()).thenReturn(fakeConnection);
+        doNothing().when(fakeConnection).commit();
+        doNothing().when(fakeConnection).rollback();
+        doNothing().when(fakeConnection).setAutoCommit(anyBoolean());
+
         when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
         when(groupDaoMock.addGroup(any())).thenReturn(3);
         int reservationId = 3;
@@ -178,8 +187,6 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         guests = 10;
         assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead));
-
-        //TODO is other tests needed?
 
     }
 

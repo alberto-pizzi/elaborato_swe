@@ -124,6 +124,8 @@ public class NotificationDAO extends ConnectionHolder{
     public int addNotification(Notification notification) throws SQLException {
         int idAdded = 0;
 
+        boolean oldConnectionAutoCommit = connection.getAutoCommit();
+
         try {
             connection.setAutoCommit(false);
 
@@ -146,7 +148,8 @@ public class NotificationDAO extends ConnectionHolder{
             connection.rollback();
             System.err.println("Error while adding notification: " + e.getMessage());
         } finally {
-            connection.setAutoCommit(true);  // restore auto commit
+            // restore auto commit
+            connection.setAutoCommit(oldConnectionAutoCommit);
         }
 
         return idAdded;

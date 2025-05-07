@@ -3,6 +3,7 @@ package main.java.BusinessLogic;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -110,38 +111,66 @@ public abstract class PersonController<T extends Person> {
     public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) {
         Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field, isMatched);
 
-        try {
-            if (checkReservationData(reservation)) {
+        if (checkReservationData(reservation)) {
+            try {
+                //start transaction
+                reservationDao.getConnection().setAutoCommit(false);
+                
+                //execute queries
                 int newReservationId = reservationDao.addReservation(reservation);
                 reservation.setId(newReservationId); //WARNING: it's very important
 
                 //group creation
-                Group group = new Group(groupHead, reservation, requiredParticipants,guests);
+                Group group = new Group(groupHead, reservation, requiredParticipants, guests);
                 if (checkGroupData(group)) {
+
                     int newGroupId = groupDao.addGroup(group);
                     group.setId(newGroupId); //WARNING: it's very important
 
 
-                    //FIXME add transaction and fix return values !!!!!!!
-                    if (joinGroupHelper(newGroupId,guests)) {
+                    if (joinGroupHelper(newGroupId, guests)) {
 
                         if (isMatched) {
                             sendInvites(group, findOtherPlayers(getProvinceForMatching(field)));
+
                         } else {
                             notificationController.sendConfirmNotification(reservation);
                         }
-                    }
-                    else
+                    } else {
+                        reservationDao.getConnection().rollback();
                         return 0;
-                }else
+                    }
+                } else {
+                    reservationDao.getConnection().rollback();
                     return 0;
+                }
+
+                //commit transaction
+                reservationDao.getConnection().commit();
 
                 return newReservationId;
+
+            } catch (SQLException | ClassNotFoundException e) {
+                try {
+                    //general rollback
+                    reservationDao.getConnection().rollback();
+
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            } finally {
+
+                try {
+                    //end transaction
+                    reservationDao.getConnection().setAutoCommit(true);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
-            return 0;
-        }catch (SQLException | ClassNotFoundException e){
-            return 0;
         }
+
+        return 0;
+
     }
 
     public abstract boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException;
