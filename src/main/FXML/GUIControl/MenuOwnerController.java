@@ -16,7 +16,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class MenuOwnerController implements Initializable {
+public class MenuOwnerController extends Menu {
 
     @FXML
     private Button dashboard;
@@ -27,8 +27,6 @@ public class MenuOwnerController implements Initializable {
     @FXML
     private Button facilities;
 
-    @FXML
-    private BorderPane menuPane;
 
     @FXML
     private Button profile;
@@ -46,25 +44,14 @@ public class MenuOwnerController implements Initializable {
         OwnerProfileController ownerProfileController = new OwnerProfileController();
         email.setText(ownerProfileController.getEmail());
         username.setText(ownerProfileController.getUsername());
-        //fixme corretto try?
-        changeView("homeOwner.fxml");
 
-    }
+        changeViewHelper("homeOwner.fxml");
 
-    public void changeView(String newViewFXMLFileName) {
-        try {
-            AnchorPane view = FXMLLoader.load(getClass().getResource("/main/FXML/" + newViewFXMLFileName));
-            menuPane.setCenter(view);
-        } catch (IOException e) {
-            //TODO is this catch good?
-            System.out.println("Error during open " + newViewFXMLFileName);
-        }
     }
 
     @FXML
     void handleDashboardButton(ActionEvent event) {
-        changeView("homeOwner.fxml");
-        System.out.println("Dashboard menu button clicked");
+        changeViewHelper("homeOwner.fxml");
     }
 
     @FXML
@@ -84,8 +71,7 @@ public class MenuOwnerController implements Initializable {
 
     @FXML
     void handleProfileButton(ActionEvent event) {
-        changeView("profileOwner.fxml");
-        System.out.println("Profile menu button clicked");
+        changeViewHelper("profileOwner.fxml");
     }
 
     @FXML
@@ -105,8 +91,7 @@ public class MenuOwnerController implements Initializable {
 
     @FXML
     void handleNotificationButton(ActionEvent event) {
-        changeView("notificationsOwner.fxml");
-        System.out.println("Notifications menu button clicked");
+        changeViewHelper("notificationsOwner.fxml");
     }
 
 }
