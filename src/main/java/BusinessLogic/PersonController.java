@@ -131,7 +131,11 @@ public abstract class PersonController<T extends Person> {
                     if (joinGroupHelper(newGroupId, guests)) {
 
                         if (isMatched) {
-                            sendInvites(group, findOtherPlayers(getProvinceForMatching(field)));
+                            int invitesSent = sendInvites(group, findOtherPlayers(getProvinceForMatching(field)));
+                            if (invitesSent >= 0)
+                                System.out.println("Invites sent: " + invitesSent);
+                            else
+                                System.out.println("Error while sending invites");
 
                         } else {
                             notificationController.sendConfirmNotification(reservation);
@@ -332,7 +336,6 @@ public abstract class PersonController<T extends Person> {
         return true;
     }
 
-    //TODO callers to be managed
     public int sendInvites(Group group, ArrayList<User> receivers) throws SQLException, ClassNotFoundException {
 
         int count = 0;
