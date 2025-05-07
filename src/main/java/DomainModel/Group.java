@@ -151,7 +151,6 @@ public class Group{
 
 
         if (isUserInsideGroup(user.getUsername())) {
-            System.out.println("User is already in the group!");
             return false;
         }
 

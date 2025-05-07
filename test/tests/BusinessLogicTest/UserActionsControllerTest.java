@@ -119,18 +119,16 @@ public class UserActionsControllerTest extends GeneralBSTest {
         Invite invite = createInvite(createUser(),group);
 
         //sendInvite DAOs
-        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
-        when(userDAOMock.getUserByID(anyInt())).thenReturn(user);
-        when(inviteDaoMock.addInvite(any())).thenReturn(1);
-        when(inviteDaoMock.checkInvite(anyInt(),anyInt())).thenReturn(false);
-
+        sendInviteMockHelper(group,user);
         //joinGroup DAOs
-        when(groupDaoMock.getGroup(anyInt())).thenReturn(group);
-        doNothing().when(isPartDaoMock).addMembership(anyInt(), eq(user.getId()), eq(guests));
+        joinGroupMockHelper(group,guests);
 
-
+        //acceptInvite DAOs
         when(userDAOMock.getUserID(anyString())).thenReturn(user.getId());
         doNothing().when(inviteDaoMock).deleteInvite(anyInt());
+
+        //create fake connection for DAOs transactions
+        transactionsMockHelper(userDAOMock);
 
 
         int oldParticipants = group.getParticipants();
@@ -166,19 +164,15 @@ public class UserActionsControllerTest extends GeneralBSTest {
         findOtherPlayersMockHelper(group);
         sendInviteMockHelper(group, user);
 
-        //create fake connection for DAOs transactions
-        Connection fakeConnection = mock(Connection.class);
-        when(reservationDaoMock.getConnection()).thenReturn(fakeConnection);
-        doNothing().when(fakeConnection).commit();
-        doNothing().when(fakeConnection).rollback();
-        doNothing().when(fakeConnection).setAutoCommit(anyBoolean());
-
         when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
         when(groupDaoMock.addGroup(any())).thenReturn(3);
         int reservationId = 3;
         when(reservationDaoMock.addReservation(any())).thenReturn(reservationId);
 
-        assertEquals(reservationId,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead));
+        //create fake connection for DAOs transactions
+        transactionsMockHelper(reservationDaoMock);
+
+        assertEquals(reservationId,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,userActionsController.getPerson()));
 
         assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,null));
 
@@ -455,6 +449,15 @@ public class UserActionsControllerTest extends GeneralBSTest {
         when(inviteDaoMock.addInvite(any())).thenReturn(1);
         when(inviteDaoMock.checkInvite(anyInt(),anyInt())).thenReturn(false);
 
+    }
+
+    //create fake connection for DAOs transactions
+    private void transactionsMockHelper(ConnectionHolder mockedDao) throws SQLException {
+        Connection fakeConnection = mock(Connection.class);
+        when(mockedDao.getConnection()).thenReturn(fakeConnection);
+        doNothing().when(fakeConnection).commit();
+        doNothing().when(fakeConnection).rollback();
+        doNothing().when(fakeConnection).setAutoCommit(anyBoolean());
     }
 
     @Test

@@ -3,6 +3,9 @@ package main.java.DomainModel;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Reservation extends Subject {
     private int id;
@@ -145,6 +148,18 @@ public class Reservation extends Subject {
 
     public static float totalPrice(Field field, float hours){
         return field.getPrice() * hours;
+    }
+
+    public static boolean isEndTimeAfterThanStartTime(LocalTime startTime, LocalTime endTime, LocalDate eventDate){
+
+        if (endTime.isBefore(startTime))
+            eventDate = eventDate.plusDays(1);
+
+        LocalDateTime startDateTime = LocalDateTime.of(eventDate, startTime);
+        LocalDateTime endDateTime = LocalDateTime.of(eventDate, endTime);
+
+        return !endDateTime.isBefore(startDateTime);
+
     }
 
 }

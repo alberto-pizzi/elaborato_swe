@@ -125,7 +125,7 @@ public abstract class PersonController<T extends Person> {
             try {
                 //start transaction
                 reservationDao.getConnection().setAutoCommit(false);
-                
+
                 //execute queries
                 int newReservationId = reservationDao.addReservation(reservation);
                 reservation.setId(newReservationId); //WARNING: it's very important
@@ -154,15 +154,17 @@ public abstract class PersonController<T extends Person> {
                         reservationDao.getConnection().rollback();
                         return 0;
                     }
-                } else {
+
+                    //commit transaction
+                    reservationDao.getConnection().commit();
+
+                    return newReservationId;
+
+                }
+                else {
                     reservationDao.getConnection().rollback();
                     return 0;
                 }
-
-                //commit transaction
-                reservationDao.getConnection().commit();
-
-                return newReservationId;
 
             } catch (SQLException | ClassNotFoundException e) {
                 try {
@@ -272,7 +274,7 @@ public abstract class PersonController<T extends Person> {
         if (reservation.getEventDate() == null || reservation.getEventDate().toLocalDate().isBefore(LocalDate.now()))
             goodToGo = false;
 
-        if (reservation.getEventTimeEnd() == null || reservation.getEventTimeStart() == null || reservation.getEventTimeEnd().toLocalTime().isBefore(reservation.getEventTimeStart().toLocalTime()))
+        if (reservation.getEventTimeEnd() == null || reservation.getEventTimeStart() == null || !Reservation.isEndTimeAfterThanStartTime(reservation.getEventTimeStart().toLocalTime(),reservation.getEventTimeEnd().toLocalTime(),reservation.getEventDate().toLocalDate()))
             goodToGo = false;
 
 

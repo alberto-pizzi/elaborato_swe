@@ -77,46 +77,51 @@ public class UserActionsController extends PersonController<User>{
 
         boolean accepted = false;
 
-        if (invite.getGroup().getReservation().isMatched()) {
+        try {
+            //start transaction
+            userDAO.getConnection().setAutoCommit(false);
 
-            try {
+            if (invite.getGroup().getReservation().isMatched()) {
+
                 //himself join into group
                 if (!joinGroup(invite.getGroup().getId(), guests))
                     return false;
-            } catch (SQLException | ClassNotFoundException e) {
-                return false;
-            }
 
-            try {
+
                 //send invites to other (his) players
                 for (String accountUsername : accountsList) {
                     if (accountUsername != null) {
                         sendInvite(invite.getGroup().getReservation(), userDAO.getUserID(accountUsername));
                     }
                 }
-            }catch (SQLException | ClassNotFoundException e) {
-                System.out.println("Something goes wrong during sendInvite or getting userID");
-            }
 
-            //delete this invite
 
-        } else {
-            //guests are 0 because in not matched booking are not allowed guests
-            try {
+            } else {
+                //guests are 0 because in not matched booking are not allowed guests
                 if (!joinGroup(invite.getGroup().getId(), 0))
                     return false;
-            } catch (SQLException | ClassNotFoundException e) {
-                return false;
-            }
-        }
-        accepted = true;
 
-        //TODO transaction needed?
-        try {
+            }
+            accepted = true;
+
             //delete this invite
             inviteDao.deleteInvite(invite.getId());
-        } catch (SQLException e) {
-            System.out.println("Error during delete invite from database");
+
+            //commit transaction
+            userDAO.getConnection().commit();
+        } catch (SQLException | ClassNotFoundException e){
+            try{
+                //rollback transaction
+                userDAO.getConnection().rollback();
+            } catch (SQLException e1){
+                e1.printStackTrace();
+            }
+        } finally {
+            try {
+                userDAO.getConnection().setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return accepted;
