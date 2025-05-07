@@ -39,6 +39,7 @@ public class YourGroupsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources){
 
+        groupItemNotVisible = 0;
 
         UserActionsController userActionsController = new UserActionsController();
 
@@ -58,7 +59,7 @@ public class YourGroupsController implements Initializable {
             groupItem(i);
 
         if (groupItemNotVisible > 0)
-            messagesController.showMessage("Error during load " + groupItemNotVisible + " group items", MessagesController.MessageType.ERROR,5);
+            messagesController.showMessage("Failed to load " + groupItemNotVisible + " group items", MessagesController.MessageType.ERROR,5);
 
 
 
