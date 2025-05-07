@@ -3,6 +3,7 @@ package main.FXML.GUIControl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import main.java.BusinessLogic.PersonController;
 import main.java.DomainModel.Group;
 
 import main.java.BusinessLogic.UserActionsController;
@@ -47,7 +48,7 @@ public class YourGroupsController implements Initializable {
 
 
         try {
-            groups.addAll(userActionsController.getOwnGroups());
+            groups.addAll(PersonController.filterByUpcomingReservations(userActionsController.getOwnGroups(), Group::getReservation));
         } catch (SQLException e) {
             messagesController.showMessage("Error during get own groups", MessagesController.MessageType.ERROR,5);
         }

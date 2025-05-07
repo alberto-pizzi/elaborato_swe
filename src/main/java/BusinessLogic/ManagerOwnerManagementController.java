@@ -3,9 +3,7 @@ package main.java.BusinessLogic;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 
@@ -74,4 +72,11 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
     public boolean reservationAnnouncement(String notificationMessage, Reservation reservation) {
         return notificationController.sendAnnouncement(reservation, notificationMessage) >= 0;
     }
+
+    @Override
+    public boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException{
+        //managers and owners have not to join into group, then it is always true
+        return true;
+    }
+
 }
