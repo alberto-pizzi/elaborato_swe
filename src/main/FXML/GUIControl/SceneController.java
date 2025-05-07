@@ -22,8 +22,7 @@ public class SceneController implements Initializable {
         try {
             goToLogin();
         } catch (IOException e) {
-            //todo non serve stoppare tutto?
-            e.printStackTrace();
+           throw new RuntimeException("Application failed to initialize");
         }
     }
 

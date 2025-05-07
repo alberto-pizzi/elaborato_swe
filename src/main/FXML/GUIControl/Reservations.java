@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -34,6 +35,10 @@ public abstract class Reservations {
     @FXML
     protected Label messageLabel;
 
+    //todo bottone non rimane premuto
+    @FXML
+    protected ToggleButton oldReservations;
+
     @FXML
     protected AnchorPane page;
 
@@ -50,6 +55,8 @@ public abstract class Reservations {
     protected PersonController personController;
 
     protected MessagesController messagesController;
+
+    protected ManagerOwnerManagementController managerOwnerManagementController;
 
     public BorderPane getMenuPane() {
         return menuPane;
@@ -71,15 +78,40 @@ public abstract class Reservations {
 
     public  abstract void handleNewReservationButton(ActionEvent event);
 
+    public abstract void handleOldReservations(ActionEvent event);
+
     public void setData(Field field, BorderPane menuPane) throws SQLException, ClassNotFoundException, IOException {
+        managerOwnerManagementController = new ManagerOwnerManagementController();
         personController = new ManagerOwnerManagementController();
         messagesController = new MessagesController(messageLabel);
-        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
-        this.reservations = managerOwnerManagementController.getReservationsByField(field.getId());
+        this.reservations = managerOwnerManagementController.getCurrentReservationsByField(field.getId());
         this.menuPane = menuPane;
         this.field = field;
         for(int i=0; i < itemsPerPage && i < reservations.size(); i++){
                 displayReservations(i);
+        }
+        String page = String.valueOf(currentPage);
+        pageNumber.setText(page);
+    }
+
+    protected void  oldReservations() throws SQLException, IOException, ClassNotFoundException {
+        reservationsList.getChildren().clear();
+        if(oldReservations.isSelected()){
+            this.reservations = managerOwnerManagementController.getReservationsByField(field.getId());
+
+        }else{
+            this.reservations = managerOwnerManagementController.getCurrentReservationsByField(field.getId());
+        }
+        currentPage = 1;
+        for(int i=0; i < itemsPerPage && i < reservations.size(); i++){
+
+            try {
+                displayReservations(i);
+            } catch (IOException | SQLException | ClassNotFoundException e) {
+                String message = "An error has occurred, one or more reservations may not show in the page";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            }
+
         }
         String page = String.valueOf(currentPage);
         pageNumber.setText(page);

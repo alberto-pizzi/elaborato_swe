@@ -30,6 +30,10 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         return fields;
     }
 
+    public ArrayList<Reservation> getCurrentReservationsByField(int idField) throws SQLException, ClassNotFoundException {
+        return filterByUpcomingReservations(reservationDao.getReservationsByField(idField), res -> res);
+    }
+
 
     //todo mai usata
     public int getHeadGuests(int idReservation) throws SQLException, ClassNotFoundException {

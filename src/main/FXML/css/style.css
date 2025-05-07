@@ -176,7 +176,7 @@
     -fx-cursor: hand;
 }
 
-.manager-button:hover{
+.manager-button:hover, .manager-button:pressed, manager-button:focused{
     -fx-background-color: #5f5d8a;
 }
 
