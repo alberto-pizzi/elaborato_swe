@@ -133,7 +133,7 @@ public class BookFieldController extends FieldFormManagementController implement
         else if ((eventDate.compareTo(todayDate) == 0) && (eventStartTime.compareTo(nowTime) < 0 || eventEndTime.compareTo(nowTime) < 0)) {
             messagesController.showMessage("Previous hours is not allowed. Please, retry! ", MessagesController.MessageType.ERROR,5);
         }
-        else if (eventEndTime.compareTo(eventStartTime) <= 0) {
+        else if (!Reservation.isEndTimeAfterThanStartTime(eventStartTime.toLocalTime(),eventEndTime.toLocalTime(),eventDate.toLocalDate())) {
             messagesController.showMessage("End time must be after start one. ", MessagesController.MessageType.ERROR,5);
         }
         else{
@@ -169,7 +169,6 @@ public class BookFieldController extends FieldFormManagementController implement
     protected void createReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd) throws SQLException, ClassNotFoundException {
 
         int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
-        //TODO check cast
         int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), (User)personController.getPerson());
 
         //TODO how we manage sendInvites failure
