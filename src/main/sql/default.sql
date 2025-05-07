@@ -10,9 +10,9 @@ INSERT INTO "Owner" (email, username, city, province, zip, country, password) VA
 ('owner2@example.com', 'ownertwo', 'Firenze', 'FI', '50100', 'Italia', '75K3eLr+dx6JJFuJ7LwIpEpOFmwGZZkRiB84PURz6U8=');
 
 -- fill Facility table
-INSERT INTO "Facility" (name, address, city, province, zip, country, n_managers, n_fields, telephone, image, id_owner) VALUES
-('Centro Sportivo Roma', 'Via del Corso, 1', 'Roma', 'RM', '00100', 'Italia', 2, 5, '0612345678', 'olympicField.jpg', 1),
-('Stadio Milano', 'Via Montenapoleone, 10', 'Milano', 'MI', '20100', 'Italia', 3, 3, '0212345678', 'olympicField.jpg', 2);
+INSERT INTO "Facility" (name, address, city, province, zip, country, telephone, image, id_owner) VALUES
+('Centro Sportivo Roma', 'Via del Corso, 1', 'Roma', 'RM', '00100', 'Italia', '0612345678', 'olympicField.jpg', 1),
+('Stadio Milano', 'Via Montenapoleone, 10', 'Milano', 'MI', '20100', 'Italia', '0212345678', 'olympicField.jpg', 2);
 
 -- fill WH (Working Hours) table
 INSERT INTO "WH" (day_of_week, opening, closing, id_facility) VALUES
