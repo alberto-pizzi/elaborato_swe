@@ -111,6 +111,7 @@ public class UserActionsController extends PersonController<User>{
         }
         accepted = true;
 
+        //TODO transaction needed?
         try {
             //delete this invite
             inviteDao.deleteInvite(invite.getId());
