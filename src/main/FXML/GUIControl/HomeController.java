@@ -81,6 +81,17 @@ public class HomeController implements Initializable {
         return userActionsController.getNearbyFields();
     }
 
+    public void setData(BorderPane menuPane){
+        this.menuPane = menuPane;
+        for(int i=0; i < itemsPerPage && i < fields.size(); i++){
+            try {
+                displayFields(i);
+            } catch (IOException | SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     EventHandler<KeyEvent> handler = new EventHandler<>() {
         @Override
         public void handle(KeyEvent keyEvent) {
@@ -108,13 +119,7 @@ public class HomeController implements Initializable {
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        for(int i=0; i < itemsPerPage && i < fields.size(); i++){
-            try {
-                displayFields(i);
-            } catch (IOException | SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
         messagesController = new MessagesController(messageLabel);
         search.setOnKeyPressed(handler);
         String page = String.valueOf(currentPage);

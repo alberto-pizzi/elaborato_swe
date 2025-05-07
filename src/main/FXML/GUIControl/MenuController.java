@@ -94,7 +94,7 @@ public class MenuController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/home.fxml"));
             Parent view = loader.load();
             HomeController controller = loader.getController();
-            controller.setMenuPane(menuPane);
+            controller.setData(menuPane);
             menuPane.setCenter(view);
         } catch (IOException e) {
             //TODO is this catch good?
