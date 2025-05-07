@@ -82,7 +82,7 @@ public class MenuController extends Menu {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/home.fxml"));
         Parent view = loader.load();
         HomeController controller = loader.getController();
-        controller.setMenuPane(menuPane);
+        controller.setData(menuPane);
         menuPane.setCenter(view);
     }
 
