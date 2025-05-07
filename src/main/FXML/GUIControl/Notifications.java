@@ -33,6 +33,8 @@ public abstract class Notifications implements Initializable {
 
     protected ArrayList<Notification> notifications = new ArrayList<Notification>();
 
+    protected NotificationController notificationController = null;
+
     protected abstract void notificationItem(int i);
 
     @Override
@@ -40,8 +42,7 @@ public abstract class Notifications implements Initializable {
 
         notificationItemNotVisible = 0;
 
-
-        NotificationController notificationController = new NotificationController();
+        notificationController = new NotificationController();
 
         messagesController = new MessagesController(messageLabel);
 
@@ -73,5 +74,9 @@ public abstract class Notifications implements Initializable {
 
     public MessagesController getMessagesController() {
         return messagesController;
+    }
+
+    public NotificationController getNotificationController() {
+        return notificationController;
     }
 }

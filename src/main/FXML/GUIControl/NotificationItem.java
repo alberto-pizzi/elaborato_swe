@@ -57,8 +57,7 @@ public class NotificationItem {
         System.out.println("Deleting button clicked: " + notificationTitleLabel.getText());
         System.out.println("Deleting button clicked ID: " + notification.getId());
 
-        NotificationController notificationController = new NotificationController();
-        if(notificationController.deleteNotifications(notification)){
+        if(notifications.getNotificationController().deleteNotifications(notification)){
             if (notifications != null) {
                 notifications.removeNotificationItemFromGUI(notificationItemPane,notification);
             }
