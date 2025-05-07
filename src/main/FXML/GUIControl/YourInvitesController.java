@@ -28,12 +28,17 @@ public class YourInvitesController implements Initializable {
 
     private MessagesController messagesController = null;
 
+    private int inviteItemNotVisible = 0;
+
+
     private ArrayList<Invite> invites = new ArrayList<Invite>();
 
     //methods
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        inviteItemNotVisible = 0;
 
         UserActionsController userActionsController = new UserActionsController();
 
@@ -45,29 +50,34 @@ public class YourInvitesController implements Initializable {
             messagesController.showMessage("Error during get own invites", MessagesController.MessageType.ERROR,5);
         }
 
+
+        System.out.println(invites.size());
+
+        for (int i = 0; i < invites.size(); i++)
+            inviteItem(i);
+
+        if (inviteItemNotVisible > 0)
+            messagesController.showMessage("Failed to load " + inviteItemNotVisible + " invite items", MessagesController.MessageType.ERROR,5);
+
+
+
+    }
+
+    public void inviteItem(int i){
         try{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/main/FXML/inviteItem.fxml"));
 
-            System.out.println(invites.size());
+            AnchorPane reservationItem = fxmlLoader.load();
 
-            for (int i = 0; i < invites.size(); i++) {
+            InviteItemController inviteItemController = fxmlLoader.getController();
+            inviteItemController.setYourInvitesController(this);
+            inviteItemController.setData(invites.get(i));
 
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/main/FXML/inviteItem.fxml"));
-
-                AnchorPane reservationItem = fxmlLoader.load();
-
-                InviteItemController inviteItemController = fxmlLoader.getController();
-                inviteItemController.setYourInvitesController(this);
-                inviteItemController.setData(invites.get(i));
-
-                invitesVBox.getChildren().add(reservationItem);
-            }
-
-
-        } catch (IOException e){
-            messagesController.showMessage("Error during load few invite item", MessagesController.MessageType.ERROR,5);
+            invitesVBox.getChildren().add(reservationItem);
+        }catch (IOException e){
+            inviteItemNotVisible++;
         }
-
     }
 
     public void removeInviteItemFromGUI(AnchorPane inviteItemPane, Invite invite) {

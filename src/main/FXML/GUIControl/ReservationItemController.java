@@ -12,6 +12,8 @@ import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Reservation;
 
+import javax.imageio.IIOException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
@@ -34,21 +36,27 @@ public class ReservationItemController extends ReservationItems{
     //methods
 
     @Override
-    public void setData(Reservation reservation) throws SQLException, ClassNotFoundException {
+    public void setData(Reservation reservation) {
         super.setData(reservation);
 
         UserActionsController userActionsController = new UserActionsController();
         String buttonFXMLsrc = "";
-        //Both have same GUI controller
-        if (userActionsController.editRights(reservation)) {
-            buttonFXMLsrc = "/main/FXML/managementButtons.fxml";
-        } else {
-            buttonFXMLsrc = "/main/FXML/goToGroupButton.fxml";
-        }
 
-        try {
+        boolean hasEditRights = false;
+
+        try{
+            hasEditRights = userActionsController.editRights(reservation);
+
+            //Both have same GUI controller
+            if (hasEditRights) {
+                buttonFXMLsrc = "/main/FXML/managementButtons.fxml";
+            } else {
+                buttonFXMLsrc = "/main/FXML/goToGroupButton.fxml";
+            }
+
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(buttonFXMLsrc));
-            if (userActionsController.editRights(reservation)) {
+            if (hasEditRights) {
                 HBox buttonsBox = loader.load();
                 actionsVBox.getChildren().add(buttonsBox);
             } else {
@@ -59,9 +67,8 @@ public class ReservationItemController extends ReservationItems{
             ManagementButtonsController managementButtonsController = loader.getController();
             managementButtonsController.setData(this);
 
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException | ClassNotFoundException | IOException e) {
+            reservationsController.setReservationItemButtonsNotVisible(reservationsController.getReservationItemButtonsNotVisible()+1);
         }
 
 

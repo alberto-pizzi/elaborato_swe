@@ -67,7 +67,6 @@ public class NotificationController implements Observer {
         return sendNotifications(reservation,NotificationType.ANNOUNCEMENT,message);
     }
 
-    //TODO check try-catch logics
     protected int sendNotifications(Reservation reservation, NotificationType notificationType, String notificationMessage) {
 
         Owner owner;
@@ -133,7 +132,6 @@ public class NotificationController implements Observer {
             }
         }
 
-        //TODO check if condition
         if (count == 0 && owner != null && !managers.isEmpty() && !invitableUsers.isEmpty()){
             return -1;
         }
@@ -157,7 +155,8 @@ public class NotificationController implements Observer {
         return notificationDAO.getNotifications(person);
     }
 
-    //TODO throw or try-catch
+    //TODO throw or try-catch? maybe transaction
+    @Override
     public void update() throws SQLException, ClassNotFoundException {
 
 

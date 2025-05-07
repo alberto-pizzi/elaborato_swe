@@ -82,7 +82,6 @@ public class UserActionsController extends PersonController<User>{
         return true;
     }
 
-    //TODO check try-catch logics !!!!!!
     public boolean acceptInvite(Invite invite, ArrayList<String> accountsList, int guests)  {
 
         boolean accepted = false;

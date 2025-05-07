@@ -37,6 +37,8 @@ public abstract class Notifications implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources){
 
+        notificationItemNotVisible = 0;
+
 
         NotificationController notificationController = new NotificationController();
 

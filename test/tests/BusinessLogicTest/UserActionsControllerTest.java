@@ -1,6 +1,7 @@
 package tests.BusinessLogicTest;
 
 import main.java.BusinessLogic.NotificationController;
+import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
@@ -13,7 +14,6 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.sql.Date;
 
 import static org.mockito.Mockito.*;
@@ -475,6 +475,37 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         when(userDAOMock.getUserID(anyString())).thenReturn(user.getId());
         assertEquals(user.getId(), userActionsController.getUserIdByUsername(user.getUsername()));
+
+    }
+
+    @Test
+    public void filterUpcomingReservationsTest() throws SQLException {
+
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        Reservation reservation = createReservation(true);
+        Reservation reservation2 = createReservation(true);
+        Reservation reservation3 = createReservation(true);
+
+        Date today = Date.valueOf(LocalDate.now());
+        Date yesterday = Date.valueOf(LocalDate.now().minusDays(1));
+        Date tomorrow = Date.valueOf(LocalDate.now().plusDays(1));
+        Time oneHourBefore = Time.valueOf(LocalTime.now().minusHours(1));
+        Time thirtyMinLater = Time.valueOf(oneHourBefore.toLocalTime().plusMinutes(30));
+
+        reservation.setEventDate(yesterday);
+        reservation2.setEventDate(tomorrow);
+        reservation3.setEventDate(today);
+        reservation3.setEventTimeStart(oneHourBefore);
+        reservation3.setEventTimeEnd(thirtyMinLater);
+
+        assertEquals(0, PersonController.filterUpcomingReservations(reservations).size());
+
+        reservations.add(reservation);
+        reservations.add(reservation2);
+        reservations.add(reservation3);
+
+        assertEquals(3,reservations.size());
+        assertEquals(1, PersonController.filterUpcomingReservations(reservations).size());
 
     }
 
