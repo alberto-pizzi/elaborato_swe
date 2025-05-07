@@ -8,6 +8,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.NotificationController;
+import main.java.BusinessLogic.PersonController;
 import main.java.DomainModel.Notification;
 
 import java.io.IOException;
@@ -46,7 +47,7 @@ public abstract class Notifications implements Initializable {
 
 
         try {
-            notifications.addAll(notificationController.getOwnNotifications());
+            notifications.addAll(PersonController.filterByUpcomingReservations(notificationController.getOwnNotifications(), Notification::getReservation));
         } catch (SQLException e) {
             messagesController.showMessage("Error during get own notifications", MessagesController.MessageType.ERROR,5);
         }
@@ -58,7 +59,6 @@ public abstract class Notifications implements Initializable {
                 notificationItem(i);
             }
 
-            //TODO check this logic
             if (notificationItemNotVisible > 0)
                 messagesController.showMessage(notificationItemNotVisible + " notifications are not loaded", MessagesController.MessageType.ERROR,5);
 
