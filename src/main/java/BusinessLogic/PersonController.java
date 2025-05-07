@@ -3,7 +3,6 @@ package main.java.BusinessLogic;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -82,6 +81,17 @@ public abstract class PersonController<T extends Person> {
 
     public NotificationController getNotificationController() {
         return notificationController;
+    }
+
+
+    public ArrayList<User> getUsersByUsernames(ArrayList<String> usernames) throws SQLException {
+
+        ArrayList<User> users = new ArrayList<>();
+
+        for (String username : usernames)
+            users.add(userDAO.getUser(username));
+
+        return users;
     }
 
     public ArrayList<User> searchUsersByUsername(String searchUsername) throws SQLException, ClassNotFoundException {
