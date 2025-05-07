@@ -249,7 +249,10 @@ public class SelectGuestsPaneController implements Initializable {
             if (!inviteListDraft.getItems().isEmpty()) {
                 for (String accountUsername : inviteListDraft.getItems()) {
                     if (accountUsername != null) {
-                        personController.sendInvite(group.getReservation(), personController.getUserIdByUsername(accountUsername));
+                        boolean inviteSent = personController.sendInvite(group.getReservation(), personController.getUserIdByUsername(accountUsername));
+                        if (!inviteSent)
+                            System.out.println("Error sending invite to: " + accountUsername);
+
                     }
                 }
             }
