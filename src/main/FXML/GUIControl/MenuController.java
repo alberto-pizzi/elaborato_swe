@@ -19,7 +19,7 @@ import javafx.scene.layout.VBox;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.BusinessLogic.UserProfileController;
 
-public class MenuController implements Initializable {
+public class MenuController extends Menu {
 
     @FXML
     private Button groupsButton;
@@ -29,10 +29,7 @@ public class MenuController implements Initializable {
 
     @FXML
     private Button invitesButton;
-
-    @FXML
-    private BorderPane menuPane;
-
+    
     @FXML
     private Button profileButton;
 
@@ -46,19 +43,11 @@ public class MenuController implements Initializable {
     private HBox menuButtons;
 
     //methods
-
-    public BorderPane getMenuPane() {
-        return menuPane;
-    }
-
-    public void setMenuPane(BorderPane menuPane) {
-        this.menuPane = menuPane;
-    }
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            goToHome();
+            goToHomeHelper();
             UserProfileController userProfileController = new UserProfileController();
             int managedFacilities = userProfileController.getFacilitiesManaged().size();
 
@@ -89,54 +78,41 @@ public class MenuController implements Initializable {
 
     }
 
-    public void goToHome () {
+    public void goToHome () throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/home.fxml"));
+        Parent view = loader.load();
+        HomeController controller = loader.getController();
+        controller.setMenuPane(menuPane);
+        menuPane.setCenter(view);
+    }
+
+    public void goToHomeHelper() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/home.fxml"));
-            Parent view = loader.load();
-            HomeController controller = loader.getController();
-            controller.setMenuPane(menuPane);
-            menuPane.setCenter(view);
+            goToHome();
+            System.out.println("Home menu");
         } catch (IOException e) {
-            //TODO is this catch good?
             System.out.println("Error during open home.fxml");
-
         }
     }
-
-    public void changeView (String newViewFXMLFileName) {
-        try {
-            AnchorPane view = FXMLLoader.load(getClass().getResource("/main/FXML/" + newViewFXMLFileName));
-            menuPane.setCenter(view);
-        } catch (IOException e) {
-            //TODO is this catch good?
-            System.out.println("Error during open " + newViewFXMLFileName);
-        }
-    }
-
+    
     @FXML
     public void handleGroupsButtonAction (ActionEvent event) {
-        changeView("groups.fxml");
-        System.out.println("Groups menu button clicked");
+        changeViewHelper("groups.fxml");
     }
 
     @FXML
     public void handleHomeButtonAction (ActionEvent event) {
-
-        goToHome();
-        System.out.println("Home menu button clicked");
-
+        goToHomeHelper();
     }
 
     @FXML
     public void handleInvitesButtonAction (ActionEvent event) {
-        changeView("invites.fxml");
-        System.out.println("Invites menu button clicked");
+        changeViewHelper("invites.fxml");
     }
 
     @FXML
     public void handleProfileButtonAction (ActionEvent event) {
-        changeView("profile.fxml");
-        System.out.println("Profile menu button clicked");
+        changeViewHelper("profile.fxml");
 
     }
 
@@ -158,8 +134,7 @@ public class MenuController implements Initializable {
 
     @FXML
     void handleNotificationButtonAction (ActionEvent event) {
-        changeView("notifications.fxml");
-        System.out.println("Notifications menu button clicked");
+        changeViewHelper("notifications.fxml");
 
     }
 

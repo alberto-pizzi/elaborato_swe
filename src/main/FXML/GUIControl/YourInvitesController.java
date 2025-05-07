@@ -7,8 +7,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Invite;
+import main.java.DomainModel.Person;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,7 +47,7 @@ public class YourInvitesController implements Initializable {
         messagesController = new MessagesController(messageLabel);
 
         try {
-            invites.addAll(userActionsController.getOwnInvites());
+            invites.addAll(PersonController.filterByUpcomingReservations(userActionsController.getOwnInvites(), inviteObj -> inviteObj.getGroup().getReservation()));
         } catch (SQLException | ClassNotFoundException e) {
             messagesController.showMessage("Error during get own invites", MessagesController.MessageType.ERROR,5);
         }

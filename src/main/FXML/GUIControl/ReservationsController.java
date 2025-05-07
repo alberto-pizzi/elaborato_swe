@@ -76,7 +76,7 @@ public class ReservationsController implements Initializable {
 
         messagesController = new MessagesController(messageLabel);
         try {
-            reservations.addAll(userActionsController.getOwnReservations());
+            reservations.addAll(PersonController.filterByUpcomingReservations(userActionsController.getOwnReservations(),res -> res));
         } catch (SQLException | ClassNotFoundException e) {
             messagesController.showMessage("Error while loading own reservation from DB.", MessagesController.MessageType.ERROR,5);
         }

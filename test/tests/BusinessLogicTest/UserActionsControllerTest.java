@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.util.function.Function;
 
 import static org.mockito.Mockito.*;
 
@@ -96,14 +97,15 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         joinGroupMockHelper(group,guests);
 
-        assertTrue(userActionsController.joinGroup(group.getId(),guests));
-        assertFalse(userActionsController.joinGroup(group.getId(),requiredParticipants+2));
+        assertTrue(userActionsController.joinGroupHelper(group.getId(),guests));
+        assertFalse(userActionsController.joinGroupHelper(group.getId(),requiredParticipants+2));
 
     }
 
     private void joinGroupMockHelper(Group group,int guests) throws SQLException, ClassNotFoundException {
         when(groupDaoMock.getGroup(anyInt())).thenReturn(group);
-        doNothing().when(isPartDaoMock).addMembership(anyInt(), eq(user.getId()), eq(guests));
+        doNothing().when(isPartDaoMock).addMembership(anyInt(), anyInt(), anyInt());
+        doNothing().when(notificationControllerMock).connectObserverToReservation(any());
     }
 
     @Test
@@ -147,8 +149,8 @@ public class UserActionsControllerTest extends GeneralBSTest {
         boolean isMatched = true;
         Group group = createGroup(isMatched, requiredParticipants);
         Field field = createField();
-        User groupHead = createUser(); //FIXME
-        User user = createSecondUser();
+        User groupHead = createUser(4); //FIXME
+        User user = createUser(5);
         int guests = 2;
 
         LocalDate tomorrowLocal = LocalDate.now().plusDays(1);
@@ -486,6 +488,11 @@ public class UserActionsControllerTest extends GeneralBSTest {
         Reservation reservation2 = createReservation(true);
         Reservation reservation3 = createReservation(true);
 
+        ArrayList<Invite> invites = new ArrayList<>();
+        Invite invite = createInvite();
+        Invite invite2 = createInvite();
+        Invite invite3 = createInvite();
+
         Date today = Date.valueOf(LocalDate.now());
         Date yesterday = Date.valueOf(LocalDate.now().minusDays(1));
         Date tomorrow = Date.valueOf(LocalDate.now().plusDays(1));
@@ -498,16 +505,32 @@ public class UserActionsControllerTest extends GeneralBSTest {
         reservation3.setEventTimeStart(oneHourBefore);
         reservation3.setEventTimeEnd(thirtyMinLater);
 
-        assertEquals(0, PersonController.filterUpcomingReservations(reservations).size());
+        assertEquals(0, PersonController.filterByUpcomingReservations(reservations, res -> res).size());
 
         reservations.add(reservation);
         reservations.add(reservation2);
         reservations.add(reservation3);
 
         assertEquals(3,reservations.size());
-        assertEquals(1, PersonController.filterUpcomingReservations(reservations).size());
+        assertEquals(1, PersonController.filterByUpcomingReservations(reservations, res -> res).size());
+
+        invite.getGroup().getReservation().setEventDate(yesterday);
+        invite2.getGroup().getReservation().setEventDate(tomorrow);
+        invite3.getGroup().getReservation().setEventDate(today);
+        invite3.getGroup().getReservation().setEventTimeStart(oneHourBefore);
+        invite3.getGroup().getReservation().setEventTimeEnd(thirtyMinLater);
+
+        assertEquals(0, PersonController.filterByUpcomingReservations(invites, inviteObj -> inviteObj.getGroup().getReservation()).size());
+
+        invites.add(invite);
+        invites.add(invite2);
+        invites.add(invite3);
+
+        assertEquals(3,invites.size());
+        assertEquals(1, PersonController.filterByUpcomingReservations(invites,inviteObj -> inviteObj.getGroup().getReservation()).size());
 
     }
+
 
     @Test
     public void getUserByIDTest() throws SQLException, ClassNotFoundException {

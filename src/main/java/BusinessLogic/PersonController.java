@@ -10,6 +10,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.function.Function;
 
 public abstract class PersonController<T extends Person> {
 
@@ -120,12 +121,18 @@ public abstract class PersonController<T extends Person> {
                     int newGroupId = groupDao.addGroup(group);
                     group.setId(newGroupId); //WARNING: it's very important
 
-                    if (isMatched) {
-                        sendInvites(group, findOtherPlayers(getProvinceForMatching(field)));
+
+                    //FIXME add transaction and fix return values !!!!!!!
+                    if (joinGroupHelper(newGroupId,guests)) {
+
+                        if (isMatched) {
+                            sendInvites(group, findOtherPlayers(getProvinceForMatching(field)));
+                        } else {
+                            notificationController.sendConfirmNotification(reservation);
+                        }
                     }
-                    else{
-                        notificationController.sendConfirmNotification(reservation);
-                    }
+                    else
+                        return 0;
                 }else
                     return 0;
 
@@ -136,6 +143,8 @@ public abstract class PersonController<T extends Person> {
             return 0;
         }
     }
+
+    public abstract boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException;
 
     public boolean editReservation(Reservation reservation) {
 
@@ -308,7 +317,6 @@ public abstract class PersonController<T extends Person> {
         if (count == 0 && !receivers.isEmpty())
             return -1;
 
-        System.out.println("Invites have been sent");
         return count;
 
 
@@ -389,24 +397,49 @@ public abstract class PersonController<T extends Person> {
         return userDAO.getUserByID(id);
     }
 
+    //TODO delete it
     public static ArrayList<Reservation> filterUpcomingReservations(ArrayList<Reservation> allReservations) {
         ArrayList<Reservation> upcomingReservations = new ArrayList<>();
+
+        for (Reservation reservation : allReservations) {
+            if(PersonController.isUpcomingReservation(reservation))
+                upcomingReservations.add(reservation);
+        }
+
+        return upcomingReservations;
+    }
+
+    public static <T> ArrayList<T> filterByUpcomingReservations(ArrayList<T> inputList, Function<T, Reservation> getReservationFunction) {
+        ArrayList<T> upComings = new ArrayList<>();
+
+        for (T input : inputList) {
+            Reservation reservation = getReservationFunction.apply(input);
+
+            if (PersonController.isUpcomingReservation(reservation))
+                upComings.add(input);
+        }
+
+        return upComings;
+    }
+
+    public static boolean isUpcomingReservation(Reservation reservation) {
+
+        boolean isUpcoming = false;
 
         Date today = Date.valueOf(LocalDate.now());
         Time now = Time.valueOf(LocalTime.now());
 
-        for (Reservation reservation : allReservations) {
-            if (reservation.getEventDate().compareTo(today) > 0) {
-                upcomingReservations.add(reservation);
-            }
-            else if (reservation.getEventDate().compareTo(today) == 0) {
-                if (reservation.getEventTimeStart().compareTo(now) >= 0)
-                    upcomingReservations.add(reservation);
+        if (reservation.getEventDate().compareTo(today) > 0) {
+            isUpcoming = true;
+        }
+        else if (reservation.getEventDate().compareTo(today) == 0) {
+            if (reservation.getEventTimeStart().compareTo(now) >= 0)
+                isUpcoming = true;
 
-            }
         }
 
-        return upcomingReservations;
+        return isUpcoming;
+
     }
 
 

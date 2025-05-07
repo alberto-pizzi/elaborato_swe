@@ -1,22 +1,13 @@
 package main.java.BusinessLogic;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
-import main.FXML.GUIControl.MessagesController;
-import main.FXML.GUIControl.SelectGuestsPaneController;
 import main.java.DomainModel.*;
 
 import main.java.ORM.*;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Optional;
 
 
 public class UserActionsController extends PersonController<User>{
@@ -130,10 +121,13 @@ public class UserActionsController extends PersonController<User>{
         return accepted;
     }
 
-    public boolean joinGroup(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException {
+    @Override
+    public boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException {
+        return joinGroup(idGroup,guestUsers);
+    }
 
-        
-        
+    private boolean joinGroup(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException {
+
         Group group = groupDao.getGroup(idGroup);
 
         //observer attach
@@ -142,7 +136,7 @@ public class UserActionsController extends PersonController<User>{
         //this method adds a member from DomainModel
         boolean memberAdded = group.addMember(person,guestUsers);
 
-        if (memberAdded) {
+        if (person.getUsername().equals(group.getGroupHead().getUsername()) || memberAdded) {
 
             isPartDao.addMembership(idGroup, person.getId(),guestUsers);
             System.out.println("Members added into groups");
@@ -152,10 +146,9 @@ public class UserActionsController extends PersonController<User>{
         else
             return false;
 
-
-
-
     }
+
+
 
     public boolean leaveGroup(int idGroup) {
 
