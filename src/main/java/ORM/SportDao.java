@@ -6,18 +6,7 @@ import main.java.DomainModel.Sport;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class SportDao {
-
-    private Connection connection;
-
-    //constructor
-    public SportDao() {
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
+public class SportDao extends ConnectionHolder{
 
     //methods
     public int addSport(String name, int playersRequired) throws SQLException {

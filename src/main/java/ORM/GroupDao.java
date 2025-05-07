@@ -5,18 +5,7 @@ import main.java.DomainModel.Reservation;
 
 import java.sql.*;
 
-public class GroupDao {
-
-    private Connection connection;
-
-    public GroupDao() {
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
-
+public class GroupDao extends ConnectionHolder {
     //methods
     public int addGroup(Group group) throws SQLException {
 

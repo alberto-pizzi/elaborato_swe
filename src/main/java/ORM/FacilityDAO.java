@@ -8,20 +8,7 @@ import java.util.ArrayList;
 
 
 
-public class FacilityDAO {
-    private Connection connection;
-
-    //constructor
-
-    public FacilityDAO() {
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
-
-
+public class FacilityDAO extends ConnectionHolder{
     //methods
 
     public int addFacility(String name, String address, String city, String province, String zip, String country, String telephone, String image, int idOwner) throws SQLException {

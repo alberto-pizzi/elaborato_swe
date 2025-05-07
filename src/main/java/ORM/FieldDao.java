@@ -9,19 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class FieldDao {
-
-    private Connection connection;
-
-    //constructor
-    public FieldDao() {
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
-
+public class FieldDao extends ConnectionHolder {
     //methods
     public int addField(Field field) throws SQLException {
 

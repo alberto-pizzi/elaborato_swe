@@ -6,18 +6,7 @@ import java.sql.*;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 
-public class WorkingHoursDAO {
-
-    private Connection connection;
-
-    //constructor
-    public WorkingHoursDAO() {
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
+public class WorkingHoursDAO extends ConnectionHolder{
 
     //methods
 

@@ -7,19 +7,7 @@ import main.java.DomainModel.User;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class IsPartDao {
-
-    private Connection connection;
-
-    //constructor
-    public IsPartDao() {
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
-
+public class IsPartDao extends ConnectionHolder{
     //methods
     public void addMembership(int idGroup, int idUser, int guestUsers) throws SQLException {
 

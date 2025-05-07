@@ -8,18 +8,7 @@ import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import static java.time.temporal.ChronoUnit.HOURS;
 
-public class ReservationDao {
-
-    private Connection connection;
-
-    //constructor
-    public ReservationDao() {
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
+public class ReservationDao extends ConnectionHolder{
 
     //methods
     public int addReservation(Reservation reservation) throws SQLException {

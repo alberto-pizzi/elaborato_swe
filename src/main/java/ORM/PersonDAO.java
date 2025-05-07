@@ -9,8 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public abstract class PersonDAO {
-    protected Connection connection;
+public abstract class PersonDAO extends ConnectionHolder{
     protected String target; //target is used also as DB table name
 
     //getter
@@ -25,13 +24,8 @@ public abstract class PersonDAO {
 
     //constructor
     public PersonDAO(String targetType) {
+        super();
         this.target = targetType;
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-
     }
 
 

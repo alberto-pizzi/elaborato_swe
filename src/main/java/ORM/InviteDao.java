@@ -6,18 +6,7 @@ import main.java.DomainModel.Invite;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class InviteDao {
-
-    private Connection connection;
-
-    public InviteDao() {
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
-
+public class InviteDao extends ConnectionHolder{
     //methods
     public int addInvite(Invite invite) throws SQLException {
 

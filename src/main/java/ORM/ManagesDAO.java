@@ -6,19 +6,7 @@ import main.java.DomainModel.User;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ManagesDAO {
-
-    private Connection connection;
-
-    //constructor
-    public ManagesDAO() {
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
-
+public class ManagesDAO extends ConnectionHolder{
     //methods
 
     //TODO is transaction needed?

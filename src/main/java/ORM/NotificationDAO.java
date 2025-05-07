@@ -5,19 +5,7 @@ import main.java.DomainModel.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class NotificationDAO {
-
-    private Connection connection;
-
-
-    //constructor
-    public NotificationDAO(){
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
+public class NotificationDAO extends ConnectionHolder{
 
     //methods
 
