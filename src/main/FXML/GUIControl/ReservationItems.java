@@ -57,7 +57,7 @@ public abstract class ReservationItems {
         return reservationItemPane;
     }
 
-    public void setData(Reservation reservation) throws SQLException, ClassNotFoundException {
+    public void setData(Reservation reservation) {
         this.reservation = reservation;
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");

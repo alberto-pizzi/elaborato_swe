@@ -34,6 +34,9 @@ public class ReservationsController implements Initializable {
 
     private MessagesController messagesController = null;
 
+    private int reservationItemNotVisible = 0;
+    private int reservationItemButtonsNotVisible = 0;
+
     private ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 
     BorderPane menuPane;
@@ -65,6 +68,10 @@ public class ReservationsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         personController =new UserActionsController();
+
+        reservationItemNotVisible = 0;
+        reservationItemButtonsNotVisible = 0;
+
         UserActionsController userActionsController = new UserActionsController();
 
         messagesController = new MessagesController(messageLabel);
@@ -74,23 +81,42 @@ public class ReservationsController implements Initializable {
             messagesController.showMessage("Error while loading own reservation from DB.", MessagesController.MessageType.ERROR,5);
         }
 
-        try{
-            System.out.println("Reservations size: " + reservations.size());
-            for (int i = 0; i < reservations.size(); i++) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/main/FXML/reservationItem.fxml"));
-                AnchorPane reservationItem = fxmlLoader.load();
-                ReservationItemController groupItemController = fxmlLoader.getController();
-                groupItemController.setReservationsController(this);
-                groupItemController.setData(reservations.get(i));
-                reservationsVBox.getChildren().add(reservationItem);
-            }
-        } catch (SQLException | IOException | ClassNotFoundException e) {
-            //TODO could be improved
-            messagesController.showMessage("Error while loading few reservation item.", MessagesController.MessageType.ERROR,5);
+
+        System.out.println("Reservations size: " + reservations.size());
+        for (int i = 0; i < reservations.size(); i++)
+            reservationItem(i);
+
+        String errorMessage = "";
+
+        //TODO is it correct?
+        if (reservationItemNotVisible > 0 || reservationItemButtonsNotVisible > 0) {
+            if (reservationItemNotVisible > 0) {
+                errorMessage += "Failed to load " + reservationItemNotVisible + " reservation item";
+
+                if (reservationItemButtonsNotVisible > 0)
+                    errorMessage += " and " + reservationItemButtonsNotVisible + " item buttons.";
+            } else if (reservationItemButtonsNotVisible > 0)
+                errorMessage += "Failed to load " + reservationItemButtonsNotVisible + " item buttons.";
+
+            messagesController.showMessage(errorMessage, MessagesController.MessageType.ERROR,5);
 
         }
 
+
+    }
+
+    public void reservationItem(int i) {
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/main/FXML/reservationItem.fxml"));
+            AnchorPane reservationItem = fxmlLoader.load();
+            ReservationItemController groupItemController = fxmlLoader.getController();
+            groupItemController.setReservationsController(this);
+            groupItemController.setData(reservations.get(i));
+            reservationsVBox.getChildren().add(reservationItem);
+        } catch (IOException e){
+            reservationItemNotVisible++;
+        }
     }
 
     public void removeReservationItemFromGUI(AnchorPane reservationItemPane, Reservation reservation) {
@@ -98,4 +124,11 @@ public class ReservationsController implements Initializable {
         reservationsVBox.getChildren().remove(reservationItemPane);
     }
 
+    public int getReservationItemButtonsNotVisible() {
+        return reservationItemButtonsNotVisible;
+    }
+
+    public void setReservationItemButtonsNotVisible(int reservationItemButtonsNotVisible) {
+        this.reservationItemButtonsNotVisible = reservationItemButtonsNotVisible;
+    }
 }
