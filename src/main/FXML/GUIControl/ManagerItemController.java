@@ -63,6 +63,7 @@ public class ManagerItemController {
 
             OwnerManagementController ownerManagementController = new OwnerManagementController();
             if(ownerManagementController.attachManager(user.getId(), facility.getId())){
+                facility.setNManager(facility.getNManager() + 1);
                 if (addManagersController != null) {
                     addManagersController.removeUserItemFromGUI(userItemBox,user);
                 }
