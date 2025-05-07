@@ -31,6 +31,8 @@ public class YourGroupsController implements Initializable {
 
     private MessagesController messagesController = null;
 
+    private int groupItemNotVisible = 0;
+
     private ArrayList<Group> groups = new ArrayList<Group>();
 
 
@@ -50,31 +52,37 @@ public class YourGroupsController implements Initializable {
         }
 
 
-        try{
+        System.out.println(groups.size());
 
-            System.out.println(groups.size());
+        for (int i = 0; i < groups.size(); i++)
+            groupItem(i);
 
-            //TODO is this try-catch correct despite there is a loop?
-            for (int i = 0; i < groups.size(); i++) {
-
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/main/FXML/groupItem.fxml"));
-
-                AnchorPane groupItem = fxmlLoader.load();
-
-                GroupItemController groupItemController = fxmlLoader.getController();
-                groupItemController.setYourGroupsController(this);
-                groupItemController.setData(groups.get(i));
-
-                groupsVBox.getChildren().add(groupItem);
-            }
+        if (groupItemNotVisible > 0)
+            messagesController.showMessage("Error during load " + groupItemNotVisible + " group items", MessagesController.MessageType.ERROR,5);
 
 
+
+
+
+
+    }
+
+    public void groupItem(int i){
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/main/FXML/groupItem.fxml"));
+
+            AnchorPane groupItem = fxmlLoader.load();
+
+            GroupItemController groupItemController = fxmlLoader.getController();
+            groupItemController.setYourGroupsController(this);
+            groupItemController.setData(groups.get(i));
+
+            groupsVBox.getChildren().add(groupItem);
         } catch (IOException e){
-            messagesController.showMessage("Error during load few group item", MessagesController.MessageType.ERROR,5);
+            groupItemNotVisible++;
         }
-
-
     }
 
     public void removeGroupItemFromGUI(AnchorPane groupItemPane, Group group) {
