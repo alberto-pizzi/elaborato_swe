@@ -40,4 +40,15 @@ public class ReservationsManagerController extends Reservations{
 
     }
 
+    @Override
+    @FXML
+    public void handleOldReservations(ActionEvent event){
+        try{
+            oldReservations();
+        }catch(IOException | SQLException | ClassNotFoundException e ){
+            String message = "An error has occurred";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+        }
+    }
+
 }
