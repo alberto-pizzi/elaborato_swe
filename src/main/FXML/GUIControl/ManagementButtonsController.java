@@ -74,7 +74,6 @@ public class ManagementButtonsController {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Reservation");
-        //FIXME improve date format
         alert.setHeaderText(reservationItemController.getReservation().getField().getName() + " at " + reservationItemController.getReservation().getEventTimeStart() + " of " + reservationItemController.getReservation().getEventDate());
         alert.setContentText("Are you sure you want to delete this reservation?");
 

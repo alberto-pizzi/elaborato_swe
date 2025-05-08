@@ -108,7 +108,6 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
        if (group != null) {
 
-           //TODO is it right here checking groupHead?
            if (group.getGroupHead().getUsername().equals(personController.getPerson().getUsername())) {
                if (groupMembersRemoved != null && !groupMembersRemoved.isEmpty()) {
                    for (GroupMember groupMember : groupMembersRemoved) {
@@ -139,8 +138,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
     }
 
-    //TODO finish to implement
-    //TODO add groupHead condition and manager condition
+    //useless because groupHead check is done into editReservationButton method
     public void updateRemoveButtons(){
 
         if (group != null){
@@ -214,18 +212,15 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     public void handleRemoveAllMembersButton(ActionEvent event) {
         System.out.println("REMOVE ALL MEMBERS BUTTON");
 
-        //TODO add Alert
+        //TODO add Alert?
         if (group != null && !effectiveGroupMembersList.getItems().isEmpty()){
             for (GroupMember groupMember : effectiveGroupMembersList.getItems()){
-
                 removeGroupMemberFromDraft(groupMember);
-
             }
 
             updateDraftParticipants(true);
             updateAddButtons();
             updateIndicatorLabels();
-
 
 
         }
