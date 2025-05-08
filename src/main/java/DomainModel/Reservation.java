@@ -152,11 +152,10 @@ public class Reservation extends Subject {
 
     public static boolean isEndTimeAfterThanStartTime(LocalTime startTime, LocalTime endTime, LocalDate eventDate){
 
-        if (endTime.isBefore(startTime))
-            eventDate = eventDate.plusDays(1);
+        LocalDate endDate = endTime.isBefore(startTime) ? eventDate.plusDays(1) : eventDate;
 
         LocalDateTime startDateTime = LocalDateTime.of(eventDate, startTime);
-        LocalDateTime endDateTime = LocalDateTime.of(eventDate, endTime);
+        LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
 
         return !endDateTime.isBefore(startDateTime);
 

@@ -159,6 +159,9 @@ public class UserActionsControllerTest extends GeneralBSTest {
         Time eventTimeStart = Time.valueOf(now);
         Time eventTimeEnd = Time.valueOf(newTime);
 
+        //create fake connection for DAOs transactions
+        transactionsMockHelper(reservationDaoMock);
+
         joinGroupMockHelper(group,guests);
         findOtherPlayersMockHelper(group,new ArrayList<>());
         sendInviteMockHelper(group, user);
@@ -168,8 +171,6 @@ public class UserActionsControllerTest extends GeneralBSTest {
         int reservationId = 3;
         when(reservationDaoMock.addReservation(any())).thenReturn(reservationId);
 
-        //create fake connection for DAOs transactions
-        transactionsMockHelper(reservationDaoMock);
 
         assertEquals(reservationId,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,userActionsController.getPerson()));
 
