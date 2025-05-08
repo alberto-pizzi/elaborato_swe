@@ -42,7 +42,6 @@ public class ManagementButtonsController {
 
             System.out.println("GoToGroups button clicked: " + reservationItemController.getReservation().getId());
         } catch (IOException e) {
-            //FIXME add error message counter
             reservationItemController.getReservationsController().getMessagesController().showMessage("Error while loading groups page.", MessagesController.MessageType.ERROR,5);
         }
 
