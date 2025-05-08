@@ -126,8 +126,9 @@ public class MenuController extends Menu {
             menuPane.setCenter(view);
             System.out.println("Reservations menu button clicked");
         } catch (IOException e) {
-            //TODO is this catch good?
-            System.out.println("Error during open reservations.fxml");
+            String errorMessage = "Error during open reservations.fxml";
+            System.out.println(errorMessage);
+            Menu.showErrorAlert("Error",errorMessage,"");
         }
 
     }

@@ -35,13 +35,7 @@ public abstract class Menu implements Initializable {
         } catch (IOException e) {
 
             String name = fileName.replace(".fxml", "");
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Opening failed.");
-            alert.setContentText("page: " + name );
-            alert.showAndWait();
-
+            Menu.showErrorAlert("Error","Opening failed.","page: " + name );
             System.out.println("Opening failed: " + fileName);
         }
     }
@@ -52,6 +46,15 @@ public abstract class Menu implements Initializable {
 
     public void setMenuPane(BorderPane menuPane) {
         this.menuPane = menuPane;
+    }
+
+    public static void showErrorAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        alert.showAndWait();
     }
 
 }
