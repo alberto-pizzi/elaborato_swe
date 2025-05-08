@@ -100,7 +100,6 @@ public class InviteItemController {
         System.out.println("Accept button clicked: " + invite.getId());
 
 
-        //TODO check this try-catch
         try {
             if (invite.getGroup().getReservation().isMatched()) {
 
@@ -117,8 +116,8 @@ public class InviteItemController {
                 //guests are 0 because in not matched booking are not allowed guests
                 accepted = userActionsController.acceptInvite(invite, null, 0);
             }
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println("Error during loadOwnGuestSelectorPane");
+        } catch (SQLException | ClassNotFoundException | IOException e) {
+            System.out.println("Error while loading guest selector pane.");
         }
 
         if (accepted)
@@ -142,16 +141,14 @@ public class InviteItemController {
     }
 
 
-    private Optional<ButtonType> loadOwnGuestSelectorPane(Invite invite) throws SQLException, ClassNotFoundException {
+    private Optional<ButtonType> loadOwnGuestSelectorPane(Invite invite) throws SQLException, ClassNotFoundException, IOException {
         DialogPane selectGuestsDialogPane;
 
         //load guests selector
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/selectGuestsPane.fxml"));
-        try {
-            selectGuestsDialogPane = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        selectGuestsDialogPane = loader.load();
+
         selectGuestsPaneController = loader.getController(); //connect controller
 
         selectGuestsPaneController.setData(invite.getGroup(), false);

@@ -116,6 +116,7 @@ public abstract class FieldFormManagementController implements Initializable {
         try {
             loadOwnGuestSelectorPane();
         } catch (SQLException | ClassNotFoundException | IOException e) {
+            //so guest selector pane is not usable
             messagesController.showMessage("Error during load own guest selector pane", MessagesController.MessageType.ERROR,5);
         }
 
