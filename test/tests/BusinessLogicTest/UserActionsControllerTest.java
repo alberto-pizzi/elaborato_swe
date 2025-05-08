@@ -16,7 +16,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.sql.Date;
-import java.util.function.Function;
 
 import static org.mockito.Mockito.*;
 
@@ -148,7 +147,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
         boolean isMatched = true;
         Group group = createGroup(isMatched, requiredParticipants);
         Field field = createField();
-        User groupHead = createUser(4); //FIXME
+        User groupHead = createUser(4);
         User user = createUser(5);
         int guests = 2;
 
@@ -161,7 +160,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
         Time eventTimeEnd = Time.valueOf(newTime);
 
         joinGroupMockHelper(group,guests);
-        findOtherPlayersMockHelper(group);
+        findOtherPlayersMockHelper(group,new ArrayList<>());
         sendInviteMockHelper(group, user);
 
         when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
@@ -260,7 +259,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         when(inviteDaoMock.getInvitesByUser(anyInt())).thenReturn(invites);
         assertEquals(invites, userActionsController.getOwnInvites());
-        //TODO check
+
         assertEquals(userActionsController.getPerson().getUsername(),invites.get(0).getUser().getUsername());
 
     }
@@ -350,9 +349,6 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         reservation.setField(null);
         assertFalse(userActionsController.checkReservationData(reservation));
-
-        //TODO other additions needed?
-
 
 
     }
@@ -590,14 +586,19 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         group.getGroupMembers().add(new GroupMember(createSecondUser(),2));
 
-        findOtherPlayersMockHelper(group);
+        ArrayList<User> users = new ArrayList<>();
+        users.add(createUser(6));
+
+        findOtherPlayersMockHelper(group, users);
         assertEquals(group.getGroupMembers(), userActionsController.getGroupMembers(group.getReservation().getId()));
 
-        //TODO implement
+        assertEquals(1,userActionsController.findOtherPlayers(users.get(0).getProvince()).size());
+
     }
 
-    private void findOtherPlayersMockHelper(Group group) throws SQLException, ClassNotFoundException {
+    private void findOtherPlayersMockHelper(Group group, ArrayList<User> users) throws SQLException, ClassNotFoundException {
         when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        when(userDAOMock.getUsersByProvince(anyString())).thenReturn(users);
     }
 
 

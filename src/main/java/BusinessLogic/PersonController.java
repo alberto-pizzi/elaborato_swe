@@ -245,7 +245,7 @@ public abstract class PersonController<T extends Person> {
 
     }
 
-    protected ArrayList <User> findOtherPlayers(String userProvince) throws SQLException, ClassNotFoundException {
+    public ArrayList <User> findOtherPlayers(String userProvince) throws SQLException, ClassNotFoundException {
         
         return userDAO.getUsersByProvince(userProvince);
     }
