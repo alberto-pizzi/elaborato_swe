@@ -188,7 +188,6 @@ public class ModifyWorkingHoursController implements Initializable {
     void handleConfirmButton(ActionEvent event) {
 
         OwnerManagementController ownerManagementController = new OwnerManagementController();
-
         try{
             if (!closedMonday.isSelected() && mondayChanged) {
                 ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.MONDAY);
@@ -237,6 +236,10 @@ public class ModifyWorkingHoursController implements Initializable {
                 checkHours(DayOfWeek.SUNDAY, clickedSun, sunday);
             } else if (closedSunday.isSelected()){
                 ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SUNDAY);
+            }
+            if(mondayChanged || tuesdayChanged || wednesdayChanged || thursdayChanged || fridayChanged || saturdayChanged){
+                facility.getWorkingHours().clear();
+                facility.getWorkingHours().addAll(ownerManagementController.getWorkingHours(facility.getId()));
             }
 
             try{

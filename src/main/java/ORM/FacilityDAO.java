@@ -13,8 +13,8 @@ public class FacilityDAO extends ConnectionHolder{
 
     public int addFacility(String name, String address, String city, String province, String zip, String country, String telephone, String image, int idOwner) throws SQLException {
 
-        String querySQL = String.format("INSERT INTO \"Facility\" (name, address, city, province, zip, country, n_managers, n_fields, telephone, image, id_owner) " +
-                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%d')", name, address, city, province, zip, country, 0,0,telephone,image,idOwner);
+        String querySQL = String.format("INSERT INTO \"Facility\" (name, address, city, province, zip, country, telephone, image, id_owner) " +
+                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%d')", name, address, city, province, zip, country, telephone,image,idOwner);
 
 
         int idAdded = 0;
@@ -57,6 +57,7 @@ public class FacilityDAO extends ConnectionHolder{
 
     }
 
+    //todo controllare test
     public Facility getFacility(int idFacility, boolean loadFields) throws SQLException {
         //default id (id not found)
         Facility facility = null;
@@ -79,18 +80,20 @@ public class FacilityDAO extends ConnectionHolder{
                 String province = resultSet.getString("province");
                 String zip = resultSet.getString("zip");
                 String country = resultSet.getString("country");
-                int nManagers = resultSet.getInt("n_managers");
-                int nFields = resultSet.getInt("n_fields");
                 String telephone = resultSet.getString("telephone");
                 String image = resultSet.getString("image");
                 int idOwner = resultSet.getInt("id_owner");
 
                 OwnerDAO ownerDAO = new OwnerDAO();
 
-                facility = new Facility(id, name, address, city, province, zip, country, nManagers, telephone, image, ownerDAO.getOwnerByID(idOwner));
+                facility = new Facility(id, name, address, city, province, zip, country, 0, telephone, image, ownerDAO.getOwnerByID(idOwner));
 
                 WorkingHoursDAO workingHoursDAO = new WorkingHoursDAO();
                 facility.setWorkingHours(workingHoursDAO.getWHsByFacility(id));
+
+                ManagesDAO managesDAO = new ManagesDAO();
+                int nManagers = managesDAO.getAllManagersByFacility(facility.getId()).size();
+                facility.setNManager(nManagers);
 
                 if (loadFields) {
                     FieldDao fieldDao = new FieldDao();
@@ -337,89 +340,6 @@ public class FacilityDAO extends ConnectionHolder{
             if (preparedStatement != null) { preparedStatement.close(); }
         }
 
-    }
-
-
-    public int getNMangers(int idFacility) throws SQLException {
-        //default value (results not found)
-        int nManagers = -1;
-
-        String querySQL = String.format("SELECT n_managers FROM \"Facility\" WHERE id = '%d'", idFacility);
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            resultSet = preparedStatement.executeQuery();
-
-            nManagers = resultSet.getInt("n_managers");
-
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-            if (resultSet != null) { resultSet.close(); }
-        }
-
-        return nManagers;
-    }
-
-    public int getNFields(int idFacility) throws SQLException {
-        //default value (results not found)
-        int nFields = -1;
-
-        String querySQL = String.format("SELECT n_fields FROM \"Facility\" WHERE id = '%d'", idFacility);
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            resultSet = preparedStatement.executeQuery();
-
-            nFields = resultSet.getInt("n_fields");
-
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-            if (resultSet != null) { resultSet.close(); }
-        }
-
-        return nFields;
-    }
-
-    public void updateNManagers(int idFacility, int nManagers) throws SQLException {
-        String querySQL = String.format("UPDATE \"Facility\" SET n_managers = '%d' WHERE id = '%d'", nManagers,idFacility);
-
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            preparedStatement.executeUpdate();
-            System.out.println("Facility managers number updated successfully.");
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-        }
-    }
-
-    public void updateNFields(int idFacility, int nfields) throws SQLException {
-        String querySQL = String.format("UPDATE \"Facility\" SET n_fields = '%d' WHERE id = '%d'", nfields,idFacility);
-
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            preparedStatement.executeUpdate();
-            System.out.println("Facility managers number updated successfully.");
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-        }
     }
 
     public ArrayList<Facility> getFacilitiesByProvince(String provinceTarget) throws SQLException {

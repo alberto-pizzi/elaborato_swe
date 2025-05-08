@@ -220,8 +220,6 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
             facilityDAO.updateCountry(facility.getId(), facility.getCountry());
             facilityDAO.updateTelephone(facility.getId(), facility.getTelephone());
             facilityDAO.updateImage(facility.getId(), facility.getImage());
-            facilityDAO.updateNFields(facility.getId(), facility.getNFields());
-            facilityDAO.updateNManagers(facility.getId(), facility.getNManager());
         }catch (SQLException e){
             return false;
         }
@@ -250,10 +248,9 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return true;
     }
 
-    public boolean addWorkingHours(int idFacility, String openingHour, String closingHour, DayOfWeek day) throws SQLException, ParseException {
+    public int addWorkingHours(int idFacility, String openingHour, String closingHour, DayOfWeek day) throws SQLException, ParseException {
         DateFormat formatter = new SimpleDateFormat("HH:mm");
-        workingHoursDAO.addWHToFacility(idFacility, day, new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
-        return true;
+        return workingHoursDAO.addWHToFacility(idFacility, day, new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
     }
 
     //todo mai usata

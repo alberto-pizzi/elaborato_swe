@@ -62,6 +62,8 @@ public class AddManagersController implements Initializable {
 
     private MessagesController messagesController;
 
+    private int loadingFailures = 0;
+
     public MessagesController getMessagesController(){
         return messagesController;
     }
@@ -121,9 +123,14 @@ public class AddManagersController implements Initializable {
                 try {
                     displayUsers(i);
                 } catch (IOException | SQLException e) {
-                    String message = "An error has occurred, one or more users may not show in the page";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    loadingFailures++;
                 }
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " users failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
             }
             currentPage++;
             pageNumber.setText(String.valueOf(currentPage));
@@ -143,9 +150,14 @@ public class AddManagersController implements Initializable {
                 try {
                     displayUsers(i);
                 } catch (IOException | SQLException e) {
-                    String message = "An error has occurred, one or more users may not show in the page";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    loadingFailures++;
                 }
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " users failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
             }
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));
@@ -176,9 +188,14 @@ public class AddManagersController implements Initializable {
                 try {
                     displayUsers(i);
                 } catch (IOException | SQLException e) {
-                    String message = "An error has occurred, one or more users may not show in the page";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    loadingFailures++;
                 }
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " users failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
             }
 
         }

@@ -52,6 +52,8 @@ public abstract class Reservations {
 
     protected Field field;
 
+    private int loadingFailures = 0;
+
     protected PersonController personController;
 
     protected MessagesController messagesController;
@@ -103,15 +105,21 @@ public abstract class Reservations {
             this.reservations = managerOwnerManagementController.getCurrentReservationsByField(field.getId());
         }
         currentPage = 1;
+
         for(int i=0; i < itemsPerPage && i < reservations.size(); i++){
 
             try {
                 displayReservations(i);
             } catch (IOException | SQLException | ClassNotFoundException e) {
-                String message = "An error has occurred, one or more reservations may not show in the page";
-                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures++;
             }
 
+        }
+
+        if(loadingFailures > 0){
+            String message = "An error has occurred," + loadingFailures + " reservations failed to load";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            loadingFailures = 0;
         }
         String page = String.valueOf(currentPage);
         pageNumber.setText(page);
@@ -131,9 +139,14 @@ public abstract class Reservations {
                 try {
                     displayReservations(i);
                 } catch (IOException | SQLException | ClassNotFoundException e) {
-                    String message = "An error has occurred, one or more reservations may not show in the page";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    loadingFailures++;
                 }
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " reservations failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
             }
             currentPage++;
             pageNumber.setText(String.valueOf(currentPage));
@@ -152,10 +165,15 @@ public abstract class Reservations {
                 try {
                     displayReservations(i);
                 } catch (IOException | SQLException | ClassNotFoundException e) {
-                    String message = "An error has occurred, one or more reservations may not show in the page";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    loadingFailures++;
                 }
 
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " reservations failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
             }
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));

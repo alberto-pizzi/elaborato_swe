@@ -45,6 +45,8 @@ public abstract class FieldChoice {
 
     protected MessagesController messagesController;
 
+    private int loadingFailures = 0;
+
     public MessagesController getMessagesController() {return messagesController;}
 
     protected abstract void displayFields(int index) throws IOException, SQLException;
@@ -56,19 +58,14 @@ public abstract class FieldChoice {
         return page;
     }
 
-    public void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException {
+    public void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException, IOException {
 
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         messagesController = new MessagesController(messageLabel);
         this.fields = managerOwnerManagementController.getFieldsByFacility(facility);
         this.menuPane = menuPane;
         for(int i=0; i < itemsPerPage && i < fields.size(); i++){
-            try {
-                displayFields(i);
-            } catch (IOException | SQLException e) {
-                String message = "An error has occurred, one or more fields may not show in the page";
-                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-            }
+            displayFields(i);
         }
         String page = String.valueOf(currentPage);
         pageNumber.setText(page);
@@ -84,9 +81,14 @@ public abstract class FieldChoice {
                 try {
                     displayFields(i);
                 } catch (IOException | SQLException e) {
-                    String message = "An error has occurred, one or more fields may not show in the page";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    loadingFailures++;
                 }
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " fields failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
             }
             currentPage++;
             pageNumber.setText(String.valueOf(currentPage));
@@ -106,9 +108,14 @@ public abstract class FieldChoice {
                 try {
                     displayFields(i);
                 } catch (IOException | SQLException e) {
-                    String message = "An error has occurred, one or more fields may not show in the page";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    loadingFailures++;
                 }
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " fields failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
             }
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));
