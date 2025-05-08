@@ -15,8 +15,6 @@ import java.time.LocalTime;
 
 public class ModifyReservationOwnerController extends ModifyReservationManagerController implements Initializable {
 
-
-    //FIXME redundancy
     @Override
     public void setData(Reservation reservation, BorderPane menuPane) throws SQLException, ClassNotFoundException {
 

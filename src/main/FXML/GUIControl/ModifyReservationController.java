@@ -182,11 +182,10 @@ public class ModifyReservationController extends FieldFormManagementController i
             if (personController.deleteReservation(reservation.getId())) {
                 System.out.println("Deleted!");
 
-                //TODO is this try-catch correct?
                 try {
                     actionsAfterDelete();
                 } catch (SQLException | ClassNotFoundException | IOException e) {
-                    messagesController.showMessage("Error during actions after deletion", MessagesController.MessageType.ERROR,5);
+                    messagesController.showMessage("Error while executing actions after deleting.", MessagesController.MessageType.ERROR,5);
 
                 }
             }
