@@ -14,10 +14,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.Facility;
+import main.java.DomainModel.WorkingHours;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -99,7 +101,7 @@ public class NewWorkingHoursController implements Initializable {
         String openingHours = "";
         String closingHours = "";
         Label tmpLabel;
-
+        int idAdded;
         for(Node node : pane.getChildren()){
             if (hours.contains(node) && !opened){
                 opened = true;
@@ -109,12 +111,14 @@ public class NewWorkingHoursController implements Initializable {
                 opened = false;
                 tmpLabel = (Label) node;
                 closingHours = tmpLabel.getText();
-                ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
+                idAdded = ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
+                facility.getWorkingHours().add(new WorkingHours(idAdded, day , Time.valueOf(openingHours), Time.valueOf(closingHours)));
             }
         }
         if (opened){
             closingHours = "24:00";
-            ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
+            idAdded = ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
+            facility.getWorkingHours().add(new WorkingHours(idAdded, day , Time.valueOf(openingHours), Time.valueOf(closingHours)));
         }
     }
 

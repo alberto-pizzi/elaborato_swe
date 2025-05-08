@@ -248,10 +248,9 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return true;
     }
 
-    public boolean addWorkingHours(int idFacility, String openingHour, String closingHour, DayOfWeek day) throws SQLException, ParseException {
+    public int addWorkingHours(int idFacility, String openingHour, String closingHour, DayOfWeek day) throws SQLException, ParseException {
         DateFormat formatter = new SimpleDateFormat("HH:mm");
-        workingHoursDAO.addWHToFacility(idFacility, day, new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
-        return true;
+        return workingHoursDAO.addWHToFacility(idFacility, day, new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
     }
 
     //todo mai usata

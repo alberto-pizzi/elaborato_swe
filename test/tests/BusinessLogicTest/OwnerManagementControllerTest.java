@@ -363,13 +363,14 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         assertFalse(ownerManagementController.editField(createField()));
     }
 
+    //todo testare
     @Test
     void addWorkingHours() throws SQLException, ParseException {
         Facility facility= createFacility();
 
         //No exception
         when(workingHoursDAO.addWHToFacility(anyInt(), any(DayOfWeek.class), any(Time.class), any(Time.class))).thenReturn(1);
-        assertTrue(ownerManagementController.addWorkingHours(facility.getId(), "8:00:00", "22:00:00", DayOfWeek.MONDAY));
+        assertEquals(1, ownerManagementController.addWorkingHours(facility.getId(), "8:00:00", "22:00:00", DayOfWeek.MONDAY));
 
         //With exception
         when(workingHoursDAO.addWHToFacility(anyInt(), any(DayOfWeek.class), any(Time.class), any(Time.class))).thenThrow(new SQLException("Simulated SQL exception"));

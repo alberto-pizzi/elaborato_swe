@@ -74,7 +74,7 @@ public class NewFieldController extends FieldForm {
                         System.out.println("Field created: " + field.getName());
                         FXMLLoader loader;
                         Parent pane;
-                        facility.addField(field);
+                        facility.getFields().add(field);
                         if (newFacility) {
                             loader = new FXMLLoader(getClass().getResource("/main/FXML/addManagers.fxml"));
                             pane = loader.load();
@@ -123,7 +123,7 @@ public class NewFieldController extends FieldForm {
             field.setDescription(descriptionInput.getText());
 
             if (ownerManagementController.addField(field)) {
-                facility.addField(field);
+                facility.getFields().add(field);
                 String message = "Field created and added";
                 messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
                 nameInput.setText("");

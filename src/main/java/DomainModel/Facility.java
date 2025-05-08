@@ -128,10 +128,6 @@ public class Facility {
     public void setFields(ArrayList<Field> fields) {
         this.fields = fields;
     }
-    public void addField(Field field) {
-        this.fields.add(field);
-    }
-
 
     public String getAddress() {
         return address;
