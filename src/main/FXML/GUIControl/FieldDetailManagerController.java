@@ -32,7 +32,9 @@ public class FieldDetailManagerController extends FieldDetail{
             bookFieldController.selectGuestsPaneController.setData(null, false);
             menuPane.setCenter(view);
         } catch (SQLException | ClassNotFoundException | IOException e){
-            //TODO add error
+            String errorMessage = "Failed to load manager booking form.";
+            System.out.println(errorMessage);
+            Menu.showErrorAlert("Error",errorMessage,"");
         }
     }
 
@@ -45,7 +47,9 @@ public class FieldDetailManagerController extends FieldDetail{
             reservationsManagerController.setData(field, menuPane);
             menuPane.setCenter(view);
         } catch (SQLException | ClassNotFoundException | IOException e){
-            //TODO add error
+            String errorMessage = "Failed to load reservations panel manager side.";
+            System.out.println(errorMessage);
+            Menu.showErrorAlert("Error",errorMessage,"");
         }
     }
 

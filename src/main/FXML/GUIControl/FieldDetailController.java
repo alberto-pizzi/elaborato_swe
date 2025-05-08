@@ -43,7 +43,9 @@ public class FieldDetailController extends FieldDetail {
             bookFieldController.selectGuestsPaneController.setData(null, false);
             menuPane.setCenter(view);
         } catch (SQLException | ClassNotFoundException | IOException e){
-            //TODO add error
+            String errorMessage = "Failed to load booking form.";
+            System.out.println(errorMessage);
+            Menu.showErrorAlert("Error",errorMessage,"");
         }
 
     }

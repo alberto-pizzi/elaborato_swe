@@ -35,7 +35,9 @@ public class FieldDetailOwnerController extends FieldDetail{
             bookFieldController.selectGuestsPaneController.setData(null, false);
             menuPane.setCenter(view);
         } catch (SQLException | ClassNotFoundException | IOException e){
-            //TODO add error
+            String errorMessage = "Failed to load owner booking form.";
+            System.out.println(errorMessage);
+            Menu.showErrorAlert("Error",errorMessage,"");
         }
     }
 
@@ -48,7 +50,9 @@ public class FieldDetailOwnerController extends FieldDetail{
             reservationsOwnerController.setData(field, menuPane);
             menuPane.setCenter(view);
         } catch (SQLException | ClassNotFoundException | IOException e){
-            //TODO add error
+            String errorMessage = "Failed to load reservations pane owner side.";
+            System.out.println(errorMessage);
+            Menu.showErrorAlert("Error",errorMessage,"");
         }
     }
 
