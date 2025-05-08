@@ -35,8 +35,8 @@ public class ReservationItemManagerController extends ReservationItemsManagerOwn
             announcementManagerController.setData(reservationsController.getMenuPane(), this.reservation);
             reservationsController.getMenuPane().setCenter(view);
         } catch (IOException e) {
-            //TODO check this catch
             System.out.println("Error while loading announcementManager.fxml");
+            Menu.showErrorAlert("Error","Error while loading announcementManager","");
         }
     }
 
@@ -52,8 +52,8 @@ public class ReservationItemManagerController extends ReservationItemsManagerOwn
             reservationsController.getMenuPane().setCenter(view);
         }
         catch (IOException | SQLException | ClassNotFoundException e) {
-            //TODO check this catch
             System.out.println("Error while loading modifyReservationManager.fxml or while getting data from DB.");
+            Menu.showErrorAlert("Error","Error while loading modifyReservationManager","or getting data from DB");
         }
     }
 

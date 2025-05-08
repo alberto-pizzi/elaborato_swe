@@ -37,8 +37,9 @@ public class ReservationItemOwnerController extends ReservationItemsManagerOwner
         announcementOwnerController.setData( reservationsController.getMenuPane(), this.reservation);
         reservationsController.getMenuPane().setCenter(view);
         } catch (IOException e) {
-            //TODO check this catch
             System.out.println("Error while loading announcementOwner.fxml");
+            Menu.showErrorAlert("Error","Error while loading announcementOwner","");
+
         }
     }
 
@@ -53,8 +54,9 @@ public class ReservationItemOwnerController extends ReservationItemsManagerOwner
             modifyReservationOwnerController.selectGuestsPaneController.setData(getReservationsController().getPersonController().getGroupByReservation(this.reservation.getId()), true);
             reservationsController.getMenuPane().setCenter(view);
         } catch (IOException | SQLException | ClassNotFoundException e) {
-            //TODO check this catch
             System.out.println("Error while loading modifyReservationOwner.fxml or while getting data from DB.");
+            Menu.showErrorAlert("Error","Error while loading modifyReservationOwner","or while getting data from DB.");
+
         }
     }
 

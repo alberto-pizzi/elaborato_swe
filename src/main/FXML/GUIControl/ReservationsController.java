@@ -85,7 +85,7 @@ public class ReservationsController implements Initializable {
         for (int i = 0; i < reservations.size(); i++) {
             try{
                 reservationItem(i);
-            } catch (IOException e){
+            } catch (IOException | ClassNotFoundException | SQLException e){
                 reservationItemNotVisible++;
             }
         }
@@ -107,7 +107,7 @@ public class ReservationsController implements Initializable {
 
     }
 
-    public void reservationItem(int i) throws IOException {
+    public void reservationItem(int i) throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/main/FXML/reservationItem.fxml"));
         AnchorPane reservationItem = fxmlLoader.load();

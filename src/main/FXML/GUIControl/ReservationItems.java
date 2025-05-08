@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import main.java.DomainModel.Reservation;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
@@ -57,7 +58,7 @@ public abstract class ReservationItems {
         return reservationItemPane;
     }
 
-    public void setData(Reservation reservation) {
+    public void setData(Reservation reservation) throws SQLException, IOException, ClassNotFoundException {
         this.reservation = reservation;
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");

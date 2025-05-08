@@ -36,7 +36,7 @@ public class ReservationItemController extends ReservationItems{
     //methods
 
     @Override
-    public void setData(Reservation reservation) {
+    public void setData(Reservation reservation) throws SQLException, IOException, ClassNotFoundException {
         super.setData(reservation);
 
         UserActionsController userActionsController = new UserActionsController();
@@ -69,6 +69,7 @@ public class ReservationItemController extends ReservationItems{
 
         } catch (SQLException | ClassNotFoundException | IOException e) {
             reservationsController.setReservationItemButtonsNotVisible(reservationsController.getReservationItemButtonsNotVisible()+1);
+            throw e;
         }
 
 
