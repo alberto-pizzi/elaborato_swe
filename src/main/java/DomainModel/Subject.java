@@ -14,7 +14,7 @@ public abstract class Subject {
     public void removeObserver(Observer observer) {
         observers.remove(observer);
     }
-    public void notifyObserver() throws SQLException, ClassNotFoundException {
+    public void notifyObserver() throws SQLException {
         for (Observer observer : observers) {
             observer.update();
         }

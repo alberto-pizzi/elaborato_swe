@@ -155,17 +155,29 @@ public class NotificationController implements Observer {
         return notificationDAO.getNotifications(person);
     }
 
-    //TODO throw or try-catch? maybe transaction
     @Override
-    public void update() throws SQLException, ClassNotFoundException {
-
-
+    public void update() throws SQLException {
 
         if (this.reservation.isConfirmed() && this.reservation.isMatched() && !this.reservation.isNotified()) {
-            reservationDao.updateIsConfirmed(reservation.getId(), this.reservation.isConfirmed());
-            sendConfirmNotification(this.reservation);
-            this.reservation.considerNotified();
-            reservationDao.updateIsNotified(reservation.getId(), this.reservation.isNotified());
+
+            try {
+                //start transaction
+                reservationDao.getConnection().setAutoCommit(false);
+
+                reservationDao.updateIsConfirmed(reservation.getId(), this.reservation.isConfirmed());
+                sendConfirmNotification(this.reservation);
+                this.reservation.considerNotified();
+                reservationDao.updateIsNotified(reservation.getId(), this.reservation.isNotified());
+
+                //commit transaction
+                reservationDao.getConnection().commit();
+            } catch (SQLException e) {
+                reservationDao.getConnection().rollback();
+                throw e;
+            } finally {
+                reservationDao.getConnection().setAutoCommit(true);
+            }
+
         }
     }
 

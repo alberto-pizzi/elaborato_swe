@@ -123,7 +123,7 @@ public class Group{
         return this.participants + guests + 1 > this.requiredParticipants;
     }
 
-    public void confirmationChecker() throws SQLException, ClassNotFoundException {
+    public void confirmationChecker() throws SQLException {
         if (!reservation.isMatched())
             reservation.setConfirmed(true);
         else{
@@ -140,7 +140,7 @@ public class Group{
         return this.participants + guests + nAccounts + (considerHimself ? 1 : 0)  <= this.requiredParticipants;
     }
 
-    public boolean addMember(User user, int guests) throws SQLException, ClassNotFoundException {
+    public boolean addMember(User user, int guests) throws SQLException {
         if (guests < 0)
             guests = 0;
 
@@ -219,7 +219,7 @@ public class Group{
     }
 
     //this method not makes any check on participants
-    public boolean changeUserGuests(String username, int newGuests) throws SQLException, ClassNotFoundException {
+    public boolean changeUserGuests(String username, int newGuests) throws SQLException {
 
         for (GroupMember member : groupMembers) {
             if (member.getUser().getUsername().equals(username)) {

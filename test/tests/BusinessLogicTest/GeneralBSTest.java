@@ -38,21 +38,21 @@ public abstract class GeneralBSTest {
         return new Owner(1,"hello@gmail.com","owner1","hello123","London","London","00000","UK");
     }
 
-    protected Facility createFacility() throws SQLException {
+    protected Facility createFacility() {
         return new  Facility(
                 0, "Sport Center", "Via Roma 1", "Milano", "MI",
                 "20100", "Italia", 3, "333333333",
                 "", createOwner());
     }
 
-    protected Facility createFacility(Owner owner) throws SQLException {
+    protected Facility createFacility(Owner owner) {
         return new  Facility(
                 0, "Sport Center", "Via Roma 1", "Milano", "MI",
                 "20100", "Italia", 3, "333333333",
                 "", owner);
     }
 
-    protected Reservation createReservation(boolean isMatched) throws SQLException {
+    protected Reservation createReservation(boolean isMatched){
         LocalDate today = LocalDate.now();
         LocalDate futureDate = today.plusDays(7); // add 7 days
         Date eventDate = Date.valueOf(futureDate);
@@ -66,7 +66,7 @@ public abstract class GeneralBSTest {
         return new Reservation(eventDate, eventTimeStart, eventTimeEnd, field, isMatched);
     }
 
-    protected Reservation createReservation(Field field, boolean isMatched) throws SQLException {
+    protected Reservation createReservation(Field field, boolean isMatched) {
         LocalDate today = LocalDate.now();
         LocalDate futureDate = today.plusDays(7); // add 7 days
         Date eventDate = Date.valueOf(futureDate);
@@ -78,25 +78,25 @@ public abstract class GeneralBSTest {
         return new Reservation(eventDate, eventTimeStart, eventTimeEnd, field, isMatched);
     }
 
-    protected Field createField() throws SQLException {
+    protected Field createField() {
         return new Field(
                 0, "Campo A", createSport(), "Campo in erba sintetica",
                 50.0f, "", createFacility()
         );
     }
 
-    protected Field createField(Facility facility, Sport sport) throws SQLException {
+    protected Field createField(Facility facility, Sport sport){
         return new Field(
                 0, "Campo A", sport, "Campo in erba sintetica",
                 50.0f, "", facility
         );
     }
 
-    protected Sport createSport() throws SQLException {
+    protected Sport createSport() {
         return new Sport(0, "Football", 22);
     }
 
-    protected Sport createSport(String sportName) throws SQLException {
+    protected Sport createSport(String sportName) {
 
         return new Sport(0, sportName, 22);
     }
@@ -108,17 +108,17 @@ public abstract class GeneralBSTest {
         return invite;
     }
 
-    protected Invite createInvite(User user, Group group) throws SQLException {
+    protected Invite createInvite(User user, Group group) {
         Invite invite = new Invite(0, group);
         invite.setUser(user);
         return invite;
     }
 
-    protected Group createGroup(Boolean isMatched, int requiredParticipants) throws SQLException {
+    protected Group createGroup(Boolean isMatched, int requiredParticipants) {
         return new Group(createUser(),createReservation(isMatched),requiredParticipants,0);
     }
 
-    protected Group createGroup(User user, Reservation reservation, int requiredParticipants) throws SQLException {
+    protected Group createGroup(User user, Reservation reservation, int requiredParticipants) {
         return new Group(user,reservation,requiredParticipants,0);
     }
 
@@ -126,11 +126,11 @@ public abstract class GeneralBSTest {
         return new Notification(createUser(), createReservation(false), NotificationType.CONFIRMATION);
     }
 
-    protected Notification createNotification(User user, Reservation reservation, NotificationType notificationType) throws SQLException {
+    protected Notification createNotification(User user, Reservation reservation, NotificationType notificationType) {
         return new Notification(user, reservation, notificationType);
     }
 
-    protected WorkingHours createWH(Facility facility, DayOfWeek dayOfWeek) throws SQLException {
+    protected WorkingHours createWH(Facility facility, DayOfWeek dayOfWeek) {
         return new WorkingHours(0, dayOfWeek,Time.valueOf("8:00:00"),Time.valueOf("22:00:00"));
     }
 

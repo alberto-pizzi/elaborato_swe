@@ -11,6 +11,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -135,7 +136,44 @@ public class NotificationControllerTest extends GeneralBSTest {
         when(isPartDaoMock.getGroupMembers(anyInt())).thenReturn(members);
     }
 
-    //TODO is observer test needed?
+    //create fake connection for DAOs transactions
+    private void transactionsMockHelper(ConnectionHolder mockedDao) throws SQLException {
+        Connection fakeConnection = mock(Connection.class);
+        when(mockedDao.getConnection()).thenReturn(fakeConnection);
+        doNothing().when(fakeConnection).commit();
+        doNothing().when(fakeConnection).rollback();
+        doNothing().when(fakeConnection).setAutoCommit(anyBoolean());
+    }
+
+    @Test
+    public void updateObserverTest() throws SQLException, ClassNotFoundException {
+
+        Group group = createGroup(true,3);
+
+        transactionsMockHelper(reservationDaoMock);
+        sendNotificationMockHelper(group);
+        doNothing().when(reservationDaoMock).updateIsConfirmed(anyInt(),anyBoolean());
+        doNothing().when(reservationDaoMock).updateIsNotified(anyInt(),anyBoolean());
+        notificationController.connectObserverToReservation(group.getReservation());
+
+        group.getReservation().setMatched(false);
+
+        notificationController.update();
+
+        assertFalse(group.getReservation().isMatched());
+        assertFalse(group.getReservation().isNotified());
+
+        group.getReservation().setMatched(true);
+
+        group.addMember(createUser(4),1);
+
+        assertTrue(group.getReservation().isConfirmed());
+        assertTrue(group.getReservation().isMatched());
+        assertTrue(group.getReservation().isNotified());
+
+        notificationController.detach();
+
+    }
 
 
 }

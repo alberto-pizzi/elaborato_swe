@@ -126,7 +126,7 @@ public class Reservation extends Subject {
         return isConfirmed;
     }
 
-    public void setConfirmed(boolean confirmed) throws SQLException, ClassNotFoundException {
+    public void setConfirmed(boolean confirmed) throws SQLException {
         isConfirmed = confirmed;
         notifyObserver();
     }
