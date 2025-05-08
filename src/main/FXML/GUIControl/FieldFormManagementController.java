@@ -22,7 +22,6 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.text.DecimalFormat;
-import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -141,7 +140,7 @@ public abstract class FieldFormManagementController implements Initializable {
             resetFields();
 
             if (newDate != null) {
-                updateStartTime(newDate.getDayOfWeek());
+                updateStartTime();
             }
         });
 
@@ -306,22 +305,24 @@ public abstract class FieldFormManagementController implements Initializable {
         }
     }
 
+    protected List<LocalTime> availableTimes(int minutesInterval, LocalDate selectedDate) throws SQLException, ClassNotFoundException {
 
-    public static boolean isOverlapping(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
-        return !(end1.isBefore(start2) || end2.isBefore(start1) || end1.equals(start2) || end2.equals(start1));
-    }
-
-
-    protected List<LocalTime> availableTimes(int minutesInterval, DateTimeFormatter formatter, DayOfWeek dayOfWeek) throws SQLException, ClassNotFoundException {
         List<LocalTime> availableTimes = new ArrayList<>();
 
-        ArrayList<WorkingHours> WHs = personController.getWHsByFacilityByDay(field.getFacility().getId(), dayOfWeek);
+        if (selectedDate == null)
+            return availableTimes;
 
-        ArrayList<Reservation> reservations = personController.getReservationsByField(field.getId());
+        ArrayList<WorkingHours> WHs = personController.getWHsByFacilityByDay(field.getFacility().getId(), selectedDate.getDayOfWeek());
+        ArrayList<Reservation> allReservations = personController.getReservationsByField(field.getId());
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        for (Reservation res : allReservations) {
+            if (res.getEventDate().toLocalDate().equals(selectedDate))
+                reservations.add(res);
+        }
 
         for (WorkingHours wh : WHs) {
-            //FIXME remove if and add specific DAO query with correct DayOfWeek
-            if (wh.getDayOfWeek() == dayOfWeek) {
+            if (wh.getDayOfWeek() == selectedDate.getDayOfWeek()) {
                 LocalTime opening = wh.getOpeningHours().toLocalTime();
                 LocalTime closing = wh.getClosingHours().toLocalTime();
 
@@ -335,7 +336,7 @@ public abstract class FieldFormManagementController implements Initializable {
                             LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
                             LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
 
-                            if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
+                            if (Reservation.isTimeOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
                                 isAvailable = false;
                                 break;
                             }
@@ -356,7 +357,7 @@ public abstract class FieldFormManagementController implements Initializable {
         return availableTimes;
     }
 
-    protected void updateStartTime(DayOfWeek dayOfWeek){
+    protected void updateStartTime(){
 
         startTimeChoice.getItems().clear();
         startTimeChoice.setValue(null);
@@ -366,7 +367,7 @@ public abstract class FieldFormManagementController implements Initializable {
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
             List<LocalTime> timeOptions = null; // 30 min
             try {
-                timeOptions = availableTimes(minutesInterval, timeFormatter, dayOfWeek);
+                timeOptions = availableTimes(minutesInterval, datePicker.getValue());
 
                 for (LocalTime time : timeOptions) {
                     startTimeChoice.getItems().add(String.valueOf(time));
@@ -413,7 +414,7 @@ public abstract class FieldFormManagementController implements Initializable {
                                 LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
                                 LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
 
-                                if (isOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
+                                if (Reservation.isTimeOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
                                     isAvailable = false;
                                     break;
                                 }

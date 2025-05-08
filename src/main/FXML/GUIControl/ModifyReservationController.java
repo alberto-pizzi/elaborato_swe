@@ -64,7 +64,7 @@ public class ModifyReservationController extends FieldFormManagementController i
 
 
         if (datePicker.getValue() != null) {
-            updateStartTime(datePicker.getValue().getDayOfWeek());
+            updateStartTime();
             if (startTimeChoice.getValue() != null)
                 updateEndTimes(LocalTime.parse(startTimeChoice.getValue()), personController.getWHsByFacilityByDay(field.getFacility().getId(), datePicker.getValue().getDayOfWeek()), minutesInterval);
         }

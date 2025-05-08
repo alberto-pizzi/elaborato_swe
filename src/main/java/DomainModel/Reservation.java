@@ -162,4 +162,8 @@ public class Reservation extends Subject {
 
     }
 
+    public static boolean isTimeOverlapping(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
+        return !(end1.isBefore(start2) || end2.isBefore(start1) || end1.equals(start2) || end2.equals(start1));
+    }
+
 }
