@@ -154,8 +154,7 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-
-
+    //TODO add transaction
     public boolean leaveGroup(int idGroup) {
 
         Group group = null;
