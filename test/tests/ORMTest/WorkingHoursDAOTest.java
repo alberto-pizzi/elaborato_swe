@@ -66,7 +66,6 @@ public class WorkingHoursDAOTest extends GeneralDAOTest{
         shouldSkip = false;
     }
 
-    //TODO should these tests be improved?
     @Test
     public void getWHTest() throws SQLException {
         Assumptions.assumeFalse(shouldSkip);
@@ -88,7 +87,6 @@ public class WorkingHoursDAOTest extends GeneralDAOTest{
         assertEquals(workingHoursDAO.getWHsByFacilityByDay(facility.getId(),DayOfWeek.MONDAY).size(),1);
     }
 
-    //TODO should remove methods be implemented?
     @Test
     public void removeWHByFacilityByDayTest() throws SQLException {
 

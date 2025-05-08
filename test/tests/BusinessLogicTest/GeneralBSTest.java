@@ -17,7 +17,6 @@ public abstract class GeneralBSTest {
     public abstract void teardown();
 
 
-    //TODO is id right not equal to 0?
     protected User createUser(){
         return new User(1,"hello@gmail.com","user1","hello123","London","London","00000","UK");
     }

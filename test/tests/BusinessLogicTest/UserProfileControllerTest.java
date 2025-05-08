@@ -51,7 +51,7 @@ public class UserProfileControllerTest extends GeneralBSTest{
     }
 
     @Test
-    public void getFacilitiesManagedTest() throws SQLException {
+    public void getFacilitiesManagedTest() {
         //TODO implement
     }
 

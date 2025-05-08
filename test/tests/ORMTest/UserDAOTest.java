@@ -42,7 +42,6 @@ public class UserDAOTest extends PersonDAOTest{
     }
 
 
-    //TODO is it correct?
     @Test
     public void getUserTest() throws SQLException {
         Assumptions.assumeFalse(shouldSkip);

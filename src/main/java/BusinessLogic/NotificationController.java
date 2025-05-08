@@ -49,7 +49,6 @@ public class NotificationController implements Observer {
         attach();
     }
 
-    //TODO check callers
     //helpers of sendNotifications
     public int sendConfirmNotification(Reservation reservation) {
         return sendNotifications(reservation,NotificationType.CONFIRMATION,"");

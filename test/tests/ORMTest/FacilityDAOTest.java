@@ -117,11 +117,12 @@ public class FacilityDAOTest extends GeneralDAOTest {
         assertEquals(facilityUpdated.getImage(), newImageName);
     }
 
+    //TODO delete it
     @Test
     public void updateNFieldsTest() throws SQLException{
         Assumptions.assumeFalse(shouldSkip);
 
-        //FIXME fix field dependencies
+
         /*
         Sport sport = createSport();
         facility.getFields().add(createField(facility,sport));
@@ -138,6 +139,7 @@ public class FacilityDAOTest extends GeneralDAOTest {
          */
     }
 
+    //TODO delete it
     @Test
     public void updateNManagersTest() throws SQLException{
         Assumptions.assumeFalse(shouldSkip);
