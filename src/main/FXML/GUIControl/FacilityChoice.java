@@ -46,6 +46,8 @@ public abstract class FacilityChoice implements Initializable {
 
     protected MessagesController messagesController;
 
+    private int loadingFailures = 0;
+
     public BorderPane getMenuPane() {
         return menuPane;
     }
@@ -96,9 +98,14 @@ public abstract class FacilityChoice implements Initializable {
                 try {
                     displayFacilities(i);
                 } catch (IOException | SQLException e) {
-                    String message = "An error has occurred, one or more facilities may not show in the page";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    loadingFailures++;
                 }
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " facilities failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
             }
             currentPage++;
             pageNumber.setText(String.valueOf(currentPage));
@@ -116,10 +123,14 @@ public abstract class FacilityChoice implements Initializable {
                 try {
                     displayFacilities(i);
                 } catch (IOException | SQLException e) {
-                    String message = "An error has occurred, one or more facilities may not show in the page";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
-
+                    loadingFailures++;
                 }
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " facilities failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
             }
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));

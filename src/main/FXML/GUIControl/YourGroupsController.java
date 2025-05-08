@@ -62,11 +62,6 @@ public class YourGroupsController implements Initializable {
         if (groupItemNotVisible > 0)
             messagesController.showMessage("Failed to load " + groupItemNotVisible + " group items", MessagesController.MessageType.ERROR,5);
 
-
-
-
-
-
     }
 
     public void groupItem(int i){

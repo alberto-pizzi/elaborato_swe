@@ -63,6 +63,8 @@ public class HomeController implements Initializable {
 
     private MessagesController messagesController;
 
+    private int loadingFailures = 0;
+
     public BorderPane getMenuPane() {
         return menuPane;
     }
@@ -81,14 +83,10 @@ public class HomeController implements Initializable {
         return userActionsController.getNearbyFields();
     }
 
-    public void setData(BorderPane menuPane){
+    public void setData(BorderPane menuPane) throws SQLException, IOException {
         this.menuPane = menuPane;
         for(int i=0; i < itemsPerPage && i < fields.size(); i++){
-            try {
-                displayFields(i);
-            } catch (IOException | SQLException e) {
-                throw new RuntimeException(e);
-            }
+            displayFields(i);
         }
     }
 
@@ -119,7 +117,6 @@ public class HomeController implements Initializable {
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
         messagesController = new MessagesController(messageLabel);
         search.setOnKeyPressed(handler);
         String page = String.valueOf(currentPage);
@@ -136,9 +133,14 @@ public class HomeController implements Initializable {
                 try {
                     displayFields(i);
                 } catch (IOException | SQLException e) {
-                    String message = "An error has occurred, one or more fields may not show in the page";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    loadingFailures++;
                 }
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " fields failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
             }
             currentPage++;
             pageNumber.setText(String.valueOf(currentPage));
@@ -159,10 +161,15 @@ public class HomeController implements Initializable {
                     try {
                         displayFields(i);
                     } catch (IOException | SQLException e) {
-                        String message = "An error has occurred, one or more fields may not show in the page";
-                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                        loadingFailures++;
                     }
                 }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " fields failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
+            }
             currentPage--;
             pageNumber.setText(String.valueOf(currentPage));
         }
@@ -188,10 +195,14 @@ public class HomeController implements Initializable {
                 try {
                     displayFields(i);
                 } catch (IOException | SQLException e) {
-                    e.printStackTrace();
-                    String message = "An error has occurred, one or more users may not show in the page";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    loadingFailures++;
                 }
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " fields failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
             }
         }
     }
