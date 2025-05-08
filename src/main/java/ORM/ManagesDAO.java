@@ -9,121 +9,40 @@ import java.util.ArrayList;
 public class ManagesDAO extends ConnectionHolder{
     //methods
 
-    //TODO is transaction needed?
     public void attachManager(int idManager, int idFacility) throws SQLException {
-
 
         String insertQuerySQL = String.format("INSERT INTO \"Manages\" (id_facility, id_user) " +
                 "VALUES ('%d', '%d')", idFacility,idManager);
 
-        String updateSQL = String.format("UPDATE \"Facility\" SET n_managers = n_managers + 1 WHERE id = '%d'", idFacility);
-
-
-        PreparedStatement preparedStatementForInsert = null;
-        PreparedStatement preparedStatementForUpdate = null;
+        PreparedStatement preparedStatement = null;
 
         try {
-            //first query
-            preparedStatementForInsert = connection.prepareStatement(insertQuerySQL);
-            int facilityRowsAffectedForInsert = preparedStatementForInsert.executeUpdate();
+            preparedStatement = connection.prepareStatement(insertQuerySQL);
+            preparedStatement.executeUpdate();
 
-            if (facilityRowsAffectedForInsert == 0){
-                throw new SQLException("Insert on Facility failed, no rows affected.");
-            }
-
-            //second query
-            preparedStatementForUpdate = connection.prepareStatement(updateSQL);
-            int facilityRowsAffectedForUpdate = preparedStatementForUpdate.executeUpdate();
-
-            if (facilityRowsAffectedForUpdate == 0){
-                throw new SQLException("Update on Facility failed, no rows affected.");
-            }
-
-            connection.commit();
-
-
-            System.out.println("New manager attached successfully.");
+            System.out.println("Manager added successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                    System.out.println("Transaction failed, rolled back.");
-                } catch (SQLException rollbackEx) {
-                    rollbackEx.printStackTrace();
-                }
-            }
-            e.printStackTrace();
-
         } finally {
-            try {
-                if (preparedStatementForInsert != null) {
-                    preparedStatementForInsert.close();
-                }
-                if (preparedStatementForUpdate != null) {
-                    preparedStatementForUpdate.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            if (preparedStatement != null) { preparedStatement.close(); }
         }
 
     }
 
-    //TODO is transaction needed?
     public void detachManager(int idManager, int idFacility) throws SQLException {
-
 
         String deleteQuerySQL = String.format("DELETE FROM \"Manages\" WHERE id_facility = '%d' AND id_user = '%d'", idFacility,idManager);
 
-        String updateSQL = String.format("UPDATE \"Facility\" SET n_managers = n_managers - 1 WHERE id = '%d'", idFacility);
-
-
-        PreparedStatement preparedStatementForDelete = null;
-        PreparedStatement preparedStatementForUpdate = null;
+        PreparedStatement preparedStatement = null;
 
         try {
-            //first query
-            preparedStatementForDelete = connection.prepareStatement(deleteQuerySQL);
-            int facilityRowsAffectedForInsert = preparedStatementForDelete.executeUpdate();
-
-            if (facilityRowsAffectedForInsert == 0){
-                throw new SQLException("Delete from Facility failed, no rows affected.");
-            }
-
-            //second query
-            preparedStatementForUpdate = connection.prepareStatement(updateSQL);
-            int facilityRowsAffectedForUpdate = preparedStatementForUpdate.executeUpdate();
-
-            if (facilityRowsAffectedForUpdate == 0){
-                throw new SQLException("Update on Facility failed, no rows affected.");
-            }
-
-            connection.commit();
-            System.out.println("Manager detached successfully.");
+            preparedStatement = connection.prepareStatement(deleteQuerySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Membership removed successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                    System.out.println("Transaction failed, rolled back.");
-                } catch (SQLException rollbackEx) {
-                    rollbackEx.printStackTrace();
-                }
-            }
-            e.printStackTrace();
-
         } finally {
-            try {
-                if (preparedStatementForDelete != null) {
-                    preparedStatementForDelete.close();
-                }
-                if (preparedStatementForUpdate != null) {
-                    preparedStatementForUpdate.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            if (preparedStatement != null) { preparedStatement.close(); }
         }
 
     }
