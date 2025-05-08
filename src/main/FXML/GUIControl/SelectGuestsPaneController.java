@@ -89,11 +89,11 @@ public class SelectGuestsPaneController implements Initializable {
 
         assignPersonController();
 
-        //TODO should those attributes into try?
         try {
             updateGuestsChoice();
         } catch (SQLException | ClassNotFoundException e) {
-            messagesController.showMessage("Error during update guest choice", MessagesController.MessageType.ERROR,5);
+            System.out.println("Error during update guest choice");
+            throw new RuntimeException(e);
         }
 
         searchList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -139,7 +139,6 @@ public class SelectGuestsPaneController implements Initializable {
 
             ArrayList<String> usernames = new ArrayList<>();
 
-            //TODO check this try-catch
             try {
                 ArrayList<User> users = personController.searchUsersByUsername(newValue);
                 for (User user : users){
@@ -241,7 +240,6 @@ public class SelectGuestsPaneController implements Initializable {
 
     }
 
-    //TODO how we manage these throws?
     protected void sendInvitesToInviteListMembers() throws SQLException, ClassNotFoundException {
         //send invite to invite list members
 
