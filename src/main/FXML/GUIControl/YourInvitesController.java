@@ -55,8 +55,13 @@ public class YourInvitesController implements Initializable {
 
         System.out.println(invites.size());
 
-        for (int i = 0; i < invites.size(); i++)
-            inviteItem(i);
+        for (int i = 0; i < invites.size(); i++) {
+            try{
+                inviteItem(i);
+            }catch (IOException e){
+                inviteItemNotVisible++;
+            }
+        }
 
         if (inviteItemNotVisible > 0)
             messagesController.showMessage("Failed to load " + inviteItemNotVisible + " invite items", MessagesController.MessageType.ERROR,5);
@@ -65,21 +70,19 @@ public class YourInvitesController implements Initializable {
 
     }
 
-    public void inviteItem(int i){
-        try{
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/main/FXML/inviteItem.fxml"));
+    public void inviteItem(int i) throws IOException {
 
-            AnchorPane reservationItem = fxmlLoader.load();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/main/FXML/inviteItem.fxml"));
 
-            InviteItemController inviteItemController = fxmlLoader.getController();
-            inviteItemController.setYourInvitesController(this);
-            inviteItemController.setData(invites.get(i));
+        AnchorPane reservationItem = fxmlLoader.load();
 
-            invitesVBox.getChildren().add(reservationItem);
-        }catch (IOException e){
-            inviteItemNotVisible++;
-        }
+        InviteItemController inviteItemController = fxmlLoader.getController();
+        inviteItemController.setYourInvitesController(this);
+        inviteItemController.setData(invites.get(i));
+
+        invitesVBox.getChildren().add(reservationItem);
+
     }
 
     public void removeInviteItemFromGUI(AnchorPane inviteItemPane, Invite invite) {

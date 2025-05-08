@@ -20,22 +20,19 @@ import java.util.ResourceBundle;
 public class NotificationsController extends Notifications {
 
     @Override
-    protected void notificationItem(int i) {
+    protected void notificationItem(int i) throws IOException {
 
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/main/FXML/notificationItem.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/main/FXML/notificationItem.fxml"));
 
-            AnchorPane notificationItem = fxmlLoader.load();
+        AnchorPane notificationItem = fxmlLoader.load();
 
-            NotificationItemController notificationItemController = fxmlLoader.getController();
-            notificationItemController.setNotificationsController(this);
-            notificationItemController.setData(notifications.get(i));
+        NotificationItemController notificationItemController = fxmlLoader.getController();
+        notificationItemController.setNotificationsController(this);
+        notificationItemController.setData(notifications.get(i));
 
-            notificationsVBox.getChildren().add(notificationItem);
-        } catch (IOException e) {
-            notificationItemNotVisible++;
-        }
+        notificationsVBox.getChildren().add(notificationItem);
+
     }
 
 }

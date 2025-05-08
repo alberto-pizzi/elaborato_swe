@@ -35,7 +35,7 @@ public abstract class Notifications implements Initializable {
 
     protected NotificationController notificationController = null;
 
-    protected abstract void notificationItem(int i);
+    protected abstract void notificationItem(int i) throws IOException;
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -57,7 +57,11 @@ public abstract class Notifications implements Initializable {
             System.out.println(notifications.size());
 
             for (int i = 0; i < notifications.size(); i++) {
-                notificationItem(i);
+                try{
+                    notificationItem(i);
+                } catch (IOException e) {
+                    notificationItemNotVisible++;
+                }
             }
 
             if (notificationItemNotVisible > 0)

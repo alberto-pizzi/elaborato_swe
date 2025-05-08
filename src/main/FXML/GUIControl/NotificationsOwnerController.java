@@ -18,21 +18,17 @@ import java.util.ResourceBundle;
 public class NotificationsOwnerController extends Notifications {
 
     @Override
-    protected void notificationItem(int i) {
+    protected void notificationItem(int i) throws IOException {
 
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/main/FXML/notificationItemOwner.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/main/FXML/notificationItemOwner.fxml"));
 
-            AnchorPane notificationItem = fxmlLoader.load();
+        AnchorPane notificationItem = fxmlLoader.load();
 
-            NotificationItemOwnerController notificationItemOwnerController = fxmlLoader.getController();
-            notificationItemOwnerController.setNotificationsController(this);
-            notificationItemOwnerController.setData(notifications.get(i));
+        NotificationItemOwnerController notificationItemOwnerController = fxmlLoader.getController();
+        notificationItemOwnerController.setNotificationsController(this);
+        notificationItemOwnerController.setData(notifications.get(i));
 
-            notificationsVBox.getChildren().add(notificationItem);
-        } catch (IOException e) {
-            notificationItemNotVisible++;
-        }
+        notificationsVBox.getChildren().add(notificationItem);
     }
 }

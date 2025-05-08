@@ -81,14 +81,17 @@ public class ReservationsController implements Initializable {
             messagesController.showMessage("Error while loading own reservation from DB.", MessagesController.MessageType.ERROR,5);
         }
 
-
         System.out.println("Reservations size: " + reservations.size());
-        for (int i = 0; i < reservations.size(); i++)
-            reservationItem(i);
-
-        String errorMessage = "";
+        for (int i = 0; i < reservations.size(); i++) {
+            try{
+                reservationItem(i);
+            } catch (IOException e){
+                reservationItemNotVisible++;
+            }
+        }
 
         if (reservationItemNotVisible > 0 || reservationItemButtonsNotVisible > 0) {
+            String errorMessage = "";
             if (reservationItemNotVisible > 0) {
                 errorMessage += "Failed to load " + reservationItemNotVisible + " reservation item";
 
@@ -104,18 +107,15 @@ public class ReservationsController implements Initializable {
 
     }
 
-    public void reservationItem(int i) {
-        try{
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/main/FXML/reservationItem.fxml"));
-            AnchorPane reservationItem = fxmlLoader.load();
-            ReservationItemController groupItemController = fxmlLoader.getController();
-            groupItemController.setReservationsController(this);
-            groupItemController.setData(reservations.get(i));
-            reservationsVBox.getChildren().add(reservationItem);
-        } catch (IOException e){
-            reservationItemNotVisible++;
-        }
+    public void reservationItem(int i) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/main/FXML/reservationItem.fxml"));
+        AnchorPane reservationItem = fxmlLoader.load();
+        ReservationItemController groupItemController = fxmlLoader.getController();
+        groupItemController.setReservationsController(this);
+        groupItemController.setData(reservations.get(i));
+        reservationsVBox.getChildren().add(reservationItem);
+
     }
 
     public void removeReservationItemFromGUI(AnchorPane reservationItemPane, Reservation reservation) {

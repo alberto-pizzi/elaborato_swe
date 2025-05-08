@@ -56,30 +56,32 @@ public class YourGroupsController implements Initializable {
 
         System.out.println(groups.size());
 
-        for (int i = 0; i < groups.size(); i++)
-            groupItem(i);
+        for (int i = 0; i < groups.size(); i++) {
+            try{
+                groupItem(i);
+            } catch (IOException e){
+                groupItemNotVisible++;
+            }
+        }
 
         if (groupItemNotVisible > 0)
             messagesController.showMessage("Failed to load " + groupItemNotVisible + " group items", MessagesController.MessageType.ERROR,5);
 
     }
 
-    public void groupItem(int i){
+    public void groupItem(int i) throws IOException {
 
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/main/FXML/groupItem.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/main/FXML/groupItem.fxml"));
 
-            AnchorPane groupItem = fxmlLoader.load();
+        AnchorPane groupItem = fxmlLoader.load();
 
-            GroupItemController groupItemController = fxmlLoader.getController();
-            groupItemController.setYourGroupsController(this);
-            groupItemController.setData(groups.get(i));
+        GroupItemController groupItemController = fxmlLoader.getController();
+        groupItemController.setYourGroupsController(this);
+        groupItemController.setData(groups.get(i));
 
-            groupsVBox.getChildren().add(groupItem);
-        } catch (IOException e){
-            groupItemNotVisible++;
-        }
+        groupsVBox.getChildren().add(groupItem);
+
     }
 
     public void removeGroupItemFromGUI(AnchorPane groupItemPane, Group group) {
