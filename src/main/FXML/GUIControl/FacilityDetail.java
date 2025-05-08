@@ -55,7 +55,6 @@ public abstract class FacilityDetail {
         facilityTelephone.setText(facility.getTelephone());
         facilityFieldsNumber.setText(String.valueOf(facility.getNFields()));
         facilityManagersNumber.setText(String.valueOf(facility.getNManager()));
-        //TODO add "go to book" button
         String pathFromRoot = "/main/FXML/img/facilities/";
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
         facilityImageView.setImage(image);

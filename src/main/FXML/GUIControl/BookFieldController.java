@@ -164,14 +164,11 @@ public class BookFieldController extends FieldFormManagementController implement
 
     }
 
-    //TODO is throw correct?
     //this is for add reservation (user side)
     protected void createReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd) throws SQLException, ClassNotFoundException {
 
         int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
         int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), (User)personController.getPerson());
-
-        //TODO how we manage sendInvites failure
 
         if (reservationIdAdded > 0) {
 

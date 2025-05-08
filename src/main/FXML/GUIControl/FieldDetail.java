@@ -54,7 +54,6 @@ public abstract class FieldDetail {
         fieldAddress.setText(field.getFacility().getFullAddress());
         fieldSport.setText(field.getSport().getName());
         fieldPricePerHour.setText("$ " + String.valueOf(field.getPrice()));
-        //TODO add "go to book" button
         String pathFromRoot = "/main/FXML/img/fields/";
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         fieldImageView.setImage(image);

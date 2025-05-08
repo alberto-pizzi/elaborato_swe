@@ -88,7 +88,6 @@ public class SelectGuestsPaneController implements Initializable {
 
         assignPersonController();
 
-        //TODO check this try-catch
         try {
             updateGuestsChoice();
         } catch (SQLException | ClassNotFoundException e) {
@@ -157,7 +156,6 @@ public class SelectGuestsPaneController implements Initializable {
             int newSize = inviteListDraft.getItems().size();
             while (change.next()) {
                 if (change.wasAdded() || change.wasRemoved()) {
-                    //TODO check this try-catch
                     try {
                         updateGuestsChoice();
                     } catch (SQLException | ClassNotFoundException e) {

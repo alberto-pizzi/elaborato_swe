@@ -180,7 +180,6 @@ public abstract class FieldFormManagementController implements Initializable {
 
         });
 
-        //TODO improve parameters (remove super?)
         selectGuestsPaneController.getInviteListDraft().getItems().addListener((ListChangeListener<? super String>) change -> {
 
             if (!selectGuestsPaneController.isEditMode)
@@ -445,7 +444,6 @@ public abstract class FieldFormManagementController implements Initializable {
     }
 
 
-    //TODO here is correct or elsewhere is better?
     public LocalTime convertFromDurationToEndTime(LocalTime startTime, float durationInHours) {
         long durationInMinutes = (long) (durationInHours * 60);
         return startTime.plusMinutes((int)durationInMinutes);

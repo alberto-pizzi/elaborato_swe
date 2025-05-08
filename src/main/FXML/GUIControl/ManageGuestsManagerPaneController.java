@@ -124,7 +124,6 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             if (newSelection != null) {
                 updateGuestsLabel(newSelection.getUser().getUsername(), false);
 
-                //TODO check this try-catch
                 try {
                     updateGuestsChoice();
                 } catch (SQLException | ClassNotFoundException e) {
