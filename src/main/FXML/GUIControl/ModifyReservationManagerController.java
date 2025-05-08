@@ -27,13 +27,9 @@ public class ModifyReservationManagerController extends ModifyReservationControl
 
 
     @Override
-    protected void loadOwnGuestSelectorPane(){
+    protected void loadOwnGuestSelectorPane() throws SQLException, ClassNotFoundException, IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/selectGuestsManagerOwnerPane.fxml"));
-        try {
-            this.selectGuestsDialogPane = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        this.selectGuestsDialogPane = loader.load();
         this.selectGuestsPaneController = loader.getController(); //connect controller
     }
 

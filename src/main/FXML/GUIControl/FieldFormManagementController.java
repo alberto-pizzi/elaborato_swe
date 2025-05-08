@@ -112,11 +112,10 @@ public abstract class FieldFormManagementController implements Initializable {
 
         this.messagesController = new MessagesController(errorLabel);
 
-        //TODO try-catch or throw?
         //load guests selector
         try {
             loadOwnGuestSelectorPane();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException | IOException e) {
             messagesController.showMessage("Error during load own guest selector pane", MessagesController.MessageType.ERROR,5);
         }
 
@@ -191,13 +190,9 @@ public abstract class FieldFormManagementController implements Initializable {
 
     }
 
-    protected void loadOwnGuestSelectorPane() throws SQLException, ClassNotFoundException {
+    protected void loadOwnGuestSelectorPane() throws SQLException, ClassNotFoundException, IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/selectGuestsPane.fxml"));
-        try {
-            this.selectGuestsDialogPane = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        this.selectGuestsDialogPane = loader.load();
         this.selectGuestsPaneController = loader.getController(); //connect controller
     }
 
