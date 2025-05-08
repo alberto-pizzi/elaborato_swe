@@ -325,15 +325,13 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         doNothing().when(facilityDAO).updateProvince(anyInt(), anyString());
         doNothing().when(facilityDAO).updateZip(anyInt(), anyString());
         doNothing().when(facilityDAO).updateTelephone(anyInt(), anyString());
-        doNothing().when(facilityDAO).updateImage(anyInt(), anyString());
-        doNothing().when(facilityDAO).updateNFields(anyInt(), anyInt());
 
         //No exception
-        doNothing().when(facilityDAO).updateNManagers(anyInt(), anyInt());
+        doNothing().when(facilityDAO).updateImage(anyInt(), anyString());
         assertTrue(ownerManagementController.editFacility(createFacility()));
 
         //With exception
-        doThrow(new SQLException("Simulated SQL exception")).when(facilityDAO).updateNManagers(anyInt(), anyInt());
+        doThrow(new SQLException("Simulated SQL exception")).when(facilityDAO).updateImage(anyInt(), anyString());
         assertFalse(ownerManagementController.editFacility(createFacility()));
     }
 

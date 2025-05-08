@@ -118,39 +118,6 @@ public class FacilityDAOTest extends GeneralDAOTest {
     }
 
     @Test
-    public void updateNFieldsTest() throws SQLException{
-        Assumptions.assumeFalse(shouldSkip);
-
-        //FIXME fix field dependencies
-        /*
-        Sport sport = createSport();
-        facility.getFields().add(createField(facility,sport));
-
-        int newNFields = facility.getNFields() + 10;
-
-        facilityDAO.updateNFields(facility.getId(), newNFields);
-        Facility facilityUpdated = facilityDAO.getFacility(facility.getId(),false);
-        facilityUpdated.getFields().add(createField(facilityUpdated,sport));
-
-
-        assertEquals(facilityUpdated.getNFields(), newNFields);
-
-         */
-    }
-
-    @Test
-    public void updateNManagersTest() throws SQLException{
-        Assumptions.assumeFalse(shouldSkip);
-
-        int newName = facility.getNManager() + 10;
-
-        facilityDAO.updateNManagers(facility.getId(), newName);
-        Facility facilityUpdated = facilityDAO.getFacility(facility.getId(),false);
-
-        assertEquals(facilityUpdated.getNManager(), newName);
-    }
-
-    @Test
     public void updateProvinceTest() throws SQLException{
         Assumptions.assumeFalse(shouldSkip);
 
