@@ -187,7 +187,7 @@ public class SelectGuestsPaneController implements Initializable {
 
             }
             else
-                System.out.println("Null Value"); //FIXME
+                System.out.println("Null Value into nGuestsChoice");
 
         });
     }

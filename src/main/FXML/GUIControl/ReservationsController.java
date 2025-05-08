@@ -88,7 +88,6 @@ public class ReservationsController implements Initializable {
 
         String errorMessage = "";
 
-        //TODO is it correct?
         if (reservationItemNotVisible > 0 || reservationItemButtonsNotVisible > 0) {
             if (reservationItemNotVisible > 0) {
                 errorMessage += "Failed to load " + reservationItemNotVisible + " reservation item";
