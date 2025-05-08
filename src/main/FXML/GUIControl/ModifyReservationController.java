@@ -109,9 +109,7 @@ public class ModifyReservationController extends FieldFormManagementController i
     @Override
     protected void loadOwnGuestSelectorPane() throws SQLException, ClassNotFoundException, IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/editGuestsUserPane.fxml"));
-
         this.selectGuestsDialogPane = loader.load();
-
         this.selectGuestsPaneController = loader.getController(); //connect controller
     }
 
@@ -140,19 +138,11 @@ public class ModifyReservationController extends FieldFormManagementController i
 
                 if (personController.editReservation(reservation)){
 
-                    //TODO is this try-catch correct? IMPORTANT! change it
                     try {
                         selectGuestsPaneController.applyChanges();
-                    } catch (SQLException | ClassNotFoundException e) {
-                        messagesController.showMessage("Error during apply changes", MessagesController.MessageType.ERROR,5);
-                    }
-
-                    //TODO is this try-catch correct?
-                    try {
                         actionsAfterEdit();
                     } catch (SQLException | ClassNotFoundException | IOException e) {
-                        messagesController.showMessage("Error during actions after edit", MessagesController.MessageType.ERROR,5);
-
+                        messagesController.showMessage("Error while applying changes", MessagesController.MessageType.ERROR,5);
                     }
                 }
                 else

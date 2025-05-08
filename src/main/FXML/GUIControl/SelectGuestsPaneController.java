@@ -89,6 +89,7 @@ public class SelectGuestsPaneController implements Initializable {
 
         assignPersonController();
 
+        //TODO should those attributes into try?
         try {
             updateGuestsChoice();
         } catch (SQLException | ClassNotFoundException e) {
@@ -161,6 +162,7 @@ public class SelectGuestsPaneController implements Initializable {
                         updateGuestsChoice();
                     } catch (SQLException | ClassNotFoundException e) {
                         messagesController.showMessage("Error during update guest choice", MessagesController.MessageType.ERROR,5);
+                        break;
                     }
                 }
             }
