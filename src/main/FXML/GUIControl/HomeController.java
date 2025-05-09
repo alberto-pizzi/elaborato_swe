@@ -64,6 +64,7 @@ public class HomeController implements Initializable {
     private MessagesController messagesController;
 
     private int loadingFailures = 0;
+    private int itemsNotLoaded = 0;
 
     public BorderPane getMenuPane() {
         return menuPane;
@@ -83,10 +84,15 @@ public class HomeController implements Initializable {
         return userActionsController.getNearbyFields();
     }
 
-    public void setData(BorderPane menuPane) throws SQLException, IOException {
+    public void setData(BorderPane menuPane) {
         this.menuPane = menuPane;
+        itemsNotLoaded = 0;
         for(int i=0; i < itemsPerPage && i < fields.size(); i++){
-            displayFields(i);
+            try {
+                displayFields(i);
+            } catch (SQLException | IOException e){
+                itemsNotLoaded++;
+            }
         }
     }
 
@@ -112,12 +118,17 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        messagesController = new MessagesController(messageLabel);
+
         try {
             fields.addAll(getData());
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            messagesController.showMessage("Error while getting fields", MessagesController.MessageType.ERROR,5);
         }
-        messagesController = new MessagesController(messageLabel);
+
+        if (itemsNotLoaded > 0)
+            messagesController.showMessage("Failed to load " + itemsNotLoaded + " fields", MessagesController.MessageType.ERROR,5);
+
         search.setOnKeyPressed(handler);
         String page = String.valueOf(currentPage);
         pageNumber.setText(page);
