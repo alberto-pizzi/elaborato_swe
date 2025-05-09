@@ -227,7 +227,6 @@ public class UserActionsController extends PersonController<User>{
     }
 
     public ArrayList<Reservation> getOwnReservations() throws SQLException, ClassNotFoundException {
-        //TODO should getReservation be improved with isConfirmed supporting? (into ReservationDao)
         return reservationDao.getReservationsByUser(this.person.getId());
 
     }

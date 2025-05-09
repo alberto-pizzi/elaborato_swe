@@ -64,9 +64,7 @@ public class MenuController extends Menu {
                     managerButtonController.setData(this);
 
                 } catch (Exception e) {
-                    //TODO is this catch good?
-
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
 
             }
@@ -92,6 +90,7 @@ public class MenuController extends Menu {
             System.out.println("Home menu");
         } catch (IOException | SQLException e) {
             System.out.println("Error during open home.fxml");
+            Menu.showErrorAlert("Error","Home opening failed.","" );
         }
     }
     
