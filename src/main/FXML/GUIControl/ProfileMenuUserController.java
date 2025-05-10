@@ -22,23 +22,9 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ProfileMenuUserController implements Initializable {
+public class ProfileMenuUserController extends ProfileMenu implements Initializable {
 
     //todo ereditarietà
-    @FXML
-    private Button addressProfileButton;
-
-    @FXML
-    private Button deleteProfileButton;
-
-    @FXML
-    private Button emailProfileButton;
-
-    @FXML
-    private Button passwordProfileButton;
-
-    @FXML
-    private Button usernameProfileButton;
 
     @FXML
     private Label welcomeMessageLabel;

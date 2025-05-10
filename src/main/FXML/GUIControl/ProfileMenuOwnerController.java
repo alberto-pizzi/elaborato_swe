@@ -24,22 +24,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ProfileMenuOwnerController implements Initializable {
-
-    @FXML
-    private Button addressProfileButton;
-
-    @FXML
-    private Button deleteProfileButton;
-
-    @FXML
-    private Button emailProfileButton;
-
-    @FXML
-    private Button passwordProfileButton;
-
-    @FXML
-    private Button usernameProfileButton;
+public class ProfileMenuOwnerController extends ProfileMenu implements Initializable {
 
     @FXML
     private BorderPane profileMenuPane;

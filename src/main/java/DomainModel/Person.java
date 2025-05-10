@@ -11,6 +11,21 @@ public abstract class Person{
     private String country;
     private String target;
 
+    //constructor
+
+
+    public Person(int id, String email, String username, String password, String city, String province, String zip, String country, String personType) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.city = city;
+        this.province = province;
+        this.zip = zip;
+        this.country = country;
+        this.target = personType;
+    }
+
     public int getId() {
         return id;
     }
@@ -83,18 +98,4 @@ public abstract class Person{
         this.target = target;
     }
 
-    //constructor
-
-
-    public Person(int id, String email, String username, String password, String city, String province, String zip, String country, String personType) {
-        this.id = id;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.city = city;
-        this.province = province;
-        this.zip = zip;
-        this.country = country;
-        this.target = personType;
-    }
 }
