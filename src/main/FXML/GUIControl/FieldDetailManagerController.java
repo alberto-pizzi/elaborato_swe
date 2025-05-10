@@ -34,7 +34,7 @@ public class FieldDetailManagerController extends FieldDetail{
         } catch (SQLException | ClassNotFoundException | IOException e){
             String errorMessage = "Failed to load manager booking form.";
             System.out.println(errorMessage);
-            Menu.showErrorAlert("Error",errorMessage,"");
+            messagesController.showMessage(errorMessage, MessagesController.MessageType.ERROR,5);
         }
     }
 
@@ -49,7 +49,8 @@ public class FieldDetailManagerController extends FieldDetail{
         } catch (IOException e){
             String errorMessage = "Failed to load reservations panel manager side.";
             System.out.println(errorMessage);
-            Menu.showErrorAlert("Error",errorMessage,"");
+            messagesController.showMessage(errorMessage, MessagesController.MessageType.ERROR,5);
+
         }
     }
 

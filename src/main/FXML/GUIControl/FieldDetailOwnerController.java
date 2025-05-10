@@ -37,7 +37,8 @@ public class FieldDetailOwnerController extends FieldDetail{
         } catch (SQLException | ClassNotFoundException | IOException e){
             String errorMessage = "Failed to load owner booking form.";
             System.out.println(errorMessage);
-            Menu.showErrorAlert("Error",errorMessage,"");
+            messagesController.showMessage(errorMessage, MessagesController.MessageType.ERROR,5);
+
         }
     }
 
@@ -52,7 +53,7 @@ public class FieldDetailOwnerController extends FieldDetail{
         } catch (IOException e){
             String errorMessage = "Failed to load reservations pane owner side.";
             System.out.println(errorMessage);
-            Menu.showErrorAlert("Error",errorMessage,"");
+            messagesController.showMessage(errorMessage, MessagesController.MessageType.ERROR,5);
         }
     }
 

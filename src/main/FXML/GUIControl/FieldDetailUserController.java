@@ -29,7 +29,7 @@ public class FieldDetailUserController extends FieldDetail {
         } catch (SQLException | ClassNotFoundException | IOException e){
             String errorMessage = "Failed to load booking form.";
             System.out.println(errorMessage);
-            Menu.showErrorAlert("Error",errorMessage,"");
+            messagesController.showMessage(errorMessage, MessagesController.MessageType.ERROR,5);
         }
 
     }

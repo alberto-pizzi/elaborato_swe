@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldDetailManagerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldDetailManagerController">
    <children>
       <VBox maxWidth="1180.0" prefHeight="570.0" prefWidth="1180.0" style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>
@@ -141,9 +141,17 @@
                               </Label>
                            </children>
                            <VBox.margin>
-                              <Insets bottom="10.0" top="50.0" />
+                              <Insets bottom="10.0" top="20.0" />
                            </VBox.margin>
                         </HBox>
+                        <Label fx:id="messageLabel" text="messageLabel" visible="false">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
                         <VBox alignment="CENTER" spacing="10.0">
                            <children>
                               <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" stylesheets="@css/style.css" text="See reservations" textFill="WHITE" wrapText="true">

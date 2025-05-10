@@ -39,6 +39,11 @@ public abstract class FieldDetail {
     @FXML
     protected Button goToBookButton;
 
+    @FXML
+    protected Label messageLabel;
+
+    protected MessagesController messagesController;
+
     protected Field field;
 
     protected BorderPane menuPane;
@@ -58,7 +63,11 @@ public abstract class FieldDetail {
         Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
         fieldImageView.setImage(image);
         this.menuPane = menuPane;
+
+        messagesController = new MessagesController(messageLabel);
     }
 
-
+    public MessagesController getMessagesController() {
+        return messagesController;
+    }
 }
