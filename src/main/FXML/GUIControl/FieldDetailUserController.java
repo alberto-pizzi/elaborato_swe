@@ -18,7 +18,6 @@ public class FieldDetailUserController extends FieldDetail {
     @Override
     @FXML
     public void handleGoToBookButton(ActionEvent event) {
-        //FIXME menu disappear
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/bookingForm.fxml"));
             Parent view = loader.load();
