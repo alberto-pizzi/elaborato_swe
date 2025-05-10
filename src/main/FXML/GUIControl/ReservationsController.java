@@ -109,7 +109,7 @@ public class ReservationsController implements Initializable {
 
     public void reservationItem(int i) throws IOException, SQLException, ClassNotFoundException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/main/FXML/reservationItem.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/main/FXML/reservationItemUser.fxml"));
         AnchorPane reservationItem = fxmlLoader.load();
         ReservationItemController groupItemController = fxmlLoader.getController();
         groupItemController.setReservationsController(this);

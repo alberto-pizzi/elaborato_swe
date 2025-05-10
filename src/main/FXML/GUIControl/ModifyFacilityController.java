@@ -74,8 +74,8 @@ public class ModifyFacilityController extends FacilityForm {
             System.out.println("Facility updated");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
             Parent facilitiesList = loader.load();
-            FacilitiesListController facilitiesListController = loader.getController();
-            facilitiesListController.setData(menuPane);
+            FacilitiesController facilitiesController = loader.getController();
+            facilitiesController.setData(menuPane);
             menuPane.setCenter(facilitiesList);
         }else{
             String message = "An error has occurred, the facility hasn't been updated";

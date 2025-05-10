@@ -112,7 +112,7 @@ public class HomeUserController implements Initializable {
     private void displayFields(int index) throws SQLException, IOException {
         FXMLLoader fmxLoader;
         fmxLoader = new FXMLLoader();
-        fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
+        fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItemUser.fxml"));
         HBox hBox = fmxLoader.load();
         FieldItemUserController fieldItemUserController = fmxLoader.getController();
         fieldItemUserController.setData(fields.get(index), menuPane, messagesController);

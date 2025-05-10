@@ -160,7 +160,7 @@ public class ModifyReservationController extends FieldFormManagementController i
     }
 
     protected void actionsAfterEdit() throws IOException, SQLException, ClassNotFoundException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsUser.fxml"));
         Parent view = loader.load();
         ReservationsController reservationsController = loader.getController();
         reservationsController.setPane(menuPane);
@@ -199,7 +199,7 @@ public class ModifyReservationController extends FieldFormManagementController i
     }
 
     protected void actionsAfterDelete() throws IOException, SQLException, ClassNotFoundException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsUser.fxml"));
         Parent view = loader.load();
         ReservationsController controller = loader.getController();
         controller.setPane(menuPane);

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class FacilitiesListController extends FacilityChoice {
+public class FacilitiesController extends FacilityChoice {
 
     @Override
     protected List<Facility> getData() throws SQLException {

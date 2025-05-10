@@ -25,7 +25,7 @@ public class FieldItemUserController extends FieldItem{
     @FXML
     public void handleDetailsFieldButton(ActionEvent event){
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetails.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetailsUser.fxml"));
             Parent fieldDetailPane = loader.load();
             FieldDetailUserController fieldDetailUserController = loader.getController();
             fieldDetailUserController.setData(field,menuPane);

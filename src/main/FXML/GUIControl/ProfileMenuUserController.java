@@ -65,7 +65,7 @@ public class ProfileMenuUserController implements Initializable {
         messagesController = new MessagesController(messageLabel);
 
         try {
-            changeView("updateUsername.fxml");
+            changeView("updateUsernameUser.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -79,7 +79,7 @@ public class ProfileMenuUserController implements Initializable {
 
     @FXML
     void handleAddressButton(ActionEvent event) throws IOException {
-        changeView("updateAddress.fxml");
+        changeView("updateAddressUser.fxml");
     }
 
     @FXML
@@ -107,17 +107,17 @@ public class ProfileMenuUserController implements Initializable {
 
     @FXML
     void handleEmailButton(ActionEvent event) throws IOException {
-        changeView("updateEmail.fxml");
+        changeView("updateEmailUser.fxml");
     }
 
     @FXML
     void handlePasswordButton(ActionEvent event) throws IOException {
-        changeView("updatePassword.fxml");
+        changeView("updatePasswordUser.fxml");
     }
 
     @FXML
     void handleUsernameButton(ActionEvent event) throws IOException {
-        changeView("updateUsername.fxml");
+        changeView("updateUsernameUser.fxml");
     }
 
     @FXML

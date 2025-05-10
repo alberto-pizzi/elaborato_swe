@@ -3,27 +3,15 @@ package main.FXML.GUIControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.OwnerManagementController;
-import main.java.BusinessLogic.OwnerProfileController;
-import main.java.BusinessLogic.UserActionsController;
-import main.java.DomainModel.Facility;
-import main.java.DomainModel.Field;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 public class FacilityItemController extends FacilityItem {
 
@@ -48,8 +36,8 @@ public class FacilityItemController extends FacilityItem {
                 String message = "Deletion Successful";
                 messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
                 if (facilityChoice != null) {
-                    FacilitiesListController facilitiesListController = (FacilitiesListController) facilityChoice;
-                    facilitiesListController.removeFacilityItemFromGUI(facilityItemPane, facility);
+                    FacilitiesController facilitiesController = (FacilitiesController) facilityChoice;
+                    facilitiesController.removeFacilityItemFromGUI(facilityItemPane, facility);
                 }
             }else{
                 String message = "An error has occurred";
