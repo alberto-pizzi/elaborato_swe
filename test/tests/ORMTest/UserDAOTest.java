@@ -144,7 +144,6 @@ public class UserDAOTest extends PersonDAOTest{
     public void updatePasswordTest() throws SQLException {
         Assumptions.assumeFalse(shouldSkip);
 
-        //TODO is cryptography needed?
         String newPassword = "newPassword";
 
         personDAO.updatePassword(user.getUsername(), newPassword);

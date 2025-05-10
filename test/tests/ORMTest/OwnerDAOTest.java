@@ -12,7 +12,7 @@ public class OwnerDAOTest extends PersonDAOTest{
 
     private static boolean shouldSkip = false;
 
-    private OwnerDAO ownerDAO; //FIXME fix inheritance into DAO
+    private OwnerDAO ownerDAO;
 
     private Owner owner = null;
 
@@ -49,7 +49,6 @@ public class OwnerDAOTest extends PersonDAOTest{
 
     @Test
     public void deleteOwnerTest() throws SQLException {
-        //TODO implement with mockito
     }
 
 
