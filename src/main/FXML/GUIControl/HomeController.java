@@ -83,10 +83,20 @@ public class HomeController implements Initializable {
         return userActionsController.getNearbyFields();
     }
 
-    public void setData(BorderPane menuPane) throws SQLException, IOException {
+    public void setData(BorderPane menuPane) {
         this.menuPane = menuPane;
         for(int i=0; i < itemsPerPage && i < fields.size(); i++){
-            displayFields(i);
+            try {
+                displayFields(i);
+            } catch (IOException | SQLException e) {
+                loadingFailures++;
+            }
+        }
+
+        if(loadingFailures > 0){
+            String message = "An error has occurred," + loadingFailures + " fields failed to load";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            loadingFailures = 0;
         }
     }
 
@@ -115,7 +125,7 @@ public class HomeController implements Initializable {
         try {
             fields.addAll(getData());
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            messagesController.showMessage("Error during get fields", MessagesController.MessageType.ERROR,5);
         }
         messagesController = new MessagesController(messageLabel);
         search.setOnKeyPressed(handler);

@@ -20,7 +20,7 @@ public class FacilityDetailManagerController extends FacilityDetail{
     //methods
 
     @Override
-    protected void goToFields() throws IOException, SQLException, ClassNotFoundException {
+    protected void goToFields() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldChoiceManager.fxml"));
         Parent facilityFieldsPane = loader.load();
         FieldChoiceManagerController fieldChoiceManagerController = loader.getController();

@@ -61,7 +61,7 @@ public class FieldChoiceItemManagerController extends FieldChoiceItem{
             ReservationsManagerController reservationsManagerController = loader.getController();
             reservationsManagerController.setData(field, menuPane);
             menuPane.setCenter(view);
-        } catch (IOException | SQLException | ClassNotFoundException e) {
+        } catch (IOException e) {
             String message = "An error has occurred";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }

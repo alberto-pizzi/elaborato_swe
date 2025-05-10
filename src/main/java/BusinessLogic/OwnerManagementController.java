@@ -253,28 +253,26 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return workingHoursDAO.addWHToFacility(idFacility, day, new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
     }
 
-    //todo mai usata
-    public boolean editWorkingHours(WorkingHours workingHours) throws SQLException {
+    public boolean editWorkingHours(int idFacility, String openingHour, String closingHour, DayOfWeek day) throws SQLException, ParseException {
         try {
-            workingHoursDAO.updateWH(workingHours.getId(), workingHours.getOpeningHours(), workingHours.getClosingHours());
+            //start transaction
+            workingHoursDAO.getConnection().setAutoCommit(false);
+            deleteWorkingHoursByDay(idFacility, day);
+            addWorkingHours(idFacility, openingHour, closingHour, day);
+            //commit transaction
+            workingHoursDAO.getConnection().commit();
         }catch (SQLException e){
-            return false;
+            workingHoursDAO.getConnection().rollback();
+            //todo controllare con albe finally fatto se throw?
+            throw e;
+        } finally {
+            workingHoursDAO.getConnection().setAutoCommit(true);
         }
         return true;
     }
 
-    //todo mai usata
-    public boolean deleteWorkingHours(Facility facility) throws SQLException{
-        try {
-            workingHoursDAO.removeAllWHsByFacility(facility.getId());
-        }catch (SQLException e){
-            return false;
-        }
-        return true;
-    }
-
-    public boolean deleteWorkingHoursByDay(Facility facility, DayOfWeek day) throws SQLException{
-        workingHoursDAO.removeWHFromFacilityByDay(facility.getId(), day);
+    public boolean deleteWorkingHoursByDay(int idFacility, DayOfWeek day) throws SQLException{
+        workingHoursDAO.removeWHFromFacilityByDay(idFacility, day);
         return true;
     }
 

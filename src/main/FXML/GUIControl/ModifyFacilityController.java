@@ -94,7 +94,7 @@ public class ModifyFacilityController extends FacilityForm {
             AddManagersController addManagersController = loader.getController();
             addManagersController.setData(facility,this.menuPane);
             menuPane.setCenter(addManagersPane);
-        }catch (SQLException | ClassNotFoundException | IOException e) {
+        }catch (IOException e) {
             String message = "An error has occurred";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
         }

@@ -76,7 +76,7 @@ public class MenuController extends Menu {
 
     }
 
-    public void goToHome () throws IOException, SQLException {
+    public void goToHome () throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/home.fxml"));
         Parent view = loader.load();
         HomeController controller = loader.getController();
@@ -88,7 +88,7 @@ public class MenuController extends Menu {
         try {
             goToHome();
             System.out.println("Home menu");
-        } catch (IOException | SQLException e) {
+        } catch (IOException e) {
             System.out.println("Error during open home.fxml");
             Menu.showErrorAlert("Error","Home opening failed.","" );
         }

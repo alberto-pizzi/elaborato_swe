@@ -58,14 +58,29 @@ public abstract class FieldChoice {
         return page;
     }
 
-    public void setData(Facility facility, BorderPane menuPane) throws SQLException, ClassNotFoundException, IOException {
+    public void setData(Facility facility, BorderPane menuPane) {
 
         ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
         messagesController = new MessagesController(messageLabel);
-        this.fields = managerOwnerManagementController.getFieldsByFacility(facility);
+        try{
+            this.fields = managerOwnerManagementController.getFieldsByFacility(facility);
+        }catch(SQLException e ){
+            messagesController.showMessage("Error during get fields", MessagesController.MessageType.ERROR,5);
+        }
+
         this.menuPane = menuPane;
         for(int i=0; i < itemsPerPage && i < fields.size(); i++){
-            displayFields(i);
+            try {
+                displayFields(i);
+            } catch (IOException | SQLException e) {
+                loadingFailures++;
+            }
+        }
+
+        if(loadingFailures > 0){
+            String message = "An error has occurred," + loadingFailures + " fields failed to load";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            loadingFailures = 0;
         }
         String page = String.valueOf(currentPage);
         pageNumber.setText(page);

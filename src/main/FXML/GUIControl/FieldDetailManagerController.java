@@ -46,7 +46,7 @@ public class FieldDetailManagerController extends FieldDetail{
             ReservationsManagerController reservationsManagerController = loader.getController();
             reservationsManagerController.setData(field, menuPane);
             menuPane.setCenter(view);
-        } catch (SQLException | ClassNotFoundException | IOException e){
+        } catch (IOException e){
             String errorMessage = "Failed to load reservations panel manager side.";
             System.out.println(errorMessage);
             Menu.showErrorAlert("Error",errorMessage,"");

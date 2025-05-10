@@ -63,7 +63,7 @@ public class MenuOwnerController extends Menu {
             controller.setData(menuPane);
             menuPane.setCenter(view);
             System.out.println("Facilities menu button clicked");
-        } catch (SQLException | IOException e){
+        } catch (IOException e){
             String errorMessage = "Error during open facilitiesOwner.fxml";
             System.out.println(errorMessage);
             Menu.showErrorAlert("Error",errorMessage,"");
@@ -84,7 +84,7 @@ public class MenuOwnerController extends Menu {
             controller.setData(menuPane);
             menuPane.setCenter(view);
             System.out.println("Reservations menu button clicked");
-        } catch (SQLException | IOException e){
+        } catch (IOException e){
             String errorMessage = "Error during open facilityChoiceOwner.fxml";
             System.out.println(errorMessage);
             Menu.showErrorAlert("Error",errorMessage,"");

@@ -73,7 +73,7 @@ public abstract class FacilityChoice implements Initializable {
         try {
             facilities.addAll(getData());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            messagesController.showMessage("Error during get facilities", MessagesController.MessageType.ERROR,5);
         }
 
         messagesController = new MessagesController(messageLabel);
@@ -81,10 +81,20 @@ public abstract class FacilityChoice implements Initializable {
         pageNumber.setText(page);
     }
 
-    public void setData(BorderPane menuPane) throws SQLException, IOException {
+    public void setData(BorderPane menuPane) {
         this.menuPane = menuPane;
         for(int i=0; i < itemsPerPage && i < facilities.size(); i++){
+            try {
                 displayFacilities(i);
+            } catch (IOException | SQLException e) {
+                loadingFailures++;
+            }
+        }
+
+        if(loadingFailures > 0){
+            String message = "An error has occurred," + loadingFailures + " facilities failed to load";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            loadingFailures = 0;
         }
     }
 

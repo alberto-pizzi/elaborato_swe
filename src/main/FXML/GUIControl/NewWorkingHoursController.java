@@ -169,7 +169,7 @@ public class NewWorkingHoursController implements Initializable {
 
                 menuPane.setCenter(newField);
             }catch(IOException e){
-                String message = "An error has occurred";
+                String message = "An error has occurred during loading";
                 messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
             }
 

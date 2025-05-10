@@ -26,7 +26,7 @@ public class ManagerButtonController {
             controller.setData(menuController.getMenuPane());
             menuController.getMenuPane().setCenter(view);
             System.out.println("Manager reservations menu button clicked");
-        } catch (IOException | SQLException e) {
+        } catch (IOException e) {
             //TODO check catch
             System.out.println("Error when manager operation button clicked");
         }

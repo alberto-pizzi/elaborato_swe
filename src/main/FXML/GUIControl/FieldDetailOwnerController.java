@@ -49,7 +49,7 @@ public class FieldDetailOwnerController extends FieldDetail{
             ReservationsOwnerController reservationsOwnerController = loader.getController();
             reservationsOwnerController.setData(field, menuPane);
             menuPane.setCenter(view);
-        } catch (SQLException | ClassNotFoundException | IOException e){
+        } catch (IOException e){
             String errorMessage = "Failed to load reservations pane owner side.";
             System.out.println(errorMessage);
             Menu.showErrorAlert("Error",errorMessage,"");

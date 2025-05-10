@@ -79,14 +79,29 @@ public class AddManagersController implements Initializable {
         usersList.getChildren().add(hBox);
     }
 
-    public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException, ClassNotFoundException {
+    public void setData(Facility facility, BorderPane menuPane) {
         this.facility = facility;
         this.menuPane = menuPane;
         messagesController = new MessagesController(messageLabel);
-        users.addAll(getData());
+        try{
+            users.addAll(getData());
+        }catch(SQLException | ClassNotFoundException e){
+            messagesController.showMessage("Error during get users", MessagesController.MessageType.ERROR,5);
+        }
+
         currentSearch.setText("Users in " + facility.getProvince() + " province");
         for(int i=0; i < itemsPerPage && i < users.size(); i++){
-            displayUsers(i);
+            try {
+                displayUsers(i);
+            } catch (IOException | SQLException e) {
+                loadingFailures++;
+            }
+        }
+
+        if(loadingFailures > 0){
+            String message = "An error has occurred," + loadingFailures + " users failed to load";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            loadingFailures = 0;
         }
 
     }

@@ -35,7 +35,6 @@ public abstract class Reservations {
     @FXML
     protected Label messageLabel;
 
-    //todo bottone non rimane premuto
     @FXML
     protected ToggleButton oldReservations;
 
@@ -82,15 +81,29 @@ public abstract class Reservations {
 
     public abstract void handleOldReservations(ActionEvent event);
 
-    public void setData(Field field, BorderPane menuPane) throws SQLException, ClassNotFoundException, IOException {
+    public void setData(Field field, BorderPane menuPane) {
         managerOwnerManagementController = new ManagerOwnerManagementController();
         personController = new ManagerOwnerManagementController();
         messagesController = new MessagesController(messageLabel);
-        this.reservations = managerOwnerManagementController.getCurrentReservationsByField(field.getId());
+        try {
+            this.reservations = managerOwnerManagementController.getCurrentReservationsByField(field.getId());
+        } catch (SQLException | ClassNotFoundException e) {
+            messagesController.showMessage("Error during get reservations", MessagesController.MessageType.ERROR,5);
+        }
         this.menuPane = menuPane;
         this.field = field;
         for(int i=0; i < itemsPerPage && i < reservations.size(); i++){
+            try {
                 displayReservations(i);
+            } catch (IOException | SQLException | ClassNotFoundException e) {
+                loadingFailures++;
+            }
+        }
+
+        if(loadingFailures > 0){
+            String message = "An error has occurred," + loadingFailures + " reservations failed to load";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            loadingFailures = 0;
         }
         String page = String.valueOf(currentPage);
         pageNumber.setText(page);
@@ -99,10 +112,17 @@ public abstract class Reservations {
     protected void  oldReservations() throws SQLException, IOException, ClassNotFoundException {
         reservationsList.getChildren().clear();
         if(oldReservations.isSelected()){
-            this.reservations = managerOwnerManagementController.getReservationsByField(field.getId());
-
+            try {
+                this.reservations = managerOwnerManagementController.getReservationsByField(field.getId());
+            } catch (SQLException | ClassNotFoundException e) {
+                messagesController.showMessage("Error during get reservations", MessagesController.MessageType.ERROR,5);
+            }
         }else{
-            this.reservations = managerOwnerManagementController.getCurrentReservationsByField(field.getId());
+            try {
+                this.reservations = managerOwnerManagementController.getCurrentReservationsByField(field.getId());
+            } catch (SQLException | ClassNotFoundException e) {
+                messagesController.showMessage("Error during get reservations", MessagesController.MessageType.ERROR,5);
+            }
         }
         currentPage = 1;
 

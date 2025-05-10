@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -377,40 +378,31 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         });
     }
 
-    //todo mai usata
     @Test
-    void editWorkingHours() throws SQLException {
+    void editWorkingHours() throws SQLException, ParseException {
+        doNothing().when(workingHoursDAO).removeWHFromFacilityByDay(anyInt(), any(DayOfWeek.class));
         //No exception
-        doNothing().when(workingHoursDAO).updateWH(anyInt(), any(Time.class), any(Time.class));
-        assertTrue(ownerManagementController.editWorkingHours(createWH(createFacility(), DayOfWeek.MONDAY)));
+        when(workingHoursDAO.addWHToFacility(anyInt(), any(DayOfWeek.class), any(Time.class), any(Time.class))).thenReturn(1);
+        assertTrue(ownerManagementController.editWorkingHours(createFacility().getId(), "10", "11", DayOfWeek.MONDAY));
 
         //With exception
-        doThrow(new SQLException("Simulated SQL exception")).when(workingHoursDAO).updateWH(anyInt(), any(Time.class), any(Time.class));
-        assertFalse(ownerManagementController.editWorkingHours(createWH(createFacility(), DayOfWeek.MONDAY)));
-    }
+        when(workingHoursDAO.addWHToFacility(anyInt(), any(DayOfWeek.class), any(Time.class), any(Time.class))).thenThrow(new SQLException("Simulated SQL exception"));
+        assertThrows(SQLException.class,() -> {
+            ownerManagementController.editWorkingHours(createFacility().getId(), "10", "11", DayOfWeek.MONDAY);
+        });
 
-    //todo mai usata
-    @Test
-    void deleteWorkingHours() throws SQLException {
-        //No exception
-        doNothing().when(workingHoursDAO).removeAllWHsByFacility(anyInt());
-        assertTrue(ownerManagementController.deleteWorkingHours(createFacility()));
-
-        //With exception
-        doThrow(new SQLException("Simulated SQL exception")).when(workingHoursDAO).removeAllWHsByFacility(anyInt());
-        assertFalse(ownerManagementController.deleteWorkingHours(createFacility()));
     }
 
     @Test
     void deleteWorkingHoursByDay() throws SQLException {
         //No exception
         doNothing().when(workingHoursDAO).removeWHFromFacilityByDay(anyInt(), any(DayOfWeek.class));
-        assertTrue(ownerManagementController.deleteWorkingHoursByDay(createFacility(), DayOfWeek.MONDAY));
+        assertTrue(ownerManagementController.deleteWorkingHoursByDay(createFacility().getId(), DayOfWeek.MONDAY));
 
         //With exception
         doThrow(new SQLException("Simulated SQL exception")).when(workingHoursDAO).removeWHFromFacilityByDay(anyInt(), any(DayOfWeek.class));
         assertThrows(SQLException.class,() -> {
-            ownerManagementController.deleteWorkingHoursByDay(createFacility(), DayOfWeek.MONDAY);
+            ownerManagementController.deleteWorkingHoursByDay(createFacility().getId(), DayOfWeek.MONDAY);
         });
     }
 

@@ -93,7 +93,7 @@ public class NewFieldController extends FieldForm {
                         messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                     }
 
-                } catch (IOException | SQLException | ClassNotFoundException e) {
+                } catch (IOException | SQLException e) {
                     String message = "An error has occurred";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                 }
