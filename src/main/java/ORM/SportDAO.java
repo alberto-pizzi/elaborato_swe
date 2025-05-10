@@ -1,12 +1,11 @@
 package main.java.ORM;
 
-import main.java.DomainModel.Invite;
 import main.java.DomainModel.Sport;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class SportDao extends ConnectionHolder{
+public class SportDAO extends ConnectionHolder{
 
     //methods
     public int addSport(String name, int playersRequired) throws SQLException {

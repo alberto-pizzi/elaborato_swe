@@ -2,8 +2,6 @@ package tests.ORMTest;
 
 import main.java.DomainModel.*;
 import main.java.ORM.*;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,13 +11,12 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ReservationDaoTest extends GeneralDAOTest{
+class ReservationDAOTest extends GeneralDAOTest{
 
-    private ReservationDao reservationDao = new ReservationDao();
+    private ReservationDAO reservationDao = new ReservationDAO();
     private Reservation reservation;
     private Boolean shouldSkip = false;
     private User user;
@@ -41,13 +38,13 @@ class ReservationDaoTest extends GeneralDAOTest{
     @Override
     @AfterEach
     public void teardown() throws Exception {
-        GroupDao groupDao = new GroupDao();
-        FieldDao fieldDao = new FieldDao();
+        GroupDAO groupDao = new GroupDAO();
+        FieldDAO fieldDao = new FieldDAO();
         OwnerDAO ownerDao = new OwnerDAO();
         FacilityDAO facilityDao = new FacilityDAO();
         UserDAO userDao = new UserDAO();
-        SportDao sportDao = new SportDao();
-        IsPartDao isPartDao = new IsPartDao();
+        SportDAO sportDao = new SportDAO();
+        IsPartDAO isPartDao = new IsPartDAO();
 
         Facility facility;
 

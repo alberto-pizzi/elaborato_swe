@@ -7,7 +7,7 @@ import main.java.DomainModel.User;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class IsPartDao extends ConnectionHolder{
+public class IsPartDAO extends ConnectionHolder{
     //methods
     public void addMembership(int idGroup, int idUser, int guestUsers) throws SQLException {
 
@@ -79,7 +79,7 @@ public class IsPartDao extends ConnectionHolder{
 
     public ArrayList<Group> getAllGroupsByUser(int idUser) throws SQLException {
         ArrayList<Group> groups = new ArrayList<>();
-        GroupDao groupDAO = new GroupDao();
+        GroupDAO groupDAO = new GroupDAO();
 
         String querySQL = String.format("SELECT id_group FROM \"IsPart\" WHERE id_user = '%d'", idUser);
 

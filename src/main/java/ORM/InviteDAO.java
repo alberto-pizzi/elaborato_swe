@@ -1,12 +1,11 @@
 package main.java.ORM;
 
-import main.java.DomainModel.Facility;
 import main.java.DomainModel.Invite;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class InviteDao extends ConnectionHolder{
+public class InviteDAO extends ConnectionHolder{
     //methods
     public int addInvite(Invite invite) throws SQLException {
 
@@ -68,7 +67,7 @@ public class InviteDao extends ConnectionHolder{
                 int inviteId = resultSet.getInt("id");
                 int groupId = resultSet.getInt("id_group");
 
-                GroupDao groupDao = new GroupDao();
+                GroupDAO groupDao = new GroupDAO();
 
                 invites.add(new Invite(inviteId, groupDao.getGroup(groupId)));
 

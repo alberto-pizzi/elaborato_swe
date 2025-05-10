@@ -5,7 +5,7 @@ import main.java.DomainModel.Reservation;
 
 import java.sql.*;
 
-public class GroupDao extends ConnectionHolder {
+public class GroupDAO extends ConnectionHolder {
     //methods
     public int addGroup(Group group) throws SQLException {
 
@@ -82,7 +82,7 @@ public class GroupDao extends ConnectionHolder {
     public Group getGroup(int idGroup) throws SQLException, ClassNotFoundException {
 
         Group group = null;
-        ReservationDao reservationDao = new ReservationDao();
+        ReservationDAO reservationDao = new ReservationDAO();
 
         String querySQL = String.format("SELECT * FROM \"Group\" WHERE id = '%d'", idGroup);
 
@@ -103,7 +103,7 @@ public class GroupDao extends ConnectionHolder {
 
 
                 UserDAO userDAO = new UserDAO();
-                IsPartDao isPartDao = new IsPartDao();
+                IsPartDAO isPartDao = new IsPartDAO();
 
                 group = new Group(id, userDAO.getUserByID(groupHead), reservation, requiredParticipants,isPartDao.getGroupMembers(idGroup),reservationDao.getCountAllParticipants(idReservation));
             }
@@ -124,7 +124,7 @@ public class GroupDao extends ConnectionHolder {
     public Group getGroupByReservation(int idReservation) throws SQLException, ClassNotFoundException {
 
         Group group = null;
-        ReservationDao reservationDao = new ReservationDao();
+        ReservationDAO reservationDao = new ReservationDAO();
 
         String querySQL = String.format("SELECT * FROM \"Group\" WHERE id_reservation = '%d'", idReservation);
 
@@ -144,7 +144,7 @@ public class GroupDao extends ConnectionHolder {
 
 
                 UserDAO userDAO = new UserDAO();
-                IsPartDao isPartDao = new IsPartDao();
+                IsPartDAO isPartDao = new IsPartDAO();
 
                 group = new Group(id, userDAO.getUserByID(groupHead), reservation, requiredParticipants,isPartDao.getGroupMembers(id),reservationDao.getCountAllParticipants(idReservation));
 

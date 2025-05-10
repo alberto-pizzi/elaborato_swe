@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class FieldDao extends ConnectionHolder {
+public class FieldDAO extends ConnectionHolder {
     //methods
     public int addField(Field field) throws SQLException {
 
@@ -43,7 +43,7 @@ public class FieldDao extends ConnectionHolder {
 
         Field field = null;
         Sport sport = null;
-        SportDao sportDao = new SportDao();
+        SportDAO sportDao = new SportDAO();
 
         String querySQL = String.format("SELECT * FROM \"Field\" WHERE id = '%d'", idField);
 
@@ -265,7 +265,7 @@ public class FieldDao extends ConnectionHolder {
     public ArrayList<Field> getFieldsByProvince(String province) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
         Sport sport = null;
-        SportDao sportDao = new SportDao();
+        SportDAO sportDao = new SportDAO();
 
         String querySQL = String.format("SELECT * FROM \"Field\" INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE UPPER(province) LIKE UPPER('%s')", "%" + province + "%");
 
@@ -303,7 +303,7 @@ public class FieldDao extends ConnectionHolder {
     public ArrayList<Field> getFieldsByName(String searchName) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
         Sport sport = null;
-        SportDao sportDao = new SportDao();
+        SportDAO sportDao = new SportDAO();
 
         String querySQL = String.format("SELECT * FROM \"Field\" WHERE name LIKE '%s'", "%" + searchName + "%");
 
@@ -341,7 +341,7 @@ public class FieldDao extends ConnectionHolder {
     public ArrayList<Field> getFieldsBySport(String sportName) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
         Sport sport = null;
-        SportDao sportDao = new SportDao();
+        SportDAO sportDao = new SportDAO();
 
         String querySQL =  String.format("SELECT * FROM \"Field\" INNER JOIN \"Sport\" ON \"Field\".id_sport = \"Sport\".id WHERE UPPER(\"Sport\".name) LIKE UPPER('%s')", "%" + sportName + "%");
 
@@ -421,7 +421,7 @@ public class FieldDao extends ConnectionHolder {
     public ArrayList<Field> getFieldsByOwner(Owner owner) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
         Sport sport = null;
-        SportDao sportDao = new SportDao();
+        SportDAO sportDao = new SportDAO();
 
         String querySQL =  String.format("SELECT * FROM \"Field\" INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Facility\".id_owner = '%d'", owner.getId());
 

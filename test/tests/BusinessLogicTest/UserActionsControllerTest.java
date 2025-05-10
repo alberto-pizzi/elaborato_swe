@@ -29,12 +29,12 @@ public class UserActionsControllerTest extends GeneralBSTest {
     private User user = null;
 
     private UserDAO userDAOMock = null;
-    private GroupDao groupDaoMock = null;
-    private IsPartDao isPartDaoMock = null;
+    private GroupDAO groupDAOMock = null;
+    private IsPartDAO isPartDAOMock = null;
     private WorkingHoursDAO workingHoursDAOMock = null;
-    private ReservationDao reservationDaoMock = null;
-    private InviteDao inviteDaoMock = null;
-    private FieldDao fieldDaoMock = null;
+    private ReservationDAO reservationDAOMock = null;
+    private InviteDAO inviteDAOMock = null;
+    private FieldDAO fieldDAOMock = null;
     private ManagesDAO managesDAOMock = null;
     private FacilityDAO facilityDAOMock = null;
     private OwnerDAO ownerDAOMock = null;
@@ -49,12 +49,12 @@ public class UserActionsControllerTest extends GeneralBSTest {
         user = createUser();
 
         userDAOMock = mock(UserDAO.class);
-        groupDaoMock = mock(GroupDao.class);
-        isPartDaoMock = mock(IsPartDao.class);
+        groupDAOMock = mock(GroupDAO.class);
+        isPartDAOMock = mock(IsPartDAO.class);
         workingHoursDAOMock = mock(WorkingHoursDAO.class);
-        reservationDaoMock = mock(ReservationDao.class);
-        inviteDaoMock = mock(InviteDao.class);
-        fieldDaoMock = mock(FieldDao.class);
+        reservationDAOMock = mock(ReservationDAO.class);
+        inviteDAOMock = mock(InviteDAO.class);
+        fieldDAOMock = mock(FieldDAO.class);
         managesDAOMock = mock(ManagesDAO.class);
 
         facilityDAOMock = mock(FacilityDAO.class);
@@ -63,7 +63,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         notificationControllerMock = mock(NotificationController.class);
 
-        userActionsController = new UserActionsController(user,userDAOMock,groupDaoMock,isPartDaoMock,workingHoursDAOMock,reservationDaoMock,inviteDaoMock,fieldDaoMock,managesDAOMock,notificationControllerMock);
+        userActionsController = new UserActionsController(user,userDAOMock, groupDAOMock, isPartDAOMock,workingHoursDAOMock, reservationDAOMock, inviteDAOMock, fieldDAOMock,managesDAOMock,notificationControllerMock);
 
     }
 
@@ -73,12 +73,12 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         //mocked DAOs
         userDAOMock = null;
-        groupDaoMock = null;
-        isPartDaoMock = null;
+        groupDAOMock = null;
+        isPartDAOMock = null;
         workingHoursDAOMock = null;
-        reservationDaoMock = null;
-        inviteDaoMock = null;
-        fieldDaoMock = null;
+        reservationDAOMock = null;
+        inviteDAOMock = null;
+        fieldDAOMock = null;
         managesDAOMock = null;
 
         notificationControllerMock = null;
@@ -103,8 +103,8 @@ public class UserActionsControllerTest extends GeneralBSTest {
     }
 
     private void joinGroupMockHelper(Group group,int guests) throws SQLException, ClassNotFoundException {
-        when(groupDaoMock.getGroup(anyInt())).thenReturn(group);
-        doNothing().when(isPartDaoMock).addMembership(anyInt(), anyInt(), anyInt());
+        when(groupDAOMock.getGroup(anyInt())).thenReturn(group);
+        doNothing().when(isPartDAOMock).addMembership(anyInt(), anyInt(), anyInt());
         doNothing().when(notificationControllerMock).connectObserverToReservation(any());
     }
 
@@ -124,7 +124,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         //acceptInvite DAOs
         when(userDAOMock.getUserID(anyString())).thenReturn(user.getId());
-        doNothing().when(inviteDaoMock).deleteInvite(anyInt());
+        doNothing().when(inviteDAOMock).deleteInvite(anyInt());
 
         //create fake connection for DAOs transactions
         transactionsMockHelper(userDAOMock);
@@ -160,16 +160,16 @@ public class UserActionsControllerTest extends GeneralBSTest {
         Time eventTimeEnd = Time.valueOf(newTime);
 
         //create fake connection for DAOs transactions
-        transactionsMockHelper(reservationDaoMock);
+        transactionsMockHelper(reservationDAOMock);
 
         joinGroupMockHelper(group,guests);
         findOtherPlayersMockHelper(group,new ArrayList<>());
         sendInviteMockHelper(group, user);
 
         when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
-        when(groupDaoMock.addGroup(any())).thenReturn(3);
+        when(groupDAOMock.addGroup(any())).thenReturn(3);
         int reservationId = 3;
-        when(reservationDaoMock.addReservation(any())).thenReturn(reservationId);
+        when(reservationDAOMock.addReservation(any())).thenReturn(reservationId);
 
 
         assertEquals(reservationId,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,userActionsController.getPerson()));
@@ -187,10 +187,10 @@ public class UserActionsControllerTest extends GeneralBSTest {
     @Test
     public void declineInviteTest() throws SQLException{
 
-        doNothing().when(inviteDaoMock).deleteInvite(anyInt());
+        doNothing().when(inviteDAOMock).deleteInvite(anyInt());
         assertTrue(userActionsController.declineInvite(2));
 
-        doThrow(new SQLException("Simulated SQL exception")).when(inviteDaoMock).deleteInvite(anyInt());
+        doThrow(new SQLException("Simulated SQL exception")).when(inviteDAOMock).deleteInvite(anyInt());
         assertFalse(userActionsController.declineInvite(2));
 
     }
@@ -204,12 +204,12 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         group.addMember(userActionsController.getPerson(),ownGuests);
 
-        when(groupDaoMock.getGroup(anyInt())).thenReturn(group);
-        when(isPartDaoMock.countOwnGuests(anyInt(), anyInt())).thenReturn(ownGuests);
+        when(groupDAOMock.getGroup(anyInt())).thenReturn(group);
+        when(isPartDAOMock.countOwnGuests(anyInt(), anyInt())).thenReturn(ownGuests);
 
-        doNothing().when(isPartDaoMock).removeMembership(anyInt(),anyInt());
-        doNothing().when(groupDaoMock).deleteGroup(anyInt());
-        doNothing().when(groupDaoMock).updateGroupHead(anyInt(),anyInt());
+        doNothing().when(isPartDAOMock).removeMembership(anyInt(),anyInt());
+        doNothing().when(groupDAOMock).deleteGroup(anyInt());
+        doNothing().when(groupDAOMock).updateGroupHead(anyInt(),anyInt());
 
         int oldParticipants = group.getParticipants();
 
@@ -225,7 +225,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         Group group = createGroup(true, 5);
 
-        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
 
         assertFalse(userActionsController.editRights(group.getReservation()));
 
@@ -245,7 +245,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
         ArrayList<Field> fields = new ArrayList<>();
         fields.add(createField());
 
-        when(fieldDaoMock.search(anyString())).thenReturn(fields);
+        when(fieldDAOMock.search(anyString())).thenReturn(fields);
         assertEquals(fields, userActionsController.searchField(field.getName()));
 
     }
@@ -258,7 +258,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
         ArrayList<Invite> invites = new ArrayList<>();
         invites.add(createInvite());
 
-        when(inviteDaoMock.getInvitesByUser(anyInt())).thenReturn(invites);
+        when(inviteDAOMock.getInvitesByUser(anyInt())).thenReturn(invites);
         assertEquals(invites, userActionsController.getOwnInvites());
 
         assertEquals(userActionsController.getPerson().getUsername(),invites.get(0).getUser().getUsername());
@@ -275,7 +275,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         userActionsController.getPerson().setProvince(field.getFacility().getProvince());
 
-        when(fieldDaoMock.getFieldsByProvince(anyString())).thenReturn(fields);
+        when(fieldDAOMock.getFieldsByProvince(anyString())).thenReturn(fields);
         assertEquals(fields, userActionsController.getNearbyFields());
 
         assertEquals(userActionsController.getPerson().getProvince(),field.getFacility().getProvince());
@@ -290,7 +290,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
         ArrayList<Group> groups = new ArrayList<>();
         groups.add(group);
 
-        when(isPartDaoMock.getAllGroupsByUser(anyInt())).thenReturn(groups);
+        when(isPartDAOMock.getAllGroupsByUser(anyInt())).thenReturn(groups);
         assertEquals(groups, userActionsController.getOwnGroups());
 
     }
@@ -303,7 +303,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
         ArrayList<Reservation> reservations = new ArrayList<>();
         reservations.add(reservation);
 
-        when(reservationDaoMock.getReservationsByUser(anyInt())).thenReturn(reservations);
+        when(reservationDAOMock.getReservationsByUser(anyInt())).thenReturn(reservations);
         assertEquals(reservations, userActionsController.getOwnReservations());
 
     }
@@ -364,7 +364,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         assertTrue(userActionsController.sendInvite(group.getReservation(),user.getId()));
 
-        doThrow(new SQLException("Simulated SQL exception")).when(inviteDaoMock).addInvite(any());
+        doThrow(new SQLException("Simulated SQL exception")).when(inviteDAOMock).addInvite(any());
         assertFalse(userActionsController.sendInvite(group.getReservation(),user.getId()));
 
         when(userDAOMock.getUserByID(anyInt())).thenReturn(null);
@@ -378,12 +378,12 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         Group group = createGroup(true, 5);
 
-        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
-        doNothing().when(isPartDaoMock).addMembership(anyInt(),anyInt(),anyInt());
+        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
+        doNothing().when(isPartDAOMock).addMembership(anyInt(),anyInt(),anyInt());
 
         assertTrue(userActionsController.addGroupMember(1,1,1));
 
-        doThrow(new SQLException("Simulated SQL exception")).when(isPartDaoMock).addMembership(anyInt(),anyInt(),anyInt());
+        doThrow(new SQLException("Simulated SQL exception")).when(isPartDAOMock).addMembership(anyInt(),anyInt(),anyInt());
         assertFalse(userActionsController.addGroupMember(1,1,1));
 
     }
@@ -393,12 +393,12 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         Group group = createGroup(true, 5);
 
-        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
-        doNothing().when(isPartDaoMock).removeMembership(anyInt(),anyInt());
+        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
+        doNothing().when(isPartDAOMock).removeMembership(anyInt(),anyInt());
 
         assertTrue(userActionsController.removeGroupMember(1,1));
 
-        doThrow(new SQLException("Simulated SQL exception")).when(isPartDaoMock).removeMembership(anyInt(),anyInt());
+        doThrow(new SQLException("Simulated SQL exception")).when(isPartDAOMock).removeMembership(anyInt(),anyInt());
         assertFalse(userActionsController.removeGroupMember(1,1));
 
     }
@@ -411,8 +411,8 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         assertFalse(reservation.isDeleted());
 
-        when(reservationDaoMock.getReservation(anyInt(),anyBoolean())).thenReturn(reservation);
-        doNothing().when(reservationDaoMock).updateIsDeleted(anyInt(),anyBoolean());
+        when(reservationDAOMock.getReservation(anyInt(),anyBoolean())).thenReturn(reservation);
+        doNothing().when(reservationDAOMock).updateIsDeleted(anyInt(),anyBoolean());
         when(notificationControllerMock.sendDeletionNotification(any())).thenReturn(1);
 
         assertTrue(userActionsController.deleteReservation(reservation.getId()));
@@ -435,16 +435,16 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         receivers.add(createThirdUser());
         assertEquals(1,userActionsController.sendInvites(group,receivers));
-        doThrow(new SQLException("Simulated SQL exception")).when(inviteDaoMock).addInvite(any());
+        doThrow(new SQLException("Simulated SQL exception")).when(inviteDAOMock).addInvite(any());
         assertEquals(-1,userActionsController.sendInvites(group,receivers));
 
     }
 
     private void sendInviteMockHelper(Group group, User user) throws SQLException, ClassNotFoundException {
-        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
         when(userDAOMock.getUserByID(anyInt())).thenReturn(user);
-        when(inviteDaoMock.addInvite(any())).thenReturn(1);
-        when(inviteDaoMock.checkInvite(anyInt(),anyInt())).thenReturn(false);
+        when(inviteDAOMock.addInvite(any())).thenReturn(1);
+        when(inviteDAOMock.checkInvite(anyInt(),anyInt())).thenReturn(false);
 
     }
 
@@ -462,7 +462,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         Field field = createField();
 
-        when(fieldDaoMock.getField(anyInt())).thenReturn(field);
+        when(fieldDAOMock.getField(anyInt())).thenReturn(field);
         assertEquals(field, userActionsController.getReservationField(createReservation(true)));
 
     }
@@ -472,7 +472,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         Field field = createField();
 
-        when(fieldDaoMock.getFieldAddress(anyInt())).thenReturn(field.getFacility().getFullAddress());
+        when(fieldDAOMock.getFieldAddress(anyInt())).thenReturn(field.getFacility().getFullAddress());
         assertEquals(field.getFacility().getFullAddress(), userActionsController.getFieldAddress(field.getId()));
 
     }
@@ -553,7 +553,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         Group group = createGroup(true, 10);
 
-        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
         assertEquals(group, userActionsController.getGroupByReservation(group.getReservation().getId()));
 
     }
@@ -565,7 +565,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
         ArrayList<Reservation> reservations = new ArrayList<>();
         reservations.add(createReservation(true));
 
-        when(reservationDaoMock.getReservationsByField(anyInt())).thenReturn(reservations);
+        when(reservationDAOMock.getReservationsByField(anyInt())).thenReturn(reservations);
         assertEquals(reservations, userActionsController.getReservationsByField(field.getId()));
 
     }
@@ -576,7 +576,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         group.getGroupMembers().add(new GroupMember(createSecondUser(),2));
 
-        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
         assertEquals(group.getGroupMembers(), userActionsController.getGroupMembers(group.getReservation().getId()));
 
     }
@@ -598,7 +598,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
     }
 
     private void findOtherPlayersMockHelper(Group group, ArrayList<User> users) throws SQLException, ClassNotFoundException {
-        when(groupDaoMock.getGroupByReservation(anyInt())).thenReturn(group);
+        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
         when(userDAOMock.getUsersByProvince(anyString())).thenReturn(users);
     }
 

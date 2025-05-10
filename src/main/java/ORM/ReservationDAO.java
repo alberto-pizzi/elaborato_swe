@@ -4,11 +4,10 @@ import main.java.DomainModel.Owner;
 import main.java.DomainModel.Reservation;
 
 import java.sql.*;
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import static java.time.temporal.ChronoUnit.HOURS;
 
-public class ReservationDao extends ConnectionHolder{
+public class ReservationDAO extends ConnectionHolder{
 
     //methods
     public int addReservation(Reservation reservation) throws SQLException {
@@ -43,7 +42,7 @@ public class ReservationDao extends ConnectionHolder{
     public int getCountAllParticipants(int idReservation) throws SQLException {
         int count = 0;
         int group = 0;
-        IsPartDao isPartDao = new IsPartDao();
+        IsPartDAO isPartDao = new IsPartDAO();
         String querySQL = String.format("SELECT * FROM \"Group\" WHERE id_reservation = '%d'", idReservation);
 
         PreparedStatement preparedStatement = null;
@@ -96,7 +95,7 @@ public class ReservationDao extends ConnectionHolder{
                 boolean isNotified = resultSet.getBoolean("is_notified");
 
                 UserDAO userDAO = new UserDAO();
-                FieldDao fieldDAO = new FieldDao();
+                FieldDAO fieldDAO = new FieldDAO();
 
                 reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, fieldDAO.getField(idField), isConfirmed, isMatched, isDeleted,isNotified);
 

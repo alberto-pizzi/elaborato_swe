@@ -96,7 +96,7 @@ public class FacilityDAO extends ConnectionHolder{
                 facility.setNManager(nManagers);
 
                 if (loadFields) {
-                    FieldDao fieldDao = new FieldDao();
+                    FieldDAO fieldDao = new FieldDAO();
                     ArrayList<Field> fields = fieldDao.getFieldsByFacility(idFacility, false);
                     facility.setFields(fields);
 

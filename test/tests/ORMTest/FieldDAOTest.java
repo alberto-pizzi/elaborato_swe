@@ -2,8 +2,6 @@ package tests.ORMTest;
 
 import main.java.DomainModel.*;
 import main.java.ORM.*;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,9 +11,9 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FieldDaoTest extends GeneralDAOTest{
+class FieldDAOTest extends GeneralDAOTest{
 
-    private FieldDao fieldDao= new FieldDao();;
+    private FieldDAO fieldDao= new FieldDAO();;
     private Boolean shouldSkip = false;
     private Field field;
     private Facility facility;
@@ -40,8 +38,8 @@ class FieldDaoTest extends GeneralDAOTest{
     public void teardown() throws Exception {
         OwnerDAO ownerDao = new OwnerDAO();
         FacilityDAO facilityDao = new FacilityDAO();
-        ReservationDao reservationDao = new ReservationDao();
-        SportDao sportDao = new SportDao();
+        ReservationDAO reservationDao = new ReservationDAO();
+        SportDAO sportDao = new SportDAO();
         Facility facility;
 
         reservationDao.deleteReservation(reservation.getId());

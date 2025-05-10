@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,17 +24,17 @@ class OwnerManagementControllerTest extends GeneralBSTest{
 
     private OwnerManagementController ownerManagementController;
     private Owner owner = null;
-    private ReservationDao reservationDao;
-    private FieldDao fieldDao;
+    private ReservationDAO reservationDao;
+    private FieldDAO fieldDao;
     private FacilityDAO facilityDAO;
     private ManagesDAO managesDAO;
     private UserDAO userDAO;
-    private SportDao sportDao;
+    private SportDAO sportDao;
     private WorkingHoursDAO workingHoursDAO;
     private User user = null;
-    private GroupDao groupDao;
-    private IsPartDao isPartDao;
-    private InviteDao inviteDao;
+    private GroupDAO groupDao;
+    private IsPartDAO isPartDao;
+    private InviteDAO inviteDao;
     private OwnerDAO ownerDAO;
     private NotificationDAO notificationDAO;
 
@@ -43,16 +42,16 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     @BeforeEach
     public void setup() throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
         owner = createOwner();
-        reservationDao = mock(ReservationDao.class);
-        fieldDao = mock(FieldDao.class);
+        reservationDao = mock(ReservationDAO.class);
+        fieldDao = mock(FieldDAO.class);
         facilityDAO = mock(FacilityDAO.class);
         managesDAO = mock(ManagesDAO.class);
         userDAO = mock(UserDAO.class);
-        sportDao = mock(SportDao.class);
+        sportDao = mock(SportDAO.class);
         workingHoursDAO = mock(WorkingHoursDAO.class);
-        groupDao = mock(GroupDao.class);
-        isPartDao = mock(IsPartDao.class);
-        inviteDao = mock(InviteDao.class);
+        groupDao = mock(GroupDAO.class);
+        isPartDao = mock(IsPartDAO.class);
+        inviteDao = mock(InviteDAO.class);
         ownerDAO = mock(OwnerDAO.class);
         notificationDAO = mock(NotificationDAO.class);
         ownerManagementController = new OwnerManagementController(owner, userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao, fieldDao, facilityDAO, managesDAO, sportDao,ownerDAO,notificationDAO);
@@ -362,7 +361,6 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         assertFalse(ownerManagementController.editField(createField()));
     }
 
-    //todo testare
     @Test
     void addWorkingHours() throws SQLException, ParseException {
         Facility facility= createFacility();

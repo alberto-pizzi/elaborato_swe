@@ -1,15 +1,11 @@
 package tests.BusinessLogicTest;
 
 import main.java.BusinessLogic.ManagerOwnerManagementController;
-import main.java.BusinessLogic.NotificationController;
-import main.java.BusinessLogic.OwnerManagementController;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedConstruction;
-import scala.util.Using;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -24,13 +20,13 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
 
     private ManagerOwnerManagementController managerOwnerManagementController;
     private User user = null;
-    private ReservationDao reservationDao;
-    private FieldDao fieldDao;
+    private ReservationDAO reservationDao;
+    private FieldDAO fieldDao;
     private UserDAO userDAO;
     private WorkingHoursDAO workingHoursDAO;
-    private GroupDao groupDao;
-    private IsPartDao isPartDao;
-    private InviteDao inviteDao;
+    private GroupDAO groupDao;
+    private IsPartDAO isPartDao;
+    private InviteDAO inviteDao;
     private ManagesDAO managesDAO;
     private FacilityDAO facilityDAO;
     private OwnerDAO ownerDAO;
@@ -40,13 +36,13 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
     @BeforeEach
     public void setup() throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
         user = createUser();
-        reservationDao = mock(ReservationDao.class);
-        fieldDao = mock(FieldDao.class);
+        reservationDao = mock(ReservationDAO.class);
+        fieldDao = mock(FieldDAO.class);
         userDAO = mock(UserDAO.class);
         workingHoursDAO = mock(WorkingHoursDAO.class);
-        groupDao = mock(GroupDao.class);
-        isPartDao = mock(IsPartDao.class);
-        inviteDao = mock(InviteDao.class);
+        groupDao = mock(GroupDAO.class);
+        isPartDao = mock(IsPartDAO.class);
+        inviteDao = mock(InviteDAO.class);
         managesDAO = mock(ManagesDAO.class);
         facilityDAO = mock(FacilityDAO.class);
         ownerDAO = mock(OwnerDAO.class);

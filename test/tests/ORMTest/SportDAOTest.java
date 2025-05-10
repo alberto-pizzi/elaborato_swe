@@ -1,15 +1,7 @@
 package tests.ORMTest;
 
-import main.java.DomainModel.Field;
-import main.java.DomainModel.Reservation;
 import main.java.DomainModel.Sport;
-import main.java.DomainModel.User;
-import main.java.ORM.FieldDao;
-import main.java.ORM.ReservationDao;
-import main.java.ORM.SportDao;
-import main.java.ORM.UserDAO;
-import org.junit.After;
-import org.junit.Before;
+import main.java.ORM.SportDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,9 +11,9 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SportDaoTest extends GeneralDAOTest{
+class SportDAOTest extends GeneralDAOTest{
 
-    private SportDao sportDao = new SportDao();
+    private SportDAO sportDao = new SportDAO();
     private Boolean shouldSkip = false;
     private Sport sport;
 
