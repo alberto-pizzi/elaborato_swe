@@ -60,6 +60,7 @@ public class NotificationItem {
         if(notifications.getNotificationController().deleteNotifications(notification)){
             if (notifications != null) {
                 notifications.removeNotificationItemFromGUI(notificationItemPane,notification);
+                notifications.getMessagesController().showMessage("Notification deleted successfully!", MessagesController.MessageType.SUCCESS,3);
             }
         }else{
             notifications.getMessagesController().showMessage("Error during delete notification", MessagesController.MessageType.ERROR,5);

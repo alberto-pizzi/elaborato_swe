@@ -85,6 +85,7 @@ public class ManagementButtonsController {
 
                 if (userActionsController.deleteReservation(reservationItemController.getReservation().getId())) {
                     reservationItemController.getReservationsController().removeReservationItemFromGUI(reservationItemController.getReservationItemPane(), reservationItemController.getReservation());
+                    reservationItemController.getReservationsController().getMessagesController().showMessage("Reservation deleted successfully!", MessagesController.MessageType.SUCCESS,3);
                     System.out.println("Deleted!");
                 }
                 else {

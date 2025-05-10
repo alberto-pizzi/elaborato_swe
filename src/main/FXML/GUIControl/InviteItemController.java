@@ -120,8 +120,11 @@ public class InviteItemController {
             System.out.println("Error while loading guest selector pane.");
         }
 
-        if (accepted)
+        if (accepted) {
             yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
+            yourInvitesController.getMessagesController().showMessage("Invite accepted successfully!", MessagesController.MessageType.SUCCESS,5);
+
+        }
         else
             yourInvitesController.getMessagesController().showMessage("Error during accept invite", MessagesController.MessageType.ERROR,5);
 
@@ -133,8 +136,11 @@ public class InviteItemController {
 
         UserActionsController userActionsController = new UserActionsController();
         System.out.println("Decline button clicked: " + invite.getId());
-        if (userActionsController.declineInvite(invite.getId()))
+        if (userActionsController.declineInvite(invite.getId())) {
             yourInvitesController.removeInviteItemFromGUI(inviteItemPane, invite);
+            yourInvitesController.getMessagesController().showMessage("Invite declined successfully!", MessagesController.MessageType.SUCCESS,5);
+
+        }
         else
             yourInvitesController.getMessagesController().showMessage("Error during decline invite", MessagesController.MessageType.ERROR,5);
 
