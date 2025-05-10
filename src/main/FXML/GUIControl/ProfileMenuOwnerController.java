@@ -26,16 +26,6 @@ import java.util.ResourceBundle;
 
 public class ProfileMenuOwnerController extends ProfileMenu implements Initializable {
 
-    @FXML
-    private BorderPane profileMenuPane;
-
-    @FXML
-    private Button logoutButton;
-
-    @FXML
-    private Label messageLabel;
-
-    private MessagesController messagesController;
     //methods
 
     @Override

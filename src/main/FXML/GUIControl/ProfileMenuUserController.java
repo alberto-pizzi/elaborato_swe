@@ -24,21 +24,8 @@ import java.util.ResourceBundle;
 
 public class ProfileMenuUserController extends ProfileMenu implements Initializable {
 
-    //todo ereditarietà
-
     @FXML
     private Label welcomeMessageLabel;
-
-    @FXML
-    private Label messageLabel;
-
-    @FXML
-    private BorderPane profileMenuPane;
-
-    @FXML
-    private Button logoutButton;
-
-    private MessagesController messagesController;
 
     //methods
 
