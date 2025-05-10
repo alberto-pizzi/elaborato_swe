@@ -154,7 +154,6 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    //TODO add transaction
     public boolean leaveGroup(int idGroup) {
 
         Group group = null;
@@ -173,6 +172,11 @@ public class UserActionsController extends PersonController<User>{
 
         if (memberRemoved){
             try {
+                //start transaction
+                isPartDao.getConnection().setAutoCommit(false);
+
+                //execute queries
+
                 isPartDao.removeMembership(idGroup, person.getId());
 
                 if (group.getParticipants() <= 0)
@@ -180,8 +184,26 @@ public class UserActionsController extends PersonController<User>{
                 else
                     groupDao.updateGroupHead(idGroup, group.getGroupHead().getId());
 
+                //commit transaction
+                isPartDao.getConnection().commit();
             }
             catch (SQLException e) {
+
+                try {
+                    //rollback transaction
+                    isPartDao.getConnection().rollback();
+
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                } finally {
+                    try {
+                        //end transaction
+                        isPartDao.getConnection().setAutoCommit(true);
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+
                 return false;
             }
         }
