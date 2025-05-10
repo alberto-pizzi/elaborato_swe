@@ -417,10 +417,10 @@ public abstract class PersonController<T extends Person> {
     }
 
     public Boolean isFull(Reservation reservation, int guests) throws SQLException, ClassNotFoundException {
-        
+
         Group group = groupDao.getGroupByReservation(reservation.getId());
 
-        return  group.participantsCheck(guests);
+        return  group.willBeFull(guests);
     }
 
     public Field getReservationField(Reservation reservation) throws SQLException, ClassNotFoundException {

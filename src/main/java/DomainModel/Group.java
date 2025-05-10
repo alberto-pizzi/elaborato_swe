@@ -116,11 +116,11 @@ public class Group{
         return label;
     }
 
-    public boolean participantsCheck(int guests){
+    public boolean willBeFull(int guestsToAdd){
         if (!reservation.isMatched()) {
             return false;
         }
-        return this.participants + guests + 1 > this.requiredParticipants;
+        return this.participants + guestsToAdd + 1 > this.requiredParticipants;
     }
 
     public void confirmationChecker() throws SQLException {
@@ -143,7 +143,7 @@ public class Group{
         if (guests < 0)
             guests = 0;
 
-        if (participantsCheck(guests)) {
+        if (willBeFull(guests)) {
             System.out.println("Group is full!");
             return false;
         }
