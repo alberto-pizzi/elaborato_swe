@@ -44,17 +44,13 @@ public class ProfileMenuUserController extends ProfileMenu implements Initializa
         }
     }
 
-    public void changeView(String newViewFXMLFileName) throws IOException {
-        AnchorPane view = FXMLLoader.load(getClass().getResource("/main/FXML/" + newViewFXMLFileName));
-        profileMenuPane.setCenter(view);
-    }
-
-
+    @Override
     @FXML
     void handleAddressButton(ActionEvent event) throws IOException {
         changeView("updateAddressUser.fxml");
     }
 
+    @Override
     @FXML
     void handleDeleteProfileButton(ActionEvent event) throws SQLException, IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -78,21 +74,25 @@ public class ProfileMenuUserController extends ProfileMenu implements Initializa
 
     }
 
+    @Override
     @FXML
     void handleEmailButton(ActionEvent event) throws IOException {
         changeView("updateEmailUser.fxml");
     }
 
+    @Override
     @FXML
     void handlePasswordButton(ActionEvent event) throws IOException {
         changeView("updatePasswordUser.fxml");
     }
 
+    @Override
     @FXML
     void handleUsernameButton(ActionEvent event) throws IOException {
         changeView("updateUsernameUser.fxml");
     }
 
+    @Override
     @FXML
     void handleLogoutButton(ActionEvent event) throws IOException {
         UserProfileController userProfileController = new UserProfileController();

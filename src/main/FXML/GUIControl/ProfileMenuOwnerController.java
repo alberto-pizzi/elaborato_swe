@@ -38,17 +38,13 @@ public class ProfileMenuOwnerController extends ProfileMenu implements Initializ
         }
     }
 
-    public void changeView(String newViewFXMLFileName) throws IOException {
-        AnchorPane view = FXMLLoader.load(getClass().getResource("/main/FXML/" + newViewFXMLFileName));
-        profileMenuPane.setCenter(view);
-    }
-
-
+    @Override
     @FXML
     void handleAddressButton(ActionEvent event) throws IOException {
         changeView("updateAddressOwner.fxml");
     }
 
+    @Override
     @FXML
     void handleDeleteProfileButton(ActionEvent event) throws SQLException, IOException {
         System.out.println("Delete button clicked: ");
@@ -72,21 +68,25 @@ public class ProfileMenuOwnerController extends ProfileMenu implements Initializ
         }
     }
 
+    @Override
     @FXML
     void handleEmailButton(ActionEvent event) throws IOException {
         changeView("updateEmailOwner.fxml");
     }
 
+    @Override
     @FXML
     void handlePasswordButton(ActionEvent event) throws IOException {
         changeView("updatePasswordOwner.fxml");
     }
 
+    @Override
     @FXML
     void handleUsernameButton(ActionEvent event) throws IOException {
         changeView("updateUsernameOwner.fxml");
     }
 
+    @Override
     @FXML
     void handleLogoutButton(ActionEvent event) throws IOException{
         OwnerProfileController ownerProfileController = new OwnerProfileController();
