@@ -206,7 +206,7 @@ public abstract class PersonDAO extends ConnectionHolder{
 
     }
 
-
+    //todo controllare se è meglio usare questo
     public boolean checkPassword(String username, String passwordEncoded) throws SQLException{
 
         String querySQL = String.format("SELECT count(*) AS results FROM \""+ this.target + "\" WHERE username = '%s' AND password = '%s'", username,passwordEncoded);
@@ -242,8 +242,7 @@ public abstract class PersonDAO extends ConnectionHolder{
         return false;
     }
 
-
-
+    //todo mai usata
     public ArrayList<User> getAllUsers() throws SQLException {
         ArrayList<User> users = new ArrayList<>();
 
