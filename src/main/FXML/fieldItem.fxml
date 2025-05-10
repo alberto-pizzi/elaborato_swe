@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<HBox style="-fx-background-color: white; -fx-border-color: black;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldItemController">
+<HBox style="-fx-background-color: white; -fx-border-color: black;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldItemUserController">
    <children>
       <VBox prefHeight="120.0" prefWidth="120.0">
          <children>

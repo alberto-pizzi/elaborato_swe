@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class AnnouncementManagerController extends AnnouncementController{
+public class AnnouncementManager extends Announcement {
 
     @Override
     protected void changeView() throws IOException, SQLException, ClassNotFoundException {

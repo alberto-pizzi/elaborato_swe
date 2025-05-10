@@ -5,18 +5,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
-import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.UserActionsController;
-import main.java.DomainModel.Field;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class FieldItemController extends FieldItem{
+public class FieldItemUserController extends FieldItem{
 
     @FXML
     private Button selectField;
@@ -32,8 +27,8 @@ public class FieldItemController extends FieldItem{
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldDetails.fxml"));
             Parent fieldDetailPane = loader.load();
-            FieldDetailController fieldDetailController = loader.getController();
-            fieldDetailController.setData(field,menuPane);
+            FieldDetailUserController fieldDetailUserController = loader.getController();
+            fieldDetailUserController.setData(field,menuPane);
             menuPane.setCenter(fieldDetailPane);
         } catch (IOException e) {
             String message = "An error has occurred";

@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public abstract class SignUpController extends AccessControllerGui {
+public abstract class SignUp extends AccessGui {
 
     @FXML
     protected TextField city;

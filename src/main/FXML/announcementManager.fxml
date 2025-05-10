@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.AnnouncementManagerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="570.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.AnnouncementManager">
    <children>
       <VBox style="-fx-background-color: #fff; -fx-background-radius: 10;">
          <children>

@@ -12,7 +12,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class SignUpControllerOwner extends SignUpController implements Initializable {
+public class SignUpOwner extends main.FXML.GUIControl.SignUp implements Initializable {
 
 
 
@@ -47,7 +47,7 @@ public class SignUpControllerOwner extends SignUpController implements Initializ
         logIn.getScene().getWindow().setHeight(720);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/loginOwner.fxml"));
         Parent view = loader.load();
-        LoginControllerOwner controller = loader.getController();
+        LoginOwner controller = loader.getController();
         controller.setScenePane(pane);
         pane.getChildren().removeAll();
         pane.getChildren().add(view);
@@ -57,7 +57,7 @@ public class SignUpControllerOwner extends SignUpController implements Initializ
     protected void switchRole() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/signUpUser.fxml"));
         Parent view = loader.load();
-        SignUpControllerUser controller = loader.getController();
+        SignUpUser controller = loader.getController();
         controller.setScenePane(pane);
         pane.getChildren().removeAll();
         pane.getChildren().add(view);

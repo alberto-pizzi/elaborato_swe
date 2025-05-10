@@ -22,7 +22,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ProfileMenuController implements Initializable {
+public class ProfileMenuUserController implements Initializable {
 
     //todo ereditarietà
     @FXML

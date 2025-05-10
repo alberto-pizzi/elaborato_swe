@@ -5,7 +5,7 @@ import main.java.BusinessLogic.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UpdatePasswordController extends UpdatePassword {
+public class UpdatePasswordUserController extends UpdatePassword {
 
     //methods
 

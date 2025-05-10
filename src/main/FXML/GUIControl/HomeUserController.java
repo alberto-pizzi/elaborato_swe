@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class HomeController implements Initializable {
+public class HomeUserController implements Initializable {
 
     @FXML
     private TextField search;
@@ -114,8 +114,8 @@ public class HomeController implements Initializable {
         fmxLoader = new FXMLLoader();
         fmxLoader.setLocation(getClass().getResource("/main/FXML/fieldItem.fxml"));
         HBox hBox = fmxLoader.load();
-        FieldItemController fieldItemController = fmxLoader.getController();
-        fieldItemController.setData(fields.get(index), menuPane, messagesController);
+        FieldItemUserController fieldItemUserController = fmxLoader.getController();
+        fieldItemUserController.setData(fields.get(index), menuPane, messagesController);
         fieldsList.getChildren().add(hBox);
     }
 

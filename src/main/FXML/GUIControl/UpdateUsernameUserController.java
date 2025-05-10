@@ -1,11 +1,13 @@
 package main.FXML.GUIControl;
 
-import main.java.BusinessLogic.*;
+import main.java.BusinessLogic.AccessController;
+import main.java.BusinessLogic.UserAccess;
+import main.java.BusinessLogic.UserProfileController;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UpdateEmailController extends UpdateEmail {
+public class UpdateUsernameUserController extends UpdateUsername {
 
     //methods
 
@@ -14,7 +16,7 @@ public class UpdateEmailController extends UpdateEmail {
         super.initialize(location, resources);
         profileController = new UserProfileController();
         access = new AccessController(new UserAccess());
-        emailInput.setText(profileController.getEmail());
+        usernameInput.setText(profileController.getUsername());
     }
 
 }
