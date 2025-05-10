@@ -19,6 +19,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     private SportDAO sportDao;
 
     //constructor
+    //todo construttori da controllare albe
     public OwnerManagementController(Owner owner) {
         super(owner);
         facilityDAO = new FacilityDAO();

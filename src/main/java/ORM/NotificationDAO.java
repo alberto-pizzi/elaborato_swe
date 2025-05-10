@@ -127,6 +127,7 @@ public class NotificationDAO extends ConnectionHolder{
         boolean oldConnectionAutoCommit = connection.getAutoCommit();
 
         try {
+            //todo albe perche?
             connection.setAutoCommit(false);
 
             int messageId = -1;  // -1 for message typing error

@@ -30,6 +30,7 @@ public abstract class PersonDAO extends ConnectionHolder{
 
 
     //methods
+    //todo perché funzione user in person?
     public int addUser(String username, String email, String password, String city, String province, String zip, String country) throws SQLException {
 
 

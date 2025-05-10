@@ -342,6 +342,7 @@ public class FacilityDAO extends ConnectionHolder{
 
     }
 
+    //todo non usata
     public ArrayList<Facility> getFacilitiesByProvince(String provinceTarget) throws SQLException {
         ArrayList<Facility> facilities = new ArrayList<>();
 

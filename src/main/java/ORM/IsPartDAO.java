@@ -185,7 +185,7 @@ public class IsPartDAO extends ConnectionHolder{
         return count;
     }
 
-    //TODO cascata per remove groupmembership
+    //TODO cascata per remove groupmembership??
 
     public void updateGuestsUsers(int idGroup, int idUser, int guestUsers) throws SQLException {
 
@@ -206,6 +206,7 @@ public class IsPartDAO extends ConnectionHolder{
         }
     }
 
+    //todo mi usata
     //TODO to be decided if useful?
     public User groupHeadSuccessorId(int idGroup, int idLeavingUser) throws SQLException, ClassNotFoundException {
 

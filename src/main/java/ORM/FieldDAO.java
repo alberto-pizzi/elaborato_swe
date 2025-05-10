@@ -228,6 +228,7 @@ public class FieldDAO extends ConnectionHolder {
         return fields;
     }
 
+    //todo mai usata
     public ArrayList<Field> getAllFields(boolean loadFacility) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
 

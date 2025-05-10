@@ -114,6 +114,7 @@ public class OwnerDAO extends PersonDAO {
         return owner;
     }
 
+    //todo mai usata
     public int getOwnerID(String username) throws SQLException {
         //default id (id not found)
         int id = -1;

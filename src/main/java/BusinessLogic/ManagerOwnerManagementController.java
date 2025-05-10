@@ -77,6 +77,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         return notificationController.sendAnnouncement(reservation, notificationMessage) >= 0;
     }
 
+    //todo albe?
     @Override
     public boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException{
         //managers and owners have not to join into group, then it is always true

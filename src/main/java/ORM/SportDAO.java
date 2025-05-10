@@ -121,6 +121,7 @@ public class SportDAO extends ConnectionHolder{
         return sports;
     }
 
+    //todo mai usata
     public int getSportPlayers(int idSport) throws SQLException {
 
         int count = 0;
@@ -145,6 +146,7 @@ public class SportDAO extends ConnectionHolder{
         return count;
     }
 
+    //todo mai usata
     public void updateSportPlayers(int idSport, int players) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Sport\" SET players_required = '%d' WHERE id = '%d'", players, idSport);
@@ -164,6 +166,7 @@ public class SportDAO extends ConnectionHolder{
         }
     }
 
+    //todo mai usata
     public void updateSportName(int idSport, String name) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Sport\" SET name = '%s' WHERE id = '%d'", name, idSport);
