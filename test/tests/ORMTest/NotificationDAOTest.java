@@ -2,8 +2,6 @@ package tests.ORMTest;
 
 import main.java.DomainModel.*;
 import main.java.ORM.*;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,12 +32,12 @@ class NotificationDAOTest extends GeneralDAOTest{
     @Override
     @AfterEach
     public void teardown() throws Exception {
-        ReservationDao reservationDao = new ReservationDao();
-        FieldDao fieldDao = new FieldDao();
+        ReservationDAO reservationDao = new ReservationDAO();
+        FieldDAO fieldDao = new FieldDAO();
         OwnerDAO ownerDao = new OwnerDAO();
         FacilityDAO facilityDao = new FacilityDAO();
         UserDAO userDao = new UserDAO();
-        SportDao sportDao = new SportDao();
+        SportDAO sportDao = new SportDAO();
 
         Facility facility;
 

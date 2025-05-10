@@ -24,33 +24,8 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ProfileMenuOwnerController implements Initializable {
+public class ProfileMenuOwnerController extends ProfileMenu implements Initializable {
 
-    @FXML
-    private Button addressProfileButton;
-
-    @FXML
-    private Button deleteProfileButton;
-
-    @FXML
-    private Button emailProfileButton;
-
-    @FXML
-    private Button passwordProfileButton;
-
-    @FXML
-    private Button usernameProfileButton;
-
-    @FXML
-    private BorderPane profileMenuPane;
-
-    @FXML
-    private Button logoutButton;
-
-    @FXML
-    private Label messageLabel;
-
-    private MessagesController messagesController;
     //methods
 
     @Override
@@ -63,17 +38,13 @@ public class ProfileMenuOwnerController implements Initializable {
         }
     }
 
-    public void changeView(String newViewFXMLFileName) throws IOException {
-        AnchorPane view = FXMLLoader.load(getClass().getResource("/main/FXML/" + newViewFXMLFileName));
-        profileMenuPane.setCenter(view);
-    }
-
-
+    @Override
     @FXML
     void handleAddressButton(ActionEvent event) throws IOException {
         changeView("updateAddressOwner.fxml");
     }
 
+    @Override
     @FXML
     void handleDeleteProfileButton(ActionEvent event) throws SQLException, IOException {
         System.out.println("Delete button clicked: ");
@@ -97,21 +68,25 @@ public class ProfileMenuOwnerController implements Initializable {
         }
     }
 
+    @Override
     @FXML
     void handleEmailButton(ActionEvent event) throws IOException {
         changeView("updateEmailOwner.fxml");
     }
 
+    @Override
     @FXML
     void handlePasswordButton(ActionEvent event) throws IOException {
         changeView("updatePasswordOwner.fxml");
     }
 
+    @Override
     @FXML
     void handleUsernameButton(ActionEvent event) throws IOException {
         changeView("updateUsernameOwner.fxml");
     }
 
+    @Override
     @FXML
     void handleLogoutButton(ActionEvent event) throws IOException{
         OwnerProfileController ownerProfileController = new OwnerProfileController();

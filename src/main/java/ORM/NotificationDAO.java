@@ -39,7 +39,7 @@ public class NotificationDAO extends ConnectionHolder{
                 String notificationType = resultSet.getString("notification_type");
 
                 Reservation reservation = null;
-                ReservationDao reservationDao = new ReservationDao();
+                ReservationDAO reservationDao = new ReservationDAO();
 
                 //I do two distinct search
                 if (idReservation != 0) {
@@ -127,6 +127,7 @@ public class NotificationDAO extends ConnectionHolder{
         boolean oldConnectionAutoCommit = connection.getAutoCommit();
 
         try {
+            //todo albe perche?
             connection.setAutoCommit(false);
 
             int messageId = -1;  // -1 for message typing error

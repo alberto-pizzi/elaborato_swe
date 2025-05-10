@@ -26,7 +26,7 @@ public class FacilityChoiceItemManagerController extends FacilityChoiceItem{
     }
 
     @Override
-    public void facilityFields() throws IOException, SQLException, ClassNotFoundException {
+    public void facilityFields() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/fieldChoiceManager.fxml"));
         Parent facilityFieldsPane = loader.load();
         FieldChoiceManagerController fieldChoiceManagerController = loader.getController();

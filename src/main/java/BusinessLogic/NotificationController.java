@@ -15,10 +15,10 @@ public class NotificationController implements Observer {
     private FacilityDAO facilityDAO;
     private OwnerDAO ownerDAO;
     private NotificationDAO notificationDAO;
-    private IsPartDao isPartDao;
+    private IsPartDAO isPartDao;
     private ManagesDAO managesDAO;
-    private GroupDao groupDAO;
-    private ReservationDao reservationDao;
+    private GroupDAO groupDAO;
+    private ReservationDAO reservationDao;
 
     public NotificationController() {
         this.person = SessionController.getInstance().getPerson();
@@ -26,13 +26,13 @@ public class NotificationController implements Observer {
         facilityDAO = new FacilityDAO();
         ownerDAO = new OwnerDAO();
         notificationDAO = new NotificationDAO();
-        isPartDao = new IsPartDao();
+        isPartDao = new IsPartDAO();
         managesDAO = new ManagesDAO();
-        groupDAO = new GroupDao();
-        reservationDao = new ReservationDao();
+        groupDAO = new GroupDAO();
+        reservationDao = new ReservationDAO();
     }
 
-    public NotificationController(Person person, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO, IsPartDao isPartDao,ManagesDAO managesDAO, GroupDao groupDAO, ReservationDao reservationDao) {
+    public NotificationController(Person person, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO, IsPartDAO isPartDao, ManagesDAO managesDAO, GroupDAO groupDAO, ReservationDAO reservationDao) {
         this.person = person;
 
         this.facilityDAO = facilityDAO;

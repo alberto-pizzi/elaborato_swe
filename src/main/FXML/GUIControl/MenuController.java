@@ -1,7 +1,6 @@
 package main.FXML.GUIControl;
 
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,11 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import main.java.BusinessLogic.UserActionsController;
 import main.java.BusinessLogic.UserProfileController;
 
 public class MenuController extends Menu {
@@ -76,10 +71,10 @@ public class MenuController extends Menu {
 
     }
 
-    public void goToHome () throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/home.fxml"));
+    public void goToHome () throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/homeUser.fxml"));
         Parent view = loader.load();
-        HomeController controller = loader.getController();
+        HomeUserController controller = loader.getController();
         controller.setData(menuPane);
         menuPane.setCenter(view);
     }
@@ -88,8 +83,8 @@ public class MenuController extends Menu {
         try {
             goToHome();
             System.out.println("Home menu");
-        } catch (IOException | SQLException e) {
-            System.out.println("Error during open home.fxml");
+        } catch (IOException e) {
+            System.out.println("Error during open homeUser.fxml");
             Menu.showErrorAlert("Error","Home opening failed.","" );
         }
     }
@@ -111,21 +106,21 @@ public class MenuController extends Menu {
 
     @FXML
     public void handleProfileButtonAction (ActionEvent event) {
-        changeViewHelper("profile.fxml");
+        changeViewHelper("profileUser.fxml");
 
     }
 
     @FXML
     public void handleReservationsButtonAction (ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservations.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/reservationsUser.fxml"));
             Parent view = loader.load();
             ReservationsController controller = loader.getController();
             controller.setPane(menuPane);
             menuPane.setCenter(view);
             System.out.println("Reservations menu button clicked");
         } catch (IOException e) {
-            String errorMessage = "Error during open reservations.fxml";
+            String errorMessage = "Error during open reservationsUser.fxml";
             System.out.println(errorMessage);
             Menu.showErrorAlert("Error",errorMessage,"");
         }

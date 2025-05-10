@@ -26,10 +26,10 @@ public class NotificationControllerTest extends GeneralBSTest {
     private FacilityDAO facilityDAOMock = null;
     private OwnerDAO ownerDAOMock = null;
     private NotificationDAO notificationDAOMock = null;
-    private IsPartDao isPartDaoMock = null;
+    private IsPartDAO isPartDAOMock = null;
     private ManagesDAO managesDAOMock = null;
-    private GroupDao groupDAOMock = null;
-    private ReservationDao reservationDaoMock = null;
+    private GroupDAO groupDAOMock = null;
+    private ReservationDAO reservationDAOMock = null;
 
     private NotificationController notificationController = null;
 
@@ -43,12 +43,12 @@ public class NotificationControllerTest extends GeneralBSTest {
         facilityDAOMock = mock(FacilityDAO.class);
         ownerDAOMock = mock(OwnerDAO.class);
         notificationDAOMock = mock(NotificationDAO.class);
-        isPartDaoMock = mock(IsPartDao.class);
+        isPartDAOMock = mock(IsPartDAO.class);
         managesDAOMock = mock(ManagesDAO.class);
-        groupDAOMock = mock(GroupDao.class);
-        reservationDaoMock = mock(ReservationDao.class);
+        groupDAOMock = mock(GroupDAO.class);
+        reservationDAOMock = mock(ReservationDAO.class);
 
-        notificationController = new NotificationController(person,facilityDAOMock,ownerDAOMock,notificationDAOMock,isPartDaoMock,managesDAOMock,groupDAOMock,reservationDaoMock);
+        notificationController = new NotificationController(person,facilityDAOMock,ownerDAOMock,notificationDAOMock, isPartDAOMock,managesDAOMock,groupDAOMock, reservationDAOMock);
     }
 
     @Override
@@ -58,10 +58,10 @@ public class NotificationControllerTest extends GeneralBSTest {
         facilityDAOMock = null;
         ownerDAOMock = null;
         notificationDAOMock = null;
-        isPartDaoMock = null;
+        isPartDAOMock = null;
         managesDAOMock = null;
         groupDAOMock = null;
-        reservationDaoMock = null;
+        reservationDAOMock = null;
 
         person = null;
 
@@ -133,7 +133,7 @@ public class NotificationControllerTest extends GeneralBSTest {
         when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
         ArrayList<GroupMember> members = new ArrayList<>();
         members.add(new GroupMember(createSecondUser(),5));
-        when(isPartDaoMock.getGroupMembers(anyInt())).thenReturn(members);
+        when(isPartDAOMock.getGroupMembers(anyInt())).thenReturn(members);
     }
 
     //create fake connection for DAOs transactions
@@ -150,10 +150,10 @@ public class NotificationControllerTest extends GeneralBSTest {
 
         Group group = createGroup(true,3);
 
-        transactionsMockHelper(reservationDaoMock);
+        transactionsMockHelper(reservationDAOMock);
         sendNotificationMockHelper(group);
-        doNothing().when(reservationDaoMock).updateIsConfirmed(anyInt(),anyBoolean());
-        doNothing().when(reservationDaoMock).updateIsNotified(anyInt(),anyBoolean());
+        doNothing().when(reservationDAOMock).updateIsConfirmed(anyInt(),anyBoolean());
+        doNothing().when(reservationDAOMock).updateIsNotified(anyInt(),anyBoolean());
         notificationController.connectObserverToReservation(group.getReservation());
 
         group.getReservation().setMatched(false);

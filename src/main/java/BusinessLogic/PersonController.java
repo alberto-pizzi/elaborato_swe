@@ -17,12 +17,12 @@ public abstract class PersonController<T extends Person> {
     protected T person;
 
     protected UserDAO userDAO;
-    protected GroupDao groupDao;
-    protected IsPartDao isPartDao;
+    protected GroupDAO groupDao;
+    protected IsPartDAO isPartDao;
     protected WorkingHoursDAO workingHoursDAO;
-    protected ReservationDao reservationDao;
-    protected InviteDao inviteDao;
-    protected FieldDao fieldDao;
+    protected ReservationDAO reservationDao;
+    protected InviteDAO inviteDao;
+    protected FieldDAO fieldDao;
 
     protected NotificationController notificationController;
 
@@ -31,17 +31,17 @@ public abstract class PersonController<T extends Person> {
         this.person = person;
 
         this.userDAO = new UserDAO();
-        this.groupDao = new GroupDao();
-        this.isPartDao = new IsPartDao();
+        this.groupDao = new GroupDAO();
+        this.isPartDao = new IsPartDAO();
         this.workingHoursDAO = new WorkingHoursDAO();
-        this.reservationDao = new ReservationDao();
-        this.inviteDao = new InviteDao();
-        this.fieldDao = new FieldDao();
+        this.reservationDao = new ReservationDAO();
+        this.inviteDao = new InviteDAO();
+        this.fieldDao = new FieldDAO();
 
         notificationController = new NotificationController();
     }
 
-    public PersonController(T person, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO, ManagesDAO managesDAO) {
+    public PersonController(T person, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO, ManagesDAO managesDAO) {
         this.person = person;
 
         this.userDAO = userDAO;
@@ -56,7 +56,7 @@ public abstract class PersonController<T extends Person> {
 
     }
 
-    public PersonController(T person, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao, NotificationController notificationController) {
+    public PersonController(T person, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, NotificationController notificationController) {
         this.person = person;
 
         this.userDAO = userDAO;

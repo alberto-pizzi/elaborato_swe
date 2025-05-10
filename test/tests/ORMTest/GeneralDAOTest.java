@@ -67,7 +67,7 @@ public abstract class GeneralDAOTest {
     }
 
     protected Reservation createReservation(boolean isMatched) throws SQLException {
-        ReservationDao reservationDao = new ReservationDao();
+        ReservationDAO reservationDao = new ReservationDAO();
         LocalDate today = LocalDate.now();
         LocalDate futureDate = today.plusDays(7); // add 7 days
         Date eventDate = Date.valueOf(futureDate);
@@ -84,7 +84,7 @@ public abstract class GeneralDAOTest {
     }
 
     protected Reservation createReservation(Field field, boolean isMatched) throws SQLException {
-        ReservationDao reservationDao = new ReservationDao();
+        ReservationDAO reservationDao = new ReservationDAO();
         LocalDate today = LocalDate.now();
         LocalDate futureDate = today.plusDays(7); // add 7 days
         Date eventDate = Date.valueOf(futureDate);
@@ -99,7 +99,7 @@ public abstract class GeneralDAOTest {
     }
 
     protected Field createField() throws SQLException {
-        FieldDao fieldDao = new FieldDao();
+        FieldDAO fieldDao = new FieldDAO();
         Field field = new Field(
                 0, "Campo A", createSport(), "Campo in erba sintetica",
                 50.0f, "", createFacility()
@@ -109,7 +109,7 @@ public abstract class GeneralDAOTest {
     }
 
     protected Field createField(Facility facility, Sport sport) throws SQLException {
-        FieldDao fieldDao = new FieldDao();
+        FieldDAO fieldDao = new FieldDAO();
         Field field = new Field(
                 0, "Campo A", sport, "Campo in erba sintetica",
                 50.0f, "", facility
@@ -119,21 +119,21 @@ public abstract class GeneralDAOTest {
     }
 
     protected Sport createSport() throws SQLException {
-        SportDao sportDao = new SportDao();
+        SportDAO sportDao = new SportDAO();
         Sport sport = new Sport(0, "Football", 22);
         sport.setId(sportDao.addSport(sport.getName(),sport.getPlayersRequired()));
         return sport;
     }
 
     protected Sport createSport(String sportName) throws SQLException {
-        SportDao sportDao = new SportDao();
+        SportDAO sportDao = new SportDAO();
         Sport sport = new Sport(0, sportName, 22);
         sport.setId(sportDao.addSport(sport.getName(),sport.getPlayersRequired()));
         return sport;
     }
 
     protected Invite createInvite() throws SQLException {
-        InviteDao inviteDao = new InviteDao();
+        InviteDAO inviteDao = new InviteDAO();
         Group group = createGroup(false, 0);
         Invite invite = new Invite(0, group);
         invite.setUser(group.getGroupHead());
@@ -142,7 +142,7 @@ public abstract class GeneralDAOTest {
     }
 
     protected Invite createInvite(User user, Group group) throws SQLException {
-        InviteDao inviteDao = new InviteDao();
+        InviteDAO inviteDao = new InviteDAO();
         Invite invite = new Invite(0, group);
         invite.setUser(user);
         invite.setId(inviteDao.addInvite(invite));
@@ -150,7 +150,7 @@ public abstract class GeneralDAOTest {
     }
 
     protected Group createGroup(Boolean isMatched, int requiredParticipants) throws SQLException {
-        GroupDao groupDao = new GroupDao();
+        GroupDAO groupDao = new GroupDAO();
         Group group = new Group(createUser(),createReservation(isMatched),requiredParticipants,0);
         group.setId(groupDao.addGroup(group));
         return group;
@@ -158,7 +158,7 @@ public abstract class GeneralDAOTest {
 
     //todo parlare con albe perché non aggiunge ispart ba database qindi grouphead non fa  parte gruppo?
     protected Group createGroup(User user, Reservation reservation, int requiredParticipants) throws SQLException {
-        GroupDao groupDao = new GroupDao();
+        GroupDAO groupDao = new GroupDAO();
         Group group = new Group(user,reservation,requiredParticipants,0);
         group.setId(groupDao.addGroup(group));
         return group;
@@ -179,12 +179,12 @@ public abstract class GeneralDAOTest {
     }
 
     protected void  createIsPart() throws SQLException {
-        IsPartDao isPartDao = new IsPartDao();
+        IsPartDAO isPartDao = new IsPartDAO();
         isPartDao.addMembership(createGroup(false, 0).getId(), createUser().getId(), 1);
     }
 
     protected void  createIsPart(Group group, User user, int guests) throws SQLException {
-        IsPartDao isPartDao = new IsPartDao();
+        IsPartDAO isPartDao = new IsPartDAO();
         isPartDao.addMembership(group.getId(), user.getId(), guests);
     }
 

@@ -17,7 +17,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         super(SessionController.getInstance().getPerson());
     }
 
-    public ManagerOwnerManagementController( Person person, UserDAO userDAO, GroupDao groupDao, IsPartDao isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDao reservationDao, InviteDao inviteDao, FieldDao fieldDao, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO, ManagesDAO managesDAO) {
+    public ManagerOwnerManagementController(Person person, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO, ManagesDAO managesDAO) {
         super(person, userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao,fieldDao,facilityDAO,ownerDAO,notificationDAO,managesDAO);
     }
 
@@ -77,6 +77,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         return notificationController.sendAnnouncement(reservation, notificationMessage) >= 0;
     }
 
+    //todo albe?
     @Override
     public boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException{
         //managers and owners have not to join into group, then it is always true

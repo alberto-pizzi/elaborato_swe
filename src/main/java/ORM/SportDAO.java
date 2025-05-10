@@ -1,0 +1,189 @@
+package main.java.ORM;
+
+import main.java.DomainModel.Sport;
+
+import java.sql.*;
+import java.util.ArrayList;
+
+public class SportDAO extends ConnectionHolder{
+
+    //methods
+    public int addSport(String name, int playersRequired) throws SQLException {
+
+        String querySQL = String.format("INSERT INTO \"Sport\" (name, players_required) " +
+                "VALUES ('%s', '%d')", name, playersRequired);
+
+        int idAdded = 0;
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
+            System.out.println("Sport added successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+        return idAdded;
+    }
+
+    //todo discutere se si può fare
+    public void deleteSport(int idSport) throws SQLException {
+
+        String querySQL = String.format("DELETE FROM \"Sport\" WHERE id = '%d'", idSport);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Sport removed successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
+    }
+
+
+    public Sport getSport(int idSport) throws SQLException, ClassNotFoundException {
+
+        Sport sport = null;
+
+        String querySQL = String.format("SELECT * FROM \"Sport\" WHERE id = '%d'", idSport);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int playersRequired = resultSet.getInt("players_required");
+
+                sport = new Sport(id, name, playersRequired);
+            }
+            else{
+                System.err.println("No sport found with id: " + idSport);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return sport;
+    }
+
+    public ArrayList<Sport> getAllSport() throws SQLException {
+
+        ArrayList<Sport> sports = new ArrayList<>();
+
+        String querySQL = String.format("SELECT * FROM \"Sport\"");
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int playersRequired = resultSet.getInt("players_required");
+
+                sports.add(new Sport(id, name, playersRequired));
+
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return sports;
+    }
+
+    //todo mai usata
+    public int getSportPlayers(int idSport) throws SQLException {
+
+        int count = 0;
+        String querySQL = String.format("SELECT players_required FROM \"Sport\" WHERE id = '%d'", idSport);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                count = resultSet.getInt("players_required");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return count;
+    }
+
+    //todo mai usata
+    public void updateSportPlayers(int idSport, int players) throws SQLException {
+
+        String querySQL = String.format("UPDATE \"Sport\" SET players_required = '%d' WHERE id = '%d'", players, idSport);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Players required updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    //todo mai usata
+    public void updateSportName(int idSport, String name) throws SQLException {
+
+        String querySQL = String.format("UPDATE \"Sport\" SET name = '%s' WHERE id = '%d'", name, idSport);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Name updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+}

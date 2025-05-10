@@ -131,12 +131,12 @@ public class ModifyWorkingHoursController implements Initializable {
                 opened = false;
                 tmpLabel = (Label) node;
                 closingHours = tmpLabel.getText();
-                ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
+                ownerManagementController.editWorkingHours(facility.getId(), openingHours, closingHours, day);
             }
         }
         if (opened){
             closingHours = "24:00";
-            ownerManagementController.addWorkingHours(facility.getId(), openingHours, closingHours, day);
+            ownerManagementController.editWorkingHours(facility.getId(), openingHours, closingHours, day);
         }
     }
 
@@ -190,52 +190,45 @@ public class ModifyWorkingHoursController implements Initializable {
         OwnerManagementController ownerManagementController = new OwnerManagementController();
         try{
             if (!closedMonday.isSelected() && mondayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.MONDAY);
                 checkHours(DayOfWeek.MONDAY, clickedMon, monday);
             }else if (closedMonday.isSelected()){
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.MONDAY);
+                ownerManagementController.deleteWorkingHoursByDay(facility.getId(), DayOfWeek.MONDAY);
             }
 
             if (!closedTuesday.isSelected() && tuesdayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.TUESDAY);
                 checkHours(DayOfWeek.TUESDAY, clickedTue, tuesday);
             } else if (closedTuesday.isSelected()){
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.TUESDAY);
+                ownerManagementController.deleteWorkingHoursByDay(facility.getId(), DayOfWeek.TUESDAY);
             }
 
             if (!closedWednesday.isSelected() && wednesdayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.WEDNESDAY);
                 checkHours(DayOfWeek.WEDNESDAY, clickedWed, wednesday);
             } else if (closedWednesday.isSelected()){
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.WEDNESDAY);
+                ownerManagementController.deleteWorkingHoursByDay(facility.getId(), DayOfWeek.WEDNESDAY);
             }
 
             if (!closedThursday.isSelected() && thursdayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.THURSDAY);
                 checkHours(DayOfWeek.THURSDAY, clickedThu, thursday);
             } else if (closedThursday.isSelected()){
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.THURSDAY);
+                ownerManagementController.deleteWorkingHoursByDay(facility.getId(), DayOfWeek.THURSDAY);
             }
 
             if (!closedFriday.isSelected() && fridayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.FRIDAY);
                 checkHours(DayOfWeek.FRIDAY, clickedFri, friday);
             } else if (closedFriday.isSelected()){
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.FRIDAY);
+                ownerManagementController.deleteWorkingHoursByDay(facility.getId(), DayOfWeek.FRIDAY);
             }
 
             if (!closedSaturday.isSelected() && saturdayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SATURDAY);
                 checkHours(DayOfWeek.SATURDAY, clickedSat, saturday);
             } else if (closedSaturday.isSelected()){
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SATURDAY);
+                ownerManagementController.deleteWorkingHoursByDay(facility.getId(), DayOfWeek.SATURDAY);
             }
 
             if (!closedSunday.isSelected() && sundayChanged) {
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SUNDAY);
                 checkHours(DayOfWeek.SUNDAY, clickedSun, sunday);
             } else if (closedSunday.isSelected()){
-                ownerManagementController.deleteWorkingHoursByDay(facility, DayOfWeek.SUNDAY);
+                ownerManagementController.deleteWorkingHoursByDay(facility.getId(), DayOfWeek.SUNDAY);
             }
             if(mondayChanged || tuesdayChanged || wednesdayChanged || thursdayChanged || fridayChanged || saturdayChanged){
                 facility.getWorkingHours().clear();

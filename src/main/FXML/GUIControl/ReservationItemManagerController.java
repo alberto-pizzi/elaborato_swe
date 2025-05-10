@@ -3,23 +3,9 @@ package main.FXML.GUIControl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-import main.java.BusinessLogic.ManagerOwnerManagementController;
-import main.java.BusinessLogic.PersonController;
-import main.java.BusinessLogic.UserActionsController;
-import main.java.DomainModel.Reservation;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Optional;
 
 public class ReservationItemManagerController extends ReservationItemsManagerOwner{
 
@@ -31,7 +17,7 @@ public class ReservationItemManagerController extends ReservationItemsManagerOwn
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/announcementManager.fxml"));
             Parent view = loader.load();
-            AnnouncementManagerController announcementManagerController = loader.getController();
+            AnnouncementManager announcementManagerController = loader.getController();
             announcementManagerController.setData(reservationsController.getMenuPane(), this.reservation);
             reservationsController.getMenuPane().setCenter(view);
         } catch (IOException e) {

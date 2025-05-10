@@ -30,6 +30,7 @@ public abstract class PersonDAO extends ConnectionHolder{
 
 
     //methods
+    //todo perché funzione user in person?
     public int addUser(String username, String email, String password, String city, String province, String zip, String country) throws SQLException {
 
 
@@ -205,7 +206,7 @@ public abstract class PersonDAO extends ConnectionHolder{
 
     }
 
-
+    //todo controllare se è meglio usare questo
     public boolean checkPassword(String username, String passwordEncoded) throws SQLException{
 
         String querySQL = String.format("SELECT count(*) AS results FROM \""+ this.target + "\" WHERE username = '%s' AND password = '%s'", username,passwordEncoded);
@@ -241,8 +242,7 @@ public abstract class PersonDAO extends ConnectionHolder{
         return false;
     }
 
-
-
+    //todo mai usata
     public ArrayList<User> getAllUsers() throws SQLException {
         ArrayList<User> users = new ArrayList<>();
 

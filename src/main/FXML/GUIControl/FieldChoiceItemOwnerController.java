@@ -54,7 +54,7 @@ public class FieldChoiceItemOwnerController extends FieldChoiceItem{
             ReservationsOwnerController reservationsOwnerController = loader.getController();
             reservationsOwnerController.setData(field, menuPane);
             menuPane.setCenter(view);
-        } catch (IOException | SQLException | ClassNotFoundException e) {
+        } catch (IOException e) {
             String message = "An error has occurred";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
         }

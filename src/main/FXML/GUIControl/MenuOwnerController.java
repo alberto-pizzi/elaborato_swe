@@ -3,17 +3,13 @@ package main.FXML.GUIControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import main.java.BusinessLogic.OwnerProfileController;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class MenuOwnerController extends Menu {
@@ -59,11 +55,11 @@ public class MenuOwnerController extends Menu {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesOwner.fxml"));
             Parent view = loader.load();
-            FacilitiesListController controller = loader.getController();
+            FacilitiesController controller = loader.getController();
             controller.setData(menuPane);
             menuPane.setCenter(view);
             System.out.println("Facilities menu button clicked");
-        } catch (SQLException | IOException e){
+        } catch (IOException e){
             String errorMessage = "Error during open facilitiesOwner.fxml";
             System.out.println(errorMessage);
             Menu.showErrorAlert("Error",errorMessage,"");
@@ -84,7 +80,7 @@ public class MenuOwnerController extends Menu {
             controller.setData(menuPane);
             menuPane.setCenter(view);
             System.out.println("Reservations menu button clicked");
-        } catch (SQLException | IOException e){
+        } catch (IOException e){
             String errorMessage = "Error during open facilityChoiceOwner.fxml";
             System.out.println(errorMessage);
             Menu.showErrorAlert("Error",errorMessage,"");

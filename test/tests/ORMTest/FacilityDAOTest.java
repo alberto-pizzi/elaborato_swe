@@ -1,11 +1,7 @@
 package tests.ORMTest;
 
 import main.java.DomainModel.Facility;
-import main.java.DomainModel.Field;
-import main.java.DomainModel.Sport;
-import main.java.DomainModel.User;
 import main.java.ORM.FacilityDAO;
-import main.java.ORM.FieldDao;
 import main.java.ORM.OwnerDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
