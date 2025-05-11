@@ -28,7 +28,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
                <content>
-                  <VBox fx:id="facilityList" alignment="TOP_CENTER" prefHeight="442.0" prefWidth="1040.0" spacing="15.0" style="-fx-background-color: white;">
+                  <VBox fx:id="facilityList" alignment="TOP_CENTER" prefHeight="487.0" prefWidth="1040.0" spacing="15.0" style="-fx-background-color: white;">
                      <padding>
                         <Insets top="10.0" />
                      </padding>
