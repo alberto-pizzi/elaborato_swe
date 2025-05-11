@@ -57,7 +57,6 @@ public class FacilityDAO extends ConnectionHolder{
 
     }
 
-    //todo controllare test
     public Facility getFacility(int idFacility, boolean loadFields) throws SQLException {
         //default id (id not found)
         Facility facility = null;
@@ -341,33 +340,5 @@ public class FacilityDAO extends ConnectionHolder{
         }
 
     }
-
-    //todo non usata
-    public ArrayList<Facility> getFacilitiesByProvince(String provinceTarget) throws SQLException {
-        ArrayList<Facility> facilities = new ArrayList<>();
-
-        String querySQL = String.format("SELECT * FROM \"Facility\" WHERE province = '%s'", provinceTarget);
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                facilities.add(this.getFacility(resultSet.getInt("id"), false));
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-            if (resultSet != null) { resultSet.close(); }
-        }
-
-        return facilities;
-    }
-
 
 }

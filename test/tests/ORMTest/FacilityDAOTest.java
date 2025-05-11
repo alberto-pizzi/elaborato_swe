@@ -150,13 +150,6 @@ public class FacilityDAOTest extends GeneralDAOTest {
     }
 
     @Test
-    public void getFacilitiesByProvinceTest() throws SQLException{
-        Assumptions.assumeFalse(shouldSkip);
-
-        assertFalse(facilityDAO.getFacilitiesByProvince(facility.getProvince()).isEmpty());
-    }
-
-    @Test
     public void getFacilitiesByOwnerTest() throws SQLException{
         Assumptions.assumeFalse(shouldSkip);
 

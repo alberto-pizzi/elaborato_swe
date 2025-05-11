@@ -58,19 +58,12 @@ class SportDAOTest extends GeneralDAOTest{
     }
 
     @Test
-    void getSportPlayers() throws SQLException {
-        Assumptions.assumeFalse(shouldSkip);
-
-        assertEquals(sport.getPlayersRequired(), sportDao.getSportPlayers(sport.getId()));
-    }
-
-    @Test
-    void updateSportPlayers() throws SQLException {
+    void updateSportPlayers() throws SQLException, ClassNotFoundException {
         Assumptions.assumeFalse(shouldSkip);
 
         int number = 30;
         sportDao.updateSportPlayers(sport.getId(), number);
-        assertEquals(number, sportDao.getSportPlayers(sport.getId()));
+        assertEquals(number, sportDao.getSport(sport.getId()).getPlayersRequired());
     }
 
     @Test

@@ -193,22 +193,6 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         });
     }
 
-    //todo mai usata
-    @Test
-    void getUsersByProvince() throws SQLException, ClassNotFoundException {
-        ArrayList<User> users = new ArrayList<>();
-        users.add(createUser());
-        when(managesDAO.getAllManagersByFacility(anyInt())).thenReturn(users);
-
-        //No exception
-        when(userDAO.getUsersByProvince(anyString())).thenReturn(users);
-        assertEquals(0, ownerManagementController.getUsersByProvince(createFacility().getId()).size());
-
-        //With exception
-        when(userDAO.getUsersByProvince(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
-        assertNull(ownerManagementController.getUsersByProvince(createFacility().getId()));
-    }
-
     @Test
     void searchManagersByProvince() throws SQLException, ClassNotFoundException {
         ArrayList<User> users = new ArrayList<>();

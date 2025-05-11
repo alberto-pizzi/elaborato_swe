@@ -228,40 +228,6 @@ public class FieldDAO extends ConnectionHolder {
         return fields;
     }
 
-    //todo mai usata
-    public ArrayList<Field> getAllFields(boolean loadFacility) throws SQLException {
-        ArrayList<Field> fields = new ArrayList<>();
-
-        String querySQL = String.format("SELECT id FROM \"Field\" ");
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Field field = this.getField(resultSet.getInt("id"));
-                if (loadFacility) {
-                    Facility facility = new FacilityDAO().getFacility(field.getFacility().getId(), false);
-                    field.setFacility(facility);
-                }
-                fields.add(field);
-            }
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-            if (resultSet != null) { resultSet.close(); }
-        }
-
-        return fields;
-    }
-
-
-
     //todo check
     public ArrayList<Field> getFieldsByProvince(String province) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();

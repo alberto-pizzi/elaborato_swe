@@ -18,10 +18,16 @@ public class NotificationSender extends Creator {
     // methods
     @Override
     public Notification factoryMethod(){
-        Notification notification = new Notification();
+        //todo controllare cast e setter
+        Notification notification = (Notification) super.factoryMethod();
         notification.setReservation(reservationSender);
         notification.setNotificationType(notificationType);
         notification.setMessage(notificationMessage);//todo da levare se non annuncio
         return notification;
+    }
+
+    @Override
+    public Notification createProduct(){
+        return new Notification();
     }
 }

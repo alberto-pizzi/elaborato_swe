@@ -34,6 +34,8 @@ public class Notification extends Product{
         this.id = id;
     }
 
+    @Override
+    void build(){}
 
     public Notification() {}
 

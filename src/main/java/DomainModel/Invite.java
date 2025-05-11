@@ -17,6 +17,9 @@ public class Invite extends Product {
     public Invite() {
     }
 
+    @Override
+    void build(){}
+
     // methods
     public int getId() {
         return id;
