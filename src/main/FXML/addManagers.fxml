@@ -70,7 +70,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
                <content>
-                  <VBox fx:id="usersList" alignment="TOP_CENTER" prefHeight="396.0" prefWidth="1060.0" spacing="10.0" style="-fx-background-color: white;">
+                  <VBox fx:id="usersList" alignment="TOP_CENTER" prefHeight="396.0" prefWidth="1060.0" spacing="15.0" style="-fx-background-color: white;">
                      <padding>
                         <Insets top="10.0" />
                      </padding>
