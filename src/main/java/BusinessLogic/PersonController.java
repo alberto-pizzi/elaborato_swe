@@ -84,6 +84,7 @@ public abstract class PersonController<T extends Person> {
     }
 
 
+    //TODO maybe should be deleted
     public ArrayList<User> getUsersByUsernames(ArrayList<String> usernames) throws SQLException {
 
         ArrayList<User> users = new ArrayList<>();
@@ -378,6 +379,7 @@ public abstract class PersonController<T extends Person> {
         return true;
     }
 
+    //TODO should be deleted?
     public boolean isGroupMember(int idReservation, String usernameMember) throws SQLException, ClassNotFoundException {
         
         
@@ -404,11 +406,6 @@ public abstract class PersonController<T extends Person> {
         return true;
     }
 
-    public int getMaxGroupMembers(int idReservation) throws SQLException, ClassNotFoundException {
-        
-
-        return groupDao.getGroupByReservation(idReservation).getRequiredParticipants();
-    }
 
 
     public ArrayList<Reservation> getReservationsByField(int idField) throws SQLException, ClassNotFoundException {
@@ -416,6 +413,7 @@ public abstract class PersonController<T extends Person> {
         return reservationDao.getReservationsByField(idField);
     }
 
+    //TODO should be deleted?
     public Boolean isFull(Reservation reservation, int guests) throws SQLException, ClassNotFoundException {
 
         Group group = groupDao.getGroupByReservation(reservation.getId());

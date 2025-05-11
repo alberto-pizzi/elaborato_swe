@@ -138,6 +138,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
     }
 
+    //TODO is it useful?
     //useless because groupHead check is done into editReservationButton method
     public void updateRemoveButtons(){
 

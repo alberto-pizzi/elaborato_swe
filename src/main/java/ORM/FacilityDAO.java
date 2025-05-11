@@ -172,31 +172,6 @@ public class FacilityDAO extends ConnectionHolder{
         return facilities;
     }
 
-    public int countFacilitiesByOwner(int idOwner) throws SQLException {
-        //default value (results not found)
-        int nFacilities = -1;
-
-        String querySQL = String.format("SELECT count(*) AS total_facilities FROM \"Facility\" WHERE id_owner = '%d'", idOwner);
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            resultSet = preparedStatement.executeQuery();
-
-            nFacilities = resultSet.getInt("total_facilities");
-
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-            if (resultSet != null) { resultSet.close(); }
-        }
-
-        return nFacilities;
-    }
-
     public void updateName(int idFacility, String newName) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Facility\" SET name = '%s' WHERE id = '%d'", newName,idFacility);

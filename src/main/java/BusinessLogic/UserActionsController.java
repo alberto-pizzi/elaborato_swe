@@ -22,6 +22,7 @@ public class UserActionsController extends PersonController<User>{
         managesDAO = new ManagesDAO();
     }
 
+    //TODO should be deleted?
     public UserActionsController(User user, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, ManagesDAO managesDAO, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO){
         super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,facilityDAO,ownerDAO,notificationDAO,managesDAO);
         
@@ -216,17 +217,6 @@ public class UserActionsController extends PersonController<User>{
     }
 
 
-
-    public void leaveOwnGroups() throws SQLException, ClassNotFoundException {
-        ArrayList<Group> groups = new ArrayList<>();
-        groups = getOwnGroups();
-
-        for (Group group : groups) {
-            leaveGroup(group.getId());
-        }
-
-    }
-
     public ArrayList<Field> searchField(String inputSearched) throws SQLException {
         
         return fieldDao.search(inputSearched);
@@ -253,12 +243,8 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-    public void changeOwnGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
-        
-        isPartDao.updateGuestsUsers(groupDao.getGroupByReservation(idReservation).getId(), person.getId(),guestNewNumber);
-    }
 
-
+    //TODO swap with getUserIdByUsername (PersonController)
     public User searchUserByUsername(String username) throws SQLException, ClassNotFoundException {
         return  userDAO.getUser(username);
     }
