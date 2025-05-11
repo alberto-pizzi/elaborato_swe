@@ -441,18 +441,6 @@ public abstract class PersonController<T extends Person> {
         return userDAO.getUserByID(id);
     }
 
-    //TODO delete it
-    public static ArrayList<Reservation> filterUpcomingReservations(ArrayList<Reservation> allReservations) {
-        ArrayList<Reservation> upcomingReservations = new ArrayList<>();
-
-        for (Reservation reservation : allReservations) {
-            if(PersonController.isUpcomingReservation(reservation))
-                upcomingReservations.add(reservation);
-        }
-
-        return upcomingReservations;
-    }
-
     public static <T> ArrayList<T> filterByUpcomingReservations(ArrayList<T> inputList, Function<T, Reservation> getReservationFunction) {
         ArrayList<T> upComings = new ArrayList<>();
 

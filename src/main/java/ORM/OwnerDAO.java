@@ -89,7 +89,6 @@ public class OwnerDAO extends PersonDAO {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                //TODO optimize redundancy
                 int id = resultSet.getInt("id");
                 String username = resultSet.getString("username");
                 String email = resultSet.getString("email");

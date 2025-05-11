@@ -231,7 +231,6 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
 
             if (effectiveGroupMembersList.getSelectionModel().getSelectedItem() != null) {
                 int guestsSelected = effectiveGroupMembersList.getSelectionModel().getSelectedItem().getOwnGuests();
-                //TODO 15 as maxPossibleGuestsPerUser is good (only for manager and owner edit mode)?
                 fillGuestsChoiceWithProgressiveNumbers(0, calculateMaxAddableGuests(guestsSelected,false),nGuestsChoice);
                 nGuestsChoice.setValue(effectiveGroupMembersList.getSelectionModel().getSelectedItem().getOwnGuests());
             }

@@ -288,7 +288,6 @@ public abstract class PersonDAO extends ConnectionHolder{
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                //TODO optimize redundancy
                 int id = resultSet.getInt("id");
                 String usernameSelected = resultSet.getString("username");
                 String email = resultSet.getString("email");
@@ -327,7 +326,6 @@ public abstract class PersonDAO extends ConnectionHolder{
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                //TODO optimize redundancy
                 int id = resultSet.getInt("id");
                 String usernameSelected = resultSet.getString("username");
                 String email = resultSet.getString("email");

@@ -65,7 +65,6 @@ public class MenuController extends Menu {
             }
 
         } catch (SQLException e) {
-            //TODO is this catch good?
             throw new RuntimeException(e);
         }
 

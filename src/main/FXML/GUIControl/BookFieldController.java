@@ -158,7 +158,6 @@ public class BookFieldController extends FieldFormManagementController implement
     }
 
     protected void actionsAfterAdd(){
-        //TODO is add redirect to home needed?
 
         resetFields();
 
