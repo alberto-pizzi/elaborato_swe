@@ -14,7 +14,7 @@ public class FacilityDAO extends ConnectionHolder{
     public int addFacility(String name, String address, String city, String province, String zip, String country, String telephone, String image, int idOwner) throws SQLException {
 
         String querySQL = String.format("INSERT INTO \"Facility\" (name, address, city, province, zip, country, telephone, image, id_owner) " +
-                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%d')", name, address, city, province, zip, country, telephone,image,idOwner);
+                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d')", name, address, city, province, zip, country, telephone,image,idOwner);
 
 
         int idAdded = 0;
