@@ -114,31 +114,4 @@ public class OwnerDAO extends PersonDAO {
         return owner;
     }
 
-    //todo mai usata
-    public int getOwnerID(String username) throws SQLException {
-        //default id (id not found)
-        int id = -1;
-
-        String querySQL = String.format("SELECT id FROM \"Owner\" WHERE username = '%s'", username);
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            resultSet = preparedStatement.executeQuery();
-
-            id = resultSet.getInt("id");
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-            if (resultSet != null) { resultSet.close(); }
-        }
-
-        return id;
-    }
-
-
-
 }

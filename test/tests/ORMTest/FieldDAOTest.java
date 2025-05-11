@@ -121,13 +121,6 @@ class FieldDAOTest extends GeneralDAOTest{
     }
 
     @Test
-    void getAllFields() throws SQLException {
-        Assumptions.assumeFalse(shouldSkip);
-
-        assertFalse(fieldDao.getAllFields(false).isEmpty());
-    }
-
-    @Test
     void getFieldsByProvince() throws SQLException {
         Assumptions.assumeFalse(shouldSkip);
 

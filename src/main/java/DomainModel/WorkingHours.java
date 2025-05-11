@@ -66,7 +66,6 @@ public class WorkingHours {
 
     //methods
 
-    //todo is open utilizzato?
     public boolean isOpen() {
         LocalTime localOpeningTimeFromSql = this.openingHours.toLocalTime();
         LocalTime localClosingTimeFromSql = this.closingHours.toLocalTime();

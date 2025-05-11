@@ -30,37 +30,6 @@ public abstract class PersonDAO extends ConnectionHolder{
 
 
     //methods
-    //todo perché funzione user in person?
-    public int addUser(String username, String email, String password, String city, String province, String zip, String country) throws SQLException {
-
-
-        String querySQL = String.format("INSERT INTO \"User\" (email, username, city, province, zip, country, password) " +
-                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", email, username, city, province, zip, country, password);
-
-        int idAdded = 0;
-
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL, PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatement.executeUpdate();
-
-
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                idAdded = resultSet.getInt(1);
-            }
-
-            System.out.println("User added successfully.");
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-        }
-
-        return idAdded;
-
-    }
 
     public void deletePerson(String username) throws SQLException {
 
@@ -204,76 +173,6 @@ public abstract class PersonDAO extends ConnectionHolder{
             if (preparedStatement != null) { preparedStatement.close(); }
         }
 
-    }
-
-    //todo controllare se è meglio usare questo
-    public boolean checkPassword(String username, String passwordEncoded) throws SQLException{
-
-        String querySQL = String.format("SELECT count(*) AS results FROM \""+ this.target + "\" WHERE username = '%s' AND password = '%s'", username,passwordEncoded);
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-
-                int persons = resultSet.getInt("results");
-
-                if (persons > 0)
-                    return true;
-            }
-            else{
-                System.err.println("No User found with username: " + username);
-            }
-
-
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-            if (resultSet != null) { resultSet.close(); }
-        }
-
-
-
-        return false;
-    }
-
-    //todo mai usata
-    public ArrayList<User> getAllUsers() throws SQLException {
-        ArrayList<User> users = new ArrayList<>();
-
-        String querySQL = "SELECT * FROM \"User\" ORDER BY id ASC";
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String username = resultSet.getString("username");
-                String email = resultSet.getString("email");
-                String password = resultSet.getString("password");
-                String city = resultSet.getString("city");
-                String province = resultSet.getString("province");
-                String zip = resultSet.getString("zip");
-                String country = resultSet.getString("country");
-
-                users.add(new User(id, email, username, password, city, province, zip, country));
-            }
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-            if (resultSet != null) { resultSet.close(); }
-        }
-
-        return users;
     }
 
     public int getUserID(String username) throws SQLException {

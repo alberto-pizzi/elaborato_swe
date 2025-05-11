@@ -12,8 +12,14 @@ public class InviteSender extends Creator {
     // methods
     @Override
     public Invite factoryMethod(){
-        Invite invite = new Invite();
+        Invite invite = (Invite) super.factoryMethod();
         invite.setGroup(groupSender);
         return invite;
     }
+
+    @Override
+    public Invite createProduct(){
+        return new Invite();
+    }
+
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -62,6 +63,15 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     public void teardown() {
         owner = null;
         ownerManagementController = null;
+    }
+
+    //create fake connection for DAOs transactions
+    private void transactionsMockHelper(ConnectionHolder mockedDao) throws SQLException {
+        Connection fakeConnection = mock(Connection.class);
+        when(mockedDao.getConnection()).thenReturn(fakeConnection);
+        doNothing().when(fakeConnection).commit();
+        doNothing().when(fakeConnection).rollback();
+        doNothing().when(fakeConnection).setAutoCommit(anyBoolean());
     }
 
     @Test
@@ -181,22 +191,6 @@ class OwnerManagementControllerTest extends GeneralBSTest{
         assertThrows(SQLException.class,() -> {
             ownerManagementController.getManagersByFacility(createFacility());
         });
-    }
-
-    //todo mai usata
-    @Test
-    void getUsersByProvince() throws SQLException, ClassNotFoundException {
-        ArrayList<User> users = new ArrayList<>();
-        users.add(createUser());
-        when(managesDAO.getAllManagersByFacility(anyInt())).thenReturn(users);
-
-        //No exception
-        when(userDAO.getUsersByProvince(anyString())).thenReturn(users);
-        assertEquals(0, ownerManagementController.getUsersByProvince(createFacility().getId()).size());
-
-        //With exception
-        when(userDAO.getUsersByProvince(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
-        assertNull(ownerManagementController.getUsersByProvince(createFacility().getId()));
     }
 
     @Test
@@ -379,14 +373,15 @@ class OwnerManagementControllerTest extends GeneralBSTest{
     @Test
     void editWorkingHours() throws SQLException, ParseException {
         doNothing().when(workingHoursDAO).removeWHFromFacilityByDay(anyInt(), any(DayOfWeek.class));
+        transactionsMockHelper(workingHoursDAO);
         //No exception
         when(workingHoursDAO.addWHToFacility(anyInt(), any(DayOfWeek.class), any(Time.class), any(Time.class))).thenReturn(1);
-        assertTrue(ownerManagementController.editWorkingHours(createFacility().getId(), "10", "11", DayOfWeek.MONDAY));
+        assertTrue(ownerManagementController.editWorkingHours(createFacility().getId(), "8:00:00", "8:00:00", DayOfWeek.MONDAY));
 
         //With exception
         when(workingHoursDAO.addWHToFacility(anyInt(), any(DayOfWeek.class), any(Time.class), any(Time.class))).thenThrow(new SQLException("Simulated SQL exception"));
         assertThrows(SQLException.class,() -> {
-            ownerManagementController.editWorkingHours(createFacility().getId(), "10", "11", DayOfWeek.MONDAY);
+            ownerManagementController.editWorkingHours(createFacility().getId(), "8:00:00", "8:00:00", DayOfWeek.MONDAY);
         });
 
     }

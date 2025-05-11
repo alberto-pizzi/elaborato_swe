@@ -35,7 +35,6 @@ public class SportDAO extends ConnectionHolder{
         return idAdded;
     }
 
-    //todo discutere se si può fare
     public void deleteSport(int idSport) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"Sport\" WHERE id = '%d'", idSport);
@@ -53,7 +52,6 @@ public class SportDAO extends ConnectionHolder{
         }
 
     }
-
 
     public Sport getSport(int idSport) throws SQLException, ClassNotFoundException {
 
@@ -121,32 +119,6 @@ public class SportDAO extends ConnectionHolder{
         return sports;
     }
 
-    //todo mai usata
-    public int getSportPlayers(int idSport) throws SQLException {
-
-        int count = 0;
-        String querySQL = String.format("SELECT players_required FROM \"Sport\" WHERE id = '%d'", idSport);
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                count = resultSet.getInt("players_required");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-            if (resultSet != null) { resultSet.close(); }
-        }
-
-        return count;
-    }
-
-    //todo mai usata
     public void updateSportPlayers(int idSport, int players) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Sport\" SET players_required = '%d' WHERE id = '%d'", players, idSport);
@@ -166,7 +138,6 @@ public class SportDAO extends ConnectionHolder{
         }
     }
 
-    //todo mai usata
     public void updateSportName(int idSport, String name) throws SQLException {
 
         String querySQL = String.format("UPDATE \"Sport\" SET name = '%s' WHERE id = '%d'", name, idSport);

@@ -300,33 +300,7 @@ public class ReservationDAO extends ConnectionHolder{
             }
         }
     }
-/*
-    //todo controllare se va bene quello nuovo
-    public int dailyEarning(Date date, Owner owner) throws SQLException {
 
-        int earning = 0;
-        String querySQL =  String.format("SELECT SUM(price) AS earnings FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".is_deleted = FALSE AND \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d'", date, owner.getId());
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                earning = resultSet.getInt("earnings");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-            if (resultSet != null) { resultSet.close(); }
-        }
-
-        return earning;
-    }
-*/
-    //todo Check if deleted reservation are useless or useful. Now is set to FALSE
     public int dailyEarning(Date date, Owner owner) throws SQLException {
 
         int earning = 0;
@@ -358,7 +332,6 @@ public class ReservationDAO extends ConnectionHolder{
         return earning;
     }
 
-    //TODO Check if deleted reservation are useless or useful. Now is set to FALSE
     public int dailyReservations(Date date, Owner owner) throws SQLException {
 
         int number = 0;

@@ -39,7 +39,6 @@ public class WorkingHoursDAO extends ConnectionHolder{
 
     }
 
-    //todo mai usata
     public void removeWHFromFacility(int idWH) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"WH\" WHERE id = '%d'", idWH);
@@ -76,7 +75,7 @@ public class WorkingHoursDAO extends ConnectionHolder{
 
     }
 
-    //todo mai usata
+    //todo fare test
     public void removeAllWHsByFacility(int idFacility) throws SQLException {
 
         String querySQL = String.format("DELETE FROM \"WH\" WHERE id_facility = '%d'", idFacility);
@@ -95,7 +94,7 @@ public class WorkingHoursDAO extends ConnectionHolder{
 
     }
 
-//todo mai usata
+    //todo fare test
     public void updateWH(int idWH, Time openingHours, Time closingHours) throws SQLException {
 
 

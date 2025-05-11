@@ -112,19 +112,6 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
 
     }
 
-    //todo mai usata
-    @Test
-    void changeHeadGuests() throws SQLException, ClassNotFoundException {
-        when(groupDao.getGroupByReservation(anyInt())).thenReturn(createGroup(false, 3));
-        //No exception
-        doNothing().when(isPartDao).updateGuestsUsers(anyInt(), anyInt(), anyInt());
-        assertTrue(managerOwnerManagementController.changeHeadGuests(createReservation(false).getId(), 1));
-
-        //With exception
-        doThrow(new SQLException("Simulated SQL exception")).when(isPartDao).updateGuestsUsers(anyInt(), anyInt(), anyInt());
-        assertFalse(managerOwnerManagementController.changeHeadGuests(createReservation(false).getId(), 1));
-    }
-
     @Test
     void getWHsByFacilityByDay() throws SQLException {
         ArrayList<WorkingHours> workingHours = new ArrayList<>();

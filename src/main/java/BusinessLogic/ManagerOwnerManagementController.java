@@ -34,37 +34,10 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         return filterByUpcomingReservations(reservationDao.getReservationsByField(idField), res -> res);
     }
 
-
-    //todo mai usata
-    public int getHeadGuests(int idReservation) throws SQLException, ClassNotFoundException {
-        int count;
-
-        try {
-            Group group = groupDao.getGroupByReservation(idReservation);
-            count = isPartDao.countOwnGuests(group.getId(), group.getGroupHead().getId());
-        }catch (SQLException e){
-            return -1;
-        }
-
-        return count;
-    }
-
     @Override
     protected String getProvinceForMatching(Field field){
         return field.getFacility().getProvince();
     }
-
-    //todo mai usata
-    public boolean changeHeadGuests(int idReservation, int guestNewNumber) throws SQLException, ClassNotFoundException {
-        try {
-            Group group = groupDao.getGroupByReservation(idReservation);
-            isPartDao.updateGuestsUsers(group.getId(),group.getGroupHead().getId(),guestNewNumber);
-        }catch (SQLException e){
-            return false;
-        }
-        return true;
-    }
-
 
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
         ArrayList<WorkingHours> workingHours;
@@ -72,12 +45,10 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         return workingHours;
     }
 
-
     public boolean reservationAnnouncement(String notificationMessage, Reservation reservation) {
         return notificationController.sendAnnouncement(reservation, notificationMessage) >= 0;
     }
 
-    //todo albe?
     @Override
     public boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException{
         //managers and owners have not to join into group, then it is always true

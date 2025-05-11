@@ -5,6 +5,7 @@ import main.java.ORM.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,14 +19,9 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     private FacilityDAO facilityDAO;
     private SportDAO sportDao;
 
+    int weekDays = 7;
+
     //constructor
-    //todo construttori da controllare albe
-    public OwnerManagementController(Owner owner) {
-        super(owner);
-        facilityDAO = new FacilityDAO();
-        managesDAO = new ManagesDAO();
-        sportDao = new SportDAO();
-    }
 
     public OwnerManagementController() {
         super((Owner) SessionController.getInstance().getPerson());
@@ -50,7 +46,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     public int monthlyEarnings() throws SQLException {
         LocalDate today = LocalDate.now();
         int earnings = 0;
-        for (int i = 0; i < 30; i++){
+        for (int i = 0; i < today.lengthOfMonth(); i++){
             earnings += reservationDao.dailyEarning(Date.valueOf(today), (Owner) person);
             today = today.minusDays(1);
         }
@@ -60,7 +56,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     public ArrayList <Integer> dailyEarnings() throws SQLException {
         LocalDate today = LocalDate.now();
         ArrayList <Integer> earnings = new ArrayList<>();
-        for (int i = 0; i < 7; i++){
+        for (int i = 0; i < weekDays; i++){
             earnings.add(reservationDao.dailyEarning(Date.valueOf(today), (Owner) person));
             today = today.minusDays(1);
         }
@@ -70,7 +66,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     public int monthlyReservations() throws SQLException {
         LocalDate today = LocalDate.now();
         int number = 0;
-        for (int i = 0; i < 30; i++){
+        for (int i = 0; i < today.lengthOfMonth(); i++){
             number += reservationDao.dailyReservations(Date.valueOf(today), (Owner) person);
             today = today.minusDays(1);
         }
@@ -101,18 +97,6 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         ArrayList <User> managers;
         managers = managesDAO.getAllManagersByFacility(facility.getId());
         return managers;
-    }
-
-    //todo mai usata
-    public ArrayList<User> getUsersByProvince(int facilityId) throws SQLException, ClassNotFoundException {
-        ArrayList<User> users;
-        try {
-            users = userDAO.getUsersByProvince(person.getProvince());
-            users = notManagers(users, managesDAO.getAllManagersByFacility(facilityId));
-        }catch (SQLException e){
-            return null;
-        }
-        return users;
     }
 
     public ArrayList<User> searchManagersByProvince(String provinceUser, int facilityId) throws SQLException, ClassNotFoundException {
@@ -264,7 +248,6 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
             workingHoursDAO.getConnection().commit();
         }catch (SQLException e){
             workingHoursDAO.getConnection().rollback();
-            //todo controllare con albe finally fatto se throw?
             throw e;
         } finally {
             workingHoursDAO.getConnection().setAutoCommit(true);
