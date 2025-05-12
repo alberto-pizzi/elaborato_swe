@@ -12,18 +12,23 @@ public class NotificationSender extends Creator {
     public NotificationSender(Reservation reservationSender, NotificationType notificationType, String notificationMessage) {
         this.reservationSender = reservationSender;
         this.notificationType = notificationType;
-        this.notificationMessage = notificationMessage;//todo da levare se non annuncio
+        this.notificationMessage = notificationMessage;
     }
 
     // methods
     @Override
     public Notification factoryMethod(){
-        //todo controllare cast e setter
-        Notification notification = (Notification) super.factoryMethod();
-        notification.setReservation(reservationSender);
-        notification.setNotificationType(notificationType);
-        notification.setMessage(notificationMessage);//todo da levare se non annuncio
-        return notification;
+        Product product = super.factoryMethod();
+        Notification notification;
+        if (product instanceof Notification) {
+            notification = (Notification) product;
+            notification.setReservation(reservationSender);
+            notification.setNotificationType(notificationType);
+            notification.setMessage(notificationMessage);
+            return notification;
+        }
+        return null;
+
     }
 
     @Override

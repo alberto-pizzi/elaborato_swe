@@ -112,6 +112,7 @@ public class NewSportController {
         this.menuPane = menuPane;
     }
 
+    //todo controllare uso
     public void setData(Field field, BorderPane menuPane) throws IOException, SQLException {
         this.field = field;
         this.menuPane = menuPane;

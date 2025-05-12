@@ -73,22 +73,6 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
         });
     }
 
-    //todo mai usata
-    @Test
-    void getHeadGuests() throws SQLException, ClassNotFoundException {
-        /*when(groupDao.getGroupByReservation(anyInt())).thenReturn(createGroup(false, 3));
-
-        //No exception
-        when(isPartDao.countOwnGuests(anyInt(), anyInt())).thenReturn(1);
-        assertEquals(1, managerOwnerManagementController.getHeadGuests(createReservation(false).getId()));
-
-        //With exception
-        when(isPartDao.countOwnGuests(anyInt(), anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
-        assertThrows(SQLException.class,() -> {
-            managerOwnerManagementController.getHeadGuests(createReservation(false).getId());
-        });*/
-    }
-
     @Test
     void addReservation() throws SQLException, ClassNotFoundException {
         Reservation reservation = createReservation(false);
@@ -134,7 +118,6 @@ class ManagerOwnerManagementControllerTest extends GeneralBSTest{
         Reservation reservation = createReservation(false);
 
         String notificationMessage = "Try";
-        //todo mockare proprio
         when(notificationDAO.addNotification(any(Notification.class))).thenReturn(1);
         when(groupDao.getGroupByReservation(anyInt())).thenReturn(createGroup(false, 3));
         when(isPartDao.getGroupMembers(anyInt())).thenReturn(new ArrayList<>());
