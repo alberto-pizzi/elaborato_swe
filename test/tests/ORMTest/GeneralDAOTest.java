@@ -3,12 +3,17 @@ package tests.ORMTest;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
 
 public abstract class GeneralDAOTest {
 
@@ -194,6 +199,15 @@ public abstract class GeneralDAOTest {
         WorkingHours workingHours = new WorkingHours(0, dayOfWeek,Time.valueOf("8:00:00"),Time.valueOf("22:00:00"));
         workingHours.setId(workingHoursDAO.addWHToFacility(facility.getId(),workingHours.getDayOfWeek(),workingHours.getOpeningHours(),workingHours.getClosingHours()));
         return workingHours;
+    }
+
+    //create fake connection for DAOs transactions
+    protected void transactionsMockHelper(ConnectionHolder mockedDao) throws SQLException {
+        Connection fakeConnection = mock(Connection.class);
+        when(mockedDao.getConnection()).thenReturn(fakeConnection);
+        doNothing().when(fakeConnection).commit();
+        doNothing().when(fakeConnection).rollback();
+        doNothing().when(fakeConnection).setAutoCommit(anyBoolean());
     }
 
 
