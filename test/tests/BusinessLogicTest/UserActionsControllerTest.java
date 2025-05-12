@@ -204,6 +204,8 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         group.addMember(userActionsController.getPerson(),ownGuests);
 
+
+        transactionsMockHelper(isPartDAOMock);
         when(groupDAOMock.getGroup(anyInt())).thenReturn(group);
         when(isPartDAOMock.countOwnGuests(anyInt(), anyInt())).thenReturn(ownGuests);
 
