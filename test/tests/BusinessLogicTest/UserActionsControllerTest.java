@@ -448,15 +448,6 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
     }
 
-    //create fake connection for DAOs transactions
-    private void transactionsMockHelper(ConnectionHolder mockedDao) throws SQLException {
-        Connection fakeConnection = mock(Connection.class);
-        when(mockedDao.getConnection()).thenReturn(fakeConnection);
-        doNothing().when(fakeConnection).commit();
-        doNothing().when(fakeConnection).rollback();
-        doNothing().when(fakeConnection).setAutoCommit(anyBoolean());
-    }
-
     @Test
     public void getReservationFieldTest() throws SQLException, ClassNotFoundException {
 

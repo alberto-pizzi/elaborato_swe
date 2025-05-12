@@ -136,15 +136,6 @@ public class NotificationControllerTest extends GeneralBSTest {
         when(isPartDAOMock.getGroupMembers(anyInt())).thenReturn(members);
     }
 
-    //create fake connection for DAOs transactions
-    private void transactionsMockHelper(ConnectionHolder mockedDao) throws SQLException {
-        Connection fakeConnection = mock(Connection.class);
-        when(mockedDao.getConnection()).thenReturn(fakeConnection);
-        doNothing().when(fakeConnection).commit();
-        doNothing().when(fakeConnection).rollback();
-        doNothing().when(fakeConnection).setAutoCommit(anyBoolean());
-    }
-
     @Test
     public void updateObserverTest() throws SQLException, ClassNotFoundException {
 
