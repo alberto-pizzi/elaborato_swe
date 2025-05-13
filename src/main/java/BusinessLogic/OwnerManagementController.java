@@ -265,6 +265,4 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         return workingHours;
     }
 
-
-
 }
