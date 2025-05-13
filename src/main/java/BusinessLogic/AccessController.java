@@ -26,8 +26,8 @@ public class AccessController {
         this.accessStrategy = accessStrategy;
     }
 
-    public Person login(String username) throws SQLException {
-        return accessStrategy.login(username);
+    public Person login(String username,String notEncodedPassword) throws SQLException, NoSuchAlgorithmException, ClassNotFoundException {
+        return accessStrategy.login(username, notEncodedPassword);
     }
 
     public boolean checkPassword(String username, String password) throws SQLException, NoSuchAlgorithmException, ClassNotFoundException {

@@ -20,9 +20,11 @@ public class OwnerAccess implements AccessStrategy{
     }
 
     @Override
-    public Owner login(String username) throws SQLException {
+    public Owner login(String username, String notEncodedPassword) throws SQLException, NoSuchAlgorithmException, ClassNotFoundException {
         Owner owner = null;
-        owner = dao.getOwner(username);
+        if(checkPassword(username, notEncodedPassword)){
+            owner = dao.getOwner(username);
+        }
         return owner;
     }
 
