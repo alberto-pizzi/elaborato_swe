@@ -5,7 +5,6 @@ import main.java.ORM.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -235,34 +234,34 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     public int addWorkingHours(int idFacility, String openingHour, String closingHour, DayOfWeek day) throws SQLException, ParseException {
         DateFormat formatter = new SimpleDateFormat("HH:mm");
-        return workingHoursDAO.addWHToFacility(idFacility, day, new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
+        return workingHoursDao.addWHToFacility(idFacility, day, new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
     }
 
     public boolean editWorkingHours(int idFacility, String openingHour, String closingHour, DayOfWeek day) throws SQLException, ParseException {
         try {
             //start transaction
-            workingHoursDAO.getConnection().setAutoCommit(false);
+            workingHoursDao.getConnection().setAutoCommit(false);
             deleteWorkingHoursByDay(idFacility, day);
             addWorkingHours(idFacility, openingHour, closingHour, day);
             //commit transaction
-            workingHoursDAO.getConnection().commit();
+            workingHoursDao.getConnection().commit();
         }catch (SQLException e){
-            workingHoursDAO.getConnection().rollback();
+            workingHoursDao.getConnection().rollback();
             throw e;
         } finally {
-            workingHoursDAO.getConnection().setAutoCommit(true);
+            workingHoursDao.getConnection().setAutoCommit(true);
         }
         return true;
     }
 
     public boolean deleteWorkingHoursByDay(int idFacility, DayOfWeek day) throws SQLException{
-        workingHoursDAO.removeWHFromFacilityByDay(idFacility, day);
+        workingHoursDao.removeWHFromFacilityByDay(idFacility, day);
         return true;
     }
 
     public ArrayList<WorkingHours> getWorkingHours(int idFacility) throws SQLException {
         ArrayList<WorkingHours> workingHours;
-        workingHours = workingHoursDAO.getWHsByFacility(idFacility);
+        workingHours = workingHoursDao.getWHsByFacility(idFacility);
         return workingHours;
     }
 
