@@ -12,28 +12,28 @@ import java.util.ArrayList;
 
 public class UserActionsController extends PersonController<User>{
 
-    private ManagesDAO managesDAO;
+    private ManagesDAO managesDao;
 
     //constructor
 
     public UserActionsController() {
         super((User) SessionController.getInstance().getPerson());
         
-        managesDAO = new ManagesDAO();
+        managesDao = new ManagesDAO();
     }
 
     //TODO should be deleted?
-    public UserActionsController(User user, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, ManagesDAO managesDAO, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO){
-        super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,facilityDAO,ownerDAO,notificationDAO,managesDAO);
+    public UserActionsController(User user, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, ManagesDAO managesDao, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO){
+        super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,facilityDAO,ownerDAO,notificationDAO, managesDao);
         
-        this.managesDAO = managesDAO;
+        this.managesDao = managesDao;
 
     }
 
-    public UserActionsController(User user, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, ManagesDAO managesDAO, NotificationController notificationController){
+    public UserActionsController(User user, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, ManagesDAO managesDao, NotificationController notificationController){
         super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,notificationController);
 
-        this.managesDAO = managesDAO;
+        this.managesDao = managesDao;
 
     }
 
