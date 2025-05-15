@@ -22,25 +22,12 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 //UserActionController and PersonController test
-public class UserActionsControllerTest extends GeneralBSTest {
+public class UserActionsControllerTest extends PersonControllerTest {
 
     private UserActionsController userActionsController;
 
     private User user = null;
 
-    private UserDAO userDAOMock = null;
-    private GroupDAO groupDAOMock = null;
-    private IsPartDAO isPartDAOMock = null;
-    private WorkingHoursDAO workingHoursDAOMock = null;
-    private ReservationDAO reservationDAOMock = null;
-    private InviteDAO inviteDAOMock = null;
-    private FieldDAO fieldDAOMock = null;
-    private ManagesDAO managesDAOMock = null;
-    private FacilityDAO facilityDAOMock = null;
-    private OwnerDAO ownerDAOMock = null;
-    private NotificationDAO notificationDAOMock = null;
-
-    private NotificationController notificationControllerMock = null;
 
     @Override
     @BeforeEach
@@ -89,7 +76,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
 
     @Test
-    public void joinGroupTest() throws SQLException, ClassNotFoundException {
+    public void joinGroupHelperTest() throws SQLException, ClassNotFoundException {
 
         int guests = 2;
         int requiredParticipants = 5;
@@ -102,11 +89,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
     }
 
-    private void joinGroupMockHelper(Group group,int guests) throws SQLException, ClassNotFoundException {
-        when(groupDAOMock.getGroup(anyInt())).thenReturn(group);
-        doNothing().when(isPartDAOMock).addMembership(anyInt(), anyInt(), anyInt());
-        doNothing().when(notificationControllerMock).connectObserverToReservation(any());
-    }
+
 
     @Test
     public void acceptInviteTest() throws SQLException, ClassNotFoundException {
@@ -315,6 +298,12 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
 
     @Test
+    public void applyChangesFromDraftTest(){
+        //TODO implement
+    }
+
+
+    @Test
     public void checkGroupDataTest() throws SQLException{
 
         Group group = null;
@@ -442,13 +431,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
     }
 
-    private void sendInviteMockHelper(Group group, User user) throws SQLException, ClassNotFoundException {
-        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
-        when(userDAOMock.getUserByID(anyInt())).thenReturn(user);
-        when(inviteDAOMock.addInvite(any())).thenReturn(1);
-        when(inviteDAOMock.checkInvite(anyInt(),anyInt())).thenReturn(false);
 
-    }
 
     @Test
     public void getReservationFieldTest() throws SQLException, ClassNotFoundException {
@@ -590,10 +573,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
     }
 
-    private void findOtherPlayersMockHelper(Group group, ArrayList<User> users) throws SQLException, ClassNotFoundException {
-        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
-        when(userDAOMock.getUsersByProvince(anyString())).thenReturn(users);
-    }
+
 
 
 }
