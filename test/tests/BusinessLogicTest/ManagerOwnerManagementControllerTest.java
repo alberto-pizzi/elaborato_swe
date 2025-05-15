@@ -118,16 +118,23 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         int reservationId = 3;
         when(reservationDAOMock.addReservation(any())).thenReturn(reservationId);
 
+        ArrayList<GroupMember> removed = new ArrayList<>();
+        ArrayList<GroupMember> added = new ArrayList<>();
+        ArrayList<GroupMember> changed = new ArrayList<>();
+        ArrayList<String> inviteList = new ArrayList<>();
 
-        assertEquals(reservationId,managerOwnerManagementController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead));
 
-        assertEquals(0,managerOwnerManagementController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,null));
+        assertEquals(reservationId,managerOwnerManagementController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
+
+        assertEquals(0,managerOwnerManagementController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,null,removed,added,changed,inviteList));
 
         Date yesterday = Date.valueOf(LocalDate.now().minusDays(1));
-        assertEquals(0,managerOwnerManagementController.addReservation(yesterday,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead));
+        assertEquals(0,managerOwnerManagementController.addReservation(yesterday,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
 
         guests = 10;
-        assertEquals(0,managerOwnerManagementController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead));
+        assertEquals(0,managerOwnerManagementController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
+
+        //TODO improve test
 
     }
 
@@ -141,6 +148,11 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
 
         assertEquals(oldParticipants,group.getParticipants());
 
+    }
+
+    @Test
+    public void applyChangesFromDraft(){
+        //TODO implement (albe)
     }
 
     @Test

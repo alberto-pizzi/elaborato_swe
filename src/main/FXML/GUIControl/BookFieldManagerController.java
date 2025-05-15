@@ -2,13 +2,12 @@ package main.FXML.GUIControl;
 
 import javafx.fxml.FXMLLoader;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
-import main.java.BusinessLogic.PersonController;
-import main.java.BusinessLogic.UserActionsController;
 
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.ArrayList;
 
 public class BookFieldManagerController extends BookFieldController {
 
@@ -33,11 +32,11 @@ public class BookFieldManagerController extends BookFieldController {
 
                 int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
 
-                int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), selectGuestsPaneController.getGroupMembersAdded().get(0).getUser());
+                int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), selectGuestsPaneController.getGroupMembersAdded().get(0).getUser(),selectGuestsPaneController.getGroupMembersRemoved() ,selectGuestsPaneController.getGroupMembersAdded() ,selectGuestsPaneController.getGroupMembersChanged() , new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems()));
 
                 if (reservationIdAdded > 0) {
                     selectGuestsPaneController.setGroup(personController.getGroupByReservation(reservationIdAdded));  //WARNING: it's important to be able to apply changes
-                    selectGuestsPaneController.applyChanges();
+                    //selectGuestsPaneController.applyChanges();
 
                     System.out.println("Booking done");
 

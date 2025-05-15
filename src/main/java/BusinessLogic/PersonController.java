@@ -119,7 +119,7 @@ public abstract class PersonController<T extends Person> {
         return workingHoursDAO.getWHsByFacilityByDay(idFacility,dayOfWeek);
     }
 
-    public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) {
+    public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead, ArrayList<GroupMember> removedMember, ArrayList<GroupMember> addedMember, ArrayList<GroupMember> changedMember, ArrayList<String> inviteList) {
         Reservation reservation = new Reservation(eventDate,eventTimeStart,eventTimeEnd,field, isMatched);
 
         if (checkReservationData(reservation)) {
@@ -156,6 +156,15 @@ public abstract class PersonController<T extends Person> {
                         return 0;
                     }
 
+                    try {
+                        if (!applyChangesFromDraft(group, removedMember, addedMember, changedMember, guests, inviteList)) {
+                            throw new SQLException("Error while applying changes");
+                        }
+                    } catch (Exception e3) {
+                        throw new SQLException("Error while applying changes");
+                    }
+
+
                     //commit transaction
                     reservationDao.getConnection().commit();
 
@@ -172,6 +181,7 @@ public abstract class PersonController<T extends Person> {
                     //general rollback
                     reservationDao.getConnection().rollback();
 
+                    return 0;
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
@@ -192,7 +202,7 @@ public abstract class PersonController<T extends Person> {
 
     public abstract boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException;
 
-    public boolean editReservation(Reservation reservation) {
+    public boolean editReservation(Reservation reservation, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuests, ArrayList<String> inviteList) {
 
         Reservation previousReservation = null;
 
@@ -205,16 +215,48 @@ public abstract class PersonController<T extends Person> {
         String notificationMessage = "Reservation is the day " + previousReservation.getReservationDate() + " at " + previousReservation.getEventTimeStart() + " has been changed by " + person.getUsername();
 
         try {
+            //start transaction
+            isPartDao.getConnection().setAutoCommit(false);
+
             reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
             reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
             reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
+
+            boolean changesHasBeenApplied = false;
+            try {
+                changesHasBeenApplied = applyChangesFromDraft(getGroupByReservation(reservation.getId()), removedDraft, addedDraft, changedDraft, ownGuests, inviteList);
+            } catch (SQLException | ClassNotFoundException e2) {
+                throw new SQLException(e2.getMessage());
+            }
+
+            if (!changesHasBeenApplied)
+                throw new SQLException("Error while applying changes");
+
+            //commit transaction
+            isPartDao.getConnection().commit();
+
+            notificationController.sendModificationNotification(reservation);
+            return true;
         } catch (SQLException e) {
+
+            try {
+                //rollback transaction
+                isPartDao.getConnection().rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+
             return false;
+        } finally {
+            try {
+                //end transaction
+                isPartDao.getConnection().setAutoCommit(true);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
 
-        notificationController.sendModificationNotification(reservation);
 
-        return true;
     }
 
     public boolean deleteReservation(int idReservation) {
@@ -319,7 +361,7 @@ public abstract class PersonController<T extends Person> {
         return groupDao.getGroupByReservation(idReservation).getParticipants();
     }
 
-    public boolean sendInvite(Reservation reservation, int idUser) throws SQLException, ClassNotFoundException {
+    public boolean sendInvite(Reservation reservation, int idUser) {
         
         Group group = null;
 
@@ -349,7 +391,7 @@ public abstract class PersonController<T extends Person> {
         return true;
     }
 
-    public int sendInvites(Group group, ArrayList<User> receivers) throws SQLException, ClassNotFoundException {
+    public int sendInvites(Group group, ArrayList<User> receivers) {
 
         int count = 0;
 
@@ -369,7 +411,7 @@ public abstract class PersonController<T extends Person> {
     }
 
     //TODO add alerts to manage callers
-    public boolean removeGroupMember(int idReservation, int idMember) throws SQLException, ClassNotFoundException {
+    public boolean removeGroupMember(int idReservation, int idMember) {
         try {
             isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
         }
@@ -395,11 +437,11 @@ public abstract class PersonController<T extends Person> {
         return false;
     }
 
-    public boolean addGroupMember(int idReservation, int idMember, int ownGuests) throws SQLException, ClassNotFoundException {
+    public boolean addGroupMember(int idReservation, int idMember, int ownGuests) {
 
         try {
             isPartDao.addMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember, ownGuests);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             return false;
         }
 
@@ -471,6 +513,45 @@ public abstract class PersonController<T extends Person> {
         return isUpcoming;
 
     }
+
+    public User getUserByUsername(String username) throws SQLException {
+        return userDAO.getUser(username);
+    }
+
+
+    public boolean removeGroupMembers(Group group, ArrayList<GroupMember> groupMembersDraftArray){
+
+        //returns false only if it fails
+        if (groupMembersDraftArray == null || groupMembersDraftArray.isEmpty())
+            return true;
+
+        boolean groupMemberRemoved = false;
+
+        for (GroupMember groupMember : groupMembersDraftArray) {
+            groupMemberRemoved = this.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
+
+            if (!groupMemberRemoved){
+                return false;
+            }
+
+        }
+
+        return true;
+
+
+    }
+
+    //TODO change to protected
+    //useless params should be set as null
+    protected abstract boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft) throws SQLException, ClassNotFoundException;
+
+
+
+
+
+
+
+
 
 
 }

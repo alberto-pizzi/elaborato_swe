@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import main.java.BusinessLogic.ManagerOwnerManagementController;
-import main.java.BusinessLogic.NotificationController;
 import main.java.DomainModel.GroupMember;
 
 import java.sql.SQLException;
@@ -174,53 +173,6 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             return false;
         else
             return super.canOthersBeAdded();
-    }
-
-    @Override
-    public void applyChanges() throws SQLException, ClassNotFoundException {
-
-        sendInvitesToInviteListMembers();
-
-        if (group != null) {
-
-            //removed
-            if (groupMembersRemoved != null && !groupMembersRemoved.isEmpty()) {
-                for (GroupMember groupMember : groupMembersRemoved) {
-                    if (group.removeMember(groupMember.getUser(),groupMember.getOwnGuests()))
-                        personController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
-                    else
-                        System.out.println("Error during removing member into group");
-                }
-            }
-
-            //added
-            if (groupMembersAdded != null && !groupMembersAdded.isEmpty()) {
-                for (GroupMember groupMember : groupMembersAdded) {
-
-                    personController.getNotificationController().connectObserverToReservation(group.getReservation());
-
-                    if (group.addMember(groupMember.getUser(),groupMember.getOwnGuests()))
-                        personController.addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
-                    else
-                        System.out.println("Error during adding member into group");
-                }
-            }
-
-            //changed
-            if (groupMembersChanged != null && !groupMembersChanged.isEmpty()) {
-                for (GroupMember groupMember : groupMembersChanged) {
-
-                    personController.getNotificationController().connectObserverToReservation(group.getReservation());
-
-                    group.changeUserGuests(groupMember.getUser().getUsername(),groupMember.getOwnGuests());
-                    personController.changeUserGuests(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests());
-                }
-            }
-
-        }
-        else
-            System.out.println("Group is null during applyChanges");
-
     }
 
 

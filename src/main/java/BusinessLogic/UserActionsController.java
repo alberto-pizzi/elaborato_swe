@@ -85,7 +85,7 @@ public class UserActionsController extends PersonController<User>{
             if (invite.getGroup().getReservation().isMatched()) {
 
                 //himself join into group
-                if (!joinGroup(invite.getGroup().getId(), guests))
+                if (!joinGroupHelper(invite.getGroup().getId(), guests))
                     return false;
 
 
@@ -99,7 +99,7 @@ public class UserActionsController extends PersonController<User>{
 
             } else {
                 //guests are 0 because in not matched booking are not allowed guests
-                if (!joinGroup(invite.getGroup().getId(), 0))
+                if (!joinGroupHelper(invite.getGroup().getId(), 0))
                     return false;
 
             }
@@ -249,4 +249,68 @@ public class UserActionsController extends PersonController<User>{
         return  userDAO.getUser(username);
     }
 
-}
+    public boolean changeOwnGuests(Group group, int guestsSelected) throws SQLException, ClassNotFoundException {
+
+        boolean guestChangedLocally = false;
+        boolean guestChangedOnDB = false;
+
+        //change own guests
+        if (group != null) {
+
+            //no changes needed
+            if (guestsSelected <= 0)
+                return true;
+
+            //TODO is this position right?
+            notificationController.connectObserverToReservation(group.getReservation());
+
+            guestChangedLocally = group.changeUserGuests(person.getUsername(),guestsSelected);
+
+            if (!guestChangedLocally)
+                return false;
+            else {
+                guestChangedOnDB = changeUserGuests(group.getReservation().getId(), person.getId(), guestsSelected);
+                return guestChangedOnDB;
+            }
+
+        }
+
+        return false;
+    }
+    
+
+    @Override
+    protected boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft) throws SQLException, ClassNotFoundException {
+
+
+        if (group != null) {
+
+            //TODO manage invite "transaction"
+            if (inviteListDraft != null && !inviteListDraft.isEmpty()) {
+                int invitesSent = sendInvites(group, getUsersByUsernames(inviteListDraft));
+
+                if (invitesSent < 0)
+                    return false;
+            }
+
+            boolean areGuestsChanged = changeOwnGuests(group, ownGuestsSelected);
+
+            if (!areGuestsChanged)
+                return false;
+
+            boolean success = true;
+
+            if (removedDraft != null && !removedDraft.isEmpty() && group.getGroupHead().getUsername().equals(person.getUsername()))
+                success = removeGroupMembers(group, removedDraft);
+
+            return success;
+        }
+
+
+        return true;
+
+    }
+
+
+
+    }

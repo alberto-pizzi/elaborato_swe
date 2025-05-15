@@ -16,6 +16,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class ModifyReservationController extends FieldFormManagementController implements Initializable {
@@ -66,7 +67,7 @@ public class ModifyReservationController extends FieldFormManagementController i
         if (datePicker.getValue() != null) {
             updateStartTime();
             if (startTimeChoice.getValue() != null)
-                updateEndTimes(LocalTime.parse(startTimeChoice.getValue()), personController.getWHsByFacilityByDay(field.getFacility().getId(), datePicker.getValue().getDayOfWeek()), minutesInterval);
+                updateEndTimes(LocalTime.parse(startTimeChoice.getValue()), datePicker.getValue() , minutesInterval);
         }
 
 
@@ -136,13 +137,15 @@ public class ModifyReservationController extends FieldFormManagementController i
 
             if (selectGuestsPaneController != null) {
 
-                if (personController.editReservation(reservation)){
+                int newGuests = (selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0);
+                if (personController.editReservation(reservation,selectGuestsPaneController.getGroupMembersRemoved() , selectGuestsPaneController.getGroupMembersAdded(), selectGuestsPaneController.getGroupMembersChanged(), newGuests,new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems()))){
 
                     try {
-                        selectGuestsPaneController.applyChanges();
                         actionsAfterEdit();
                     } catch (SQLException | ClassNotFoundException | IOException e) {
-                        messagesController.showMessage("Error while applying changes", MessagesController.MessageType.ERROR,5);
+                        String errorMessage = "Error while doing actions after edit.";
+                        messagesController.showMessage(errorMessage, MessagesController.MessageType.ERROR,5);
+                        System.out.println(errorMessage);
                     }
                 }
                 else

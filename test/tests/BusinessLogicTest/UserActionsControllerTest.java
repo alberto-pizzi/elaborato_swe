@@ -9,7 +9,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -154,17 +153,28 @@ public class UserActionsControllerTest extends PersonControllerTest {
         int reservationId = 3;
         when(reservationDAOMock.addReservation(any())).thenReturn(reservationId);
 
+        ArrayList<GroupMember> removed = new ArrayList<>();
+        ArrayList<GroupMember> added = new ArrayList<>();
+        ArrayList<GroupMember> changed = new ArrayList<>();
+        ArrayList<String> inviteList = new ArrayList<>();
 
-        assertEquals(reservationId,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,userActionsController.getPerson()));
 
-        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,null));
+        assertEquals(reservationId,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,userActionsController.getPerson(),removed,added,changed,inviteList));
+
+        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,null,removed,added,changed,inviteList));
 
         Date yesterday = Date.valueOf(LocalDate.now().minusDays(1));
-        assertEquals(0,userActionsController.addReservation(yesterday,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead));
+        assertEquals(0,userActionsController.addReservation(yesterday,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
 
         guests = 10;
-        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead));
+        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
 
+        //TODO improve test
+    }
+
+    @Test
+    public void editReservationTest(){
+        //TODO implement
     }
 
     @Test
