@@ -39,15 +39,16 @@ public class AccessUserTest extends GeneralBSTest{
     }
 
     @Test
-    public void login() throws SQLException {
+    public void login() throws SQLException, NoSuchAlgorithmException, ClassNotFoundException {
+        when(userDAOMock.getEncodedPassword(anyString())).thenReturn(PasswordEncoder.hashPassword(user.getPassword()));
         //No exception
         when(userDAOMock.getUser(anyString())).thenReturn(user);
-        assertEquals(user.getEmail(),accessController.login(user.getUsername()).getEmail());
+        assertEquals(user.getEmail(),accessController.login(user.getUsername(), user.getPassword()).getEmail());
 
         //With exception
         when(userDAOMock.getUser(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
         assertThrows(SQLException.class,() -> {
-            accessController.login(user.getUsername());
+            accessController.login(user.getUsername(), user.getPassword());
         });
     }
 

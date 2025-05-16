@@ -80,7 +80,7 @@ public class UserActionsController extends PersonController<User>{
 
         try {
             //start transaction
-            userDAO.getConnection().setAutoCommit(false);
+            userDao.getConnection().setAutoCommit(false);
 
             if (invite.getGroup().getReservation().isMatched()) {
 
@@ -92,7 +92,7 @@ public class UserActionsController extends PersonController<User>{
                 //send invites to other (his) players
                 for (String accountUsername : accountsList) {
                     if (accountUsername != null) {
-                        sendInvite(invite.getGroup().getReservation(), userDAO.getUserID(accountUsername));
+                        sendInvite(invite.getGroup().getReservation(), userDao.getUserID(accountUsername));
                     }
                 }
 
@@ -109,17 +109,17 @@ public class UserActionsController extends PersonController<User>{
             inviteDao.deleteInvite(invite.getId());
 
             //commit transaction
-            userDAO.getConnection().commit();
+            userDao.getConnection().commit();
         } catch (SQLException | ClassNotFoundException e){
             try{
                 //rollback transaction
-                userDAO.getConnection().rollback();
+                userDao.getConnection().rollback();
             } catch (SQLException e1){
                 e1.printStackTrace();
             }
         } finally {
             try {
-                userDAO.getConnection().setAutoCommit(true);
+                userDao.getConnection().setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -246,7 +246,7 @@ public class UserActionsController extends PersonController<User>{
 
     //TODO swap with getUserIdByUsername (PersonController)
     public User searchUserByUsername(String username) throws SQLException, ClassNotFoundException {
-        return  userDAO.getUser(username);
+        return  userDao.getUser(username);
     }
 
     public boolean changeOwnGuests(Group group, int guestsSelected) throws SQLException, ClassNotFoundException {

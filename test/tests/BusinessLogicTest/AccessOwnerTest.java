@@ -41,15 +41,16 @@ public class AccessOwnerTest extends GeneralBSTest {
     }
 
     @Test
-    public void login() throws SQLException {
+    public void login() throws SQLException, NoSuchAlgorithmException, ClassNotFoundException {
+        when(ownerDAOMock.getEncodedPassword(anyString())).thenReturn(PasswordEncoder.hashPassword(owner.getPassword()));
         //No exception
         when(ownerDAOMock.getOwner(anyString())).thenReturn(owner);
-        assertEquals(owner.getEmail(),accessController.login(owner.getUsername()).getEmail());
+        assertEquals(owner.getEmail(),accessController.login(owner.getUsername(), owner.getPassword()).getEmail());
 
         //With exception
         when(ownerDAOMock.getOwner(anyString())).thenThrow(new SQLException("Simulated SQL exception"));
         assertThrows(SQLException.class,() -> {
-            accessController.login(owner.getUsername());
+            accessController.login(owner.getUsername(), owner.getPassword());
         });
     }
 

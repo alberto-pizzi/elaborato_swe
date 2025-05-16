@@ -34,7 +34,6 @@ public abstract class Login extends AccessGui {
     @Override
     @FXML
     public void handleLogInButton(ActionEvent event){
-        boolean verified = false;
         Person person = null;
 
         if(password.getText().isEmpty() || username.getText().isEmpty()) {
@@ -43,13 +42,12 @@ public abstract class Login extends AccessGui {
         }else{
 
             try{
-                verified = access.checkPassword(username.getText(), password.getText());
-                if (!verified) {
-                    String message = "Wrong password or username, forgot password?";
+                person = access.login(username.getText(), password.getText());
+                if (person == null) {
+                    String message = "Wrong password or username or server error, forgot password?";
                     messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
                 }else{
                     System.out.println("login done");
-                    person = access.login(username.getText());
                     sessionController.setPerson(person);
                     goToHome();
                 }

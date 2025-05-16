@@ -41,7 +41,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
         ArrayList<WorkingHours> workingHours;
-        workingHours = workingHoursDAO.getWHsByFacility(idFacility);
+        workingHours = workingHoursDao.getWHsByFacility(idFacility);
         return workingHours;
     }
 
