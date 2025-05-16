@@ -152,15 +152,14 @@ public abstract class PersonController<T extends Person> {
                             notificationController.sendConfirmNotification(reservation);
                         }
                     } else {
-                        reservationDao.getConnection().rollback();
-                        return 0;
+                        throw new SQLException("Error while joining into group");
                     }
 
                     try {
                         if (!applyChangesFromDraft(group, removedMember, addedMember, changedMember, guests, inviteList)) {
                             throw new SQLException("Error while applying changes");
                         }
-                    } catch (Exception e3) {
+                    } catch (SQLException | ClassNotFoundException e3) {
                         throw new SQLException("Error while applying changes");
                     }
 
@@ -172,8 +171,7 @@ public abstract class PersonController<T extends Person> {
 
                 }
                 else {
-                    reservationDao.getConnection().rollback();
-                    return 0;
+                    throw new SQLException("Wrong group data");
                 }
 
             } catch (SQLException | ClassNotFoundException e) {
@@ -515,7 +513,7 @@ public abstract class PersonController<T extends Person> {
     }
 
     public User getUserByUsername(String username) throws SQLException {
-        return userDAO.getUser(username);
+        return userDao.getUser(username);
     }
 
 
@@ -541,7 +539,6 @@ public abstract class PersonController<T extends Person> {
 
     }
 
-    //TODO change to protected
     //useless params should be set as null
     protected abstract boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft) throws SQLException, ClassNotFoundException;
 
