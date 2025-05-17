@@ -14,7 +14,6 @@ import static org.mockito.Mockito.when;
 
 public abstract class PersonControllerTest extends GeneralBSTest  {
 
-    //TODO is it correct?
     protected GroupDAO groupDAOMock = null;
     protected NotificationController notificationControllerMock = null;
     protected IsPartDAO isPartDAOMock = null;
@@ -48,6 +47,7 @@ public abstract class PersonControllerTest extends GeneralBSTest  {
         when(userDAOMock.getUsersByProvince(anyString())).thenReturn(users);
     }
 
-    //TODO implement helper for applyChanges
+    protected abstract void applyChangesMockHelper(int invitesSent, boolean guestsChanged, boolean removedMembers) throws SQLException, ClassNotFoundException;
+
 
 }

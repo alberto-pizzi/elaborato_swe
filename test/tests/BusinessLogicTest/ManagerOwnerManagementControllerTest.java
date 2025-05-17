@@ -122,6 +122,11 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
 
     }
 
+    @Override
+    protected void applyChangesMockHelper(int invitesSent, boolean guestsChanged, boolean removedMembers) throws SQLException, ClassNotFoundException {
+        //TODO implement
+    }
+
     @Test
     public void joinGroupTest() throws SQLException, ClassNotFoundException {
         Group group = createGroup(true,5);

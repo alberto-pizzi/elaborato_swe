@@ -89,8 +89,10 @@ public abstract class PersonController<T extends Person> {
 
         ArrayList<User> users = new ArrayList<>();
 
-        for (String username : usernames)
-            users.add(userDao.getUser(username));
+        if (usernames != null) {
+            for (String username : usernames)
+                users.add(userDao.getUser(username));
+        }
 
         return users;
     }
@@ -393,13 +395,16 @@ public abstract class PersonController<T extends Person> {
 
         int count = 0;
 
-        for (User user : receivers) {
-            if (sendInvite(group.getReservation(), user.getId()))
-                count++;
+        if (receivers != null) {
+            for (User user : receivers) {
+                if (sendInvite(group.getReservation(), user.getId()))
+                    count++;
+
+            }
 
         }
 
-        if (count == 0 && !receivers.isEmpty())
+        if (receivers == null || (count == 0 && !receivers.isEmpty()))
             return -1;
 
         return count;
