@@ -68,7 +68,6 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
         if (group != null) {
 
-            //TODO manage invite "transaction"
             int invitesSent = sendInvites(group,getUsersByUsernames(inviteListDraft));
 
             if (invitesSent < 0)

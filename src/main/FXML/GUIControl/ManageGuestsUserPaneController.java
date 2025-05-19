@@ -187,7 +187,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     public void handleRemoveAllMembersButton(ActionEvent event) {
         System.out.println("REMOVE ALL MEMBERS BUTTON");
 
-        //TODO add Alert?
+
         if (group != null && !effectiveGroupMembersList.getItems().isEmpty()){
             for (GroupMember groupMember : effectiveGroupMembersList.getItems()){
                 removeGroupMemberFromDraft(groupMember);

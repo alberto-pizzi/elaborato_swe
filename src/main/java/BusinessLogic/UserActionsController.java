@@ -22,14 +22,6 @@ public class UserActionsController extends PersonController<User>{
         managesDAO = new ManagesDAO();
     }
 
-    //TODO should be deleted?
-    public UserActionsController(User user, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, ManagesDAO managesDAO, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO){
-        super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,facilityDAO,ownerDAO,notificationDAO,managesDAO);
-        
-        this.managesDAO = managesDAO;
-
-    }
-
     public UserActionsController(User user, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, ManagesDAO managesDAO, NotificationController notificationController){
         super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,notificationController);
 
@@ -285,7 +277,6 @@ public class UserActionsController extends PersonController<User>{
 
         if (group != null) {
 
-            //TODO manage invite "transaction"
             if (inviteListDraft != null && !inviteListDraft.isEmpty()) {
                 int invitesSent = sendInvites(group, getUsersByUsernames(inviteListDraft));
 

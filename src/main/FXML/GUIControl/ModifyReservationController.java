@@ -100,12 +100,6 @@ public class ModifyReservationController extends FieldFormManagementController i
 
     }
 
-    @Override
-    protected void resetFields() {
-        //FIXME
-        super.resetFields();
-
-    }
 
     @Override
     protected void loadOwnGuestSelectorPane() throws SQLException, ClassNotFoundException, IOException {
