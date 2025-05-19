@@ -158,43 +158,14 @@ public class UserActionsControllerTest extends PersonControllerTest {
         ArrayList<GroupMember> changed = new ArrayList<>();
         ArrayList<String> inviteList = new ArrayList<>();
 
-        int invitesSent = 1;
-        boolean guestsChanged = true;
-        boolean removedGroupMembers = true;
-
         userActionsController = spy(userActionsController); //IMPORTANT before calling applyChangesMockHelper
-        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers);
+        when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any())).thenReturn(true);
 
         assertEquals(reservationId,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,userActionsController.getPerson(),removed,added,changed,inviteList));
-
         assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,null,removed,added,changed,inviteList));
 
         Date yesterday = Date.valueOf(LocalDate.now().minusDays(1));
         assertEquals(0,userActionsController.addReservation(yesterday,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
-
-
-        invitesSent = -1;
-        inviteList.add(createUser(15).getUsername());
-        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers);
-        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,userActionsController.getPerson(),removed,added,changed,inviteList));
-
-        invitesSent = 1;
-        guestsChanged = false;
-        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers);
-
-        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,userActionsController.getPerson(),removed,added,changed,inviteList));
-
-        guestsChanged = true;
-        removedGroupMembers = false;
-        removed.add(new GroupMember(createUser(20),0));
-        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers);
-
-        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,userActionsController.getPerson(),removed,added,changed,inviteList));
-
-        removed.clear();
-        removedGroupMembers = true;
-        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers);
-
 
         guests = 10;
         assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
@@ -333,7 +304,7 @@ public class UserActionsControllerTest extends PersonControllerTest {
     }
 
     @Override
-    protected void applyChangesMockHelper(int invitesSent, boolean guestsChanged, boolean removedMembers) throws SQLException, ClassNotFoundException {
+    protected void applyChangesMockHelper(int invitesSent, boolean guestsChanged, boolean removedMembers, boolean addedMembers, boolean changedMembers) throws SQLException, ClassNotFoundException {
         //WARNING: it needs some BusinessLogic spy before calling this method
 
         when(userActionsController.getUsersByUsernames(any())).thenReturn(new ArrayList<>());
@@ -348,9 +319,48 @@ public class UserActionsControllerTest extends PersonControllerTest {
     //person controller tests:
 
 
+    @Override
     @Test
     public void applyChangesFromDraftTest() throws SQLException, ClassNotFoundException {
-        //TODO implement
+
+        Group group = createGroup(true,5);
+        int ownGuests = 0;
+
+        ArrayList<GroupMember> removed = new ArrayList<>();
+        ArrayList<GroupMember> added = new ArrayList<>();
+        ArrayList<GroupMember> changed = new ArrayList<>();
+        ArrayList<String> inviteList = new ArrayList<>();
+
+        int invitesSent = 1;
+        boolean guestsChanged = true;
+        boolean removedGroupMembers = true;
+
+        userActionsController = spy(userActionsController); //IMPORTANT before calling applyChangesMockHelper
+        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
+
+        assertTrue(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+        invitesSent = -1;
+        inviteList.add(createUser(15).getUsername());
+        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
+        assertFalse(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+        invitesSent = 1;
+        guestsChanged = false;
+        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
+        assertFalse(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+        guestsChanged = true;
+        removedGroupMembers = false;
+        removed.add(new GroupMember(createUser(20),0));
+        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
+        assertFalse(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+        group.setGroupHead(createUser(19));
+        removedGroupMembers = true;
+        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
+        assertTrue(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
 
     }
 

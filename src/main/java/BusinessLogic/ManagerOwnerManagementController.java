@@ -64,7 +64,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
 
     @Override
-    protected boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft) throws SQLException, ClassNotFoundException {
+    public boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft) throws SQLException, ClassNotFoundException {
 
         if (group != null) {
 
@@ -92,8 +92,6 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
             //added
             if (addedDraft != null && !addedDraft.isEmpty()) {
                 for (GroupMember groupMember : addedDraft) {
-
-
                     if (group.addMember(groupMember.getUser(), groupMember.getOwnGuests())) {
                         if (!addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests()))
                             return false;

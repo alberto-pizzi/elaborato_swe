@@ -102,11 +102,13 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         int reservationId = 3;
         when(reservationDAOMock.addReservation(any())).thenReturn(reservationId);
 
+        managerOwnerManagementController = spy(managerOwnerManagementController); //IMPORTANT before calling applyChangesMockHelper
+        when(managerOwnerManagementController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any())).thenReturn(true);
+
         ArrayList<GroupMember> removed = new ArrayList<>();
         ArrayList<GroupMember> added = new ArrayList<>();
         ArrayList<GroupMember> changed = new ArrayList<>();
         ArrayList<String> inviteList = new ArrayList<>();
-
 
         assertEquals(reservationId,managerOwnerManagementController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
 
@@ -115,16 +117,87 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         Date yesterday = Date.valueOf(LocalDate.now().minusDays(1));
         assertEquals(0,managerOwnerManagementController.addReservation(yesterday,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
 
+        when(managerOwnerManagementController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any())).thenReturn(false);
+        assertEquals(0,managerOwnerManagementController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
+
         guests = 10;
         assertEquals(0,managerOwnerManagementController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
 
-        //TODO improve test
+        //TODO improve test (to be moved into PersonControllerTest?)
 
     }
 
     @Override
-    protected void applyChangesMockHelper(int invitesSent, boolean guestsChanged, boolean removedMembers) throws SQLException, ClassNotFoundException {
-        //TODO implement
+    protected void applyChangesMockHelper(int invitesSent, boolean guestsChanged, boolean removedMembers, boolean addedMembers, boolean changedMembers) throws SQLException, ClassNotFoundException {
+        //WARNING: it needs some BusinessLogic spy before calling this method
+
+        when(managerOwnerManagementController.getUsersByUsernames(any())).thenReturn(new ArrayList<>());
+        when(managerOwnerManagementController.sendInvites(any(),any())).thenReturn(invitesSent);
+
+        doNothing().when(isPartDAOMock).removeMembership(anyInt(),anyInt());
+        Group fakeGroup = mock(Group.class);
+        when(fakeGroup.getId()).thenReturn(123);
+        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(fakeGroup);
+        when(managerOwnerManagementController.removeGroupMember(anyInt(),anyInt())).thenReturn(removedMembers);
+        when(managerOwnerManagementController.addGroupMember(anyInt(),anyInt(),anyInt())).thenReturn(addedMembers);
+        when(managerOwnerManagementController.changeUserGuests(anyInt(),anyInt(),anyInt())).thenReturn(changedMembers);
+
+    }
+
+    @Override
+    @Test
+    public void applyChangesFromDraftTest() throws SQLException, ClassNotFoundException {
+
+        Group group = createGroup(createUser(),spy(createReservation(true)),5);
+        int ownGuests = 0;
+
+        ArrayList<GroupMember> removed = new ArrayList<>();
+        ArrayList<GroupMember> added = new ArrayList<>();
+        ArrayList<GroupMember> changed = new ArrayList<>();
+        ArrayList<String> inviteList = new ArrayList<>();
+
+
+        managerOwnerManagementController = spy(managerOwnerManagementController); //IMPORTANT before calling applyChangesMockHelper
+        doNothing().when(group.getReservation()).notifyObserver(); //disable observer notifications
+
+        doNothing().when(notificationControllerMock).connectObserverToReservation(any());
+        applyChangesMockHelper(1,true,true, true, true);
+
+        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+        added.add(new GroupMember(createUser(4),0));
+        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        added.clear();
+
+        User userToBeAdded = createUser(4);
+
+        added.add(new GroupMember(userToBeAdded,0));
+        applyChangesMockHelper(1,true,true, false, true);
+        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        added.clear();
+
+        applyChangesMockHelper(1,true,true, true, false);
+        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+        applyChangesMockHelper(1,true,true, true, true);
+        added.clear();
+        changed.add(new GroupMember(createUser(4),1));
+        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        changed.clear();
+
+        inviteList.add(createUser(15).getUsername());
+        applyChangesMockHelper(-1,true,true, true, true);
+        assertFalse(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+        removed.add(new GroupMember(userToBeAdded,0));
+        applyChangesMockHelper(1,true,false, true, true);
+        assertFalse(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+        group.setGroupHead(createUser(19));
+        applyChangesMockHelper(1,true,true, true, true);
+        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+
     }
 
     @Test
@@ -139,10 +212,6 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
 
     }
 
-    @Test
-    public void applyChangesFromDraft(){
-        //TODO implement (albe)
-    }
 
     @Test
     void getWHsByFacilityByDay() throws SQLException {
