@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public interface AccessStrategy {
 
     //methods
-    Person login(String username) throws SQLException;
+    Person login(String username, String notEncodedPassword) throws SQLException, NoSuchAlgorithmException, ClassNotFoundException;
     boolean checkPersonExistence(String username) throws SQLException, ClassNotFoundException ;
     boolean checkEmail(String emailEntered) throws SQLException, ClassNotFoundException;
     boolean register(String username, String email, String password, String city, String province, String zip, String country);

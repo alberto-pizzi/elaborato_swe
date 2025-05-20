@@ -19,10 +19,13 @@ public class UserAccess implements AccessStrategy{
     }
 
     @Override
-    public User login(String username) throws SQLException {
+    public User login(String username, String notEncodedPassword) throws SQLException, NoSuchAlgorithmException, ClassNotFoundException {
         User user = null;
-        user = dao.getUser(username);
+        if(checkPassword(username, notEncodedPassword)){
+            user = dao.getUser(username);
+        }
         return user;
+
     }
 
     @Override

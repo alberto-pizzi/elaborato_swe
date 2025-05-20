@@ -5,7 +5,6 @@ import main.java.ORM.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,8 +14,8 @@ import java.util.ArrayList;
 
 public class OwnerManagementController extends ManagerOwnerManagementController{
 
-    private ManagesDAO managesDAO;
-    private FacilityDAO facilityDAO;
+    private ManagesDAO managesDao;
+    private FacilityDAO facilityDao;
     private SportDAO sportDao;
 
     //todo fare final?
@@ -26,15 +25,15 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     public OwnerManagementController() {
         super((Owner) SessionController.getInstance().getPerson());
-        facilityDAO = new FacilityDAO();
-        managesDAO = new ManagesDAO();
+        facilityDao = new FacilityDAO();
+        managesDao = new ManagesDAO();
         sportDao = new SportDAO();
     }
 
-    public OwnerManagementController(Owner owner, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, FacilityDAO facilityDAO, ManagesDAO managesDAO, SportDAO sportDao, OwnerDAO ownerDAO, NotificationDAO notificationDAO) {
-        super(owner,  userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao,fieldDao,facilityDAO,ownerDAO,notificationDAO,managesDAO);
-        this.facilityDAO = facilityDAO;
-        this.managesDAO = managesDAO;
+    public OwnerManagementController(Owner owner, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, FacilityDAO facilityDao, ManagesDAO managesDao, SportDAO sportDao, OwnerDAO ownerDAO, NotificationDAO notificationDAO) {
+        super(owner,  userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao,fieldDao, facilityDao,ownerDAO,notificationDAO, managesDao);
+        this.facilityDao = facilityDao;
+        this.managesDao = managesDao;
         this.sportDao = sportDao;
     }
 
@@ -90,13 +89,13 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     public ArrayList<Facility> getOwnFacilities() throws SQLException {
         ArrayList <Facility> facilities;
-        facilities = facilityDAO.getFacilitiesByOwner(this.person.getId());
+        facilities = facilityDao.getFacilitiesByOwner(this.person.getId());
         return facilities;
     }
 
     public ArrayList<User> getManagersByFacility(Facility facility) throws SQLException {
         ArrayList <User> managers;
-        managers = managesDAO.getAllManagersByFacility(facility.getId());
+        managers = managesDao.getAllManagersByFacility(facility.getId());
         return managers;
     }
 
@@ -104,7 +103,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         ArrayList<User> users;
         ArrayList<User> managingAlready;
         users = searchUsersByProvince(provinceUser);
-        managingAlready= managesDAO.getAllManagersByFacility(facilityId);
+        managingAlready= managesDao.getAllManagersByFacility(facilityId);
         users = notManagers(users, managingAlready);
         return users;
     }
@@ -131,14 +130,14 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         ArrayList<User> users;
         ArrayList<User> managingAlready;
         users = searchUsersByUsername(searchUsername);
-        managingAlready= managesDAO.getAllManagersByFacility(facilityId);
+        managingAlready= managesDao.getAllManagersByFacility(facilityId);
         users = notManagers(users, managingAlready);
         return users;
     }
 
     public boolean attachManager(int idUser, int idFacility){
         try {
-            managesDAO.attachManager(idUser, idFacility);
+            managesDao.attachManager(idUser, idFacility);
         }catch (SQLException e){
             return false;
         }
@@ -147,7 +146,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     public boolean detachManager(int idUser, int idFacility){
         try {
-            managesDAO.detachManager(idUser, idFacility);
+            managesDao.detachManager(idUser, idFacility);
         }catch (SQLException e){
             return false;
         }
@@ -189,7 +188,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     public boolean addFacility(Facility facility){
         try {
             facility.setOwner((Owner) person);
-            facilityDAO.addFacility(facility.getName(), facility.getAddress(), facility.getCity(), facility.getProvince(), facility.getZip(), facility.getCountry(), facility.getTelephone(), facility.getImage(), facility.getOwner().getId());
+            facilityDao.addFacility(facility.getName(), facility.getAddress(), facility.getCity(), facility.getProvince(), facility.getZip(), facility.getCountry(), facility.getTelephone(), facility.getImage(), facility.getOwner().getId());
         }catch (SQLException e){
             return false;
         }
@@ -198,14 +197,14 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     public boolean editFacility(Facility facility){
         try {
-            facilityDAO.updateName(facility.getId(), facility.getName());
-            facilityDAO.updateAddress(facility.getId(), facility.getAddress());
-            facilityDAO.updateCity(facility.getId(), facility.getCity());
-            facilityDAO.updateProvince(facility.getId(), facility.getProvince());
-            facilityDAO.updateZip(facility.getId(), facility.getZip());
-            facilityDAO.updateCountry(facility.getId(), facility.getCountry());
-            facilityDAO.updateTelephone(facility.getId(), facility.getTelephone());
-            facilityDAO.updateImage(facility.getId(), facility.getImage());
+            facilityDao.updateName(facility.getId(), facility.getName());
+            facilityDao.updateAddress(facility.getId(), facility.getAddress());
+            facilityDao.updateCity(facility.getId(), facility.getCity());
+            facilityDao.updateProvince(facility.getId(), facility.getProvince());
+            facilityDao.updateZip(facility.getId(), facility.getZip());
+            facilityDao.updateCountry(facility.getId(), facility.getCountry());
+            facilityDao.updateTelephone(facility.getId(), facility.getTelephone());
+            facilityDao.updateImage(facility.getId(), facility.getImage());
         }catch (SQLException e){
             return false;
         }
@@ -215,7 +214,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     public boolean deleteFacility(int idFacility){
         try {
-            facilityDAO.deleteFacility(idFacility);
+            facilityDao.deleteFacility(idFacility);
         }catch (SQLException e){
             return false;
         }
@@ -236,37 +235,35 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     public int addWorkingHours(int idFacility, String openingHour, String closingHour, DayOfWeek day) throws SQLException, ParseException {
         DateFormat formatter = new SimpleDateFormat("HH:mm");
-        return workingHoursDAO.addWHToFacility(idFacility, day, new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
+        return workingHoursDao.addWHToFacility(idFacility, day, new java.sql.Time(formatter.parse(openingHour).getTime()), new java.sql.Time(formatter.parse(closingHour).getTime()) );
     }
 
     public boolean editWorkingHours(int idFacility, String openingHour, String closingHour, DayOfWeek day) throws SQLException, ParseException {
         try {
             //start transaction
-            workingHoursDAO.getConnection().setAutoCommit(false);
+            workingHoursDao.getConnection().setAutoCommit(false);
             deleteWorkingHoursByDay(idFacility, day);
             addWorkingHours(idFacility, openingHour, closingHour, day);
             //commit transaction
-            workingHoursDAO.getConnection().commit();
+            workingHoursDao.getConnection().commit();
         }catch (SQLException e){
-            workingHoursDAO.getConnection().rollback();
+            workingHoursDao.getConnection().rollback();
             throw e;
         } finally {
-            workingHoursDAO.getConnection().setAutoCommit(true);
+            workingHoursDao.getConnection().setAutoCommit(true);
         }
         return true;
     }
 
     public boolean deleteWorkingHoursByDay(int idFacility, DayOfWeek day) throws SQLException{
-        workingHoursDAO.removeWHFromFacilityByDay(idFacility, day);
+        workingHoursDao.removeWHFromFacilityByDay(idFacility, day);
         return true;
     }
 
     public ArrayList<WorkingHours> getWorkingHours(int idFacility) throws SQLException {
         ArrayList<WorkingHours> workingHours;
-        workingHours = workingHoursDAO.getWHsByFacility(idFacility);
+        workingHours = workingHoursDao.getWHsByFacility(idFacility);
         return workingHours;
     }
-
-
 
 }

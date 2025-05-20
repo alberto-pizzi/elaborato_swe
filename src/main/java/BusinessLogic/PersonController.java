@@ -16,10 +16,10 @@ public abstract class PersonController<T extends Person> {
 
     protected T person;
 
-    protected UserDAO userDAO;
+    protected UserDAO userDao;
     protected GroupDAO groupDao;
     protected IsPartDAO isPartDao;
-    protected WorkingHoursDAO workingHoursDAO;
+    protected WorkingHoursDAO workingHoursDao;
     protected ReservationDAO reservationDao;
     protected InviteDAO inviteDao;
     protected FieldDAO fieldDao;
@@ -30,10 +30,10 @@ public abstract class PersonController<T extends Person> {
     public PersonController(T person) {
         this.person = person;
 
-        this.userDAO = new UserDAO();
+        this.userDao = new UserDAO();
         this.groupDao = new GroupDAO();
         this.isPartDao = new IsPartDAO();
-        this.workingHoursDAO = new WorkingHoursDAO();
+        this.workingHoursDao = new WorkingHoursDAO();
         this.reservationDao = new ReservationDAO();
         this.inviteDao = new InviteDAO();
         this.fieldDao = new FieldDAO();
@@ -41,13 +41,13 @@ public abstract class PersonController<T extends Person> {
         notificationController = new NotificationController();
     }
 
-    public PersonController(T person, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO, ManagesDAO managesDAO) {
+    public PersonController(T person, UserDAO userDao, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDao, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO, ManagesDAO managesDAO) {
         this.person = person;
 
-        this.userDAO = userDAO;
+        this.userDao = userDao;
         this.groupDao = groupDao;
         this.isPartDao = isPartDao;
-        this.workingHoursDAO = workingHoursDAO;
+        this.workingHoursDao = workingHoursDao;
         this.reservationDao = reservationDao;
         this.inviteDao = inviteDao;
         this.fieldDao = fieldDao;
@@ -56,13 +56,13 @@ public abstract class PersonController<T extends Person> {
 
     }
 
-    public PersonController(T person, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, NotificationController notificationController) {
+    public PersonController(T person, UserDAO userDao, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDao, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, NotificationController notificationController) {
         this.person = person;
 
-        this.userDAO = userDAO;
+        this.userDao = userDao;
         this.groupDao = groupDao;
         this.isPartDao = isPartDao;
-        this.workingHoursDAO = workingHoursDAO;
+        this.workingHoursDao = workingHoursDao;
         this.reservationDao = reservationDao;
         this.inviteDao = inviteDao;
         this.fieldDao = fieldDao;
@@ -90,7 +90,7 @@ public abstract class PersonController<T extends Person> {
         ArrayList<User> users = new ArrayList<>();
 
         for (String username : usernames)
-            users.add(userDAO.getUser(username));
+            users.add(userDao.getUser(username));
 
         return users;
     }
@@ -99,7 +99,7 @@ public abstract class PersonController<T extends Person> {
 
         ArrayList<User> users = new ArrayList<>();
         
-        users.addAll(userDAO.getUsersByUsernameSearch(searchUsername));
+        users.addAll(userDao.getUsersByUsernameSearch(searchUsername));
         return users;
     }
 
@@ -107,7 +107,7 @@ public abstract class PersonController<T extends Person> {
 
         ArrayList<User> users = new ArrayList<>();
         
-        users.addAll(userDAO.getUsersByProvinceSearch(provinceUser));
+        users.addAll(userDao.getUsersByProvinceSearch(provinceUser));
         return users;
     }
 
@@ -116,7 +116,7 @@ public abstract class PersonController<T extends Person> {
     }
 
     public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
-        return workingHoursDAO.getWHsByFacilityByDay(idFacility,dayOfWeek);
+        return workingHoursDao.getWHsByFacilityByDay(idFacility,dayOfWeek);
     }
 
     public int addReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, int guests, int requiredParticipants, boolean isMatched, User groupHead) {
@@ -246,9 +246,9 @@ public abstract class PersonController<T extends Person> {
 
     }
 
-    public ArrayList <User> findOtherPlayers(String userProvince) throws SQLException, ClassNotFoundException {
+    public ArrayList<User> findOtherPlayers(String userProvince) throws SQLException, ClassNotFoundException {
         
-        return userDAO.getUsersByProvince(userProvince);
+        return userDao.getUsersByProvince(userProvince);
     }
 
     protected abstract String getProvinceForMatching(Field field);
@@ -328,7 +328,7 @@ public abstract class PersonController<T extends Person> {
 
             InviteSender inviteSender = new InviteSender(group);
 
-            User user = userDAO.getUserByID(idUser);
+            User user = userDao.getUserByID(idUser);
             if (inviteDao.checkInvite(idUser, group.getId())) {
                 System.out.println("Invite already exists");
             } else if (user != null) {
@@ -414,7 +414,7 @@ public abstract class PersonController<T extends Person> {
     }
 
     //TODO should be deleted?
-    public Boolean isFull(Reservation reservation, int guests) throws SQLException, ClassNotFoundException {
+    public boolean isFull(Reservation reservation, int guests) throws SQLException, ClassNotFoundException {
 
         Group group = groupDao.getGroupByReservation(reservation.getId());
 
@@ -431,12 +431,12 @@ public abstract class PersonController<T extends Person> {
 
     public int getUserIdByUsername(String username) throws SQLException, ClassNotFoundException {
         
-        return userDAO.getUserID(username);
+        return userDao.getUserID(username);
     }
 
     public User getUserByID(int id) throws SQLException, ClassNotFoundException {
         
-        return userDAO.getUserByID(id);
+        return userDao.getUserByID(id);
     }
 
     public static <T> ArrayList<T> filterByUpcomingReservations(ArrayList<T> inputList, Function<T, Reservation> getReservationFunction) {
