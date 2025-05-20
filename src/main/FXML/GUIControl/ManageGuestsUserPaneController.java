@@ -5,11 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
-import main.java.BusinessLogic.PersonController;
-import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Group;
 import main.java.DomainModel.GroupMember;
-import main.java.DomainModel.User;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -101,28 +98,6 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
    }
 
 
-   @Override
-   public void applyChanges() throws SQLException, ClassNotFoundException {
-
-        super.applyChanges();
-
-       if (group != null) {
-
-           if (group.getGroupHead().getUsername().equals(personController.getPerson().getUsername())) {
-               if (groupMembersRemoved != null && !groupMembersRemoved.isEmpty()) {
-                   for (GroupMember groupMember : groupMembersRemoved) {
-                       personController.removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId());
-                   }
-               }
-           }
-
-       }
-
-
-
-   }
-
-
     @Override
     public void updateGuestsChoice() throws SQLException, ClassNotFoundException {
 
@@ -143,7 +118,6 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     public void updateRemoveButtons(){
 
         if (group != null){
-            //FIXME fix logic. Is editRights needed?
            if (group.getGroupHead().equals(personController.getPerson())){
                removeAllMembersButton.setDisable(false);
                removeGroupMemberButton.setDisable(false);
@@ -213,7 +187,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     public void handleRemoveAllMembersButton(ActionEvent event) {
         System.out.println("REMOVE ALL MEMBERS BUTTON");
 
-        //TODO add Alert?
+
         if (group != null && !effectiveGroupMembersList.getItems().isEmpty()){
             for (GroupMember groupMember : effectiveGroupMembersList.getItems()){
                 removeGroupMemberFromDraft(groupMember);

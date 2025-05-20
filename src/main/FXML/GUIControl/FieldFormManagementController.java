@@ -149,7 +149,7 @@ public abstract class FieldFormManagementController implements Initializable {
 
                 if (newTime != null && datePicker.getValue() != null) {
 
-                    updateEndTimes(LocalTime.parse(newTime),personController.getWHsByFacilityByDay(field.getFacility().getId(), datePicker.getValue().getDayOfWeek()),minutesInterval);
+                    updateEndTimes(LocalTime.parse(newTime), datePicker.getValue(), minutesInterval);
 
                     updateTotalPrice(true);
                     updatePricePerPerson(true);
@@ -388,66 +388,78 @@ public abstract class FieldFormManagementController implements Initializable {
     }
 
 
-    protected void updateEndTimes(LocalTime selectedTime, ArrayList<WorkingHours> dailyWHs, int minutesInterval) {
+    protected void updateEndTimes(LocalTime selectedTime, LocalDate selectedDate, int minutesInterval) throws SQLException {
+
 
         endTimeChoice.getItems().clear();
         endTimeChoice.setValue(null);
 
-        List<LocalTime> availableTimes = new ArrayList<>();
-
         try {
+            // gets WHs from facility on selected day
+            ArrayList<WorkingHours> WHs = personController.getWHsByFacilityByDay(
+                    field.getFacility().getId(),
+                    selectedDate.getDayOfWeek()
+            );
+
             ArrayList<Reservation> reservations = personController.getReservationsByField(field.getId());
-            if (selectedTime != null) {
 
-                LocalTime closing = null;
+            if (selectedTime != null && selectedDate != null) {
+                WorkingHours matchingWH = null;
 
-                //search own WH (on same day)
-                for (WorkingHours wh : dailyWHs) {
-                    if (wh.isWithinRange(selectedTime)) {
-                        closing = wh.getClosingHours().toLocalTime();
+                //find time slot which contains selected time
+                for (WorkingHours wh : WHs) {
+                    LocalTime opening = wh.getOpeningHours().toLocalTime();
+                    LocalTime closing = wh.getClosingHours().toLocalTime();
+
+                    if (!selectedTime.isBefore(opening) && selectedTime.isBefore(closing)) {
+                        matchingWH = wh;
                         break;
                     }
-
                 }
 
+                if (matchingWH == null) {
+                    return;
+                }
+
+                LocalTime closing = matchingWH.getClosingHours().toLocalTime();
                 LocalTime current = selectedTime;
 
-                if (closing != null) {
-                    while (current.isBefore(closing)) {
-                        boolean isAvailable = true;
 
-                        for (Reservation reservation : reservations) {
-                            if (reservation != null) {
-                                LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
-                                LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
+                while (current.plusMinutes(minutesInterval).isBefore(closing) ||
+                        current.plusMinutes(minutesInterval).equals(closing)) {
 
-                                if (Reservation.isTimeOverlapping(current, current.plusMinutes(minutesInterval), startRes, endRes)) {
-                                    isAvailable = false;
-                                    break;
-                                }
-                            }
-                        }
+                    LocalTime next = current.plusMinutes(minutesInterval);
+                    boolean isAvailable = true;
 
-                        if (!current.equals(selectedTime)) {
-                            endTimeChoice.getItems().add(current.toString());
-                        }
+                    // check current time range if overlapping with any reservation
+                    for (Reservation reservation : reservations) {
+                        if (reservation == null) continue;
 
-                        if (isAvailable) {
-                            availableTimes.add(current);
-                        } else {
+                        if (!reservation.getEventDate().toLocalDate().equals(selectedDate)) continue;
+
+                        LocalTime startRes = reservation.getEventTimeStart().toLocalTime();
+                        LocalTime endRes = reservation.getEventTimeEnd().toLocalTime();
+
+                        if (Reservation.isTimeOverlapping(current, next, startRes, endRes)) {
+                            isAvailable = false;
                             break;
                         }
+                    }
 
-                        current = current.plusMinutes(minutesInterval);
-
+                    if (isAvailable) {
+                        endTimeChoice.getItems().add(next.toString());
+                        current = next;
+                    } else {
+                        break;
                     }
                 }
             }
+
         } catch (SQLException | ClassNotFoundException e) {
-            messagesController.showMessage("Error during load available times", MessagesController.MessageType.ERROR,5);
+            messagesController.showMessage("Error while loading available end times",
+                    MessagesController.MessageType.ERROR, 5);
+            e.printStackTrace();
         }
-
-
 
     }
 

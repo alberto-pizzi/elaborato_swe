@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import main.java.BusinessLogic.PersonController;
 import main.java.DomainModel.*;
 
 import java.sql.Date;
@@ -14,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class BookFieldController extends FieldFormManagementController implements Initializable {
 
@@ -167,18 +167,18 @@ public class BookFieldController extends FieldFormManagementController implement
     protected void createReservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd) throws SQLException, ClassNotFoundException {
 
         int guests = selectGuestsPaneController.getnGuestsChoice().getValue() == null ? 0 : selectGuestsPaneController.getnGuestsChoice().getValue();
-        int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), (User)personController.getPerson());
+        int reservationIdAdded = personController.addReservation(eventDate, eventTimeStart, eventTimeEnd, field, guests, totalPeople, isMatchingCheckBox.isSelected(), (User)personController.getPerson(),selectGuestsPaneController.getGroupMembersRemoved() ,selectGuestsPaneController.getGroupMembersAdded() ,selectGuestsPaneController.getGroupMembersChanged() ,new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems()));
 
         if (reservationIdAdded > 0) {
 
             if (selectGuestsPaneController != null) {
 
                 selectGuestsPaneController.setGroup(personController.getGroupByReservation(reservationIdAdded)); //WARNING: it's important to be able to apply changes
-                selectGuestsPaneController.applyChanges();
 
                 System.out.println("Booking done");
                 messagesController.showMessage("Booking done successfully", MessagesController.MessageType.SUCCESS, 5);
                 actionsAfterAdd();
+
 
             }
 

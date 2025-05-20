@@ -22,14 +22,6 @@ public class UserActionsController extends PersonController<User>{
         managesDAO = new ManagesDAO();
     }
 
-    //TODO should be deleted?
-    public UserActionsController(User user, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, ManagesDAO managesDAO, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO){
-        super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,facilityDAO,ownerDAO,notificationDAO,managesDAO);
-        
-        this.managesDAO = managesDAO;
-
-    }
-
     public UserActionsController(User user, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, ManagesDAO managesDAO, NotificationController notificationController){
         super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,notificationController);
 
@@ -85,7 +77,7 @@ public class UserActionsController extends PersonController<User>{
             if (invite.getGroup().getReservation().isMatched()) {
 
                 //himself join into group
-                if (!joinGroup(invite.getGroup().getId(), guests))
+                if (!joinGroupHelper(invite.getGroup().getId(), guests))
                     return false;
 
 
@@ -99,7 +91,7 @@ public class UserActionsController extends PersonController<User>{
 
             } else {
                 //guests are 0 because in not matched booking are not allowed guests
-                if (!joinGroup(invite.getGroup().getId(), 0))
+                if (!joinGroupHelper(invite.getGroup().getId(), 0))
                     return false;
 
             }
@@ -249,4 +241,67 @@ public class UserActionsController extends PersonController<User>{
         return  userDao.getUser(username);
     }
 
-}
+    public boolean changeOwnGuests(Group group, int guestsSelected) throws SQLException, ClassNotFoundException {
+
+        boolean guestChangedLocally = false;
+        boolean guestChangedOnDB = false;
+
+        //change own guests
+        if (group != null) {
+
+            //no changes needed
+            if (guestsSelected <= 0)
+                return true;
+
+            //TODO is this position right?
+            notificationController.connectObserverToReservation(group.getReservation());
+
+            guestChangedLocally = group.changeUserGuests(person.getUsername(),guestsSelected);
+
+            if (!guestChangedLocally)
+                return false;
+            else {
+                guestChangedOnDB = changeUserGuests(group.getReservation().getId(), person.getId(), guestsSelected);
+                return guestChangedOnDB;
+            }
+
+        }
+
+        return false;
+    }
+    
+
+    @Override
+    public boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft) throws SQLException, ClassNotFoundException {
+
+
+        if (group != null) {
+
+            if (inviteListDraft != null && !inviteListDraft.isEmpty()) {
+                int invitesSent = sendInvites(group, getUsersByUsernames(inviteListDraft));
+
+                if (invitesSent < 0)
+                    return false;
+            }
+
+            boolean areGuestsChanged = changeOwnGuests(group, ownGuestsSelected);
+
+            if (!areGuestsChanged)
+                return false;
+
+            boolean success = true;
+
+            if (removedDraft != null && !removedDraft.isEmpty() && group.getGroupHead().getUsername().equals(person.getUsername()))
+                success = removeGroupMembers(group, removedDraft);
+
+            return success;
+        }
+
+
+        return true;
+
+    }
+
+
+
+    }

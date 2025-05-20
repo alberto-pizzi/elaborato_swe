@@ -55,4 +55,72 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
         return true;
     }
 
-}
+    @Override
+    public boolean removeGroupMembers(Group group, ArrayList<GroupMember> groupMembersDraftArray) {
+
+        return false;
+
+    }
+
+
+    @Override
+    public boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft) throws SQLException, ClassNotFoundException {
+
+        if (group != null) {
+
+            int invitesSent = sendInvites(group,getUsersByUsernames(inviteListDraft));
+
+            if (invitesSent < 0)
+                return false;
+
+            //removed
+            if (removedDraft != null && !removedDraft.isEmpty()) {
+                for (GroupMember groupMember : removedDraft) {
+                    if (group.removeMember(groupMember.getUser(), groupMember.getOwnGuests())) {
+                        if (!removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId()))
+                            return false;
+                    }else
+                        System.out.println("Error during removing member into group (local)");
+                }
+            }
+
+
+            //TODO is this position right? Before it was inside for loops (adds and changes)
+            notificationController.connectObserverToReservation(group.getReservation());
+
+            //added
+            if (addedDraft != null && !addedDraft.isEmpty()) {
+                for (GroupMember groupMember : addedDraft) {
+                    if (group.addMember(groupMember.getUser(), groupMember.getOwnGuests())) {
+                        if (!addGroupMember(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests()))
+                            return false;
+                    }else {
+                        System.out.println("Error during adding member into group");
+                    }
+                }
+            }
+
+            //changed
+            if (changedDraft != null && !changedDraft.isEmpty()) {
+                for (GroupMember groupMember : changedDraft) {
+
+                    if (group.changeUserGuests(groupMember.getUser().getUsername(), groupMember.getOwnGuests())) {
+                        if (!changeUserGuests(group.getReservation().getId(), groupMember.getUser().getId(), groupMember.getOwnGuests()))
+                            return false;
+                    }else {
+                        System.out.println("Error while changing member's guests");
+                    }
+                }
+            }
+
+            return true;
+
+        }
+        else
+            System.out.println("Group is null during applyChanges");
+
+        return false;
+    }
+
+
+    }

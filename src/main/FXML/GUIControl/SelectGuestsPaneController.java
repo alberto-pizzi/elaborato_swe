@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import main.java.BusinessLogic.NotificationController;
 import main.java.BusinessLogic.PersonController;
 import main.java.BusinessLogic.UserActionsController;
 import main.java.DomainModel.Group;
@@ -17,7 +16,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -187,8 +185,6 @@ public class SelectGuestsPaneController implements Initializable {
                 updateAddButtons();
 
             }
-            else
-                System.out.println("Null Value into nGuestsChoice");
 
         });
     }
@@ -221,42 +217,6 @@ public class SelectGuestsPaneController implements Initializable {
             requiredParticipantsLabel.setText("NO");
         }
 
-    }
-
-    //this method have to call by external class because it CONFIRMS changes.
-    public void applyChanges() throws SQLException, ClassNotFoundException {
-
-        sendInvitesToInviteListMembers();
-
-        //change own guests
-        if (group != null) {
-            int newGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
-
-            personController.getNotificationController().connectObserverToReservation(group.getReservation());
-
-            group.changeUserGuests(personController.getPerson().getUsername(),newGuests);
-            personController.changeUserGuests(group.getReservation().getId(),personController.getPerson().getId(),newGuests);
-        }
-
-    }
-
-    protected void sendInvitesToInviteListMembers() throws SQLException, ClassNotFoundException {
-        //send invite to invite list members
-
-        if (group != null){
-
-            if (!inviteListDraft.getItems().isEmpty()) {
-                for (String accountUsername : inviteListDraft.getItems()) {
-                    if (accountUsername != null) {
-                        boolean inviteSent = personController.sendInvite(group.getReservation(), personController.getUserIdByUsername(accountUsername));
-                        if (!inviteSent)
-                            System.out.println("Error sending invite to: " + accountUsername);
-
-                    }
-                }
-            }
-
-        }
     }
 
     public void updateTotalPricePerPersonDraftLabel(){
