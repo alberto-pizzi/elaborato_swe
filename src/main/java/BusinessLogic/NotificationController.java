@@ -168,7 +168,9 @@ public class NotificationController implements Observer {
     }
 
     public void attach(){
-        reservation.registerObserver(this);
+        //TODO is it correct? (IMPORTANT)
+        if (reservation != null && !reservation.getObservers().contains(this))
+            reservation.registerObserver(this);
     }
 
     public void detach(){

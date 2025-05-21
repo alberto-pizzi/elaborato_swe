@@ -253,7 +253,6 @@ public class UserActionsController extends PersonController<User>{
             if (guestsSelected <= 0)
                 return true;
 
-            //TODO is this position right?
             notificationController.connectObserverToReservation(group.getReservation());
 
             guestChangedLocally = group.changeUserGuests(person.getUsername(),guestsSelected);
