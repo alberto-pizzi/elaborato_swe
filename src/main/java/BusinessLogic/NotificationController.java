@@ -139,7 +139,7 @@ public class NotificationController implements Observer {
 
     }
 
-    public boolean deleteNotifications(Notification notification) {
+    public boolean deleteNotification(Notification notification) {
 
         try{
             notificationDAO.deleteNotification(notification.getRecipient(),notification.getId());
