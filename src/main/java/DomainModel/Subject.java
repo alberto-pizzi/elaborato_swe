@@ -19,4 +19,8 @@ public abstract class Subject {
             observer.update();
         }
     }
+
+    public ArrayList<Observer> getObservers() {
+        return observers;
+    }
 }

@@ -95,13 +95,15 @@ public class UserActionsController extends PersonController<User>{
                     return false;
 
             }
-            accepted = true;
+
 
             //delete this invite
             inviteDao.deleteInvite(invite.getId());
 
             //commit transaction
             userDao.getConnection().commit();
+
+            accepted = true;
         } catch (SQLException | ClassNotFoundException e){
             try{
                 //rollback transaction
@@ -253,7 +255,6 @@ public class UserActionsController extends PersonController<User>{
             if (guestsSelected <= 0)
                 return true;
 
-            //TODO is this position right?
             notificationController.connectObserverToReservation(group.getReservation());
 
             guestChangedLocally = group.changeUserGuests(person.getUsername(),guestsSelected);

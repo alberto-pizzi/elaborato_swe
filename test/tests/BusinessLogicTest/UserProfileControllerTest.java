@@ -4,7 +4,9 @@ import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.PasswordEncoder;
 import main.java.BusinessLogic.UserAccess;
 import main.java.BusinessLogic.UserProfileController;
+import main.java.DomainModel.Facility;
 import main.java.DomainModel.User;
+import main.java.DomainModel.WorkingHours;
 import main.java.ORM.ManagesDAO;
 import main.java.ORM.UserDAO;
 import org.junit.jupiter.api.AfterEach;
@@ -13,6 +15,8 @@ import org.junit.jupiter.api.Test;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -51,8 +55,20 @@ public class UserProfileControllerTest extends GeneralBSTest{
     }
 
     @Test
-    public void getFacilitiesManagedTest() {
-        //TODO implement
+    public void getFacilitiesManagedTest() throws SQLException {
+
+        ArrayList<Facility> facilities = new ArrayList<>();
+        facilities.add(createFacility());
+
+        //No exception
+        when(managesDAOMock.getAllFacilitiesByManager(anyInt())).thenReturn(facilities);
+        assertEquals(facilities, userProfileController.getFacilitiesManaged());
+
+        //With exception
+        when(managesDAOMock.getAllFacilitiesByManager(anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
+        assertThrows(SQLException.class,() -> {
+            userProfileController.getFacilitiesManaged();
+        });
     }
 
     @Test

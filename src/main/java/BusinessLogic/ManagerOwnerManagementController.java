@@ -84,8 +84,6 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
                 }
             }
 
-
-            //TODO is this position right? Before it was inside for loops (adds and changes)
             notificationController.connectObserverToReservation(group.getReservation());
 
             //added

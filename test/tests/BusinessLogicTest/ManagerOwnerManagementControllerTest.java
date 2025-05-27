@@ -123,8 +123,6 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         guests = 10;
         assertEquals(0,managerOwnerManagementController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
 
-        //TODO improve test (to be moved into PersonControllerTest?)
-
     }
 
     @Override

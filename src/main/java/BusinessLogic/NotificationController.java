@@ -139,7 +139,7 @@ public class NotificationController implements Observer {
 
     }
 
-    public boolean deleteNotifications(Notification notification) {
+    public boolean deleteNotification(Notification notification) {
 
         try{
             notificationDAO.deleteNotification(notification.getRecipient(),notification.getId());
@@ -168,7 +168,9 @@ public class NotificationController implements Observer {
     }
 
     public void attach(){
-        reservation.registerObserver(this);
+        //TODO is it correct? (IMPORTANT)
+        if (reservation != null && !reservation.getObservers().contains(this))
+            reservation.registerObserver(this);
     }
 
     public void detach(){
