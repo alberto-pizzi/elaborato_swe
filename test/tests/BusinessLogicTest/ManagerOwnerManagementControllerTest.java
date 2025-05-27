@@ -97,7 +97,7 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         findOtherPlayersMockHelper(group,new ArrayList<>());
         sendInviteMockHelper(group, user);
 
-        when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
+        when(notificationControllerMock.sendConfirmNotifications(any())).thenReturn(1);
         when(groupDAOMock.addGroup(any())).thenReturn(3);
         int reservationId = 3;
         when(reservationDAOMock.addReservation(any())).thenReturn(reservationId);

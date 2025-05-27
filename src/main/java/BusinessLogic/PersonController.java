@@ -151,7 +151,7 @@ public abstract class PersonController<T extends Person> {
                                 System.out.println("Error while sending invites");
 
                         } else {
-                            notificationController.sendConfirmNotification(reservation);
+                            notificationController.sendConfirmNotifications(reservation);
                         }
                     } else {
                         throw new SQLException("Error while joining into group");
@@ -235,7 +235,7 @@ public abstract class PersonController<T extends Person> {
             //commit transaction
             isPartDao.getConnection().commit();
 
-            notificationController.sendModificationNotification(reservation);
+            notificationController.sendModificationNotifications(reservation);
             return true;
         } catch (SQLException e) {
 
@@ -277,7 +277,7 @@ public abstract class PersonController<T extends Person> {
             return false;
         }
 
-        int notificationsSent = notificationController.sendDeletionNotification(reservation);
+        int notificationsSent = notificationController.sendDeletionNotifications(reservation);
 
 
         //set isDeleted flag to true

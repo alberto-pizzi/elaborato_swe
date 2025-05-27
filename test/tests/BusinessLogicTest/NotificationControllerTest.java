@@ -11,7 +11,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -76,9 +75,9 @@ public class NotificationControllerTest extends GeneralBSTest {
 
         sendNotificationMockHelper(group);
 
-        assertEquals(3,notificationController.sendConfirmNotification(group.getReservation()));
+        assertEquals(3,notificationController.sendConfirmNotifications(group.getReservation()));
         doThrow(new SQLException("Simulated SQL exception")).when(notificationDAOMock).addNotification(any());
-        assertEquals(-1,notificationController.sendConfirmNotification(group.getReservation()));
+        assertEquals(-1,notificationController.sendConfirmNotifications(group.getReservation()));
 
     }
 
@@ -89,9 +88,9 @@ public class NotificationControllerTest extends GeneralBSTest {
 
         sendNotificationMockHelper(group);
 
-        assertEquals(3,notificationController.sendDeletionNotification(group.getReservation()));
+        assertEquals(3,notificationController.sendDeletionNotifications(group.getReservation()));
         doThrow(new SQLException("Simulated SQL exception")).when(notificationDAOMock).addNotification(any());
-        assertEquals(-1,notificationController.sendModificationNotification(group.getReservation()));
+        assertEquals(-1,notificationController.sendModificationNotifications(group.getReservation()));
 
     }
 
@@ -102,9 +101,9 @@ public class NotificationControllerTest extends GeneralBSTest {
 
         sendNotificationMockHelper(group);
 
-        assertEquals(3,notificationController.sendModificationNotification(group.getReservation()));
+        assertEquals(3,notificationController.sendModificationNotifications(group.getReservation()));
         doThrow(new SQLException("Simulated SQL exception")).when(notificationDAOMock).addNotification(any());
-        assertEquals(-1,notificationController.sendModificationNotification(group.getReservation()));
+        assertEquals(-1,notificationController.sendModificationNotifications(group.getReservation()));
 
     }
 
@@ -117,9 +116,9 @@ public class NotificationControllerTest extends GeneralBSTest {
 
         sendNotificationMockHelper(group);
 
-        assertEquals(3,notificationController.sendAnnouncement(group.getReservation(),message));
+        assertEquals(3,notificationController.sendAnnouncements(group.getReservation(),message));
         doThrow(new SQLException("Simulated SQL exception")).when(notificationDAOMock).addNotification(any());
-        assertEquals(-1,notificationController.sendAnnouncement(group.getReservation(),message));
+        assertEquals(-1,notificationController.sendAnnouncements(group.getReservation(),message));
 
     }
 

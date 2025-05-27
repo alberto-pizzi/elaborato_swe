@@ -46,7 +46,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
     }
 
     public boolean reservationAnnouncement(String notificationMessage, Reservation reservation) {
-        return notificationController.sendAnnouncement(reservation, notificationMessage) >= 0;
+        return notificationController.sendAnnouncements(reservation, notificationMessage) >= 0;
     }
 
     @Override

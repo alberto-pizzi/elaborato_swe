@@ -148,7 +148,7 @@ public class UserActionsControllerTest extends PersonControllerTest {
         findOtherPlayersMockHelper(group,new ArrayList<>());
         sendInviteMockHelper(group, user);
 
-        when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
+        when(notificationControllerMock.sendConfirmNotifications(any())).thenReturn(1);
         when(groupDAOMock.addGroup(any())).thenReturn(3);
         int reservationId = 3;
         when(reservationDAOMock.addReservation(any())).thenReturn(reservationId);
@@ -193,7 +193,7 @@ public class UserActionsControllerTest extends PersonControllerTest {
         doNothing().when(reservationDAOMock).updateEventTimeStart(anyInt(),any());
         doNothing().when(reservationDAOMock).updateEventTimeEnd(anyInt(),any());
         when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
-        when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
+        when(notificationControllerMock.sendConfirmNotifications(any())).thenReturn(1);
 
 
         when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any())).thenReturn(false);
@@ -507,7 +507,7 @@ public class UserActionsControllerTest extends PersonControllerTest {
 
         when(reservationDAOMock.getReservation(anyInt(),anyBoolean())).thenReturn(reservation);
         doNothing().when(reservationDAOMock).updateIsDeleted(anyInt(),anyBoolean());
-        when(notificationControllerMock.sendDeletionNotification(any())).thenReturn(1);
+        when(notificationControllerMock.sendDeletionNotifications(any())).thenReturn(1);
 
         assertTrue(userActionsController.deleteReservation(reservation.getId()));
         assertTrue(reservation.isDeleted());
