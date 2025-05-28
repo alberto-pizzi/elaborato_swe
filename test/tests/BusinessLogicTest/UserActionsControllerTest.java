@@ -9,7 +9,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -22,25 +21,12 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 //UserActionController and PersonController test
-public class UserActionsControllerTest extends GeneralBSTest {
+public class UserActionsControllerTest extends PersonControllerTest {
 
     private UserActionsController userActionsController;
 
     private User user = null;
 
-    private UserDAO userDAOMock = null;
-    private GroupDAO groupDAOMock = null;
-    private IsPartDAO isPartDAOMock = null;
-    private WorkingHoursDAO workingHoursDAOMock = null;
-    private ReservationDAO reservationDAOMock = null;
-    private InviteDAO inviteDAOMock = null;
-    private FieldDAO fieldDAOMock = null;
-    private ManagesDAO managesDAOMock = null;
-    private FacilityDAO facilityDAOMock = null;
-    private OwnerDAO ownerDAOMock = null;
-    private NotificationDAO notificationDAOMock = null;
-
-    private NotificationController notificationControllerMock = null;
 
     @Override
     @BeforeEach
@@ -89,7 +75,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
 
     @Test
-    public void joinGroupTest() throws SQLException, ClassNotFoundException {
+    public void joinGroupHelperTest() throws SQLException, ClassNotFoundException {
 
         int guests = 2;
         int requiredParticipants = 5;
@@ -102,11 +88,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
     }
 
-    private void joinGroupMockHelper(Group group,int guests) throws SQLException, ClassNotFoundException {
-        when(groupDAOMock.getGroup(anyInt())).thenReturn(group);
-        doNothing().when(isPartDAOMock).addMembership(anyInt(), anyInt(), anyInt());
-        doNothing().when(notificationControllerMock).connectObserverToReservation(any());
-    }
+
 
     @Test
     public void acceptInviteTest() throws SQLException, ClassNotFoundException {
@@ -166,21 +148,73 @@ public class UserActionsControllerTest extends GeneralBSTest {
         findOtherPlayersMockHelper(group,new ArrayList<>());
         sendInviteMockHelper(group, user);
 
-        when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
+        when(notificationControllerMock.sendConfirmNotifications(any())).thenReturn(1);
         when(groupDAOMock.addGroup(any())).thenReturn(3);
         int reservationId = 3;
         when(reservationDAOMock.addReservation(any())).thenReturn(reservationId);
 
+        ArrayList<GroupMember> removed = new ArrayList<>();
+        ArrayList<GroupMember> added = new ArrayList<>();
+        ArrayList<GroupMember> changed = new ArrayList<>();
+        ArrayList<String> inviteList = new ArrayList<>();
 
-        assertEquals(reservationId,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,userActionsController.getPerson()));
+        userActionsController = spy(userActionsController); //IMPORTANT before calling applyChangesMockHelper
+        when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any())).thenReturn(true);
 
-        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,null));
+        assertEquals(reservationId,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,userActionsController.getPerson(),removed,added,changed,inviteList));
+        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,null,removed,added,changed,inviteList));
 
         Date yesterday = Date.valueOf(LocalDate.now().minusDays(1));
-        assertEquals(0,userActionsController.addReservation(yesterday,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead));
+        assertEquals(0,userActionsController.addReservation(yesterday,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
 
         guests = 10;
-        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead));
+        assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
+
+    }
+
+    @Test
+    public void editReservationTest() throws SQLException, ClassNotFoundException {
+
+        int guests = 0;
+        Group group = createGroup(false,5);
+        Reservation newReservation = createReservation(false);
+
+        ArrayList<GroupMember> removed = new ArrayList<>();
+        ArrayList<GroupMember> added = new ArrayList<>();
+        ArrayList<GroupMember> changed = new ArrayList<>();
+        ArrayList<String> inviteList = new ArrayList<>();
+
+        userActionsController = spy(userActionsController); //IMPORTANT before calling applyChangesMockHelper
+
+        transactionsMockHelper(isPartDAOMock);
+
+        when(reservationDAOMock.getReservation(anyInt(),anyBoolean())).thenReturn(group.getReservation());
+        doNothing().when(reservationDAOMock).updateEventDate(anyInt(),any());
+        doNothing().when(reservationDAOMock).updateEventTimeStart(anyInt(),any());
+        doNothing().when(reservationDAOMock).updateEventTimeEnd(anyInt(),any());
+        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
+        when(notificationControllerMock.sendConfirmNotifications(any())).thenReturn(1);
+
+
+        when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any())).thenReturn(false);
+        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList));
+
+        when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any())).thenReturn(true);
+        assertTrue(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList));
+
+        doThrow(new SQLException("Simulated SQL exception")).when(reservationDAOMock).updateEventTimeEnd(anyInt(),any());
+        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList));
+        doNothing().when(reservationDAOMock).updateEventTimeEnd(anyInt(),any());
+
+        doThrow(new SQLException("Simulated SQL exception")).when(reservationDAOMock).updateEventTimeStart(anyInt(),any());
+        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList));
+        doNothing().when(reservationDAOMock).updateEventTimeStart(anyInt(),any());
+
+        doThrow(new SQLException("Simulated SQL exception")).when(reservationDAOMock).updateEventDate(anyInt(),any());
+        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList));
+        doNothing().when(reservationDAOMock).updateEventDate(anyInt(),any());
+
+
 
     }
 
@@ -204,6 +238,8 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         group.addMember(userActionsController.getPerson(),ownGuests);
 
+
+        transactionsMockHelper(isPartDAOMock);
         when(groupDAOMock.getGroup(anyInt())).thenReturn(group);
         when(isPartDAOMock.countOwnGuests(anyInt(), anyInt())).thenReturn(ownGuests);
 
@@ -308,8 +344,66 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
     }
 
+    @Override
+    protected void applyChangesMockHelper(int invitesSent, boolean guestsChanged, boolean removedMembers, boolean addedMembers, boolean changedMembers) throws SQLException, ClassNotFoundException {
+        //WARNING: it needs some BusinessLogic spy before calling this method
+
+        when(userActionsController.getUsersByUsernames(any())).thenReturn(new ArrayList<>());
+        when(userActionsController.sendInvites(any(),any())).thenReturn(invitesSent);
+        when(userActionsController.changeOwnGuests(any(),anyInt())).thenReturn(guestsChanged);
+        when(userActionsController.removeGroupMembers(any(),any())).thenReturn(removedMembers);
+
+    }
+
+
 
     //person controller tests:
+
+
+    @Override
+    @Test
+    public void applyChangesFromDraftTest() throws SQLException, ClassNotFoundException {
+
+        Group group = createGroup(true,5);
+        int ownGuests = 0;
+
+        ArrayList<GroupMember> removed = new ArrayList<>();
+        ArrayList<GroupMember> added = new ArrayList<>();
+        ArrayList<GroupMember> changed = new ArrayList<>();
+        ArrayList<String> inviteList = new ArrayList<>();
+
+        int invitesSent = 1;
+        boolean guestsChanged = true;
+        boolean removedGroupMembers = true;
+
+        userActionsController = spy(userActionsController); //IMPORTANT before calling applyChangesMockHelper
+        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
+
+        assertTrue(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+        invitesSent = -1;
+        inviteList.add(createUser(15).getUsername());
+        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
+        assertFalse(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+        invitesSent = 1;
+        guestsChanged = false;
+        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
+        assertFalse(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+        guestsChanged = true;
+        removedGroupMembers = false;
+        removed.add(new GroupMember(createUser(20),0));
+        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
+        assertFalse(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+        group.setGroupHead(createUser(19));
+        removedGroupMembers = true;
+        applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
+        assertTrue(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+
+
+    }
 
 
     @Test
@@ -413,7 +507,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
         when(reservationDAOMock.getReservation(anyInt(),anyBoolean())).thenReturn(reservation);
         doNothing().when(reservationDAOMock).updateIsDeleted(anyInt(),anyBoolean());
-        when(notificationControllerMock.sendDeletionNotification(any())).thenReturn(1);
+        when(notificationControllerMock.sendDeletionNotifications(any())).thenReturn(1);
 
         assertTrue(userActionsController.deleteReservation(reservation.getId()));
         assertTrue(reservation.isDeleted());
@@ -440,13 +534,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
     }
 
-    private void sendInviteMockHelper(Group group, User user) throws SQLException, ClassNotFoundException {
-        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
-        when(userDAOMock.getUserByID(anyInt())).thenReturn(user);
-        when(inviteDAOMock.addInvite(any())).thenReturn(1);
-        when(inviteDAOMock.checkInvite(anyInt(),anyInt())).thenReturn(false);
 
-    }
 
     @Test
     public void getReservationFieldTest() throws SQLException, ClassNotFoundException {
@@ -588,10 +676,7 @@ public class UserActionsControllerTest extends GeneralBSTest {
 
     }
 
-    private void findOtherPlayersMockHelper(Group group, ArrayList<User> users) throws SQLException, ClassNotFoundException {
-        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
-        when(userDAOMock.getUsersByProvince(anyString())).thenReturn(users);
-    }
+
 
 
 }

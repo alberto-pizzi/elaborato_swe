@@ -50,19 +50,19 @@ public class NotificationController implements Observer {
     }
 
     //helpers of sendNotifications
-    public int sendConfirmNotification(Reservation reservation) {
+    public int sendConfirmNotifications(Reservation reservation) {
         return sendNotifications(reservation,NotificationType.CONFIRMATION,"");
     }
 
-    public int sendModificationNotification(Reservation reservation) {
+    public int sendModificationNotifications(Reservation reservation) {
         return sendNotifications(reservation,NotificationType.MODIFICATION,"");
     }
 
-    public int sendDeletionNotification(Reservation reservation) {
+    public int sendDeletionNotifications(Reservation reservation) {
         return sendNotifications(reservation,NotificationType.DELETION,"");
     }
 
-    public int sendAnnouncement(Reservation reservation, String message) {
+    public int sendAnnouncements(Reservation reservation, String message) {
         return sendNotifications(reservation,NotificationType.ANNOUNCEMENT,message);
     }
 
@@ -139,7 +139,7 @@ public class NotificationController implements Observer {
 
     }
 
-    public boolean deleteNotifications(Notification notification) {
+    public boolean deleteNotification(Notification notification) {
 
         try{
             notificationDAO.deleteNotification(notification.getRecipient(),notification.getId());
@@ -159,29 +159,18 @@ public class NotificationController implements Observer {
 
         if (this.reservation.isConfirmed() && this.reservation.isMatched() && !this.reservation.isNotified()) {
 
-            try {
-                //start transaction
-                reservationDao.getConnection().setAutoCommit(false);
-
-                reservationDao.updateIsConfirmed(reservation.getId(), this.reservation.isConfirmed());
-                sendConfirmNotification(this.reservation);
-                this.reservation.considerNotified();
-                reservationDao.updateIsNotified(reservation.getId(), this.reservation.isNotified());
-
-                //commit transaction
-                reservationDao.getConnection().commit();
-            } catch (SQLException e) {
-                reservationDao.getConnection().rollback();
-                throw e;
-            } finally {
-                reservationDao.getConnection().setAutoCommit(true);
-            }
+            reservationDao.updateIsConfirmed(reservation.getId(), this.reservation.isConfirmed());
+            sendConfirmNotifications(this.reservation);
+            this.reservation.considerNotified();
+            reservationDao.updateIsNotified(reservation.getId(), this.reservation.isNotified());
 
         }
     }
 
     public void attach(){
-        reservation.registerObserver(this);
+        //TODO is it correct? (IMPORTANT)
+        if (reservation != null && !reservation.getObservers().contains(this))
+            reservation.registerObserver(this);
     }
 
     public void detach(){

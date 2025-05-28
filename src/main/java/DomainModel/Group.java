@@ -8,7 +8,6 @@ public class Group{
     //also groupHead is inside users arraylist
     private User groupHead;
     private Reservation reservation;
-    private int guestUsers;
     private ArrayList<GroupMember> groupMembers;
     private int participants;
     private int requiredParticipants;
@@ -56,9 +55,6 @@ public class Group{
         return reservation;
     }
 
-    public int getGuestUsers() {
-        return guestUsers;
-    }
 
     public ArrayList<GroupMember> getGroupMembers() {
         return groupMembers;
@@ -84,10 +80,6 @@ public class Group{
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
-    }
-
-    public void setGuestUsers(int guestUsers) {
-        this.guestUsers = guestUsers;
     }
 
     public void setGroupMembers(ArrayList<GroupMember> groupMembers) {

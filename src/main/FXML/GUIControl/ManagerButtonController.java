@@ -28,7 +28,10 @@ public class ManagerButtonController {
             System.out.println("Manager reservations menu button clicked");
         } catch (IOException e) {
             //TODO check catch
-            System.out.println("Error when manager operation button clicked");
+            String errorMessage = "Error when manager operation button clicked";
+            System.out.println(errorMessage);
+            Menu.showErrorAlert("Error",errorMessage,"" );
+
         }
     }
 

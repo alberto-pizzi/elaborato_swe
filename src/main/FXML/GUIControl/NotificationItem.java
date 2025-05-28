@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import main.java.BusinessLogic.NotificationController;
 import main.java.DomainModel.Notification;
-
-import java.sql.SQLException;
 
 public class NotificationItem {
 
@@ -57,7 +54,7 @@ public class NotificationItem {
         System.out.println("Deleting button clicked: " + notificationTitleLabel.getText());
         System.out.println("Deleting button clicked ID: " + notification.getId());
 
-        if(notifications.getNotificationController().deleteNotifications(notification)){
+        if(notifications.getNotificationController().deleteNotification(notification)){
             if (notifications != null) {
                 notifications.removeNotificationItemFromGUI(notificationItemPane,notification);
                 notifications.getMessagesController().showMessage("Notification deleted successfully!", MessagesController.MessageType.SUCCESS,3);
