@@ -60,14 +60,6 @@ class IsPartDAOTest extends GeneralDAOTest{
     }
 
     @Test
-    void addMembership() {
-    }
-
-    @Test
-    void removeMembership() {
-    }
-
-    @Test
     void getGroupMembers() throws SQLException {
         Assumptions.assumeFalse(shouldSkip);
 

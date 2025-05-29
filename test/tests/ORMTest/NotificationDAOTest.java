@@ -68,14 +68,4 @@ class NotificationDAOTest extends GeneralDAOTest{
 
         assertFalse(notificationDAO.getNotifications(user).isEmpty());
     }
-
-    @Test
-    void deleteNotification() {
-
-    }
-
-    @Test
-    void addNotification() throws SQLException {
-
-    }
 }

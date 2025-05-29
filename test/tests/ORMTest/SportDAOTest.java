@@ -36,14 +36,6 @@ class SportDAOTest extends GeneralDAOTest{
     }
 
     @Test
-    void addSport() {
-    }
-
-    @Test
-    void deleteSport() {
-    }
-
-    @Test
     void getSport() throws SQLException, ClassNotFoundException {
         Assumptions.assumeFalse(shouldSkip);
 
