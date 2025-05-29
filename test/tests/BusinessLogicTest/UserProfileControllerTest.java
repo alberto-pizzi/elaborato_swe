@@ -55,23 +55,6 @@ public class UserProfileControllerTest extends GeneralBSTest{
     }
 
     @Test
-    public void getFacilitiesManagedTest() throws SQLException {
-
-        ArrayList<Facility> facilities = new ArrayList<>();
-        facilities.add(createFacility());
-
-        //No exception
-        when(managesDAOMock.getAllFacilitiesByManager(anyInt())).thenReturn(facilities);
-        assertEquals(facilities, userProfileController.getFacilitiesManaged());
-
-        //With exception
-        when(managesDAOMock.getAllFacilitiesByManager(anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
-        assertThrows(SQLException.class,() -> {
-            userProfileController.getFacilitiesManaged();
-        });
-    }
-
-    @Test
     public void deletePersonTest() throws SQLException {
 
         //simulate false returning

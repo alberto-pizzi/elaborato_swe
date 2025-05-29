@@ -253,4 +253,21 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         when(facilityDAOMock.getFacility(createFacility().getId(), false)).thenThrow(new SQLException("Simulated SQL exception"));
         assertFalse(managerOwnerManagementController.reservationAnnouncement(notificationMessage, reservation));
     }
+
+    @Test
+    public void getFacilitiesManagedTest() throws SQLException {
+
+        ArrayList<Facility> facilities = new ArrayList<>();
+        facilities.add(createFacility());
+
+        //No exception
+        when(managesDAOMock.getAllFacilitiesByManager(anyInt())).thenReturn(facilities);
+        assertEquals(facilities, managerOwnerManagementController.getFacilitiesManaged());
+
+        //With exception
+        when(managesDAOMock.getAllFacilitiesByManager(anyInt())).thenThrow(new SQLException("Simulated SQL exception"));
+        assertThrows(SQLException.class,() -> {
+            managerOwnerManagementController.getFacilitiesManaged();
+        });
+    }
 }
