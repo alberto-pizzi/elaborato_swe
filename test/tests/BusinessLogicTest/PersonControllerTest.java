@@ -46,6 +46,8 @@ public abstract class PersonControllerTest extends GeneralBSTest {
     protected void findOtherPlayersMockHelper(Group group, ArrayList<User> users) throws SQLException, ClassNotFoundException {
         when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
         when(userDAOMock.getUsersByProvince(anyString())).thenReturn(users);
+        when(userDAOMock.getUser(anyString())).thenReturn(null);
+
     }
 
     protected abstract void applyChangesMockHelper(int invitesSent, boolean guestsChanged, boolean removedMembers, boolean addedMembers, boolean changedMembers) throws SQLException, ClassNotFoundException;

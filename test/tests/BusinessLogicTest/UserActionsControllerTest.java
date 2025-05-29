@@ -195,6 +195,9 @@ public class UserActionsControllerTest extends PersonControllerTest {
         when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
         when(notificationControllerMock.sendConfirmNotifications(any())).thenReturn(1);
 
+        //User fakeGroupHead = createUser(30);
+        when(userDAOMock.getUser(anyString())).thenReturn(null);
+
         String groupHead = group.getGroupHead().getUsername();
 
 

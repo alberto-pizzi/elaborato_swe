@@ -196,6 +196,10 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         applyChangesMockHelper(1,true,true, true, true);
         assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
 
+        doThrow(new SQLException("Simulated SQL exception")).when(groupDAOMock).updateGroupHead(anyInt(),anyInt());
+        assertThrows(SQLException.class,() -> {
+            managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, createUser(32));
+        });
 
     }
 
