@@ -41,7 +41,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             if (!isEditMode || group != null) {
                 if (!inviteListDraft.getItems().contains(userToBeAdded) && !isUserIntoEffectiveGroupMembers(userToBeAdded)) {
                     try {
-                        int userId = personController.getUserIdByUsername(userToBeAdded);
+                        int userId = personController.getUserByUsername(userToBeAdded).getId();
                         int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
 
                         addGroupMemberIntoDraft(new GroupMember(personController.getUserByID(userId), ownGuests));

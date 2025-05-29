@@ -69,7 +69,6 @@ public class UserProfileControllerTest extends GeneralBSTest{
 
     }
 
-    //TODO should logout be tested?
 
     @Test
     public void updateUsernameTest() throws SQLException {

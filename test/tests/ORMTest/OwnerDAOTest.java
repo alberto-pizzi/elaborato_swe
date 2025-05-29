@@ -47,9 +47,6 @@ public class OwnerDAOTest extends PersonDAOTest{
 
     //TODO finish to implement (remember assumptions)
 
-    @Test
-    public void deleteOwnerTest() throws SQLException {
-    }
 
 
 }

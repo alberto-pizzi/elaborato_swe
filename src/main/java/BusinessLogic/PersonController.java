@@ -84,7 +84,6 @@ public abstract class PersonController<T extends Person> {
     }
 
 
-    //TODO maybe should be deleted
     public ArrayList<User> getUsersByUsernames(ArrayList<String> usernames) throws SQLException {
 
         ArrayList<User> users = new ArrayList<>();
@@ -331,7 +330,7 @@ public abstract class PersonController<T extends Person> {
         if (group == null)
             return false;
 
-        if (group.getReservation() == null) //TODO insert also || group.getReservation().getId() <= 0 ?
+        if (group.getReservation() == null || group.getReservation().getId() <= 0)
             goodToGo = false;
 
         if (group.getRequiredParticipants() < 0)
@@ -413,7 +412,6 @@ public abstract class PersonController<T extends Person> {
 
     }
 
-    //TODO add alerts to manage callers
     public boolean removeGroupMember(int idReservation, int idMember) {
         try {
             isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
@@ -458,13 +456,6 @@ public abstract class PersonController<T extends Person> {
         return reservationDao.getReservationsByField(idField);
     }
 
-    //TODO should be deleted?
-    public boolean isFull(Reservation reservation, int guests) throws SQLException, ClassNotFoundException {
-
-        Group group = groupDao.getGroupByReservation(reservation.getId());
-
-        return  group.willBeFull(guests);
-    }
 
     public Field getReservationField(Reservation reservation) throws SQLException, ClassNotFoundException {
         return fieldDao.getField(reservation.getField().getId());
@@ -472,11 +463,6 @@ public abstract class PersonController<T extends Person> {
 
     public String getFieldAddress(int fieldId) throws SQLException {
         return fieldDao.getFieldAddress(fieldId);
-    }
-
-    public int getUserIdByUsername(String username) throws SQLException, ClassNotFoundException {
-        
-        return userDao.getUserID(username);
     }
 
     public User getUserByID(int id) throws SQLException, ClassNotFoundException {

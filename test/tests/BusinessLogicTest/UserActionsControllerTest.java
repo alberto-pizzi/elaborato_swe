@@ -418,7 +418,9 @@ public class UserActionsControllerTest extends PersonControllerTest {
 
         group = createGroup(true, 5);
 
-        assertTrue(userActionsController.checkGroupData(group));
+        assertFalse(userActionsController.checkGroupData(group));
+
+        group.getReservation().setId(1);
 
         int oldParticipants = group.getParticipants();
         group.setParticipants(6);
@@ -431,6 +433,7 @@ public class UserActionsControllerTest extends PersonControllerTest {
         assertFalse(userActionsController.checkGroupData(group));
 
         group = createGroup(false, 5);
+        group.getReservation().setId(1);
         //group.setParticipants(6);
         assertTrue(userActionsController.checkGroupData(group));
 
@@ -560,15 +563,6 @@ public class UserActionsControllerTest extends PersonControllerTest {
 
     }
 
-    @Test
-    public void getUserIdByUsernameTest() throws SQLException, ClassNotFoundException {
-
-        User user = createUser();
-
-        when(userDAOMock.getUserID(anyString())).thenReturn(user.getId());
-        assertEquals(user.getId(), userActionsController.getUserIdByUsername(user.getUsername()));
-
-    }
 
     @Test
     public void filterUpcomingReservationsTest() throws SQLException {

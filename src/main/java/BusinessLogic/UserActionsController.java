@@ -237,12 +237,6 @@ public class UserActionsController extends PersonController<User>{
 
     }
 
-
-    //TODO swap with getUserIdByUsername (PersonController)
-    public User searchUserByUsername(String username) throws SQLException, ClassNotFoundException {
-        return  userDao.getUser(username);
-    }
-
     public boolean changeOwnGuests(Group group, int guestsSelected) throws SQLException, ClassNotFoundException {
 
         boolean guestChangedLocally = false;
