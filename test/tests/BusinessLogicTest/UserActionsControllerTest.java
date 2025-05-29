@@ -148,7 +148,7 @@ public class UserActionsControllerTest extends PersonControllerTest {
         findOtherPlayersMockHelper(group,new ArrayList<>());
         sendInviteMockHelper(group, user);
 
-        when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
+        when(notificationControllerMock.sendConfirmNotifications(any())).thenReturn(1);
         when(groupDAOMock.addGroup(any())).thenReturn(3);
         int reservationId = 3;
         when(reservationDAOMock.addReservation(any())).thenReturn(reservationId);
@@ -159,7 +159,7 @@ public class UserActionsControllerTest extends PersonControllerTest {
         ArrayList<String> inviteList = new ArrayList<>();
 
         userActionsController = spy(userActionsController); //IMPORTANT before calling applyChangesMockHelper
-        when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any())).thenReturn(true);
+        when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any(), any())).thenReturn(true);
 
         assertEquals(reservationId,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,userActionsController.getPerson(),removed,added,changed,inviteList));
         assertEquals(0,userActionsController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,null,removed,added,changed,inviteList));
@@ -193,25 +193,30 @@ public class UserActionsControllerTest extends PersonControllerTest {
         doNothing().when(reservationDAOMock).updateEventTimeStart(anyInt(),any());
         doNothing().when(reservationDAOMock).updateEventTimeEnd(anyInt(),any());
         when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
-        when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
+        when(notificationControllerMock.sendConfirmNotifications(any())).thenReturn(1);
+
+        //User fakeGroupHead = createUser(30);
+        when(userDAOMock.getUser(anyString())).thenReturn(null);
+
+        String groupHead = group.getGroupHead().getUsername();
 
 
-        when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any())).thenReturn(false);
-        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList));
+        when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any(), any())).thenReturn(false);
+        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList,groupHead));
 
-        when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any())).thenReturn(true);
-        assertTrue(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList));
+        when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any(), any())).thenReturn(true);
+        assertTrue(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList,groupHead));
 
         doThrow(new SQLException("Simulated SQL exception")).when(reservationDAOMock).updateEventTimeEnd(anyInt(),any());
-        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList));
+        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList,groupHead));
         doNothing().when(reservationDAOMock).updateEventTimeEnd(anyInt(),any());
 
         doThrow(new SQLException("Simulated SQL exception")).when(reservationDAOMock).updateEventTimeStart(anyInt(),any());
-        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList));
+        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList,groupHead));
         doNothing().when(reservationDAOMock).updateEventTimeStart(anyInt(),any());
 
         doThrow(new SQLException("Simulated SQL exception")).when(reservationDAOMock).updateEventDate(anyInt(),any());
-        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList));
+        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList,groupHead));
         doNothing().when(reservationDAOMock).updateEventDate(anyInt(),any());
 
 
@@ -379,28 +384,28 @@ public class UserActionsControllerTest extends PersonControllerTest {
         userActionsController = spy(userActionsController); //IMPORTANT before calling applyChangesMockHelper
         applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
 
-        assertTrue(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertTrue(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
 
         invitesSent = -1;
         inviteList.add(createUser(15).getUsername());
         applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
-        assertFalse(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertFalse(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
 
         invitesSent = 1;
         guestsChanged = false;
         applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
-        assertFalse(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertFalse(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
 
         guestsChanged = true;
         removedGroupMembers = false;
         removed.add(new GroupMember(createUser(20),0));
         applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
-        assertFalse(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertFalse(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
 
         group.setGroupHead(createUser(19));
         removedGroupMembers = true;
         applyChangesMockHelper(invitesSent,guestsChanged,removedGroupMembers, true, true);
-        assertTrue(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertTrue(userActionsController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
 
 
     }
@@ -507,7 +512,7 @@ public class UserActionsControllerTest extends PersonControllerTest {
 
         when(reservationDAOMock.getReservation(anyInt(),anyBoolean())).thenReturn(reservation);
         doNothing().when(reservationDAOMock).updateIsDeleted(anyInt(),anyBoolean());
-        when(notificationControllerMock.sendDeletionNotification(any())).thenReturn(1);
+        when(notificationControllerMock.sendDeletionNotifications(any())).thenReturn(1);
 
         assertTrue(userActionsController.deleteReservation(reservation.getId()));
         assertTrue(reservation.isDeleted());

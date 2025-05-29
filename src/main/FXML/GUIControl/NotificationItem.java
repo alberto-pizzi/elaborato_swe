@@ -16,9 +16,6 @@ public class NotificationItem {
     protected Label notificationMessageLabel;
 
     @FXML
-    protected Button gotoButton;
-
-    @FXML
     protected Label notificationTitleLabel;
 
     @FXML
@@ -42,11 +39,6 @@ public class NotificationItem {
         notificationMessageLabel.setText(notification.getMessage());
     }
 
-    @FXML
-    public void handleGotoButton(ActionEvent event) {
-
-        //TODO implement
-    }
 
     @FXML
     public void handleDeleteNotificationButton(ActionEvent event) {

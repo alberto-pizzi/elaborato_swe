@@ -120,31 +120,6 @@ public class FacilityDAO extends ConnectionHolder{
         return facility;
     }
 
-    public ArrayList<Facility> getFacilities() throws SQLException {
-        ArrayList<Facility> facilities = new ArrayList<>();
-
-        String querySQL = "SELECT * FROM \"Facility\" ORDER BY id ASC";
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                facilities.add(this.getFacility(resultSet.getInt("id"), false));
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-            if (resultSet != null) { resultSet.close(); }
-        }
-
-        return facilities;
-    }
 
     public ArrayList<Facility> getFacilitiesByOwner(int idOwnerTarget) throws SQLException {
         ArrayList<Facility> facilities = new ArrayList<>();

@@ -97,13 +97,13 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         findOtherPlayersMockHelper(group,new ArrayList<>());
         sendInviteMockHelper(group, user);
 
-        when(notificationControllerMock.sendConfirmNotification(any())).thenReturn(1);
+        when(notificationControllerMock.sendConfirmNotifications(any())).thenReturn(1);
         when(groupDAOMock.addGroup(any())).thenReturn(3);
         int reservationId = 3;
         when(reservationDAOMock.addReservation(any())).thenReturn(reservationId);
 
         managerOwnerManagementController = spy(managerOwnerManagementController); //IMPORTANT before calling applyChangesMockHelper
-        when(managerOwnerManagementController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any())).thenReturn(true);
+        when(managerOwnerManagementController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any(), any())).thenReturn(true);
 
         ArrayList<GroupMember> removed = new ArrayList<>();
         ArrayList<GroupMember> added = new ArrayList<>();
@@ -117,7 +117,7 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         Date yesterday = Date.valueOf(LocalDate.now().minusDays(1));
         assertEquals(0,managerOwnerManagementController.addReservation(yesterday,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
 
-        when(managerOwnerManagementController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any())).thenReturn(false);
+        when(managerOwnerManagementController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any(), any())).thenReturn(false);
         assertEquals(0,managerOwnerManagementController.addReservation(tomorrow,eventTimeStart,eventTimeEnd,field,guests,requiredParticipants,isMatched,groupHead,removed,added,changed,inviteList));
 
         guests = 10;
@@ -139,6 +139,7 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         when(managerOwnerManagementController.removeGroupMember(anyInt(),anyInt())).thenReturn(removedMembers);
         when(managerOwnerManagementController.addGroupMember(anyInt(),anyInt(),anyInt())).thenReturn(addedMembers);
         when(managerOwnerManagementController.changeUserGuests(anyInt(),anyInt(),anyInt())).thenReturn(changedMembers);
+        doNothing().when(groupDAOMock).updateGroupHead(anyInt(),anyInt());
 
     }
 
@@ -161,40 +162,44 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         doNothing().when(notificationControllerMock).connectObserverToReservation(any());
         applyChangesMockHelper(1,true,true, true, true);
 
-        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
 
         added.add(new GroupMember(createUser(4),0));
-        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
         added.clear();
 
         User userToBeAdded = createUser(4);
 
         added.add(new GroupMember(userToBeAdded,0));
         applyChangesMockHelper(1,true,true, false, true);
-        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
         added.clear();
 
         applyChangesMockHelper(1,true,true, true, false);
-        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
 
         applyChangesMockHelper(1,true,true, true, true);
         added.clear();
         changed.add(new GroupMember(createUser(4),1));
-        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
         changed.clear();
 
         inviteList.add(createUser(15).getUsername());
         applyChangesMockHelper(-1,true,true, true, true);
-        assertFalse(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertFalse(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
 
         removed.add(new GroupMember(userToBeAdded,0));
         applyChangesMockHelper(1,true,false, true, true);
-        assertFalse(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertFalse(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
 
         group.setGroupHead(createUser(19));
         applyChangesMockHelper(1,true,true, true, true);
-        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList));
+        assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));
 
+        doThrow(new SQLException("Simulated SQL exception")).when(groupDAOMock).updateGroupHead(anyInt(),anyInt());
+        assertThrows(SQLException.class,() -> {
+            managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, createUser(32));
+        });
 
     }
 

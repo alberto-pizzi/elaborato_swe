@@ -83,6 +83,8 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                 effectiveGroupMembersList.getItems().add(member);
             }
 
+            groupHeadUsernameDraft = group.getGroupHead().getUsername();
+            updateGroupHeadLabel();
         }
     }
 
@@ -95,6 +97,8 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             GroupMember.removeFromArrayByUsername(groupMember.getUser().getUsername(),groupMembersRemoved);
 
             effectiveGroupMembersList.getItems().add(groupMember);
+
+            assignNewGroupHeadDraft(groupMember.getUser().getUsername());
         }
         else
             System.out.println("Draft ArrayLists are null (adding)");
