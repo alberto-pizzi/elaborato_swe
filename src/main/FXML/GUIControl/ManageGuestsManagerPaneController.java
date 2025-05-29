@@ -84,7 +84,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             }
 
             groupHeadUsernameDraft = group.getGroupHead().getUsername();
-
+            updateGroupHeadLabel();
         }
     }
 

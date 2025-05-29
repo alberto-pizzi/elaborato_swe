@@ -64,7 +64,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
 
     @Override
-    public boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft) throws SQLException, ClassNotFoundException {
+    public boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft, User newGroupHead) throws SQLException, ClassNotFoundException {
 
         if (group != null) {
 
@@ -82,6 +82,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
                     }else
                         System.out.println("Error during removing member into group (local)");
                 }
+
             }
 
             notificationController.connectObserverToReservation(group.getReservation());
@@ -110,6 +111,9 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
                     }
                 }
             }
+
+            if (newGroupHead != null)
+                groupDao.updateGroupHead(group.getId(), newGroupHead.getId());
 
             return true;
 

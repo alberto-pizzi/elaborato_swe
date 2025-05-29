@@ -158,7 +158,7 @@ public abstract class PersonController<T extends Person> {
                     }
 
                     try {
-                        if (!applyChangesFromDraft(group, removedMember, addedMember, changedMember, guests, inviteList)) {
+                        if (!applyChangesFromDraft(group, removedMember, addedMember, changedMember, guests, inviteList, null)) {
                             throw new SQLException("Error while applying changes");
                         }
                     } catch (SQLException | ClassNotFoundException e3) {
@@ -202,7 +202,7 @@ public abstract class PersonController<T extends Person> {
 
     public abstract boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException;
 
-    public boolean editReservation(Reservation reservation, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuests, ArrayList<String> inviteList) {
+    public boolean editReservation(Reservation reservation, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuests, ArrayList<String> inviteList, String newGroupHeadUsername) {
 
         Reservation previousReservation = null;
 
@@ -224,7 +224,7 @@ public abstract class PersonController<T extends Person> {
 
             boolean changesHasBeenApplied = false;
             try {
-                changesHasBeenApplied = applyChangesFromDraft(getGroupByReservation(reservation.getId()), removedDraft, addedDraft, changedDraft, ownGuests, inviteList);
+                changesHasBeenApplied = applyChangesFromDraft(getGroupByReservation(reservation.getId()), removedDraft, addedDraft, changedDraft, ownGuests, inviteList, getUserByUsername(newGroupHeadUsername));
             } catch (SQLException | ClassNotFoundException e2) {
                 throw new SQLException(e2.getMessage());
             }
@@ -545,7 +545,7 @@ public abstract class PersonController<T extends Person> {
     }
 
     //useless params should be set as null
-    public abstract boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft) throws SQLException, ClassNotFoundException;
+    public abstract boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft, User newGroupHead) throws SQLException, ClassNotFoundException;
 
 
 

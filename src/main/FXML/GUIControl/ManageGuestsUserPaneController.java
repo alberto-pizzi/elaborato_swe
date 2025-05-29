@@ -26,7 +26,6 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
     @FXML
     protected ListView<GroupMember> effectiveGroupMembersList;
 
-    protected String groupHeadUsernameDraft = "";
 
 
 
@@ -88,6 +87,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
             }
 
             groupHeadUsernameDraft = group.getGroupHead().getUsername();
+            updateGroupHeadLabel();
 
         }
     }
@@ -173,6 +173,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
         if (groupHeadUsernameDraft.isEmpty()){
             groupHeadUsernameDraft = newGroupHeadUsername;
+            updateGroupHeadLabel();
         }
 
     }
@@ -185,6 +186,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         }
 
         groupHeadUsernameDraft = effectiveGroupMembersList.getItems().get(0).getUser().getUsername();
+        updateGroupHeadLabel();
 
     }
 
@@ -199,8 +201,10 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         if (group != null){
             if (groupMember != null){
 
-                if (!effectiveGroupMembersList.getItems().isEmpty())
+                if (effectiveGroupMembersList.getItems().size() > 1)
                     removeGroupMemberFromDraft(groupMember);
+                else
+                    messagesController.showMessage("Group must have an head.", MessagesController.MessageType.WARNING,3);
 
                 updateDraftParticipants(true);
                 updateAddButtons();
@@ -220,7 +224,7 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         if (group != null && !effectiveGroupMembersList.getItems().isEmpty()){
             List<GroupMember> copyList = new ArrayList<>(effectiveGroupMembersList.getItems());
             for (GroupMember groupMember : copyList){
-                if (group.getGroupHead() != null && !groupMember.getUser().getUsername().equals(group.getGroupHead().getUsername()))
+                if (!groupMember.getUser().getUsername().equals(groupHeadUsernameDraft))
                     removeGroupMemberFromDraft(groupMember);
                 else
                     messagesController.showMessage("Group must have an head.", MessagesController.MessageType.WARNING,3);

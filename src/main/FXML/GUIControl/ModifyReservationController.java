@@ -132,7 +132,7 @@ public class ModifyReservationController extends FieldFormManagementController i
             if (selectGuestsPaneController != null) {
 
                 int newGuests = (selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0);
-                if (personController.editReservation(reservation,selectGuestsPaneController.getGroupMembersRemoved() , selectGuestsPaneController.getGroupMembersAdded(), selectGuestsPaneController.getGroupMembersChanged(), newGuests,new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems()))){
+                if (personController.editReservation(reservation,selectGuestsPaneController.getGroupMembersRemoved() , selectGuestsPaneController.getGroupMembersAdded(), selectGuestsPaneController.getGroupMembersChanged(), newGuests,new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems()), selectGuestsPaneController.getGroupHeadUsernameDraft() )){
 
                     try {
                         actionsAfterEdit();

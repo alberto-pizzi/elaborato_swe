@@ -71,7 +71,11 @@ public class SelectGuestsPaneController implements Initializable {
     protected ArrayList<GroupMember> groupMembersChanged = new ArrayList<>();
     protected ArrayList<GroupMember> groupMembersRemoved = new ArrayList<>();
     protected ArrayList<GroupMember> groupMembersAdded = new ArrayList<>();
+    protected String groupHeadUsernameDraft = "";
 
+
+    @FXML
+    protected Label draftGroupHeadLabel;
 
     protected DecimalFormat priceFormat;
 
@@ -176,6 +180,10 @@ public class SelectGuestsPaneController implements Initializable {
         this.totalPrice = totalPrice;
     }
 
+    public String getGroupHeadUsernameDraft() {
+        return groupHeadUsernameDraft;
+    }
+
     protected void nGuestsChoiceListener(){
         nGuestsChoice.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
@@ -199,6 +207,10 @@ public class SelectGuestsPaneController implements Initializable {
         updateAddButtons();
         updateIndicatorLabels();
 
+    }
+
+    protected void updateGroupHeadLabel(){
+        draftGroupHeadLabel.setText(groupHeadUsernameDraft);
     }
 
     public void updateIndicatorLabels(){
