@@ -81,7 +81,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
             //removed
             if (removedDraft != null && !removedDraft.isEmpty()) {
                 for (GroupMember groupMember : removedDraft) {
-                    if (group.removeMember(groupMember.getUser(), groupMember.getOwnGuests())) {
+                    if (group.removeMember(groupMember.getUser())) {
                         if (!removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId()))
                             return false;
                     }else

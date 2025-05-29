@@ -237,12 +237,11 @@ public class UserActionsControllerTest extends PersonControllerTest {
     @Test
     public void leaveGroupTest() throws SQLException, ClassNotFoundException {
 
-        Group group = createGroup(true, 5);
+        Group group = createGroup(createUser(3),createReservation(true), 5);
 
         int ownGuests = 1;
 
         group.addMember(userActionsController.getPerson(),ownGuests);
-
 
         transactionsMockHelper(isPartDAOMock);
         when(groupDAOMock.getGroup(anyInt())).thenReturn(group);

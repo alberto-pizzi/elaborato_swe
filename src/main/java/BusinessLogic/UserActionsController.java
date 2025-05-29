@@ -163,7 +163,7 @@ public class UserActionsController extends PersonController<User>{
         }
 
         //this method removes a member from DomainModel
-        boolean memberRemoved = group.removeMember(person,ownGuests);
+        boolean memberRemoved = group.removeMember(person);
 
         if (memberRemoved){
             try {
