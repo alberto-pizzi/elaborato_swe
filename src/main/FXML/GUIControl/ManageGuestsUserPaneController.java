@@ -7,10 +7,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import main.java.DomainModel.Group;
 import main.java.DomainModel.GroupMember;
+import main.java.DomainModel.User;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
@@ -23,6 +25,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
     @FXML
     protected ListView<GroupMember> effectiveGroupMembersList;
+
+    protected String groupHeadUsernameDraft = "";
 
 
 
@@ -82,6 +86,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
                 if (!groupMember.getUser().getUsername().equals(personController.getPerson().getUsername()))
                     effectiveGroupMembersList.getItems().add(groupMember);
             }
+
+            groupHeadUsernameDraft = group.getGroupHead().getUsername();
 
         }
     }
@@ -155,9 +161,31 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
             GroupMember.removeFromArrayByUsername(groupMember.getUser().getUsername(),groupMembersChanged);
 
             effectiveGroupMembersList.getItems().remove(groupMember);
+
+            if (groupHeadUsernameDraft.equals(groupMember.getUser().getUsername()))
+                successionGroupHeadDraft();
         }
         else
             System.out.println("Draft ArrayLists are null (removing)");
+    }
+
+    protected void assignNewGroupHeadDraft(String newGroupHeadUsername){
+
+        if (groupHeadUsernameDraft.isEmpty()){
+            groupHeadUsernameDraft = newGroupHeadUsername;
+        }
+
+    }
+
+    protected void successionGroupHeadDraft(){
+
+        if (effectiveGroupMembersList.getItems().isEmpty()) {
+            groupHeadUsernameDraft = "";
+            return;
+        }
+
+        groupHeadUsernameDraft = effectiveGroupMembersList.getItems().get(0).getUser().getUsername();
+
     }
 
 
@@ -171,7 +199,8 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         if (group != null){
             if (groupMember != null){
 
-                removeGroupMemberFromDraft(groupMember);
+                if (!effectiveGroupMembersList.getItems().isEmpty())
+                    removeGroupMemberFromDraft(groupMember);
 
                 updateDraftParticipants(true);
                 updateAddButtons();
@@ -189,8 +218,12 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
 
 
         if (group != null && !effectiveGroupMembersList.getItems().isEmpty()){
-            for (GroupMember groupMember : effectiveGroupMembersList.getItems()){
-                removeGroupMemberFromDraft(groupMember);
+            List<GroupMember> copyList = new ArrayList<>(effectiveGroupMembersList.getItems());
+            for (GroupMember groupMember : copyList){
+                if (group.getGroupHead() != null && !groupMember.getUser().getUsername().equals(group.getGroupHead().getUsername()))
+                    removeGroupMemberFromDraft(groupMember);
+                else
+                    messagesController.showMessage("Group must have an head.", MessagesController.MessageType.WARNING,3);
             }
 
             updateDraftParticipants(true);
