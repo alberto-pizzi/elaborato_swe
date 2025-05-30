@@ -239,6 +239,8 @@ public class UserActionsControllerTest extends PersonControllerTest {
 
         Group group = createGroup(createUser(3),createReservation(true), 5);
 
+        userActionsController = spy(userActionsController);
+
         int ownGuests = 1;
 
         group.addMember(userActionsController.getPerson(),ownGuests);
@@ -248,7 +250,10 @@ public class UserActionsControllerTest extends PersonControllerTest {
         when(isPartDAOMock.countOwnGuests(anyInt(), anyInt())).thenReturn(ownGuests);
 
         doNothing().when(isPartDAOMock).removeMembership(anyInt(),anyInt());
-        doNothing().when(groupDAOMock).deleteGroup(anyInt());
+
+        deleteReservationMock(group.getReservation());
+        when(userActionsController.deleteReservation(anyInt())).thenReturn(true);
+
         doNothing().when(groupDAOMock).updateGroupHead(anyInt(),anyInt());
 
         int oldParticipants = group.getParticipants();
@@ -504,6 +509,12 @@ public class UserActionsControllerTest extends PersonControllerTest {
 
     }
 
+    protected void deleteReservationMock(Reservation reservation) throws SQLException, ClassNotFoundException {
+        when(reservationDAOMock.getReservation(anyInt(),anyBoolean())).thenReturn(reservation);
+        doNothing().when(reservationDAOMock).updateIsDeleted(anyInt(),anyBoolean());
+        when(notificationControllerMock.sendDeletionNotifications(any())).thenReturn(1);
+    }
+
     @Test
     public void deleteReservationTest() throws SQLException, ClassNotFoundException {
 
@@ -512,9 +523,7 @@ public class UserActionsControllerTest extends PersonControllerTest {
 
         assertFalse(reservation.isDeleted());
 
-        when(reservationDAOMock.getReservation(anyInt(),anyBoolean())).thenReturn(reservation);
-        doNothing().when(reservationDAOMock).updateIsDeleted(anyInt(),anyBoolean());
-        when(notificationControllerMock.sendDeletionNotifications(any())).thenReturn(1);
+        deleteReservationMock(reservation);
 
         assertTrue(userActionsController.deleteReservation(reservation.getId()));
         assertTrue(reservation.isDeleted());
