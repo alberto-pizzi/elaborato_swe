@@ -26,7 +26,7 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
     private ManagerOwnerManagementController managerOwnerManagementController;
     private User user = null;
 
-
+    protected FacilityDAO facilityDAOMock = null;
 
     @Override
     @BeforeEach
@@ -46,7 +46,8 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
 
         notificationControllerMock = mock(NotificationController.class);
 
-        managerOwnerManagementController = new ManagerOwnerManagementController(user, userDAOMock, groupDAOMock, isPartDAOMock, workingHoursDAOMock, reservationDAOMock, inviteDAOMock, fieldDAOMock, facilityDAOMock, ownerDAOMock, notificationDAOMock, managesDAOMock);
+        personController = new ManagerOwnerManagementController(user, userDAOMock, groupDAOMock, isPartDAOMock, workingHoursDAOMock, reservationDAOMock, inviteDAOMock, fieldDAOMock, managesDAOMock, notificationControllerMock);
+        managerOwnerManagementController = new ManagerOwnerManagementController(user, userDAOMock, groupDAOMock, isPartDAOMock, workingHoursDAOMock, reservationDAOMock, inviteDAOMock, fieldDAOMock, managesDAOMock, notificationControllerMock);
     }
 
     @Override
@@ -54,6 +55,7 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
     public void teardown() {
         user = null;
         managerOwnerManagementController = null;
+        personController = null;
     }
 
     @Test
@@ -238,19 +240,11 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         Reservation reservation = createReservation(false);
 
         String notificationMessage = "Try";
-        //todo mockare proprio
-        when(notificationDAOMock.addNotification(any(Notification.class))).thenReturn(1);
-        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(createGroup(false, 3));
-        when(isPartDAOMock.getGroupMembers(anyInt())).thenReturn(new ArrayList<>());
-        when(managesDAOMock.getAllManagersByFacility(anyInt())).thenReturn(new ArrayList<User>());
-        when(ownerDAOMock.getOwnerByID(anyInt())).thenReturn(createOwner());
 
-        //No exception
-        when(facilityDAOMock.getFacility(createFacility().getId(), false)).thenReturn(createFacility());
+        when(notificationControllerMock.sendAnnouncements(any(),anyString())).thenReturn(1);
         assertTrue(managerOwnerManagementController.reservationAnnouncement(notificationMessage, reservation));
 
-        //With exception
-        when(facilityDAOMock.getFacility(createFacility().getId(), false)).thenThrow(new SQLException("Simulated SQL exception"));
+        when(notificationControllerMock.sendAnnouncements(any(),anyString())).thenReturn(-1);
         assertFalse(managerOwnerManagementController.reservationAnnouncement(notificationMessage, reservation));
     }
 
