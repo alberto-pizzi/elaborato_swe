@@ -1,12 +1,8 @@
 package main.java.BusinessLogic;
 
-import main.java.DomainModel.Owner;
 import main.java.DomainModel.Person;
-import main.java.ORM.OwnerDAO;
 import main.java.ORM.PersonDAO;
-import main.java.ORM.UserDAO;
 
-import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
