@@ -1,12 +1,8 @@
 package tests.BusinessLogicTest;
 
-import main.java.BusinessLogic.AccessController;
 import main.java.BusinessLogic.PasswordEncoder;
-import main.java.BusinessLogic.UserAccess;
 import main.java.BusinessLogic.UserProfileController;
-import main.java.DomainModel.Facility;
 import main.java.DomainModel.User;
-import main.java.DomainModel.WorkingHours;
 import main.java.ORM.ManagesDAO;
 import main.java.ORM.UserDAO;
 import org.junit.jupiter.api.AfterEach;
@@ -15,10 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.time.DayOfWeek;
-import java.util.ArrayList;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +21,6 @@ public class UserProfileControllerTest extends GeneralBSTest{
 
     private User user = null;
 
-    private ManagesDAO managesDAOMock = null;
     private UserDAO userDAOMock = null;
 
     @Override
@@ -37,10 +29,9 @@ public class UserProfileControllerTest extends GeneralBSTest{
 
         user = createUser();
 
-        managesDAOMock = mock(ManagesDAO.class);
         userDAOMock = mock(UserDAO.class);
 
-        userProfileController = new UserProfileController(user,userDAOMock,managesDAOMock);
+        userProfileController = new UserProfileController(user,userDAOMock);
     }
 
     @Override
@@ -48,7 +39,6 @@ public class UserProfileControllerTest extends GeneralBSTest{
     public void teardown(){
 
         user = null;
-        managesDAOMock = null;
         userDAOMock = null;
         userProfileController = null;
 
