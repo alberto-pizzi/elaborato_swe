@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ReservationTest extends GeneralTest{
 
     @Test
-    public void initReservation(){
+    public void initReservationTest(){
         Reservation reservationNotMatched = createReservation(false);
 
         assertFalse(reservationNotMatched.isMatched());
