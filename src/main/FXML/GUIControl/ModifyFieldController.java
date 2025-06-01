@@ -26,7 +26,7 @@ public class ModifyFieldController extends FieldForm {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
         Parent newField = loader.load();
         NewSportController newSportController = loader.getController();
-        newSportController.setData(field, facility,menuPane);
+        newSportController.setData(field, false,menuPane);
         menuPane.setCenter(newField);
     }
 

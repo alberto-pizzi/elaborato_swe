@@ -73,7 +73,7 @@ public class NewSportController {
                     Parent fieldPane;
 
                     try{
-                        //todo testare se togliere?
+                        //todo testare
                         if(newField) {
                             loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
                             fieldPane = loader.load();
@@ -107,17 +107,11 @@ public class NewSportController {
         }
     }
 
-    public void setData(Field field, Facility facility, BorderPane menuPane) throws IOException, SQLException {
+    public void setData(Field field, boolean newField, BorderPane menuPane) throws IOException, SQLException {
         this.field = field;
-        this.facility = facility;
+        this.facility = field.getFacility();
         this.menuPane = menuPane;
-    }
-
-    //todo controllare uso
-    public void setData(Field field, BorderPane menuPane) throws IOException, SQLException {
-        this.field = field;
-        this.menuPane = menuPane;
-        newField = true;
+        this.newField = newField;
     }
 
 }
