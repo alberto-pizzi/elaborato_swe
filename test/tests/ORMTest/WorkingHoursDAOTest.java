@@ -87,11 +87,6 @@ public class WorkingHoursDAOTest extends GeneralDAOTest{
         assertEquals(workingHoursDAO.getWHsByFacilityByDay(facility.getId(),DayOfWeek.MONDAY).size(),1);
     }
 
-    @Test
-    public void removeWHByFacilityByDayTest() throws SQLException {
-
-        //TODO implement?
-    }
 
 
 

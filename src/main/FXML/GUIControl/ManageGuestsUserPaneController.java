@@ -201,10 +201,10 @@ public class ManageGuestsUserPaneController extends SelectGuestsPaneController {
         if (group != null){
             if (groupMember != null){
 
-                if (effectiveGroupMembersList.getItems().size() > 1)
-                    removeGroupMemberFromDraft(groupMember);
-                else
+                if (effectiveGroupMembersList.getItems().size() <= 1 && groupHeadUsernameDraft.equals(groupMember.getUser().getUsername()))
                     messagesController.showMessage("Group must have an head.", MessagesController.MessageType.WARNING,3);
+                else
+                    removeGroupMemberFromDraft(groupMember);
 
                 updateDraftParticipants(true);
                 updateAddButtons();

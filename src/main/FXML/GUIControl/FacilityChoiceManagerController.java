@@ -2,6 +2,7 @@ package main.FXML.GUIControl;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.UserProfileController;
 import main.java.DomainModel.Facility;
 
@@ -12,8 +13,8 @@ import java.util.List;
 public class FacilityChoiceManagerController extends FacilityChoice {
 
     protected List<Facility> getData() throws SQLException {
-        UserProfileController userProfileController = new UserProfileController();
-        return userProfileController.getFacilitiesManaged();
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+        return managerOwnerManagementController.getFacilitiesManaged();
     }
 
 

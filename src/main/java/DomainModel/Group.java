@@ -140,7 +140,7 @@ public class Group{
         }
 
 
-        if (isUserInsideGroup(user.getUsername())) {
+        if (isUserInsideGroup(user.getUsername()) != null) {
             return false;
         }
 
@@ -154,17 +154,21 @@ public class Group{
 
     }
 
-    public boolean removeMember(User user, int guests){
+    public boolean removeMember(User user){
 
-        if (user != null && isUserInsideGroup(user.getUsername())) {
-            removeGroupMemberByUsernameFromArrayList(user.getUsername());
-            this.participants -= guests + 1;
+        if (user != null) {
+            GroupMember groupMember = isUserInsideGroup(user.getUsername());
+
+            if (groupMember != null) {
+                removeGroupMemberByUsernameFromArrayList(user.getUsername());
+                this.participants -= groupMember.getOwnGuests() + 1;
 
 
-            if (user.getUsername().equals(groupHead.getUsername()))
-                successionOfGroupHead();
+                if (user.getUsername().equals(groupHead.getUsername()))
+                    successionOfGroupHead();
 
-            return true;
+                return true;
+            }
         }
 
         return false;
@@ -192,8 +196,9 @@ public class Group{
         GroupMember.removeFromArrayByUsername(username,groupMembers);
     }
 
-    public boolean isUserInsideGroup(String username){
-        return GroupMember.isUsernameInsideGroupMembers(username,groupMembers);
+    //pay attention: two groupMember with same attributes could be different by each other
+    public GroupMember isUserInsideGroup(String username){
+        return GroupMember.getGroupMemberFromUsernameJoined(username,groupMembers);
     }
 
     public static ArrayList<User> getUsersByGroupMembers(ArrayList<GroupMember> members){

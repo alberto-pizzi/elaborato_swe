@@ -77,7 +77,6 @@ public class NotificationController implements Observer {
             notificationMessage = null;
         }
 
-        //TODO optimize notificationMessage (only for announcement)
         NotificationSender notificationSender = new NotificationSender(reservation, notificationType, notificationMessage);
         Notification tmpNotification;
 

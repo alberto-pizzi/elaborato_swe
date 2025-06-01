@@ -152,18 +152,16 @@ public class UserActionsController extends PersonController<User>{
     public boolean leaveGroup(int idGroup) {
 
         Group group = null;
-        int ownGuests = 0;
 
         try {
             group = groupDao.getGroup(idGroup);
-            ownGuests = isPartDao.countOwnGuests(idGroup, person.getId());
         }
         catch (SQLException | ClassNotFoundException e) {
             return false;
         }
 
         //this method removes a member from DomainModel
-        boolean memberRemoved = group.removeMember(person,ownGuests);
+        boolean memberRemoved = group.removeMember(person);
 
         if (memberRemoved){
             try {
@@ -174,8 +172,15 @@ public class UserActionsController extends PersonController<User>{
 
                 isPartDao.removeMembership(idGroup, person.getId());
 
-                if (group.getParticipants() <= 0)
-                    groupDao.deleteGroup(idGroup);
+                if (group.getParticipants() <= 0) {
+                    //set reservation as deleted (and related group). It will be deleted by trigger.
+                    boolean deletedSuccessfully = deleteReservation(group.getReservation().getId());
+
+                    if (!deletedSuccessfully) {
+                        //FIXME add right exception for transactions
+                        throw new SQLException("Error while deleting.");
+                    }
+                }
                 else
                     groupDao.updateGroupHead(idGroup, group.getGroupHead().getId());
 
@@ -235,12 +240,6 @@ public class UserActionsController extends PersonController<User>{
     public ArrayList<Reservation> getOwnReservations() throws SQLException, ClassNotFoundException {
         return reservationDao.getReservationsByUser(this.person.getId());
 
-    }
-
-
-    //TODO swap with getUserIdByUsername (PersonController)
-    public User searchUserByUsername(String username) throws SQLException, ClassNotFoundException {
-        return  userDao.getUser(username);
     }
 
     public boolean changeOwnGuests(Group group, int guestsSelected) throws SQLException, ClassNotFoundException {
