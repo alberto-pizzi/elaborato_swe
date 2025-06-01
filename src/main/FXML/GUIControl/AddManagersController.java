@@ -115,7 +115,6 @@ public class AddManagersController implements Initializable {
         @Override
         public void handle(KeyEvent keyEvent) {
             if (keyEvent.getCode() != null) {
-                //todo fare in modo che aspetti cambio effettivo
                 searchButton.fire();
             }
         }

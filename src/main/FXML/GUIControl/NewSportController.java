@@ -73,6 +73,7 @@ public class NewSportController {
                     Parent fieldPane;
 
                     try{
+                        //todo testare se togliere?
                         if(newField) {
                             loader = new FXMLLoader(getClass().getResource("/main/FXML/newField.fxml"));
                             fieldPane = loader.load();

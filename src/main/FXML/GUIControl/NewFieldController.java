@@ -40,7 +40,7 @@ public class NewFieldController extends FieldForm {
     }
 
     @Override
-    public void newField() throws IOException, SQLException {
+    public void newSport() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
         Parent newField = loader.load();
         NewSportController newSportController = loader.getController();
