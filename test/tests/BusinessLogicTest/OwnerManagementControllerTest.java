@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -68,7 +69,7 @@ class OwnerManagementControllerTest extends ManagerOwnerManagementControllerTest
     void monthlyEarnings() throws SQLException {
         //No exception
         when(reservationDAOMock.dailyEarning(any(Date.class), any(Owner.class))).thenReturn(1);
-        assertEquals(30, ownerManagementController.monthlyEarnings());
+        assertEquals(LocalDate.now().lengthOfMonth(), ownerManagementController.monthlyEarnings());
 
         //With exception
         when(reservationDAOMock.dailyEarning(any(Date.class), any(Owner.class))).thenThrow(new SQLException("Simulated SQL exception"));
@@ -98,7 +99,7 @@ class OwnerManagementControllerTest extends ManagerOwnerManagementControllerTest
     void monthlyReservations() throws SQLException {
         //No exception
         when(reservationDAOMock.dailyReservations(any(Date.class), any(Owner.class))).thenReturn(1);
-        assertEquals(30, ownerManagementController.monthlyReservations());
+        assertEquals(LocalDate.now().lengthOfMonth(), ownerManagementController.monthlyReservations());
 
         //With exception
         when(reservationDAOMock.dailyReservations(any(Date.class), any(Owner.class))).thenThrow(new SQLException("Simulated SQL exception"));
