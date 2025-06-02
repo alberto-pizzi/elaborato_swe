@@ -16,7 +16,6 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//TODO test each test
 public class ManagesDAOTest extends GeneralDAOTest {
 
     private static boolean shouldSkip = false;
@@ -101,7 +100,6 @@ public class ManagesDAOTest extends GeneralDAOTest {
         //TODO implement
     }
 
-    //FIXME is any fix needed?
     @Test
     public void getAllManagersByFacilityTest() throws SQLException {
         Assumptions.assumeFalse(shouldSkip);
@@ -114,6 +112,8 @@ public class ManagesDAOTest extends GeneralDAOTest {
         managesDAO.detachManager(user2.getId(),facility.getId());
 
         assertEquals(managesDAO.getAllManagersByFacility(facility.getId()).size(),1);
+
+        userDAO.deletePerson(user2.getUsername());
 
     }
 

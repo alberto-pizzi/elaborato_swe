@@ -8,23 +8,15 @@ import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;
 
-public class OwnerDAOTest extends PersonDAOTest{
-
-    private static boolean shouldSkip = false;
-
-    private OwnerDAO ownerDAO;
-
-    private Owner owner = null;
+public class OwnerDAOTest extends PersonDAOTest<Owner,OwnerDAO>{
 
     @Override
     @BeforeEach
     public void setup() throws SQLException {
         personDAO = new OwnerDAO();
-        ownerDAO = new OwnerDAO();
+        person = createOwner();
 
-        owner = createOwner();
-
-        if (owner.getId() == 0)
+        if (person.getId() == 0)
             shouldSkip = true;
 
 
@@ -34,18 +26,35 @@ public class OwnerDAOTest extends PersonDAOTest{
     @AfterEach
     public void teardown() throws SQLException {
 
-        if (owner != null && owner.getId() != 0)
-            ownerDAO.deletePerson(owner.getUsername());
+        if (person != null && person.getId() != 0)
+            personDAO.deletePerson(person.getUsername());
 
-        owner = null;
+        person = null;
         personDAO = null;
-        ownerDAO = null;
 
         //it is important to reset each test
         shouldSkip = false;
     }
 
-    //TODO finish to implement (remember assumptions)
+    @Override
+    protected Owner getPerson(String username) throws SQLException {
+        return personDAO.getOwner(username);
+    }
+
+    @Override
+    @Test
+    public void getUserTest() throws SQLException{
+        Assumptions.assumeFalse(shouldSkip);
+        //this test should not be implemented
+    }
+
+    @Override
+    @Test
+    public void getUserByIDTest() throws SQLException, ClassNotFoundException{
+        Assumptions.assumeFalse(shouldSkip);
+        //this test should not be implemented
+
+    }
 
 
 
