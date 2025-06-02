@@ -12,7 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,6 +80,15 @@ public class WorkingHoursDAOTest extends GeneralDAOTest{
         Assumptions.assumeFalse(shouldSkip);
 
         assertEquals(workingHoursDAO.getWHsByFacility(facility.getId()).size(),1);
+    }
+
+    @Test
+    public void updateWHTest() throws SQLException {
+        Assumptions.assumeFalse(shouldSkip);
+        LocalTime t = LocalTime.of(1,0);
+        workingHours.setOpeningHours(Time.valueOf(workingHours.getOpeningHours().toLocalTime().plusHours(t.getHour())));
+        workingHoursDAO.updateWH(workingHours.getId(), workingHours.getOpeningHours(), workingHours.getClosingHours());
+        assertEquals(workingHours.getOpeningHours(),workingHoursDAO.getWH(workingHours.getId()).getOpeningHours());
     }
 
     @Test

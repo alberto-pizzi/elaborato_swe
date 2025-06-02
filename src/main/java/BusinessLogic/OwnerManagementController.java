@@ -18,8 +18,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     private FacilityDAO facilityDao;
     private SportDAO sportDao;
 
-    //todo fare final?
-    int weekDays = 7;
+    final int weekDays = 7;
 
     //constructor
 
