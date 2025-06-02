@@ -90,7 +90,7 @@ public abstract class MediaManagerController implements Initializable {
                 }
             }
             String pathFromRoot = "/main/FXML/img/"+folderName+"/";
-            Image image = new Image(getClass().getResourceAsStream(pathFromRoot + copiedImage.getName()));
+            Image image = new Image(copiedImage.toURI().toString());
 
             imageLabel.setImage(image);
             return true;

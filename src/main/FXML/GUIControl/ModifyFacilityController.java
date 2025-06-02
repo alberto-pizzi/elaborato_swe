@@ -15,6 +15,7 @@ import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.User;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -72,7 +73,7 @@ public class ModifyFacilityController extends FacilityForm {
     protected void facilityUpdate(OwnerManagementController ownerManagementController) throws SQLException, IOException {
         if(ownerManagementController.editFacility(facility)){
             System.out.println("Facility updated");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesList.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/facilitiesOwner.fxml"));
             Parent facilitiesList = loader.load();
             FacilitiesController facilitiesController = loader.getController();
             facilitiesController.setData(menuPane);
@@ -171,9 +172,8 @@ public class ModifyFacilityController extends FacilityForm {
         phoneInput.setText(facility.getTelephone());
 
 
-        String pathFromRoot = "/main/FXML/img/facilities/";
-
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
+        String pathFromRoot = "src/main/FXML/img/facilities/";
+        Image image = new Image(new File(pathFromRoot + facility.getImage()).toURI().toString());
         imageLabel.setImage(image);
     }
 

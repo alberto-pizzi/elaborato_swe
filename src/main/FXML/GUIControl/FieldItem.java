@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import main.java.BusinessLogic.PersonController;
 import main.java.DomainModel.Field;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -53,8 +54,8 @@ public abstract class FieldItem implements Initializable {
         fieldNameLabel.setText(field.getName());
         fieldAddressLabel.setText(personController.getFieldAddress(field.getId()));
         fieldPriceLabel.setText(String.format("%.2f",field.getPrice()) + "$");
-        String pathFromRoot = "/main/FXML/img/fields/";
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
+        String pathFromRoot = "src/main/FXML/img/fields/";
+        Image image = new Image(new File(pathFromRoot + field.getImage()).toURI().toString());
         fieldImg.setImage(image);
         sportLabel.setText(field.getSport().getName());
     }

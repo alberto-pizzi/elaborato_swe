@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import main.java.DomainModel.*;
 
+import java.io.File;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -85,9 +86,8 @@ public class BookFieldController extends FieldFormManagementController implement
         fieldSport.setText(field.getSport().getName());
 
 
-        String pathFromRoot = "/main/FXML/img/fields/";
-
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
+        String pathFromRoot = "src/main/FXML/img/fields/";
+        Image image = new Image(new File(pathFromRoot + field.getImage()).toURI().toString());
         fieldImageView.setImage(image);
 
     }

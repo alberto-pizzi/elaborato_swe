@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import main.java.DomainModel.Facility;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -55,8 +56,8 @@ public abstract class FacilityDetail {
         facilityTelephone.setText(facility.getTelephone());
         facilityFieldsNumber.setText(String.valueOf(facility.getNFields()));
         facilityManagersNumber.setText(String.valueOf(facility.getNManager()));
-        String pathFromRoot = "/main/FXML/img/facilities/";
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
+        String pathFromRoot = "src/main/FXML/img/facilities/";
+        Image image = new Image(new File(pathFromRoot + facility.getImage()).toURI().toString());
         facilityImageView.setImage(image);
     }
 

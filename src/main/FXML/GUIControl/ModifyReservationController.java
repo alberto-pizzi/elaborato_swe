@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import main.java.DomainModel.Reservation;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -43,9 +44,8 @@ public class ModifyReservationController extends FieldFormManagementController i
 
         resetFields();
 
-        String pathFromRoot = "/main/FXML/img/fields/";
-
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
+        String pathFromRoot = "src/main/FXML/img/fields/";
+        Image image = new Image(new File(pathFromRoot + field.getImage()).toURI().toString());
         fieldImageView.setImage(image);
 
         //fill data with reservation ones

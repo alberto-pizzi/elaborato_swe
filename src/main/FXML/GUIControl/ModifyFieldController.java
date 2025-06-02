@@ -14,6 +14,7 @@ import main.java.DomainModel.Facility;
 import main.java.DomainModel.Field;
 import main.java.DomainModel.Sport;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -98,8 +99,8 @@ public class ModifyFieldController extends FieldForm {
         nameInput.setText(field.getName());
         priceInput.setText(field.getPrice() + "$");
         descriptionInput.setText(field.getDescription());
-        String pathFromRoot = "/main/FXML/img/fields/";
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
+        String pathFromRoot = "src/main/FXML/img/fields/";
+        Image image = new Image(new File(pathFromRoot + field.getImage()).toURI().toString());
         imageLabel.setImage(image);
     }
 }

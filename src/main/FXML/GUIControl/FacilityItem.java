@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import main.java.DomainModel.Facility;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -54,8 +55,8 @@ public abstract class FacilityItem {
         facilityAddressLabel.setText(facility.getAddress());
         managersLabel.setText(String.format("%d",facility.getNManager()));
         fieldsLabel.setText(String.format("%d",facility.getNFields()));
-        String pathFromRoot = "/main/FXML/img/facilities/";
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + facility.getImage()));
+        String pathFromRoot = "src/main/FXML/img/facilities/";
+        Image image = new Image(new File(pathFromRoot + facility.getImage()).toURI().toString());
         fieldImg.setImage(image);
         facilityPhoneNumberLabel.setText(facility.getTelephone());
     }

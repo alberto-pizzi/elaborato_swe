@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import main.java.DomainModel.Field;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -59,8 +60,8 @@ public abstract class FieldDetail {
         fieldAddress.setText(field.getFacility().getFullAddress());
         fieldSport.setText(field.getSport().getName());
         fieldPricePerHour.setText("$ " + String.valueOf(field.getPrice()));
-        String pathFromRoot = "/main/FXML/img/fields/";
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + field.getImage()));
+        String pathFromRoot = "src/main/FXML/img/fields/";
+        Image image = new Image(new File(pathFromRoot + field.getImage()).toURI().toString());
         fieldImageView.setImage(image);
         this.menuPane = menuPane;
 

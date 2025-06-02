@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import main.java.DomainModel.Reservation;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -69,8 +70,8 @@ public abstract class ReservationItems {
         fieldNameLabel.setText(reservation.getField().getName());
         fieldSport.setText(reservation.getField().getSport().getName());
         matching.setText(reservation.isMatched() ? "Yes" : "No");
-        String pathFromRoot = "/main/FXML/img/fields/";
-        Image image = new Image(getClass().getResourceAsStream(pathFromRoot + reservation.getField().getImage()));
+        String pathFromRoot = "src/main/FXML/img/fields/";
+        Image image = new Image(new File(pathFromRoot + reservation.getField().getImage()).toURI().toString());
         fieldImageView.setImage(image);
     }
 }
