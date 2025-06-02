@@ -22,11 +22,11 @@ import java.util.Optional;
 public class ModifyFieldController extends FieldForm {
 
     @Override
-    public void newField() throws IOException, SQLException {
+    public void newSport() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/FXML/newSport.fxml"));
         Parent newField = loader.load();
         NewSportController newSportController = loader.getController();
-        newSportController.setData(field, facility,menuPane);
+        newSportController.setData(field, false,menuPane);
         menuPane.setCenter(newField);
     }
 

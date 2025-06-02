@@ -161,7 +161,6 @@ public abstract class GeneralDAOTest {
         return group;
     }
 
-    //todo parlare con albe perché non aggiunge ispart ba database qindi grouphead non fa  parte gruppo?
     protected Group createGroup(User user, Reservation reservation, int requiredParticipants) throws SQLException {
         GroupDAO groupDao = new GroupDAO();
         Group group = new Group(user,reservation,requiredParticipants,0);

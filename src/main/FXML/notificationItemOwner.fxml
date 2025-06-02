@@ -47,25 +47,6 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="gotoButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleGotoButton" prefHeight="40.0" prefWidth="40.0" stylesheets="@css/style.css" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@img/icons/link.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <styleClass>
-                        <String fx:value="button-owner" />
-                        <String fx:value="shadow" />
-                     </styleClass>
-                  </Button>
                   <Button fx:id="deleteNotificationButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#handleDeleteNotificationButton" prefHeight="40.0" prefWidth="40.0" stylesheets="@css/style.css" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />

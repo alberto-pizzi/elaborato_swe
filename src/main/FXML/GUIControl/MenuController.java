@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
 import main.java.BusinessLogic.UserProfileController;
 
 public class MenuController extends Menu {
@@ -43,8 +44,8 @@ public class MenuController extends Menu {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             goToHomeHelper();
-            UserProfileController userProfileController = new UserProfileController();
-            int managedFacilities = userProfileController.getFacilitiesManaged().size();
+            ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+            int managedFacilities = managerOwnerManagementController.getFacilitiesManaged().size();
 
             if (managedFacilities > 0) {
 

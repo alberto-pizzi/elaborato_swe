@@ -110,7 +110,7 @@ public class GroupTest  extends GeneralTest{
 
         int previousParticipants = groupNotMatched.getParticipants();
         int previousGroupMembersArraySize = groupNotMatched.getGroupMembers().size();
-        boolean removeMember = groupNotMatched.removeMember(user2,1);
+        boolean removeMember = groupNotMatched.removeMember(user2);
 
         assertTrue(removeMember);
         assertEquals(previousParticipants-2, groupNotMatched.getParticipants());
@@ -134,12 +134,12 @@ public class GroupTest  extends GeneralTest{
 
         assertEquals(groupNotMatched.getGroupHead().getUsername(), actualGroupHead.getUsername());
 
-        boolean removeMember = groupNotMatched.removeMember(actualGroupHead,0);
+        boolean removeMember = groupNotMatched.removeMember(actualGroupHead);
 
         assertTrue(removeMember);
         assertEquals(groupNotMatched.getGroupHead().getUsername(), user2.getUsername());
 
-        boolean removeMemberAgain = groupNotMatched.removeMember(user2,0);
+        boolean removeMemberAgain = groupNotMatched.removeMember(user2);
 
         assertTrue(removeMemberAgain);
         assertNull(groupNotMatched.getGroupHead());
@@ -155,12 +155,14 @@ public class GroupTest  extends GeneralTest{
 
         User user2 = createSecondUser();
 
-        boolean addMember = groupNotMatched.addMember(user2,0);
+        GroupMember groupMember = new GroupMember(user2,0);
+
+        boolean addMember = groupNotMatched.addMember(groupMember.getUser(),groupMember.getOwnGuests());
 
         assertTrue(addMember);
 
-        assertTrue(groupNotMatched.isUserInsideGroup(user2.getUsername()));
-        assertFalse(groupNotMatched.isUserInsideGroup(user2.getUsername()+"ccc"));
+        assertEquals(groupMember.getUser().getUsername(),groupNotMatched.isUserInsideGroup(user2.getUsername()).getUser().getUsername());
+        assertNull(groupNotMatched.isUserInsideGroup(user2.getUsername()+"ccc"));
 
     }
 

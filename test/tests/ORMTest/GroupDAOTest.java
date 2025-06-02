@@ -67,14 +67,6 @@ class GroupDAOTest extends GeneralDAOTest{
     }
 
     @Test
-    void addGroup() {
-    }
-
-    @Test
-    void deleteGroup() {
-    }
-
-    @Test
     void updateGroupHead() throws SQLException, ClassNotFoundException {
         Assumptions.assumeFalse(shouldSkip);
 

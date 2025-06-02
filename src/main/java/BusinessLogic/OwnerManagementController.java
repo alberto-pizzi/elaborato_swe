@@ -18,8 +18,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     private FacilityDAO facilityDao;
     private SportDAO sportDao;
 
-    //todo fare final?
-    int weekDays = 7;
+    final int weekDays = 7;
 
     //constructor
 
@@ -30,8 +29,8 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
         sportDao = new SportDAO();
     }
 
-    public OwnerManagementController(Owner owner, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, FacilityDAO facilityDao, ManagesDAO managesDao, SportDAO sportDao, OwnerDAO ownerDAO, NotificationDAO notificationDAO) {
-        super(owner,  userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao,fieldDao, facilityDao,ownerDAO,notificationDAO, managesDao);
+    public OwnerManagementController(Owner owner, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, FacilityDAO facilityDao, ManagesDAO managesDao, SportDAO sportDao, NotificationController notificationController) {
+        super(owner,  userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao,fieldDao, managesDao,notificationController);
         this.facilityDao = facilityDao;
         this.managesDao = managesDao;
         this.sportDao = sportDao;
@@ -46,7 +45,8 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     public int monthlyEarnings() throws SQLException {
         LocalDate today = LocalDate.now();
         int earnings = 0;
-        for (int i = 0; i < today.lengthOfMonth(); i++){
+        for (int i = 1; i < today.lengthOfMonth(); i++){
+            System.out.println(i);
             earnings += reservationDao.dailyEarning(Date.valueOf(today), (Owner) person);
             today = today.minusDays(1);
         }
@@ -66,7 +66,7 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
     public int monthlyReservations() throws SQLException {
         LocalDate today = LocalDate.now();
         int number = 0;
-        for (int i = 0; i < today.lengthOfMonth(); i++){
+        for (int i = 1; i < today.lengthOfMonth(); i++){
             number += reservationDao.dailyReservations(Date.valueOf(today), (Owner) person);
             today = today.minusDays(1);
         }

@@ -55,18 +55,10 @@ class FieldDAOTest extends GeneralDAOTest{
     }
 
     @Test
-    void addField() {
-    }
-
-    @Test
     void getField() throws SQLException, ClassNotFoundException {
         Assumptions.assumeFalse(shouldSkip);
 
         assertNotNull(fieldDao.getField(field.getId()));
-    }
-
-    @Test
-    void deleteField() {
     }
 
     @Test

@@ -41,7 +41,7 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             if (!isEditMode || group != null) {
                 if (!inviteListDraft.getItems().contains(userToBeAdded) && !isUserIntoEffectiveGroupMembers(userToBeAdded)) {
                     try {
-                        int userId = personController.getUserIdByUsername(userToBeAdded);
+                        int userId = personController.getUserByUsername(userToBeAdded).getId();
                         int ownGuests = (nGuestsChoice.getValue() != null ? nGuestsChoice.getValue() : 0);
 
                         addGroupMemberIntoDraft(new GroupMember(personController.getUserByID(userId), ownGuests));
@@ -83,6 +83,8 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
                 effectiveGroupMembersList.getItems().add(member);
             }
 
+            groupHeadUsernameDraft = group.getGroupHead().getUsername();
+            updateGroupHeadLabel();
         }
     }
 
@@ -95,6 +97,8 @@ public class ManageGuestsManagerPaneController extends ManageGuestsUserPaneContr
             GroupMember.removeFromArrayByUsername(groupMember.getUser().getUsername(),groupMembersRemoved);
 
             effectiveGroupMembersList.getItems().add(groupMember);
+
+            assignNewGroupHeadDraft(groupMember.getUser().getUsername());
         }
         else
             System.out.println("Draft ArrayLists are null (adding)");

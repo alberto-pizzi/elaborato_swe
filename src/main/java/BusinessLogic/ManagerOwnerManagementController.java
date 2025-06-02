@@ -9,16 +9,21 @@ import java.util.ArrayList;
 
 public class ManagerOwnerManagementController extends PersonController<Person>{
 
+    protected ManagesDAO managesDAO = null;
+
     public ManagerOwnerManagementController(Person person) {
         super(person);
+        managesDAO = new ManagesDAO();
     }
 
     public ManagerOwnerManagementController() {
         super(SessionController.getInstance().getPerson());
+        managesDAO = new ManagesDAO();
     }
 
-    public ManagerOwnerManagementController(Person person, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, FacilityDAO facilityDAO, OwnerDAO ownerDAO, NotificationDAO notificationDAO, ManagesDAO managesDAO) {
-        super(person, userDAO, groupDao, isPartDao, workingHoursDAO, reservationDao, inviteDao,fieldDao,facilityDAO,ownerDAO,notificationDAO,managesDAO);
+    public ManagerOwnerManagementController(Person person, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, ManagesDAO managesDAO, NotificationController notificationController) {
+        super(person,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,notificationController);
+        this.managesDAO = managesDAO;
     }
 
 
@@ -64,7 +69,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
 
     @Override
-    public boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft) throws SQLException, ClassNotFoundException {
+    public boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft, User newGroupHead) throws SQLException, ClassNotFoundException {
 
         if (group != null) {
 
@@ -76,12 +81,13 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
             //removed
             if (removedDraft != null && !removedDraft.isEmpty()) {
                 for (GroupMember groupMember : removedDraft) {
-                    if (group.removeMember(groupMember.getUser(), groupMember.getOwnGuests())) {
+                    if (group.removeMember(groupMember.getUser())) {
                         if (!removeGroupMember(group.getReservation().getId(), groupMember.getUser().getId()))
                             return false;
                     }else
                         System.out.println("Error during removing member into group (local)");
                 }
+
             }
 
             notificationController.connectObserverToReservation(group.getReservation());
@@ -111,6 +117,9 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
                 }
             }
 
+            if (newGroupHead != null)
+                groupDao.updateGroupHead(group.getId(), newGroupHead.getId());
+
             return true;
 
         }
@@ -118,6 +127,10 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
             System.out.println("Group is null during applyChanges");
 
         return false;
+    }
+
+    public ArrayList<Facility> getFacilitiesManaged() throws SQLException {
+        return managesDAO.getAllFacilitiesByManager(person.getId());
     }
 
 

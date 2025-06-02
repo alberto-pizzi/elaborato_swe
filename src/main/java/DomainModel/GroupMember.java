@@ -9,6 +9,8 @@ public final class GroupMember {
 
     public GroupMember(User user, int ownGuests) {
         this.user = user;
+        if (ownGuests < 0)
+            ownGuests = 0;
         this.ownGuests = ownGuests;
     }
 
@@ -48,17 +50,18 @@ public final class GroupMember {
         }
     }
 
-    public static boolean isUsernameInsideGroupMembers(String username, ArrayList<GroupMember> groupMembers) {
+    //null is false. Not null is true.
+    public static GroupMember getGroupMemberFromUsernameJoined(String username, ArrayList<GroupMember> groupMembers) {
 
         if (username.isEmpty() || groupMembers.isEmpty())
-            return false;
+            return null;
 
         for (GroupMember member : groupMembers) {
             if (member.getUser().getUsername().equals(username))
-                return true;
+                return member;
         }
 
-        return false;
+        return null;
     }
 
 }

@@ -49,7 +49,7 @@ public abstract class FieldForm extends MediaManagerController{
 
     protected ArrayList<Label> clickedSportLabels = new ArrayList<>();
 
-    protected abstract void newField() throws IOException, SQLException;
+    protected abstract void newSport() throws IOException, SQLException;
 
     public void setData(Facility facility, BorderPane menuPane) throws IOException, SQLException {
         this.menuPane = menuPane;
@@ -91,7 +91,7 @@ public abstract class FieldForm extends MediaManagerController{
         }
 
         try {
-            newField();
+            newSport();
         }catch (SQLException | IOException e) {
             String message = "An error has occurred";
             messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);

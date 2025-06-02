@@ -84,7 +84,6 @@ public abstract class PersonController<T extends Person> {
     }
 
 
-    //TODO maybe should be deleted
     public ArrayList<User> getUsersByUsernames(ArrayList<String> usernames) throws SQLException {
 
         ArrayList<User> users = new ArrayList<>();
@@ -158,7 +157,7 @@ public abstract class PersonController<T extends Person> {
                     }
 
                     try {
-                        if (!applyChangesFromDraft(group, removedMember, addedMember, changedMember, guests, inviteList)) {
+                        if (!applyChangesFromDraft(group, removedMember, addedMember, changedMember, guests, inviteList, null)) {
                             throw new SQLException("Error while applying changes");
                         }
                     } catch (SQLException | ClassNotFoundException e3) {
@@ -202,7 +201,7 @@ public abstract class PersonController<T extends Person> {
 
     public abstract boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException;
 
-    public boolean editReservation(Reservation reservation, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuests, ArrayList<String> inviteList) {
+    public boolean editReservation(Reservation reservation, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuests, ArrayList<String> inviteList, String newGroupHeadUsername) {
 
         Reservation previousReservation = null;
 
@@ -224,7 +223,7 @@ public abstract class PersonController<T extends Person> {
 
             boolean changesHasBeenApplied = false;
             try {
-                changesHasBeenApplied = applyChangesFromDraft(getGroupByReservation(reservation.getId()), removedDraft, addedDraft, changedDraft, ownGuests, inviteList);
+                changesHasBeenApplied = applyChangesFromDraft(getGroupByReservation(reservation.getId()), removedDraft, addedDraft, changedDraft, ownGuests, inviteList, getUserByUsername(newGroupHeadUsername));
             } catch (SQLException | ClassNotFoundException e2) {
                 throw new SQLException(e2.getMessage());
             }
@@ -331,7 +330,7 @@ public abstract class PersonController<T extends Person> {
         if (group == null)
             return false;
 
-        if (group.getReservation() == null) //TODO insert also || group.getReservation().getId() <= 0 ?
+        if (group.getReservation() == null || group.getReservation().getId() <= 0)
             goodToGo = false;
 
         if (group.getRequiredParticipants() < 0)
@@ -413,7 +412,6 @@ public abstract class PersonController<T extends Person> {
 
     }
 
-    //TODO add alerts to manage callers
     public boolean removeGroupMember(int idReservation, int idMember) {
         try {
             isPartDao.removeMembership(groupDao.getGroupByReservation(idReservation).getId(),idMember);
@@ -458,13 +456,6 @@ public abstract class PersonController<T extends Person> {
         return reservationDao.getReservationsByField(idField);
     }
 
-    //TODO should be deleted?
-    public boolean isFull(Reservation reservation, int guests) throws SQLException, ClassNotFoundException {
-
-        Group group = groupDao.getGroupByReservation(reservation.getId());
-
-        return  group.willBeFull(guests);
-    }
 
     public Field getReservationField(Reservation reservation) throws SQLException, ClassNotFoundException {
         return fieldDao.getField(reservation.getField().getId());
@@ -472,11 +463,6 @@ public abstract class PersonController<T extends Person> {
 
     public String getFieldAddress(int fieldId) throws SQLException {
         return fieldDao.getFieldAddress(fieldId);
-    }
-
-    public int getUserIdByUsername(String username) throws SQLException, ClassNotFoundException {
-        
-        return userDao.getUserID(username);
     }
 
     public User getUserByID(int id) throws SQLException, ClassNotFoundException {
@@ -545,7 +531,7 @@ public abstract class PersonController<T extends Person> {
     }
 
     //useless params should be set as null
-    public abstract boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft) throws SQLException, ClassNotFoundException;
+    public abstract boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft, User newGroupHead) throws SQLException, ClassNotFoundException;
 
 
 
