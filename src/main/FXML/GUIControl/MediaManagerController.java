@@ -19,8 +19,7 @@ import java.util.ResourceBundle;
 
 public abstract class MediaManagerController implements Initializable {
 
-    //todo testare png
-    protected FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif", "*.svg");
+    protected FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif", "*.jpeg");
 
     @FXML
     protected Label messageLabel;
