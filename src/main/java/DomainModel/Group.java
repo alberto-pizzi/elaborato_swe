@@ -114,7 +114,7 @@ public class Group{
         return this.participants + guestsToAdd + 1 > this.requiredParticipants;
     }
 
-    public void confirmationChecker() throws SQLException {
+    private void confirmationChecker() throws SQLException {
         if (!reservation.isMatched())
             reservation.setConfirmed(true);
         else{
