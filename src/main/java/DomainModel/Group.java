@@ -12,7 +12,7 @@ public class Group{
     private int participants;
     private int requiredParticipants;
 
-    //read only
+    //from DB to DM
     public Group(int id, User groupHead, Reservation reservation, int requiredParticipants, ArrayList<GroupMember> groupMembers, int participants) {
         this.id = id;
         this.groupHead = groupHead;
@@ -22,7 +22,7 @@ public class Group{
         this.participants = participants;
     }
 
-    //write only
+    //from DM to DB
     public Group(User groupHead, Reservation reservation, int requiredParticipants,int guests) {
         this.groupHead = groupHead;
         this.reservation = reservation;
