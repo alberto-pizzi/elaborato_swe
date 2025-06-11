@@ -3,6 +3,7 @@ DROP TRIGGER IF EXISTS trg_check_delete_reservation_user ON "NotificationUser";
 DROP TRIGGER IF EXISTS trg_check_delete_reservation_owner ON "NotificationOwner";
 DROP TRIGGER IF EXISTS trigger_delete_message_user ON "NotificationUser";
 DROP TRIGGER IF EXISTS trigger_delete_message_owner ON "NotificationOwner";
+DROP TRIGGER IF EXISTS trg_cleanup_old_reservations ON "Reservation";
 
 -- trigger function
 CREATE OR REPLACE FUNCTION delete_unused_messages()
@@ -63,6 +64,19 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION cleanup_old_reservations()
+RETURNS TRIGGER AS $$
+BEGIN
+DELETE FROM "Reservation"
+WHERE is_deleted = true
+  AND event_date < CURRENT_DATE - INTERVAL '31 days';
+
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
 -- Trigger on NotificationUser
 CREATE TRIGGER trigger_delete_message_user
     AFTER DELETE
@@ -90,3 +104,10 @@ CREATE TRIGGER trg_check_delete_reservation_owner
     ON "NotificationOwner"
     FOR EACH ROW
     EXECUTE FUNCTION fn_check_and_delete_reservation();
+
+-- Trigger on Reservation
+CREATE TRIGGER trg_cleanup_old_reservations
+    AFTER INSERT OR UPDATE
+    ON "Reservation"
+    FOR EACH STATEMENT
+    EXECUTE FUNCTION cleanup_old_reservations();
