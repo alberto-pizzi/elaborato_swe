@@ -81,9 +81,7 @@ public class ModifyReservationController extends FieldFormManagementController i
 
     }
 
-    protected void reservationChecker() {
-
-        //TODO is this implementation right? optimize
+    protected void reservationSetter() {
 
         if( datePicker.getValue() != null) {
             reservation.setEventDate(Date.valueOf(datePicker.getValue()));
@@ -118,7 +116,7 @@ public class ModifyReservationController extends FieldFormManagementController i
     @FXML
     public void handleConfirmButton(ActionEvent event) {
 
-        reservationChecker();
+        reservationSetter();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Edit Reservation");

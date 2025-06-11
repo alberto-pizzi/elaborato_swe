@@ -1,5 +1,6 @@
 package main.java.BusinessLogic;
 
+import main.java.BusinessLogic.CustomException.TransactionException;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
 
@@ -153,15 +154,15 @@ public abstract class PersonController<T extends Person> {
                             notificationController.sendConfirmNotifications(reservation);
                         }
                     } else {
-                        throw new SQLException("Error while joining into group");
+                        throw new TransactionException("Error while joining into group");
                     }
 
                     try {
                         if (!applyChangesFromDraft(group, removedMember, addedMember, changedMember, guests, inviteList, null)) {
-                            throw new SQLException("Error while applying changes");
+                            throw new TransactionException("Error while applying changes");
                         }
                     } catch (SQLException | ClassNotFoundException e3) {
-                        throw new SQLException("Error while applying changes");
+                        throw new TransactionException("Error while applying changes");
                     }
 
 
@@ -172,10 +173,10 @@ public abstract class PersonController<T extends Person> {
 
                 }
                 else {
-                    throw new SQLException("Wrong group data");
+                    throw new TransactionException("Wrong group data");
                 }
 
-            } catch (SQLException | ClassNotFoundException e) {
+            } catch (SQLException | ClassNotFoundException | TransactionException e) {
                 try {
                     //general rollback
                     reservationDao.getConnection().rollback();
@@ -225,18 +226,18 @@ public abstract class PersonController<T extends Person> {
             try {
                 changesHasBeenApplied = applyChangesFromDraft(getGroupByReservation(reservation.getId()), removedDraft, addedDraft, changedDraft, ownGuests, inviteList, getUserByUsername(newGroupHeadUsername));
             } catch (SQLException | ClassNotFoundException e2) {
-                throw new SQLException(e2.getMessage());
+                throw new TransactionException(e2.getMessage());
             }
 
             if (!changesHasBeenApplied)
-                throw new SQLException("Error while applying changes");
+                throw new TransactionException("Error while applying changes");
 
             //commit transaction
             isPartDao.getConnection().commit();
 
             notificationController.sendModificationNotifications(reservation);
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | TransactionException e) {
 
             try {
                 //rollback transaction
@@ -422,21 +423,6 @@ public abstract class PersonController<T extends Person> {
         return true;
     }
 
-    //TODO should be deleted?
-    public boolean isGroupMember(int idReservation, String usernameMember) throws SQLException, ClassNotFoundException {
-        
-        
-
-        ArrayList<GroupMember> members = isPartDao.getGroupMembers(groupDao.getGroupByReservation(idReservation).getId());
-
-
-        for (GroupMember groupMember : members) {
-            if (groupMember.getUser().getUsername().equals(usernameMember))
-                return true;
-        }
-
-        return false;
-    }
 
     public boolean addGroupMember(int idReservation, int idMember, int ownGuests) {
 

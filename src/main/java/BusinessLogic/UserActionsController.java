@@ -1,5 +1,6 @@
 package main.java.BusinessLogic;
 
+import main.java.BusinessLogic.CustomException.TransactionException;
 import main.java.DomainModel.*;
 
 import main.java.ORM.*;
@@ -177,8 +178,7 @@ public class UserActionsController extends PersonController<User>{
                     boolean deletedSuccessfully = deleteReservation(group.getReservation().getId());
 
                     if (!deletedSuccessfully) {
-                        //FIXME add right exception for transactions
-                        throw new SQLException("Error while deleting.");
+                        throw new TransactionException("Error while deleting.");
                     }
                 }
                 else
@@ -187,7 +187,7 @@ public class UserActionsController extends PersonController<User>{
                 //commit transaction
                 isPartDao.getConnection().commit();
             }
-            catch (SQLException e) {
+            catch (SQLException | TransactionException e) {
 
                 try {
                     //rollback transaction

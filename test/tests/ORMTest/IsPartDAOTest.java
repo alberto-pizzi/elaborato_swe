@@ -103,8 +103,4 @@ class IsPartDAOTest extends GeneralDAOTest{
         assertEquals(number, isPartDao.countOwnGuests(group.getId(), user.getId()));
     }
 
-    //todo aspettare decisione gestione groupHead albe
-    @Test
-    void groupHeadSuccessorId() {
-    }
 }

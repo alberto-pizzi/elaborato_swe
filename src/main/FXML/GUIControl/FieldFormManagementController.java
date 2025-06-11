@@ -375,7 +375,6 @@ public abstract class FieldFormManagementController implements Initializable {
         }
     }
 
-    //TODO use this method
     public static boolean showConfirmationAlert(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);

@@ -12,7 +12,7 @@ public class Group{
     private int participants;
     private int requiredParticipants;
 
-    //read only
+    //from DB to DM
     public Group(int id, User groupHead, Reservation reservation, int requiredParticipants, ArrayList<GroupMember> groupMembers, int participants) {
         this.id = id;
         this.groupHead = groupHead;
@@ -22,7 +22,7 @@ public class Group{
         this.participants = participants;
     }
 
-    //write only
+    //from DM to DB
     public Group(User groupHead, Reservation reservation, int requiredParticipants,int guests) {
         this.groupHead = groupHead;
         this.reservation = reservation;
@@ -114,7 +114,7 @@ public class Group{
         return this.participants + guestsToAdd + 1 > this.requiredParticipants;
     }
 
-    public void confirmationChecker() throws SQLException {
+    private void confirmationChecker() throws SQLException {
         if (!reservation.isMatched())
             reservation.setConfirmed(true);
         else{
