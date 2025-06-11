@@ -423,21 +423,6 @@ public abstract class PersonController<T extends Person> {
         return true;
     }
 
-    //TODO should be deleted?
-    public boolean isGroupMember(int idReservation, String usernameMember) throws SQLException, ClassNotFoundException {
-        
-        
-
-        ArrayList<GroupMember> members = isPartDao.getGroupMembers(groupDao.getGroupByReservation(idReservation).getId());
-
-
-        for (GroupMember groupMember : members) {
-            if (groupMember.getUser().getUsername().equals(usernameMember))
-                return true;
-        }
-
-        return false;
-    }
 
     public boolean addGroupMember(int idReservation, int idMember, int ownGuests) {
 

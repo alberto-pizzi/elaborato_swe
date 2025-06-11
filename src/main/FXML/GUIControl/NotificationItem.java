@@ -32,7 +32,6 @@ public class NotificationItem {
     public void setData(Notification tmpNotification) {
         this.notification = tmpNotification;
 
-        //FIXME better position for message builder?
         notification.buildMessage();
 
         notificationTitleLabel.setText(notification.getTitle());
