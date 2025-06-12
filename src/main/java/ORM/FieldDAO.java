@@ -228,7 +228,6 @@ public class FieldDAO extends ConnectionHolder {
         return fields;
     }
 
-    //todo check
     public ArrayList<Field> getFieldsByProvince(String province) throws SQLException {
         ArrayList<Field> fields = new ArrayList<>();
         Sport sport = null;

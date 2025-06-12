@@ -45,7 +45,6 @@ public class UserDAO extends PersonDAO {
 
     }
 
-    //todo check
     public ArrayList<User> getUsersByProvinceSearch(String provinceUser) throws SQLException {
         ArrayList<User> users = new ArrayList<>();
 
@@ -78,7 +77,6 @@ public class UserDAO extends PersonDAO {
         return users;
     }
 
-    //todo check
     public ArrayList<User> getUsersByUsernameSearch(String searchUsername) throws SQLException {
         ArrayList<User> users = new ArrayList<>();
 
