@@ -8,12 +8,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -58,37 +57,14 @@ public abstract class MediaManagerController implements Initializable {
             imageName = selectedFile.getName();
 
             try {
-                if (copiedImage.createNewFile()) {
-                    String message = "File created: " + copiedImage.getName();
-                    messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
-                } else {
-                    String message = "File already exists";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
-                }
+                Files.copy(selectedFile.toPath(), copiedImage.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                String message = "File copied successfully";
+                messagesController.showMessage(message, MessagesController.MessageType.SUCCESS, 5);
             } catch (IOException e) {
+                String message = "An error occurred while copying file";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
                 return false;
             }
-
-            FileChannel sourceChannel = null;
-            FileChannel destChannel = null;
-            try {
-                sourceChannel = new FileInputStream(selectedFile).getChannel();
-                destChannel = new FileOutputStream(copiedImage).getChannel();
-                destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
-            } catch (IOException e) {
-                return false;
-            } finally {
-                try {
-                    assert sourceChannel != null;
-                    sourceChannel.close();
-                    assert destChannel != null;
-                    destChannel.close();
-                } catch (IOException e) {
-                    String message = "An error has occurred with files closing";
-                    messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
-                }
-            }
-            String pathFromRoot = "/main/FXML/img/"+folderName+"/";
             Image image = new Image(copiedImage.toURI().toString());
 
             imageLabel.setImage(image);
