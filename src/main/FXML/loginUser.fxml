@@ -70,6 +70,11 @@
                                     <Font size="16.0" />
                                  </font>
                               </Label>
+                              <Button fx:id="forgot" mnemonicParsing="false" prefHeight="25.0" prefWidth="286.0" style="-fx-background-color: transparent;" text="Forgot Password" underline="true" wrapText="true">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Button>
                            </children>
                         </VBox>
                      </children>
