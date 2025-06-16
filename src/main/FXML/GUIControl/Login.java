@@ -10,9 +10,6 @@ import java.io.IOException;
 
 public abstract class Login extends AccessGui {
 
-    @FXML
-    protected Button forgot;
-
     SessionController sessionController = SessionController.getInstance();
 
     protected abstract void goToHome() throws IOException;
