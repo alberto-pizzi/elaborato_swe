@@ -118,7 +118,7 @@ public abstract class GeneralBSTest {
         return invite;
     }
 
-    protected Group createGroup(Boolean isMatched, int requiredParticipants) {
+    protected Group createGroup(boolean isMatched, int requiredParticipants) {
         return new Group(createUser(),createReservation(isMatched),requiredParticipants,0);
     }
 

@@ -24,13 +24,13 @@ import java.util.ResourceBundle;
 
 public class NewFieldController extends FieldForm {
 
-    private Boolean newFacility = false;
+    private boolean newFacility = false;
 
-    public Boolean getNewFacility() {
+    public boolean getNewFacility() {
         return newFacility;
     }
 
-    public void setNewFacility(Boolean newFacility) {
+    public void setNewFacility(boolean newFacility) {
         this.newFacility = newFacility;
     }
 
