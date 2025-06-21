@@ -85,8 +85,8 @@ public class UserActionsControllerTest extends PersonControllerTest {
 
         joinGroupMockHelper(group,guests);
 
-        assertTrue(userActionsController.joinGroupHelper(group.getId(),guests));
-        assertFalse(userActionsController.joinGroupHelper(group.getId(),requiredParticipants+2));
+        assertTrue(userActionsController.joinGroupHelper(group,guests));
+        assertFalse(userActionsController.joinGroupHelper(group,requiredParticipants+2));
 
     }
 
@@ -179,7 +179,8 @@ public class UserActionsControllerTest extends PersonControllerTest {
 
         int guests = 0;
         Group group = createGroup(false,5);
-        Reservation newReservation = createReservation(false);
+
+
 
         ArrayList<GroupMember> removed = new ArrayList<>();
         ArrayList<GroupMember> added = new ArrayList<>();
@@ -204,21 +205,21 @@ public class UserActionsControllerTest extends PersonControllerTest {
 
 
         when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any(), any())).thenReturn(false);
-        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList,groupHead));
+        assertFalse(userActionsController.editReservation(group,removed,added,changed,guests,inviteList,groupHead));
 
         when(userActionsController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any(), any())).thenReturn(true);
-        assertTrue(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList,groupHead));
+        assertTrue(userActionsController.editReservation(group,removed,added,changed,guests,inviteList,groupHead));
 
         doThrow(new SQLException("Simulated SQL exception")).when(reservationDAOMock).updateEventTimeEnd(anyInt(),any());
-        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList,groupHead));
+        assertFalse(userActionsController.editReservation(group,removed,added,changed,guests,inviteList,groupHead));
         doNothing().when(reservationDAOMock).updateEventTimeEnd(anyInt(),any());
 
         doThrow(new SQLException("Simulated SQL exception")).when(reservationDAOMock).updateEventTimeStart(anyInt(),any());
-        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList,groupHead));
+        assertFalse(userActionsController.editReservation(group,removed,added,changed,guests,inviteList,groupHead));
         doNothing().when(reservationDAOMock).updateEventTimeStart(anyInt(),any());
 
         doThrow(new SQLException("Simulated SQL exception")).when(reservationDAOMock).updateEventDate(anyInt(),any());
-        assertFalse(userActionsController.editReservation(newReservation,removed,added,changed,guests,inviteList,groupHead));
+        assertFalse(userActionsController.editReservation(group,removed,added,changed,guests,inviteList,groupHead));
         doNothing().when(reservationDAOMock).updateEventDate(anyInt(),any());
 
 

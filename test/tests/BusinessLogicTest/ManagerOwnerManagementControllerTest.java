@@ -206,12 +206,77 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
     }
 
     @Test
+    public void editReservationTest() throws SQLException, ClassNotFoundException {
+
+        int guests = 0;
+        Group group = createGroup(false,5);
+
+        ArrayList<GroupMember> removed = new ArrayList<>();
+        ArrayList<GroupMember> added = new ArrayList<>();
+        ArrayList<GroupMember> changed = new ArrayList<>();
+        ArrayList<String> inviteList = new ArrayList<>();
+
+        managerOwnerManagementController = spy(managerOwnerManagementController); //IMPORTANT before calling applyChangesMockHelper
+
+        transactionsMockHelper(isPartDAOMock);
+        applyChangesMockHelper(1,true,true, true, true);
+
+
+        when(reservationDAOMock.getReservation(anyInt(),anyBoolean())).thenReturn(group.getReservation());
+        doNothing().when(reservationDAOMock).updateEventDate(anyInt(),any());
+        doNothing().when(reservationDAOMock).updateEventTimeStart(anyInt(),any());
+        doNothing().when(reservationDAOMock).updateEventTimeEnd(anyInt(),any());
+        when(groupDAOMock.getGroupByReservation(anyInt())).thenReturn(group);
+        when(notificationControllerMock.sendConfirmNotifications(any())).thenReturn(1);
+
+        //User fakeGroupHead = createUser(30);
+        when(userDAOMock.getUser(anyString())).thenReturn(null);
+
+        String groupHead = group.getGroupHead().getUsername();
+
+
+        when(managerOwnerManagementController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any(), any())).thenReturn(false);
+        assertFalse(managerOwnerManagementController.editReservation(group,removed,added,changed,guests,inviteList,groupHead));
+
+        when(managerOwnerManagementController.applyChangesFromDraft(any(),any(),any(),any(),anyInt(),any(), any())).thenReturn(true);
+        assertTrue(managerOwnerManagementController.editReservation(group,removed,added,changed,guests,inviteList,groupHead));
+
+        doThrow(new SQLException("Simulated SQL exception")).when(reservationDAOMock).updateEventTimeEnd(anyInt(),any());
+        assertFalse(managerOwnerManagementController.editReservation(group,removed,added,changed,guests,inviteList,groupHead));
+        doNothing().when(reservationDAOMock).updateEventTimeEnd(anyInt(),any());
+
+        doThrow(new SQLException("Simulated SQL exception")).when(reservationDAOMock).updateEventTimeStart(anyInt(),any());
+        assertFalse(managerOwnerManagementController.editReservation(group,removed,added,changed,guests,inviteList,groupHead));
+        doNothing().when(reservationDAOMock).updateEventTimeStart(anyInt(),any());
+
+        doThrow(new SQLException("Simulated SQL exception")).when(reservationDAOMock).updateEventDate(anyInt(),any());
+        assertFalse(managerOwnerManagementController.editReservation(group,removed,added,changed,guests,inviteList,groupHead));
+        doNothing().when(reservationDAOMock).updateEventDate(anyInt(),any());
+
+        //disable applyChangesFromDraft to test DM transaction fail
+        reset(managerOwnerManagementController);
+        applyChangesMockHelper(1,true,true, true, true);
+        group = spy(group);
+        doNothing().when(group).applyChangesFromDraft(any());
+        added.add(new GroupMember(createUser(5),1));
+        int previousParticipants = group.getParticipants();
+        assertTrue(managerOwnerManagementController.editReservation(group,removed,added,changed,guests,inviteList,groupHead));
+        assertEquals(previousParticipants,group.getParticipants());
+
+        reset(group);
+        previousParticipants = group.getParticipants();
+        assertTrue(managerOwnerManagementController.editReservation(group,removed,added,changed,guests,inviteList,groupHead));
+        assertEquals(previousParticipants+2,group.getParticipants());
+
+    }
+
+    @Test
     public void joinGroupTest() throws SQLException, ClassNotFoundException {
         Group group = createGroup(true,5);
         int oldParticipants = group.getParticipants();
 
         //bypass join group for managers and owners. Then joinGroupHelper is always true.
-        assertTrue(managerOwnerManagementController.joinGroupHelper(group.getId(),2));
+        assertTrue(managerOwnerManagementController.joinGroupHelper(group,2));
 
         assertEquals(oldParticipants,group.getParticipants());
 

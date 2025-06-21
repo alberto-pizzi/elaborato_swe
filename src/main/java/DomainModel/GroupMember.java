@@ -1,8 +1,9 @@
 package main.java.DomainModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public final class GroupMember {
+public final class GroupMember implements Serializable {
 
     private User user;
     private int ownGuests;

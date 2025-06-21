@@ -1,9 +1,10 @@
 package main.java.DomainModel;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Facility {
+public class Facility implements Serializable {
 
 
     // attributes

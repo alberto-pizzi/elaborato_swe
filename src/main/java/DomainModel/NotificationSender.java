@@ -1,7 +1,9 @@
 package main.java.DomainModel;
 
 
-public class NotificationSender extends Creator {
+import java.io.Serializable;
+
+public class NotificationSender extends Creator implements Serializable {
 
     private final Reservation reservationSender;
 

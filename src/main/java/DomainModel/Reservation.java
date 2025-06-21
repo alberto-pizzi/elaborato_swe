@@ -1,5 +1,6 @@
 package main.java.DomainModel;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -7,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Reservation extends Subject {
+public class Reservation extends Subject implements Serializable {
     private int id;
     private Date reservationDate;
     private Time reservationTime;

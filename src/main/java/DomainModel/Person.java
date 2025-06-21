@@ -1,6 +1,8 @@
 package main.java.DomainModel;
 
-public abstract class Person{
+import java.io.Serializable;
+
+public abstract class Person implements Serializable {
     private int id;
     private String email;
     private String username;

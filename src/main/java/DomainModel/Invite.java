@@ -1,7 +1,9 @@
 package main.java.DomainModel;
 
 
-public class Invite extends Product {
+import java.io.Serializable;
+
+public class Invite extends Product implements Serializable {
 
 
     // attributes

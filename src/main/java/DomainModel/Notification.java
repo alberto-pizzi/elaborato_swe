@@ -1,8 +1,9 @@
 package main.java.DomainModel;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
-public class Notification extends Product{
+public class Notification extends Product implements Serializable {
 
     private int id;
     private Person recipient;

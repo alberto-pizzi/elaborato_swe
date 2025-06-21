@@ -1,6 +1,8 @@
 package main.java.DomainModel;
 
-public class Sport {
+import java.io.Serializable;
+
+public class Sport implements Serializable {
     // attributes
     private int id;
     private String name;

@@ -78,21 +78,21 @@ public class UserActionsController extends PersonController<User>{
             if (invite.getGroup().getReservation().isMatched()) {
 
                 //himself join into group
-                if (!joinGroupHelper(invite.getGroup().getId(), guests))
+                if (!joinGroupHelper(invite.getGroup(), guests))
                     return false;
 
 
                 //send invites to other (his) players
                 for (String accountUsername : accountsList) {
                     if (accountUsername != null) {
-                        sendInvite(invite.getGroup().getReservation(), userDao.getUserID(accountUsername));
+                        sendInvite(invite.getGroup(), userDao.getUserID(accountUsername));
                     }
                 }
 
 
             } else {
                 //guests are 0 because in not matched booking are not allowed guests
-                if (!joinGroupHelper(invite.getGroup().getId(), 0))
+                if (!joinGroupHelper(invite.getGroup(), 0))
                     return false;
 
             }
@@ -124,13 +124,11 @@ public class UserActionsController extends PersonController<User>{
     }
 
     @Override
-    public boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException {
-        return joinGroup(idGroup,guestUsers);
+    public boolean joinGroupHelper(Group group, int guestUsers) throws SQLException, ClassNotFoundException {
+        return joinGroup(group,guestUsers);
     }
 
-    private boolean joinGroup(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException {
-
-        Group group = groupDao.getGroup(idGroup);
+    private boolean joinGroup(Group group, int guestUsers) throws SQLException, ClassNotFoundException {
 
         //observer attach
         notificationController.connectObserverToReservation(group.getReservation());
@@ -140,7 +138,7 @@ public class UserActionsController extends PersonController<User>{
 
         if (person.getUsername().equals(group.getGroupHead().getUsername()) || memberAdded) {
 
-            isPartDao.addMembership(idGroup, person.getId(),guestUsers);
+            isPartDao.addMembership(group.getId(), person.getId(),guestUsers);
             System.out.println("Members added into groups");
             return true;
 

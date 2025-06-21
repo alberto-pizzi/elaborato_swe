@@ -130,18 +130,23 @@ public class ModifyReservationController extends FieldFormManagementController i
             if (selectGuestsPaneController != null) {
 
                 int newGuests = (selectGuestsPaneController.getnGuestsChoice().getValue() != null ? selectGuestsPaneController.getnGuestsChoice().getValue() : 0);
-                if (personController.editReservation(reservation,selectGuestsPaneController.getGroupMembersRemoved() , selectGuestsPaneController.getGroupMembersAdded(), selectGuestsPaneController.getGroupMembersChanged(), newGuests,new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems()), selectGuestsPaneController.getGroupHeadUsernameDraft() )){
 
-                    try {
-                        actionsAfterEdit();
-                    } catch (SQLException | ClassNotFoundException | IOException e) {
-                        String errorMessage = "Error while doing actions after edit.";
-                        messagesController.showMessage(errorMessage, MessagesController.MessageType.ERROR,5);
-                        System.out.println(errorMessage);
-                    }
+                try {
+                    if (personController.editReservation(personController.getGroupByReservation(reservation.getId()), selectGuestsPaneController.getGroupMembersRemoved(), selectGuestsPaneController.getGroupMembersAdded(), selectGuestsPaneController.getGroupMembersChanged(), newGuests, new ArrayList<>(selectGuestsPaneController.getInviteListDraft().getItems()), selectGuestsPaneController.getGroupHeadUsernameDraft())) {
+
+                        try {
+                            actionsAfterEdit();
+                        } catch (SQLException | ClassNotFoundException | IOException e) {
+                            String errorMessage = "Error while doing actions after edit.";
+                            messagesController.showMessage(errorMessage, MessagesController.MessageType.ERROR, 5);
+                            System.out.println(errorMessage);
+                        }
+                    } else
+                        messagesController.showMessage("Edit failed.", MessagesController.MessageType.ERROR, 5);
+
+                } catch (SQLException | ClassNotFoundException e) {
+                    messagesController.showMessage("Error during getting group.", MessagesController.MessageType.ERROR, 5);
                 }
-                else
-                    messagesController.showMessage("Edit failed.", MessagesController.MessageType.ERROR,5);
 
             }
             else

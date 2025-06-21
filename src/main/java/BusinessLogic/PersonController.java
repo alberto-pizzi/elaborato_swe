@@ -3,6 +3,7 @@ package main.java.BusinessLogic;
 import main.java.BusinessLogic.CustomException.TransactionException;
 import main.java.DomainModel.*;
 import main.java.ORM.*;
+import org.apache.commons.lang3.SerializationUtils;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -140,11 +141,12 @@ public abstract class PersonController<T extends Person> {
                     int newGroupId = groupDao.addGroup(group);
                     group.setId(newGroupId); //WARNING: it's very important
 
+                    Group draftGroup = SerializationUtils.clone(group); //deep copy for DM transaction
 
-                    if (joinGroupHelper(newGroupId, guests)) {
+                    if (joinGroupHelper(draftGroup, guests)) {
 
                         if (isMatched) {
-                            int invitesSent = sendInvites(group, findOtherPlayers(getProvinceForMatching(field)));
+                            int invitesSent = sendInvites(draftGroup, findOtherPlayers(getProvinceForMatching(field)));
                             if (invitesSent >= 0)
                                 System.out.println("Invites sent: " + invitesSent);
                             else
@@ -158,7 +160,7 @@ public abstract class PersonController<T extends Person> {
                     }
 
                     try {
-                        if (!applyChangesFromDraft(group, removedMember, addedMember, changedMember, guests, inviteList, null)) {
+                        if (!applyChangesFromDraft(draftGroup, removedMember, addedMember, changedMember, guests, inviteList, null)) {
                             throw new TransactionException("Error while applying changes");
                         }
                     } catch (SQLException | ClassNotFoundException e3) {
@@ -168,6 +170,9 @@ public abstract class PersonController<T extends Person> {
 
                     //commit transaction
                     reservationDao.getConnection().commit();
+
+                    //apply group changes
+                    group.applyChangesFromDraft(draftGroup);
 
                     return newReservationId;
 
@@ -200,14 +205,14 @@ public abstract class PersonController<T extends Person> {
 
     }
 
-    public abstract boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException;
+    public abstract boolean joinGroupHelper(Group group, int guestUsers) throws SQLException, ClassNotFoundException;
 
-    public boolean editReservation(Reservation reservation, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuests, ArrayList<String> inviteList, String newGroupHeadUsername) {
+    public boolean editReservation(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuests, ArrayList<String> inviteList, String newGroupHeadUsername) {
 
         Reservation previousReservation = null;
 
         try{
-            previousReservation = reservationDao.getReservation(reservation.getId(), false);
+            previousReservation = reservationDao.getReservation(group.getReservation().getId(), false);
         } catch (SQLException | ClassNotFoundException e) {
             return false;
         }
@@ -218,13 +223,17 @@ public abstract class PersonController<T extends Person> {
             //start transaction
             isPartDao.getConnection().setAutoCommit(false);
 
-            reservationDao.updateEventDate(reservation.getId(), reservation.getEventDate());
-            reservationDao.updateEventTimeEnd(reservation.getId(), reservation.getEventTimeEnd());
-            reservationDao.updateEventTimeStart(reservation.getId(), reservation.getEventTimeStart());
+            reservationDao.updateEventDate(group.getReservation().getId(), group.getReservation().getEventDate());
+            reservationDao.updateEventTimeEnd(group.getReservation().getId(), group.getReservation().getEventTimeEnd());
+            reservationDao.updateEventTimeStart(group.getReservation().getId(), group.getReservation().getEventTimeStart());
+
+            Group draftGroup = null;
 
             boolean changesHasBeenApplied = false;
             try {
-                changesHasBeenApplied = applyChangesFromDraft(getGroupByReservation(reservation.getId()), removedDraft, addedDraft, changedDraft, ownGuests, inviteList, getUserByUsername(newGroupHeadUsername));
+                draftGroup = SerializationUtils.clone(group); //deep copy for DM transaction
+
+                changesHasBeenApplied = applyChangesFromDraft(draftGroup, removedDraft, addedDraft, changedDraft, ownGuests, inviteList, getUserByUsername(newGroupHeadUsername));
             } catch (SQLException | ClassNotFoundException e2) {
                 throw new TransactionException(e2.getMessage());
             }
@@ -235,7 +244,15 @@ public abstract class PersonController<T extends Person> {
             //commit transaction
             isPartDao.getConnection().commit();
 
-            notificationController.sendModificationNotifications(reservation);
+            System.out.println("Participant OLD: " + group.getParticipants());
+            //apply group changes
+            if (draftGroup != null)
+                group.applyChangesFromDraft(draftGroup);
+
+            System.out.println("Participant NEW: " + group.getParticipants());
+
+
+            notificationController.sendModificationNotifications(group.getReservation());
             return true;
         } catch (SQLException | TransactionException e) {
 
@@ -361,12 +378,9 @@ public abstract class PersonController<T extends Person> {
         return groupDao.getGroupByReservation(idReservation).getParticipants();
     }
 
-    public boolean sendInvite(Reservation reservation, int idUser) {
-        
-        Group group = null;
+    public boolean sendInvite(Group group, int idUser) {
 
         try {
-            group = groupDao.getGroupByReservation(reservation.getId());
 
             InviteSender inviteSender = new InviteSender(group);
 
@@ -397,7 +411,7 @@ public abstract class PersonController<T extends Person> {
 
         if (receivers != null) {
             for (User user : receivers) {
-                if (sendInvite(group.getReservation(), user.getId()))
+                if (sendInvite(group, user.getId()))
                     count++;
 
             }

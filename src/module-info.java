@@ -3,6 +3,7 @@ module elaboratoSWEWindows {
     requires javafx.fxml;
     requires javafx.controls;
     requires javafx.swing;
+    requires org.apache.commons.lang3;
 
     exports main.java;
     exports main.FXML.GUIControl to javafx.fxml;

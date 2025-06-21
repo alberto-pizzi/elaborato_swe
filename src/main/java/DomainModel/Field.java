@@ -1,7 +1,9 @@
 package main.java.DomainModel;
 
 
-public class Field {
+import java.io.Serializable;
+
+public class Field implements Serializable {
 
 
     // attributes

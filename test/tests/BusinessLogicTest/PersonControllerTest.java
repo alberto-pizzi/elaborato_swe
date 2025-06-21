@@ -118,13 +118,13 @@ public abstract class PersonControllerTest extends GeneralBSTest {
 
         sendInviteMockHelper(group,user);
 
-        assertTrue(personController.sendInvite(group.getReservation(),user.getId()));
+        assertTrue(personController.sendInvite(group,user.getId()));
 
         doThrow(new SQLException("Simulated SQL exception")).when(inviteDAOMock).addInvite(any());
-        assertFalse(personController.sendInvite(group.getReservation(),user.getId()));
+        assertFalse(personController.sendInvite(group,user.getId()));
 
         when(userDAOMock.getUserByID(anyInt())).thenReturn(null);
-        assertFalse(personController.sendInvite(group.getReservation(),user.getId()));
+        assertFalse(personController.sendInvite(group,user.getId()));
 
 
     }

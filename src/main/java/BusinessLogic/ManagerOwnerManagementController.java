@@ -55,7 +55,7 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
     }
 
     @Override
-    public boolean joinGroupHelper(int idGroup, int guestUsers) throws SQLException, ClassNotFoundException{
+    public boolean joinGroupHelper(Group group, int guestUsers) throws SQLException, ClassNotFoundException{
         //managers and owners have not to join into group, then it is always true
         return true;
     }

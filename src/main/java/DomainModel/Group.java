@@ -1,9 +1,10 @@
 package main.java.DomainModel;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Group{
+public class Group implements Serializable {
     private int id;
     //also groupHead is inside users arraylist
     private User groupHead;
@@ -95,6 +96,16 @@ public class Group{
     }
 
     //methods
+
+    public void applyChangesFromDraft(Group draft) {
+        this.id = draft.id;
+        this.groupHead = draft.groupHead;
+        this.reservation = draft.reservation;
+        this.groupMembers = new ArrayList<>(draft.groupMembers);
+        this.participants = draft.participants;
+        this.requiredParticipants = draft.requiredParticipants;
+    }
+
 
     public String groupProgress(){
 

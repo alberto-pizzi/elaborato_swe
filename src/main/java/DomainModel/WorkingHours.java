@@ -1,12 +1,13 @@
 package main.java.DomainModel;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 
 
-public class WorkingHours {
+public class WorkingHours implements Serializable {
 
     //enumeration
 

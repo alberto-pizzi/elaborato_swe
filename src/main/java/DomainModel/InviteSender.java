@@ -1,7 +1,9 @@
 package main.java.DomainModel;
 
 
-public class InviteSender extends Creator {
+import java.io.Serializable;
+
+public class InviteSender extends Creator implements Serializable {
 
     private final Group groupSender;
 
