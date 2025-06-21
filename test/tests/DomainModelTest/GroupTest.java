@@ -233,7 +233,7 @@ public class GroupTest  extends GeneralTest{
 
     private void disableObserver(Reservation reservation) throws SQLException {
         Reservation spyReservationMatched = spy(reservation);
-        doNothing().when(spyReservationMatched).notifyObserver();
+        doNothing().when(spyReservationMatched).attach(any());
     }
 
 

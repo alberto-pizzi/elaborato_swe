@@ -41,7 +41,11 @@ public abstract class PersonControllerTest extends GeneralBSTest {
         when(groupDAOMock.getGroup(anyInt())).thenReturn(group);
         doNothing().when(isPartDAOMock).addMembership(anyInt(), anyInt(), anyInt());
         group.setReservation(spy(group.getReservation()));
-        doNothing().when(group.getReservation()).attach(any());
+
+        //disable observer's DAOs
+        doNothing().when(reservationDAOMock).updateIsConfirmed(anyInt(), anyBoolean());
+        doNothing().when(reservationDAOMock).updateIsNotified(anyInt(), anyBoolean());
+
 
     }
 

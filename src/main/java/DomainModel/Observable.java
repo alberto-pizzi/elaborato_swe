@@ -13,7 +13,7 @@ public abstract class Observable {
             observers.add(observer);
 
     }
-    public void notifyObserver() throws SQLException {
+    protected void notifyObserver() throws SQLException {
         for (Observer observer : observers) {
             observer.update(this);
         }
