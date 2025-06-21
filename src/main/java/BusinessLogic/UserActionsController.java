@@ -131,7 +131,8 @@ public class UserActionsController extends PersonController<User>{
     private boolean joinGroup(Group group, int guestUsers) throws SQLException, ClassNotFoundException {
 
         //observer attach
-        notificationController.connectObserverToReservation(group.getReservation());
+        group.getReservation().attach(notificationController);
+
 
         //this method adds a member from DomainModel
         boolean memberAdded = group.addMember(person,guestUsers);
@@ -252,7 +253,7 @@ public class UserActionsController extends PersonController<User>{
             if (guestsSelected <= 0)
                 return true;
 
-            notificationController.connectObserverToReservation(group.getReservation());
+            group.getReservation().attach(notificationController);
 
             guestChangedLocally = group.changeUserGuests(person.getUsername(),guestsSelected);
 
@@ -281,6 +282,9 @@ public class UserActionsController extends PersonController<User>{
                 if (invitesSent < 0)
                     return false;
             }
+
+            //observer attach
+            group.getReservation().attach(notificationController);
 
             boolean areGuestsChanged = changeOwnGuests(group, ownGuestsSelected);
 

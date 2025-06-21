@@ -1,23 +1,21 @@
 package main.java.DomainModel;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public abstract class Subject {
+public abstract class Observable {
 
     protected ArrayList<Observer> observers = new ArrayList<>();
 
     //methods
-    public void registerObserver(Observer observer) {
-        observers.add(observer);
-    }
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
+    public void attach(Observer observer) {
+        if (observer != null && !observers.contains(observer))
+            observers.add(observer);
+
     }
     public void notifyObserver() throws SQLException {
         for (Observer observer : observers) {
-            observer.update();
+            observer.update(this);
         }
     }
 

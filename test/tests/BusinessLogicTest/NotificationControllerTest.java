@@ -144,11 +144,12 @@ public class NotificationControllerTest extends GeneralBSTest {
         sendNotificationMockHelper(group);
         doNothing().when(reservationDAOMock).updateIsConfirmed(anyInt(),anyBoolean());
         doNothing().when(reservationDAOMock).updateIsNotified(anyInt(),anyBoolean());
-        notificationController.connectObserverToReservation(group.getReservation());
+        group.getReservation().attach(notificationController);
+
 
         group.getReservation().setMatched(false);
 
-        notificationController.update();
+        notificationController.update(group.getReservation());
 
         assertFalse(group.getReservation().isMatched());
         assertFalse(group.getReservation().isNotified());
@@ -160,8 +161,6 @@ public class NotificationControllerTest extends GeneralBSTest {
         assertTrue(group.getReservation().isConfirmed());
         assertTrue(group.getReservation().isMatched());
         assertTrue(group.getReservation().isNotified());
-
-        notificationController.detach();
 
     }
 

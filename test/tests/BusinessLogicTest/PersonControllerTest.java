@@ -40,7 +40,9 @@ public abstract class PersonControllerTest extends GeneralBSTest {
     protected void joinGroupMockHelper(Group group, int guests) throws SQLException, ClassNotFoundException {
         when(groupDAOMock.getGroup(anyInt())).thenReturn(group);
         doNothing().when(isPartDAOMock).addMembership(anyInt(), anyInt(), anyInt());
-        doNothing().when(notificationControllerMock).connectObserverToReservation(any());
+        group.setReservation(spy(group.getReservation()));
+        doNothing().when(group.getReservation()).attach(any());
+
     }
 
     protected void sendInviteMockHelper(Group group, User user) throws SQLException, ClassNotFoundException {

@@ -161,7 +161,7 @@ class ManagerOwnerManagementControllerTest extends PersonControllerTest{
         managerOwnerManagementController = spy(managerOwnerManagementController); //IMPORTANT before calling applyChangesMockHelper
         doNothing().when(group.getReservation()).notifyObserver(); //disable observer notifications
 
-        doNothing().when(notificationControllerMock).connectObserverToReservation(any());
+        doNothing().when(group.getReservation()).attach(any());
         applyChangesMockHelper(1,true,true, true, true);
 
         assertTrue(managerOwnerManagementController.applyChangesFromDraft(group,removed,added,changed,ownGuests,inviteList, null));

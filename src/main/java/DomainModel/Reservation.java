@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Reservation extends Subject implements Serializable {
+public class Reservation extends Observable implements Serializable {
     private int id;
     private Date reservationDate;
     private Time reservationTime;

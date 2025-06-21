@@ -5,9 +5,7 @@ import java.sql.SQLException;
 public interface Observer {
     //methods
 
-    void update() throws SQLException;
+    void update(Observable observable) throws SQLException;
 
-    void attach();
-    void detach();
 
 }

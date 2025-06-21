@@ -44,11 +44,6 @@ public class NotificationController implements Observer {
         this.reservationDao = reservationDao;
     }
 
-    public void connectObserverToReservation(Reservation reservation) {
-        this.reservation = reservation;
-        attach();
-    }
-
     //helpers of sendNotifications
     public int sendConfirmNotifications(Reservation reservation) {
         return sendNotifications(reservation,NotificationType.CONFIRMATION,"");
@@ -154,26 +149,22 @@ public class NotificationController implements Observer {
     }
 
     @Override
-    public void update() throws SQLException {
+    public void update(Observable observable) throws SQLException {
 
-        if (this.reservation.isConfirmed() && this.reservation.isMatched() && !this.reservation.isNotified()) {
+        if (observable instanceof Reservation){
+            Reservation reservation = (Reservation) observable;
 
-            reservationDao.updateIsConfirmed(reservation.getId(), this.reservation.isConfirmed());
-            sendConfirmNotifications(this.reservation);
-            this.reservation.considerNotified();
-            reservationDao.updateIsNotified(reservation.getId(), this.reservation.isNotified());
+            if (reservation.isConfirmed() && reservation.isMatched() && !reservation.isNotified()) {
 
+                reservationDao.updateIsConfirmed(reservation.getId(), true);
+                reservationDao.updateIsNotified(reservation.getId(), true);
+                sendConfirmNotifications(reservation);
+                reservation.considerNotified();
+
+            }
         }
-    }
 
-    public void attach(){
-        //TODO is it correct? (IMPORTANT)
-        if (reservation != null && !reservation.getObservers().contains(this))
-            reservation.registerObserver(this);
-    }
 
-    public void detach(){
-        reservation.removeObserver(this);
     }
 
 

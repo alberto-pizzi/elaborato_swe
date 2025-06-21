@@ -90,7 +90,8 @@ public class ManagerOwnerManagementController extends PersonController<Person>{
 
             }
 
-            notificationController.connectObserverToReservation(group.getReservation());
+            //observer attach
+            group.getReservation().attach(notificationController);
 
             //added
             if (addedDraft != null && !addedDraft.isEmpty()) {
