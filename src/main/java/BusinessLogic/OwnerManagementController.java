@@ -44,11 +44,12 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     public int monthlyEarnings() throws SQLException {
         LocalDate today = LocalDate.now();
+        LocalDate current = LocalDate.now();
         int earnings = 0;
-        for (int i = 1; i < today.lengthOfMonth(); i++){
+        for (int i = 1; i <= today.getDayOfMonth(); i++){
             System.out.println(i);
-            earnings += reservationDao.dailyEarning(Date.valueOf(today), (Owner) person);
-            today = today.minusDays(1);
+            earnings += reservationDao.dailyEarning(Date.valueOf(current), (Owner) person);
+            current = current.minusDays(1);
         }
         return earnings;
     }
@@ -65,10 +66,11 @@ public class OwnerManagementController extends ManagerOwnerManagementController{
 
     public int monthlyReservations() throws SQLException {
         LocalDate today = LocalDate.now();
+        LocalDate current = LocalDate.now();
         int number = 0;
-        for (int i = 1; i < today.lengthOfMonth(); i++){
-            number += reservationDao.dailyReservations(Date.valueOf(today), (Owner) person);
-            today = today.minusDays(1);
+        for (int i = 1; i <= today.getDayOfMonth(); i++){
+            number += reservationDao.dailyReservations(Date.valueOf(current), (Owner) person);
+            current = current.minusDays(1);
         }
         return number;
     }

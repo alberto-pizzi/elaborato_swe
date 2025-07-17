@@ -69,7 +69,7 @@ class OwnerManagementControllerTest extends ManagerOwnerManagementControllerTest
     void monthlyEarnings() throws SQLException {
         //No exception
         when(reservationDAOMock.dailyEarning(any(Date.class), any(Owner.class))).thenReturn(1);
-        assertEquals(LocalDate.now().lengthOfMonth(), ownerManagementController.monthlyEarnings());
+        assertEquals(LocalDate.now().getDayOfMonth(), ownerManagementController.monthlyEarnings());
 
         //With exception
         when(reservationDAOMock.dailyEarning(any(Date.class), any(Owner.class))).thenThrow(new SQLException("Simulated SQL exception"));
@@ -99,7 +99,7 @@ class OwnerManagementControllerTest extends ManagerOwnerManagementControllerTest
     void monthlyReservations() throws SQLException {
         //No exception
         when(reservationDAOMock.dailyReservations(any(Date.class), any(Owner.class))).thenReturn(1);
-        assertEquals(LocalDate.now().lengthOfMonth(), ownerManagementController.monthlyReservations());
+        assertEquals(LocalDate.now().getDayOfMonth(), ownerManagementController.monthlyReservations());
 
         //With exception
         when(reservationDAOMock.dailyReservations(any(Date.class), any(Owner.class))).thenThrow(new SQLException("Simulated SQL exception"));
