@@ -1,3 +1,19 @@
+DROP TABLE IF EXISTS "User" CASCADE;
+DROP TABLE IF EXISTS "Owner" CASCADE;
+DROP TABLE IF EXISTS "Facility" CASCADE;
+DROP TABLE IF EXISTS "Field" CASCADE;
+DROP TABLE IF EXISTS "WH" CASCADE;
+DROP TABLE IF EXISTS "Reservation" CASCADE;
+DROP TABLE IF EXISTS "Group" CASCADE;
+DROP TABLE IF EXISTS "Invite" CASCADE;
+DROP TABLE IF EXISTS "IsPart" CASCADE;
+DROP TABLE IF EXISTS "Sport" CASCADE;
+DROP TABLE IF EXISTS "Manages" CASCADE;
+DROP TABLE IF EXISTS "Message" CASCADE;
+DROP TABLE IF EXISTS "NotificationUser" CASCADE;
+DROP TABLE IF EXISTS "NotificationOwner" CASCADE;
+
+
 CREATE TABLE IF NOT EXISTS "User" (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -28,63 +44,16 @@ CREATE TABLE IF NOT EXISTS "Facility" (
     province VARCHAR(100) NOT NULL,
     zip VARCHAR(20),
     country VARCHAR(100) NOT NULL,
-    n_managers INTEGER NOT NULL CONSTRAINT managers_positive CHECK (n_managers >= 0),
-    n_fields INTEGER NOT NULL CONSTRAINT fields_positive CHECK (n_fields >= 0),
     telephone VARCHAR(20) CONSTRAINT only_numbers CHECK (telephone ~ '^\d+$'),
     image TEXT,
     id_owner INTEGER,
-    FOREIGN KEY (id_owner) REFERENCES Owner(id)
+    FOREIGN KEY (id_owner) REFERENCES "Owner"(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "WH" (
+CREATE TABLE IF NOT EXISTS "Sport" (
     id SERIAL PRIMARY KEY,
-    day_of_week VARCHAR(10) NOT NULL,
-    opening TIME NOT NULL,
-    closing TIME NOT NULL,
-    id_facility INTEGER NOT NULL,
-    FOREIGN KEY (id_facility) REFERENCES Facility(id)
-);
-
-CREATE TABLE IF NOT EXISTS "Reservation" (
-    id SERIAL PRIMARY KEY,
-    res_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    event_date DATE NOT NULL,
-    res_time TIME NOT NULL DEFAULT CURRENT_TIME,
-    event_time_start TIME NOT NULL,
-    event_time_end TIME NOT NULL;
-    id_field INTEGER NOT NULL,
-    n_participants INTEGER NOT NULL CONSTRAINT participants_positive CHECK (n_participants >= 0),
-    is_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
-    is_matched BOOLEAN NOT NULL DEFAULT FALSE,
-    id_user INTEGER NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES User(id),
-    FOREIGN KEY (id_field) REFERENCES Field(id)
-);
-
-CREATE TABLE IF NOT EXISTS "Invite" (
-    id SERIAL PRIMARY KEY,
-    id_group INTEGER NOT NULL UNIQUE,
-    id_user INTEGER NOT NULL,
-    FOREIGN KEY (id_group) REFERENCES Group(id),
-    FOREIGN KEY (id_user) REFERENCES User(id)
-);
-
-CREATE TABLE IF NOT EXISTS "IsPart" (
-    id_group INTEGER NOT NULL UNIQUE,
-    id_user INTEGER NOT NULL,
-    guest_users INTEGER NOT NULL
-    PRIMARY KEY(id_group, id_user),
-    FOREIGN KEY (id_group) REFERENCES Group(id),
-    FOREIGN KEY (id_user) REFERENCES User(id)
-);
-
-CREATE TABLE IF NOT EXISTS "Group" (
-    id SERIAL PRIMARY KEY,
-    group_head INTEGER NOT NULL,
-    participants_required INTEGER NOT NULL,
-    id_reservation INTEGER NOT NULL UNIQUE,
-    FOREIGN KEY (id_reservation) REFERENCES Reservation(id),
-    FOREIGN KEY (group_head) REFERENCES User(id)
+    name VARCHAR(255) NOT NULL,
+    players_required INTEGER NOT NULL CONSTRAINT players_positive CHECK (players_required >= 0)
 );
 
 CREATE TABLE IF NOT EXISTS "Field" (
@@ -95,19 +64,97 @@ CREATE TABLE IF NOT EXISTS "Field" (
     price FLOAT(3) NOT NULL CONSTRAINT price_positive CHECK (price >= 0),
     image TEXT,
     id_facility INTEGER NOT NULL,
-    FOREIGN KEY (id_facility) REFERENCES Facility(id)
+    FOREIGN KEY (id_facility) REFERENCES "Facility"(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_sport) REFERENCES "Sport"(id) ON DELETE SET NULL ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS "WH" (
+    id SERIAL PRIMARY KEY,
+    day_of_week VARCHAR(10) NOT NULL,
+    opening TIME NOT NULL,
+    closing TIME NOT NULL,
+    id_facility INTEGER NOT NULL,
+    FOREIGN KEY (id_facility) REFERENCES "Facility"(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "Sport" (
+CREATE TABLE IF NOT EXISTS "Reservation" (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    players_required INTEGER NOT NULL CONSTRAINT players_positive CHECK (players_required >= 0),
+    res_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    event_date DATE NOT NULL,
+    res_time TIME NOT NULL DEFAULT CURRENT_TIME,
+    event_time_start TIME NOT NULL,
+    event_time_end TIME NOT NULL,
+    id_field INTEGER NOT NULL,
+    is_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
+    is_matched BOOLEAN NOT NULL DEFAULT FALSE,
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+    is_notified BOOLEAN NOT NULL DEFAULT FALSE,
+    FOREIGN KEY (id_field) REFERENCES "Field"(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS "Group" (
+    id SERIAL PRIMARY KEY,
+    group_head INTEGER NOT NULL,
+    participants_required INTEGER NOT NULL,
+    id_reservation INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY (id_reservation) REFERENCES "Reservation"(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (group_head) REFERENCES "User"(id) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS "Invite" (
+    id SERIAL PRIMARY KEY,
+    id_group INTEGER NOT NULL,
+    id_user INTEGER NOT NULL,
+    FOREIGN KEY (id_group) REFERENCES "Group"(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_user) REFERENCES "User"(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS "IsPart" (
+    id_group INTEGER NOT NULL,
+    id_user INTEGER NOT NULL,
+    guest_users INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id_group, id_user),
+    FOREIGN KEY (id_group) REFERENCES "Group"(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_user) REFERENCES "User"(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "Manages" (
     id_facility INTEGER NOT NULL,
     id_user INTEGER NOT NULL,
-    PRIMARY KEY(id_facility, id_user),
-    FOREIGN KEY (id_facility) REFERENCES Facility(id),
-    FOREIGN KEY (id_user) REFERENCES User(id)
+    PRIMARY KEY (id_facility, id_user),
+    FOREIGN KEY (id_facility) REFERENCES "Facility"(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_user) REFERENCES "User"(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS "Message" (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(50),
+    message VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "NotificationUser" (
+    id SERIAL PRIMARY KEY,
+    id_user INTEGER NOT NULL,
+    notification_type VARCHAR(50) NOT NULL,
+    id_message INTEGER,
+    id_reservation INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_message) REFERENCES "Message"(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (id_reservation) REFERENCES "Reservation"(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_user) REFERENCES "User"(id) ON DELETE CASCADE ON UPDATE CASCADE
+
+);
+
+CREATE TABLE IF NOT EXISTS "NotificationOwner" (
+    id SERIAL PRIMARY KEY,
+    id_owner INTEGER NOT NULL,
+    notification_type VARCHAR(50) NOT NULL,
+    id_message INTEGER,
+    id_reservation INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_message) REFERENCES "Message"(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (id_reservation) REFERENCES "Reservation"(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_owner) REFERENCES "Owner"(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+

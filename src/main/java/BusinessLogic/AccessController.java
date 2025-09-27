@@ -1,5 +1,11 @@
 package main.java.BusinessLogic;
-//fixme mi torna poco l'utilizzo di un'intera classe solo per questo
+
+import main.java.DomainModel.Person;
+
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+
+
 public class AccessController {
     // attributes
     private AccessStrategy accessStrategy;
@@ -20,11 +26,21 @@ public class AccessController {
         this.accessStrategy = accessStrategy;
     }
 
-    public void login(String username, String password) {
-        accessStrategy.login(username, password);
+    public Person login(String username,String notEncodedPassword) throws SQLException, NoSuchAlgorithmException, ClassNotFoundException {
+        return accessStrategy.login(username, notEncodedPassword);
     }
 
-    public void register() {
-        accessStrategy.register();
+    public boolean checkPassword(String username, String password) throws SQLException, NoSuchAlgorithmException, ClassNotFoundException {
+        return accessStrategy.checkPassword(username, password);
+    }
+    public boolean checkPersonExistence(String username) throws SQLException, ClassNotFoundException {
+        return accessStrategy.checkPersonExistence(username);
+    }
+    public boolean checkEmail(String emailEntered) throws SQLException, ClassNotFoundException {
+        return accessStrategy.checkEmail(emailEntered);
+    }
+
+    public boolean register(String username, String email, String password, String city, String province, String zip, String country){
+        return accessStrategy.register(username, email, password, city, province, zip, country);
     }
 }

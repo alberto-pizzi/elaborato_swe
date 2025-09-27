@@ -1,33 +1,52 @@
 package main.java.DomainModel;
 
+import java.io.Serializable;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-public class Reservation {
+public class Reservation extends Observable implements Serializable {
     private int id;
     private Date reservationDate;
     private Time reservationTime;
     private Date eventDate;
     private Time eventTimeEnd;
     private Time eventTimeStart;
-    private int idField;
-    private int nParticipants;
+    private Field field;
     private boolean isConfirmed;
-    private int idUser;
     private boolean isMatched;
+    private boolean isDeleted;
+    private boolean isNotified;
 
-    public Reservation(int reservationId, Date reservationDate, Time reservationTime, Date eventDate, Time eventTimeStart, Time eventTimeEnd, int idField,  int nParticipants, boolean isConfirmed, int idUser, boolean isMatched) {
+    public Reservation(int reservationId, Date reservationDate, Time reservationTime, Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, boolean isConfirmed, boolean isMatched, boolean isDeleted, boolean isNotified) {
         this.id = reservationId;
         this.reservationDate = reservationDate;
         this.reservationTime = reservationTime;
         this.eventDate = eventDate;
         this.eventTimeStart = eventTimeStart;
         this.eventTimeEnd = eventTimeEnd;
-        this.idField = idField;
-        this.nParticipants = nParticipants;
+        this.field = field;
         this.isConfirmed = isConfirmed;
-        this.idUser = idUser;
         this.isMatched = isMatched;
+        this.isDeleted = isDeleted;
+        this.isNotified = isNotified;
+
+    }
+
+    //it used to add a reservation
+    public Reservation(Date eventDate, Time eventTimeStart, Time eventTimeEnd, Field field, boolean isMatched) {
+        this.eventDate = eventDate;
+        this.eventTimeStart = eventTimeStart;
+        this.eventTimeEnd = eventTimeEnd;
+        this.field = field;
+        this.isConfirmed = !isMatched;
+        this.isMatched = isMatched;
+        this.isDeleted = false;
+        this.isNotified = false;
+
     }
 
     //getters
@@ -40,20 +59,20 @@ public class Reservation {
         this.eventDate = eventDate;
     }
 
+    public boolean isNotified() {
+        return isNotified;
+    }
+
+    public void considerNotified(){
+        isNotified = true;
+    }
+
     public Time getEventTimeStart() {
         return eventTimeStart;
     }
 
     public void setEventTimeStart(Time eventTimeStart) {
         this.eventTimeStart = eventTimeStart;
-    }
-
-    public int getnParticipants() {
-        return nParticipants;
-    }
-
-    public void setnParticipants(int nParticipants) {
-        this.nParticipants = nParticipants;
     }
 
     public Date getReservationDate() {
@@ -88,38 +107,29 @@ public class Reservation {
         this.id = id;
     }
 
-    public int getIdField() {
-        return idField;
+    public Field getField() {
+        return field;
     }
 
-    public void setIdField(int idField) {
-        this.idField = idField;
+    public void setField(Field field) {
+        this.field = field;
     }
 
-    public int getNParticipants() {
-        return nParticipants;
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
-    //setters
-
-    public void setNParticipants(int nParticipants) {
-        this.nParticipants = nParticipants;
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public boolean isConfirmed() {
         return isConfirmed;
     }
 
-    public void setConfirmed(boolean confirmed) {
+    public void setConfirmed(boolean confirmed) throws SQLException {
         isConfirmed = confirmed;
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+        notifyObserver();
     }
 
     public boolean isMatched() {
@@ -132,17 +142,28 @@ public class Reservation {
 
     //methods
 
-    public int[] calculateReservationEndTime(float duration){
-        //TODO add implementation and choose method's return type
-        return null;
+
+    public static float pricePerUser(float totalPrice, int nUsers){
+        return totalPrice / nUsers;
     }
 
-    public static float pricePerUser(Field field, int nUsers){
-        return field.getPrice() / nUsers;
+    public static float totalPrice(Field field, float hours){
+        return field.getPrice() * hours;
     }
 
-    public boolean setIsConfirmed(boolean state){
-        //TODO implement setIsConfirmed (observer), change return type
-        return false;
+    public static boolean isEndTimeAfterThanStartTime(LocalTime startTime, LocalTime endTime, LocalDate eventDate){
+
+        LocalDate endDate = endTime.isBefore(startTime) ? eventDate.plusDays(1) : eventDate;
+
+        LocalDateTime startDateTime = LocalDateTime.of(eventDate, startTime);
+        LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
+
+        return !endDateTime.isBefore(startDateTime);
+
     }
+
+    public static boolean isTimeOverlapping(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
+        return !(end1.isBefore(start2) || end2.isBefore(start1) || end1.equals(start2) || end2.equals(start1));
+    }
+
 }

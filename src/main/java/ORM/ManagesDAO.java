@@ -3,138 +3,46 @@ package main.java.ORM;
 import main.java.DomainModel.Facility;
 import main.java.DomainModel.User;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 
-public class ManagesDAO {
-
-    private Connection connection;
-
-    //constructor
-    public ManagesDAO() {
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
-
+public class ManagesDAO extends ConnectionHolder{
     //methods
 
     public void attachManager(int idManager, int idFacility) throws SQLException {
 
-
-        String insertQuerySQL = String.format("INSERT INTO \"Manages\" (id_facility, id_user)) " +
+        String insertQuerySQL = String.format("INSERT INTO \"Manages\" (id_facility, id_user) " +
                 "VALUES ('%d', '%d')", idFacility,idManager);
 
-        String updateSQL = String.format("UPDATE \"Facility\" SET n_managers = n_managers + 1 WHERE id = '%d'", idFacility);
-
-
-        PreparedStatement preparedStatementForInsert = null;
-        PreparedStatement preparedStatementForUpdate = null;
+        PreparedStatement preparedStatement = null;
 
         try {
-            //first query
-            preparedStatementForInsert = connection.prepareStatement(insertQuerySQL);
-            int facilityRowsAffectedForInsert = preparedStatementForInsert.executeUpdate();
+            preparedStatement = connection.prepareStatement(insertQuerySQL);
+            preparedStatement.executeUpdate();
 
-            if (facilityRowsAffectedForInsert == 0){
-                throw new SQLException("Insert on Facility failed, no rows affected.");
-            }
-
-            //second query
-            preparedStatementForUpdate = connection.prepareStatement(updateSQL);
-            int facilityRowsAffectedForUpdate = preparedStatementForUpdate.executeUpdate();
-
-            if (facilityRowsAffectedForUpdate == 0){
-                throw new SQLException("Update on Facility failed, no rows affected.");
-            }
-
-            connection.commit();
-            System.out.println("New manager attached successfully.");
+            System.out.println("Manager added successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                    System.out.println("Transaction failed, rolled back.");
-                } catch (SQLException rollbackEx) {
-                    rollbackEx.printStackTrace();
-                }
-            }
-            e.printStackTrace();
-
         } finally {
-            try {
-                if (preparedStatementForInsert != null) {
-                    preparedStatementForInsert.close();
-                }
-                if (preparedStatementForUpdate != null) {
-                    preparedStatementForUpdate.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            if (preparedStatement != null) { preparedStatement.close(); }
         }
 
     }
 
     public void detachManager(int idManager, int idFacility) throws SQLException {
 
-
         String deleteQuerySQL = String.format("DELETE FROM \"Manages\" WHERE id_facility = '%d' AND id_user = '%d'", idFacility,idManager);
 
-        String updateSQL = String.format("UPDATE \"Facility\" SET n_managers = n_managers - 1 WHERE id = '%d'", idFacility);
-
-
-        PreparedStatement preparedStatementForDelete = null;
-        PreparedStatement preparedStatementForUpdate = null;
+        PreparedStatement preparedStatement = null;
 
         try {
-            //first query
-            preparedStatementForDelete = connection.prepareStatement(deleteQuerySQL);
-            int facilityRowsAffectedForInsert = preparedStatementForDelete.executeUpdate();
-
-            if (facilityRowsAffectedForInsert == 0){
-                throw new SQLException("Delete from Facility failed, no rows affected.");
-            }
-
-            //second query
-            preparedStatementForUpdate = connection.prepareStatement(updateSQL);
-            int facilityRowsAffectedForUpdate = preparedStatementForUpdate.executeUpdate();
-
-            if (facilityRowsAffectedForUpdate == 0){
-                throw new SQLException("Update on Facility failed, no rows affected.");
-            }
-
-            connection.commit();
-            System.out.println("Manager detached successfully.");
+            preparedStatement = connection.prepareStatement(deleteQuerySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Membership removed successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                    System.out.println("Transaction failed, rolled back.");
-                } catch (SQLException rollbackEx) {
-                    rollbackEx.printStackTrace();
-                }
-            }
-            e.printStackTrace();
-
         } finally {
-            try {
-                if (preparedStatementForDelete != null) {
-                    preparedStatementForDelete.close();
-                }
-                if (preparedStatementForUpdate != null) {
-                    preparedStatementForUpdate.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            if (preparedStatement != null) { preparedStatement.close(); }
         }
 
     }
@@ -142,7 +50,7 @@ public class ManagesDAO {
     public ArrayList<User> getAllManagersByFacility(int idFacility) throws SQLException {
         ArrayList<User> managers = new ArrayList<>();
 
-        String querySQL = String.format("SELECT * FROM \"Manages\" INNER JOIN \"User\" ON Manages.id_user = User.id WHERE id_facility = '%d'", idFacility);
+        String querySQL = String.format("SELECT * FROM \"Manages\" INNER JOIN \"User\" ON \"Manages\".id_user = \"User\".id WHERE id_facility = '%d'", idFacility);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -161,8 +69,7 @@ public class ManagesDAO {
                 String zip = resultSet.getString("zip");
                 String country = resultSet.getString("country");
 
-                managers.add(new User(id, email, username, city, province, zip, country, password));
-
+                managers.add(new User(id, email, username, password, city, province, zip, country));
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -177,7 +84,7 @@ public class ManagesDAO {
     public ArrayList<Facility> getAllFacilitiesByManager(int idManager) throws SQLException {
         ArrayList<Facility> facilities = new ArrayList<>();
 
-        String querySQL = String.format("SELECT * FROM \"Manages\" INNER JOIN \"Facility\" ON Manages.id_facility = Facility.id WHERE id_user = '%d'", idManager);
+        String querySQL = String.format("SELECT * FROM \"Manages\" INNER JOIN \"Facility\" ON \"Manages\".id_facility = \"Facility\".id WHERE id_user = '%d'", idManager);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -185,22 +92,11 @@ public class ManagesDAO {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
+
+            FacilityDAO facilityDAO = new FacilityDAO();
             while (resultSet.next()) {
 
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String address = resultSet.getString("address");
-                String city = resultSet.getString("city");
-                String province = resultSet.getString("province");
-                String zip = resultSet.getString("zip");
-                String country = resultSet.getString("country");
-                int nManagers = resultSet.getInt("n_managers");
-                int nFields = resultSet.getInt("n_fields"); //TODO is useful?
-                String telephone = resultSet.getString("telephone");
-                String image = resultSet.getString("image");
-                int idOwner = resultSet.getInt("id_owner");
-
-                facilities.add(new Facility(id, name, address, city, province, zip, country, nManagers, telephone,image,idOwner));
+                facilities.add(facilityDAO.getFacility(resultSet.getInt("id"), false));
 
             }
         } catch (SQLException e) {

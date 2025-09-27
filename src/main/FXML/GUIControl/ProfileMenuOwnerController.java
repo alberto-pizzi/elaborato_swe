@@ -1,0 +1,103 @@
+package main.FXML.GUIControl;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import main.java.BusinessLogic.OwnerManagementController;
+import main.java.BusinessLogic.OwnerProfileController;
+import main.java.BusinessLogic.UserActionsController;
+import main.java.DomainModel.User;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.Optional;
+import java.util.ResourceBundle;
+
+public class ProfileMenuOwnerController extends ProfileMenu implements Initializable {
+
+    //methods
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        messagesController = new MessagesController(messageLabel);
+        try {
+            changeView("updateUsernameOwner.fxml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    @FXML
+    void handleAddressButton(ActionEvent event) throws IOException {
+        changeView("updateAddressOwner.fxml");
+    }
+
+    @Override
+    @FXML
+    void handleDeleteProfileButton(ActionEvent event) throws SQLException, IOException {
+        System.out.println("Delete button clicked: ");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete account");
+        alert.setHeaderText("Confirm account deletion");
+        alert.setContentText("Are you sure you want to delete this account?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.OK){
+            OwnerProfileController ownerProfileController = new OwnerProfileController();
+            if(ownerProfileController.deleteProfile()){
+                System.out.println("Deleted!");
+                handleLogoutButton(event);
+            }else{
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
+            }
+        } else if(result.get() == ButtonType.CANCEL){
+            System.out.println("Cancel!");
+        }
+    }
+
+    @Override
+    @FXML
+    void handleEmailButton(ActionEvent event) throws IOException {
+        changeView("updateEmailOwner.fxml");
+    }
+
+    @Override
+    @FXML
+    void handlePasswordButton(ActionEvent event) throws IOException {
+        changeView("updatePasswordOwner.fxml");
+    }
+
+    @Override
+    @FXML
+    void handleUsernameButton(ActionEvent event) throws IOException {
+        changeView("updateUsernameOwner.fxml");
+    }
+
+    @Override
+    @FXML
+    void handleLogoutButton(ActionEvent event) throws IOException{
+        OwnerProfileController ownerProfileController = new OwnerProfileController();
+        ownerProfileController.logOut();
+        logoutButton.getScene().getWindow().hide();
+        Stage logInUser = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/main/FXML/scene.fxml"));
+        logInUser.setTitle("Sport Plus");
+        logInUser.setScene(new Scene(root, 1280, 720));
+        logInUser.show();
+        logInUser.setResizable(false);
+        System.out.println("Logout done");
+    }
+}

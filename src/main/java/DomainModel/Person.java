@@ -1,6 +1,8 @@
 package main.java.DomainModel;
 
-public abstract class Person{
+import java.io.Serializable;
+
+public abstract class Person implements Serializable {
     private int id;
     private String email;
     private String username;
@@ -9,6 +11,22 @@ public abstract class Person{
     private String province;
     private String zip;
     private String country;
+    private String target;
+
+    //constructor
+
+
+    public Person(int id, String email, String username, String password, String city, String province, String zip, String country, String personType) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.city = city;
+        this.province = province;
+        this.zip = zip;
+        this.country = country;
+        this.target = personType;
+    }
 
     public int getId() {
         return id;
@@ -74,17 +92,12 @@ public abstract class Person{
         this.country = country;
     }
 
-    //constructor
-
-
-    public Person(int id, String email, String username, String password, String city, String province, String zip, String country) {
-        this.id = id;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.city = city;
-        this.province = province;
-        this.zip = zip;
-        this.country = country;
+    public String getTarget() {
+        return target;
     }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
 }

@@ -1,0 +1,207 @@
+.menu-button{
+    -fx-background-color: #AEAEAE;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.loginChange-button{
+    -fx-background-color: #ff9900;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.loginChange-button:hover{
+    -fx-background-color: #ffc400;
+}
+
+.login-button{
+    -fx-background-color:  #4169e1#4682b4f620f9;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.login-button:hover{
+    -fx-background-color:  #6782da #4682b4f620f9;
+}
+
+.singUp-button{
+    -fx-background-color: #757575;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.singUp-button:hover{
+    -fx-background-color: #b5b5b5;
+}
+
+.menu-button:pressed{
+    -fx-background-color: #BFBFBF;
+}
+
+.menu-button:focused{
+    -fx-background-color: #BFBFBF;
+}
+
+.menu-button:hover{
+    -fx-background-color: #BFBFBF;
+}
+
+.button-owner{
+    -fx-background-color: violet;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.button-owner:focused, .button-owner:pressed, .button-owner:hover{
+    -fx-background-color: #e8c0ec;
+}
+
+.menu-selected{
+    -fx-background-color: #BFBFBF;
+    -fx-background-radius: 10;
+}
+
+.shadow{
+    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
+}
+
+.group-item{
+    -fx-background-radius: 10;
+    -fx-background-color: #fff;
+
+}
+
+.leave-button{
+    -fx-background-color: #FC4850;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.accept-button{
+    -fx-background-color: #00B126;
+    -fx-background-radius: 40;
+    -fx-cursor: hand;
+}
+.decline-button{
+    -fx-background-color: #FC4850;
+    -fx-background-radius: 40;
+    -fx-cursor: hand;
+}
+
+.accept-button:hover{
+    -fx-background-color: #22db4a;
+}
+
+.decline-button:hover{
+    -fx-background-color: #ff7177;
+}
+
+.go-to-groups-button{
+    -fx-background-color: #FFECB3;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.select-button{
+    -fx-background-color: #CF60EA;
+    -fx-background-radius: 10;
+}
+
+.management-buttons{
+    -fx-background-radius: 40;
+    -fx-cursor: hand;
+}
+
+.edit-button-color{
+    -fx-background-color: #F2EB2A;
+}
+
+.delete-button-color{
+    -fx-background-color: #FC4850;
+}
+
+.text-input{
+    -fx-background-radius: 10;
+}
+
+.profile-menu{
+    -fx-background-color: white;
+    -fx-background-radius: 0 50 50 0;
+    -fx-cursor: hand;
+}
+
+.profile-menu-owner{
+    -fx-background-color: white;
+    -fx-background-radius: 50;
+    -fx-cursor: hand;
+}
+
+.profile-menu:hover{
+    -fx-background-color: #b7bffa;
+}
+
+.profile-menu-owner:hover{
+    -fx-background-color: #e8c0ec;
+}
+
+.profile-menu:focused, .profile-menu:pressed{
+    -fx-background-color: #536DFE;
+}
+
+.profile-menu-owner:focused, .profile-menu-owner:pressed{
+    -fx-background-color: violet;
+}
+
+.profile-menu#delete:hover, .profile-menu#delete:focused, .profile-menu#delete:pressed,.profile-menu-owner#delete:hover, .profile-menu-owner#delete:focused, .profile-menu-owner#delete:pressed{
+    -fx-background-color: #ff4b4b;
+}
+
+.profile-menu-box{
+    -fx-background-color: #ececec;
+}
+
+.confirm-button{
+    -fx-background-color: #00B126;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.confirm-button:hover{
+    -fx-background-color: #22db4a;
+}
+
+.manager-button{
+    -fx-background-color: #484167;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.manager-button:hover, .manager-button:pressed, manager-button:focused{
+    -fx-background-color: #5f5d8a;
+}
+
+.clickable{
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+}
+
+.go-to-from-notifications{
+    -fx-background-color: #0085f3;
+    -fx-background-radius: 40;
+    -fx-cursor: hand;
+}
+
+.go-to-from-notifications:hover{
+    c-fx-background-color: #a1d1f6;
+}
+
+
+.separator-line{
+    -fx-background-color: grey;
+}
+
+.add-guests-button{
+    -fx-background-color: #ffdc6a;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}

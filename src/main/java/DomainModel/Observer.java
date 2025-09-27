@@ -1,8 +1,11 @@
 package main.java.DomainModel;
 
+import java.sql.SQLException;
+
 public interface Observer {
     //methods
 
-    void update(Subject obj);
+    void update(Observable observable) throws SQLException;
+
 
 }

@@ -1,0 +1,359 @@
+package main.java.ORM;
+
+import main.java.DomainModel.Owner;
+import main.java.DomainModel.Reservation;
+
+import java.sql.*;
+import java.util.ArrayList;
+import static java.time.temporal.ChronoUnit.HOURS;
+
+public class ReservationDAO extends ConnectionHolder{
+
+    //methods
+    public int addReservation(Reservation reservation) throws SQLException {
+        String querySQL = String.format("INSERT INTO \"Reservation\" (event_date, event_time_start, " +
+                "event_time_end, id_field, is_confirmed, is_matched, is_deleted,is_notified) " +
+                "VALUES ( '%tF', '%tT', '%tT', '%d', '%b', '%b', '%b','%b')",  reservation.getEventDate(),
+                reservation.getEventTimeStart(),reservation.getEventTimeEnd(), reservation.getField().getId(), reservation.isConfirmed(), reservation.isMatched(), reservation.isDeleted(),reservation.isNotified());
+
+        int idAdded = 0;
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
+            System.out.println("Reservation added successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
+        return idAdded;
+    }
+
+    public int getCountAllParticipants(int idReservation) throws SQLException {
+        int count = 0;
+        int group = 0;
+        IsPartDAO isPartDao = new IsPartDAO();
+        String querySQL = String.format("SELECT * FROM \"Group\" WHERE id_reservation = '%d'", idReservation);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                group = resultSet.getInt("id");
+                count = isPartDao.countGroupGuests(group) + isPartDao.countGroupMembers(group);
+            }
+            else{
+                System.err.println("No Group found with id_reservation: " + idReservation);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return count;
+    }
+
+    public Reservation getReservation(int idReservation, boolean considerDeleted) throws SQLException, ClassNotFoundException {
+
+        Reservation reservation = null;
+
+        String querySQL = String.format("SELECT * FROM \"Reservation\" WHERE id = '%d' AND is_deleted = '%b'", idReservation,considerDeleted);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                Date reservationDate = resultSet.getDate("res_date");
+                Time reservationTime = resultSet.getTime("res_time");
+                Date eventDate = resultSet.getDate("event_date");
+                Time eventTimeStart = resultSet.getTime("event_time_start");
+                Time eventTimeEnd = resultSet.getTime("event_time_end");
+                int idField = resultSet.getInt("id_field");
+                boolean isConfirmed = resultSet.getBoolean("is_confirmed");
+                boolean isMatched = resultSet.getBoolean("is_matched");
+                boolean isDeleted = resultSet.getBoolean("is_deleted");
+                boolean isNotified = resultSet.getBoolean("is_notified");
+
+                UserDAO userDAO = new UserDAO();
+                FieldDAO fieldDAO = new FieldDAO();
+
+                reservation = new Reservation(id, reservationDate, reservationTime, eventDate, eventTimeStart, eventTimeEnd, fieldDAO.getField(idField), isConfirmed, isMatched, isDeleted,isNotified);
+
+            }
+            else{
+                System.err.println("No reservation found with id: " + idReservation);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return reservation;
+
+    }
+
+    public void deleteReservation(int idReservation) throws SQLException {
+
+        String querySQL = String.format("DELETE FROM \"Reservation\" WHERE id = '%d'", idReservation);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Reservation removed successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+        }
+
+    }
+
+    public ArrayList<Reservation> getReservationsByField(int idField) throws SQLException, ClassNotFoundException{
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        String querySQL = String.format("SELECT id FROM \"Reservation\" WHERE id_field = '%d'", idField);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                reservations.add(this.getReservation(resultSet.getInt("id"), false));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return reservations;
+    }
+
+    public ArrayList<Reservation> getReservationsByUser(int idUser) throws SQLException, ClassNotFoundException {
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        String querySQL = String.format("SELECT R.id FROM \"Reservation\" AS R INNER JOIN \"Group\" AS G" +
+                " ON R.id = G.id_reservation INNER JOIN \"IsPart\" AS IP" +
+                " ON G.id = IP.id_group WHERE IP.id_user = '%d'", idUser);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            int count = 0;
+            while (resultSet.next()) {
+                count++;
+                System.out.println("Iter: " + count);
+                reservations.add(this.getReservation(resultSet.getInt("id"), false));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return reservations;
+    }
+
+
+    public void updateIsConfirmed(int idReservation, boolean isConfirmed) throws SQLException {
+
+        String querySQL = String.format("UPDATE \"Reservation\" SET is_confirmed = '%b' WHERE id = '%d'", isConfirmed, idReservation);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Confirmation updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    public void updateIsNotified(int idReservation, boolean isNotified) throws SQLException {
+
+        String querySQL = String.format("UPDATE \"Reservation\" SET is_notified = '%b' WHERE id = '%d'", isNotified, idReservation);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Notification flag updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    public void updateIsDeleted(int idReservation, boolean isDeleted) throws SQLException {
+
+        String querySQL = String.format("UPDATE \"Reservation\" SET is_deleted = '%b' WHERE id = '%d'", isDeleted, idReservation);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Deleted updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    public void updateEventDate(int idReservation, Date date) throws SQLException {
+
+        String querySQL = String.format("UPDATE \"Reservation\" SET event_date = '%tF' WHERE id = '%d'", date, idReservation);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Event date updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    public void updateEventTimeStart(int idReservation, Time time) throws SQLException {
+
+        String querySQL = String.format("UPDATE \"Reservation\" SET event_time_start = '%tT' WHERE id = '%d'", time, idReservation);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Event start time updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    public void updateEventTimeEnd(int idReservation, Time time) throws SQLException {
+
+        String querySQL = String.format("UPDATE \"Reservation\" SET event_time_end = '%tT' WHERE id = '%d'", time, idReservation);
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement.executeUpdate();
+            System.out.println("Event end time updated successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    public int dailyEarning(Date date, Owner owner) throws SQLException {
+
+        int earning = 0;
+
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        String querySQL = String.format("SELECT \"Reservation\".id FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".is_deleted = FALSE AND \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d'", date, owner.getId());
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                reservations.add(this.getReservation(resultSet.getInt("id"), false));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        for(Reservation reservation : reservations) {
+            earning += (int) (reservation.getField().getPrice()*(HOURS.between(reservation.getEventTimeStart().toLocalTime(), reservation.getEventTimeEnd().toLocalTime())));
+        }
+
+        return earning;
+    }
+
+    public int dailyReservations(Date date, Owner owner) throws SQLException {
+
+        int number = 0;
+        String querySQL =  String.format("SELECT count(\"Reservation\".id) AS number FROM \"Reservation\" INNER JOIN \"Field\" ON \"Reservation\".id_field = \"Field\".id INNER JOIN \"Facility\" ON \"Field\".id_facility = \"Facility\".id WHERE \"Reservation\".is_deleted = FALSE AND \"Reservation\".event_date = '%tF' AND \"Facility\".id_owner = '%d'", date, owner.getId());
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(querySQL);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                number = resultSet.getInt("number");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            if (preparedStatement != null) { preparedStatement.close(); }
+            if (resultSet != null) { resultSet.close(); }
+        }
+
+        return number;
+    }
+
+}

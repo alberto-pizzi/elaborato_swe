@@ -1,17 +1,26 @@
 package main.java.DomainModel;
 
 
-public class Invite extends Product {
+import java.io.Serializable;
+
+public class Invite extends Product implements Serializable {
 
 
     // attributes
     private int id;
-    private int idGroup;
-    //Todo costruttore per quando non si ha l'id
-    public Invite(int id, int groupId) {
+    private Group group;
+    private User user;
+
+    public Invite(int id, Group group) {
         this.id = id;
-        this.idGroup = groupId;
+        this.group = group;
     }
+
+    public Invite() {
+    }
+
+    @Override
+    void build(){}
 
     // methods
     public int getId() {
@@ -22,11 +31,19 @@ public class Invite extends Product {
         this.id = id;
     }
 
-    public int getIdGroup() {
-        return idGroup;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setIdGroup(int idGroup) {
-        this.idGroup = idGroup;
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

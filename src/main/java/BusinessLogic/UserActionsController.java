@@ -1,99 +1,309 @@
 package main.java.BusinessLogic;
 
-import main.java.DomainModel.User;
+import main.java.BusinessLogic.CustomException.TransactionException;
+import main.java.DomainModel.*;
 
-import java.sql.Time;
-import java.sql.Date;
+import main.java.ORM.*;
+
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 
-public class UserActionsController {
-    private User user;
+public class UserActionsController extends PersonController<User>{
 
-    //getter
+    private ManagesDAO managesDAO;
 
-    public User getUser() {
-        return user;
+    //constructor
+
+    public UserActionsController() {
+        super((User) SessionController.getInstance().getPerson());
+        
+        managesDAO = new ManagesDAO();
     }
 
-    //setter
+    public UserActionsController(User user, UserDAO userDAO, GroupDAO groupDao, IsPartDAO isPartDao, WorkingHoursDAO workingHoursDAO, ReservationDAO reservationDao, InviteDAO inviteDao, FieldDAO fieldDao, ManagesDAO managesDAO, NotificationController notificationController){
+        super(user,userDAO,groupDao,isPartDao,workingHoursDAO,reservationDao,inviteDao,fieldDao,notificationController);
 
+        this.managesDAO = managesDAO;
 
-    public void setUser(User user) {
-        this.user = user;
     }
 
     //methods
-    //FIXME check input parameters
-    public float calculatePricePerPerson(int nPeople){
-        return 0;
+    @Override
+    protected String getProvinceForMatching(Field field){
+        return this.person.getProvince();
     }
 
-    public void attachMember(int idFacility){
+    public boolean editRights(Reservation reservation) throws SQLException, ClassNotFoundException {
+        
+
+        boolean pass = true;
+        Group group = groupDao.getGroupByReservation(reservation.getId());
+
+        if(!group.getGroupHead().getUsername().equals(person.getUsername())) {
+            pass = false;
+        }
+        if(reservation.isMatched()){
+            pass = false;
+        }
+
+        if(reservation.getEventTimeStart().toLocalTime().getHour() - LocalTime.now().getHour() < 2 && reservation.getEventDate().toLocalDate().equals(LocalDate.now())){
+            pass = false;
+        }
+
+        return pass;
+    }
+
+    public boolean declineInvite(int idInvite) {
+
+        try {
+            inviteDao.deleteInvite(idInvite);
+        } catch (SQLException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean acceptInvite(Invite invite, ArrayList<String> accountsList, int guests)  {
+
+        boolean accepted = false;
+
+        try {
+            //start transaction
+            userDao.getConnection().setAutoCommit(false);
+
+            if (invite.getGroup().getReservation().isMatched()) {
+
+                //himself join into group
+                if (!joinGroupHelper(invite.getGroup(), guests))
+                    return false;
+
+
+                //send invites to other (his) players
+                for (String accountUsername : accountsList) {
+                    if (accountUsername != null) {
+                        sendInvite(invite.getGroup(), userDao.getUserID(accountUsername));
+                    }
+                }
+
+
+            } else {
+                //guests are 0 because in not matched booking are not allowed guests
+                if (!joinGroupHelper(invite.getGroup(), 0))
+                    return false;
+
+            }
+
+
+            //delete this invite
+            inviteDao.deleteInvite(invite.getId());
+
+            //commit transaction
+            userDao.getConnection().commit();
+
+            accepted = true;
+        } catch (SQLException | ClassNotFoundException e){
+            try{
+                //rollback transaction
+                userDao.getConnection().rollback();
+            } catch (SQLException e1){
+                e1.printStackTrace();
+            }
+        } finally {
+            try {
+                userDao.getConnection().setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return accepted;
+    }
+
+    @Override
+    public boolean joinGroupHelper(Group group, int guestUsers) throws SQLException, ClassNotFoundException {
+        return joinGroup(group,guestUsers);
+    }
+
+    private boolean joinGroup(Group group, int guestUsers) throws SQLException, ClassNotFoundException {
+
+        //observer attach
+        group.getReservation().attach(notificationController);
+
+
+        //this method adds a member from DomainModel
+        boolean memberAdded = group.addMember(person,guestUsers);
+
+        if (person.getUsername().equals(group.getGroupHead().getUsername()) || memberAdded) {
+
+            isPartDao.addMembership(group.getId(), person.getId(),guestUsers);
+            System.out.println("Members added into groups");
+            return true;
+
+        }
+        else
+            return false;
 
     }
 
-    public void detachMember(int idFacility){
+    public boolean leaveGroup(int idGroup) {
+
+        Group group = null;
+
+        try {
+            group = groupDao.getGroup(idGroup);
+        }
+        catch (SQLException | ClassNotFoundException e) {
+            return false;
+        }
+
+        //this method removes a member from DomainModel
+        boolean memberRemoved = group.removeMember(person);
+
+        if (memberRemoved){
+            try {
+                //start transaction
+                isPartDao.getConnection().setAutoCommit(false);
+
+                //execute queries
+
+                isPartDao.removeMembership(idGroup, person.getId());
+
+                if (group.getParticipants() <= 0) {
+                    //set reservation as deleted (and related group). It will be deleted by trigger.
+                    boolean deletedSuccessfully = deleteReservation(group.getReservation().getId());
+
+                    if (!deletedSuccessfully) {
+                        throw new TransactionException("Error while deleting.");
+                    }
+                }
+                else
+                    groupDao.updateGroupHead(idGroup, group.getGroupHead().getId());
+
+                //commit transaction
+                isPartDao.getConnection().commit();
+            }
+            catch (SQLException | TransactionException e) {
+
+                try {
+                    //rollback transaction
+                    isPartDao.getConnection().rollback();
+
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                } finally {
+                    try {
+                        //end transaction
+                        isPartDao.getConnection().setAutoCommit(true);
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+
+                return false;
+            }
+        }
+        else {
+            System.out.println("Error during removing");
+            return false;
+        }
+
+        return true;
+    }
+
+
+    public ArrayList<Field> searchField(String inputSearched) throws SQLException {
+        
+        return fieldDao.search(inputSearched);
+    }
+
+
+    public ArrayList<Invite> getOwnInvites() throws SQLException, ClassNotFoundException {
+        return inviteDao.getInvitesByUser(person.getId());
 
     }
 
-    //FIXME input and output types?
-    public void findOtherPlayers(int unknown){
+    public ArrayList<Field> getNearbyFields() throws SQLException {
+        return fieldDao.getFieldsByProvince(person.getProvince());
 
     }
 
-    //FIXME input and output types?
-    public void addReservation(Date eventDate, Time eventTimeStart, float duration, int idField, int nParticipants, boolean isMatched, int idUser ){
+    public ArrayList<Group> getOwnGroups() throws SQLException {
+        return isPartDao.getAllGroupsByUser(this.person.getId());
 
     }
 
-    public void sendInvite(int idInvite){
+    public ArrayList<Reservation> getOwnReservations() throws SQLException, ClassNotFoundException {
+        return reservationDao.getReservationsByUser(this.person.getId());
 
     }
 
-    public void declineInvite(int idInvite){
+    public boolean changeOwnGuests(Group group, int guestsSelected) throws SQLException, ClassNotFoundException {
+
+        boolean guestChangedLocally = false;
+        boolean guestChangedOnDB = false;
+
+        //change own guests
+        if (group != null) {
+
+            //no changes needed
+            if (guestsSelected <= 0)
+                return true;
+
+            group.getReservation().attach(notificationController);
+
+            guestChangedLocally = group.changeUserGuests(person.getUsername(),guestsSelected);
+
+            if (!guestChangedLocally)
+                return false;
+            else {
+                guestChangedOnDB = changeUserGuests(group.getReservation().getId(), person.getId(), guestsSelected);
+                return guestChangedOnDB;
+            }
+
+        }
+
+        return false;
+    }
+    
+
+    @Override
+    public boolean applyChangesFromDraft(Group group, ArrayList<GroupMember> removedDraft, ArrayList<GroupMember> addedDraft, ArrayList<GroupMember> changedDraft, int ownGuestsSelected, ArrayList<String> inviteListDraft, User newGroupHead) throws SQLException, ClassNotFoundException {
+
+
+        if (group != null) {
+
+            if (inviteListDraft != null && !inviteListDraft.isEmpty()) {
+                int invitesSent = sendInvites(group, getUsersByUsernames(inviteListDraft));
+
+                if (invitesSent < 0)
+                    return false;
+            }
+
+            //observer attach
+            group.getReservation().attach(notificationController);
+
+            boolean areGuestsChanged = changeOwnGuests(group, ownGuestsSelected);
+
+            if (!areGuestsChanged)
+                return false;
+
+            boolean success = true;
+
+            if (removedDraft != null && !removedDraft.isEmpty() && group.getGroupHead().getUsername().equals(person.getUsername()))
+                success = removeGroupMembers(group, removedDraft);
+
+            return success;
+        }
+
+
+        return true;
 
     }
 
-    public void joinGroup(int idGroup){
+
 
     }
-
-    public void leaveGroup(int idGroup){
-
-    }
-
-    //FIXME are other input parameters needed?
-    public void editReservation(int idReservation){
-
-    }
-
-    //FIXME output type?
-    public void deleteReservation(int idReservation){
-
-    }
-
-    public void leaveOwnGroups(){
-
-    }
-
-    //FIXME output type?
-    public void searchField(String inputSearched){
-
-    }
-
-    //FIXME output type?
-    public void getOwnInvites(){
-
-    }
-
-    //FIXME output type?
-    public void getReservationsByField(int idField){
-
-    }
-
-    //FIXME output type?
-    public void getOwnGroups(){
-
-    }
-
-}

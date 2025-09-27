@@ -1,43 +1,41 @@
 package main.java.ORM;
 
-import main.java.DomainModel.Facility;
 import main.java.DomainModel.WorkingHours;
-import main.java.DomainModel.WorkingHours.Day;
 
 import java.sql.*;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 
-public class WorkingHoursDAO {
-
-    private Connection connection;
-
-    //constructor
-    public WorkingHoursDAO() {
-        try {
-            this.connection = ConnectionManager.getInstance().getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
+public class WorkingHoursDAO extends ConnectionHolder{
 
     //methods
 
-    public void addWHToFacility(int idFacility, Day dayOfWeek, Time openingHours, Time closingHours) throws SQLException {
+    public int addWHToFacility(int idFacility, DayOfWeek dayOfWeek, Time openingHours, Time closingHours) throws SQLException {
 
-        String querySQL = String.format("INSERT INTO \"WH\" (day_of_week, opening, closing, id_facility)) " +
-                "VALUES ('%s', '%tT', '%tT', '%d')", dayOfWeek, openingHours, closingHours, idFacility);
+        String querySQL = String.format("INSERT INTO \"WH\" (day_of_week, opening, closing, id_facility) " +
+                "VALUES ('%s', '%tT', '%tT', '%d')", dayOfWeek.name(), openingHours, closingHours, idFacility);
+
+        int idAdded = 0;
 
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement = connection.prepareStatement(querySQL, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
             System.out.println("Facility's WH added successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
             if (preparedStatement != null) { preparedStatement.close(); }
         }
+
+        return idAdded;
 
     }
 
@@ -59,16 +57,16 @@ public class WorkingHoursDAO {
 
     }
 
-    public void removeWHFromFacilityByDay(int idFacility, Day dayOfWeek) throws SQLException {
+    public void removeWHFromFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
 
-        String querySQL = String.format("DELETE FROM \"WH\" WHERE id_facility = '%d' AND day_of_week = '%s'", idFacility,dayOfWeek);
+        String querySQL = String.format("DELETE FROM \"WH\" WHERE id_facility = '%d' AND day_of_week = '%s'", idFacility,dayOfWeek.name());
 
         PreparedStatement preparedStatement = null;
 
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             preparedStatement.executeUpdate();
-            System.out.println("selected WH removed successfully.");
+            System.out.println("selected WHs removed successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
@@ -94,7 +92,6 @@ public class WorkingHoursDAO {
         }
 
     }
-
 
     public void updateWH(int idWH, Time openingHours, Time closingHours) throws SQLException {
 
@@ -128,14 +125,19 @@ public class WorkingHoursDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                DayOfWeek dayOfWeek = DayOfWeek.valueOf(resultSet.getString("day_of_week").toUpperCase());
 
-            int id = resultSet.getInt("id");
-            Day dayOfWeek = Day.valueOf(resultSet.getString("day_of_week"));
-            Time openingHours = resultSet.getTime("opening");
-            Time closingHours = resultSet.getTime("closing");
-            int idFacility = resultSet.getInt("id_facility"); //FIXME is it useful?
+                Time openingHours = resultSet.getTime("opening");
+                Time closingHours = resultSet.getTime("closing");
+                int idFacility = resultSet.getInt("id_facility");
 
-            WH = new WorkingHours(id,dayOfWeek,openingHours,closingHours);
+                WH = new WorkingHours(id, dayOfWeek, openingHours, closingHours);
+            }
+            else{
+                System.err.println("No WH found with id: " + idWH);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -174,11 +176,11 @@ public class WorkingHoursDAO {
         return WHs;
     }
 
-    public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, Day dayOfWeek) throws SQLException {
+    public ArrayList<WorkingHours> getWHsByFacilityByDay(int idFacility, DayOfWeek dayOfWeek) throws SQLException {
         //default id (id not found)
         ArrayList<WorkingHours> WHs = new ArrayList<>();
 
-        String querySQL = String.format("SELECT * FROM \"WH\" WHERE id_facility = '%d' AND day_of_week = '%s'", idFacility, dayOfWeek);
+        String querySQL = String.format("SELECT * FROM \"WH\" WHERE id_facility = '%d' AND day_of_week = '%s'", idFacility, dayOfWeek.name());
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -200,7 +202,5 @@ public class WorkingHoursDAO {
 
         return WHs;
     }
-
-
 
 }

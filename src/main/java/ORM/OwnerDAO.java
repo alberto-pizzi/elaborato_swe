@@ -5,6 +5,7 @@ import main.java.DomainModel.Owner;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class OwnerDAO extends PersonDAO {
@@ -14,44 +15,31 @@ public class OwnerDAO extends PersonDAO {
         super("Owner");
     }
 
-    public void addOwner(String username, String email, String password, String city, String province, String zip, String country) throws SQLException {
+    public int addOwner(String username, String email, String password, String city, String province, String zip, String country) throws SQLException {
 
-        //TODO check not mandatory parameters
+        String querySQL = String.format("INSERT INTO \"Owner\" (email, username, city, province, zip, country, password) " +
+                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", email, username, city, province, zip, country, password);
 
-        String querySQL = String.format("INSERT INTO \"Owner\" (email, username, city, province, zip, country, password)) " +
-                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s',)", email, username, city, province, zip, country, password);
+        int idAdded = 0;
 
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = connection.prepareStatement(querySQL);
+            preparedStatement = connection.prepareStatement(querySQL, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idAdded = resultSet.getInt(1);
+            }
+
             System.out.println("Owner added successfully.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
             if (preparedStatement != null) { preparedStatement.close(); }
         }
-
-    }
-
-    //TODO cascade delete?
-    public void deleteOwner(String username)throws SQLException {
-
-        String querySQL = String.format("DELETE FROM \"Owner\" WHERE id = '%s'", username);
-
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(querySQL);
-            preparedStatement.executeUpdate();
-            System.out.println("Owner removed successfully.");
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            if (preparedStatement != null) { preparedStatement.close(); }
-        }
-
+        return idAdded;
     }
 
 
@@ -66,16 +54,17 @@ public class OwnerDAO extends PersonDAO {
         try {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
-
-            int id = resultSet.getInt("id");
-            String username = resultSet.getString("username");
-            String email = resultSet.getString("email");
-            String password = resultSet.getString("password");
-            String city = resultSet.getString("city");
-            String province = resultSet.getString("province");
-            String zip = resultSet.getString("zip");
-            String country = resultSet.getString("country");
-            owner = new Owner(id, email, username, city, province, zip, country, password);
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String city = resultSet.getString("city");
+                String province = resultSet.getString("province");
+                String zip = resultSet.getString("zip");
+                String country = resultSet.getString("country");
+                owner = new Owner(id, email, username, password, city, province, zip, country);
+            }
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
@@ -87,11 +76,10 @@ public class OwnerDAO extends PersonDAO {
         return owner;
     }
 
-    public int getOwnerID(String username) throws SQLException {
-        //default id (id not found)
-        int id = -1;
+    public Owner getOwnerByID(int idOwner) throws SQLException {
+        Owner owner = null;
 
-        String querySQL = String.format("SELECT id FROM \"Owner\" WHERE username = '%s'", username);
+        String querySQL = String.format("SELECT * FROM \"Owner\" WHERE id = '%s'", idOwner);
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -100,7 +88,21 @@ public class OwnerDAO extends PersonDAO {
             preparedStatement = connection.prepareStatement(querySQL);
             resultSet = preparedStatement.executeQuery();
 
-            id = resultSet.getInt("id");
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String city = resultSet.getString("city");
+                String province = resultSet.getString("province");
+                String zip = resultSet.getString("zip");
+                String country = resultSet.getString("country");
+                owner = new Owner(id, email, username, city, province, zip, country, password);
+            }
+            else{
+                System.err.println("No owner found with id: " + idOwner);
+            }
+
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
@@ -108,9 +110,7 @@ public class OwnerDAO extends PersonDAO {
             if (resultSet != null) { resultSet.close(); }
         }
 
-        return id;
+        return owner;
     }
-
-
 
 }

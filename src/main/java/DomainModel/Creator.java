@@ -5,5 +5,12 @@ abstract class Creator {
 
 
     // methods
-    public abstract Invite factoryMethod();
+    public Product factoryMethod(){
+        Product product = createProduct();
+        product.build();
+        return product;
+    }
+
+    public abstract Product createProduct();
+
 }

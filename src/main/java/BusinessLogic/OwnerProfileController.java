@@ -1,18 +1,20 @@
 package main.java.BusinessLogic;
 
 import main.java.DomainModel.Owner;
-public class OwnerProfileController extends ProfileController {
-    //attributes
-    private Owner owner;
+import main.java.ORM.OwnerDAO;
+import main.java.ORM.UserDAO;
 
-    //getters
-    public Owner getOwner() {
-        return owner;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+
+public class OwnerProfileController extends ProfileController<Owner, OwnerDAO> {
+
+    public OwnerProfileController() {
+        super((Owner) SessionController.getInstance().getPerson(), new OwnerDAO());
     }
 
-    //setters
-    public void setOwner(Owner owner) {
-        this.owner = owner;
+    public OwnerProfileController(Owner owner, OwnerDAO ownerDAO) {
+        super(owner,ownerDAO);
     }
 
 }

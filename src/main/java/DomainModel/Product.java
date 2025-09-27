@@ -1,4 +1,6 @@
 package main.java.DomainModel;
 
 
-abstract class Product {}
+public abstract class Product {
+    abstract void build();
+}

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<DialogPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.ManageGuestsManagerPaneController">
+   <content>
+      <VBox alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" spacing="50.0">
+               <children>
+                  <Label fx:id="guestUsersWALabel" alignment="CENTER" contentDisplay="CENTER" text="Guest users (without account):">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="nGuestsChoice" prefHeight="26.0" prefWidth="215.0" />
+                  <Button fx:id="saveGuestsButton" mnemonicParsing="false" onAction="#handleSaveGuestsButton" text="Update His Guests" />
+               </children>
+            </HBox>
+            <Line endX="550.0" stroke="#8d8d8d" strokeWidth="0.5">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </Line>
+            <HBox alignment="CENTER" minHeight="-Infinity">
+               <children>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <Label text="Guest users (with account):">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <TextField fx:id="guestUsernameField" prefHeight="25.0" prefWidth="200.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Label text="Search results:" />
+                              <ListView fx:id="searchList" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="115.0" prefWidth="200.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <Label fx:id="messageLabel" text="Error Label" textFill="#e80000" visible="false">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="51.0" prefWidth="146.0">
+                           <children>
+                              <Label text="Draft Group Head:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="draftGroupHeadLabel" text="NULL" textFill="#8300ff" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="25.0" text="Add to I.L. -&gt;" />
+                        <Button fx:id="forceAddButton" mnemonicParsing="false" onAction="#handleForceAddButton" prefHeight="25.0" text="Force Add to Group -&gt;&gt;">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                     <children>
+                        <Label text="Inviting List (I.L.):" />
+                        <ListView fx:id="inviteListDraft" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="190.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Button fx:id="removeButton" mnemonicParsing="false" onAction="#handleRemoveButton" text="Remove" />
+                              <Button fx:id="removeAllButton" mnemonicParsing="false" onAction="#handleRemoveAllButton" text="Remove All">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin></Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <Label text="Effective Group Members:" />
+                        <ListView fx:id="effectiveGroupMembersList" prefHeight="190.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Button fx:id="removeGroupMemberButton" mnemonicParsing="false" onAction="#handleRemoveGroupMemberButton" text="Remove" />
+                              <Button fx:id="removeAllMembersButton" mnemonicParsing="false" onAction="#handleRemoveAllMembersButton" text="Remove All">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </HBox>
+            <Line endX="550.0" stroke="#8d8d8d" strokeWidth="0.5" />
+            <HBox alignment="CENTER">
+               <children>
+                  <HBox>
+                     <children>
+                        <Label text="Participants Draft:">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="participantsDraftLabel" text="NULL">
+                           <font>
+                              <Font name="System Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label text="Required Participants:">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="requiredParticipantsLabel" text="NULL">
+                           <font>
+                              <Font name="System Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label text="Total Price (per person draft): ">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="totalPricePerPersonDraftLabel" text="NULL">
+                           <font>
+                              <Font name="System Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </content>
+   <buttonTypes>
+      <ButtonType fx:constant="OK" />
+   </buttonTypes>
+</DialogPane>

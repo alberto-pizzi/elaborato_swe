@@ -1,6 +1,8 @@
 package main.java.DomainModel;
 
-public class Sport {
+import java.io.Serializable;
+
+public class Sport implements Serializable {
     // attributes
     private int id;
     private String name;
@@ -11,6 +13,8 @@ public class Sport {
         this.name = name;
         this.playersRequired = playersRequired;
     }
+
+    public Sport() {}
 
     // methods
     public String getName() {

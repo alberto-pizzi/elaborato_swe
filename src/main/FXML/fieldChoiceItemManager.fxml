@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="facilityItemPane" prefHeight="121.0" prefWidth="1112.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXML.GUIControl.FieldChoiceItemManagerController">
+   <children>
+      <HBox maxHeight="122.0" prefHeight="121.0" prefWidth="1112.0" style="-fx-background-color: white; -fx-border-color: black;">
+         <children>
+            <VBox maxHeight="122.0" prefHeight="120.0" prefWidth="120.0">
+               <children>
+                  <ImageView fx:id="fieldImg" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" scaleX="0.8" scaleY="0.8" />
+               </children>
+            </VBox>
+            <StackPane maxHeight="122.0" prefHeight="122.0" prefWidth="235.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label fx:id="fieldNameLabel" prefHeight="44.0" prefWidth="404.0" text="Field Name" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="28.0" />
+                           </font>
+                        </Label>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label prefHeight="44.0" prefWidth="76.0" text="Sport:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="sportLabel" prefHeight="44.0" prefWidth="195.0" text="Sport name" textFill="#a1a1a1" wrapText="true">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+            </StackPane>
+            <StackPane prefHeight="149.0" prefWidth="510.0">
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+               <children>
+                  <VBox alignment="CENTER" prefHeight="109.0" prefWidth="478.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="311.0">
+                           <children>
+                              <Label prefHeight="40.0" prefWidth="64.0" text="Price:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="fieldPriceLabel" prefHeight="44.0" prefWidth="281.0" text="Field price" textFill="#a1a1a1" wrapText="true">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="150.0">
+                           <children>
+                              <Label prefHeight="40.0" prefWidth="87.0" text="Address:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="fieldAddressLabel" prefHeight="44.0" prefWidth="299.0" text="Field adress" textFill="#a1a1a1" wrapText="true">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+            <StackPane maxHeight="122.0" prefHeight="100.0" prefWidth="209.0">
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+               <children>
+                  <VBox alignment="CENTER" prefHeight="109.0" prefWidth="306.0" spacing="10.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#handleDetailsFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Details" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                           <styleClass>
+                              <String fx:value="manager-button" />
+                              <String fx:value="shadow" />
+                           </styleClass>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleSeeReservationsButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="See reservations" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                           <styleClass>
+                              <String fx:value="manager-button" />
+                              <String fx:value="shadow" />
+                           </styleClass>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleReservationFieldButton" prefHeight="47.0" prefWidth="209.0" style="-fx-background-radius: 5;" stylesheets="@css/style.css" text="Make a reservation" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="manager-button" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

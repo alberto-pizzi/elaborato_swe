@@ -1,0 +1,139 @@
+package main.FXML.GUIControl;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import main.java.BusinessLogic.ManagerOwnerManagementController;
+import main.java.DomainModel.Facility;
+import main.java.DomainModel.Field;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class FieldChoice {
+    @FXML
+    protected VBox fieldsList;
+
+    @FXML
+    protected Button previous;
+
+    @FXML
+    protected Button next;
+
+    @FXML
+    protected Label pageNumber;
+
+    @FXML
+    protected AnchorPane page;
+
+    @FXML
+    protected Label messageLabel;
+
+    protected List<Field> fields = new ArrayList<>();
+
+    protected int currentPage = 1;
+
+    protected int itemsPerPage = 3;
+
+    protected BorderPane menuPane;
+
+    protected MessagesController messagesController;
+
+    private int loadingFailures = 0;
+
+    public MessagesController getMessagesController() {return messagesController;}
+
+    protected abstract void displayFields(int index) throws IOException, SQLException;
+    public BorderPane getMenuPane() {
+        return menuPane;
+    }
+
+    public AnchorPane getPage() {
+        return page;
+    }
+
+    public void setData(Facility facility, BorderPane menuPane) {
+
+        ManagerOwnerManagementController managerOwnerManagementController = new ManagerOwnerManagementController();
+        messagesController = new MessagesController(messageLabel);
+        try{
+            this.fields = managerOwnerManagementController.getFieldsByFacility(facility);
+        }catch(SQLException e ){
+            messagesController.showMessage("Error during get fields", MessagesController.MessageType.ERROR,5);
+        }
+
+        this.menuPane = menuPane;
+        for(int i=0; i < itemsPerPage && i < fields.size(); i++){
+            try {
+                displayFields(i);
+            } catch (IOException | SQLException e) {
+                loadingFailures++;
+            }
+        }
+
+        if(loadingFailures > 0){
+            String message = "An error has occurred," + loadingFailures + " fields failed to load";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+            loadingFailures = 0;
+        }
+        String page = String.valueOf(currentPage);
+        pageNumber.setText(page);
+    }
+
+    @FXML
+    public void handleNextButton(ActionEvent event){
+
+        if(fields.size()>itemsPerPage* currentPage) {
+            fieldsList.getChildren().clear();
+
+            for (int i = itemsPerPage * currentPage; i < itemsPerPage * (currentPage+1)  && i < fields.size(); i++) {
+                try {
+                    displayFields(i);
+                } catch (IOException | SQLException e) {
+                    loadingFailures++;
+                }
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " fields failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
+            }
+            currentPage++;
+            pageNumber.setText(String.valueOf(currentPage));
+        }
+
+    }
+
+    @FXML
+    public void handlePreviousButton(ActionEvent event){
+
+        if(currentPage > 1){
+
+            fieldsList.getChildren().clear();
+
+            for(int i = itemsPerPage*(currentPage -1)-1; i > itemsPerPage*(currentPage -2)-1 && i>=0; i--){
+
+                try {
+                    displayFields(i);
+                } catch (IOException | SQLException e) {
+                    loadingFailures++;
+                }
+            }
+
+            if(loadingFailures > 0){
+                String message = "An error has occurred," + loadingFailures + " fields failed to load";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                loadingFailures = 0;
+            }
+            currentPage--;
+            pageNumber.setText(String.valueOf(currentPage));
+        }
+    }
+}

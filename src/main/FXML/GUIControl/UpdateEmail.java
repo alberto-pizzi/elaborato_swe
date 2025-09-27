@@ -1,0 +1,48 @@
+package main.FXML.GUIControl;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import java.sql.SQLException;
+
+public abstract class UpdateEmail extends UpdateProfileController{
+
+    @FXML
+    protected TextField emailInput;
+
+    @FXML
+    public void handleConfirmButton(ActionEvent event){
+
+        if (!emailInput.getText().isEmpty()) {
+            try{
+                boolean emailExistence = access.checkEmail(emailInput.getText());
+                if(!emailInput.getText().equals(profileController.getEmail())){
+                    if (!emailExistence) {
+                        if(profileController.updateEmail(emailInput.getText())){
+                            String message = "Email updated! New email is: " + emailInput.getText();
+                            messagesController.showMessage(message, MessagesController.MessageType.SUCCESS,5);
+                        }else{
+                            String message = "An error has occurred";
+                            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                        }
+                    }else{
+                        String message = "This email already exist. Try again!";
+                        messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                    }
+                }else{
+                    String message = "This is already your email. Try again!";
+                    messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+                }
+            } catch (SQLException | ClassNotFoundException e) {
+                String message = "An error has occurred";
+                messagesController.showMessage(message, MessagesController.MessageType.ERROR, 5);
+            }
+
+        }else{
+            String message = "Please enter a valid email";
+            messagesController.showMessage(message, MessagesController.MessageType.ERROR,5);
+        }
+
+    }
+
+}

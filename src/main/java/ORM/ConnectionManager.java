@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class ConnectionManager {
     //TODO insert DB data (url, username and password)
-    private static final String url = "";
-    private static final String username = "";
-    private static final String password = "";
+    private static final String url = "jdbc:postgresql://localhost:5433/elaboratoswe_db";
+    private static final String username = "postgres";
+    private static final String password = "postgres";
     private static Connection connection = null;
 
     // singleton instance
@@ -28,6 +28,7 @@ public class ConnectionManager {
         if (connection == null)
             try {
                 connection = DriverManager.getConnection(url, username, password);
+                //connection.setAutoCommit(false);
             } catch (SQLException e) {
                 System.err.println("Error: " + e.getMessage());
             }
